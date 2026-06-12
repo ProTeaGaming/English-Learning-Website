@@ -9,6 +9,10 @@ export function shuffle(arr) {
   return a;
 }
 
+export function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
 export function buildOptions(correct, others, getValue) {
   const opts = new Set([correct]);
   const pool = shuffle([...others]);
@@ -55,13 +59,13 @@ export function buildQuestion(word, mode) {
     case "synonym":
       prompt = "Choose the closest synonym";
       text = `${word.w} (${word.pos})`;
-      correct = word.syn[Math.floor(Math.random() * word.syn.length)];
+      correct = capitalize(word.syn[Math.floor(Math.random() * word.syn.length)]);
       options = buildOptions(correct, others.filter((w) => w.w !== correct), (w) => w.w);
       break;
     case "antonym":
       prompt = "Choose the word with the opposite meaning";
       text = `${word.w} (${word.pos})`;
-      correct = word.ant[Math.floor(Math.random() * word.ant.length)];
+      correct = capitalize(word.ant[Math.floor(Math.random() * word.ant.length)]);
       options = buildOptions(correct, others.filter((w) => w.w !== correct), (w) => w.w);
       break;
     default:
