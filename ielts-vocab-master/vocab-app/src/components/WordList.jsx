@@ -29,7 +29,7 @@ export default function WordList({ learned, toggleLearned }) {
       <div className="mb-5">
         <h1 className="text-[1.7rem] font-extrabold mb-1">Word List</h1>
         <p className="text-muted text-[.95rem]">
-          384 essential words for IELTS fluency. Hover (or tap) a card to reveal its definition, synonyms, antonyms and an example sentence.
+          420 essential words for IELTS fluency. Hover (or tap) a card to reveal its definition, synonyms, antonyms and an example sentence.
         </p>
       </div>
 

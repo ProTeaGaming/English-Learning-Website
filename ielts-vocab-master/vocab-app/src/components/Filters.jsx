@@ -11,13 +11,16 @@ export default function Filters({ filters, setFilters, resultLabel, searchPlaceh
   return (
     <div className="flex flex-col gap-3.5 mb-6 bg-surface border border-line rounded-2xl px-5 py-4">
       <div className="flex gap-2.5 flex-wrap items-center">
-        <input
-          type="search"
-          value={filters.search}
-          onChange={(e) => update({ search: e.target.value })}
-          placeholder={searchPlaceholder}
-          className="flex-1 min-w-[200px] bg-surface2 border border-line text-ink px-4 py-2.5 rounded-xl text-[.95rem] focus:outline-none focus:border-accent"
-        />
+        <div className="relative flex-1 min-w-[200px]">
+          <span className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-[.85rem] opacity-50">🔍</span>
+          <input
+            type="search"
+            value={filters.search}
+            onChange={(e) => update({ search: e.target.value })}
+            placeholder={searchPlaceholder}
+            className="w-full appearance-none bg-surface2 border border-line text-ink pl-10 pr-4 py-2.5 rounded-xl text-[.95rem] focus:outline-none focus:border-accent [&::-webkit-search-decoration]:appearance-none [&::-webkit-search-cancel-button]:appearance-none"
+          />
+        </div>
         <span className="text-[.85rem] text-muted whitespace-nowrap">{resultLabel}</span>
       </div>
 

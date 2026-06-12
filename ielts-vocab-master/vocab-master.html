@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>IELTS Vocab Master — 384 Words for Fluency</title>
+<title>IELTS Vocab Master — 420 Words for Fluency</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -55,12 +55,18 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
   display:flex; flex-direction:column; gap:14px; margin-bottom:24px;
   background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:18px 20px;
 }
-.search-row{display:flex; gap:10px; flex-wrap:wrap; align-items:center;}
-#searchInput{
+.search-row{display:flex; gap:10px; flex-wrap:wrap; align-items:center; position:relative;}
+.search-row::before{content:"🔍"; position:absolute; left:14px; top:50%; transform:translateY(-50%); font-size:.9rem; opacity:.5; pointer-events:none;}
+#searchInput, #exSearchInput{
   flex:1; min-width:200px; background:var(--surface2); border:1px solid var(--border);
-  color:var(--text); padding:11px 16px; border-radius:10px; font-size:.95rem; font-family:inherit;
+  color:var(--text); padding:11px 16px 11px 38px; border-radius:10px; font-size:.95rem; font-family:inherit;
+  -webkit-appearance:none; appearance:none;
 }
-#searchInput:focus{outline:none; border-color:var(--accent);}
+#searchInput:focus, #exSearchInput:focus{outline:none; border-color:var(--accent);}
+#searchInput::-webkit-search-decoration, #searchInput::-webkit-search-cancel-button,
+#exSearchInput::-webkit-search-decoration, #exSearchInput::-webkit-search-cancel-button{
+  -webkit-appearance:none;
+}
 .result-count{font-size:.85rem; color:var(--muted); white-space:nowrap;}
 .filter-row{display:flex; gap:8px; flex-wrap:wrap; align-items:center;}
 .filter-label{font-size:.78rem; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:.06em; margin-right:4px;}
@@ -232,7 +238,7 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
     <button class="tab" data-page="gap">Fill the Gap</button>
     <button class="tab" data-page="challenge">Challenge</button>
   </nav>
-  <div class="stats">Learned: <b id="learnedCount">0</b>/384</div>
+  <div class="stats">Learned: <b id="learnedCount">0</b>/420</div>
 </header>
 
 <main>
@@ -241,7 +247,7 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
   <section id="page-list" class="page active">
     <div class="page-head">
       <h1>Word List</h1>
-      <p>384 essential words for IELTS fluency. Hover (or tap) a card to reveal its definition, synonyms, antonyms and an example sentence.</p>
+      <p>420 essential words for IELTS fluency. Hover (or tap) a card to reveal its definition, synonyms, antonyms and an example sentence.</p>
     </div>
     <div class="filters">
       <div class="search-row">
