@@ -1,0 +1,41 @@
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: ["./index.html", "./src/**/*.{js,jsx}"],
+  theme: {
+    extend: {
+      colors: {
+        bg: "#0b0e14",
+        surface: "#161a23",
+        surface2: "#1e2330",
+        line: "#2a3040",
+        ink: "#e8eaf0",
+        muted: "#9aa3b5",
+        accent: "#6366f1",
+        b1: "#22c55e",
+        b2: "#3b82f6",
+        c1: "#f59e0b",
+        c2: "#ef4444",
+        c2p: "#a855f7",
+        tb: "#3b82f6",
+        tv: "#8b5cf6",
+        tp: "#ec4899",
+        tr: "#ef4444",
+        te: "#10b981",
+        ta: "#f59e0b",
+        tc: "#06b6d4",
+        tg: "#eab308",
+        ti: "#6366f1",
+        to: "#f97316",
+        tro: "#f43f5e",
+        tfg: "#16a34a",
+        tpurp: "#a855f7",
+        ts: "#0d9488",
+      },
+      fontFamily: {
+        sora: ["Sora", "sans-serif"],
+        sans: ["Inter", "sans-serif"],
+      },
+    },
+  },
+  plugins: [],
+};
