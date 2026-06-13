@@ -12,7 +12,7 @@ function resultMessage(pct) {
   return "Keep practising — review the word list and try again.";
 }
 
-export default function Quiz() {
+export default function Quiz({ learned }) {
   const [mode, setMode] = useState("definition");
   const [count, setCount] = useState(10);
   const [filters, setFilters] = useState(DEFAULT_TOPIC_FILTERS);
@@ -25,11 +25,11 @@ export default function Quiz() {
   const scoreRef = useRef(null);
 
   const pool = useMemo(() => {
-    let p = VOCAB_DATA.filter((w) => matchesFilters(w, filters));
+    let p = VOCAB_DATA.filter((w) => matchesFilters(w, filters, learned));
     if (mode === "synonym") p = p.filter((w) => w.syn?.length);
     if (mode === "antonym") p = p.filter((w) => w.ant?.length);
     return p;
-  }, [filters, mode]);
+  }, [filters, mode, learned]);
 
   const start = () => {
     if (!pool.length) return;

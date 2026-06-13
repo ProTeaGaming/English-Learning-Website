@@ -3,35 +3,51 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>IELTS Vocab Master — 420 Words for Fluency</title>
+<title>IELTS Vocab Master — 500 Words for Fluency</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#0b0e14; --surface:#161a23; --surface2:#1e2330; --border:#2a3040;
+  --bg:#0b0e14; --bg-rgb:11 14 20;
+  --surface:#161a23; --surface-rgb:22 26 35;
+  --surface2:#1e2330; --border:#2a3040;
   --text:#e8eaf0; --muted:#9aa3b5; --accent:#6366f1;
   --b1:#22c55e; --b2:#3b82f6; --c1:#f59e0b; --c2:#ef4444; --c2p:#a855f7;
   --tb:#3b82f6; --tv:#8b5cf6; --tp:#ec4899; --tr:#ef4444; --te:#10b981;
   --ta:#f59e0b; --tc:#06b6d4; --tg:#eab308; --ti:#6366f1; --to:#f97316;
   --tro:#f43f5e; --tfg:#16a34a; --tpurp:#a855f7; --ts:#0d9488;
 }
+[data-theme="light"]{
+  --bg:#f5f6fa; --bg-rgb:245 246 250;
+  --surface:#ffffff; --surface-rgb:255 255 255;
+  --surface2:#eef0f5; --border:#e0e3ea;
+  --text:#1a1d27; --muted:#646d7d;
+  --b1:#16a34a; --b2:#2563eb; --c1:#d97706; --c2:#dc2626; --c2p:#9333ea;
+}
 *{margin:0;padding:0;box-sizing:border-box;}
 body{
   font-family:'Inter',sans-serif; background:var(--bg); color:var(--text);
   line-height:1.5; min-height:100vh;
+  transition:background-color .25s ease, color .25s ease;
 }
 h1,h2,h3,.brand,.tab,.btn,.modeCard h3{font-family:'Sora',sans-serif;}
 
 /* ===== TOPBAR ===== */
 .topbar{
-  position:sticky; top:0; z-index:50; display:flex; align-items:center; gap:24px;
-  padding:14px 28px; background:rgba(11,14,20,.85); backdrop-filter:blur(12px);
-  border-bottom:1px solid var(--border); flex-wrap:wrap;
+  position:sticky; top:0; z-index:50;
+  padding:14px 28px; background:rgb(var(--bg-rgb) / .85); backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);
 }
+.topbar-inner{
+  max-width:1280px; margin:0 auto; width:100%;
+  display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;
+}
+.topbar-left{display:flex; align-items:center; gap:24px; flex-wrap:wrap;}
 .brand{font-weight:800; font-size:1.25rem; letter-spacing:-.02em; display:flex; align-items:center; gap:8px;}
 .brand span{background:linear-gradient(135deg,#6366f1,#a855f7); -webkit-background-clip:text; background-clip:text; color:transparent;}
-.tabs{display:flex; gap:6px; flex:1; flex-wrap:wrap;}
+.tabs{display:flex; gap:6px; flex-wrap:wrap;}
+.topbar-right{display:flex; align-items:center; gap:14px; flex-wrap:wrap;}
 .tab{
   font-size:.9rem; font-weight:600; color:var(--muted); background:transparent;
   border:1px solid transparent; padding:9px 16px; border-radius:10px; cursor:pointer;
@@ -39,6 +55,32 @@ h1,h2,h3,.brand,.tab,.btn,.modeCard h3{font-family:'Sora',sans-serif;}
 }
 .tab:hover{color:var(--text); background:var(--surface2);}
 .tab.active{color:#fff; background:var(--accent); box-shadow:0 4px 16px rgba(99,102,241,.4);}
+.nav-caret{font-size:.7em; margin-left:4px; opacity:.6;}
+
+/* ===== NAV DROPDOWNS ===== */
+.nav-group{position:relative;}
+.nav-dropdown{
+  display:none; position:absolute; left:0; top:100%; min-width:170px; z-index:60;
+  background:var(--surface); border:1px solid var(--border); border-radius:12px;
+  box-shadow:0 12px 32px rgba(0,0,0,.4); overflow:hidden; padding-top:6px;
+}
+.nav-group:hover .nav-dropdown, .nav-group.open .nav-dropdown{display:block;}
+.nav-dropdown-item{
+  display:block; width:100%; text-align:left; font-family:'Sora',sans-serif;
+  font-size:.88rem; font-weight:600; color:var(--muted); background:transparent;
+  border:none; padding:10px 16px; cursor:pointer; transition:.15s; white-space:nowrap;
+}
+.nav-dropdown-item:hover{color:var(--text); background:var(--surface2);}
+.nav-dropdown-item.active{color:var(--accent);}
+
+/* ===== THEME TOGGLE ===== */
+.theme-toggle{
+  display:flex; align-items:center; justify-content:center; width:36px; height:36px;
+  border-radius:999px; border:1px solid var(--border); background:var(--surface2);
+  font-size:1rem; line-height:1; cursor:pointer; transition:.15s;
+}
+.theme-toggle:hover{border-color:var(--accent);}
+
 .stats{font-size:.85rem; color:var(--muted); font-weight:600; white-space:nowrap;}
 .stats b{color:var(--text); font-size:1rem;}
 
@@ -87,6 +129,8 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
 .chip.active[data-cat]{background:var(--accent-c,var(--accent));}
 .clear-btn{font-size:.8rem; color:var(--muted); background:none; border:1px solid var(--border); border-radius:999px; padding:6px 14px; cursor:pointer; font-weight:600;}
 .clear-btn:hover{color:#fff; border-color:#ef4444; background:rgba(239,68,68,.1);}
+.view-all-link{font-size:.82rem; font-weight:600; color:var(--accent); text-decoration:underline; text-underline-offset:2px; background:none; border:none; padding:6px 4px; cursor:pointer; transition:.15s;}
+.view-all-link:hover{color:var(--text);}
 
 /* ===== CEFR BADGE ===== */
 .cefr-badge{
@@ -114,7 +158,7 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
 .word-card .word{font-size:1.15rem; font-weight:700; font-family:'Sora',sans-serif;}
 .word-card .pos{font-size:.75rem; color:var(--muted); margin-top:2px; font-style:italic;}
 .word-card .reveal{
-  position:absolute; inset:0; background:rgba(15,18,26,.97); backdrop-filter:blur(2px);
+  position:absolute; inset:0; background:rgb(var(--surface-rgb) / .98);
   padding:14px 16px; opacity:0; transform:translateY(8px); transition:.22s; overflow-y:auto;
   display:flex; flex-direction:column; gap:6px; font-size:.82rem;
 }
@@ -205,6 +249,8 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
 .q-opt:hover{border-color:var(--accent);}
 .q-opt.correct{background:rgba(34,197,94,.18); border-color:#22c55e; color:#86efac;}
 .q-opt.wrong{background:rgba(239,68,68,.18); border-color:#ef4444; color:#fca5a5;}
+[data-theme="light"] .q-opt.correct{color:#15803d;}
+[data-theme="light"] .q-opt.wrong{color:#b91c1c;}
 .q-opt:disabled{cursor:default;}
 .q-opt:disabled:hover{border-color:var(--border);}
 .q-feedback{margin-top:18px; font-size:.88rem; color:var(--muted); min-height:20px;}
@@ -220,25 +266,61 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
 
 /* ===== RESPONSIVE ===== */
 @media (max-width:640px){
-  .topbar{padding:12px 16px; gap:12px;}
+  .topbar{padding:12px 16px; backdrop-filter:none; background:rgb(var(--bg-rgb) / .97);}
+  .topbar-inner{gap:12px;}
   main{padding:18px 14px 48px;}
   .card-grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));}
   .q-card,.setup-card,.result-card{padding:20px;}
+  .search-row{flex-direction:column; align-items:stretch;}
+  #searchInput, #exSearchInput{min-width:0;}
+  .search-row::before{top:23px;}
+  .word-card:hover{transform:none; box-shadow:none;}
+  .word-card{padding:12px; min-height:100px; min-width:0;}
+  .word-card .face{min-width:0;}
+  .word-card .face > div:first-child{min-width:0;}
+  .word-card .word{font-size:1.05rem; overflow-wrap:break-word; word-break:break-word;}
 }
 </style>
+<script>
+(function(){
+  var saved = null;
+  try { saved = localStorage.getItem("ivm_theme"); } catch(e) {}
+  if (saved !== "light" && saved !== "dark") {
+    saved = (window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches) ? "light" : "dark";
+  }
+  document.documentElement.setAttribute("data-theme", saved);
+})();
+</script>
 </head>
 <body>
 
 <header class="topbar">
-  <div class="brand">📚 IELTS <span>Vocab Master</span></div>
-  <nav class="tabs">
-    <button class="tab active" data-page="list">Word List</button>
-    <button class="tab" data-page="examples">Examples</button>
-    <button class="tab" data-page="quiz">Quiz</button>
-    <button class="tab" data-page="gap">Fill the Gap</button>
-    <button class="tab" data-page="challenge">Challenge</button>
-  </nav>
-  <div class="stats">Learned: <b id="learnedCount">0</b>/420</div>
+  <div class="topbar-inner">
+    <div class="topbar-left">
+      <div class="brand">📚 IELTS <span>Vocab Master</span></div>
+      <nav class="tabs">
+        <div class="nav-group" data-section="vocabulary">
+          <button class="tab active" data-section-btn="vocabulary">Vocabulary <span class="nav-caret">▾</span></button>
+          <div class="nav-dropdown">
+            <button class="nav-dropdown-item active" data-page="list">Word List</button>
+            <button class="nav-dropdown-item" data-page="examples">Examples</button>
+          </div>
+        </div>
+        <div class="nav-group" data-section="reading">
+          <button class="tab" data-section-btn="reading">Reading <span class="nav-caret">▾</span></button>
+          <div class="nav-dropdown">
+            <button class="nav-dropdown-item" data-page="quiz">Quiz</button>
+            <button class="nav-dropdown-item" data-page="gap">Fill the Gap</button>
+            <button class="nav-dropdown-item" data-page="challenge">Challenge</button>
+          </div>
+        </div>
+      </nav>
+    </div>
+    <div class="topbar-right">
+      <button class="theme-toggle" id="themeToggle" title="Toggle theme" aria-label="Toggle theme">🌙</button>
+      <div class="stats">Learned: <b id="learnedCount">0</b>/500</div>
+    </div>
+  </div>
 </header>
 
 <main>
@@ -247,7 +329,7 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
   <section id="page-list" class="page active">
     <div class="page-head">
       <h1>Word List</h1>
-      <p>420 essential words for IELTS fluency. Hover (or tap) a card to reveal its definition, synonyms, antonyms and an example sentence.</p>
+      <p>500 essential words for IELTS fluency. Hover (or tap) a card to reveal its definition, synonyms, antonyms and an example sentence.</p>
     </div>
     <div class="filters">
       <div class="search-row">
@@ -256,6 +338,12 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
       </div>
       <div class="filter-row" id="sectionFilters"></div>
       <div class="filter-row" id="categoryFilters"></div>
+      <div class="filter-row">
+        <span class="filter-label">Progress</span>
+        <button class="chip active" data-learned="all">All</button>
+        <button class="chip" data-learned="learned">Learned</button>
+        <button class="chip" data-learned="unlearned">Not Learned</button>
+      </div>
       <div class="filter-row">
         <span class="filter-label">CEFR Level</span>
         <button class="chip active" data-cefr="all">All</button>
@@ -283,6 +371,12 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
       </div>
       <div class="filter-row" id="exSectionFilters"></div>
       <div class="filter-row" id="exCategoryFilters"></div>
+      <div class="filter-row">
+        <span class="filter-label">Progress</span>
+        <button class="chip active" data-learned="all">All</button>
+        <button class="chip" data-learned="learned">Learned</button>
+        <button class="chip" data-learned="unlearned">Not Learned</button>
+      </div>
       <div class="filter-row">
         <span class="filter-label">CEFR Level</span>
         <button class="chip active" data-cefr="all">All</button>
@@ -315,6 +409,12 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
         </div>
         <div class="filter-row" id="quizSectionFilters"></div>
         <div class="filter-row" id="quizCategoryFilters"></div>
+        <div class="filter-row" id="quizLearnedFilters">
+          <span class="filter-label">Progress</span>
+          <button class="chip active" data-learned="all">All</button>
+          <button class="chip" data-learned="learned">Learned</button>
+          <button class="chip" data-learned="unlearned">Not Learned</button>
+        </div>
         <div class="filter-row" id="quizCefrFilters">
           <span class="filter-label">CEFR Level</span>
           <button class="chip active" data-cefr="all">All</button>
@@ -350,6 +450,12 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
         </div>
         <div class="filter-row" id="gapSectionFilters"></div>
         <div class="filter-row" id="gapCategoryFilters"></div>
+        <div class="filter-row" id="gapLearnedFilters">
+          <span class="filter-label">Progress</span>
+          <button class="chip active" data-learned="all">All</button>
+          <button class="chip" data-learned="learned">Learned</button>
+          <button class="chip" data-learned="unlearned">Not Learned</button>
+        </div>
         <div class="filter-row" id="gapCefrFilters">
           <span class="filter-label">CEFR Level</span>
           <button class="chip active" data-cefr="all">All</button>
@@ -385,6 +491,12 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
         </div>
         <div class="filter-row" id="chalSectionFilters"></div>
         <div class="filter-row" id="chalCategoryFilters"></div>
+        <div class="filter-row" id="chalLearnedFilters">
+          <span class="filter-label">Progress</span>
+          <button class="chip active" data-learned="all">All</button>
+          <button class="chip" data-learned="learned">Learned</button>
+          <button class="chip" data-learned="unlearned">Not Learned</button>
+        </div>
         <div class="filter-row" id="chalCefrFilters">
           <span class="filter-label">CEFR Level</span>
           <button class="chip active" data-cefr="all">All</button>
@@ -936,6 +1048,110 @@ const ALL_PARTS = [
 {w:"Legitimacy",pos:"noun",cefr:"C1",def:"The quality of being lawful, justified, or generally accepted as valid.",syn:["validity","authority","legality","credibility"],ant:["illegitimacy","invalidity","unlawfulness"],ex:"Questions about the election's <em>legitimacy</em> sparked weeks of protest.",gap:"The new government struggled to establish its ___ in the eyes of the international community."},
 ]},
 
+{id:"hedging-likelihood",name:"Likelihood & Hedging",icon:"🎲",theme:"tg",words:[
+{w:"Feasible",pos:"adj",cefr:"B2",def:"Possible to do easily or sensibly.",syn:["practicable","possible","achievable","workable"],ant:["impractical","unworkable","impossible"],ex:"Engineers concluded that building a bridge across the strait was technically <em>feasible</em>.",gap:"Before launching the product, the team needed to confirm the plan was financially ___."},
+{w:"Viable",pos:"adj",cefr:"B2",def:"Capable of working successfully; feasible.",syn:["workable","feasible","sustainable","practicable"],ant:["unworkable","unfeasible","impractical"],ex:"Solar power is becoming a <em>viable</em> alternative to fossil fuels in many countries.",gap:"Investors were unconvinced that the start-up's business model was truly ___."},
+{w:"Imminent",pos:"adj",cefr:"B2",def:"About to happen.",syn:["impending","forthcoming","looming","near"],ant:["distant","remote","unlikely"],ex:"Forecasters warned that a storm was <em>imminent</em> and advised residents to stay indoors.",gap:"With the deadline ___, the team worked through the night to finish the report."},
+{w:"Conceivable",pos:"adj",cefr:"C1",def:"Capable of being imagined or grasped mentally; possible.",syn:["imaginable","possible","plausible","thinkable"],ant:["inconceivable","unimaginable","impossible"],ex:"It is entirely <em>conceivable</em> that remote working will become the norm within a decade.",gap:"Every ___ outcome had been discussed before the negotiations began."},
+{w:"Foreseeable",pos:"adj",cefr:"B2",def:"Able to be predicted or anticipated.",syn:["predictable","anticipated","expected","near"],ant:["unforeseeable","unpredictable","unexpected"],ex:"Demand for housing is likely to remain high for the <em>foreseeable</em> future.",gap:"No major changes to the policy are planned in the ___ future."},
+{w:"Hypothetical",pos:"adj",cefr:"B2",def:"Based on a suggested idea or theory rather than known facts.",syn:["theoretical","speculative","assumed","imagined"],ant:["actual","factual","real"],ex:"The lecturer presented a <em>hypothetical</em> scenario to illustrate how the theory might apply.",gap:"Let's consider a purely ___ situation in which no government regulation existed at all."},
+{w:"Presumably",pos:"adv",cefr:"B2",def:"Used to say that you think something is probably true.",syn:["probably","supposedly","in all likelihood","ostensibly"],ant:["definitely","certainly","undoubtedly"],ex:"<em>Presumably</em>, the company will release a statement once the investigation is complete.",gap:"She didn't answer the phone, so she was ___ still at work."},
+{w:"Allegedly",pos:"adv",cefr:"C1",def:"According to what some people say, although it has not been proved.",syn:["reportedly","supposedly","purportedly","ostensibly"],ant:["indisputably","undeniably","confirmedly"],ex:"The driver had <em>allegedly</em> been using his phone at the time of the crash.",gap:"The manager ___ ignored several complaints before the scandal came to light."},
+{w:"Theoretically",pos:"adv",cefr:"B2",def:"According to a theory, idea, or rule; in principle.",syn:["in theory","hypothetically","in principle","nominally"],ant:["practically","actually","in practice"],ex:"<em>Theoretically</em>, the new system should reduce waiting times by half.",gap:"___, everyone has equal access to healthcare, but in practice many people struggle to get appointments."},
+{w:"Unforeseen",pos:"adj",cefr:"B2",def:"Not anticipated or predicted; unexpected.",syn:["unexpected","unpredicted","unanticipated","surprise"],ant:["expected","anticipated","predictable"],ex:"The project was delayed by several <em>unforeseen</em> complications.",gap:"Due to ___ circumstances, tomorrow's meeting has been postponed until next week."},
+]},
+
+{id:"cause-consequence",name:"Cause, Effect & Consequence",icon:"🌪",theme:"ts",words:[
+{w:"Repercussion",pos:"noun",cefr:"C1",def:"An unintended consequence of an action, often unwelcome.",syn:["consequence","aftermath","ramification","fallout"],ant:["cause","origin","source"],ex:"Politicians failed to consider the long-term <em>repercussions</em> of the policy.",gap:"Cutting corners on safety checks can have serious ___s."},
+{w:"Aftermath",pos:"noun",cefr:"B2",def:"The period following an unpleasant event, especially when its effects are still felt.",syn:["consequences","wake","fallout","repercussions"],ant:["lead-up","prelude","build-up"],ex:"In the <em>aftermath</em> of the flood, thousands of families were left homeless.",gap:"The charity provided emergency shelter in the ___ of the earthquake."},
+{w:"Catastrophe",pos:"noun",cefr:"B2",def:"An event causing great and often sudden damage or suffering.",syn:["disaster","calamity","tragedy","devastation"],ant:["triumph","success","blessing"],ex:"Scientists warn that without urgent action, climate change could lead to global <em>catastrophe</em>.",gap:"The factory fire was described as an environmental ___."},
+{w:"Ramification",pos:"noun",cefr:"C1",def:"A consequence of an action or decision, especially one that is complex or unwelcome.",syn:["consequence","repercussion","implication","effect"],ant:["cause","antecedent","origin"],ex:"The merger had significant <em>ramifications</em> for thousands of employees.",gap:"Few people fully understood the legal ___s of signing the contract."},
+{w:"Trigger",pos:"verb",cefr:"B1",def:"To cause something, especially a reaction or process, to happen suddenly.",syn:["spark","set off","prompt","provoke"],ant:["prevent","avert","suppress"],ex:"The announcement <em>triggered</em> a sharp fall in the company's share price.",gap:"A single comment was enough to ___ a heated argument between the two colleagues."},
+{w:"Precursor",pos:"noun",cefr:"C1",def:"A person or thing that comes before another of the same kind; a forerunner.",syn:["forerunner","predecessor","herald","antecedent"],ant:["successor","consequence","result"],ex:"Some economists view the housing slowdown as a <em>precursor</em> to a wider recession.",gap:"A sudden drop in consumer spending is often seen as a ___ to a recession."},
+{w:"Instigate",pos:"verb",cefr:"C1",def:"To bring about or initiate an action, often something negative.",syn:["incite","provoke","initiate","set in motion"],ant:["prevent","discourage","quell"],ex:"Investigators believe the riot was <em>instigated</em> by a small group of protesters.",gap:"The new chairman moved quickly to ___ a series of reforms."},
+{w:"Provoke",pos:"verb",cefr:"B2",def:"To stimulate or give rise to a reaction or feeling, often a strong or negative one.",syn:["incite","trigger","arouse","stir up"],ant:["soothe","calm","pacify"],ex:"The proposed cuts <em>provoked</em> an angry response from staff.",gap:"His comments during the debate ___d outrage among environmental campaigners."},
+{w:"Yield",pos:"verb",cefr:"B2",def:"To produce or provide a result, profit, or commodity.",syn:["produce","generate","deliver","return"],ant:["withhold","consume","fail to produce"],ex:"Years of research finally <em>yielded</em> a breakthrough in renewable battery technology.",gap:"The new farming methods are expected to ___ significantly higher crop returns."},
+{w:"Backfire",pos:"verb",cefr:"B2",def:"To have the opposite effect to the one intended, with negative results for the person responsible.",syn:["rebound","boomerang","misfire","go wrong"],ant:["succeed","work","pay off"],ex:"The advertising campaign <em>backfired</em>, alienating the very customers it was meant to attract.",gap:"Her attempt to discredit a rival ___d badly when the truth came out."},
+]},
+
+{id:"connectors-time-sequence",name:"Time, Sequence & Continuity",icon:"⏳",theme:"tr",words:[
+{w:"Subsequently",pos:"adv",cefr:"B2",def:"Afterwards; later.",syn:["later","afterwards","then","following this"],ant:["previously","beforehand","earlier"],ex:"The bridge was closed for repairs and <em>subsequently</em> reopened six months later.",gap:"The company posted record profits and ___ announced plans to expand overseas."},
+{w:"Concurrently",pos:"adv",cefr:"C1",def:"At the same time as something else.",syn:["simultaneously","at the same time","in parallel"],ant:["sequentially","consecutively","separately"],ex:"The two construction projects are being carried out <em>concurrently</em> to save time.",gap:"Students often study for several exams ___ during the final term."},
+{w:"Simultaneously",pos:"adv",cefr:"B2",def:"At the same time.",syn:["concurrently","at once","in unison","together"],ant:["separately","sequentially","individually"],ex:"The translator was able to listen and speak <em>simultaneously</em> without losing the thread of the speech.",gap:"Several alarms went off ___, causing confusion among staff."},
+{w:"Interim",pos:"adj/noun",cefr:"C1",def:"The intervening time; provisional or temporary.",syn:["temporary","provisional","intervening","stopgap"],ant:["permanent","final","lasting"],ex:"An <em>interim</em> manager was appointed while the company searched for a permanent replacement.",gap:"In the ___, customers will be served by the temporary call centre."},
+{w:"Ongoing",pos:"adj",cefr:"B1",def:"Continuing to happen or develop.",syn:["continuing","current","in progress","persistent"],ant:["completed","finished","concluded"],ex:"The investigation into the incident is still <em>ongoing</em>.",gap:"Despite ___ negotiations, the two sides have yet to reach an agreement."},
+{w:"Transient",pos:"adj",cefr:"C1",def:"Lasting only for a short time; impermanent.",syn:["temporary","fleeting","short-lived","passing"],ant:["permanent","lasting","enduring"],ex:"Many young professionals lead a <em>transient</em> lifestyle, moving between cities for work.",gap:"The sense of relief after the exam was only ___ — new worries soon took its place."},
+{w:"Sustain",pos:"verb",cefr:"B2",def:"To cause to continue for an extended period; to maintain.",syn:["maintain","prolong","uphold","keep going"],ant:["discontinue","halt","abandon"],ex:"It will be difficult to <em>sustain</em> such rapid growth in the long term.",gap:"The team struggled to ___ their early lead for the rest of the match."},
+{w:"Persist",pos:"verb",cefr:"B1",def:"To continue to exist or happen, especially for longer than expected; to continue in a course of action despite difficulty.",syn:["continue","endure","carry on","remain"],ant:["cease","stop","vanish"],ex:"If symptoms <em>persist</em> for more than a week, patients are advised to see a doctor.",gap:"Despite repeated warnings, the rumours continued to ___ online."},
+{w:"Prolong",pos:"verb",cefr:"B2",def:"To extend the duration of something.",syn:["extend","lengthen","draw out","stretch out"],ant:["shorten","curtail","cut short"],ex:"Doctors say a healthy diet can <em>prolong</em> life expectancy by several years.",gap:"Neither side wanted to ___ the dispute any further."},
+{w:"Intermittent",pos:"adj",cefr:"C1",def:"Occurring at irregular intervals; not continuous.",syn:["sporadic","occasional","periodic","irregular"],ant:["continuous","constant","uninterrupted"],ex:"The region experiences <em>intermittent</em> rainfall throughout the dry season.",gap:"Train services were affected by ___ signal failures throughout the morning."},
+]},
+
+{id:"difficulty-risk",name:"Difficulty, Risk & Hardship",icon:"⚠",theme:"tpurp",words:[
+{w:"Jeopardize",pos:"verb",cefr:"B2",def:"To put something valuable at risk.",syn:["endanger","threaten","imperil","risk"],ant:["protect","safeguard","secure"],ex:"A single mistake could <em>jeopardize</em> the entire negotiation.",gap:"Smoking near the fuel tanks would ___ the safety of the whole crew."},
+{w:"Compromise",pos:"verb",cefr:"B2",def:"To weaken or risk damaging something through an unwise action or lack of care.",syn:["weaken","undermine","threaten","endanger"],ant:["protect","safeguard","strengthen"],ex:"Working late every night will eventually <em>compromise</em> your health.",gap:"Sharing your password with others could ___ the security of your account."},
+{w:"Predicament",pos:"noun",cefr:"B2",def:"A difficult, unpleasant, or embarrassing situation.",syn:["dilemma","plight","quandary","difficulty"],ant:["solution","advantage","comfort"],ex:"She found herself in the awkward <em>predicament</em> of having to choose between two close friends.",gap:"The stranded hikers radioed for help, explaining their ___ to rescue teams."},
+{w:"Plight",pos:"noun",cefr:"B2",def:"A dangerous, difficult, or otherwise unfortunate situation.",syn:["predicament","hardship","ordeal","situation"],ant:["prosperity","security","comfort"],ex:"The documentary drew attention to the <em>plight</em> of refugees fleeing the conflict.",gap:"Campaigners hope the film will raise awareness of the ___ of endangered species."},
+{w:"Dilemma",pos:"noun",cefr:"B1",def:"A situation in which a difficult choice has to be made between two or more options.",syn:["predicament","quandary","conundrum","problem"],ant:["solution","certainty","resolution"],ex:"Parents face a constant <em>dilemma</em> over how much screen time to allow their children.",gap:"She was caught in a moral ___ between loyalty to her friend and telling the truth."},
+{w:"Adversity",pos:"noun",cefr:"B2",def:"Difficult or unfavourable circumstances; misfortune.",syn:["hardship","misfortune","difficulty","struggle"],ant:["prosperity","fortune","ease"],ex:"His memoir describes how he overcame years of <em>adversity</em> to build a successful business.",gap:"The team showed great resilience in the face of ___."},
+{w:"Setback",pos:"noun",cefr:"B1",def:"A problem that delays or prevents progress, or makes it more difficult.",syn:["hindrance","obstacle","blow","reversal"],ant:["breakthrough","advance","boost"],ex:"Losing their star player was a major <em>setback</em> for the team.",gap:"Despite a few early ___s, the project was completed on schedule."},
+{w:"Hindrance",pos:"noun",cefr:"B2",def:"A thing that provides resistance, delay, or obstruction to something or someone.",syn:["obstacle","impediment","barrier","drawback"],ant:["aid","help","advantage"],ex:"Poor public transport remains a major <em>hindrance</em> to economic growth in rural areas.",gap:"Lack of childcare can be a significant ___ for working parents."},
+{w:"Daunting",pos:"adj",cefr:"B2",def:"Seeming difficult to deal with in prospect; intimidating.",syn:["intimidating","formidable","overwhelming","challenging"],ant:["manageable","reassuring","encouraging"],ex:"Moving to a new country alone can be a <em>daunting</em> experience.",gap:"The blank page can feel ___ for any writer starting a new project."},
+{w:"Insurmountable",pos:"adj",cefr:"C1",def:"Too great to be overcome; insuperable.",syn:["unconquerable","impossible","overwhelming","unbeatable"],ant:["manageable","surmountable","achievable"],ex:"What once seemed an <em>insurmountable</em> problem now has a simple technological solution.",gap:"The debts seemed ___ until the family received some unexpected financial help."},
+]},
+
+{id:"proactive-action",name:"Proactive Action & Improvement",icon:"🚀",theme:"tfg",words:[
+{w:"Facilitate",pos:"verb",cefr:"B2",def:"To make an action or process easier or more likely.",syn:["enable","assist","ease","simplify"],ant:["hinder","obstruct","impede"],ex:"The new software is designed to <em>facilitate</em> communication between departments.",gap:"Smaller class sizes can ___ more personalised learning."},
+{w:"Alleviate",pos:"verb",cefr:"B2",def:"To make suffering, a deficiency, or a problem less severe.",syn:["ease","relieve","reduce","lessen"],ant:["aggravate","worsen","intensify"],ex:"The new bypass is expected to <em>alleviate</em> traffic congestion in the town centre.",gap:"Regular stretching can help to ___ muscle pain after exercise."},
+{w:"Prioritize",pos:"verb",cefr:"B2",def:"To designate or treat something as more important than other things.",syn:["rank","focus on","give priority to","put first"],ant:["neglect","disregard","deprioritize"],ex:"Hospitals must <em>prioritize</em> patients according to the severity of their condition.",gap:"With limited funding, the council had to ___ road repairs over park maintenance."},
+{w:"Endeavour",pos:"noun/verb",cefr:"B2",def:"An attempt to achieve a goal; or to try hard to do something.",syn:["attempt","effort","venture","strive"],ant:["neglect","abandon","give up"],ex:"The expedition was a remarkable <em>endeavour</em>, given the harsh conditions involved.",gap:"The charity will ___ to provide clean water to every village in the region."},
+{w:"Strive",pos:"verb",cefr:"B2",def:"To make great efforts to achieve or obtain something.",syn:["endeavour","struggle","aim","work hard"],ant:["relax","neglect","give up"],ex:"The company continues to <em>strive</em> for excellence in customer service.",gap:"Athletes must ___ for constant improvement if they want to compete at the highest level."},
+{w:"Embark",pos:"verb",cefr:"B2",def:"To begin a course of action, especially an important or new one (often 'embark on').",syn:["set out","commence","undertake","launch"],ant:["abandon","finish","complete"],ex:"After graduating, she <em>embarked</em> on a career in journalism.",gap:"The government is about to ___ on its most ambitious housing programme in decades."},
+{w:"Undertake",pos:"verb",cefr:"B2",def:"To commit oneself to and begin a task or course of action.",syn:["take on","carry out","embark on","assume"],ant:["abandon","avoid","decline"],ex:"The committee agreed to <em>undertake</em> a full review of the company's policies.",gap:"Before the renovation began, surveyors were asked to ___ a detailed structural inspection."},
+{w:"Galvanize",pos:"verb",cefr:"C1",def:"To shock or excite someone into taking action.",syn:["spur","motivate","energize","mobilise"],ant:["discourage","demoralize","dampen"],ex:"The documentary <em>galvanized</em> public support for the conservation project.",gap:"News of the factory closure ___d the community into action."},
+{w:"Spearhead",pos:"verb",cefr:"C1",def:"To lead an attack, campaign, or operation.",syn:["lead","head","pioneer","drive"],ant:["follow","trail","abandon"],ex:"The professor <em>spearheaded</em> the research that led to the new vaccine.",gap:"A team of volunteers ___ed the campaign to clean up the local river."},
+{w:"Cultivate",pos:"verb",cefr:"B2",def:"To try to acquire or develop a quality, sentiment, or skill.",syn:["develop","foster","nurture","build up"],ant:["neglect","abandon","suppress"],ex:"Good leaders <em>cultivate</em> trust and open communication within their teams.",gap:"Schools play an important role in helping students ___ a lifelong love of reading."},
+]},
+
+{id:"quantity-degree",name:"Quantity & Degree",icon:"📏",theme:"tc",words:[
+{w:"Substantial",pos:"adj",cefr:"B1",def:"Of considerable importance, size, or worth.",syn:["considerable","significant","sizeable","large"],ant:["negligible","minimal","insignificant"],ex:"The company reported a <em>substantial</em> increase in profits this quarter.",gap:"A ___ proportion of the population now works from home at least part of the week."},
+{w:"Considerable",pos:"adj",cefr:"B1",def:"Notably large in size, amount, or extent.",syn:["substantial","significant","sizeable","appreciable"],ant:["negligible","insignificant","minor"],ex:"Renovating the old theatre required a <em>considerable</em> amount of funding.",gap:"There has been ___ debate about the ethics of artificial intelligence."},
+{w:"Marked",pos:"adj",cefr:"B2",def:"Clearly noticeable; striking.",syn:["noticeable","pronounced","distinct","significant"],ant:["negligible","slight","imperceptible"],ex:"There has been a <em>marked</em> improvement in air quality since the new regulations came into force.",gap:"Sales figures showed a ___ decline in the months following the price increase."},
+{w:"Exorbitant",pos:"adj",cefr:"C1",def:"(Of a price or amount charged) unreasonably high.",syn:["extortionate","excessive","sky-high","outrageous"],ant:["reasonable","modest","affordable"],ex:"Tourists were shocked by the <em>exorbitant</em> prices charged for bottled water near the resort.",gap:"Critics say the bank's fees are simply ___."},
+{w:"Copious",pos:"adj",cefr:"B2",def:"Abundant in supply or quantity.",syn:["abundant","plentiful","ample","profuse"],ant:["scarce","sparse","meagre"],ex:"She took <em>copious</em> notes during the lecture, filling three notebooks.",gap:"The region receives ___ amounts of rainfall during the monsoon season."},
+{w:"Ample",pos:"adj",cefr:"B1",def:"Enough or more than enough; plentiful.",syn:["sufficient","abundant","plenty of","generous"],ant:["insufficient","scarce","inadequate"],ex:"There was <em>ample</em> time to finish the exam before the deadline.",gap:"The new stadium provides ___ parking for visiting fans."},
+{w:"Scant",pos:"adj",cefr:"C1",def:"Barely sufficient; very little.",syn:["minimal","meagre","sparse","insufficient"],ant:["ample","abundant","plentiful"],ex:"The proposal received <em>scant</em> attention from the committee.",gap:"Despite years of campaigning, the issue still receives ___ coverage in the press."},
+{w:"Minuscule",pos:"adj",cefr:"B2",def:"Extremely small.",syn:["tiny","minute","negligible","microscopic"],ant:["enormous","huge","substantial"],ex:"The chances of winning the lottery are <em>minuscule</em>.",gap:"Only a ___ percentage of applicants are offered a place at the university."},
+{w:"Innumerable",pos:"adj",cefr:"B2",def:"Too many to be counted.",syn:["countless","numerous","myriad","untold"],ant:["few","limited","countable"],ex:"The museum's archive contains <em>innumerable</em> photographs documenting the city's history.",gap:"She has answered ___ questions about her unusual career over the years."},
+{w:"Sizeable",pos:"adj",cefr:"B2",def:"Fairly large.",syn:["substantial","considerable","large","significant"],ant:["small","modest","tiny"],ex:"A <em>sizeable</em> crowd gathered outside the stadium long before kick-off.",gap:"The charity received a ___ donation from an anonymous supporter."},
+]},
+
+{id:"vivid-everyday",name:"Vivid Everyday Descriptions",icon:"🌡",theme:"ta",words:[
+{w:"Hysterical",pos:"adj",cefr:"B2",def:"Affected by or showing wildly uncontrolled emotion.",syn:["frantic","frenzied","uncontrollable","overwrought"],ant:["calm","composed","controlled"],ex:"Witnesses described <em>hysterical</em> scenes as passengers rushed for the exits.",gap:"By the time firefighters arrived, several residents were already ___ with panic."},
+{w:"Frigid",pos:"adj",cefr:"B2",def:"Very cold in temperature; (of a person or manner) lacking friendliness or warmth.",syn:["freezing","icy","bitterly cold","frosty"],ant:["scorching","balmy","warm"],ex:"The explorers battled <em>frigid</em> temperatures of minus forty degrees.",gap:"A ___ wind swept across the open plain, forcing the hikers to turn back."},
+{w:"Scorching",pos:"adj",cefr:"B2",def:"Very hot.",syn:["blistering","sweltering","sizzling","boiling"],ant:["frigid","freezing","icy"],ex:"Tourists sought shade from the <em>scorching</em> midday sun.",gap:"Crops withered in the fields during the ___ summer heatwave."},
+{w:"Filthy",pos:"adj",cefr:"B1",def:"Disgustingly dirty.",syn:["grimy","squalid","dirty","grubby"],ant:["spotless","immaculate","pristine"],ex:"The workers returned from the mine covered in <em>filthy</em> dust.",gap:"After the storm, the streets were left littered with debris and ___ water."},
+{w:"Exasperated",pos:"adj",cefr:"B2",def:"Intensely irritated and frustrated.",syn:["irritated","frustrated","infuriated","annoyed"],ant:["content","satisfied","pleased"],ex:"The teacher gave an <em>exasperated</em> sigh after explaining the rule for the third time.",gap:"Commuters grew increasingly ___ as the delays continued with no explanation."},
+{w:"Mortified",pos:"adj",cefr:"C1",def:"Feeling very embarrassed or ashamed.",syn:["humiliated","embarrassed","ashamed","abashed"],ant:["proud","delighted","unashamed"],ex:"She was <em>mortified</em> when she realised she had been talking to the wrong person for ten minutes.",gap:"He felt utterly ___ after tripping on stage in front of the whole school."},
+{w:"Apathetic",pos:"adj",cefr:"B2",def:"Showing or feeling no interest, enthusiasm, or concern.",syn:["indifferent","uninterested","unmoved","listless"],ant:["enthusiastic","passionate","engaged"],ex:"Many young people feel <em>apathetic</em> about local elections.",gap:"Voter turnout was low, reflecting a generally ___ attitude towards the referendum."},
+{w:"Nostalgic",pos:"adj",cefr:"B2",def:"Feeling, evoking, or characterised by a sentimental longing for the past.",syn:["sentimental","wistful","reminiscent","longing"],ant:["forward-looking","indifferent","unsentimental"],ex:"Hearing the old song made her feel <em>nostalgic</em> for her childhood summers.",gap:"The exhibition left many older visitors feeling ___ for a simpler era."},
+{w:"Restless",pos:"adj",cefr:"B1",def:"Unable to rest or relax as a result of anxiety or boredom.",syn:["agitated","fidgety","uneasy","edgy"],ant:["calm","relaxed","settled"],ex:"The long delay left passengers feeling tired and <em>restless</em>.",gap:"Children often become ___ on long car journeys."},
+{w:"Drenched",pos:"adj",cefr:"B1",def:"Soaked thoroughly with liquid; wet through.",syn:["soaked","saturated","sodden","dripping"],ant:["dry","parched","arid"],ex:"We arrived at the station completely <em>drenched</em> after being caught in the downpour.",gap:"Within minutes of the sprinklers starting, the entire pitch was ___."},
+]},
+
+{id:"communication-disclosure",name:"Communication & Disclosure",icon:"📢",theme:"ti",words:[
+{w:"Unveil",pos:"verb",cefr:"B2",def:"To show or announce publicly for the first time.",syn:["reveal","disclose","launch","introduce"],ant:["conceal","hide","withhold"],ex:"The company is set to <em>unveil</em> its latest smartphone next week.",gap:"The city council will ___ plans for the new park later this month."},
+{w:"Disclose",pos:"verb",cefr:"B2",def:"To make new or secret information known.",syn:["reveal","divulge","unveil","expose"],ant:["conceal","withhold","suppress"],ex:"The company was fined for failing to <em>disclose</em> the data breach to its customers.",gap:"Employees are required to ___ any potential conflicts of interest."},
+{w:"Contemplate",pos:"verb",cefr:"B2",def:"To think about an action or possibility; to consider.",syn:["consider","ponder","mull over","deliberate"],ant:["dismiss","disregard","ignore"],ex:"She spent the evening <em>contemplating</em> whether to accept the job offer abroad.",gap:"Few people ___ the long-term consequences of their daily habits."},
+{w:"Reiterate",pos:"verb",cefr:"C1",def:"To say something again or several times, typically for emphasis or clarity.",syn:["repeat","restate","reaffirm","emphasise"],ant:["retract","withdraw","contradict"],ex:"The spokesperson <em>reiterated</em> that the company had no plans to close the factory.",gap:"The coach took a moment to ___ the importance of teamwork before the final."},
+{w:"Articulate",pos:"adj/verb",cefr:"B2",def:"Able to express thoughts and feelings clearly and effectively; to express clearly.",syn:["fluent","eloquent","express","voice"],ant:["inarticulate","incoherent","mumble"],ex:"The candidate gave an <em>articulate</em> response to even the most difficult questions.",gap:"It took her a while to ___ exactly why the decision felt wrong."},
+{w:"Convey",pos:"verb",cefr:"B1",def:"To make an idea, feeling, or impression known or understandable to someone.",syn:["communicate","express","transmit","get across"],ant:["conceal","withhold","obscure"],ex:"The poster uses simple images to <em>convey</em> the dangers of drink-driving.",gap:"A single photograph can sometimes ___ more emotion than a thousand words."},
+{w:"Elicit",pos:"verb",cefr:"C1",def:"To evoke or draw out a response or reaction.",syn:["draw out","extract","evoke","provoke"],ant:["suppress","conceal","withhold"],ex:"The survey was designed to <em>elicit</em> honest feedback from employees.",gap:"Her speech ___ed a mixed reaction from the audience."},
+{w:"Divulge",pos:"verb",cefr:"C1",def:"To make known private or sensitive information.",syn:["disclose","reveal","leak","give away"],ant:["conceal","withhold","suppress"],ex:"The witness refused to <em>divulge</em> the identity of her source.",gap:"Staff are bound by contract not to ___ confidential client information."},
+{w:"Paraphrase",pos:"verb",cefr:"B2",def:"To express the meaning of something using different words, especially to achieve greater clarity.",syn:["reword","rephrase","summarise","restate"],ant:["quote directly","repeat verbatim"],ex:"Students are encouraged to <em>paraphrase</em> sources rather than copy them word for word.",gap:"To avoid plagiarism, try to ___ the author's argument in your own words."},
+{w:"Recount",pos:"verb",cefr:"B2",def:"To tell or narrate an event or experience.",syn:["relate","narrate","describe","retell"],ant:["omit","conceal","withhold"],ex:"Survivors <em>recounted</em> their experiences to journalists outside the hospital.",gap:"He loved to ___ stories from his years working abroad."},
+]},
+
 ];
 
 const SECTIONS = {
@@ -975,6 +1191,16 @@ const SECTIONS = {
   "precision-upgrades": "Mind, Emotion & Description",
   "essay-power-words": "Academic Writing Toolkit",
   "society-mind-rhetoric": "Scale, Change & Society",
+
+  "hedging-likelihood": "Academic Writing Toolkit II",
+  "cause-consequence": "Academic Writing Toolkit II",
+  "connectors-time-sequence": "Academic Writing Toolkit II",
+  "difficulty-risk": "Academic Writing Toolkit II",
+
+  "proactive-action": "Vivid Description & Communication",
+  "quantity-degree": "Vivid Description & Communication",
+  "vivid-everyday": "Vivid Description & Communication",
+  "communication-disclosure": "Vivid Description & Communication",
 };
 
 const CATEGORIES = ALL_PARTS.map(({id,name,icon,theme}) => ({id,name,icon,theme,section:SECTIONS[id]||"Other"}));
@@ -989,6 +1215,8 @@ const SECTION_ORDER = [
   "Formal English & Fixed Expressions",
   "IELTS Writing Themes I",
   "IELTS Writing Themes II",
+  "Academic Writing Toolkit II",
+  "Vivid Description & Communication",
 ];
 
 /* ════════════════════════════════════════════════════════
@@ -997,8 +1225,8 @@ const SECTION_ORDER = [
 const LEARNED_KEY = "ivm_learned_words";
 const state = {
   learned: new Set(JSON.parse(localStorage.getItem(LEARNED_KEY) || "[]")),
-  list: { search:"", section:"all", cat:"all", cefr:"all" },
-  examples: { search:"", section:"all", cat:"all", cefr:"all" },
+  list: { search:"", section:"all", cat:"all", cefr:"all", learned:"all" },
+  examples: { search:"", section:"all", cat:"all", cefr:"all", learned:"all" },
 };
 
 function saveLearned(){
@@ -1006,11 +1234,21 @@ function saveLearned(){
   document.getElementById("learnedCount").textContent = state.learned.size;
 }
 
+function debounce(fn, delay){
+  let timer = null;
+  return (...args) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => fn(...args), delay);
+  };
+}
+
 function matchesFilters(word, f){
   const cat = CAT_MAP[word.cat];
   if (f.section !== "all" && cat.section !== f.section) return false;
   if (f.cat !== "all" && word.cat !== f.cat) return false;
   if (f.cefr !== "all" && word.cefr !== f.cefr) return false;
+  if (f.learned === "learned" && !state.learned.has(word.w)) return false;
+  if (f.learned === "unlearned" && state.learned.has(word.w)) return false;
   if (f.search){
     const q = f.search.toLowerCase();
     const hay = [word.w, word.def, ...(word.syn||[]), ...(word.ant||[])].join(" ").toLowerCase();
@@ -1019,50 +1257,80 @@ function matchesFilters(word, f){
   return true;
 }
 
-function buildSectionChips(container, f, onChange){
+const EXPANDABLE_CHIPS_DEFAULT_COUNT = 5;
+
+// Renders a pinned "All ..." chip plus a list of option chips, truncating the
+// options to `defaultCount` behind a "View All" / "Hide All" toggle link.
+function renderExpandableChips(container, pinnedChip, optionChips, defaultCount = EXPANDABLE_CHIPS_DEFAULT_COUNT){
   container.innerHTML = "";
+  container.appendChild(pinnedChip);
+
+  const showToggle = optionChips.length > defaultCount;
+  const expanded = container.dataset.expanded === "true";
+  const visible = showToggle && !expanded ? optionChips.slice(0, defaultCount) : optionChips;
+  visible.forEach(chip => container.appendChild(chip));
+
+  if (showToggle){
+    const toggle = document.createElement("button");
+    toggle.type = "button";
+    toggle.className = "view-all-link";
+    toggle.textContent = expanded ? "Hide All" : "View All";
+    toggle.addEventListener("click", () => {
+      container.dataset.expanded = expanded ? "false" : "true";
+      renderExpandableChips(container, pinnedChip, optionChips, defaultCount);
+    });
+    container.appendChild(toggle);
+  }
+}
+
+function buildSectionChips(container, f, onChange){
   const allChip = document.createElement("button");
   allChip.className = "chip" + (f.section==="all" ? " active" : "");
   allChip.dataset.section = "all";
   allChip.textContent = "All Sections";
-  container.appendChild(allChip);
-  SECTION_ORDER.forEach(sec => {
+
+  const optionChips = SECTION_ORDER.map(sec => {
     const chip = document.createElement("button");
     chip.className = "chip" + (f.section===sec ? " active" : "");
     chip.dataset.section = sec;
     chip.textContent = sec;
-    container.appendChild(chip);
+    return chip;
   });
-  container.querySelectorAll(".chip").forEach(chip => {
+
+  [allChip, ...optionChips].forEach(chip => {
     chip.addEventListener("click", () => {
       f.section = chip.dataset.section;
       f.cat = "all";
       onChange();
     });
   });
+
+  renderExpandableChips(container, allChip, optionChips);
 }
 
 function buildCategoryChips(container, f, onChange){
-  container.innerHTML = "";
   const cats = CATEGORIES.filter(c => f.section==="all" || c.section===f.section);
   const allChip = document.createElement("button");
   allChip.className = "chip" + (f.cat==="all" ? " active" : "");
   allChip.dataset.cat = "all";
   allChip.textContent = "All Categories";
-  container.appendChild(allChip);
-  cats.forEach(c => {
+
+  const optionChips = cats.map(c => {
     const chip = document.createElement("button");
     chip.className = `chip t-${c.theme}` + (f.cat===c.id ? " active" : "");
     chip.dataset.cat = c.id;
     chip.textContent = `${c.icon} ${c.name}`;
-    container.appendChild(chip);
+    return chip;
   });
-  container.querySelectorAll(".chip").forEach(chip => {
+
+  [allChip, ...optionChips].forEach(chip => {
     chip.addEventListener("click", () => {
       f.cat = chip.dataset.cat;
       onChange();
     });
   });
+
+  renderExpandableChips(container, allChip, optionChips);
 }
 
 /* ════════════════════════════════════════════════════════
@@ -1073,6 +1341,9 @@ function renderTopicFilters(prefix, f, getPool, unitLabel){
   buildCategoryChips(document.getElementById(`${prefix}CategoryFilters`), f, () => renderTopicFilters(prefix, f, getPool, unitLabel));
   document.querySelectorAll(`#${prefix}CefrFilters [data-cefr]`).forEach(chip => {
     chip.classList.toggle("active", chip.dataset.cefr === f.cefr);
+  });
+  document.querySelectorAll(`#${prefix}LearnedFilters [data-learned]`).forEach(chip => {
+    chip.classList.toggle("active", chip.dataset.learned === f.learned);
   });
   const count = getPool().length;
   document.getElementById(`${prefix}FilterCount`).textContent = `${count} ${unitLabel}${count!==1?"s":""} match`;
@@ -1089,8 +1360,14 @@ function initTopicFilters(prefix, f, getPool, unitLabel){
       renderTopicFilters(prefix, f, getPool, unitLabel);
     });
   });
+  document.querySelectorAll(`#${prefix}LearnedFilters [data-learned]`).forEach(chip => {
+    chip.addEventListener("click", () => {
+      f.learned = chip.dataset.learned;
+      renderTopicFilters(prefix, f, getPool, unitLabel);
+    });
+  });
   document.getElementById(`${prefix}ClearFilters`).addEventListener("click", () => {
-    f.section = "all"; f.cat = "all"; f.cefr = "all";
+    f.section = "all"; f.cat = "all"; f.cefr = "all"; f.learned = "all";
     renderTopicFilters(prefix, f, getPool, unitLabel);
   });
   renderTopicFilters(prefix, f, getPool, unitLabel);
@@ -1099,17 +1376,73 @@ function initTopicFilters(prefix, f, getPool, unitLabel){
 /* ════════════════════════════════════════════════════════
    NAVIGATION
    ════════════════════════════════════════════════════════ */
-document.querySelectorAll(".tab").forEach(tab => {
-  tab.addEventListener("click", () => {
-    document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
-    document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
-    tab.classList.add("active");
-    const page = document.getElementById(`page-${tab.dataset.page}`);
-    page.classList.add("active");
-    if (typeof gsap !== "undefined"){
-      gsap.fromTo(page, {opacity:0, y:12}, {opacity:1, y:0, duration:.35, ease:"power2.out"});
+const NAV_SECTIONS = {
+  vocabulary: ["list", "examples"],
+  reading: ["quiz", "gap", "challenge"],
+};
+
+function sectionOfPage(pageId){
+  return Object.keys(NAV_SECTIONS).find(s => NAV_SECTIONS[s].includes(pageId));
+}
+
+function closeNavDropdowns(){
+  document.querySelectorAll(".nav-group.open").forEach(g => g.classList.remove("open"));
+}
+
+function goToPage(pageId){
+  document.querySelectorAll(".nav-group > .tab").forEach(t => t.classList.remove("active"));
+  document.querySelectorAll(".nav-dropdown-item").forEach(i => i.classList.remove("active"));
+  document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+
+  const section = sectionOfPage(pageId);
+  document.querySelector(`.tab[data-section-btn="${section}"]`).classList.add("active");
+  document.querySelector(`.nav-dropdown-item[data-page="${pageId}"]`).classList.add("active");
+
+  const page = document.getElementById(`page-${pageId}`);
+  page.classList.add("active");
+  if (typeof gsap !== "undefined"){
+    gsap.fromTo(page, {opacity:0, y:12}, {opacity:1, y:0, duration:.35, ease:"power2.out"});
+  }
+}
+
+document.querySelectorAll(".nav-dropdown-item").forEach(item => {
+  item.addEventListener("click", () => {
+    goToPage(item.dataset.page);
+    closeNavDropdowns();
+  });
+});
+
+document.querySelectorAll(".tab[data-section-btn]").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const section = btn.dataset.sectionBtn;
+    if (btn.classList.contains("active")) {
+      btn.closest(".nav-group").classList.toggle("open");
+    } else {
+      goToPage(NAV_SECTIONS[section][0]);
+      closeNavDropdowns();
     }
   });
+});
+
+document.addEventListener("click", (e) => {
+  if (!e.target.closest(".nav-group")) closeNavDropdowns();
+});
+
+/* ════════════════════════════════════════════════════════
+   THEME TOGGLE
+   ════════════════════════════════════════════════════════ */
+const themeToggleBtn = document.getElementById("themeToggle");
+function updateThemeIcon(){
+  const theme = document.documentElement.getAttribute("data-theme");
+  themeToggleBtn.textContent = theme === "dark" ? "☀️" : "🌙";
+}
+updateThemeIcon();
+themeToggleBtn.addEventListener("click", () => {
+  const current = document.documentElement.getAttribute("data-theme");
+  const next = current === "dark" ? "light" : "dark";
+  document.documentElement.setAttribute("data-theme", next);
+  try { localStorage.setItem("ivm_theme", next); } catch(e) {}
+  updateThemeIcon();
 });
 
 /* ════════════════════════════════════════════════════════
@@ -1120,6 +1453,9 @@ function renderListFilters(){
   buildCategoryChips(document.getElementById("categoryFilters"), state.list, () => { renderListFilters(); renderWordGrid(); });
   document.querySelectorAll("#page-list .filters [data-cefr]").forEach(chip => {
     chip.classList.toggle("active", chip.dataset.cefr === state.list.cefr);
+  });
+  document.querySelectorAll("#page-list .filters [data-learned]").forEach(chip => {
+    chip.classList.toggle("active", chip.dataset.learned === state.list.learned);
   });
 }
 
@@ -1159,18 +1495,19 @@ function renderWordGrid(){
       else state.learned.delete(word.w);
       card.classList.toggle("learned", e.target.checked);
       saveLearned();
+      if (state.list.learned !== "all") renderWordGrid();
     });
     grid.appendChild(card);
   });
   if (typeof gsap !== "undefined"){
-    gsap.fromTo(grid.children, {opacity:0, y:14}, {opacity:1, y:0, duration:.4, ease:"power2.out", stagger:0.015});
+    gsap.fromTo(grid.children, {opacity:0, y:14}, {opacity:1, y:0, duration:.4, ease:"power2.out", stagger:{amount:0.3, from:"start"}});
   }
 }
 
-document.getElementById("searchInput").addEventListener("input", e => {
+document.getElementById("searchInput").addEventListener("input", debounce(e => {
   state.list.search = e.target.value.trim();
   renderWordGrid();
-});
+}, 150));
 document.querySelectorAll("#page-list .filters [data-cefr]").forEach(chip => {
   chip.addEventListener("click", () => {
     state.list.cefr = chip.dataset.cefr;
@@ -1178,8 +1515,15 @@ document.querySelectorAll("#page-list .filters [data-cefr]").forEach(chip => {
     renderWordGrid();
   });
 });
+document.querySelectorAll("#page-list .filters [data-learned]").forEach(chip => {
+  chip.addEventListener("click", () => {
+    state.list.learned = chip.dataset.learned;
+    renderListFilters();
+    renderWordGrid();
+  });
+});
 document.getElementById("clearFilters").addEventListener("click", () => {
-  state.list = { search:"", section:"all", cat:"all", cefr:"all" };
+  state.list = { search:"", section:"all", cat:"all", cefr:"all", learned:"all" };
   document.getElementById("searchInput").value = "";
   renderListFilters();
   renderWordGrid();
@@ -1193,6 +1537,9 @@ function renderExamplesFilters(){
   buildCategoryChips(document.getElementById("exCategoryFilters"), state.examples, () => { renderExamplesFilters(); renderExamples(); });
   document.querySelectorAll("#page-examples .filters [data-cefr]").forEach(chip => {
     chip.classList.toggle("active", chip.dataset.cefr === state.examples.cefr);
+  });
+  document.querySelectorAll("#page-examples .filters [data-learned]").forEach(chip => {
+    chip.classList.toggle("active", chip.dataset.learned === state.examples.learned);
   });
 }
 
@@ -1216,14 +1563,14 @@ function renderExamples(){
     list.appendChild(item);
   });
   if (typeof gsap !== "undefined"){
-    gsap.fromTo(list.children, {opacity:0, y:10}, {opacity:1, y:0, duration:.35, ease:"power2.out", stagger:0.01});
+    gsap.fromTo(list.children, {opacity:0, y:10}, {opacity:1, y:0, duration:.35, ease:"power2.out", stagger:{amount:0.3, from:"start"}});
   }
 }
 
-document.getElementById("exSearchInput").addEventListener("input", e => {
+document.getElementById("exSearchInput").addEventListener("input", debounce(e => {
   state.examples.search = e.target.value.trim();
   renderExamples();
-});
+}, 150));
 document.querySelectorAll("#page-examples .filters [data-cefr]").forEach(chip => {
   chip.addEventListener("click", () => {
     state.examples.cefr = chip.dataset.cefr;
@@ -1231,8 +1578,15 @@ document.querySelectorAll("#page-examples .filters [data-cefr]").forEach(chip =>
     renderExamples();
   });
 });
+document.querySelectorAll("#page-examples .filters [data-learned]").forEach(chip => {
+  chip.addEventListener("click", () => {
+    state.examples.learned = chip.dataset.learned;
+    renderExamplesFilters();
+    renderExamples();
+  });
+});
 document.getElementById("exClearFilters").addEventListener("click", () => {
-  state.examples = { search:"", section:"all", cat:"all", cefr:"all" };
+  state.examples = { search:"", section:"all", cat:"all", cefr:"all", learned:"all" };
   document.getElementById("exSearchInput").value = "";
   renderExamplesFilters();
   renderExamples();
@@ -1278,7 +1632,7 @@ const QUIZ_MODES = [
 ];
 const QUIZ_COUNTS = [10, 20, 30, "all"];
 
-state.quiz = { mode:"definition", count:10, filters:{section:"all",cat:"all",cefr:"all"}, questions:[], idx:0, score:0 };
+state.quiz = { mode:"definition", count:10, filters:{section:"all",cat:"all",cefr:"all",learned:"all"}, questions:[], idx:0, score:0 };
 
 function quizPool(){
   let p = VOCAB_DATA.filter(w => matchesFilters(w, state.quiz.filters));
@@ -1456,7 +1810,7 @@ function showQuizResult(){
    FILL THE GAP PAGE
    ════════════════════════════════════════════════════════ */
 const GAP_COUNTS = [10, 20, 30, "all"];
-state.gap = { count:10, filters:{section:"all",cat:"all",cefr:"all"}, questions:[], idx:0, score:0 };
+state.gap = { count:10, filters:{section:"all",cat:"all",cefr:"all",learned:"all"}, questions:[], idx:0, score:0 };
 const GAP_POOL = VOCAB_DATA.filter(w => w.gap && w.gap.includes("___"));
 
 function gapPool(){
@@ -1581,7 +1935,7 @@ function showGapResult(){
    CHALLENGE PAGE (mixed/hybrid quiz + fill-the-gap)
    ════════════════════════════════════════════════════════ */
 const CHALLENGE_COUNTS = [10, 20, 30, "all"];
-state.challenge = { count:20, filters:{section:"all",cat:"all",cefr:"all"}, questions:[], idx:0, score:0 };
+state.challenge = { count:20, filters:{section:"all",cat:"all",cefr:"all",learned:"all"}, questions:[], idx:0, score:0 };
 
 function challengePool(){
   return VOCAB_DATA.filter(w => matchesFilters(w, state.challenge.filters));

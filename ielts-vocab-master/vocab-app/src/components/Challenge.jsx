@@ -13,7 +13,7 @@ function resultMessage(pct) {
   return "Keep practising — try the Word List and Quiz pages to build confidence.";
 }
 
-export default function Challenge() {
+export default function Challenge({ learned }) {
   const [count, setCount] = useState(20);
   const [filters, setFilters] = useState(DEFAULT_TOPIC_FILTERS);
   const [stage, setStage] = useState("setup");
@@ -25,8 +25,8 @@ export default function Challenge() {
   const scoreRef = useRef(null);
 
   const pool = useMemo(
-    () => VOCAB_DATA.filter((w) => matchesFilters(w, filters)),
-    [filters]
+    () => VOCAB_DATA.filter((w) => matchesFilters(w, filters, learned)),
+    [filters, learned]
   );
 
   const start = () => {

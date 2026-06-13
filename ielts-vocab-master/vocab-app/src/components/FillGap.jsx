@@ -12,7 +12,7 @@ function resultMessage(pct) {
   return "Keep practising — re-reading the example sentences will help.";
 }
 
-export default function FillGap() {
+export default function FillGap({ learned }) {
   const [count, setCount] = useState(10);
   const [filters, setFilters] = useState(DEFAULT_TOPIC_FILTERS);
   const [stage, setStage] = useState("setup");
@@ -24,8 +24,8 @@ export default function FillGap() {
   const scoreRef = useRef(null);
 
   const pool = useMemo(
-    () => GAP_POOL.filter((w) => matchesFilters(w, filters)),
-    [filters]
+    () => GAP_POOL.filter((w) => matchesFilters(w, filters, learned)),
+    [filters, learned]
   );
 
   const start = () => {

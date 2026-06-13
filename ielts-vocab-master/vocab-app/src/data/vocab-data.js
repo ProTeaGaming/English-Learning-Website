@@ -1,12 +1,13 @@
 // ════════════════════════════════════════════════════════
-// VOCAB MASTER DATA — merged from data-part1..5
-// 35 categories × 12 words = 420 words total
+// VOCAB MASTER DATA — merged from data-part1..6
+// 35 categories × 12 words + 8 categories × 10 words = 500 words total
 // ════════════════════════════════════════════════════════
 import { PART1 } from "./data-part1.js";
 import { PART2 } from "./data-part2.js";
 import { PART3 } from "./data-part3.js";
 import { PART4 } from "./data-part4.js";
 import { PART5 } from "./data-part5.js";
+import { PART6 } from "./data-part6.js";
 
 // Section groupings — used to organise the category picker into themed blocks
 const SECTIONS = {
@@ -53,9 +54,19 @@ const SECTIONS = {
   "precision-upgrades": "Mind, Emotion & Description",
   "essay-power-words": "Academic Writing Toolkit",
   "society-mind-rhetoric": "Scale, Change & Society",
+
+  "hedging-likelihood": "Academic Writing Toolkit II",
+  "cause-consequence": "Academic Writing Toolkit II",
+  "connectors-time-sequence": "Academic Writing Toolkit II",
+  "difficulty-risk": "Academic Writing Toolkit II",
+
+  "proactive-action": "Vivid Description & Communication",
+  "quantity-degree": "Vivid Description & Communication",
+  "vivid-everyday": "Vivid Description & Communication",
+  "communication-disclosure": "Vivid Description & Communication",
 };
 
-const ALL_PARTS = [...PART1, ...PART2, ...PART3, ...PART4, ...PART5];
+const ALL_PARTS = [...PART1, ...PART2, ...PART3, ...PART4, ...PART5, ...PART6];
 
 export const CATEGORIES = ALL_PARTS.map(({ id, name, icon, theme }) => ({
   id,
@@ -80,4 +91,6 @@ export const SECTION_ORDER = [
   "Formal English & Fixed Expressions",
   "IELTS Writing Themes I",
   "IELTS Writing Themes II",
+  "Academic Writing Toolkit II",
+  "Vivid Description & Communication",
 ];

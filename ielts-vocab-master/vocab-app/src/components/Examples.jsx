@@ -4,13 +4,13 @@ import { VOCAB_DATA, CAT_MAP } from "../data/vocab-data";
 import { DEFAULT_FILTERS, matchesFilters } from "../utils/filters";
 import Filters from "./Filters";
 
-export default function Examples() {
+export default function Examples({ learned }) {
   const [filters, setFilters] = useState(DEFAULT_FILTERS);
   const listRef = useRef(null);
 
   const words = useMemo(
-    () => VOCAB_DATA.filter((w) => matchesFilters(w, filters)),
-    [filters]
+    () => VOCAB_DATA.filter((w) => matchesFilters(w, filters, learned)),
+    [filters, learned]
   );
 
   useEffect(() => {

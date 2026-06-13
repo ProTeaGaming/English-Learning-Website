@@ -4,6 +4,37 @@
 
 :root {
   --accent-c: #6366f1;
+
+  /* ===== Dark theme (default) ===== */
+  --color-bg: 11 14 20;
+  --color-surface: 22 26 35;
+  --color-surface2: 30 35 48;
+  --color-line: 42 48 64;
+  --color-ink: 232 234 240;
+  --color-muted: 154 163 181;
+  --color-accent: 99 102 241;
+  --color-b1: 34 197 94;
+  --color-b2: 59 130 246;
+  --color-c1: 245 158 11;
+  --color-c2: 239 68 68;
+  --color-c2p: 168 85 247;
+  --color-reveal-bg: 15 18 26;
+}
+
+[data-theme="light"] {
+  --color-bg: 245 246 250;
+  --color-surface: 255 255 255;
+  --color-surface2: 238 240 245;
+  --color-line: 224 227 234;
+  --color-ink: 26 29 39;
+  --color-muted: 100 109 125;
+  --color-accent: 99 102 241;
+  --color-b1: 22 163 74;
+  --color-b2: 37 99 235;
+  --color-c1: 217 119 6;
+  --color-c2: 220 38 38;
+  --color-c2p: 147 51 234;
+  --color-reveal-bg: 255 255 255;
 }
 
 * {
@@ -16,10 +47,11 @@ html, body, #root {
 }
 
 body {
-  background: #0b0e14;
-  color: #e8eaf0;
+  background: rgb(var(--color-bg));
+  color: rgb(var(--color-ink));
   font-family: 'Inter', sans-serif;
   line-height: 1.5;
+  transition: background-color .25s ease, color .25s ease;
 }
 
 h1, h2, h3, .font-display {
@@ -40,6 +72,23 @@ h1, h2, h3, .font-display {
   }
   .tab:hover { @apply text-ink bg-surface2; }
   .tab.active { @apply text-white bg-accent shadow-[0_4px_16px_rgba(99,102,241,.4)]; }
+  .nav-caret { @apply text-[.7em] ml-1 opacity-60; }
+
+  /* ===== Section dropdown ===== */
+  .nav-dropdown {
+    @apply absolute left-0 top-full min-w-[170px] bg-surface border border-line rounded-xl shadow-2xl shadow-black/40 overflow-hidden z-20 pt-1.5;
+  }
+  .nav-dropdown-item {
+    @apply block w-full text-left font-sora text-sm font-semibold text-muted bg-transparent border-none px-4 py-2.5 cursor-pointer transition whitespace-nowrap;
+  }
+  .nav-dropdown-item:hover { @apply text-ink bg-surface2; }
+  .nav-dropdown-item.active { @apply text-accent; }
+
+  /* ===== Theme toggle ===== */
+  .theme-toggle {
+    @apply flex items-center justify-center w-9 h-9 rounded-full border border-line bg-surface2 text-base leading-none cursor-pointer transition;
+  }
+  .theme-toggle:hover { @apply border-accent; }
 
   /* ===== Chips ===== */
   .chip {
@@ -56,6 +105,11 @@ h1, h2, h3, .font-display {
     @apply text-[.8rem] text-muted bg-transparent border border-line rounded-full px-3.5 py-1.5 cursor-pointer font-semibold transition;
   }
   .clear-btn:hover { @apply text-white border-c2 bg-c2/10; }
+
+  .view-all-link {
+    @apply text-[.82rem] font-semibold text-accent underline underline-offset-2 bg-transparent border-none px-1 py-1.5 cursor-pointer transition;
+  }
+  .view-all-link:hover { @apply text-ink; }
 
   /* ===== CEFR badge ===== */
   .cefr-badge {
@@ -82,7 +136,7 @@ h1, h2, h3, .font-display {
   }
   .reveal {
     @apply absolute inset-0 p-4 flex flex-col gap-1.5 text-[.82rem] overflow-y-auto opacity-0 translate-y-2 transition-all pointer-events-none;
-    background: rgba(15,18,26,.97); backdrop-filter: blur(2px);
+    background: rgb(var(--color-reveal-bg) / .97); backdrop-filter: blur(2px);
   }
   .word-card:hover .reveal, .word-card.revealed .reveal {
     @apply opacity-100 translate-y-0 pointer-events-auto;
@@ -126,6 +180,8 @@ h1, h2, h3, .font-display {
   .q-opt:hover:not(:disabled) { @apply border-accent; }
   .q-opt.correct { @apply border-b1 text-green-300; background: rgba(34,197,94,.18); }
   .q-opt.wrong { @apply border-c2 text-red-300; background: rgba(239,68,68,.18); }
+  [data-theme="light"] .q-opt.correct { color: #15803d; }
+  [data-theme="light"] .q-opt.wrong { color: #b91c1c; }
   .q-opt:disabled { @apply cursor-default; }
 
   .gapblank {

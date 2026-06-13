@@ -1,5 +1,6 @@
 import { CATEGORIES, SECTION_ORDER } from "../data/vocab-data";
 import { CEFR_LEVELS, cefrColor } from "../utils/cefr";
+import ExpandableChips from "./ExpandableChips";
 
 export default function Filters({ filters, setFilters, resultLabel, searchPlaceholder }) {
   const visibleCats = CATEGORIES.filter(
@@ -10,8 +11,8 @@ export default function Filters({ filters, setFilters, resultLabel, searchPlaceh
 
   return (
     <div className="flex flex-col gap-3.5 mb-6 bg-surface border border-line rounded-2xl px-5 py-4">
-      <div className="flex gap-2.5 flex-wrap items-center">
-        <div className="relative flex-1 min-w-[200px]">
+      <div className="flex flex-col sm:flex-row gap-2.5 sm:items-center">
+        <div className="relative flex-1 min-w-0 sm:min-w-[200px]">
           <span className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-[.85rem] opacity-50">🔍</span>
           <input
             type="search"
@@ -31,15 +32,18 @@ export default function Filters({ filters, setFilters, resultLabel, searchPlaceh
         >
           All Sections
         </button>
-        {SECTION_ORDER.map((sec) => (
-          <button
-            key={sec}
-            className={"chip" + (filters.section === sec ? " active" : "")}
-            onClick={() => update({ section: sec, cat: "all" })}
-          >
-            {sec}
-          </button>
-        ))}
+        <ExpandableChips
+          items={SECTION_ORDER}
+          renderItem={(sec) => (
+            <button
+              key={sec}
+              className={"chip" + (filters.section === sec ? " active" : "")}
+              onClick={() => update({ section: sec, cat: "all" })}
+            >
+              {sec}
+            </button>
+          )}
+        />
       </div>
 
       <div className="flex gap-2 flex-wrap items-center">
@@ -49,15 +53,40 @@ export default function Filters({ filters, setFilters, resultLabel, searchPlaceh
         >
           All Categories
         </button>
-        {visibleCats.map((c) => (
-          <button
-            key={c.id}
-            className={`chip t-${c.theme}` + (filters.cat === c.id ? " active" : "")}
-            onClick={() => update({ cat: c.id })}
-          >
-            {c.icon} {c.name}
-          </button>
-        ))}
+        <ExpandableChips
+          items={visibleCats}
+          renderItem={(c) => (
+            <button
+              key={c.id}
+              className={`chip t-${c.theme}` + (filters.cat === c.id ? " active" : "")}
+              onClick={() => update({ cat: c.id })}
+            >
+              {c.icon} {c.name}
+            </button>
+          )}
+        />
+      </div>
+
+      <div className="flex gap-2 flex-wrap items-center">
+        <span className="text-[.78rem] font-bold text-muted uppercase tracking-wider mr-1">Progress</span>
+        <button
+          className={"chip" + (filters.learned === "all" ? " active" : "")}
+          onClick={() => update({ learned: "all" })}
+        >
+          All
+        </button>
+        <button
+          className={"chip" + (filters.learned === "learned" ? " active" : "")}
+          onClick={() => update({ learned: "learned" })}
+        >
+          Learned
+        </button>
+        <button
+          className={"chip" + (filters.learned === "unlearned" ? " active" : "")}
+          onClick={() => update({ learned: "unlearned" })}
+        >
+          Not Learned
+        </button>
       </div>
 
       <div className="flex gap-2 flex-wrap items-center">
@@ -80,7 +109,7 @@ export default function Filters({ filters, setFilters, resultLabel, searchPlaceh
         ))}
         <button
           className="clear-btn"
-          onClick={() => update({ search: "", section: "all", cat: "all", cefr: "all" })}
+          onClick={() => update({ search: "", section: "all", cat: "all", cefr: "all", learned: "all" })}
         >
           Clear filters
         </button>
