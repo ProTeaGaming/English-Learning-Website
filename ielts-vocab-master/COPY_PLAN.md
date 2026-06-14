@@ -241,3 +241,44 @@ recovered. This file was recreated from session context starting
 left-nav / right-stats layout, and both apps are verified overflow-free and
 console-error-free across phone, tablet, and desktop viewports, with the
 search bar fixed for narrow screens.
+
+---
+
+### 2026-06-14 — Add 500 new words (1000 total) to both apps
+
+**Request:** add 500 new vocabulary entries (50 new categories across
+`data-part7.js`–`data-part11.js`) on top of the original 500, with zero
+duplicates against the existing words, then bring `vocab-master.html` up to
+parity (it still only had the original 500 words / 43 categories).
+
+**vocab-app (React) changes:**
+- Added `src/data/data-part7.js` … `data-part11.js` (50 new categories, 500
+  new words, verified zero duplicates vs. the original 500 and internally).
+  Required words ("Proliferation", "Deliberate", "Coin" verb sense,
+  "Compensate", "Comprehend", "Fathom", "Hesitation") all included.
+- `src/data/vocab-data.js` — added `PART7`–`PART11` imports, extended
+  `ALL_PARTS`, added 50 new `SECTIONS` entries grouped into 14 new section
+  headings, extended `SECTION_ORDER`. Header comment updated to "85
+  categories, 1000 words total".
+- `src/components/WordList.jsx` — "500 essential words" → "1000 essential
+  words".
+
+**vocab-master.html changes:**
+- Mirrored the same 50 category blocks (500 words) into the inline
+  `ALL_PARTS` array, the 50 `SECTIONS` entries (same 14 groupings), and the
+  14 new `SECTION_ORDER` entries — done via a one-off Node script
+  (`merge-html.cjs`, removed after use) that copied the category-block text
+  directly from `data-part7.js`–`data-part11.js` to guarantee byte-identical
+  data between the two apps.
+- Updated word-count text: `<title>`, the "Learned: 0/500" stat, and the
+  Word List page description → 1000. (The unrelated "500" in the Google
+  Fonts `wght@...500...` URL was left untouched.)
+
+**Verification:**
+- `grep -o '{w:"' vocab-master.html` → 1000; duplicate-word and
+  duplicate-category-id scans both empty.
+- Extracted the inline `<script>` and ran `node --check` → syntax OK.
+- `npm run build` in `vocab-app` succeeds.
+
+**Outcome:** both apps now have 1000 words across 93 categories / 24 section
+groupings, in full data parity.
