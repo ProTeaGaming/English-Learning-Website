@@ -33,9 +33,65 @@ export const QUIZ_MODES = [
   { id: "mixed", name: "Mixed Review", desc: "A random mix of every question type." },
 ];
 
-export const QUIZ_COUNTS = [10, 20, 30, "all"];
-export const GAP_COUNTS = [10, 20, 30, "all"];
-export const CHALLENGE_COUNTS = [10, 20, 30, "all"];
+export const TEST_MODE_ORDER = ["quiz", "gap", "challenge"];
+export const TEST_COUNTS = [10, 20, 30, "all"];
+
+export const TEST_MODE_META = {
+  quiz: {
+    toggleLabel: "Quiz",
+    pageTitle: "Quiz",
+    pageDesc: "Test your knowledge with multiple question types.",
+    setupTitle: "Choose a quiz mode",
+    setupSub: "Pick a question style, choose how many questions, then start.",
+    poolUnit: "word",
+    countLabel: (c) => (c === "all" ? "All words" : `${c} questions`),
+    startLabel: "Start Quiz",
+    resultTitle: "Quiz Complete",
+    resultMessage: (pct) => {
+      if (pct === 100) return "Perfect score! Outstanding vocabulary mastery.";
+      if (pct >= 80) return "Excellent work — you know these words well.";
+      if (pct >= 60) return "Good effort — a bit more practice and you'll nail it.";
+      return "Keep practising — review the word list and try again.";
+    },
+    secondaryButtonLabel: "Change Mode",
+  },
+  gap: {
+    toggleLabel: "Fill the Gap",
+    pageTitle: "Fill the Gap",
+    pageDesc: "Choose the word that correctly completes each sentence.",
+    setupTitle: "Ready to practise?",
+    setupSub: "Choose how many sentences, then start.",
+    poolUnit: "sentence",
+    countLabel: (c) => (c === "all" ? "All sentences" : `${c} sentences`),
+    startLabel: "Start Exercise",
+    resultTitle: "Exercise Complete",
+    resultMessage: (pct) => {
+      if (pct === 100) return "Flawless! Every gap filled correctly.";
+      if (pct >= 80) return "Great job — your usage is on point.";
+      if (pct >= 60) return "Solid attempt — review the examples page for tricky words.";
+      return "Keep practising — re-reading the example sentences will help.";
+    },
+    secondaryButtonLabel: null,
+  },
+  challenge: {
+    toggleLabel: "Challenge",
+    pageTitle: "Challenge",
+    pageDesc: "The jack-of-all-trades test: definitions, synonyms, antonyms, word recall and fill-the-gap, all mixed into one round.",
+    setupTitle: "Ready for the Challenge?",
+    setupSub: "Every question can be any type — choose your topic, level and length, then go.",
+    poolUnit: "word",
+    countLabel: (c) => (c === "all" ? "All words" : `${c} questions`),
+    startLabel: "Start Challenge",
+    resultTitle: "Challenge Complete",
+    resultMessage: (pct) => {
+      if (pct === 100) return "Perfect score! You're ready for anything the exam throws at you.";
+      if (pct >= 80) return "Excellent — a strong, well-rounded command of these words.";
+      if (pct >= 60) return "Good effort — a bit more practice across modes and you'll nail it.";
+      return "Keep practising — try the Word List and Quiz pages to build confidence.";
+    },
+    secondaryButtonLabel: "Change Setup",
+  },
+};
 
 export const GAP_POOL = VOCAB_DATA.filter((w) => w.gap && w.gap.includes("___"));
 
