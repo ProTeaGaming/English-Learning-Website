@@ -32,8 +32,8 @@ export default {
         ts: "#0d9488",
       },
       fontFamily: {
-        sora: ["DM Serif Display", "Georgia", "serif"],
-        sans: ["Epilogue", "system-ui", "sans-serif"],
+        sora: ["Sora", "sans-serif"],
+        sans: ["Inter", "sans-serif"],
       },
     },
   },
