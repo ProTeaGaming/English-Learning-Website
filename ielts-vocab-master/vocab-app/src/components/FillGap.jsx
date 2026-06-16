@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import gsap from "gsap";
-import { GAP_COUNTS, GAP_POOL, shuffle, buildGapQuestion } from "../utils/quiz";
+import { TEST_COUNTS, GAP_POOL, shuffle, buildGapQuestion } from "../utils/quiz";
 import { DEFAULT_TOPIC_FILTERS, matchesFilters } from "../utils/filters";
 import TopicCefrFilter from "./TopicCefrFilter";
 import GapSentence from "./GapSentence";
@@ -81,7 +81,7 @@ export default function FillGap({ learned }) {
           <h2 className="text-[1.4rem] mb-2">Ready to practise?</h2>
           <p className="text-muted text-[.92rem] mb-6">Choose how many sentences, then start.</p>
           <div className="count-row">
-            {GAP_COUNTS.map((c) => (
+            {TEST_COUNTS.map((c) => (
               <button
                 key={c}
                 className={"chip" + (count === c ? " active" : "")}

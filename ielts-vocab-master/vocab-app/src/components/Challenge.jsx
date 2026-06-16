@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import gsap from "gsap";
 import { VOCAB_DATA } from "../data/vocab-data";
-import { CHALLENGE_COUNTS, shuffle, buildHybridQuestion } from "../utils/quiz";
+import { TEST_COUNTS, shuffle, buildHybridQuestion } from "../utils/quiz";
 import { DEFAULT_TOPIC_FILTERS, matchesFilters } from "../utils/filters";
 import TopicCefrFilter from "./TopicCefrFilter";
 import GapSentence from "./GapSentence";
@@ -82,7 +82,7 @@ export default function Challenge({ learned }) {
           <h2 className="text-[1.4rem] mb-2">Ready for the Challenge?</h2>
           <p className="text-muted text-[.92rem] mb-6">Every question can be any type — choose your topic, level and length, then go.</p>
           <div className="count-row">
-            {CHALLENGE_COUNTS.map((c) => (
+            {TEST_COUNTS.map((c) => (
               <button
                 key={c}
                 className={"chip" + (count === c ? " active" : "")}

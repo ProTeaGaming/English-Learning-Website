@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import gsap from "gsap";
 import { VOCAB_DATA } from "../data/vocab-data";
-import { QUIZ_MODES, QUIZ_COUNTS, shuffle, buildQuestion, randomMixedMode } from "../utils/quiz";
+import { QUIZ_MODES, TEST_COUNTS, shuffle, buildQuestion, randomMixedMode } from "../utils/quiz";
 import { DEFAULT_TOPIC_FILTERS, matchesFilters } from "../utils/filters";
 import TopicCefrFilter from "./TopicCefrFilter";
 
@@ -98,7 +98,7 @@ export default function Quiz({ learned }) {
             ))}
           </div>
           <div className="count-row">
-            {QUIZ_COUNTS.map((c) => (
+            {TEST_COUNTS.map((c) => (
               <button
                 key={c}
                 className={"chip" + (count === c ? " active" : "")}
