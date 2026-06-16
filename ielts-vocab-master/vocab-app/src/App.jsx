@@ -6,9 +6,8 @@ import { useTheme } from "./hooks/useTheme";
 import Navbar from "./components/Navbar";
 import WordList from "./components/WordList";
 import Examples from "./components/Examples";
-import Quiz from "./components/Quiz";
-import FillGap from "./components/FillGap";
-import Challenge from "./components/Challenge";
+import Test from "./components/Test";
+import ComingSoon from "./components/ComingSoon";
 
 export default function App() {
   const [page, setPage] = useState("list");
@@ -35,9 +34,10 @@ export default function App() {
       <main className="max-w-[1100px] mx-auto px-5 py-7" ref={pageRef}>
         {page === "list" && <WordList learned={learned} toggleLearned={toggle} />}
         {page === "examples" && <Examples learned={learned} />}
-        {page === "quiz" && <Quiz learned={learned} />}
-        {page === "gap" && <FillGap learned={learned} />}
-        {page === "challenge" && <Challenge learned={learned} />}
+        {page === "test" && <Test learned={learned} />}
+        {page === "grammar" && <ComingSoon title="Grammar" />}
+        {page === "reading" && <ComingSoon title="Reading" />}
+        {page === "writing" && <ComingSoon title="Writing" />}
       </main>
     </div>
   );
