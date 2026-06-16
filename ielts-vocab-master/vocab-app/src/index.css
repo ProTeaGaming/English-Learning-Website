@@ -188,6 +188,18 @@ h1, h2, h3, .font-display {
     @apply text-accent font-extrabold border-b-2 border-dashed border-accent px-1;
   }
 
+  /* ===== Test mode toggle ===== */
+  .mode-toggle-row {
+    @apply flex items-center justify-center gap-3 mb-5;
+  }
+  .mode-toggle-btn {
+    @apply flex items-center justify-center w-9 h-9 rounded-full border border-line bg-surface2 text-base leading-none cursor-pointer transition;
+  }
+  .mode-toggle-btn:hover { @apply border-accent text-ink; }
+  .mode-toggle-label {
+    @apply font-sora font-bold text-[1.05rem] min-w-[140px] text-center;
+  }
+
   /* ===== Setup / quiz layout ===== */
   .setup-card {
     @apply max-w-[680px] mx-auto bg-surface border border-line rounded-[18px] p-8 text-center;
