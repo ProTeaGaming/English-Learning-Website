@@ -282,3 +282,87 @@ parity (it still only had the original 500 words / 43 categories).
 
 **Outcome:** both apps now have 1000 words across 93 categories / 24 section
 groupings, in full data parity.
+
+---
+
+### 2026-06-14 — Remove all A2-level words, replace with C1/C2/C2+
+
+**Request:** remove the 11 A2-level words (too easy for this app) and replace
+them with more advanced vocabulary, including a few C2+ words.
+
+**Changes (both `vocab-app` and `vocab-master.html`, kept identical):**
+- "Hesitation" (decision-making) — kept (it was a required word and the
+  category is literally named after it), but its CEFR was corrected from A2
+  to B1, which is a more accurate level for this word anyway.
+- The other 10 A2 words were replaced in-place, keeping each new word in the
+  same category/theme:
+  - `research-inquiry`: Investigate → **Extrapolate** (C2)
+  - `growth-expansion`: Expand → **Burgeon** (C2)
+  - `money-shopping`: Refund → **Levy** (C1)
+  - `tech-digital-life`: Offline → **Deprecated** (C2)
+  - `climate-weather`: Forecast → **Inclement** (C1)
+  - `travel-experiences`: Souvenir → **Wanderlust** (C1)
+  - `lifestyle-habits`: Routine → **Perfunctory** (C2+)
+  - `comparison-contrast`: Identical → **Antithetical** (C2)
+  - `sound-light`: Flash → **Cacophony** (C2+)
+  - `work-tasks`: Chore → **Onerous** (C1)
+
+**Verification:**
+- `grep -c 'cefr:"A2"'` → 0 in both files.
+- Word count still 1000 in both, duplicate-word scan empty in both.
+- New CEFR distribution (both files): B1 173, B2 449, C1 327, C2 43, C2+ 8.
+- `node --check` on the extracted vocab-master.html inline script → OK.
+- `npm run build` in `vocab-app` succeeds.
+
+**Outcome:** no A2-level words remain in either app; the 10 replacements are
+C1/C2/C2+, with "Perfunctory" and "Cacophony" added at C2+.
+
+---
+
+### 2026-06-16 — Navbar restructure + merged Test page
+
+**Request:**
+- Restructure nav: Vocabulary dropdown gains "Test"; add Grammar, Reading, Writing as flat
+  nav tabs (no dropdown) navigating to "Coming soon" placeholder pages.
+- Merge the three separate Quiz / Fill the Gap / Challenge pages into one "Test" page
+  with a `‹ Mode ›` toggle that cycles between modes with wraparound.
+- Grammar/Reading/Writing placeholder pages show a "🚧 Under construction" card.
+
+**vocab-app (React) changes:**
+- `src/utils/quiz.js` — removed `QUIZ_COUNTS`/`GAP_COUNTS`/`CHALLENGE_COUNTS`;
+  added `TEST_MODE_ORDER`, `TEST_COUNTS`, and `TEST_MODE_META` (per-mode config map
+  with toggleLabel, pageTitle, pageDesc, setupTitle, setupSub, poolUnit, countLabel,
+  startLabel, resultTitle, resultMessage, secondaryButtonLabel).
+- `src/index.css` — added `.mode-toggle-row`, `.mode-toggle-btn`, `.mode-toggle-label`.
+- `src/components/Test.jsx` (new) — merged Quiz/Fill the Gap/Challenge page; `testMode`
+  cycles via `TEST_MODE_ORDER`; QUIZ_MODES grid shown only in quiz mode; GSAP card
+  entrance + score counter animations; per-mode pool filtering (GAP_POOL vs VOCAB_DATA).
+- `src/components/ComingSoon.jsx` (new) — placeholder page used for Grammar/Reading/Writing.
+- `src/components/Navbar.jsx` — SECTIONS updated (Vocabulary dropdown gains Test;
+  Grammar/Reading/Writing added as flat `{id, label, page}` entries rendered without
+  dropdown caret via `if (!section.pages)` guard).
+- `src/App.jsx` — imports Test/ComingSoon; routes `test`/`grammar`/`reading`/`writing`.
+- Deleted: `src/components/Quiz.jsx`, `FillGap.jsx`, `Challenge.jsx`.
+
+**vocab-master.html changes:**
+- CSS: added `.mode-toggle-row`/`.mode-toggle-btn`/`.mode-toggle-label`.
+- Nav markup: Vocabulary dropdown gains "Test"; Grammar/Reading/Writing added as flat
+  `.nav-group` tabs (no `.nav-dropdown`).
+- Page sections: removed `#page-quiz`/`#page-gap`/`#page-challenge`; added `#page-test`
+  (with `testTitle`/`testDesc`/`testModeLabel` dynamic IDs), `#page-grammar`,
+  `#page-reading`, `#page-writing`.
+- JS: `NAV_SECTIONS` updated; `goToPage` null-checks dropdown-item lookup for flat tabs;
+  `renderTopicFilters` accepts function-or-string `unitLabel`; entire Quiz/Gap/Challenge
+  JS block (~330 lines) replaced with consolidated Test block (`TEST_MODE_META`,
+  `testPool`, `buildTestQuestion`, `renderTestModes/Counts/SetupCopy`, `cycleTestMode`,
+  `renderTestQuestion`, `handleTestAnswer`, `showTestResult`); INIT updated.
+
+**Verification:**
+- `npm run lint` + `npm run build` in `vocab-app`: clean, build succeeds.
+- `node --check` on extracted vocab-master.html inline script: OK.
+- Grep confirms zero old `page-quiz`/`page-gap`/`page-challenge` section IDs remain;
+  zero old `state.quiz`/`quizPool`/`QUIZ_COUNTS` references remain.
+
+**Outcome:** Both apps now have a single "Test" page with Quiz/Fill the Gap/Challenge
+mode cycling; Grammar/Reading/Writing are placeholder pages with active-tab highlighting;
+full feature parity maintained between vocab-app and vocab-master.html.
