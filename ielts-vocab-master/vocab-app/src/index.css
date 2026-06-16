@@ -150,6 +150,12 @@ h1, h2, h3, .font-display { font-family: 'Sora', sans-serif; }
     letter-spacing: -.01em;
   }
   .word-card .pos { @apply text-[.75rem] text-muted mt-0.5 italic; }
+  /* Light mode: pure white card, more visible border */
+  [data-theme="light"] .word-card {
+    background: rgb(var(--color-surface));
+    border-color: rgb(188 198 218);
+  }
+
   .word-card.learned { box-shadow: 0 0 0 2px #22c55e inset; }
   .word-card.learned::before {
     content: "✓"; position: absolute; top: 10px; right: 10px; width: 20px; height: 20px;

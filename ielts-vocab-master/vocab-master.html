@@ -153,7 +153,7 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
 }
 .word-card{
   position:relative; border:1px solid var(--border); border-radius:16px;
-  background:linear-gradient(160deg, var(--surface) 0%, rgba(22,26,35,.9) 100%);
+  background:linear-gradient(160deg, var(--surface) 0%, rgb(var(--surface-rgb) / .92) 100%);
   padding:16px; min-height:120px; overflow:hidden; cursor:pointer;
   border-top:3px solid var(--accent-c, var(--accent));
   transition:transform .24s cubic-bezier(.4,0,.2,1), box-shadow .24s cubic-bezier(.4,0,.2,1);
@@ -190,6 +190,9 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
   color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center;
   font-size:.7rem; font-weight:800; z-index:2;
 }
+
+/* Light mode: pure white card, more visible border */
+[data-theme="light"] .word-card{background:var(--surface); border-color:#bcc6d8;}
 
 /* theme accent colors applied per category */
 .t-tb{--accent-c:var(--tb);} .t-tv{--accent-c:var(--tv);} .t-tp{--accent-c:var(--tp);}
