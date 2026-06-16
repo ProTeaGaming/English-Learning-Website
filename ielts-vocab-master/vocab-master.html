@@ -404,31 +404,36 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
     <div class="ex-list" id="exList"></div>
   </section>
 
-  <!-- ===== QUIZ PAGE ===== -->
-  <section id="page-quiz" class="page">
+  <!-- ===== TEST PAGE ===== -->
+  <section id="page-test" class="page">
     <div class="page-head">
-      <h1>Quiz</h1>
-      <p>Test your knowledge with multiple question types.</p>
+      <h1 id="testTitle">Quiz</h1>
+      <p id="testDesc">Test your knowledge with multiple question types.</p>
     </div>
-    <div id="quizSetup" class="setup-card">
-      <h2>Choose a quiz mode</h2>
-      <p class="sub">Pick a question style, choose how many questions, then start.</p>
-      <div class="option-grid" id="quizModes"></div>
-      <div class="count-row" id="quizCounts"></div>
+    <div id="testSetup" class="setup-card">
+      <div class="mode-toggle-row">
+        <button class="mode-toggle-btn" id="testModePrev" aria-label="Previous test mode">‹</button>
+        <span class="mode-toggle-label" id="testModeLabel">Quiz</span>
+        <button class="mode-toggle-btn" id="testModeNext" aria-label="Next test mode">›</button>
+      </div>
+      <h2 id="testSetupTitle">Choose a quiz mode</h2>
+      <p class="sub" id="testSetupSub">Pick a question style, choose how many questions, then start.</p>
+      <div class="option-grid" id="testModes"></div>
+      <div class="count-row" id="testCounts"></div>
       <div class="setup-filters">
         <div class="filter-head">
           <span class="filter-label">Topic &amp; Level</span>
-          <span class="result-count" id="quizFilterCount"></span>
+          <span class="result-count" id="testFilterCount"></span>
         </div>
-        <div class="filter-row" id="quizSectionFilters"></div>
-        <div class="filter-row" id="quizCategoryFilters"></div>
-        <div class="filter-row" id="quizLearnedFilters">
+        <div class="filter-row" id="testSectionFilters"></div>
+        <div class="filter-row" id="testCategoryFilters"></div>
+        <div class="filter-row" id="testLearnedFilters">
           <span class="filter-label">Progress</span>
           <button class="chip active" data-learned="all">All</button>
           <button class="chip" data-learned="learned">Learned</button>
           <button class="chip" data-learned="unlearned">Not Learned</button>
         </div>
-        <div class="filter-row" id="quizCefrFilters">
+        <div class="filter-row" id="testCefrFilters">
           <span class="filter-label">CEFR Level</span>
           <button class="chip active" data-cefr="all">All</button>
           <button class="chip" data-cefr="B1">B1</button>
@@ -436,96 +441,50 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
           <button class="chip" data-cefr="C1">C1</button>
           <button class="chip" data-cefr="C2">C2</button>
           <button class="chip" data-cefr="C2+">C2+</button>
-          <button class="clear-btn" id="quizClearFilters">Clear filters</button>
+          <button class="clear-btn" id="testClearFilters">Clear filters</button>
         </div>
       </div>
-      <p class="no-match" id="quizNoMatch" style="display:none;">No words match these filters — try widening your selection.</p>
-      <button class="btn" id="quizStart">Start Quiz</button>
+      <p class="no-match" id="testNoMatch" style="display:none;">No words match these filters — try widening your selection.</p>
+      <button class="btn" id="testStart">Start Quiz</button>
     </div>
-    <div id="quizPlay" class="quiz-wrap" style="display:none;"></div>
-    <div id="quizResult" class="result-card" style="display:none;"></div>
+    <div id="testPlay" class="quiz-wrap" style="display:none;"></div>
+    <div id="testResult" class="result-card" style="display:none;"></div>
   </section>
 
-  <!-- ===== FILL THE GAP PAGE ===== -->
-  <section id="page-gap" class="page">
+  <!-- ===== GRAMMAR PAGE ===== -->
+  <section id="page-grammar" class="page">
     <div class="page-head">
-      <h1>Fill the Gap</h1>
-      <p>Choose the word that correctly completes each sentence.</p>
+      <h1>Grammar</h1>
+      <p>Coming soon.</p>
     </div>
-    <div id="gapSetup" class="setup-card">
-      <h2>Ready to practise?</h2>
-      <p class="sub">Choose how many sentences, then start.</p>
-      <div class="count-row" id="gapCounts"></div>
-      <div class="setup-filters">
-        <div class="filter-head">
-          <span class="filter-label">Topic &amp; Level</span>
-          <span class="result-count" id="gapFilterCount"></span>
-        </div>
-        <div class="filter-row" id="gapSectionFilters"></div>
-        <div class="filter-row" id="gapCategoryFilters"></div>
-        <div class="filter-row" id="gapLearnedFilters">
-          <span class="filter-label">Progress</span>
-          <button class="chip active" data-learned="all">All</button>
-          <button class="chip" data-learned="learned">Learned</button>
-          <button class="chip" data-learned="unlearned">Not Learned</button>
-        </div>
-        <div class="filter-row" id="gapCefrFilters">
-          <span class="filter-label">CEFR Level</span>
-          <button class="chip active" data-cefr="all">All</button>
-          <button class="chip" data-cefr="B1">B1</button>
-          <button class="chip" data-cefr="B2">B2</button>
-          <button class="chip" data-cefr="C1">C1</button>
-          <button class="chip" data-cefr="C2">C2</button>
-          <button class="chip" data-cefr="C2+">C2+</button>
-          <button class="clear-btn" id="gapClearFilters">Clear filters</button>
-        </div>
-      </div>
-      <p class="no-match" id="gapNoMatch" style="display:none;">No sentences match these filters — try widening your selection.</p>
-      <button class="btn" id="gapStart">Start Exercise</button>
+    <div class="setup-card">
+      <h2>🚧 Under construction</h2>
+      <p class="sub">This section is being built — check back soon.</p>
     </div>
-    <div id="gapPlay" class="quiz-wrap" style="display:none;"></div>
-    <div id="gapResult" class="result-card" style="display:none;"></div>
   </section>
 
-  <!-- ===== CHALLENGE PAGE ===== -->
-  <section id="page-challenge" class="page">
+  <!-- ===== READING PAGE ===== -->
+  <section id="page-reading" class="page">
     <div class="page-head">
-      <h1>Challenge</h1>
-      <p>The jack-of-all-trades test: definitions, synonyms, antonyms, word recall and fill-the-gap, all mixed into one round.</p>
+      <h1>Reading</h1>
+      <p>Coming soon.</p>
     </div>
-    <div id="chalSetup" class="setup-card">
-      <h2>Ready for the Challenge?</h2>
-      <p class="sub">Every question can be any type — choose your topic, level and length, then go.</p>
-      <div class="count-row" id="chalCounts"></div>
-      <div class="setup-filters">
-        <div class="filter-head">
-          <span class="filter-label">Topic &amp; Level</span>
-          <span class="result-count" id="chalFilterCount"></span>
-        </div>
-        <div class="filter-row" id="chalSectionFilters"></div>
-        <div class="filter-row" id="chalCategoryFilters"></div>
-        <div class="filter-row" id="chalLearnedFilters">
-          <span class="filter-label">Progress</span>
-          <button class="chip active" data-learned="all">All</button>
-          <button class="chip" data-learned="learned">Learned</button>
-          <button class="chip" data-learned="unlearned">Not Learned</button>
-        </div>
-        <div class="filter-row" id="chalCefrFilters">
-          <span class="filter-label">CEFR Level</span>
-          <button class="chip active" data-cefr="all">All</button>
-          <button class="chip" data-cefr="B1">B1</button>
-          <button class="chip" data-cefr="B2">B2</button>
-          <button class="chip" data-cefr="C1">C1</button>
-          <button class="chip" data-cefr="C2">C2</button>
-          <button class="chip" data-cefr="C2+">C2+</button>
-          <button class="clear-btn" id="chalClearFilters">Clear filters</button>
-        </div>
-      </div>
-      <p class="no-match" id="chalNoMatch" style="display:none;">No words match these filters — try widening your selection.</p>
-      <button class="btn" id="chalStart">Start Challenge</button>
+    <div class="setup-card">
+      <h2>🚧 Under construction</h2>
+      <p class="sub">This section is being built — check back soon.</p>
     </div>
-    <div id="chalPlay" class="quiz-wrap" style="display:none;"></div>
-    <div id="chalResult" class="result-card" style="display:none;"></div>
+  </section>
+
+  <!-- ===== WRITING PAGE ===== -->
+  <section id="page-writing" class="page">
+    <div class="page-head">
+      <h1>Writing</h1>
+      <p>Coming soon.</p>
+    </div>
+    <div class="setup-card">
+      <h2>🚧 Under construction</h2>
+      <p class="sub">This section is being built — check back soon.</p>
+    </div>
   </section>
 
 </main>
