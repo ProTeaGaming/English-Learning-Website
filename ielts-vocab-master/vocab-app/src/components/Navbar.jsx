@@ -7,17 +7,12 @@ const SECTIONS = [
     pages: [
       { id: "list", label: "Word List" },
       { id: "examples", label: "Examples" },
+      { id: "test", label: "Test" },
     ],
   },
-  {
-    id: "reading",
-    label: "Reading",
-    pages: [
-      { id: "quiz", label: "Quiz" },
-      { id: "gap", label: "Fill the Gap" },
-      { id: "challenge", label: "Challenge" },
-    ],
-  },
+  { id: "grammar", label: "Grammar", page: "grammar" },
+  { id: "reading", label: "Reading", page: "reading" },
+  { id: "writing", label: "Writing", page: "writing" },
 ];
 
 export default function Navbar({ page, setPage, learnedCount, total, theme, toggleTheme }) {
@@ -41,6 +36,19 @@ export default function Navbar({ page, setPage, learnedCount, total, theme, togg
           </div>
           <nav className="flex gap-1.5 flex-wrap" ref={navRef}>
             {SECTIONS.map((section) => {
+              if (!section.pages) {
+                const isActive = page === section.page;
+                return (
+                  <button
+                    key={section.id}
+                    className={"tab" + (isActive ? " active" : "")}
+                    onClick={() => setPage(section.page)}
+                  >
+                    {section.label}
+                  </button>
+                );
+              }
+
               const isActive = section.pages.some((p) => p.id === page);
               const isOpen = openSection === section.id;
               return (
