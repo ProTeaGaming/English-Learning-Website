@@ -84,20 +84,24 @@ export default function Test({ learned }) {
 
   useEffect(() => {
     if (stage === "play" && cardRef.current) {
-      gsap.fromTo(cardRef.current, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.35, ease: "power2.out" });
+      const tween = gsap.fromTo(cardRef.current, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.35, ease: "power2.out" });
+      return () => tween.kill();
     }
   }, [idx, stage]);
 
   useEffect(() => {
     if (stage === "result" && scoreRef.current) {
-      gsap.to({ val: 0 }, {
+      const tween = gsap.to({ val: 0 }, {
         val: score,
         duration: 1,
         ease: "power1.out",
         onUpdate() {
-          scoreRef.current.textContent = Math.round(this.targets()[0].val);
+          if (scoreRef.current) {
+            scoreRef.current.textContent = Math.round(this.targets()[0].val);
+          }
         },
       });
+      return () => tween.kill();
     }
   }, [stage, score]);
 
@@ -161,7 +165,7 @@ export default function Test({ learned }) {
       <section>
         <PageHead title={meta.pageTitle} desc={meta.pageDesc} />
         <div className="quiz-wrap">
-          <div className="progress-bar"><div className="progress-fill" style={{ width: `${(idx / questions.length) * 100}%` }} /></div>
+          <div className="progress-bar"><div className="progress-fill" style={{ width: `${((idx + 1) / questions.length) * 100}%` }} /></div>
           <div className="flex justify-between text-[.85rem] text-muted mb-3.5 font-semibold">
             <span>{noun} {idx + 1} of {questions.length}</span>
             <span>Score: {score}</span>
