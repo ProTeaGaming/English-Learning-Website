@@ -2050,7 +2050,8 @@ function renderTopicFilters(prefix, f, getPool, unitLabel){
     chip.classList.toggle("active", chip.dataset.learned === f.learned);
   });
   const count = getPool().length;
-  document.getElementById(`${prefix}FilterCount`).textContent = `${count} ${unitLabel}${count!==1?"s":""} match`;
+  const unit = typeof unitLabel === "function" ? unitLabel() : unitLabel;
+  document.getElementById(`${prefix}FilterCount`).textContent = `${count} ${unit}${count!==1?"s":""} match`;
   const startBtn = document.getElementById(`${prefix}Start`);
   if (startBtn) startBtn.disabled = count === 0;
   const noMatch = document.getElementById(`${prefix}NoMatch`);
@@ -2081,8 +2082,10 @@ function initTopicFilters(prefix, f, getPool, unitLabel){
    NAVIGATION
    ════════════════════════════════════════════════════════ */
 const NAV_SECTIONS = {
-  vocabulary: ["list", "examples"],
-  reading: ["quiz", "gap", "challenge"],
+  vocabulary: ["list", "examples", "test"],
+  grammar: ["grammar"],
+  reading: ["reading"],
+  writing: ["writing"],
 };
 
 function sectionOfPage(pageId){
@@ -2100,7 +2103,8 @@ function goToPage(pageId){
 
   const section = sectionOfPage(pageId);
   document.querySelector(`.tab[data-section-btn="${section}"]`).classList.add("active");
-  document.querySelector(`.nav-dropdown-item[data-page="${pageId}"]`).classList.add("active");
+  const dropdownItem = document.querySelector(`.nav-dropdown-item[data-page="${pageId}"]`);
+  if (dropdownItem) dropdownItem.classList.add("active");
 
   const page = document.getElementById(`page-${pageId}`);
   page.classList.add("active");
@@ -2325,7 +2329,7 @@ function buildOptions(correct, others, getValue){
 }
 
 /* ════════════════════════════════════════════════════════
-   QUIZ PAGE
+   TEST PAGE (Quiz / Fill the Gap / Challenge, merged)
    ════════════════════════════════════════════════════════ */
 const QUIZ_MODES = [
   {id:"definition", name:"Definition Match", desc:"See a word — choose its correct definition."},
@@ -2334,16 +2338,78 @@ const QUIZ_MODES = [
   {id:"antonym", name:"Antonym Match", desc:"See a word — choose a word with the opposite meaning."},
   {id:"mixed", name:"Mixed Review", desc:"A random mix of every question type."},
 ];
-const QUIZ_COUNTS = [10, 20, 30, "all"];
 
-state.quiz = { mode:"definition", count:10, filters:{section:"all",cat:"all",cefr:"all",learned:"all"}, questions:[], idx:0, score:0 };
+const TEST_MODE_ORDER = ["quiz", "gap", "challenge"];
+const TEST_COUNTS = [10, 20, 30, "all"];
+const GAP_POOL = VOCAB_DATA.filter(w => w.gap && w.gap.includes("___"));
 
-function quizPool(){
-  let p = VOCAB_DATA.filter(w => matchesFilters(w, state.quiz.filters));
-  if (state.quiz.mode === "synonym") p = p.filter(w => w.syn && w.syn.length);
-  if (state.quiz.mode === "antonym") p = p.filter(w => w.ant && w.ant.length);
-  return p;
-}
+const TEST_MODE_META = {
+  quiz: {
+    toggleLabel: "Quiz",
+    pageTitle: "Quiz",
+    pageDesc: "Test your knowledge with multiple question types.",
+    setupTitle: "Choose a quiz mode",
+    setupSub: "Pick a question style, choose how many questions, then start.",
+    unit: "word",
+    noun: "Question",
+    countLabel: c => c === "all" ? "All words" : `${c} questions`,
+    startLabel: "Start Quiz",
+    resultTitle: "Quiz Complete",
+    resultMessage: pct => {
+      if (pct === 100) return "Perfect score! Outstanding vocabulary mastery.";
+      if (pct >= 80) return "Excellent work — you know these words well.";
+      if (pct >= 60) return "Good effort — a bit more practice and you'll nail it.";
+      return "Keep practising — review the word list and try again.";
+    },
+    secondaryLabel: "Change Mode",
+  },
+  gap: {
+    toggleLabel: "Fill the Gap",
+    pageTitle: "Fill the Gap",
+    pageDesc: "Choose the word that correctly completes each sentence.",
+    setupTitle: "Ready to practise?",
+    setupSub: "Choose how many sentences, then start.",
+    unit: "sentence",
+    noun: "Sentence",
+    countLabel: c => c === "all" ? "All sentences" : `${c} sentences`,
+    startLabel: "Start Exercise",
+    resultTitle: "Exercise Complete",
+    resultMessage: pct => {
+      if (pct === 100) return "Flawless! Every gap filled correctly.";
+      if (pct >= 80) return "Great job — your usage is on point.";
+      if (pct >= 60) return "Solid attempt — review the examples page for tricky words.";
+      return "Keep practising — re-reading the example sentences will help.";
+    },
+    secondaryLabel: null,
+  },
+  challenge: {
+    toggleLabel: "Challenge",
+    pageTitle: "Challenge",
+    pageDesc: "The jack-of-all-trades test: definitions, synonyms, antonyms, word recall and fill-the-gap, all mixed into one round.",
+    setupTitle: "Ready for the Challenge?",
+    setupSub: "Every question can be any type — choose your topic, level and length, then go.",
+    unit: "word",
+    noun: "Question",
+    countLabel: c => c === "all" ? "All words" : `${c} questions`,
+    startLabel: "Start Challenge",
+    resultTitle: "Challenge Complete",
+    resultMessage: pct => {
+      if (pct === 100) return "Perfect score! You're ready for anything the exam throws at you.";
+      if (pct >= 80) return "Excellent — a strong, well-rounded command of these words.";
+      if (pct >= 60) return "Good effort — a bit more practice across modes and you'll nail it.";
+      return "Keep practising — try the Word List and Quiz pages to build confidence.";
+    },
+    secondaryLabel: "Change Setup",
+  },
+};
+
+state.test = {
+  mode: "quiz",
+  quizMode: "definition",
+  count: 10,
+  filters: {section:"all", cat:"all", cefr:"all", learned:"all"},
+  questions: [], idx: 0, score: 0,
+};
 
 function randomMixedMode(word){
   const options = ["definition","word"];
@@ -2374,151 +2440,13 @@ function buildQuestion(word, mode){
       correct = capitalize(word.ant[Math.floor(Math.random()*word.ant.length)]);
       options = buildOptions(correct, others.filter(w => w.w !== correct), w => w.w);
       break;
-    default: // definition
+    default:
       prompt = "Choose the correct definition";
       text = `${word.w} <span class="qpos">(${word.pos})</span>`;
       correct = word.def;
       options = buildOptions(correct, others, w => w.def);
   }
   return {prompt, text, options, correct, word};
-}
-
-function renderQuizModes(){
-  const container = document.getElementById("quizModes");
-  container.innerHTML = "";
-  QUIZ_MODES.forEach(m => {
-    const card = document.createElement("div");
-    card.className = "modeCard" + (state.quiz.mode===m.id ? " active" : "");
-    card.innerHTML = `<h3>${m.name}</h3><p>${m.desc}</p>`;
-    card.addEventListener("click", () => {
-      state.quiz.mode = m.id;
-      renderQuizModes();
-      renderTopicFilters("quiz", state.quiz.filters, quizPool, "word");
-    });
-    container.appendChild(card);
-  });
-}
-
-function renderQuizCounts(){
-  const container = document.getElementById("quizCounts");
-  container.innerHTML = "";
-  QUIZ_COUNTS.forEach(c => {
-    const btn = document.createElement("button");
-    btn.className = "chip" + (state.quiz.count===c ? " active" : "");
-    btn.textContent = c==="all" ? "All words" : `${c} questions`;
-    btn.addEventListener("click", () => {
-      state.quiz.count = c;
-      renderQuizCounts();
-    });
-    container.appendChild(btn);
-  });
-}
-
-document.getElementById("quizStart").addEventListener("click", () => {
-  const pool = quizPool();
-  if (!pool.length) return;
-  const count = state.quiz.count === "all" ? pool.length : Math.min(state.quiz.count, pool.length);
-  state.quiz.questions = shuffle(pool).slice(0, count).map(word =>
-    buildQuestion(word, state.quiz.mode === "mixed" ? randomMixedMode(word) : state.quiz.mode)
-  );
-  state.quiz.idx = 0;
-  state.quiz.score = 0;
-  document.getElementById("quizSetup").style.display = "none";
-  document.getElementById("quizResult").style.display = "none";
-  document.getElementById("quizPlay").style.display = "block";
-  renderQuizQuestion();
-});
-
-function renderQuizQuestion(){
-  const q = state.quiz.questions[state.quiz.idx];
-  const total = state.quiz.questions.length;
-  const play = document.getElementById("quizPlay");
-  play.innerHTML = `
-    <div class="progress-bar"><div class="progress-fill" style="width:${(state.quiz.idx/total)*100}%"></div></div>
-    <div class="q-meta"><span>Question ${state.quiz.idx+1} of ${total}</span><span>Score: ${state.quiz.score}</span></div>
-    <div class="q-card">
-      <div class="q-prompt">${q.prompt}</div>
-      <div class="q-text">${q.text}</div>
-      <div class="q-options">
-        ${q.options.map((opt,i) => `<button class="q-opt" data-idx="${i}">${opt}</button>`).join("")}
-      </div>
-      <div class="q-feedback"></div>
-      <div class="q-next" style="display:none;"><button class="btn" id="quizNextBtn">${state.quiz.idx+1===total ? "See Results" : "Next Question"}</button></div>
-    </div>`;
-  play.querySelectorAll(".q-opt").forEach(btn => {
-    btn.addEventListener("click", () => handleQuizAnswer(btn, q));
-  });
-  if (typeof gsap !== "undefined"){
-    gsap.fromTo(play.querySelector(".q-card"), {opacity:0, y:14}, {opacity:1, y:0, duration:.35, ease:"power2.out"});
-  }
-}
-
-function handleQuizAnswer(selectedBtn, q){
-  const play = document.getElementById("quizPlay");
-  const isCorrect = selectedBtn.textContent === q.correct;
-  play.querySelectorAll(".q-opt").forEach(btn => {
-    btn.disabled = true;
-    if (btn.textContent === q.correct) btn.classList.add("correct");
-    else if (btn === selectedBtn) btn.classList.add("wrong");
-  });
-  if (isCorrect) state.quiz.score++;
-  play.querySelector(".q-feedback").innerHTML = isCorrect
-    ? `<b>Correct!</b> ${q.word.w} — ${q.word.def}`
-    : `<b>Not quite.</b> ${q.word.w} — ${q.word.def}`;
-  play.querySelector(".q-meta span:last-child").textContent = `Score: ${state.quiz.score}`;
-  play.querySelector(".q-next").style.display = "flex";
-  document.getElementById("quizNextBtn").addEventListener("click", () => {
-    state.quiz.idx++;
-    if (state.quiz.idx < state.quiz.questions.length) renderQuizQuestion();
-    else showQuizResult();
-  });
-}
-
-function showQuizResult(){
-  document.getElementById("quizPlay").style.display = "none";
-  const result = document.getElementById("quizResult");
-  result.style.display = "block";
-  const total = state.quiz.questions.length;
-  const pct = Math.round((state.quiz.score/total)*100);
-  let msg;
-  if (pct === 100) msg = "Perfect score! Outstanding vocabulary mastery.";
-  else if (pct >= 80) msg = "Excellent work — you know these words well.";
-  else if (pct >= 60) msg = "Good effort — a bit more practice and you'll nail it.";
-  else msg = "Keep practising — review the word list and try again.";
-  result.innerHTML = `
-    <h2>Quiz Complete</h2>
-    <div class="result-score" id="quizScoreNum">0</div>
-    <div class="result-msg">You scored ${state.quiz.score} out of ${total} (${pct}%). ${msg}</div>
-    <div class="result-actions">
-      <button class="btn" id="quizRetryBtn">Try Again</button>
-      <button class="btn secondary" id="quizChangeBtn">Change Mode</button>
-    </div>`;
-  const scoreEl = document.getElementById("quizScoreNum");
-  if (typeof gsap !== "undefined"){
-    gsap.to({val:0}, {val:state.quiz.score, duration:1, ease:"power1.out", onUpdate(){
-      scoreEl.textContent = Math.round(this.targets()[0].val);
-    }});
-  } else {
-    scoreEl.textContent = state.quiz.score;
-  }
-  document.getElementById("quizRetryBtn").addEventListener("click", () => {
-    document.getElementById("quizStart").click();
-  });
-  document.getElementById("quizChangeBtn").addEventListener("click", () => {
-    document.getElementById("quizResult").style.display = "none";
-    document.getElementById("quizSetup").style.display = "block";
-  });
-}
-
-/* ════════════════════════════════════════════════════════
-   FILL THE GAP PAGE
-   ════════════════════════════════════════════════════════ */
-const GAP_COUNTS = [10, 20, 30, "all"];
-state.gap = { count:10, filters:{section:"all",cat:"all",cefr:"all",learned:"all"}, questions:[], idx:0, score:0 };
-const GAP_POOL = VOCAB_DATA.filter(w => w.gap && w.gap.includes("___"));
-
-function gapPool(){
-  return GAP_POOL.filter(w => matchesFilters(w, state.gap.filters));
 }
 
 function buildGapQuestion(word){
@@ -2530,121 +2458,6 @@ function buildGapQuestion(word){
   return {text, options, correct:word.w, word};
 }
 
-function renderGapCounts(){
-  const container = document.getElementById("gapCounts");
-  container.innerHTML = "";
-  GAP_COUNTS.forEach(c => {
-    const btn = document.createElement("button");
-    btn.className = "chip" + (state.gap.count===c ? " active" : "");
-    btn.textContent = c==="all" ? "All sentences" : `${c} sentences`;
-    btn.addEventListener("click", () => {
-      state.gap.count = c;
-      renderGapCounts();
-    });
-    container.appendChild(btn);
-  });
-}
-
-document.getElementById("gapStart").addEventListener("click", () => {
-  const pool = gapPool();
-  if (!pool.length) return;
-  const count = state.gap.count === "all" ? pool.length : Math.min(state.gap.count, pool.length);
-  state.gap.questions = shuffle(pool).slice(0, count).map(buildGapQuestion);
-  state.gap.idx = 0;
-  state.gap.score = 0;
-  document.getElementById("gapSetup").style.display = "none";
-  document.getElementById("gapResult").style.display = "none";
-  document.getElementById("gapPlay").style.display = "block";
-  renderGapQuestion();
-});
-
-function renderGapQuestion(){
-  const q = state.gap.questions[state.gap.idx];
-  const total = state.gap.questions.length;
-  const play = document.getElementById("gapPlay");
-  play.innerHTML = `
-    <div class="progress-bar"><div class="progress-fill" style="width:${(state.gap.idx/total)*100}%"></div></div>
-    <div class="q-meta"><span>Sentence ${state.gap.idx+1} of ${total}</span><span>Score: ${state.gap.score}</span></div>
-    <div class="q-card">
-      <div class="q-prompt">Choose the word that correctly completes the sentence</div>
-      <div class="q-text">${q.text}</div>
-      <div class="q-options">
-        ${q.options.map(opt => `<button class="q-opt">${opt}</button>`).join("")}
-      </div>
-      <div class="q-feedback"></div>
-      <div class="q-next" style="display:none;"><button class="btn" id="gapNextBtn">${state.gap.idx+1===total ? "See Results" : "Next Sentence"}</button></div>
-    </div>`;
-  play.querySelectorAll(".q-opt").forEach(btn => {
-    btn.addEventListener("click", () => handleGapAnswer(btn, q));
-  });
-  if (typeof gsap !== "undefined"){
-    gsap.fromTo(play.querySelector(".q-card"), {opacity:0, y:14}, {opacity:1, y:0, duration:.35, ease:"power2.out"});
-  }
-}
-
-function handleGapAnswer(selectedBtn, q){
-  const play = document.getElementById("gapPlay");
-  const isCorrect = selectedBtn.textContent === q.correct;
-  play.querySelectorAll(".q-opt").forEach(btn => {
-    btn.disabled = true;
-    if (btn.textContent === q.correct) btn.classList.add("correct");
-    else if (btn === selectedBtn) btn.classList.add("wrong");
-  });
-  if (isCorrect) state.gap.score++;
-  const fullEx = q.word.ex.replace(/<\/?em>/g, "");
-  play.querySelector(".q-feedback").innerHTML = isCorrect
-    ? `<b>Correct!</b> ${q.word.w} — ${q.word.def}<br>${fullEx}`
-    : `<b>Not quite.</b> The answer is "${q.correct}" — ${q.word.def}<br>${fullEx}`;
-  play.querySelector(".q-meta span:last-child").textContent = `Score: ${state.gap.score}`;
-  play.querySelector(".q-next").style.display = "flex";
-  document.getElementById("gapNextBtn").addEventListener("click", () => {
-    state.gap.idx++;
-    if (state.gap.idx < state.gap.questions.length) renderGapQuestion();
-    else showGapResult();
-  });
-}
-
-function showGapResult(){
-  document.getElementById("gapPlay").style.display = "none";
-  const result = document.getElementById("gapResult");
-  result.style.display = "block";
-  const total = state.gap.questions.length;
-  const pct = Math.round((state.gap.score/total)*100);
-  let msg;
-  if (pct === 100) msg = "Flawless! Every gap filled correctly.";
-  else if (pct >= 80) msg = "Great job — your usage is on point.";
-  else if (pct >= 60) msg = "Solid attempt — review the examples page for tricky words.";
-  else msg = "Keep practising — re-reading the example sentences will help.";
-  result.innerHTML = `
-    <h2>Exercise Complete</h2>
-    <div class="result-score" id="gapScoreNum">0</div>
-    <div class="result-msg">You scored ${state.gap.score} out of ${total} (${pct}%). ${msg}</div>
-    <div class="result-actions">
-      <button class="btn" id="gapRetryBtn">Try Again</button>
-    </div>`;
-  const scoreEl = document.getElementById("gapScoreNum");
-  if (typeof gsap !== "undefined"){
-    gsap.to({val:0}, {val:state.gap.score, duration:1, ease:"power1.out", onUpdate(){
-      scoreEl.textContent = Math.round(this.targets()[0].val);
-    }});
-  } else {
-    scoreEl.textContent = state.gap.score;
-  }
-  document.getElementById("gapRetryBtn").addEventListener("click", () => {
-    document.getElementById("gapStart").click();
-  });
-}
-
-/* ════════════════════════════════════════════════════════
-   CHALLENGE PAGE (mixed/hybrid quiz + fill-the-gap)
-   ════════════════════════════════════════════════════════ */
-const CHALLENGE_COUNTS = [10, 20, 30, "all"];
-state.challenge = { count:20, filters:{section:"all",cat:"all",cefr:"all",learned:"all"}, questions:[], idx:0, score:0 };
-
-function challengePool(){
-  return VOCAB_DATA.filter(w => matchesFilters(w, state.challenge.filters));
-}
-
 function buildHybridQuestion(word){
   const modes = ["gap","definition","word"];
   if (word.syn && word.syn.length) modes.push("synonym");
@@ -2654,42 +2467,107 @@ function buildHybridQuestion(word){
   return {type:"quiz", ...buildQuestion(word, pick)};
 }
 
-function renderChallengeCounts(){
-  const container = document.getElementById("chalCounts");
+function testPool(){
+  if (state.test.mode === "gap") return GAP_POOL.filter(w => matchesFilters(w, state.test.filters));
+  let p = VOCAB_DATA.filter(w => matchesFilters(w, state.test.filters));
+  if (state.test.mode === "quiz") {
+    if (state.test.quizMode === "synonym") p = p.filter(w => w.syn && w.syn.length);
+    if (state.test.quizMode === "antonym") p = p.filter(w => w.ant && w.ant.length);
+  }
+  return p;
+}
+
+function buildTestQuestion(word){
+  if (state.test.mode === "gap") return {type:"gap", ...buildGapQuestion(word)};
+  if (state.test.mode === "challenge") return buildHybridQuestion(word);
+  const qm = state.test.quizMode === "mixed" ? randomMixedMode(word) : state.test.quizMode;
+  return {type:"quiz", ...buildQuestion(word, qm)};
+}
+
+function renderTestModes(){
+  const container = document.getElementById("testModes");
   container.innerHTML = "";
-  CHALLENGE_COUNTS.forEach(c => {
+  if (state.test.mode !== "quiz") { container.style.display = "none"; return; }
+  container.style.display = "";
+  QUIZ_MODES.forEach(m => {
+    const card = document.createElement("div");
+    card.className = "modeCard" + (state.test.quizMode===m.id ? " active" : "");
+    card.innerHTML = `<h3>${m.name}</h3><p>${m.desc}</p>`;
+    card.addEventListener("click", () => {
+      state.test.quizMode = m.id;
+      renderTestModes();
+      renderTopicFilters("test", state.test.filters, testPool, () => TEST_MODE_META[state.test.mode].unit);
+    });
+    container.appendChild(card);
+  });
+}
+
+function renderTestCounts(){
+  const container = document.getElementById("testCounts");
+  container.innerHTML = "";
+  const meta = TEST_MODE_META[state.test.mode];
+  TEST_COUNTS.forEach(c => {
     const btn = document.createElement("button");
-    btn.className = "chip" + (state.challenge.count===c ? " active" : "");
-    btn.textContent = c==="all" ? "All words" : `${c} questions`;
+    btn.className = "chip" + (state.test.count===c ? " active" : "");
+    btn.textContent = meta.countLabel(c);
     btn.addEventListener("click", () => {
-      state.challenge.count = c;
-      renderChallengeCounts();
+      state.test.count = c;
+      renderTestCounts();
     });
     container.appendChild(btn);
   });
 }
 
-document.getElementById("chalStart").addEventListener("click", () => {
-  const pool = challengePool();
+function renderTestSetupCopy(){
+  const meta = TEST_MODE_META[state.test.mode];
+  document.getElementById("testTitle").textContent = meta.pageTitle;
+  document.getElementById("testDesc").textContent = meta.pageDesc;
+  document.getElementById("testModeLabel").textContent = meta.toggleLabel;
+  document.getElementById("testSetupTitle").textContent = meta.setupTitle;
+  document.getElementById("testSetupSub").textContent = meta.setupSub;
+  document.getElementById("testStart").textContent = meta.startLabel;
+  document.getElementById("testNoMatch").textContent = `No ${meta.unit}s match these filters — try widening your selection.`;
+}
+
+function renderTestMode(){
+  renderTestSetupCopy();
+  renderTestModes();
+  renderTestCounts();
+  renderTopicFilters("test", state.test.filters, testPool, () => TEST_MODE_META[state.test.mode].unit);
+}
+
+function cycleTestMode(dir){
+  const i = TEST_MODE_ORDER.indexOf(state.test.mode);
+  state.test.mode = TEST_MODE_ORDER[(i + dir + TEST_MODE_ORDER.length) % TEST_MODE_ORDER.length];
+  renderTestMode();
+}
+
+document.getElementById("testModePrev").addEventListener("click", () => cycleTestMode(-1));
+document.getElementById("testModeNext").addEventListener("click", () => cycleTestMode(1));
+
+document.getElementById("testStart").addEventListener("click", () => {
+  const pool = testPool();
   if (!pool.length) return;
-  const count = state.challenge.count === "all" ? pool.length : Math.min(state.challenge.count, pool.length);
-  state.challenge.questions = shuffle(pool).slice(0, count).map(buildHybridQuestion);
-  state.challenge.idx = 0;
-  state.challenge.score = 0;
-  document.getElementById("chalSetup").style.display = "none";
-  document.getElementById("chalResult").style.display = "none";
-  document.getElementById("chalPlay").style.display = "block";
-  renderChallengeQuestion();
+  const count = state.test.count === "all" ? pool.length : Math.min(state.test.count, pool.length);
+  state.test.questions = shuffle(pool).slice(0, count).map(buildTestQuestion);
+  state.test.idx = 0;
+  state.test.score = 0;
+  document.getElementById("testSetup").style.display = "none";
+  document.getElementById("testResult").style.display = "none";
+  document.getElementById("testPlay").style.display = "block";
+  renderTestQuestion();
 });
 
-function renderChallengeQuestion(){
-  const q = state.challenge.questions[state.challenge.idx];
-  const total = state.challenge.questions.length;
-  const play = document.getElementById("chalPlay");
+function renderTestQuestion(){
+  const q = state.test.questions[state.test.idx];
+  const total = state.test.questions.length;
+  const meta = TEST_MODE_META[state.test.mode];
+  const play = document.getElementById("testPlay");
   const prompt = q.type === "gap" ? "Choose the word that correctly completes the sentence" : q.prompt;
+  const pct = Math.round(((state.test.idx + 1) / total) * 100);
   play.innerHTML = `
-    <div class="progress-bar"><div class="progress-fill" style="width:${(state.challenge.idx/total)*100}%"></div></div>
-    <div class="q-meta"><span>Question ${state.challenge.idx+1} of ${total}</span><span>Score: ${state.challenge.score}</span></div>
+    <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+    <div class="q-meta"><span>${meta.noun} ${state.test.idx+1} of ${total}</span><span>Score: ${state.test.score}</span></div>
     <div class="q-card">
       <div class="q-prompt">${prompt}</div>
       <div class="q-text">${q.text}</div>
@@ -2697,25 +2575,25 @@ function renderChallengeQuestion(){
         ${q.options.map(opt => `<button class="q-opt">${opt}</button>`).join("")}
       </div>
       <div class="q-feedback"></div>
-      <div class="q-next" style="display:none;"><button class="btn" id="chalNextBtn">${state.challenge.idx+1===total ? "See Results" : "Next Question"}</button></div>
+      <div class="q-next" style="display:none;"><button class="btn" id="testNextBtn">${state.test.idx+1===total ? "See Results" : `Next ${meta.noun}`}</button></div>
     </div>`;
   play.querySelectorAll(".q-opt").forEach(btn => {
-    btn.addEventListener("click", () => handleChallengeAnswer(btn, q));
+    btn.addEventListener("click", () => handleTestAnswer(btn, q));
   });
   if (typeof gsap !== "undefined"){
     gsap.fromTo(play.querySelector(".q-card"), {opacity:0, y:14}, {opacity:1, y:0, duration:.35, ease:"power2.out"});
   }
 }
 
-function handleChallengeAnswer(selectedBtn, q){
-  const play = document.getElementById("chalPlay");
+function handleTestAnswer(selectedBtn, q){
+  const play = document.getElementById("testPlay");
   const isCorrect = selectedBtn.textContent === q.correct;
   play.querySelectorAll(".q-opt").forEach(btn => {
     btn.disabled = true;
     if (btn.textContent === q.correct) btn.classList.add("correct");
     else if (btn === selectedBtn) btn.classList.add("wrong");
   });
-  if (isCorrect) state.challenge.score++;
+  if (isCorrect) state.test.score++;
   let feedback;
   if (q.type === "gap"){
     const fullEx = q.word.ex.replace(/<\/?em>/g, "");
@@ -2728,49 +2606,52 @@ function handleChallengeAnswer(selectedBtn, q){
       : `<b>Not quite.</b> ${q.word.w} — ${q.word.def}`;
   }
   play.querySelector(".q-feedback").innerHTML = feedback;
-  play.querySelector(".q-meta span:last-child").textContent = `Score: ${state.challenge.score}`;
+  play.querySelector(".q-meta span:last-child").textContent = `Score: ${state.test.score}`;
   play.querySelector(".q-next").style.display = "flex";
-  document.getElementById("chalNextBtn").addEventListener("click", () => {
-    state.challenge.idx++;
-    if (state.challenge.idx < state.challenge.questions.length) renderChallengeQuestion();
-    else showChallengeResult();
+  document.getElementById("testNextBtn").addEventListener("click", () => {
+    state.test.idx++;
+    if (state.test.idx < state.test.questions.length) renderTestQuestion();
+    else showTestResult();
   });
 }
 
-function showChallengeResult(){
-  document.getElementById("chalPlay").style.display = "none";
-  const result = document.getElementById("chalResult");
+function showTestResult(){
+  document.getElementById("testPlay").style.display = "none";
+  const result = document.getElementById("testResult");
   result.style.display = "block";
-  const total = state.challenge.questions.length;
-  const pct = Math.round((state.challenge.score/total)*100);
-  let msg;
-  if (pct === 100) msg = "Perfect score! You're ready for anything the exam throws at you.";
-  else if (pct >= 80) msg = "Excellent — a strong, well-rounded command of these words.";
-  else if (pct >= 60) msg = "Good effort — a bit more practice across modes and you'll nail it.";
-  else msg = "Keep practising — try the Word List and Quiz pages to build confidence.";
+  const total = state.test.questions.length;
+  const score = state.test.score;
+  const pct = Math.round((score/total)*100);
+  const meta = TEST_MODE_META[state.test.mode];
+  const secondaryBtn = meta.secondaryLabel
+    ? `<button class="btn secondary" id="testChangeBtn">${meta.secondaryLabel}</button>`
+    : "";
   result.innerHTML = `
-    <h2>Challenge Complete</h2>
-    <div class="result-score" id="chalScoreNum">0</div>
-    <div class="result-msg">You scored ${state.challenge.score} out of ${total} (${pct}%). ${msg}</div>
+    <h2>${meta.resultTitle}</h2>
+    <div class="result-score" id="testScoreNum">0</div>
+    <div class="result-msg">You scored ${score} out of ${total} (${pct}%). ${meta.resultMessage(pct)}</div>
     <div class="result-actions">
-      <button class="btn" id="chalRetryBtn">Try Again</button>
-      <button class="btn secondary" id="chalChangeBtn">Change Setup</button>
+      <button class="btn" id="testRetryBtn">Try Again</button>
+      ${secondaryBtn}
     </div>`;
-  const scoreEl = document.getElementById("chalScoreNum");
+  const scoreEl = document.getElementById("testScoreNum");
   if (typeof gsap !== "undefined"){
-    gsap.to({val:0}, {val:state.challenge.score, duration:1, ease:"power1.out", onUpdate(){
+    gsap.to({val:0}, {val:score, duration:1, ease:"power1.out", onUpdate(){
       scoreEl.textContent = Math.round(this.targets()[0].val);
     }});
   } else {
-    scoreEl.textContent = state.challenge.score;
+    scoreEl.textContent = score;
   }
-  document.getElementById("chalRetryBtn").addEventListener("click", () => {
-    document.getElementById("chalStart").click();
+  document.getElementById("testRetryBtn").addEventListener("click", () => {
+    document.getElementById("testStart").click();
   });
-  document.getElementById("chalChangeBtn").addEventListener("click", () => {
-    document.getElementById("chalResult").style.display = "none";
-    document.getElementById("chalSetup").style.display = "block";
-  });
+  const changeBtn = document.getElementById("testChangeBtn");
+  if (changeBtn){
+    changeBtn.addEventListener("click", () => {
+      document.getElementById("testResult").style.display = "none";
+      document.getElementById("testSetup").style.display = "block";
+    });
+  }
 }
 
 /* ════════════════════════════════════════════════════════
@@ -2780,13 +2661,10 @@ renderListFilters();
 renderWordGrid();
 renderExamplesFilters();
 renderExamples();
-renderQuizModes();
-renderQuizCounts();
-renderGapCounts();
-renderChallengeCounts();
-initTopicFilters("quiz", state.quiz.filters, quizPool, "word");
-initTopicFilters("gap", state.gap.filters, gapPool, "sentence");
-initTopicFilters("chal", state.challenge.filters, challengePool, "word");
+renderTestSetupCopy();
+renderTestModes();
+renderTestCounts();
+initTopicFilters("test", state.test.filters, testPool, () => TEST_MODE_META[state.test.mode].unit);
 saveLearned();
 </script>
 </body>
