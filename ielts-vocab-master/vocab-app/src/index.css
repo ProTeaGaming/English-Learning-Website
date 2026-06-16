@@ -13,6 +13,8 @@
   --color-ink: 232 234 240;
   --color-muted: 154 163 181;
   --color-accent: 99 102 241;
+  --card-bg: rgb(22 26 35);
+  --card-border: rgb(42 48 64);
   --color-b1: 34 197 94;
   --color-b2: 59 130 246;
   --color-c1: 245 158 11;
@@ -29,6 +31,8 @@
   --color-ink: 26 29 39;
   --color-muted: 100 109 125;
   --color-accent: 99 102 241;
+  --card-bg: rgb(255 255 255);
+  --card-border: rgb(188 198 218);
   --color-b1: 22 163 74;
   --color-b2: 37 99 235;
   --color-c1: 217 119 6;
@@ -135,8 +139,9 @@ h1, h2, h3, .font-display { font-family: 'Sora', sans-serif; }
 
   /* ===== Word card ===== */
   .word-card {
-    @apply relative border border-line rounded-2xl p-4 min-h-[120px] overflow-hidden cursor-pointer;
-    background: linear-gradient(160deg, rgb(var(--color-surface)) 0%, rgb(var(--color-surface) / .92) 100%);
+    @apply relative rounded-2xl p-4 min-h-[120px] overflow-hidden cursor-pointer;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
     border-top: 3px solid var(--accent-c);
     transition: transform .24s cubic-bezier(.4,0,.2,1), box-shadow .24s cubic-bezier(.4,0,.2,1), border-color .24s ease;
   }
@@ -150,12 +155,6 @@ h1, h2, h3, .font-display { font-family: 'Sora', sans-serif; }
     letter-spacing: -.01em;
   }
   .word-card .pos { @apply text-[.75rem] text-muted mt-0.5 italic; }
-  /* Light mode: pure white card, more visible border */
-  [data-theme="light"] .word-card {
-    background: rgb(var(--color-surface));
-    border-color: rgb(188 198 218);
-  }
-
   .word-card.learned { box-shadow: 0 0 0 2px #22c55e inset; }
   .word-card.learned::before {
     content: "✓"; position: absolute; top: 10px; right: 10px; width: 20px; height: 20px;
