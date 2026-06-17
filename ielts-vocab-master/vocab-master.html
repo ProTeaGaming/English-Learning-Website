@@ -5926,28 +5926,22 @@ function renderExpandableChips(container, pinnedChip, optionChips, defaultCount 
 }
 
 function buildSectionChips(container, f, onChange){
+  container.innerHTML = "";
   const allChip = document.createElement("button");
   allChip.className = "chip" + (f.section==="all" ? " active" : "");
   allChip.dataset.section = "all";
   allChip.textContent = "All Sections";
+  allChip.addEventListener("click", () => { f.section = "all"; f.cat = "all"; onChange(); });
+  container.appendChild(allChip);
 
-  const optionChips = SECTION_ORDER.map(sec => {
+  SECTION_ORDER.forEach(sec => {
     const chip = document.createElement("button");
     chip.className = "chip" + (f.section===sec ? " active" : "");
     chip.dataset.section = sec;
     chip.textContent = sec;
-    return chip;
+    chip.addEventListener("click", () => { f.section = sec; f.cat = "all"; onChange(); });
+    container.appendChild(chip);
   });
-
-  [allChip, ...optionChips].forEach(chip => {
-    chip.addEventListener("click", () => {
-      f.section = chip.dataset.section;
-      f.cat = "all";
-      onChange();
-    });
-  });
-
-  renderExpandableChips(container, allChip, optionChips);
 }
 
 function buildCategoryChips(container, f, onChange){
@@ -6162,36 +6156,47 @@ function renderBrowseSection(sectionName, cats){
 
 function renderBrowse(){
   const sc = document.getElementById("browseSectionChips");
-  sc.innerHTML = `<span class="filter-label">Section</span>`;
-  const allBtn = document.createElement("button");
-  allBtn.className = "chip" + (browseState.section==="all"?" active":"");
-  allBtn.textContent = "All";
-  allBtn.addEventListener("click", () => { browseState.section="all"; renderBrowse(); });
-  sc.appendChild(allBtn);
-  ALL_SECTION_ORDER.forEach(sName => {
-    const btn = document.createElement("button");
-    btn.className = "chip" + (browseState.section===sName?" active":"");
-    btn.textContent = sName;
-    btn.addEventListener("click", () => { browseState.section=sName; renderBrowse(); });
-    sc.appendChild(btn);
+  const hl = browseState.headline;
+
+  // Headline button sync
+  document.querySelectorAll(".headline-btn").forEach(b => {
+    b.classList.toggle("active", b.dataset.headline === hl);
   });
+
+  // Section chips: hidden for CEFR Levels, otherwise filtered to the active headline
+  if (hl === "cefr") {
+    sc.style.display = "none";
+  } else {
+    sc.style.display = "";
+    sc.innerHTML = `<span class="filter-label">Section</span>`;
+    const allBtn = document.createElement("button");
+    allBtn.className = "chip" + (browseState.section==="all"?" active":"");
+    allBtn.textContent = "All";
+    allBtn.addEventListener("click", () => { browseState.section="all"; renderBrowse(); });
+    sc.appendChild(allBtn);
+    const sectionsForChips = hl === "all"
+      ? ALL_SECTION_ORDER.filter(s => SECTION_HEADLINES[s] !== "cefr")
+      : ALL_SECTION_ORDER.filter(s => SECTION_HEADLINES[s] === hl);
+    sectionsForChips.forEach(sName => {
+      const btn = document.createElement("button");
+      btn.className = "chip" + (browseState.section===sName?" active":"");
+      btn.textContent = sName;
+      btn.addEventListener("click", () => { browseState.section=sName; renderBrowse(); });
+      sc.appendChild(btn);
+    });
+  }
 
   document.querySelectorAll("[data-browse-cefr]").forEach(c => {
     c.classList.toggle("active", c.dataset.browseCefr === browseState.cefr);
   });
   document.getElementById("browseCefrAll").classList.toggle("active", browseState.cefr==="all");
 
-  // Headline button sync
-  document.querySelectorAll(".headline-btn").forEach(b => {
-    b.classList.toggle("active", b.dataset.headline === browseState.headline);
-  });
-
   const q = browseState.search.toLowerCase();
   const content = document.getElementById("browseContent");
   content.innerHTML = "";
   let sectionsToShow = browseState.section==="all" ? ALL_SECTION_ORDER : [browseState.section];
-  if (browseState.headline !== "all") {
-    sectionsToShow = sectionsToShow.filter(s => SECTION_HEADLINES[s] === browseState.headline);
+  if (hl !== "all") {
+    sectionsToShow = sectionsToShow.filter(s => SECTION_HEADLINES[s] === hl);
   }
   sectionsToShow.forEach(sName => {
     let cats = ALL_CATEGORIES.filter(c => c.section===sName);
