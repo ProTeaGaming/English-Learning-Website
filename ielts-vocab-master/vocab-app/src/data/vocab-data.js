@@ -177,3 +177,13 @@ export const SECTION_ORDER = [
   "Description: Size, Sound & Movement",
   "Habits, Comparison & Politeness",
 ];
+
+export const CEFR_SECTION = "CEFR Levels";
+
+export const CEFR_CATEGORIES = [
+  { id: "cefr-B1", name: "B1", icon: "🌱", theme: "te", cefrLevel: "B1", section: CEFR_SECTION },
+  { id: "cefr-B2", name: "B2", icon: "⚡", theme: "tb", cefrLevel: "B2", section: CEFR_SECTION },
+  { id: "cefr-C1", name: "C1", icon: "🔥", theme: "ta", cefrLevel: "C1", section: CEFR_SECTION },
+  { id: "cefr-C2", name: "C2", icon: "💎", theme: "tr", cefrLevel: "C2", section: CEFR_SECTION },
+  { id: "cefr-C2+", name: "C2+", icon: "👑", theme: "tpurp", cefrLevel: "C2+", section: CEFR_SECTION },
+];
