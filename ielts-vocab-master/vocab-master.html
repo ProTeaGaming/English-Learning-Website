@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>IELTS Vocab Master — 1000 Words for Fluency</title>
+<title>IELTS Vocab Master — 4000 Words for Fluency</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -14,7 +14,8 @@
   --surface2:#1e2330; --border:#2a3040;
   --text:#e8eaf0; --muted:#9aa3b5; --accent:#6366f1;
   --card-bg:#161a23; --card-border:#2a3040;
-  --b1:#22c55e; --b2:#3b82f6; --c1:#f59e0b; --c2:#ef4444; --c2p:#a855f7;
+  --a1:#86efac; --a1p:#4ade80; --a2:#34d399; --a2p:#10b981;
+  --b1:#22c55e; --b1p:#16a34a; --b2:#3b82f6; --b2p:#2563eb; --c1:#f59e0b; --c1p:#d97706; --c2:#ef4444; --c2p:#a855f7;
   --tb:#3b82f6; --tv:#8b5cf6; --tp:#ec4899; --tr:#ef4444; --te:#10b981;
   --ta:#f59e0b; --tc:#06b6d4; --tg:#eab308; --ti:#6366f1; --to:#f97316;
   --tro:#f43f5e; --tfg:#16a34a; --tpurp:#a855f7; --ts:#0d9488;
@@ -24,7 +25,8 @@
   --surface:#ffffff; --surface-rgb:255 255 255;
   --surface2:#eef0f5; --border:#e0e3ea;
   --text:#1a1d27; --muted:#646d7d;
-  --b1:#16a34a; --b2:#2563eb; --c1:#d97706; --c2:#dc2626; --c2p:#9333ea;
+  --a1:#4ade80; --a1p:#22c55e; --a2:#2dd4bf; --a2p:#0d9488;
+  --b1:#16a34a; --b1p:#166534; --b2:#2563eb; --b2p:#1d4ed8; --c1:#d97706; --c1p:#b45309; --c2:#dc2626; --c2p:#9333ea;
   --card-bg:#ffffff; --card-border:#bcc6d8;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
@@ -143,9 +145,16 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
 .cefr-badge{
   font-size:.7rem; font-weight:800; padding:3px 9px; border-radius:6px; color:#fff; letter-spacing:.03em; flex-shrink:0;
 }
+.cefr-badge.A1{background:var(--a1); color:#14532d;}
+.cefr-badge.A1\+{background:var(--a1p); color:#14532d;}
+.cefr-badge.A2{background:var(--a2); color:#064e3b;}
+.cefr-badge.A2\+{background:var(--a2p);}
 .cefr-badge.B1{background:var(--b1);}
+.cefr-badge.B1\+{background:var(--b1p);}
 .cefr-badge.B2{background:var(--b2);}
-.cefr-badge.C1{background:var(--c1);}
+.cefr-badge.B2\+{background:var(--b2p);}
+.cefr-badge.C1{background:var(--c1); color:#1c1917;}
+.cefr-badge.C1\+{background:var(--c1p);}
 .cefr-badge.C2{background:var(--c2);}
 .cefr-badge.C2\+{background:var(--c2p);}
 
@@ -192,6 +201,49 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
   color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center;
   font-size:.7rem; font-weight:800; z-index:2;
 }
+.word-card.little{box-shadow:0 0 0 2px #f59e0b inset;}
+.word-card.little::before{
+  content:"~"; position:absolute; top:10px; right:10px; width:20px; height:20px; background:#f59e0b;
+  color:#1c1917; border-radius:50%; display:flex; align-items:center; justify-content:center;
+  font-size:.85rem; font-weight:900; z-index:2; line-height:1;
+}
+
+/* ===== 3-STATE LEARN CONTROL ===== */
+.learn-state-row{display:flex; align-items:center; gap:6px; margin-top:auto; padding-top:8px; border-top:1px solid var(--border);}
+.learn-state-label{font-size:.72rem; color:var(--muted); white-space:nowrap; flex-shrink:0;}
+.learn-state-btns{display:flex; gap:4px; flex:1;}
+.learn-state-btn{
+  flex:1; font-size:.68rem; font-weight:700; font-family:'Sora',sans-serif; padding:4px 6px;
+  border-radius:6px; border:1px solid var(--border); background:var(--surface2); color:var(--muted);
+  cursor:pointer; transition:all .15s ease; line-height:1.2;
+}
+.learn-state-btn[data-state="little"].active{background:#f59e0b; border-color:#f59e0b; color:#1c1917;}
+.learn-state-btn[data-state="learned"].active{background:#22c55e; border-color:#22c55e; color:#fff;}
+.learn-state-btn:not(.active):hover{border-color:var(--accent-c,var(--accent)); color:var(--text);}
+
+/* ===== HEADLINE FILTER ===== */
+.headline-bar{display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-bottom:20px;}
+.headline-btn{
+  font-family:'Sora',sans-serif; font-size:.82rem; font-weight:700; padding:7px 18px;
+  border-radius:99px; border:1.5px solid var(--border); background:var(--surface);
+  color:var(--muted); cursor:pointer; transition:all .18s ease; white-space:nowrap;
+}
+.headline-btn:hover{border-color:var(--accent); color:var(--accent);}
+.headline-btn.active[data-headline="all"]{background:var(--accent); border-color:var(--accent); color:#fff;}
+.headline-btn.active[data-headline="basic"]{background:var(--a2); border-color:var(--a2); color:#064e3b;}
+.headline-btn.active[data-headline="intermediate"]{background:var(--b2); border-color:var(--b2); color:#fff;}
+.headline-btn.active[data-headline="advanced"]{background:var(--c1); border-color:var(--c1); color:#1c1917;}
+.headline-btn.active[data-headline="cefr"]{background:var(--c2p); border-color:var(--c2p); color:#fff;}
+.headline-pill{
+  font-size:.65rem; font-weight:800; padding:2px 7px; border-radius:99px; letter-spacing:.04em; flex-shrink:0; color:#fff;
+}
+.headline-pill.basic{background:var(--a2p);}
+.headline-pill.intermediate{background:var(--b2);}
+.headline-pill.advanced{background:var(--c1); color:#1c1917;}
+.headline-pill.cefr{background:var(--c2p);}
+
+/* cat progress bar 3-state */
+.cat-pfill-little{height:100%; border-radius:99px 0 0 99px; background:var(--c1); transition:width .4s ease; opacity:.7;}
 
 /* theme accent colors applied per category */
 .t-tb{--accent-c:var(--tb);} .t-tv{--accent-c:var(--tv);} .t-tp{--accent-c:var(--tp);}
@@ -377,7 +429,7 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
 .cat-chevron{font-size:1.2rem; color:var(--muted); opacity:.4; flex-shrink:0; transition:opacity .15s ease, transform .15s ease;}
 .cat-card:hover .cat-chevron{opacity:1; transform:translateX(3px);}
 .cat-pbar-row{display:flex; align-items:center; gap:10px;}
-.cat-pbar{flex:1; height:5px; border-radius:99px; background:var(--surface2); overflow:hidden;}
+.cat-pbar{flex:1; height:5px; border-radius:99px; background:var(--surface2); overflow:hidden; position:relative;}
 .cat-pfill{height:100%; border-radius:99px; background:var(--accent-c,var(--accent)); transition:width .4s ease;}
 .cat-plabel{font-size:.73rem; color:var(--muted); white-space:nowrap;}
 
@@ -443,7 +495,7 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
     </div>
     <div class="topbar-right">
       <button class="theme-toggle" id="themeToggle" title="Toggle theme" aria-label="Toggle theme">🌙</button>
-      <div class="stats">Learned: <b id="learnedCount">0</b>/1000</div>
+      <div class="stats">Learned: <b id="learnedCount">0</b> · <span id="littleCount" style="color:var(--c1)">0</span> learning / <b id="totalCount">4000</b></div>
     </div>
   </div>
 </header>
@@ -459,6 +511,13 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
 
     <!-- BROWSE VIEW: section/category grid -->
     <div id="listBrowse">
+      <div class="headline-bar">
+        <button class="headline-btn active" data-headline="all">All</button>
+        <button class="headline-btn" data-headline="basic">🌱 Basic</button>
+        <button class="headline-btn" data-headline="intermediate">📈 Intermediate</button>
+        <button class="headline-btn" data-headline="advanced">🎓 Advanced</button>
+        <button class="headline-btn" data-headline="cefr">📊 CEFR Levels</button>
+      </div>
       <div class="browse-bar">
         <div class="search-row" style="position:relative;">
           <input type="search" id="browseSearch" placeholder="Search categories…">
@@ -467,9 +526,16 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
         <div class="filter-row">
           <span class="filter-label">Sort by CEFR</span>
           <button class="chip active" id="browseCefrAll">All</button>
+          <button class="chip" data-browse-cefr="A1">A1</button>
+          <button class="chip" data-browse-cefr="A1+">A1+</button>
+          <button class="chip" data-browse-cefr="A2">A2</button>
+          <button class="chip" data-browse-cefr="A2+">A2+</button>
           <button class="chip" data-browse-cefr="B1">B1</button>
+          <button class="chip" data-browse-cefr="B1+">B1+</button>
           <button class="chip" data-browse-cefr="B2">B2</button>
+          <button class="chip" data-browse-cefr="B2+">B2+</button>
           <button class="chip" data-browse-cefr="C1">C1</button>
+          <button class="chip" data-browse-cefr="C1+">C1+</button>
           <button class="chip" data-browse-cefr="C2">C2</button>
           <button class="chip" data-browse-cefr="C2+">C2+</button>
         </div>
@@ -497,9 +563,16 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
         <div class="filter-row">
           <span class="filter-label">CEFR</span>
           <button class="chip active" data-cat-cefr="all">All</button>
+          <button class="chip" data-cat-cefr="A1">A1</button>
+          <button class="chip" data-cat-cefr="A1+">A1+</button>
+          <button class="chip" data-cat-cefr="A2">A2</button>
+          <button class="chip" data-cat-cefr="A2+">A2+</button>
           <button class="chip" data-cat-cefr="B1">B1</button>
+          <button class="chip" data-cat-cefr="B1+">B1+</button>
           <button class="chip" data-cat-cefr="B2">B2</button>
+          <button class="chip" data-cat-cefr="B2+">B2+</button>
           <button class="chip" data-cat-cefr="C1">C1</button>
+          <button class="chip" data-cat-cefr="C1+">C1+</button>
           <button class="chip" data-cat-cefr="C2">C2</button>
           <button class="chip" data-cat-cefr="C2+">C2+</button>
         </div>
@@ -507,6 +580,7 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
           <span class="filter-label">Progress</span>
           <button class="chip active" data-cat-learned="all">All</button>
           <button class="chip" data-cat-learned="learned">Learned</button>
+          <button class="chip" data-cat-learned="little">Little Bit</button>
           <button class="chip" data-cat-learned="unlearned">Not Learned</button>
           <button class="clear-btn" id="clearCatFilters">Clear</button>
         </div>
@@ -532,16 +606,18 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
         <span class="filter-label">Progress</span>
         <button class="chip active" data-learned="all">All</button>
         <button class="chip" data-learned="learned">Learned</button>
+        <button class="chip" data-learned="little">Little Bit</button>
         <button class="chip" data-learned="unlearned">Not Learned</button>
       </div>
       <div class="filter-row">
         <span class="filter-label">CEFR Level</span>
         <button class="chip active" data-cefr="all">All</button>
-        <button class="chip" data-cefr="B1">B1</button>
-        <button class="chip" data-cefr="B2">B2</button>
-        <button class="chip" data-cefr="C1">C1</button>
-        <button class="chip" data-cefr="C2">C2</button>
-        <button class="chip" data-cefr="C2+">C2+</button>
+        <button class="chip" data-cefr="A1">A1</button><button class="chip" data-cefr="A1+">A1+</button>
+        <button class="chip" data-cefr="A2">A2</button><button class="chip" data-cefr="A2+">A2+</button>
+        <button class="chip" data-cefr="B1">B1</button><button class="chip" data-cefr="B1+">B1+</button>
+        <button class="chip" data-cefr="B2">B2</button><button class="chip" data-cefr="B2+">B2+</button>
+        <button class="chip" data-cefr="C1">C1</button><button class="chip" data-cefr="C1+">C1+</button>
+        <button class="chip" data-cefr="C2">C2</button><button class="chip" data-cefr="C2+">C2+</button>
         <button class="clear-btn" id="exClearFilters">Clear filters</button>
       </div>
     </div>
@@ -1922,6 +1998,429 @@ const ALL_PARTS = [
 {w:"Tackle",pos:"verb",cefr:"B1",def:"To make a determined effort to deal with a difficult problem or task.",syn:["address","confront","deal with","take on"],ant:["avoid","ignore","evade"],ex:"The new programme aims to <em>tackle</em> rising levels of childhood obesity.",gap:"The government has promised to ___ the housing crisis with a series of new measures."},
 ]},
 
+/* ══════════════════════════════════════════════════
+   BASIC CATEGORIES  (A1 → A2+, some B1/B1+)
+   headline: "basic"
+   ══════════════════════════════════════════════════ */
+
+{id:"core-action-verbs",name:"Core Action Verbs",icon:"⚡",theme:"tb",words:[
+{w:"be",pos:"verb",cefr:"A1",def:"To exist or have a quality.",syn:["exist","live","remain"],ant:["cease","disappear"],ex:"She wants to <em>be</em> a doctor one day."},
+{w:"have",pos:"verb",cefr:"A1",def:"To own or possess something.",syn:["own","possess","hold"],ant:["lack","want"],ex:"I <em>have</em> two brothers and one sister."},
+{w:"do",pos:"verb",cefr:"A1",def:"To perform an action or task.",syn:["perform","carry out","complete"],ant:["leave","skip"],ex:"She always <em>does</em> her homework before dinner."},
+{w:"go",pos:"verb",cefr:"A1",def:"To move or travel from one place to another.",syn:["travel","move","proceed"],ant:["stay","remain","come"],ex:"We <em>go</em> to the market every Saturday morning."},
+{w:"come",pos:"verb",cefr:"A1",def:"To move toward a place or person.",syn:["arrive","approach","appear"],ant:["go","leave","depart"],ex:"Please <em>come</em> to the front of the class."},
+{w:"get",pos:"verb",cefr:"A1",def:"To obtain, receive, or fetch something.",syn:["obtain","receive","fetch","gain"],ant:["give","lose"],ex:"I need to <em>get</em> some milk from the shop."},
+{w:"make",pos:"verb",cefr:"A1",def:"To create or produce something.",syn:["create","build","produce","form"],ant:["destroy","break","ruin"],ex:"My mother can <em>make</em> delicious bread."},
+{w:"know",pos:"verb",cefr:"A1",def:"To have information or understanding about something.",syn:["understand","realise","recognise"],ant:["ignore","misunderstand"],ex:"Do you <em>know</em> where the library is?"},
+{w:"think",pos:"verb",cefr:"A1",def:"To use your mind to consider something.",syn:["believe","consider","suppose","feel"],ant:["doubt","disbelieve"],ex:"I <em>think</em> the answer is forty-two."},
+{w:"see",pos:"verb",cefr:"A1",def:"To notice or observe with your eyes.",syn:["look at","observe","notice","spot"],ant:["miss","overlook"],ex:"Can you <em>see</em> the mountains from here?"},
+{w:"want",pos:"verb",cefr:"A1",def:"To feel a desire or wish for something.",syn:["desire","wish for","long for"],ant:["dislike","reject","refuse"],ex:"The children <em>want</em> ice cream after dinner."},
+{w:"give",pos:"verb",cefr:"A1",def:"To hand something to someone or provide it.",syn:["hand","pass","provide","offer"],ant:["take","receive","keep"],ex:"She <em>gave</em> me a birthday present."},
+{w:"take",pos:"verb",cefr:"A1",def:"To move something from one place to another; to accept.",syn:["carry","bring","grab","accept"],ant:["give","return","leave"],ex:"He <em>took</em> an umbrella because it was raining."},
+{w:"find",pos:"verb",cefr:"A1",def:"To discover or locate something.",syn:["discover","locate","spot","come across"],ant:["lose","misplace","miss"],ex:"I can't <em>find</em> my keys anywhere."},
+{w:"use",pos:"verb",cefr:"A1",def:"To employ something for a purpose.",syn:["employ","apply","utilise"],ant:["ignore","waste","avoid"],ex:"You can <em>use</em> my pen if you need one."},
+{w:"tell",pos:"verb",cefr:"A1",def:"To give information to someone in words.",syn:["say","inform","explain","describe"],ant:["hide","conceal","keep secret"],ex:"Please <em>tell</em> me what happened."},
+{w:"ask",pos:"verb",cefr:"A1",def:"To request information or help from someone.",syn:["question","query","request","enquire"],ant:["answer","reply","respond"],ex:"The student <em>asked</em> the teacher for help."},
+{w:"keep",pos:"verb",cefr:"A1",def:"To continue to have or hold something.",syn:["hold","retain","save","store"],ant:["lose","give away","return"],ex:"You can <em>keep</em> the book; I have another copy."},
+{w:"try",pos:"verb",cefr:"A1",def:"To make an effort to do something.",syn:["attempt","endeavour","aim","strive"],ant:["give up","quit","abandon"],ex:"Always <em>try</em> your best in every exam."},
+{w:"need",pos:"verb",cefr:"A1",def:"To require something because it is important or necessary.",syn:["require","want","must have"],ant:["have","possess"],ex:"Plants <em>need</em> water and sunlight to grow."},
+{w:"feel",pos:"verb",cefr:"A1",def:"To experience an emotion or physical sensation.",syn:["sense","experience","notice"],ant:["ignore","suppress"],ex:"I <em>feel</em> happy when I listen to music."},
+{w:"leave",pos:"verb",cefr:"A1",def:"To go away from a place or person.",syn:["depart","go","exit","quit"],ant:["arrive","come","stay","enter"],ex:"We <em>leave</em> school at three o'clock."},
+{w:"put",pos:"verb",cefr:"A1",def:"To move something to a position.",syn:["place","set","lay","position"],ant:["remove","take away","pick up"],ex:"<em>Put</em> your phone in your bag during the lesson."},
+{w:"turn",pos:"verb",cefr:"A1",def:"To rotate or change direction.",syn:["rotate","spin","twist","change direction"],ant:["continue straight","stay still"],ex:"<em>Turn</em> left at the traffic lights."},
+{w:"become",pos:"verb",cefr:"A1",def:"To begin to be something.",syn:["grow into","change into","develop into"],ant:["remain","stay"],ex:"She worked hard to <em>become</em> a nurse."},
+{w:"help",pos:"verb",cefr:"A1",def:"To make things easier for someone.",syn:["assist","support","aid"],ant:["hinder","obstruct","harm"],ex:"Can you <em>help</em> me carry these boxes?"},
+{w:"bring",pos:"verb",cefr:"A1",def:"To carry something with you to a place.",syn:["carry","take","fetch","deliver"],ant:["take away","remove","leave behind"],ex:"Please <em>bring</em> your books to class tomorrow."},
+{w:"show",pos:"verb",cefr:"A1",def:"To let someone see something.",syn:["display","present","reveal","demonstrate"],ant:["hide","conceal"],ex:"Can you <em>show</em> me how to use this app?"},
+{w:"call",pos:"verb",cefr:"A1",def:"To phone someone; to shout or name.",syn:["phone","ring","contact","name"],ant:["ignore","disconnect"],ex:"I will <em>call</em> you when I arrive home."},
+{w:"let",pos:"verb",cefr:"A1",def:"To allow someone to do something.",syn:["allow","permit","enable"],ant:["forbid","prevent","stop"],ex:"My parents <em>let</em> me stay up late on weekends."},
+]},
+
+{id:"everyday-verbs-ii",name:"Everyday Verbs II",icon:"🔄",theme:"tc",words:[
+{w:"open",pos:"verb",cefr:"A1",def:"To move something so it is no longer closed.",syn:["unlock","unseal","unfasten"],ant:["close","shut","seal","lock"],ex:"<em>Open</em> the window — it's very hot in here."},
+{w:"close",pos:"verb",cefr:"A1",def:"To shut something so it is no longer open.",syn:["shut","seal","fasten","lock"],ant:["open","unlock","unseal"],ex:"Please <em>close</em> the door when you leave."},
+{w:"start",pos:"verb",cefr:"A1",def:"To begin something.",syn:["begin","commence","initiate"],ant:["stop","finish","end"],ex:"The film will <em>start</em> at seven o'clock."},
+{w:"stop",pos:"verb",cefr:"A1",def:"To cease moving or doing something.",syn:["cease","halt","end","finish"],ant:["start","begin","continue"],ex:"The bus <em>stopped</em> in front of the school."},
+{w:"sit",pos:"verb",cefr:"A1",def:"To lower your body onto a seat.",syn:["be seated","settle","rest"],ant:["stand","rise","get up"],ex:"Please <em>sit</em> down and be quiet."},
+{w:"stand",pos:"verb",cefr:"A1",def:"To be upright on your feet.",syn:["rise","get up","be upright"],ant:["sit","lie","kneel"],ex:"Everyone <em>stood</em> up when the principal entered."},
+{w:"walk",pos:"verb",cefr:"A1",def:"To move on foot at a normal pace.",syn:["stroll","march","stride"],ant:["run","stop","drive"],ex:"I <em>walk</em> to school every morning."},
+{w:"run",pos:"verb",cefr:"A1",def:"To move on foot at speed.",syn:["sprint","jog","rush","dash"],ant:["walk","crawl","stop"],ex:"She <em>ran</em> to catch the bus."},
+{w:"eat",pos:"verb",cefr:"A1",def:"To put food in your mouth and swallow it.",syn:["consume","have","devour"],ant:["skip","fast","starve"],ex:"We <em>eat</em> dinner together as a family."},
+{w:"drink",pos:"verb",cefr:"A1",def:"To swallow a liquid.",syn:["consume","sip","swallow"],ant:["pour","spill"],ex:"Remember to <em>drink</em> plenty of water."},
+{w:"sleep",pos:"verb",cefr:"A1",def:"To rest with your eyes closed and mind unconscious.",syn:["rest","doze","slumber","nap"],ant:["wake","rise","stay awake"],ex:"Children need at least nine hours of <em>sleep</em>."},
+{w:"wake",pos:"verb",cefr:"A1",def:"To stop sleeping and become conscious.",syn:["arise","get up","rouse"],ant:["sleep","doze","rest"],ex:"I <em>wake</em> up at seven every morning."},
+{w:"read",pos:"verb",cefr:"A1",def:"To look at and understand written words.",syn:["study","peruse","browse"],ant:["write","ignore"],ex:"She loves to <em>read</em> adventure stories."},
+{w:"write",pos:"verb",cefr:"A1",def:"To make letters and words on a surface.",syn:["compose","note down","record","draft"],ant:["read","speak","erase"],ex:"Please <em>write</em> your name at the top of the page."},
+{w:"play",pos:"verb",cefr:"A1",def:"To do an activity for fun; to take part in a sport.",syn:["enjoy","take part in","participate in"],ant:["work","study","practise seriously"],ex:"The children <em>play</em> in the park after school."},
+{w:"work",pos:"verb",cefr:"A1",def:"To do a job or task.",syn:["labour","function","operate","toil"],ant:["rest","play","relax"],ex:"My father <em>works</em> at a hospital."},
+{w:"cook",pos:"verb",cefr:"A1",def:"To prepare food using heat.",syn:["prepare","make","bake","fry"],ant:["eat raw","order"],ex:"My grandmother <em>cooks</em> wonderful food."},
+{w:"clean",pos:"verb",cefr:"A1",def:"To remove dirt from something.",syn:["wash","tidy","scrub","wipe"],ant:["dirty","mess up","pollute"],ex:"Please <em>clean</em> your room before dinner."},
+{w:"buy",pos:"verb",cefr:"A1",def:"To pay money to get something.",syn:["purchase","obtain","get","acquire"],ant:["sell","return","give away"],ex:"I want to <em>buy</em> a new pair of trainers."},
+{w:"sell",pos:"verb",cefr:"A1",def:"To give something to someone in exchange for money.",syn:["trade","offer for sale","deal in"],ant:["buy","keep","purchase"],ex:"They <em>sell</em> fresh vegetables at the market."},
+{w:"pay",pos:"verb",cefr:"A1",def:"To give money for goods or a service.",syn:["spend","settle","discharge"],ant:["owe","borrow","receive"],ex:"Can I <em>pay</em> by card?"},
+{w:"listen",pos:"verb",cefr:"A1",def:"To pay attention to a sound.",syn:["hear","attend to","pay attention"],ant:["ignore","tune out"],ex:"Please <em>listen</em> carefully to the instructions."},
+{w:"draw",pos:"verb",cefr:"A1",def:"To make a picture with a pen or pencil.",syn:["sketch","illustrate","trace","design"],ant:["erase","paint over"],ex:"She can <em>draw</em> really lifelike portraits."},
+{w:"cut",pos:"verb",cefr:"A1",def:"To use a knife or scissors to divide something.",syn:["slice","chop","trim","snip"],ant:["join","attach","glue"],ex:"<em>Cut</em> the paper along the dotted line."},
+{w:"break",pos:"verb",cefr:"A1",def:"To separate something into pieces by force.",syn:["smash","crack","shatter","snap"],ant:["fix","repair","mend"],ex:"He accidentally <em>broke</em> the vase."},
+{w:"wash",pos:"verb",cefr:"A1",def:"To clean something using water.",syn:["rinse","scrub","clean","bathe"],ant:["dirty","soil"],ex:"Always <em>wash</em> your hands before eating."},
+{w:"drive",pos:"verb",cefr:"A1",def:"To operate a vehicle.",syn:["operate","steer","pilot"],ant:["walk","cycle"],ex:"My sister learned to <em>drive</em> last year."},
+{w:"swim",pos:"verb",cefr:"A1",def:"To move through water using your body.",syn:["float","paddle","dive"],ant:["sink","drown","stand"],ex:"We <em>swim</em> in the sea every summer."},
+{w:"jump",pos:"verb",cefr:"A1",def:"To push yourself off the ground into the air.",syn:["leap","spring","hop","bound"],ant:["crouch","land","stay"],ex:"The children love to <em>jump</em> into the swimming pool."},
+{w:"carry",pos:"verb",cefr:"A1",def:"To hold and move something from one place to another.",syn:["transport","hold","bear","lift"],ant:["drop","leave","put down"],ex:"Can you <em>carry</em> the shopping bags?"},
+]},
+
+{id:"movement-position-verbs",name:"Movement & Position Verbs",icon:"🏃",theme:"tg",words:[
+{w:"arrive",pos:"verb",cefr:"A1",def:"To reach a place.",syn:["reach","get to","turn up"],ant:["leave","depart","go"],ex:"What time does the train <em>arrive</em>?"},
+{w:"leave",pos:"verb",cefr:"A1",def:"To go away from somewhere.",syn:["depart","go","exit","set off"],ant:["arrive","come","stay"],ex:"The bus <em>leaves</em> at half past eight."},
+{w:"enter",pos:"verb",cefr:"A1",def:"To go into a place.",syn:["go in","come in","step inside"],ant:["exit","leave","go out"],ex:"Please <em>enter</em> the room quietly."},
+{w:"exit",pos:"verb",cefr:"A2",def:"To go out of a place.",syn:["leave","go out","depart","come out"],ant:["enter","arrive","come in"],ex:"Please <em>exit</em> through the main door."},
+{w:"move",pos:"verb",cefr:"A1",def:"To change position or go from one place to another.",syn:["shift","transfer","go","travel"],ant:["stay","remain","stop"],ex:"Please <em>move</em> your chair to the other side of the room."},
+{w:"return",pos:"verb",cefr:"A2",def:"To come or go back to a place.",syn:["come back","go back","get back"],ant:["leave","stay","go"],ex:"She will <em>return</em> from holiday on Friday."},
+{w:"follow",pos:"verb",cefr:"A2",def:"To go behind someone or in the same direction.",syn:["go after","chase","pursue","track"],ant:["lead","precede","avoid"],ex:"Just <em>follow</em> the path and you'll reach the beach."},
+{w:"pass",pos:"verb",cefr:"A2",def:"To go past something; to succeed in an exam.",syn:["go by","overtake","cross","succeed"],ant:["fail","stop","block"],ex:"We <em>passed</em> the old cinema on our way here."},
+{w:"cross",pos:"verb",cefr:"A2",def:"To go from one side to the other.",syn:["go across","traverse","pass over"],ant:["stay on one side","turn back"],ex:"Be careful when you <em>cross</em> the road."},
+{w:"climb",pos:"verb",cefr:"A2",def:"To go upward, especially using your hands and feet.",syn:["ascend","scale","go up","mount"],ant:["descend","go down","climb down"],ex:"We <em>climbed</em> to the top of the hill."},
+{w:"fall",pos:"verb",cefr:"A1",def:"To drop down from a higher position.",syn:["drop","tumble","trip","collapse"],ant:["rise","climb","stand up"],ex:"The leaves <em>fall</em> from the trees in autumn."},
+{w:"lift",pos:"verb",cefr:"A2",def:"To raise something to a higher position.",syn:["raise","pick up","hoist","elevate"],ant:["lower","drop","put down"],ex:"Can you help me <em>lift</em> this box?"},
+{w:"push",pos:"verb",cefr:"A1",def:"To press against something to move it away.",syn:["press","shove","propel","thrust"],ant:["pull","drag"],ex:"You have to <em>push</em> the door to open it."},
+{w:"pull",pos:"verb",cefr:"A1",def:"To draw something toward you.",syn:["drag","tug","haul","draw"],ant:["push","shove"],ex:"<em>Pull</em> the handle to open the drawer."},
+{w:"hang",pos:"verb",cefr:"A2",def:"To attach something at the top so it is suspended below.",syn:["suspend","attach","fix"],ant:["take down","remove"],ex:"Please <em>hang</em> your coat on the hook."},
+{w:"drop",pos:"verb",cefr:"A2",def:"To let something fall.",syn:["let fall","release","lower","tumble"],ant:["catch","hold","keep","pick up"],ex:"She <em>dropped</em> her keys on the floor."},
+{w:"pick up",pos:"verb",cefr:"A2",def:"To lift something from the ground or a surface.",syn:["collect","grab","gather","retrieve"],ant:["drop","put down","leave"],ex:"Please <em>pick up</em> your clothes from the floor."},
+{w:"turn",pos:"verb",cefr:"A1",def:"To change direction; to rotate.",syn:["rotate","spin","change direction","go around"],ant:["go straight","stop"],ex:"<em>Turn</em> right after the post office."},
+{w:"point",pos:"verb",cefr:"A2",def:"To indicate direction by extending your finger.",syn:["indicate","direct","show","gesture toward"],ant:["ignore","hide"],ex:"She <em>pointed</em> to the sign on the wall."},
+{w:"lean",pos:"verb",cefr:"A2",def:"To incline or rest against something.",syn:["rest","tilt","incline","prop"],ant:["stand straight","support yourself"],ex:"Don't <em>lean</em> back too far on that chair."},
+{w:"reach",pos:"verb",cefr:"A2",def:"To stretch out and touch something; to arrive somewhere.",syn:["extend to","get to","arrive at","touch"],ant:["miss","fall short of"],ex:"Can you <em>reach</em> the top shelf?"},
+{w:"approach",pos:"verb",cefr:"A2",def:"To come nearer to something or someone.",syn:["come near","draw closer","advance toward"],ant:["retreat","move away","go back"],ex:"A man <em>approached</em> us and asked for directions."},
+{w:"search",pos:"verb",cefr:"A2",def:"To look carefully for something.",syn:["look for","hunt for","seek","explore"],ant:["ignore","find","stop looking"],ex:"I <em>searched</em> everywhere for my phone."},
+{w:"hide",pos:"verb",cefr:"A2",def:"To put yourself or something where it cannot be seen.",syn:["conceal","cover","disguise"],ant:["reveal","show","expose"],ex:"The cat <em>hid</em> under the bed during the thunderstorm."},
+{w:"catch",pos:"verb",cefr:"A2",def:"To grab something that is moving; to get an illness.",syn:["grab","seize","trap","intercept"],ant:["drop","miss","release"],ex:"She <em>caught</em> the ball with one hand."},
+{w:"throw",pos:"verb",cefr:"A2",def:"To propel something through the air.",syn:["toss","hurl","fling","pitch"],ant:["catch","hold","keep"],ex:"<em>Throw</em> the ball to me!"},
+{w:"land",pos:"verb",cefr:"A2",def:"To come down to the ground after moving through the air.",syn:["touch down","arrive","settle","descend"],ant:["take off","fly","rise"],ex:"The plane <em>lands</em> at eleven o'clock."},
+{w:"sit down",pos:"verb",cefr:"A1",def:"To move to a sitting position.",syn:["be seated","take a seat","settle"],ant:["stand up","rise"],ex:"Please <em>sit down</em> and wait for your name."},
+{w:"stand up",pos:"verb",cefr:"A1",def:"To rise from a sitting or lying position.",syn:["rise","get up","arise"],ant:["sit down","lie down"],ex:"Everyone <em>stood up</em> when the anthem began."},
+{w:"lie down",pos:"verb",cefr:"A2",def:"To put your body in a flat horizontal position.",syn:["recline","rest","stretch out"],ant:["stand up","sit up"],ex:"The doctor told him to <em>lie down</em> and rest."},
+]},
+
+{id:"communication-basic",name:"Communication Basics",icon:"💬",theme:"tv",words:[
+{w:"say",pos:"verb",cefr:"A1",def:"To speak words; to express something in words.",syn:["speak","state","utter","express"],ant:["be silent","stay quiet"],ex:"What did she <em>say</em>?"},
+{w:"speak",pos:"verb",cefr:"A1",def:"To say words; to be able to use a language.",syn:["talk","communicate","address","utter"],ant:["be quiet","listen","stay silent"],ex:"He can <em>speak</em> three languages."},
+{w:"talk",pos:"verb",cefr:"A1",def:"To communicate with someone by speaking.",syn:["chat","discuss","converse","speak"],ant:["listen","be silent","write"],ex:"We <em>talked</em> for hours at the café."},
+{w:"answer",pos:"verb",cefr:"A1",def:"To respond to a question or message.",syn:["reply","respond","react"],ant:["ask","question","ignore"],ex:"Please <em>answer</em> the question in full sentences."},
+{w:"reply",pos:"verb",cefr:"A2",def:"To say or write something in response.",syn:["respond","answer","write back"],ant:["ask","ignore","stay silent"],ex:"She didn't <em>reply</em> to my email."},
+{w:"explain",pos:"verb",cefr:"A2",def:"To make something easier to understand.",syn:["describe","clarify","illustrate","teach"],ant:["confuse","complicate","conceal"],ex:"Can you <em>explain</em> how this machine works?"},
+{w:"describe",pos:"verb",cefr:"A2",def:"To say or write what something or someone is like.",syn:["depict","portray","explain","detail"],ant:["conceal","hide","ignore"],ex:"<em>Describe</em> your home town in a few sentences."},
+{w:"ask",pos:"verb",cefr:"A1",def:"To put a question to someone; to request something.",syn:["question","enquire","request","query"],ant:["answer","reply","respond"],ex:"She <em>asked</em> me if I wanted a cup of tea."},
+{w:"agree",pos:"verb",cefr:"A2",def:"To have the same opinion; to say yes to something.",syn:["consent","concur","accept","approve"],ant:["disagree","refuse","object"],ex:"We all <em>agreed</em> to meet at eight o'clock."},
+{w:"disagree",pos:"verb",cefr:"A2",def:"To have a different opinion from someone else.",syn:["differ","object","dispute","argue"],ant:["agree","accept","approve"],ex:"I <em>disagree</em> with your conclusion."},
+{w:"understand",pos:"verb",cefr:"A1",def:"To know the meaning of something.",syn:["comprehend","grasp","follow","realise"],ant:["misunderstand","confuse","miss"],ex:"Do you <em>understand</em> the instructions?"},
+{w:"repeat",pos:"verb",cefr:"A2",def:"To say or do something again.",syn:["say again","redo","reiterate","restate"],ant:["stop","vary","change"],ex:"Could you please <em>repeat</em> that more slowly?"},
+{w:"suggest",pos:"verb",cefr:"A2",def:"To put forward an idea for someone to consider.",syn:["recommend","propose","advise","hint"],ant:["demand","order","insist"],ex:"She <em>suggested</em> going to the park."},
+{w:"invite",pos:"verb",cefr:"A2",def:"To ask someone to come to an event.",syn:["ask","request","welcome","summon"],ant:["exclude","reject","ban"],ex:"They <em>invited</em> all their friends to the party."},
+{w:"apologise",pos:"verb",cefr:"A2",def:"To say sorry for something you have done.",syn:["say sorry","express regret","make an apology"],ant:["excuse yourself","justify","blame others"],ex:"He <em>apologised</em> for arriving late."},
+{w:"thank",pos:"verb",cefr:"A1",def:"To express gratitude to someone.",syn:["express thanks","be grateful","appreciate"],ant:["blame","criticise","ignore"],ex:"Don't forget to <em>thank</em> your teacher."},
+{w:"greet",pos:"verb",cefr:"A2",def:"To welcome or acknowledge someone you meet.",syn:["welcome","say hello to","meet","address"],ant:["ignore","snub","avoid"],ex:"She <em>greeted</em> every student with a warm smile."},
+{w:"introduce",pos:"verb",cefr:"A2",def:"To tell someone another person's name for the first time.",syn:["present","name","acquaint"],ant:["hide","keep apart"],ex:"Let me <em>introduce</em> my colleague, Marcos."},
+{w:"promise",pos:"verb",cefr:"A2",def:"To say you will definitely do something.",syn:["pledge","vow","give your word","commit"],ant:["break a promise","refuse","deny"],ex:"He <em>promised</em> to call as soon as he arrived."},
+{w:"warn",pos:"verb",cefr:"A2",def:"To tell someone about a danger or problem in advance.",syn:["alert","caution","notify","advise"],ant:["hide","conceal","ignore"],ex:"The teacher <em>warned</em> us about the difficult exam."},
+{w:"remind",pos:"verb",cefr:"A2",def:"To make someone remember something.",syn:["prompt","jog someone's memory","notify"],ant:["forget","let slip"],ex:"Can you <em>remind</em> me to buy bread?"},
+{w:"complain",pos:"verb",cefr:"A2",def:"To say you are unhappy about something.",syn:["moan","protest","grumble","object"],ant:["accept","praise","compliment"],ex:"Several customers <em>complained</em> about the slow service."},
+{w:"message",pos:"verb",cefr:"A2",def:"To send a digital text to someone.",syn:["text","contact","send a note"],ant:["phone","call","ignore"],ex:"<em>Message</em> me when you get home safely."},
+{w:"share",pos:"verb",cefr:"A2",def:"To give part of something to others; to post online.",syn:["divide","distribute","post","send"],ant:["keep","hoard","hide"],ex:"Please <em>share</em> the document with the whole class."},
+{w:"discuss",pos:"verb",cefr:"A2",def:"To talk about a topic with other people.",syn:["talk about","debate","chat about","consider"],ant:["avoid","ignore","stay silent"],ex:"We <em>discussed</em> the plans for the school trip."},
+]},
+
+{id:"family-people",name:"Family & People",icon:"👨‍👩‍👧‍👦",theme:"tp",words:[
+{w:"mother",pos:"noun",cefr:"A1",def:"A female parent.",syn:["mum","mam","mama","parent"],ant:["father"],ex:"My <em>mother</em> is a nurse."},
+{w:"father",pos:"noun",cefr:"A1",def:"A male parent.",syn:["dad","papa","parent"],ant:["mother"],ex:"His <em>father</em> taught him to ride a bike."},
+{w:"sister",pos:"noun",cefr:"A1",def:"A girl or woman who has the same parents as you.",syn:["sibling"],ant:["brother"],ex:"My <em>sister</em> is two years older than me."},
+{w:"brother",pos:"noun",cefr:"A1",def:"A boy or man who has the same parents as you.",syn:["sibling"],ant:["sister"],ex:"He has one <em>brother</em> and no sisters."},
+{w:"child",pos:"noun",cefr:"A1",def:"A young person below the age of about twelve.",syn:["kid","youngster","boy","girl"],ant:["adult","grown-up"],ex:"Every <em>child</em> deserves a good education."},
+{w:"baby",pos:"noun",cefr:"A1",def:"A very young child or animal.",syn:["infant","newborn","toddler"],ant:["adult","teenager"],ex:"The <em>baby</em> smiled for the first time today."},
+{w:"son",pos:"noun",cefr:"A1",def:"A male child in relation to his parents.",syn:["boy child","male offspring"],ant:["daughter"],ex:"Their <em>son</em> just started university."},
+{w:"daughter",pos:"noun",cefr:"A1",def:"A female child in relation to her parents.",syn:["girl child","female offspring"],ant:["son"],ex:"She has two <em>daughters</em> and one son."},
+{w:"grandmother",pos:"noun",cefr:"A1",def:"The mother of your parent.",syn:["grandma","granny","nana"],ant:["grandfather"],ex:"My <em>grandmother</em> makes the best soup."},
+{w:"grandfather",pos:"noun",cefr:"A1",def:"The father of your parent.",syn:["grandad","grandpa","pops"],ant:["grandmother"],ex:"My <em>grandfather</em> fought in the war."},
+{w:"uncle",pos:"noun",cefr:"A1",def:"The brother of your parent.",syn:["relative","family member"],ant:["aunt"],ex:"My <em>uncle</em> lives in Canada."},
+{w:"aunt",pos:"noun",cefr:"A1",def:"The sister of your parent.",syn:["relative","family member"],ant:["uncle"],ex:"My <em>aunt</em> is a brilliant artist."},
+{w:"cousin",pos:"noun",cefr:"A1",def:"A child of your aunt or uncle.",syn:["relative","extended family"],ant:[],ex:"I have five <em>cousins</em> on my mother's side."},
+{w:"husband",pos:"noun",cefr:"A1",def:"A married man in relation to his wife.",syn:["spouse","partner"],ant:["wife"],ex:"Her <em>husband</em> is a chef."},
+{w:"wife",pos:"noun",cefr:"A1",def:"A married woman in relation to her husband.",syn:["spouse","partner"],ant:["husband"],ex:"His <em>wife</em> is a dentist."},
+{w:"friend",pos:"noun",cefr:"A1",def:"A person you know and like and who likes you.",syn:["companion","pal","buddy","mate"],ant:["enemy","stranger","foe"],ex:"She is my best <em>friend</em>."},
+{w:"neighbour",pos:"noun",cefr:"A1",def:"A person who lives next to or near you.",syn:["next-door person","local"],ant:["stranger","outsider"],ex:"My <em>neighbour</em> always helps me with my garden."},
+{w:"colleague",pos:"noun",cefr:"A2",def:"A person you work with.",syn:["workmate","co-worker","fellow","associate"],ant:["competitor","rival"],ex:"I went to lunch with a <em>colleague</em> from the office."},
+{w:"classmate",pos:"noun",cefr:"A1",def:"A person in the same class at school.",syn:["schoolmate","fellow student","peer"],ant:["teacher"],ex:"One of my <em>classmates</em> won a science competition."},
+{w:"partner",pos:"noun",cefr:"A2",def:"A person you are married to or in a relationship with; a business associate.",syn:["spouse","companion","associate","colleague"],ant:["rival","opponent"],ex:"She introduced us to her new <em>partner</em>."},
+{w:"person",pos:"noun",cefr:"A1",def:"An individual human being.",syn:["human","individual","man","woman"],ant:["animal","object"],ex:"There was only one <em>person</em> in the waiting room."},
+{w:"adult",pos:"noun",cefr:"A2",def:"A fully grown person.",syn:["grown-up","mature person"],ant:["child","minor"],ex:"The ticket is free for children but costs five pounds for each <em>adult</em>."},
+{w:"teenager",pos:"noun",cefr:"A2",def:"A person aged between thirteen and nineteen.",syn:["youth","adolescent","teen"],ant:["adult","child"],ex:"The café is popular with <em>teenagers</em>."},
+{w:"stranger",pos:"noun",cefr:"A2",def:"A person you do not know.",syn:["outsider","newcomer","unknown person"],ant:["friend","acquaintance","relative"],ex:"Never get into a car with a <em>stranger</em>."},
+{w:"twin",pos:"noun",cefr:"A2",def:"One of two children born to the same mother at the same time.",syn:["double","match","pair"],ant:[],ex:"She and her <em>twin</em> sister look exactly alike."},
+{w:"relative",pos:"noun",cefr:"A2",def:"A member of your family.",syn:["family member","relation","kin"],ant:["stranger","non-family"],ex:"We are visiting <em>relatives</em> this weekend."},
+{w:"couple",pos:"noun",cefr:"A2",def:"Two people in a romantic relationship; approximately two of something.",syn:["pair","two","duo","partners"],ant:["individual","single"],ex:"The <em>couple</em> danced together all evening."},
+{w:"guest",pos:"noun",cefr:"A2",def:"A person who is invited to your home or an event.",syn:["visitor","invitee","caller"],ant:["host","owner"],ex:"We have three <em>guests</em> coming for dinner tonight."},
+{w:"host",pos:"noun",cefr:"A2",def:"A person who welcomes and looks after guests.",syn:["organiser","entertainer","presenter"],ant:["guest","visitor"],ex:"The <em>host</em> greeted every arrival with a drink."},
+{w:"member",pos:"noun",cefr:"A2",def:"A person who belongs to a group or organisation.",syn:["participant","associate","fellow","affiliate"],ant:["non-member","outsider"],ex:"Only <em>members</em> can use the gym facilities."},
+]},
+
+{id:"describing-people-basic",name:"Describing People",icon:"🪞",theme:"tro",words:[
+{w:"tall",pos:"adj",cefr:"A1",def:"Greater than average height.",syn:["high","large","big"],ant:["short","small","petite"],ex:"He is very <em>tall</em> — nearly two metres."},
+{w:"short",pos:"adj",cefr:"A1",def:"Less than average height.",syn:["small","petite","little","low"],ant:["tall","high"],ex:"She is <em>short</em> but very strong."},
+{w:"young",pos:"adj",cefr:"A1",def:"Having lived for only a short time.",syn:["youthful","junior","new"],ant:["old","elderly","mature"],ex:"The teacher is very <em>young</em>."},
+{w:"old",pos:"adj",cefr:"A1",def:"Having lived or existed for a long time.",syn:["elderly","aged","senior","mature"],ant:["young","new","modern"],ex:"My grandmother is eighty years <em>old</em>."},
+{w:"thin",pos:"adj",cefr:"A1",def:"Having a small body with little fat.",syn:["slim","slender","lean","slight"],ant:["fat","overweight","heavy"],ex:"He became very <em>thin</em> after his illness."},
+{w:"fat",pos:"adj",cefr:"A1",def:"Having a large amount of body fat.",syn:["overweight","chubby","heavy","large"],ant:["thin","slim","lean"],ex:"The cat is very <em>fat</em> because he eats too much."},
+{w:"strong",pos:"adj",cefr:"A1",def:"Having great physical power.",syn:["powerful","muscular","fit","tough"],ant:["weak","frail","feeble"],ex:"You need to be <em>strong</em> to carry those boxes."},
+{w:"weak",pos:"adj",cefr:"A2",def:"Not physically strong; not effective.",syn:["frail","feeble","delicate"],ant:["strong","powerful","fit"],ex:"She felt <em>weak</em> after being ill for a week."},
+{w:"beautiful",pos:"adj",cefr:"A1",def:"Very attractive in appearance.",syn:["lovely","gorgeous","pretty","stunning"],ant:["ugly","plain","unattractive"],ex:"What a <em>beautiful</em> sunset!"},
+{w:"handsome",pos:"adj",cefr:"A2",def:"Good-looking, especially of a man.",syn:["attractive","good-looking","striking"],ant:["unattractive","plain","ugly"],ex:"He is very <em>handsome</em>."},
+{w:"kind",pos:"adj",cefr:"A1",def:"Caring and generous toward others.",syn:["friendly","caring","generous","gentle","warm"],ant:["unkind","cruel","selfish","mean"],ex:"She is the kindest person I know."},
+{w:"friendly",pos:"adj",cefr:"A1",def:"Behaving in a nice and warm way toward others.",syn:["warm","welcoming","sociable","pleasant"],ant:["unfriendly","cold","hostile"],ex:"Everyone in the class is very <em>friendly</em>."},
+{w:"funny",pos:"adj",cefr:"A1",def:"Making people laugh.",syn:["amusing","humorous","comical","entertaining"],ant:["serious","dull","boring"],ex:"He tells the most <em>funny</em> stories."},
+{w:"serious",pos:"adj",cefr:"A2",def:"Not joking; important or solemn.",syn:["earnest","grave","important","sincere"],ant:["funny","light-hearted","silly"],ex:"She looked very <em>serious</em> during the meeting."},
+{w:"clever",pos:"adj",cefr:"A2",def:"Quick to learn and understand things; intelligent.",syn:["smart","intelligent","bright","talented"],ant:["stupid","unintelligent","slow"],ex:"What a <em>clever</em> idea!"},
+{w:"shy",pos:"adj",cefr:"A2",def:"Nervous about meeting or talking to new people.",syn:["timid","bashful","reserved","quiet"],ant:["confident","bold","outgoing"],ex:"He was too <em>shy</em> to ask for help."},
+{w:"brave",pos:"adj",cefr:"A2",def:"Willing to do dangerous or difficult things.",syn:["courageous","bold","fearless","daring"],ant:["cowardly","timid","fearful"],ex:"It was very <em>brave</em> of her to speak in public."},
+{w:"quiet",pos:"adj",cefr:"A1",def:"Making little or no noise.",syn:["silent","peaceful","calm","still"],ant:["loud","noisy","talkative"],ex:"Please be <em>quiet</em> in the library."},
+{w:"noisy",pos:"adj",cefr:"A1",def:"Making a lot of loud sound.",syn:["loud","rowdy","boisterous","disruptive"],ant:["quiet","silent","calm"],ex:"The children are very <em>noisy</em> today."},
+{w:"honest",pos:"adj",cefr:"A2",def:"Always telling the truth.",syn:["truthful","sincere","trustworthy","frank"],ant:["dishonest","deceitful","lying"],ex:"She is very <em>honest</em> — she returned the wallet."},
+{w:"lazy",pos:"adj",cefr:"A2",def:"Not willing to work or be active.",syn:["idle","inactive","sluggish"],ant:["hard-working","energetic","active"],ex:"Don't be <em>lazy</em> — help with the washing up!"},
+{w:"polite",pos:"adj",cefr:"A2",def:"Behaving in a correct and respectful way.",syn:["courteous","well-mannered","respectful","civil"],ant:["rude","impolite","disrespectful"],ex:"Always be <em>polite</em> to your elders."},
+{w:"rude",pos:"adj",cefr:"A2",def:"Behaving in a way that is offensive or disrespectful.",syn:["impolite","disrespectful","discourteous","insolent"],ant:["polite","respectful","courteous"],ex:"It is very <em>rude</em> to talk with your mouth full."},
+{w:"patient",pos:"adj",cefr:"A2",def:"Able to wait without getting angry or upset.",syn:["calm","tolerant","understanding","steady"],ant:["impatient","irritable","hasty"],ex:"Good teachers are always <em>patient</em> with their students."},
+{w:"generous",pos:"adj",cefr:"A2",def:"Happy to give more than expected.",syn:["giving","kind","open-handed","unselfish"],ant:["selfish","stingy","mean"],ex:"She is very <em>generous</em> with her time and money."},
+{w:"selfish",pos:"adj",cefr:"A2",def:"Only thinking about yourself and not others.",syn:["self-centred","greedy","inconsiderate"],ant:["generous","kind","unselfish"],ex:"Don't be so <em>selfish</em> — share the sweets!"},
+{w:"confident",pos:"adj",cefr:"A2",def:"Feeling sure about your own abilities.",syn:["self-assured","bold","certain","positive"],ant:["shy","uncertain","insecure"],ex:"She gave a very <em>confident</em> presentation."},
+{w:"active",pos:"adj",cefr:"A2",def:"Doing a lot of things; moving around.",syn:["energetic","busy","lively","sporty"],ant:["lazy","inactive","sedentary"],ex:"Try to stay <em>active</em> and exercise regularly."},
+{w:"smart",pos:"adj",cefr:"A2",def:"Intelligent; also, clean and tidy in appearance.",syn:["clever","intelligent","neat","well-dressed"],ant:["dull","scruffy","unintelligent"],ex:"That was a very <em>smart</em> decision."},
+{w:"gentle",pos:"adj",cefr:"A2",def:"Calm, soft, and kind in manner.",syn:["tender","mild","soft","careful"],ant:["rough","harsh","aggressive"],ex:"Be <em>gentle</em> with the baby."},
+{w:"talented",pos:"adj",cefr:"A2",def:"Having a natural ability to do something well.",syn:["gifted","skilled","able","capable"],ant:["untalented","unskilled","mediocre"],ex:"She is a very <em>talented</em> musician."},
+]},
+
+{id:"feelings-emotions-basic",name:"Feelings & Emotions",icon:"😊",theme:"ta",words:[
+{w:"happy",pos:"adj",cefr:"A1",def:"Feeling or showing pleasure and contentment.",syn:["cheerful","pleased","joyful","delighted"],ant:["sad","unhappy","miserable"],ex:"I feel very <em>happy</em> today."},
+{w:"sad",pos:"adj",cefr:"A1",def:"Feeling unhappy or sorrowful.",syn:["unhappy","miserable","upset","sorrowful"],ant:["happy","cheerful","joyful"],ex:"She was <em>sad</em> when her friend moved away."},
+{w:"angry",pos:"adj",cefr:"A1",def:"Feeling or showing strong displeasure.",syn:["cross","furious","annoyed","irritated","mad"],ant:["calm","happy","pleased"],ex:"He was very <em>angry</em> when he found out."},
+{w:"scared",pos:"adj",cefr:"A1",def:"Feeling frightened or afraid.",syn:["afraid","frightened","terrified","fearful"],ant:["brave","calm","confident"],ex:"The child was <em>scared</em> of the dark."},
+{w:"excited",pos:"adj",cefr:"A1",def:"Feeling enthusiastic and eager.",syn:["thrilled","eager","enthusiastic","delighted"],ant:["bored","calm","indifferent"],ex:"We are all very <em>excited</em> about the trip."},
+{w:"bored",pos:"adj",cefr:"A1",def:"Feeling uninterested because there is nothing to do.",syn:["uninterested","restless","fed up","dull"],ant:["excited","interested","entertained","engaged"],ex:"The lesson was so long that I was really <em>bored</em>."},
+{w:"tired",pos:"adj",cefr:"A1",def:"In need of rest or sleep.",syn:["exhausted","sleepy","weary","worn out"],ant:["energetic","fresh","alert"],ex:"I am too <em>tired</em> to go out tonight."},
+{w:"surprised",pos:"adj",cefr:"A1",def:"Feeling astonishment at something unexpected.",syn:["astonished","shocked","amazed","startled"],ant:["unsurprised","expecting","calm"],ex:"She looked completely <em>surprised</em> by the gift."},
+{w:"worried",pos:"adj",cefr:"A2",def:"Feeling anxious or concerned about something.",syn:["anxious","concerned","nervous","uneasy"],ant:["calm","relaxed","carefree"],ex:"I am <em>worried</em> about my driving test."},
+{w:"nervous",pos:"adj",cefr:"A2",def:"Feeling slightly frightened or anxious.",syn:["anxious","tense","uneasy","apprehensive"],ant:["calm","confident","relaxed"],ex:"He was very <em>nervous</em> before the interview."},
+{w:"calm",pos:"adj",cefr:"A2",def:"Not excited, worried, or angry; peaceful.",syn:["relaxed","peaceful","composed","tranquil"],ant:["anxious","nervous","agitated"],ex:"Try to stay <em>calm</em> during the exam."},
+{w:"proud",pos:"adj",cefr:"A2",def:"Feeling pleasure from your own or another's achievements.",syn:["pleased","satisfied","honoured","glad"],ant:["ashamed","embarrassed","disappointed"],ex:"Her parents are very <em>proud</em> of her results."},
+{w:"lonely",pos:"adj",cefr:"A2",def:"Sad because you are alone or have no friends.",syn:["alone","isolated","solitary","friendless"],ant:["sociable","popular","accompanied"],ex:"She felt very <em>lonely</em> after moving to a new city."},
+{w:"confused",pos:"adj",cefr:"A2",def:"Unable to understand or think clearly.",syn:["puzzled","muddled","lost","bewildered"],ant:["clear","certain","sure"],ex:"I am a bit <em>confused</em> by these instructions."},
+{w:"embarrassed",pos:"adj",cefr:"A2",def:"Feeling uncomfortable and self-conscious.",syn:["ashamed","red-faced","flustered","self-conscious"],ant:["proud","confident","comfortable"],ex:"He went red with embarrassment."},
+{w:"grateful",pos:"adj",cefr:"A2",def:"Feeling thankful for something received.",syn:["thankful","appreciative","obliged"],ant:["ungrateful","unappreciative"],ex:"I am very <em>grateful</em> for your help."},
+{w:"hopeful",pos:"adj",cefr:"A2",def:"Feeling optimistic that something good will happen.",syn:["optimistic","positive","confident","expectant"],ant:["hopeless","pessimistic","doubtful"],ex:"We are <em>hopeful</em> about the results."},
+{w:"disappointed",pos:"adj",cefr:"A2",def:"Sad because something was not as good as expected.",syn:["let down","displeased","dissatisfied","unhappy"],ant:["pleased","satisfied","impressed"],ex:"She was <em>disappointed</em> to miss the final."},
+{w:"frustrated",pos:"adj",cefr:"A2",def:"Feeling annoyed and upset because you cannot do something.",syn:["annoyed","irritated","fed up","agitated"],ant:["satisfied","content","calm"],ex:"I felt very <em>frustrated</em> when I missed the bus again."},
+{w:"relaxed",pos:"adj",cefr:"A2",def:"Feeling free from tension and anxiety.",syn:["calm","comfortable","at ease","peaceful"],ant:["tense","stressed","anxious"],ex:"I always feel <em>relaxed</em> at the beach."},
+{w:"curious",pos:"adj",cefr:"A2",def:"Eager to learn or know something.",syn:["interested","inquisitive","eager","questioning"],ant:["indifferent","uninterested","bored"],ex:"Children are naturally very <em>curious</em>."},
+{w:"cheerful",pos:"adj",cefr:"A2",def:"Noticeably happy and optimistic.",syn:["happy","bright","jolly","sunny"],ant:["gloomy","miserable","sad"],ex:"She is always so <em>cheerful</em> in the mornings."},
+{w:"upset",pos:"adj",cefr:"A2",def:"Unhappy or troubled by something.",syn:["distressed","disturbed","troubled","sad"],ant:["happy","content","unbothered"],ex:"He was very <em>upset</em> after losing the match."},
+{w:"relieved",pos:"adj",cefr:"A2",def:"No longer feeling worried about something.",syn:["reassured","comforted","glad","at ease"],ant:["worried","anxious","tense"],ex:"I felt so <em>relieved</em> when I passed my exam."},
+{w:"delighted",pos:"adj",cefr:"A2",def:"Very pleased and happy.",syn:["thrilled","overjoyed","ecstatic","happy"],ant:["upset","disappointed","miserable"],ex:"She was <em>delighted</em> by the surprise party."},
+{w:"jealous",pos:"adj",cefr:"A2",def:"Feeling unhappy because someone else has something you want.",syn:["envious","possessive","resentful","covetous"],ant:["content","generous","satisfied"],ex:"He felt <em>jealous</em> when his friend got the prize."},
+{w:"terrified",pos:"adj",cefr:"A2",def:"Extremely frightened.",syn:["horrified","petrified","scared stiff","panic-stricken"],ant:["brave","calm","fearless"],ex:"She is absolutely <em>terrified</em> of spiders."},
+{w:"content",pos:"adj",cefr:"A2",def:"Happy and satisfied with your situation.",syn:["satisfied","happy","pleased","comfortable"],ant:["discontent","unhappy","restless"],ex:"She was quite <em>content</em> living in the small village."},
+{w:"miserable",pos:"adj",cefr:"A2",def:"Very unhappy or uncomfortable.",syn:["wretched","unhappy","sad","depressed"],ant:["happy","cheerful","comfortable"],ex:"The rainy weather made everyone feel <em>miserable</em>."},
+{w:"stressed",pos:"adj",cefr:"A2",def:"Feeling worried or under too much pressure.",syn:["under pressure","tense","anxious","overwhelmed"],ant:["relaxed","calm","at ease"],ex:"She felt very <em>stressed</em> during exam week."},
+{w:"overwhelmed",pos:"adj",cefr:"A2",def:"Feeling that something is too much to cope with.",syn:["swamped","overloaded","buried","snowed under"],ant:["in control","calm","on top of things"],ex:"Starting a new job can feel <em>overwhelming</em>."},
+]},
+
+{id:"home-household",name:"Home & Household",icon:"🏠",theme:"tg",words:[
+{w:"house",pos:"noun",cefr:"A1",def:"A building where people live.",syn:["home","residence","property","dwelling"],ant:["office","workplace"],ex:"They bought a beautiful <em>house</em> near the park."},
+{w:"flat",pos:"noun",cefr:"A1",def:"A set of rooms for living in on one floor of a building.",syn:["apartment","unit"],ant:["house","villa"],ex:"She lives in a small <em>flat</em> in the city centre."},
+{w:"room",pos:"noun",cefr:"A1",def:"A space with walls inside a building.",syn:["space","chamber","area"],ant:[],ex:"The hotel <em>room</em> has a lovely view of the sea."},
+{w:"kitchen",pos:"noun",cefr:"A1",def:"The room where food is prepared.",syn:["galley","cooking area"],ant:[],ex:"We eat breakfast together in the <em>kitchen</em>."},
+{w:"bedroom",pos:"noun",cefr:"A1",def:"A room used for sleeping.",syn:["sleeping room","chamber"],ant:["living room","kitchen"],ex:"My <em>bedroom</em> has a big window."},
+{w:"bathroom",pos:"noun",cefr:"A1",def:"A room with a bath, shower, and toilet.",syn:["washroom","lavatory"],ant:[],ex:"The <em>bathroom</em> is at the end of the hall."},
+{w:"living room",pos:"noun",cefr:"A1",def:"The main room in a house for relaxing and entertaining.",syn:["lounge","sitting room","front room"],ant:["bedroom","kitchen"],ex:"We watch TV together in the <em>living room</em>."},
+{w:"garden",pos:"noun",cefr:"A1",def:"An area of ground next to a house for growing plants.",syn:["yard","lawn","plot"],ant:["interior","inside"],ex:"She grows vegetables in the <em>garden</em>."},
+{w:"door",pos:"noun",cefr:"A1",def:"A flat panel you open and close to enter a room.",syn:["entrance","gate","entry"],ant:["wall"],ex:"Please knock on the <em>door</em> before entering."},
+{w:"window",pos:"noun",cefr:"A1",def:"An opening in a wall with glass to let in light.",syn:["pane","glass","opening"],ant:["wall"],ex:"Open the <em>window</em> to let in some fresh air."},
+{w:"floor",pos:"noun",cefr:"A1",def:"The flat surface you walk on inside a building.",syn:["ground","base","surface"],ant:["ceiling","roof"],ex:"The <em>floor</em> is very cold in winter."},
+{w:"ceiling",pos:"noun",cefr:"A1",def:"The flat surface above you inside a room.",syn:["top","overhead surface","roof"],ant:["floor"],ex:"The room has a very high <em>ceiling</em>."},
+{w:"wall",pos:"noun",cefr:"A1",def:"A vertical surface that forms the side of a room.",syn:["side","partition","barrier"],ant:["door","window","opening"],ex:"She painted the <em>walls</em> blue."},
+{w:"chair",pos:"noun",cefr:"A1",def:"A separate seat for one person with a back.",syn:["seat","stool","armchair"],ant:[],ex:"Sit on that <em>chair</em> and wait for me."},
+{w:"table",pos:"noun",cefr:"A1",def:"A piece of furniture with a flat top on legs.",syn:["desk","surface","counter"],ant:[],ex:"Put the glasses on the <em>table</em>."},
+{w:"bed",pos:"noun",cefr:"A1",def:"A piece of furniture for sleeping on.",syn:["bunk","cot","mattress"],ant:[],ex:"She went to <em>bed</em> early last night."},
+{w:"sofa",pos:"noun",cefr:"A1",def:"A large comfortable seat for two or more people.",syn:["couch","settee","three-seater"],ant:["chair","stool"],ex:"We all sat on the <em>sofa</em> to watch the film."},
+{w:"cupboard",pos:"noun",cefr:"A1",def:"A piece of furniture with doors for storing things.",syn:["cabinet","wardrobe","closet","locker"],ant:[],ex:"The cups are in the <em>cupboard</em> above the sink."},
+{w:"shelf",pos:"noun",cefr:"A1",def:"A flat board fixed to a wall for putting things on.",syn:["rack","ledge","bracket"],ant:[],ex:"Please put the books back on the <em>shelf</em>."},
+{w:"lamp",pos:"noun",cefr:"A1",def:"A device that produces light.",syn:["light","torch","lantern"],ant:[],ex:"Turn on the <em>lamp</em> — it's getting dark."},
+{w:"fridge",pos:"noun",cefr:"A1",def:"A large electrical cupboard that keeps food cold.",syn:["refrigerator","cooler"],ant:["oven","freezer"],ex:"Keep the milk in the <em>fridge</em>."},
+{w:"oven",pos:"noun",cefr:"A1",def:"A device for cooking food by heat.",syn:["cooker","stove","grill"],ant:["fridge","freezer"],ex:"Preheat the <em>oven</em> to 180 degrees."},
+{w:"sink",pos:"noun",cefr:"A1",def:"A basin with taps used for washing things.",syn:["basin","washbasin","trough"],ant:[],ex:"Wash your hands in the <em>sink</em>."},
+{w:"key",pos:"noun",cefr:"A1",def:"A small metal object for locking and unlocking a door.",syn:["opener","pass key"],ant:["lock"],ex:"I left my <em>key</em> on the table."},
+{w:"stairs",pos:"noun",cefr:"A1",def:"A series of steps between floors of a building.",syn:["staircase","steps","stairway"],ant:["lift","elevator"],ex:"Take the <em>stairs</em> — the lift is broken."},
+{w:"roof",pos:"noun",cefr:"A2",def:"The top outside covering of a building.",syn:["top","covering","canopy"],ant:["floor","foundation"],ex:"The <em>roof</em> was damaged in the storm."},
+{w:"garage",pos:"noun",cefr:"A2",def:"A building where cars are kept.",syn:["car port","shed","workshop"],ant:[],ex:"We park the car in the <em>garage</em>."},
+{w:"tidy",pos:"adj",cefr:"A2",def:"Neat and organised; everything in its place.",syn:["neat","orderly","clean","organised"],ant:["messy","untidy","cluttered"],ex:"Keep your room <em>tidy</em>."},
+{w:"messy",pos:"adj",cefr:"A2",def:"Not neat or orderly; dirty or untidy.",syn:["untidy","cluttered","disorganised","dirty"],ant:["tidy","neat","clean"],ex:"His bedroom is always so <em>messy</em>."},
+{w:"comfortable",pos:"adj",cefr:"A2",def:"Making you feel physically relaxed and at ease.",syn:["cosy","pleasant","relaxing","soft"],ant:["uncomfortable","hard","rough"],ex:"This sofa is so <em>comfortable</em>."},
+]},
+
+{id:"food-drink-basic",name:"Food & Drink",icon:"🍎",theme:"tfg",words:[
+{w:"water",pos:"noun",cefr:"A1",def:"The clear liquid that humans and animals drink.",syn:["liquid","H2O"],ant:[],ex:"Drink plenty of <em>water</em> every day."},
+{w:"milk",pos:"noun",cefr:"A1",def:"The white liquid produced by cows and used as a drink.",syn:["dairy drink"],ant:[],ex:"Pour some <em>milk</em> on the cereal."},
+{w:"juice",pos:"noun",cefr:"A1",def:"A drink made from fruit.",syn:["drink","beverage","squeeze"],ant:[],ex:"I have a glass of orange <em>juice</em> with breakfast."},
+{w:"tea",pos:"noun",cefr:"A1",def:"A hot drink made from dried tea leaves.",syn:["brew","cuppa"],ant:["coffee"],ex:"Would you like a cup of <em>tea</em>?"},
+{w:"coffee",pos:"noun",cefr:"A1",def:"A hot drink made from ground coffee beans.",syn:["brew","espresso","latte"],ant:["tea"],ex:"She drinks two cups of <em>coffee</em> a day."},
+{w:"bread",pos:"noun",cefr:"A1",def:"A basic food made from flour and water, baked in an oven.",syn:["loaf","roll","bun"],ant:[],ex:"Can you buy a loaf of <em>bread</em>?"},
+{w:"rice",pos:"noun",cefr:"A1",def:"Small white or brown grains that are cooked and eaten.",syn:["grain","staple"],ant:[],ex:"We eat <em>rice</em> with most of our meals."},
+{w:"pasta",pos:"noun",cefr:"A1",def:"An Italian food made from flour and water in various shapes.",syn:["noodles","spaghetti","macaroni"],ant:[],ex:"I love <em>pasta</em> with tomato sauce."},
+{w:"meat",pos:"noun",cefr:"A1",def:"The flesh of an animal used as food.",syn:["flesh","protein"],ant:["vegetables","plant-based food"],ex:"Do you eat <em>meat</em> or are you vegetarian?"},
+{w:"chicken",pos:"noun",cefr:"A1",def:"A common bird eaten as food.",syn:["poultry","fowl"],ant:[],ex:"We're having grilled <em>chicken</em> for dinner."},
+{w:"fish",pos:"noun",cefr:"A1",def:"An animal that lives in water and is eaten as food.",syn:["seafood","catch"],ant:["meat","poultry"],ex:"She eats <em>fish</em> twice a week."},
+{w:"egg",pos:"noun",cefr:"A1",def:"An oval object laid by birds, used as food.",syn:["ovum"],ant:[],ex:"I'd like scrambled <em>eggs</em> for breakfast."},
+{w:"cheese",pos:"noun",cefr:"A1",def:"A solid food made from milk.",syn:["dairy product","cheddar","brie"],ant:[],ex:"She loves <em>cheese</em> on toast."},
+{w:"butter",pos:"noun",cefr:"A1",def:"A yellow fatty food made from cream, used on bread.",syn:["spread","margarine"],ant:[],ex:"Spread <em>butter</em> on the toast."},
+{w:"apple",pos:"noun",cefr:"A1",def:"A round fruit with red, yellow, or green skin.",syn:["fruit"],ant:[],ex:"An <em>apple</em> a day keeps the doctor away."},
+{w:"banana",pos:"noun",cefr:"A1",def:"A long yellow curved fruit.",syn:["fruit"],ant:[],ex:"He peeled the <em>banana</em> and ate it."},
+{w:"orange",pos:"noun",cefr:"A1",def:"A round orange citrus fruit.",syn:["citrus fruit"],ant:[],ex:"I drank a glass of <em>orange</em> juice."},
+{w:"tomato",pos:"noun",cefr:"A1",def:"A round red or yellow vegetable/fruit used in cooking.",syn:["veg","salad vegetable"],ant:[],ex:"Add a <em>tomato</em> to the salad."},
+{w:"potato",pos:"noun",cefr:"A1",def:"A starchy vegetable that grows underground.",syn:["spud","tuber"],ant:[],ex:"Would you like boiled or mashed <em>potato</em>?"},
+{w:"carrot",pos:"noun",cefr:"A1",def:"An orange root vegetable.",syn:["root vegetable"],ant:[],ex:"Rabbits love to eat <em>carrots</em>."},
+{w:"onion",pos:"noun",cefr:"A1",def:"A round vegetable with a strong smell used in cooking.",syn:["allium","shallot"],ant:[],ex:"Chop the <em>onion</em> and fry it in oil."},
+{w:"sugar",pos:"noun",cefr:"A1",def:"A sweet white or brown substance used in food.",syn:["sweetener","glucose"],ant:["salt"],ex:"How many spoons of <em>sugar</em> do you take?"},
+{w:"salt",pos:"noun",cefr:"A1",def:"A white mineral substance used to flavour food.",syn:["seasoning","sodium"],ant:["sugar"],ex:"Add a little <em>salt</em> to the pasta water."},
+{w:"soup",pos:"noun",cefr:"A1",def:"A liquid food made by cooking vegetables or meat in water.",syn:["broth","stew","bisque"],ant:[],ex:"She made a delicious vegetable <em>soup</em>."},
+{w:"salad",pos:"noun",cefr:"A1",def:"A mixture of raw vegetables eaten cold.",syn:["greens","mixed leaves","side dish"],ant:[],ex:"I'll have a green <em>salad</em> with my lunch."},
+{w:"cake",pos:"noun",cefr:"A1",def:"A sweet baked food made from flour, eggs, and sugar.",syn:["pastry","sponge","gateau"],ant:[],ex:"She baked a chocolate <em>cake</em> for my birthday."},
+{w:"hungry",pos:"adj",cefr:"A1",def:"Feeling the need for food.",syn:["famished","ravenous","peckish","starving"],ant:["full","satisfied"],ex:"I'm so <em>hungry</em> — I haven't eaten since morning."},
+{w:"thirsty",pos:"adj",cefr:"A1",def:"Feeling the need to drink something.",syn:["parched","dry"],ant:["quenched","satisfied"],ex:"The runners were very <em>thirsty</em> after the race."},
+{w:"delicious",pos:"adj",cefr:"A1",def:"Having a very pleasant taste or smell.",syn:["tasty","yummy","scrumptious","mouth-watering"],ant:["disgusting","horrible","bland"],ex:"This soup is absolutely <em>delicious</em>."},
+{w:"fresh",pos:"adj",cefr:"A2",def:"Recently made or obtained; not stale.",syn:["new","recently made","natural","raw"],ant:["stale","old","preserved"],ex:"Buy <em>fresh</em> vegetables from the market."},
+{w:"sweet",pos:"adj",cefr:"A1",def:"Having the taste of sugar.",syn:["sugary","honeyed","syrupy"],ant:["bitter","salty","sour"],ex:"This mango is very <em>sweet</em>."},
+]},
+
+{id:"time-calendar",name:"Time & Calendar",icon:"📅",theme:"ti",words:[
+{w:"morning",pos:"noun",cefr:"A1",def:"The part of the day from midnight to noon.",syn:["a.m.","dawn","early part of day"],ant:["evening","night","afternoon"],ex:"I always feel energetic in the <em>morning</em>."},
+{w:"afternoon",pos:"noun",cefr:"A1",def:"The part of the day from noon to evening.",syn:["p.m.","midday onwards"],ant:["morning","evening"],ex:"The meeting is at three in the <em>afternoon</em>."},
+{w:"evening",pos:"noun",cefr:"A1",def:"The part of the day from the end of the afternoon to bedtime.",syn:["dusk","nightfall","later part of day"],ant:["morning","midday"],ex:"We went for a walk in the <em>evening</em>."},
+{w:"night",pos:"noun",cefr:"A1",def:"The period of darkness between sunset and sunrise.",syn:["darkness","nighttime","dark"],ant:["day","morning","daytime"],ex:"The stars are beautiful at <em>night</em>."},
+{w:"today",pos:"adv",cefr:"A1",def:"On or during this present day.",syn:["this day","at this time"],ant:["yesterday","tomorrow"],ex:"What are your plans for <em>today</em>?"},
+{w:"tomorrow",pos:"adv",cefr:"A1",def:"On the day after today.",syn:["the next day","the day after"],ant:["yesterday","today"],ex:"See you <em>tomorrow</em> at school."},
+{w:"yesterday",pos:"adv",cefr:"A1",def:"On the day before today.",syn:["the day before","last day"],ant:["tomorrow","today"],ex:"I saw her <em>yesterday</em> at the market."},
+{w:"week",pos:"noun",cefr:"A1",def:"A period of seven days.",syn:["seven days","period","stretch"],ant:[],ex:"We have an exam next <em>week</em>."},
+{w:"month",pos:"noun",cefr:"A1",def:"One of the twelve periods a year is divided into.",syn:["thirty days","period"],ant:[],ex:"January is the first <em>month</em> of the year."},
+{w:"year",pos:"noun",cefr:"A1",def:"A period of twelve months.",syn:["twelve months","annum"],ant:[],ex:"She has been learning English for two <em>years</em>."},
+{w:"hour",pos:"noun",cefr:"A1",def:"A period of sixty minutes.",syn:["sixty minutes","period"],ant:[],ex:"The train journey takes about three <em>hours</em>."},
+{w:"minute",pos:"noun",cefr:"A1",def:"A period of sixty seconds.",syn:["sixty seconds","moment"],ant:[],ex:"I'll be there in five <em>minutes</em>."},
+{w:"second",pos:"noun",cefr:"A1",def:"A short unit of time; one sixtieth of a minute.",syn:["instant","moment","tick"],ant:[],ex:"Wait just one <em>second</em>."},
+{w:"early",pos:"adj",cefr:"A1",def:"Before the expected or usual time.",syn:["ahead of time","in advance","punctual"],ant:["late","overdue"],ex:"She always arrives <em>early</em> for work."},
+{w:"late",pos:"adj",cefr:"A1",def:"After the expected time.",syn:["delayed","overdue","behind schedule"],ant:["early","on time","punctual"],ex:"I was <em>late</em> for school this morning."},
+{w:"soon",pos:"adv",cefr:"A1",def:"In a short time from now.",syn:["shortly","before long","in a moment","presently"],ant:["later","eventually","never"],ex:"Dinner will be ready <em>soon</em>."},
+{w:"always",pos:"adv",cefr:"A1",def:"At all times; on every occasion.",syn:["every time","consistently","forever"],ant:["never","rarely","sometimes"],ex:"She <em>always</em> brushes her teeth before bed."},
+{w:"never",pos:"adv",cefr:"A1",def:"Not at any time; not ever.",syn:["not ever","not at all","at no time"],ant:["always","usually","often"],ex:"I have <em>never</em> been to Japan."},
+{w:"sometimes",pos:"adv",cefr:"A1",def:"Occasionally; not always.",syn:["occasionally","at times","now and then"],ant:["always","never"],ex:"I <em>sometimes</em> go running before work."},
+{w:"often",pos:"adv",cefr:"A1",def:"Many times; frequently.",syn:["frequently","regularly","repeatedly"],ant:["rarely","seldom","never"],ex:"How <em>often</em> do you go to the cinema?"},
+{w:"rarely",pos:"adv",cefr:"A2",def:"Not very often.",syn:["seldom","hardly ever","infrequently"],ant:["often","frequently","always"],ex:"She <em>rarely</em> watches television."},
+{w:"now",pos:"adv",cefr:"A1",def:"At this moment; immediately.",syn:["at this moment","immediately","right away"],ant:["later","soon","eventually"],ex:"We need to leave <em>now</em> or we'll miss the bus."},
+{w:"already",pos:"adv",cefr:"A2",def:"Before now or before a specified time.",syn:["by now","previously","before this"],ant:["not yet","still"],ex:"I have <em>already</em> eaten, thank you."},
+{w:"still",pos:"adv",cefr:"A2",def:"Continuing up to now or a specified time.",syn:["yet","up to now","even now"],ant:["no longer","not any more"],ex:"Are you <em>still</em> studying?"},
+{w:"yet",pos:"adv",cefr:"A2",def:"Until now; used in questions and negatives.",syn:["so far","up to now","by now"],ant:["already","before"],ex:"Have you finished your homework <em>yet</em>?"},
+{w:"ago",pos:"adv",cefr:"A1",def:"In the past, before now.",syn:["before","back","previously"],ant:["from now","in the future"],ex:"She started this job two years <em>ago</em>."},
+{w:"before",pos:"prep",cefr:"A1",def:"Earlier than; in front of.",syn:["prior to","earlier than","preceding"],ant:["after","following"],ex:"Wash your hands <em>before</em> you eat."},
+{w:"after",pos:"prep",cefr:"A1",def:"Later than; following.",syn:["following","subsequent to","later than"],ant:["before","prior to"],ex:"We went for ice cream <em>after</em> the cinema."},
+{w:"during",pos:"prep",cefr:"A2",def:"Throughout the time of; at some point in a period.",syn:["throughout","in the course of","within"],ant:["before","after","outside of"],ex:"Please be quiet <em>during</em> the film."},
+{w:"recently",pos:"adv",cefr:"A2",def:"Not long ago; in the recent past.",syn:["lately","just","not long ago","of late"],ant:["long ago","in the past","formerly"],ex:"Have you seen any good films <em>recently</em>?"},
+{w:"eventually",pos:"adv",cefr:"A2",def:"In the end, especially after a long time.",syn:["ultimately","finally","in time","sooner or later"],ant:["immediately","instantly","now"],ex:"She <em>eventually</em> found a job she loved."},
+]},
+
+{id:"weather-nature-basic",name:"Weather & Nature",icon:"🌤️",theme:"tc",words:[
+{w:"sun",pos:"noun",cefr:"A1",def:"The star at the centre of our solar system that gives heat and light.",syn:["sunlight","sunshine","star"],ant:["moon","night"],ex:"The <em>sun</em> is very strong today."},
+{w:"rain",pos:"noun",cefr:"A1",def:"Water falling from clouds.",syn:["downpour","drizzle","shower","precipitation"],ant:["sunshine","drought"],ex:"Don't forget your umbrella — there's <em>rain</em> forecast."},
+{w:"wind",pos:"noun",cefr:"A1",def:"Air moving from one place to another.",syn:["breeze","gust","draught","gale"],ant:["calm","stillness"],ex:"The <em>wind</em> blew my hat off."},
+{w:"snow",pos:"noun",cefr:"A1",def:"White frozen water that falls from the sky.",syn:["snowfall","sleet","frost"],ant:["sun","heat","rain"],ex:"We built a snowman in the <em>snow</em>."},
+{w:"cloud",pos:"noun",cefr:"A1",def:"A white or grey mass of water droplets in the sky.",syn:["cloud cover","cumulus"],ant:["sunshine","clear sky"],ex:"Look at those dark <em>clouds</em> — it might rain."},
+{w:"storm",pos:"noun",cefr:"A1",def:"A period of very bad weather with heavy rain or wind.",syn:["tempest","gale","hurricane","thunderstorm"],ant:["calm","clear weather"],ex:"The <em>storm</em> knocked down several trees."},
+{w:"hot",pos:"adj",cefr:"A1",def:"Having a high temperature.",syn:["warm","boiling","scorching","sweltering"],ant:["cold","cool","freezing"],ex:"It is too <em>hot</em> to go running today."},
+{w:"cold",pos:"adj",cefr:"A1",def:"Having a low temperature.",syn:["freezing","chilly","icy","frosty"],ant:["hot","warm"],ex:"It is very <em>cold</em> outside today."},
+{w:"warm",pos:"adj",cefr:"A1",def:"Having a comfortably high temperature.",syn:["mild","pleasant","cosy"],ant:["cold","cool","freezing"],ex:"It was a lovely <em>warm</em> evening."},
+{w:"cool",pos:"adj",cefr:"A1",def:"Fairly low in temperature; pleasantly not hot.",syn:["mild","fresh","chilly","crisp"],ant:["warm","hot","sweltering"],ex:"A <em>cool</em> breeze made the afternoon pleasant."},
+{w:"wet",pos:"adj",cefr:"A1",def:"Covered in water; raining.",syn:["damp","soaking","drenched","rainy"],ant:["dry","arid"],ex:"Bring a coat — it's very <em>wet</em> outside."},
+{w:"dry",pos:"adj",cefr:"A1",def:"Without water or moisture.",syn:["arid","parched","dehydrated"],ant:["wet","damp","moist"],ex:"We need rain — the soil is very <em>dry</em>."},
+{w:"sunny",pos:"adj",cefr:"A1",def:"Full of sunshine; bright.",syn:["bright","fine","clear","radiant"],ant:["cloudy","rainy","overcast"],ex:"It is a beautiful <em>sunny</em> day."},
+{w:"cloudy",pos:"adj",cefr:"A1",def:"Covered by clouds.",syn:["overcast","grey","dull"],ant:["sunny","clear","bright"],ex:"It was <em>cloudy</em> all morning but cleared up later."},
+{w:"foggy",pos:"adj",cefr:"A2",def:"Full of fog; difficult to see through.",syn:["misty","hazy","murky"],ant:["clear","bright","sunny"],ex:"Drive carefully — it is very <em>foggy</em> this morning."},
+{w:"icy",pos:"adj",cefr:"A2",def:"Covered in ice; very cold.",syn:["frozen","glacial","freezing","frosty"],ant:["warm","mild","clear"],ex:"The roads are <em>icy</em> this morning."},
+{w:"spring",pos:"noun",cefr:"A1",def:"The season after winter when plants begin to grow.",syn:["springtime","blossom season"],ant:["autumn","fall"],ex:"Flowers bloom in <em>spring</em>."},
+{w:"summer",pos:"noun",cefr:"A1",def:"The hottest season of the year.",syn:["summertime","warm season"],ant:["winter"],ex:"We go to the beach every <em>summer</em>."},
+{w:"autumn",pos:"noun",cefr:"A1",def:"The season after summer when leaves fall.",syn:["fall","harvest season"],ant:["spring"],ex:"The leaves turn golden in <em>autumn</em>."},
+{w:"winter",pos:"noun",cefr:"A1",def:"The coldest season of the year.",syn:["wintertime","cold season"],ant:["summer"],ex:"It snows a lot here in <em>winter</em>."},
+{w:"tree",pos:"noun",cefr:"A1",def:"A tall plant with a trunk and branches.",syn:["plant","timber","oak"],ant:[],ex:"We sat under a big <em>tree</em> in the park."},
+{w:"flower",pos:"noun",cefr:"A1",def:"The colourful part of a plant.",syn:["blossom","bloom","petal"],ant:[],ex:"She planted <em>flowers</em> in the garden."},
+{w:"river",pos:"noun",cefr:"A1",def:"A large natural stream of water flowing to the sea.",syn:["stream","waterway","tributary"],ant:[],ex:"We swam in the <em>river</em>."},
+{w:"sea",pos:"noun",cefr:"A1",def:"The salt water that covers most of the earth.",syn:["ocean","water","waves"],ant:["land","shore"],ex:"I love walking by the <em>sea</em>."},
+{w:"mountain",pos:"noun",cefr:"A1",def:"A very high area of land.",syn:["peak","hill","summit","range"],ant:["valley","plain"],ex:"We went hiking in the <em>mountains</em>."},
+{w:"sky",pos:"noun",cefr:"A1",def:"The space above the earth where clouds and stars are.",syn:["atmosphere","heavens","air"],ant:["ground","earth"],ex:"Look at the stars in the clear <em>sky</em>."},
+{w:"animal",pos:"noun",cefr:"A1",def:"A living creature that is not a plant.",syn:["creature","beast","wildlife"],ant:["plant","human"],ex:"My favourite <em>animal</em> is the elephant."},
+{w:"forest",pos:"noun",cefr:"A2",def:"A large area covered by trees.",syn:["wood","woodland","jungle","rainforest"],ant:["desert","city"],ex:"We got lost in the <em>forest</em>."},
+{w:"lake",pos:"noun",cefr:"A2",def:"A large area of water surrounded by land.",syn:["reservoir","loch","pond","pool"],ant:["sea","river"],ex:"They live in a cabin by the <em>lake</em>."},
+{w:"temperature",pos:"noun",cefr:"A2",def:"How hot or cold something is.",syn:["heat level","degree","warmth"],ant:[],ex:"The <em>temperature</em> will drop to freezing tonight."},
+]},
+
+{id:"body-health-basic",name:"Body & Health",icon:"🏃",theme:"tr",words:[
+{w:"head",pos:"noun",cefr:"A1",def:"The part of your body at the top, containing the brain.",syn:["skull","crown"],ant:[],ex:"She shook her <em>head</em> in disbelief."},
+{w:"face",pos:"noun",cefr:"A1",def:"The front part of the head with eyes, nose, and mouth.",syn:["features","expression","countenance"],ant:[],ex:"She has a very kind <em>face</em>."},
+{w:"eye",pos:"noun",cefr:"A1",def:"The organ used for seeing.",syn:["sight","vision","gaze"],ant:[],ex:"She has beautiful green <em>eyes</em>."},
+{w:"ear",pos:"noun",cefr:"A1",def:"The organ used for hearing.",syn:["hearing organ"],ant:[],ex:"He spoke quietly in her <em>ear</em>."},
+{w:"nose",pos:"noun",cefr:"A1",def:"The organ on your face used for smelling and breathing.",syn:["snout","bridge"],ant:[],ex:"She has a small upturned <em>nose</em>."},
+{w:"mouth",pos:"noun",cefr:"A1",def:"The opening in the face used for eating and speaking.",syn:["lips","oral cavity"],ant:[],ex:"Don't speak with food in your <em>mouth</em>."},
+{w:"hand",pos:"noun",cefr:"A1",def:"The part of your body at the end of your arm.",syn:["palm","fist","fingers"],ant:[],ex:"He shook her <em>hand</em> firmly."},
+{w:"arm",pos:"noun",cefr:"A1",def:"The part of your body from shoulder to hand.",syn:["limb","forearm","upper arm"],ant:["leg"],ex:"She broke her <em>arm</em> in the accident."},
+{w:"leg",pos:"noun",cefr:"A1",def:"The part of the body used for walking.",syn:["limb","lower limb"],ant:["arm"],ex:"He injured his <em>leg</em> playing football."},
+{w:"foot",pos:"noun",cefr:"A1",def:"The part of your body at the end of your leg.",syn:["sole","toes"],ant:[],ex:"My <em>feet</em> hurt from so much walking."},
+{w:"back",pos:"noun",cefr:"A1",def:"The rear part of your body from shoulders to hips.",syn:["spine","rear"],ant:["chest","front"],ex:"I hurt my <em>back</em> lifting a heavy box."},
+{w:"stomach",pos:"noun",cefr:"A1",def:"The organ in your body that digests food; your belly.",syn:["belly","tummy","abdomen"],ant:[],ex:"I have a pain in my <em>stomach</em>."},
+{w:"hair",pos:"noun",cefr:"A1",def:"The thin strands that grow on your head and body.",syn:["locks","strands","mane"],ant:[],ex:"She has long dark <em>hair</em>."},
+{w:"skin",pos:"noun",cefr:"A1",def:"The outer covering of your body.",syn:["complexion","flesh","epidermis"],ant:[],ex:"Wear sunscreen to protect your <em>skin</em>."},
+{w:"sick",pos:"adj",cefr:"A1",def:"Not well; feeling ill.",syn:["ill","unwell","poorly","under the weather"],ant:["well","healthy","fit"],ex:"She stayed home because she was <em>sick</em>."},
+{w:"pain",pos:"noun",cefr:"A1",def:"An unpleasant feeling in part of your body.",syn:["ache","hurt","soreness","discomfort"],ant:["comfort","ease","relief"],ex:"He felt a sharp <em>pain</em> in his knee."},
+{w:"cold",pos:"noun",cefr:"A1",def:"A common illness with a runny nose and cough.",syn:["chill","head cold","flu"],ant:["health","wellness"],ex:"I've got a terrible <em>cold</em> this week."},
+{w:"fever",pos:"noun",cefr:"A2",def:"A high body temperature caused by illness.",syn:["high temperature","temperature"],ant:["normal temperature"],ex:"The doctor said she had a <em>fever</em>."},
+{w:"doctor",pos:"noun",cefr:"A1",def:"A person trained to treat illness and injury.",syn:["physician","GP","medic"],ant:["patient"],ex:"I have an appointment with the <em>doctor</em> tomorrow."},
+{w:"hospital",pos:"noun",cefr:"A1",def:"A place where ill or injured people receive medical care.",syn:["clinic","medical centre","infirmary"],ant:[],ex:"She was taken to <em>hospital</em> after the accident."},
+{w:"medicine",pos:"noun",cefr:"A2",def:"A substance taken to treat illness.",syn:["drug","tablet","prescription","treatment"],ant:[],ex:"Take this <em>medicine</em> three times a day."},
+{w:"healthy",pos:"adj",cefr:"A1",def:"In good physical condition; good for your health.",syn:["fit","well","in good shape"],ant:["unhealthy","sick","ill"],ex:"Eating vegetables keeps you <em>healthy</em>."},
+{w:"tired",pos:"adj",cefr:"A1",def:"In need of rest or sleep.",syn:["exhausted","weary","sleepy","worn out"],ant:["energetic","fresh","awake"],ex:"I'm so <em>tired</em> — I need to rest."},
+{w:"exercise",pos:"noun",cefr:"A2",def:"Physical activity done to keep fit.",syn:["workout","training","sport","activity"],ant:["rest","inactivity","laziness"],ex:"Regular <em>exercise</em> is important for your health."},
+{w:"rest",pos:"verb",cefr:"A1",def:"To stop working and relax.",syn:["relax","sleep","take a break","recover"],ant:["work","exercise","toil"],ex:"You should <em>rest</em> if you feel unwell."},
+]},
+
+{id:"places-transport-basic",name:"Places & Getting Around",icon:"🏙️",theme:"to",words:[
+{w:"school",pos:"noun",cefr:"A1",def:"A place where children go to learn.",syn:["academy","institution","college"],ant:["home"],ex:"The children walk to <em>school</em> every day."},
+{w:"shop",pos:"noun",cefr:"A1",def:"A place where you can buy things.",syn:["store","market","outlet"],ant:[],ex:"There's a good <em>shop</em> at the end of the street."},
+{w:"park",pos:"noun",cefr:"A1",def:"A public outdoor area with grass and trees.",syn:["garden","green space","recreation area"],ant:["building","city centre"],ex:"Let's go for a walk in the <em>park</em>."},
+{w:"hospital",pos:"noun",cefr:"A1",def:"A building where sick people are treated.",syn:["clinic","medical centre","infirmary"],ant:[],ex:"She works as a nurse in the local <em>hospital</em>."},
+{w:"bank",pos:"noun",cefr:"A1",def:"A building where you can keep or borrow money.",syn:["financial institution","building society"],ant:[],ex:"I need to go to the <em>bank</em> to get some cash."},
+{w:"restaurant",pos:"noun",cefr:"A1",def:"A place where you pay to eat meals.",syn:["café","diner","eatery","bistro"],ant:[],ex:"Let's go to that new Italian <em>restaurant</em>."},
+{w:"station",pos:"noun",cefr:"A1",def:"A place where trains or buses stop.",syn:["terminus","stop","depot"],ant:[],ex:"Meet me at the train <em>station</em> at noon."},
+{w:"airport",pos:"noun",cefr:"A1",def:"A place where aeroplanes arrive and depart.",syn:["terminal","aerodrome"],ant:[],ex:"We need to leave early to get to the <em>airport</em>."},
+{w:"library",pos:"noun",cefr:"A1",def:"A place where books can be read or borrowed.",syn:["reading room","archive","book collection"],ant:[],ex:"Return the books to the <em>library</em> by Friday."},
+{w:"market",pos:"noun",cefr:"A1",def:"A place where goods are bought and sold, often outside.",syn:["bazaar","fair","stall"],ant:["supermarket","shop"],ex:"Fresh vegetables are cheaper at the <em>market</em>."},
+{w:"hotel",pos:"noun",cefr:"A1",def:"A building providing paid accommodation and meals.",syn:["inn","lodge","guesthouse","resort"],ant:["home","hostel"],ex:"We stayed in a hotel near the beach."},
+{w:"supermarket",pos:"noun",cefr:"A1",def:"A large shop selling food and household goods.",syn:["grocery store","hypermarket"],ant:["corner shop"],ex:"I do my weekly shopping at the <em>supermarket</em>."},
+{w:"bus",pos:"noun",cefr:"A1",def:"A large road vehicle that carries many passengers.",syn:["coach","minibus"],ant:["taxi","car"],ex:"Take the <em>bus</em> number seven to the city centre."},
+{w:"train",pos:"noun",cefr:"A1",def:"A vehicle that travels on rails.",syn:["railway","metro","underground","tram"],ant:["bus","car"],ex:"The <em>train</em> was ten minutes late."},
+{w:"car",pos:"noun",cefr:"A1",def:"A motor vehicle for carrying people.",syn:["vehicle","automobile"],ant:["bicycle","bus"],ex:"She drove her <em>car</em> to work."},
+{w:"bike",pos:"noun",cefr:"A1",def:"A bicycle or motorcycle.",syn:["bicycle","cycle"],ant:["car","bus"],ex:"He cycles to work on his <em>bike</em>."},
+{w:"plane",pos:"noun",cefr:"A1",def:"A flying vehicle with wings.",syn:["aircraft","aeroplane","jet"],ant:["boat","train"],ex:"The <em>plane</em> landed on time."},
+{w:"taxi",pos:"noun",cefr:"A1",def:"A car for hire that takes you where you want to go.",syn:["cab","minicab","Uber"],ant:["bus"],ex:"We took a <em>taxi</em> from the airport to the hotel."},
+{w:"ticket",pos:"noun",cefr:"A1",def:"A piece of paper giving you the right to travel or enter.",syn:["pass","permit","token"],ant:[],ex:"I need to buy a return <em>ticket</em>."},
+{w:"map",pos:"noun",cefr:"A1",def:"A flat drawing showing an area with roads and places.",syn:["chart","plan","guide"],ant:[],ex:"Use a <em>map</em> to find the right street."},
+{w:"road",pos:"noun",cefr:"A1",def:"A flat surface that vehicles travel on.",syn:["street","avenue","lane","motorway"],ant:["path","track"],ex:"The <em>road</em> was very busy at rush hour."},
+{w:"street",pos:"noun",cefr:"A1",def:"A road in a town or city with buildings on each side.",syn:["road","avenue","lane","boulevard"],ant:[],ex:"She lives on a quiet <em>street</em> near the centre."},
+{w:"bridge",pos:"noun",cefr:"A2",def:"A structure built over water or a road to allow crossing.",syn:["crossing","overpass","viaduct"],ant:["tunnel"],ex:"Walk across the <em>bridge</em> to reach the island."},
+{w:"direction",pos:"noun",cefr:"A2",def:"The way you go to reach a place.",syn:["way","route","path","course"],ant:[],ex:"Can you give me <em>directions</em> to the museum?"},
+{w:"distance",pos:"noun",cefr:"A2",def:"The length between two places.",syn:["length","space","gap","span"],ant:["closeness","proximity"],ex:"What is the <em>distance</em> from here to the station?"},
+]},
+
 ];
 
 const SECTIONS = {
@@ -2035,6 +2534,21 @@ const SECTIONS = {
   "habits-routines": "Habits, Comparison & Politeness",
   "risk-caution": "Habits, Comparison & Politeness",
   "politeness-formality": "Habits, Comparison & Politeness",
+
+  /* ── BASIC categories ── */
+  "core-action-verbs":       "Essential Verbs",
+  "everyday-verbs-ii":       "Essential Verbs",
+  "movement-position-verbs": "Essential Verbs",
+  "communication-basic":     "Communication Basics",
+  "family-people":           "People & Relationships",
+  "describing-people-basic": "People & Relationships",
+  "feelings-emotions-basic": "Mind & Feelings",
+  "home-household":          "Home & Daily Life",
+  "food-drink-basic":        "Home & Daily Life",
+  "time-calendar":           "Time & Description",
+  "weather-nature-basic":    "The Natural World",
+  "body-health-basic":       "Body & Health",
+  "places-transport-basic":  "Out & About",
 };
 
 const CATEGORIES = ALL_PARTS.map(({id,name,icon,theme}) => ({id,name,icon,theme,section:SECTIONS[id]||"Other"}));
@@ -2067,15 +2581,46 @@ const SECTION_ORDER = [
   "Habits, Comparison & Politeness",
 ];
 
+/* ── Basic sections ── */
+const BASIC_SECTIONS = [
+  "Essential Verbs",
+  "Communication Basics",
+  "People & Relationships",
+  "Mind & Feelings",
+  "Home & Daily Life",
+  "The Natural World",
+  "Body & Health",
+  "Out & About",
+  "Time & Description",
+];
+
+/* ── Intermediate sections (to grow) ── */
+const INTERMEDIATE_SECTIONS = [];
+
+/* ── Headline mapping ── */
+const SECTION_HEADLINES = {};
+SECTION_ORDER.forEach(s => { SECTION_HEADLINES[s] = "advanced"; });
+BASIC_SECTIONS.forEach(s => { SECTION_HEADLINES[s] = "basic"; });
+INTERMEDIATE_SECTIONS.forEach(s => { SECTION_HEADLINES[s] = "intermediate"; });
+
 const CEFR_SECTION = "CEFR Levels";
+SECTION_HEADLINES[CEFR_SECTION] = "cefr";
+
 const CEFR_CATEGORIES = [
-  { id:"cefr-b1",  name:"B1",  icon:"🟢", theme:"tg",    cefrLevel:"B1",  section:CEFR_SECTION },
+  { id:"cefr-a1",  name:"A1",  icon:"🌱", theme:"tg",    cefrLevel:"A1",  section:CEFR_SECTION },
+  { id:"cefr-a1p", name:"A1+", icon:"🌿", theme:"tg",    cefrLevel:"A1+", section:CEFR_SECTION },
+  { id:"cefr-a2",  name:"A2",  icon:"🔰", theme:"tc",    cefrLevel:"A2",  section:CEFR_SECTION },
+  { id:"cefr-a2p", name:"A2+", icon:"💧", theme:"tc",    cefrLevel:"A2+", section:CEFR_SECTION },
+  { id:"cefr-b1",  name:"B1",  icon:"🟢", theme:"tfg",   cefrLevel:"B1",  section:CEFR_SECTION },
+  { id:"cefr-b1p", name:"B1+", icon:"📗", theme:"tfg",   cefrLevel:"B1+", section:CEFR_SECTION },
   { id:"cefr-b2",  name:"B2",  icon:"🔵", theme:"tb",    cefrLevel:"B2",  section:CEFR_SECTION },
+  { id:"cefr-b2p", name:"B2+", icon:"💙", theme:"tb",    cefrLevel:"B2+", section:CEFR_SECTION },
   { id:"cefr-c1",  name:"C1",  icon:"🟠", theme:"ta",    cefrLevel:"C1",  section:CEFR_SECTION },
+  { id:"cefr-c1p", name:"C1+", icon:"🔶", theme:"ta",    cefrLevel:"C1+", section:CEFR_SECTION },
   { id:"cefr-c2",  name:"C2",  icon:"🔴", theme:"tr",    cefrLevel:"C2",  section:CEFR_SECTION },
   { id:"cefr-c2p", name:"C2+", icon:"🟣", theme:"tpurp", cefrLevel:"C2+", section:CEFR_SECTION },
 ];
-const ALL_SECTION_ORDER = [...SECTION_ORDER, CEFR_SECTION];
+const ALL_SECTION_ORDER = [...BASIC_SECTIONS, ...INTERMEDIATE_SECTIONS, ...SECTION_ORDER, CEFR_SECTION];
 const ALL_CATEGORIES = [...CATEGORIES, ...CEFR_CATEGORIES];
 
 /* Pre-compute words per category (including CEFR virtual cats) */
@@ -2086,16 +2631,35 @@ CEFR_CATEGORIES.forEach(cat => { CAT_WORDS[cat.id] = VOCAB_DATA.filter(w => w.ce
 /* ════════════════════════════════════════════════════════
    APP STATE & SHARED HELPERS
    ════════════════════════════════════════════════════════ */
-const LEARNED_KEY = "ivm_learned_words";
+const LEARN_STATE_KEY = "ivm_learn_state";
+function loadLearnState(){
+  try {
+    const raw = localStorage.getItem(LEARN_STATE_KEY);
+    if (raw) return JSON.parse(raw);
+    /* migrate old format: array → object */
+    const old = localStorage.getItem("ivm_learned_words");
+    if (old) { const o={}; JSON.parse(old).forEach(w=>{o[w]="learned";}); return o; }
+  } catch(e){}
+  return {};
+}
 const state = {
-  learned: new Set(JSON.parse(localStorage.getItem(LEARNED_KEY) || "[]")),
+  learnMap: loadLearnState(),   /* { "word": "little"|"learned" } */
   list: { search:"", section:"all", cat:"all", cefr:"all", learned:"all" },
   examples: { search:"", section:"all", cat:"all", cefr:"all", learned:"all" },
 };
 
+function learnedState(word){ return state.learnMap[word] || null; }
+function isLearned(word){ return state.learnMap[word] === "learned"; }
+function isLittle(word){ return state.learnMap[word] === "little"; }
+function isAnyLearned(word){ return !!state.learnMap[word]; }
+
 function saveLearned(){
-  localStorage.setItem(LEARNED_KEY, JSON.stringify([...state.learned]));
-  document.getElementById("learnedCount").textContent = state.learned.size;
+  localStorage.setItem(LEARN_STATE_KEY, JSON.stringify(state.learnMap));
+  const learned = Object.values(state.learnMap).filter(v=>v==="learned").length;
+  const little  = Object.values(state.learnMap).filter(v=>v==="little").length;
+  document.getElementById("learnedCount").textContent = learned;
+  document.getElementById("littleCount").textContent  = little;
+  document.getElementById("totalCount").textContent   = VOCAB_DATA.length;
 }
 
 function debounce(fn, delay){
@@ -2108,11 +2672,12 @@ function debounce(fn, delay){
 
 function matchesFilters(word, f){
   const cat = CAT_MAP[word.cat];
-  if (f.section !== "all" && cat.section !== f.section) return false;
+  if (f.section !== "all" && cat && cat.section !== f.section) return false;
   if (f.cat !== "all" && word.cat !== f.cat) return false;
   if (f.cefr !== "all" && word.cefr !== f.cefr) return false;
-  if (f.learned === "learned" && !state.learned.has(word.w)) return false;
-  if (f.learned === "unlearned" && state.learned.has(word.w)) return false;
+  if (f.learned === "learned" && !isLearned(word.w)) return false;
+  if (f.learned === "little"  && !isLittle(word.w)) return false;
+  if (f.learned === "unlearned" && isAnyLearned(word.w)) return false;
   if (f.search){
     const q = f.search.toLowerCase();
     const hay = [word.w, word.def, ...(word.syn||[]), ...(word.ant||[])].join(" ").toLowerCase();
@@ -2316,9 +2881,16 @@ themeToggleBtn.addEventListener("click", () => {
 /* ════════════════════════════════════════════════════════
    WORD LIST PAGE — section/category browser
    ════════════════════════════════════════════════════════ */
-const browseState = { search:"", section:"all", cefr:"all" };
+const browseState = { search:"", section:"all", cefr:"all", headline:"all" };
 const catState    = { cat:null, search:"", cefr:"all", learned:"all" };
-const CEFR_COLORS = { B1:"#22c55e", B2:"#3b82f6", C1:"#f59e0b", C2:"#ef4444", "C2+":"#a855f7" };
+const CEFR_COLORS = {
+  "A1":"#4ade80","A1+":"#22c55e",
+  "A2":"#34d399","A2+":"#10b981",
+  "B1":"#22c55e","B1+":"#16a34a",
+  "B2":"#3b82f6","B2+":"#2563eb",
+  "C1":"#f59e0b","C1+":"#d97706",
+  "C2":"#ef4444","C2+":"#a855f7"
+};
 
 function cefrPillHtml(level){
   const c = CEFR_COLORS[level] || "#888";
@@ -2339,8 +2911,10 @@ function renderBrowseSection(sectionName, cats){
   const grid = wrap.querySelector(".cat-grid");
   cats.forEach(cat => {
     const words = CAT_WORDS[cat.id];
-    const learned = words.filter(w => state.learned.has(w.w)).length;
-    const pct = words.length ? Math.round(learned / words.length * 100) : 0;
+    const learnedCnt = words.filter(w => isLearned(w.w)).length;
+    const littleCnt  = words.filter(w => isLittle(w.w)).length;
+    const pct   = words.length ? Math.round(learnedCnt / words.length * 100) : 0;
+    const pctLi = words.length ? Math.round((learnedCnt + littleCnt) / words.length * 100) : 0;
     const cefrCounts = {};
     words.forEach(w => { cefrCounts[w.cefr] = (cefrCounts[w.cefr]||0)+1; });
     const topCefr = Object.entries(cefrCounts).sort((a,b)=>b[1]-a[1])[0];
@@ -2361,8 +2935,11 @@ function renderBrowseSection(sectionName, cats){
         <span class="cat-chevron">›</span>
       </div>
       <div class="cat-pbar-row">
-        <div class="cat-pbar"><div class="cat-pfill" style="width:${pct}%"></div></div>
-        <span class="cat-plabel">${learned}/${words.length} learned</span>
+        <div class="cat-pbar">
+          <div class="cat-pfill-little" style="width:${pctLi}%"></div>
+          <div class="cat-pfill" style="width:${pct}%;position:absolute;top:0;left:0;"></div>
+        </div>
+        <span class="cat-plabel">${learnedCnt}/${words.length}${littleCnt>0?` · ${littleCnt}~`:""}</span>
       </div>`;
     card.addEventListener("click", () => enterCatView(cat));
     grid.appendChild(card);
@@ -2391,10 +2968,18 @@ function renderBrowse(){
   });
   document.getElementById("browseCefrAll").classList.toggle("active", browseState.cefr==="all");
 
+  // Headline button sync
+  document.querySelectorAll(".headline-btn").forEach(b => {
+    b.classList.toggle("active", b.dataset.headline === browseState.headline);
+  });
+
   const q = browseState.search.toLowerCase();
   const content = document.getElementById("browseContent");
   content.innerHTML = "";
-  const sectionsToShow = browseState.section==="all" ? ALL_SECTION_ORDER : [browseState.section];
+  let sectionsToShow = browseState.section==="all" ? ALL_SECTION_ORDER : [browseState.section];
+  if (browseState.headline !== "all") {
+    sectionsToShow = sectionsToShow.filter(s => SECTION_HEADLINES[s] === browseState.headline);
+  }
   sectionsToShow.forEach(sName => {
     let cats = ALL_CATEGORIES.filter(c => c.section===sName);
     if (q) cats = cats.filter(c => c.name.toLowerCase().includes(q));
@@ -2419,8 +3004,9 @@ function renderWordGrid(){
   const baseWords = CAT_WORDS[f.cat] || [];
   const words = baseWords.filter(w => {
     if (f.cefr !== "all" && w.cefr !== f.cefr) return false;
-    if (f.learned === "learned" && !state.learned.has(w.w)) return false;
-    if (f.learned === "unlearned" && state.learned.has(w.w)) return false;
+    if (f.learned === "learned" && !isLearned(w.w)) return false;
+    if (f.learned === "little"  && !isLittle(w.w)) return false;
+    if (f.learned === "unlearned" && isAnyLearned(w.w)) return false;
     if (f.search){
       const q = f.search.toLowerCase();
       const hay = [w.w, w.def, ...(w.syn||[]), ...(w.ant||[])].join(" ").toLowerCase();
@@ -2433,35 +3019,46 @@ function renderWordGrid(){
   grid.innerHTML = "";
   words.forEach(word => {
     const cat = CAT_MAP[word.cat] || {};
+    const ws = learnedState(word.w);
     const card = document.createElement("div");
-    card.className = `word-card t-${cat.theme||"tb"}` + (state.learned.has(word.w) ? " learned" : "");
+    card.className = `word-card t-${cat.theme||"tb"}` + (ws==="learned"?" learned":ws==="little"?" little":"");
     card.innerHTML = `
       <div class="face">
         <div>
           <div class="word">${word.w}</div>
           <div class="pos">${word.pos}</div>
         </div>
-        <span class="cefr-badge ${word.cefr}">${word.cefr}</span>
+        <span class="cefr-badge ${word.cefr.replace("+","\\+")}">${word.cefr}</span>
       </div>
       <div class="reveal">
         <div class="rdef">${word.def}</div>
         ${word.syn && word.syn.length ? `<div class="rrow"><b>Synonyms:</b> ${word.syn.join(", ")}</div>` : ""}
         ${word.ant && word.ant.length ? `<div class="rrow"><b>Antonyms:</b> ${word.ant.join(", ")}</div>` : ""}
         <div class="rex">${word.ex}</div>
-        <label class="learn-row">
-          <input type="checkbox" class="learn-chk" ${state.learned.has(word.w) ? "checked" : ""}> Mark as learned
-        </label>
+        <div class="learn-state-row">
+          <span class="learn-state-label">Progress:</span>
+          <div class="learn-state-btns">
+            <button class="learn-state-btn${ws===null?" active":""}" data-state="none">Not Learned</button>
+            <button class="learn-state-btn${ws==="little"?" active":""}" data-state="little">Little Bit</button>
+            <button class="learn-state-btn${ws==="learned"?" active":""}" data-state="learned">Learned</button>
+          </div>
+        </div>
       </div>`;
     card.addEventListener("click", (e) => {
-      if (e.target.classList.contains("learn-chk") || e.target.closest(".learn-row")) return;
+      if (e.target.closest(".learn-state-btns")) return;
       card.classList.toggle("revealed");
     });
-    card.querySelector(".learn-chk").addEventListener("change", (e) => {
-      if (e.target.checked) state.learned.add(word.w);
-      else state.learned.delete(word.w);
-      card.classList.toggle("learned", e.target.checked);
-      saveLearned();
-      if (catState.learned !== "all") renderWordGrid();
+    card.querySelectorAll(".learn-state-btn").forEach(btn => {
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const newState = btn.dataset.state === "none" ? null : btn.dataset.state;
+        if (newState === null) delete state.learnMap[word.w];
+        else state.learnMap[word.w] = newState;
+        card.className = `word-card t-${cat.theme||"tb"}` + (newState==="learned"?" learned":newState==="little"?" little":"");
+        card.querySelectorAll(".learn-state-btn").forEach(b => b.classList.toggle("active", b.dataset.state === (newState||"none")));
+        saveLearned();
+        if (catState.learned !== "all") renderWordGrid();
+      });
     });
     grid.appendChild(card);
   });
@@ -2499,6 +3096,15 @@ function exitCatView(){
     gsap.fromTo("#listBrowse", {opacity:0,x:-18},{opacity:1,x:0,duration:.3,ease:"power2.out"});
   }
 }
+
+// Headline buttons
+document.querySelectorAll(".headline-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    browseState.headline = btn.dataset.headline;
+    browseState.section = "all";
+    renderBrowse();
+  });
+});
 
 // Browse event listeners
 document.getElementById("browseSearch").addEventListener("input", debounce(e => {
