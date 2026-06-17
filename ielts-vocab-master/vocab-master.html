@@ -5926,22 +5926,28 @@ function renderExpandableChips(container, pinnedChip, optionChips, defaultCount 
 }
 
 function buildSectionChips(container, f, onChange){
-  container.innerHTML = "";
   const allChip = document.createElement("button");
   allChip.className = "chip" + (f.section==="all" ? " active" : "");
   allChip.dataset.section = "all";
   allChip.textContent = "All Sections";
-  allChip.addEventListener("click", () => { f.section = "all"; f.cat = "all"; onChange(); });
-  container.appendChild(allChip);
 
-  SECTION_ORDER.forEach(sec => {
+  const optionChips = SECTION_ORDER.map(sec => {
     const chip = document.createElement("button");
     chip.className = "chip" + (f.section===sec ? " active" : "");
     chip.dataset.section = sec;
     chip.textContent = sec;
-    chip.addEventListener("click", () => { f.section = sec; f.cat = "all"; onChange(); });
-    container.appendChild(chip);
+    return chip;
   });
+
+  [allChip, ...optionChips].forEach(chip => {
+    chip.addEventListener("click", () => {
+      f.section = chip.dataset.section;
+      f.cat = "all";
+      onChange();
+    });
+  });
+
+  renderExpandableChips(container, allChip, optionChips);
 }
 
 function buildCategoryChips(container, f, onChange){
@@ -6173,17 +6179,17 @@ function renderBrowse(){
     allBtn.className = "chip" + (browseState.section==="all"?" active":"");
     allBtn.textContent = "All";
     allBtn.addEventListener("click", () => { browseState.section="all"; renderBrowse(); });
-    sc.appendChild(allBtn);
     const sectionsForChips = hl === "all"
       ? ALL_SECTION_ORDER.filter(s => SECTION_HEADLINES[s] !== "cefr")
       : ALL_SECTION_ORDER.filter(s => SECTION_HEADLINES[s] === hl);
-    sectionsForChips.forEach(sName => {
+    const sectionBtns = sectionsForChips.map(sName => {
       const btn = document.createElement("button");
       btn.className = "chip" + (browseState.section===sName?" active":"");
       btn.textContent = sName;
       btn.addEventListener("click", () => { browseState.section=sName; renderBrowse(); });
-      sc.appendChild(btn);
+      return btn;
     });
+    renderExpandableChips(sc, allBtn, sectionBtns);
   }
 
   document.querySelectorAll("[data-browse-cefr]").forEach(c => {
