@@ -6578,51 +6578,49 @@ const SECTIONS = {
   "b2-nouns-final-set":        "Keystone B2 Nouns",
   "c1-writing-toolkit":        "C1 Academic Writing Toolkit",
   "final-20-words":            "Essential 20 (B2–C1)",
-  // A1+ categories
-  "a1plus-body-health":        "A1+ Vocabulary",
-  "a1plus-food-drink":         "A1+ Vocabulary",
-  "a1plus-home-objects":       "A1+ Vocabulary",
-  "a1plus-adjectives-basic":   "A1+ Vocabulary",
-  "a1plus-everyday-verbs":     "A1+ Vocabulary",
-  "a1plus-clothes-appearance": "A1+ Vocabulary",
-  "a1plus-places-transport":   "A1+ Vocabulary",
-  "a1plus-school-classroom":   "A1+ Vocabulary",
-  "a1plus-weather-nature":     "A1+ Vocabulary",
-  "a1plus-shopping-money":     "A1+ Vocabulary",
-  "a1plus-time-routines":      "A1+ Vocabulary",
-  // A2+ categories
-  "a2plus-feelings-opinions":       "A2+ Vocabulary",
-  "a2plus-descriptive-adjectives":  "A2+ Vocabulary",
-  "a2plus-everyday-verbs":          "A2+ Vocabulary",
-  "a2plus-travel-places":           "A2+ Vocabulary",
-  "a2plus-work-education":          "A2+ Vocabulary",
-  "a2plus-entertainment":           "A2+ Vocabulary",
-  // B1+ categories
-  "b1plus-opinion-discussion":  "B1+ Vocabulary",
-  "b1plus-society-community":   "B1+ Vocabulary",
-  "b1plus-environment":         "B1+ Vocabulary",
-  "b1plus-health-lifestyle":    "B1+ Vocabulary",
-  "b1plus-personality":         "B1+ Vocabulary",
-  "b1plus-technology-media":    "B1+ Vocabulary",
-  "b1plus-education-study":     "B1+ Vocabulary",
-  "b1plus-economy-work":        "B1+ Vocabulary",
-  // C1+ categories
-  "c1plus-formal-verbs":        "C1+ Vocabulary",
-  "c1plus-adjectives-advanced": "C1+ Vocabulary",
-  "c1plus-abstract-nouns":      "C1+ Vocabulary",
-  "c1plus-literary-expressive": "C1+ Vocabulary",
-  "c1plus-academic-discourse":  "C1+ Vocabulary",
-  // B2+ extra categories
-  "b2plus-analysis-verbs":      "B2+ Advanced Vocabulary",
-  "b2plus-nuanced-adjectives":  "B2+ Advanced Vocabulary",
+  // A1+ categories → existing basic sections
+  "a1plus-body-health":        "Body & Health",
+  "a1plus-food-drink":         "Home & Daily Life",
+  "a1plus-home-objects":       "Home & Daily Life",
+  "a1plus-adjectives-basic":   "Time & Description",
+  "a1plus-everyday-verbs":     "Essential Verbs",
+  "a1plus-clothes-appearance": "Home & Daily Life",
+  "a1plus-places-transport":   "Out & About",
+  "a1plus-school-classroom":   "Numbers & Learning",
+  "a1plus-weather-nature":     "The Natural World",
+  "a1plus-shopping-money":     "Out & About",
+  "a1plus-time-routines":      "Time & Description",
+  // A2+ categories → existing basic / intermediate sections
+  "a2plus-feelings-opinions":       "Mind & Feelings",
+  "a2plus-descriptive-adjectives":  "Time & Description",
+  "a2plus-everyday-verbs":          "Essential Verbs",
+  "a2plus-travel-places":           "Travel, Culture & Society",
+  "a2plus-work-education":          "Work & Career",
+  "a2plus-entertainment":           "Sports & Hobbies",
+  // B1+ categories → existing intermediate sections
+  "b1plus-opinion-discussion":  "Academic Language & Writing",
+  "b1plus-society-community":   "Society & Social Issues",
+  "b1plus-environment":         "Environment & Climate",
+  "b1plus-health-lifestyle":    "Health & Medicine",
+  "b1plus-personality":         "Personality & Character",
+  "b1plus-technology-media":    "Technology & Media",
+  "b1plus-education-study":     "Education & Society",
+  "b1plus-economy-work":        "Economics & Finance",
+  // C1+ categories → existing advanced sections
+  "c1plus-formal-verbs":        "Formal English & Fixed Expressions",
+  "c1plus-adjectives-advanced": "Mind, Emotion & Description",
+  "c1plus-abstract-nouns":      "Formal English & Fixed Expressions",
+  "c1plus-literary-expressive": "Mind, Emotion & Description",
+  "c1plus-academic-discourse":  "Academic Writing Toolkit",
+  // B2+ extra → existing intermediate sections
+  "b2plus-analysis-verbs":      "Verbs for Writing & Analysis (B2+)",
+  "b2plus-nuanced-adjectives":  "Quality & Degree Adjectives (B2)",
 };
 
 const CATEGORIES = ALL_PARTS.map(({id,name,icon,theme}) => ({id,name,icon,theme,section:SECTIONS[id]||"Other"}));
 const VOCAB_DATA = ALL_PARTS.flatMap(cat => cat.words.map(word => ({...word, cat:cat.id})));
 const CAT_MAP = Object.fromEntries(CATEGORIES.map(c => [c.id, c]));
 const SECTION_ORDER = [
-  "C1+ Vocabulary",
-  "C1+ Advanced Language",
   "Negative Qualities & Criticism",
   "Positive Qualities & Strength",
   "Mind, Emotion & Description",
@@ -6695,10 +6693,6 @@ const SECTION_ORDER = [
 
 /* ── Basic sections ── */
 const BASIC_SECTIONS = [
-  "A1+ Vocabulary",
-  "A2+ Vocabulary",
-  "A1+ Daily Routines & School",
-  "A2+ Work & Entertainment",
   "Essential Verbs",
   "Communication Basics",
   "People & Relationships",
@@ -6715,9 +6709,6 @@ const BASIC_SECTIONS = [
 
 /* ── Intermediate sections ── */
 const INTERMEDIATE_SECTIONS = [
-  "B1+ Vocabulary",
-  "B1+ Education & Economy",
-  "B2+ Advanced Vocabulary",
   "Complex Emotions",
   "Personality & Character",
   "Society & Social Issues",
