@@ -327,6 +327,82 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
   .word-card .face > div:first-child{min-width:0;}
   .word-card .word{font-size:1.05rem; overflow-wrap:break-word; word-break:break-word;}
 }
+
+/* ===== BROWSE BAR ===== */
+.browse-bar{
+  display:flex; flex-direction:column; gap:14px; margin-bottom:28px;
+  background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:18px 20px;
+}
+.browse-bar .search-row::before{content:"🔍"; position:absolute; left:14px; top:50%; transform:translateY(-50%); font-size:.9rem; opacity:.5; pointer-events:none;}
+#browseSearch, #catSearchInput{
+  flex:1; width:100%; background:var(--surface2); border:1px solid var(--border);
+  color:var(--text); padding:10px 16px 10px 38px; border-radius:10px; font-size:.93rem; font-family:inherit;
+  -webkit-appearance:none; appearance:none; transition:border-color .18s ease;
+}
+#browseSearch:focus, #catSearchInput:focus{outline:none; border-color:var(--accent); box-shadow:0 0 0 3px rgba(99,102,241,.12);}
+#browseSearch::-webkit-search-decoration, #browseSearch::-webkit-search-cancel-button,
+#catSearchInput::-webkit-search-decoration, #catSearchInput::-webkit-search-cancel-button{-webkit-appearance:none;}
+
+/* ===== SECTION HEADER ===== */
+.section-header{display:flex; align-items:center; gap:12px; margin-bottom:16px;}
+.section-title{font-family:'Sora',sans-serif; font-weight:800; font-size:1rem; color:var(--text); white-space:nowrap; flex-shrink:0;}
+.section-rule{flex:1; height:1px; background:var(--border);}
+.section-meta{font-size:.75rem; color:var(--muted); white-space:nowrap; flex-shrink:0;}
+
+/* ===== CATEGORY GRID ===== */
+.cat-grid{display:grid; gap:12px; grid-template-columns:repeat(auto-fill,minmax(270px,1fr));}
+
+/* ===== CATEGORY CARD ===== */
+.cat-card{
+  border:1px solid var(--card-border); border-radius:14px; padding:16px;
+  background:var(--card-bg); border-top:3px solid var(--accent-c,var(--accent));
+  cursor:pointer; display:flex; flex-direction:column; gap:12px;
+  transition:transform .22s cubic-bezier(.4,0,.2,1), box-shadow .22s cubic-bezier(.4,0,.2,1);
+}
+.cat-card:hover{transform:translateY(-3px); box-shadow:0 14px 36px rgba(0,0,0,.45), 0 0 0 1px var(--accent-c,var(--accent));}
+.cat-card-row{display:flex; align-items:center; gap:12px;}
+.cat-icon-box{
+  width:44px; height:44px; border-radius:12px; display:flex; align-items:center;
+  justify-content:center; font-size:1.5rem; flex-shrink:0; background:var(--surface2);
+  border:2px solid var(--accent-c,var(--accent));
+}
+.cat-info{flex:1; min-width:0;}
+.cat-name{
+  font-family:'Sora',sans-serif; font-weight:700; font-size:1rem; line-height:1.25;
+  color:var(--accent-c,var(--accent)); overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+}
+.cat-stats{display:flex; align-items:center; gap:8px; margin-top:3px;}
+.cat-wcount{font-size:.78rem; color:var(--muted);}
+.cat-cefr-pill{font-size:.68rem; font-weight:700; padding:2px 6px; border-radius:5px; color:#fff;}
+.cat-chevron{font-size:1.2rem; color:var(--muted); opacity:.4; flex-shrink:0; transition:opacity .15s ease, transform .15s ease;}
+.cat-card:hover .cat-chevron{opacity:1; transform:translateX(3px);}
+.cat-pbar-row{display:flex; align-items:center; gap:10px;}
+.cat-pbar{flex:1; height:5px; border-radius:99px; background:var(--surface2); overflow:hidden;}
+.cat-pfill{height:100%; border-radius:99px; background:var(--accent-c,var(--accent)); transition:width .4s ease;}
+.cat-plabel{font-size:.73rem; color:var(--muted); white-space:nowrap;}
+
+/* ===== CATEGORY VIEW ===== */
+.cat-view-header{margin-bottom:22px;}
+.back-btn{
+  font-family:'Sora',sans-serif; font-size:.88rem; font-weight:600; color:var(--muted);
+  background:none; border:none; padding:0; cursor:pointer; margin-bottom:12px; display:block;
+  transition:color .15s ease;
+}
+.back-btn:hover{color:var(--accent);}
+.cat-view-title-row{display:flex; align-items:center; gap:14px;}
+.cat-view-icon{
+  width:48px; height:48px; border-radius:14px; display:flex; align-items:center;
+  justify-content:center; font-size:1.5rem; flex-shrink:0; background:var(--surface2);
+  border:2px solid var(--accent-c,var(--accent));
+}
+.cat-view-name{font-size:1.65rem; font-weight:800; font-family:'Sora',sans-serif; margin:0; color:var(--accent-c,var(--accent));}
+.cat-view-sub{font-size:.9rem; color:var(--muted); margin-top:3px;}
+.cat-filter-bar{
+  display:flex; flex-direction:column; gap:14px; margin-bottom:24px;
+  background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:18px 20px;
+}
+.cat-filter-bar .search-row{position:relative;}
+.cat-filter-bar .search-row::before{content:"🔍"; position:absolute; left:14px; top:50%; transform:translateY(-50%); font-size:.9rem; opacity:.5; pointer-events:none;}
 </style>
 <script>
 (function(){
@@ -378,33 +454,65 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
   <section id="page-list" class="page active">
     <div class="page-head">
       <h1>Word List</h1>
-      <p>1000 essential words for IELTS fluency. Hover (or tap) a card to reveal its definition, synonyms, antonyms and an example sentence.</p>
+      <p>1000 essential words for IELTS fluency, organised by section and category. Click a category to explore its words.</p>
     </div>
-    <div class="filters">
-      <div class="search-row">
-        <input type="search" id="searchInput" placeholder="Search words, definitions, synonyms…">
-        <span class="result-count" id="listCount"></span>
+
+    <!-- BROWSE VIEW: section/category grid -->
+    <div id="listBrowse">
+      <div class="browse-bar">
+        <div class="search-row" style="position:relative;">
+          <input type="search" id="browseSearch" placeholder="Search categories…">
+        </div>
+        <div class="filter-row" id="browseSectionChips"></div>
+        <div class="filter-row">
+          <span class="filter-label">Sort by CEFR</span>
+          <button class="chip active" id="browseCefrAll">All</button>
+          <button class="chip" data-browse-cefr="B1">B1</button>
+          <button class="chip" data-browse-cefr="B2">B2</button>
+          <button class="chip" data-browse-cefr="C1">C1</button>
+          <button class="chip" data-browse-cefr="C2">C2</button>
+          <button class="chip" data-browse-cefr="C2+">C2+</button>
+        </div>
       </div>
-      <div class="filter-row" id="sectionFilters"></div>
-      <div class="filter-row" id="categoryFilters"></div>
-      <div class="filter-row">
-        <span class="filter-label">Progress</span>
-        <button class="chip active" data-learned="all">All</button>
-        <button class="chip" data-learned="learned">Learned</button>
-        <button class="chip" data-learned="unlearned">Not Learned</button>
-      </div>
-      <div class="filter-row">
-        <span class="filter-label">CEFR Level</span>
-        <button class="chip active" data-cefr="all">All</button>
-        <button class="chip" data-cefr="B1">B1</button>
-        <button class="chip" data-cefr="B2">B2</button>
-        <button class="chip" data-cefr="C1">C1</button>
-        <button class="chip" data-cefr="C2">C2</button>
-        <button class="chip" data-cefr="C2+">C2+</button>
-        <button class="clear-btn" id="clearFilters">Clear filters</button>
-      </div>
+      <div id="browseContent"></div>
     </div>
-    <div class="card-grid" id="wordGrid"></div>
+
+    <!-- CATEGORY VIEW: word cards for one category -->
+    <div id="listCatView" style="display:none;">
+      <div class="cat-view-header">
+        <button class="back-btn" id="backToBrowse">← All Sections</button>
+        <div class="cat-view-title-row">
+          <div class="cat-view-icon" id="catViewIcon"></div>
+          <div>
+            <h2 class="cat-view-name" id="catViewName"></h2>
+            <p class="cat-view-sub" id="catViewSub"></p>
+          </div>
+        </div>
+      </div>
+      <div class="cat-filter-bar">
+        <div class="search-row" style="position:relative;">
+          <input type="search" id="catSearchInput" placeholder="Search words, definitions, synonyms…">
+          <span class="result-count" id="listCount"></span>
+        </div>
+        <div class="filter-row">
+          <span class="filter-label">CEFR</span>
+          <button class="chip active" data-cat-cefr="all">All</button>
+          <button class="chip" data-cat-cefr="B1">B1</button>
+          <button class="chip" data-cat-cefr="B2">B2</button>
+          <button class="chip" data-cat-cefr="C1">C1</button>
+          <button class="chip" data-cat-cefr="C2">C2</button>
+          <button class="chip" data-cat-cefr="C2+">C2+</button>
+        </div>
+        <div class="filter-row">
+          <span class="filter-label">Progress</span>
+          <button class="chip active" data-cat-learned="all">All</button>
+          <button class="chip" data-cat-learned="learned">Learned</button>
+          <button class="chip" data-cat-learned="unlearned">Not Learned</button>
+          <button class="clear-btn" id="clearCatFilters">Clear</button>
+        </div>
+      </div>
+      <div class="card-grid" id="wordGrid"></div>
+    </div>
   </section>
 
   <!-- ===== EXAMPLES PAGE ===== -->
@@ -1959,6 +2067,22 @@ const SECTION_ORDER = [
   "Habits, Comparison & Politeness",
 ];
 
+const CEFR_SECTION = "CEFR Levels";
+const CEFR_CATEGORIES = [
+  { id:"cefr-b1",  name:"B1",  icon:"🟢", theme:"tg",    cefrLevel:"B1",  section:CEFR_SECTION },
+  { id:"cefr-b2",  name:"B2",  icon:"🔵", theme:"tb",    cefrLevel:"B2",  section:CEFR_SECTION },
+  { id:"cefr-c1",  name:"C1",  icon:"🟠", theme:"ta",    cefrLevel:"C1",  section:CEFR_SECTION },
+  { id:"cefr-c2",  name:"C2",  icon:"🔴", theme:"tr",    cefrLevel:"C2",  section:CEFR_SECTION },
+  { id:"cefr-c2p", name:"C2+", icon:"🟣", theme:"tpurp", cefrLevel:"C2+", section:CEFR_SECTION },
+];
+const ALL_SECTION_ORDER = [...SECTION_ORDER, CEFR_SECTION];
+const ALL_CATEGORIES = [...CATEGORIES, ...CEFR_CATEGORIES];
+
+/* Pre-compute words per category (including CEFR virtual cats) */
+const CAT_WORDS = {};
+CATEGORIES.forEach(cat => { CAT_WORDS[cat.id] = VOCAB_DATA.filter(w => w.cat === cat.id); });
+CEFR_CATEGORIES.forEach(cat => { CAT_WORDS[cat.id] = VOCAB_DATA.filter(w => w.cefr === cat.cefrLevel); });
+
 /* ════════════════════════════════════════════════════════
    APP STATE & SHARED HELPERS
    ════════════════════════════════════════════════════════ */
@@ -2190,29 +2314,127 @@ themeToggleBtn.addEventListener("click", () => {
 });
 
 /* ════════════════════════════════════════════════════════
-   WORD LIST PAGE
+   WORD LIST PAGE — section/category browser
    ════════════════════════════════════════════════════════ */
-function renderListFilters(){
-  buildSectionChips(document.getElementById("sectionFilters"), state.list, () => { renderListFilters(); renderWordGrid(); });
-  buildCategoryChips(document.getElementById("categoryFilters"), state.list, () => { renderListFilters(); renderWordGrid(); });
-  document.querySelectorAll("#page-list .filters [data-cefr]").forEach(chip => {
-    chip.classList.toggle("active", chip.dataset.cefr === state.list.cefr);
+const browseState = { search:"", section:"all", cefr:"all" };
+const catState    = { cat:null, search:"", cefr:"all", learned:"all" };
+const CEFR_COLORS = { B1:"#22c55e", B2:"#3b82f6", C1:"#f59e0b", C2:"#ef4444", "C2+":"#a855f7" };
+
+function cefrPillHtml(level){
+  const c = CEFR_COLORS[level] || "#888";
+  return `<span class="cat-cefr-pill" style="background:${c}">${level}</span>`;
+}
+
+function renderBrowseSection(sectionName, cats){
+  const wrap = document.createElement("div");
+  wrap.style.marginBottom = "36px";
+  const totalWords = cats.reduce((s,c) => s + CAT_WORDS[c.id].length, 0);
+  wrap.innerHTML = `
+    <div class="section-header">
+      <span class="section-title">${sectionName}</span>
+      <span class="section-rule"></span>
+      <span class="section-meta">${cats.length} categor${cats.length!==1?"ies":"y"} · ${totalWords} words</span>
+    </div>
+    <div class="cat-grid"></div>`;
+  const grid = wrap.querySelector(".cat-grid");
+  cats.forEach(cat => {
+    const words = CAT_WORDS[cat.id];
+    const learned = words.filter(w => state.learned.has(w.w)).length;
+    const pct = words.length ? Math.round(learned / words.length * 100) : 0;
+    const cefrCounts = {};
+    words.forEach(w => { cefrCounts[w.cefr] = (cefrCounts[w.cefr]||0)+1; });
+    const topCefr = Object.entries(cefrCounts).sort((a,b)=>b[1]-a[1])[0];
+    const cefrCount = browseState.cefr !== "all" ? (cefrCounts[browseState.cefr]||0) : null;
+    const card = document.createElement("div");
+    card.className = `cat-card t-${cat.theme}`;
+    card.innerHTML = `
+      <div class="cat-card-row">
+        <div class="cat-icon-box t-${cat.theme}">${cat.icon}</div>
+        <div class="cat-info">
+          <div class="cat-name">${cat.name}</div>
+          <div class="cat-stats">
+            <span class="cat-wcount">${words.length} words</span>
+            ${topCefr ? cefrPillHtml(topCefr[0]) : ""}
+            ${cefrCount !== null ? `<span class="cat-wcount" style="color:var(--accent)"> · ${cefrCount} ${browseState.cefr}</span>` : ""}
+          </div>
+        </div>
+        <span class="cat-chevron">›</span>
+      </div>
+      <div class="cat-pbar-row">
+        <div class="cat-pbar"><div class="cat-pfill" style="width:${pct}%"></div></div>
+        <span class="cat-plabel">${learned}/${words.length} learned</span>
+      </div>`;
+    card.addEventListener("click", () => enterCatView(cat));
+    grid.appendChild(card);
   });
-  document.querySelectorAll("#page-list .filters [data-learned]").forEach(chip => {
-    chip.classList.toggle("active", chip.dataset.learned === state.list.learned);
+  return wrap;
+}
+
+function renderBrowse(){
+  const sc = document.getElementById("browseSectionChips");
+  sc.innerHTML = `<span class="filter-label">Section</span>`;
+  const allBtn = document.createElement("button");
+  allBtn.className = "chip" + (browseState.section==="all"?" active":"");
+  allBtn.textContent = "All";
+  allBtn.addEventListener("click", () => { browseState.section="all"; renderBrowse(); });
+  sc.appendChild(allBtn);
+  ALL_SECTION_ORDER.forEach(sName => {
+    const btn = document.createElement("button");
+    btn.className = "chip" + (browseState.section===sName?" active":"");
+    btn.textContent = sName;
+    btn.addEventListener("click", () => { browseState.section=sName; renderBrowse(); });
+    sc.appendChild(btn);
   });
+
+  document.querySelectorAll("[data-browse-cefr]").forEach(c => {
+    c.classList.toggle("active", c.dataset.browseCefr === browseState.cefr);
+  });
+  document.getElementById("browseCefrAll").classList.toggle("active", browseState.cefr==="all");
+
+  const q = browseState.search.toLowerCase();
+  const content = document.getElementById("browseContent");
+  content.innerHTML = "";
+  const sectionsToShow = browseState.section==="all" ? ALL_SECTION_ORDER : [browseState.section];
+  sectionsToShow.forEach(sName => {
+    let cats = ALL_CATEGORIES.filter(c => c.section===sName);
+    if (q) cats = cats.filter(c => c.name.toLowerCase().includes(q));
+    if (!cats.length) return;
+    if (browseState.cefr !== "all") {
+      cats = [...cats].sort((a,b) => {
+        const aC = CAT_WORDS[a.id].filter(w=>w.cefr===browseState.cefr).length;
+        const bC = CAT_WORDS[b.id].filter(w=>w.cefr===browseState.cefr).length;
+        return bC - aC;
+      });
+    }
+    content.appendChild(renderBrowseSection(sName, cats));
+  });
+  if (typeof gsap !== "undefined"){
+    gsap.fromTo(content.querySelectorAll(".cat-card"),
+      {opacity:0,y:16},{opacity:1,y:0,duration:.35,ease:"power2.out",stagger:{amount:.25,from:"start"}});
+  }
 }
 
 function renderWordGrid(){
-  const f = state.list;
-  const words = VOCAB_DATA.filter(w => matchesFilters(w, f));
+  const f = catState;
+  const baseWords = CAT_WORDS[f.cat] || [];
+  const words = baseWords.filter(w => {
+    if (f.cefr !== "all" && w.cefr !== f.cefr) return false;
+    if (f.learned === "learned" && !state.learned.has(w.w)) return false;
+    if (f.learned === "unlearned" && state.learned.has(w.w)) return false;
+    if (f.search){
+      const q = f.search.toLowerCase();
+      const hay = [w.w, w.def, ...(w.syn||[]), ...(w.ant||[])].join(" ").toLowerCase();
+      if (!hay.includes(q)) return false;
+    }
+    return true;
+  });
   const grid = document.getElementById("wordGrid");
   document.getElementById("listCount").textContent = `${words.length} word${words.length!==1?"s":""}`;
   grid.innerHTML = "";
   words.forEach(word => {
-    const cat = CAT_MAP[word.cat];
+    const cat = CAT_MAP[word.cat] || {};
     const card = document.createElement("div");
-    card.className = `word-card t-${cat.theme}` + (state.learned.has(word.w) ? " learned" : "");
+    card.className = `word-card t-${cat.theme||"tb"}` + (state.learned.has(word.w) ? " learned" : "");
     card.innerHTML = `
       <div class="face">
         <div>
@@ -2239,37 +2461,86 @@ function renderWordGrid(){
       else state.learned.delete(word.w);
       card.classList.toggle("learned", e.target.checked);
       saveLearned();
-      if (state.list.learned !== "all") renderWordGrid();
+      if (catState.learned !== "all") renderWordGrid();
     });
     grid.appendChild(card);
   });
   if (typeof gsap !== "undefined"){
-    gsap.fromTo(grid.children, {opacity:0, y:14}, {opacity:1, y:0, duration:.4, ease:"power2.out", stagger:{amount:0.3, from:"start"}});
+    gsap.fromTo(grid.children, {opacity:0,y:14},{opacity:1,y:0,duration:.4,ease:"power2.out",stagger:{amount:.3,from:"start"}});
   }
 }
 
-document.getElementById("searchInput").addEventListener("input", debounce(e => {
-  state.list.search = e.target.value.trim();
+function enterCatView(cat){
+  catState.cat = cat.id;
+  catState.search = "";
+  catState.cefr = "all";
+  catState.learned = "all";
+  document.getElementById("catSearchInput").value = "";
+  document.getElementById("catViewIcon").textContent = cat.icon || "📚";
+  document.getElementById("catViewIcon").className = `cat-view-icon t-${cat.theme}`;
+  document.getElementById("catViewName").textContent = cat.name;
+  document.getElementById("catViewName").className = `cat-view-name t-${cat.theme}`;
+  document.getElementById("catViewSub").textContent = `${CAT_WORDS[cat.id].length} words · ${cat.section||""}`;
+  document.querySelectorAll("[data-cat-cefr]").forEach(c => c.classList.toggle("active", c.dataset.catCefr==="all"));
+  document.querySelectorAll("[data-cat-learned]").forEach(c => c.classList.toggle("active", c.dataset.catLearned==="all"));
+  document.getElementById("listBrowse").style.display = "none";
+  document.getElementById("listCatView").style.display = "block";
+  renderWordGrid();
+  if (typeof gsap !== "undefined"){
+    gsap.fromTo("#listCatView", {opacity:0,x:18},{opacity:1,x:0,duration:.3,ease:"power2.out"});
+  }
+}
+
+function exitCatView(){
+  catState.cat = null;
+  document.getElementById("listCatView").style.display = "none";
+  document.getElementById("listBrowse").style.display = "block";
+  if (typeof gsap !== "undefined"){
+    gsap.fromTo("#listBrowse", {opacity:0,x:-18},{opacity:1,x:0,duration:.3,ease:"power2.out"});
+  }
+}
+
+// Browse event listeners
+document.getElementById("browseSearch").addEventListener("input", debounce(e => {
+  browseState.search = e.target.value.trim();
+  renderBrowse();
+}, 150));
+document.querySelectorAll("[data-browse-cefr]").forEach(chip => {
+  chip.addEventListener("click", () => {
+    browseState.cefr = chip.dataset.browseCefr;
+    renderBrowse();
+  });
+});
+document.getElementById("browseCefrAll").addEventListener("click", () => {
+  browseState.cefr = "all";
+  renderBrowse();
+});
+
+// Category view event listeners
+document.getElementById("backToBrowse").addEventListener("click", exitCatView);
+document.getElementById("catSearchInput").addEventListener("input", debounce(e => {
+  catState.search = e.target.value.trim();
   renderWordGrid();
 }, 150));
-document.querySelectorAll("#page-list .filters [data-cefr]").forEach(chip => {
+document.querySelectorAll("[data-cat-cefr]").forEach(chip => {
   chip.addEventListener("click", () => {
-    state.list.cefr = chip.dataset.cefr;
-    renderListFilters();
+    catState.cefr = chip.dataset.catCefr;
+    document.querySelectorAll("[data-cat-cefr]").forEach(c => c.classList.toggle("active", c.dataset.catCefr===catState.cefr));
     renderWordGrid();
   });
 });
-document.querySelectorAll("#page-list .filters [data-learned]").forEach(chip => {
+document.querySelectorAll("[data-cat-learned]").forEach(chip => {
   chip.addEventListener("click", () => {
-    state.list.learned = chip.dataset.learned;
-    renderListFilters();
+    catState.learned = chip.dataset.catLearned;
+    document.querySelectorAll("[data-cat-learned]").forEach(c => c.classList.toggle("active", c.dataset.catLearned===catState.learned));
     renderWordGrid();
   });
 });
-document.getElementById("clearFilters").addEventListener("click", () => {
-  state.list = { search:"", section:"all", cat:"all", cefr:"all", learned:"all" };
-  document.getElementById("searchInput").value = "";
-  renderListFilters();
+document.getElementById("clearCatFilters").addEventListener("click", () => {
+  catState.search=""; catState.cefr="all"; catState.learned="all";
+  document.getElementById("catSearchInput").value="";
+  document.querySelectorAll("[data-cat-cefr]").forEach(c => c.classList.toggle("active", c.dataset.catCefr==="all"));
+  document.querySelectorAll("[data-cat-learned]").forEach(c => c.classList.toggle("active", c.dataset.catLearned==="all"));
   renderWordGrid();
 });
 
@@ -2693,8 +2964,7 @@ function showTestResult(){
 /* ════════════════════════════════════════════════════════
    INIT
    ════════════════════════════════════════════════════════ */
-renderListFilters();
-renderWordGrid();
+renderBrowse();
 renderExamplesFilters();
 renderExamples();
 renderTestSetupCopy();
