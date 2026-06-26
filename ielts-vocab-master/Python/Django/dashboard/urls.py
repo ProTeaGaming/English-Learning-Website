@@ -15,4 +15,6 @@ urlpatterns = [
     path('colors/add/', views.color_form, name='dashboard_color_add'),
     path('colors/<int:pk>/edit/', views.color_form, name='dashboard_color_edit'),
     path('cefr/', views.cefr_list, name='dashboard_cefr_list'),
+    path('users/', views.user_list, name='dashboard_user_list'),
+    path('users/<int:pk>/', views.user_detail, name='dashboard_user_detail'),
 ]

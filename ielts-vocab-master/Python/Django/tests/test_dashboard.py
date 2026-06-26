@@ -37,3 +37,27 @@ def test_dashboard_index_accessible_to_staff_with_2fa(staff_user, mocker):
     r = c.get('/dashboard/')
     assert r.status_code == 200
     assert b'Dashboard' in r.content
+
+
+@pytest.mark.django_db
+def test_users_list_forbidden_for_staff(staff_user, mocker):
+    mocker.patch(
+        'allauth.mfa.adapter.DefaultMFAAdapter.is_mfa_enabled',
+        return_value=True,
+    )
+    c = Client()
+    c.force_login(staff_user)
+    r = c.get('/dashboard/users/')
+    assert r.status_code == 403
+
+
+@pytest.mark.django_db
+def test_users_list_accessible_to_admin(admin_user, mocker):
+    mocker.patch(
+        'allauth.mfa.adapter.DefaultMFAAdapter.is_mfa_enabled',
+        return_value=True,
+    )
+    c = Client()
+    c.force_login(admin_user)
+    r = c.get('/dashboard/users/')
+    assert r.status_code == 200

@@ -139,3 +139,30 @@ def cefr_list(request):
         messages.success(request, f'{level.code} updated.')
         return redirect('dashboard_cefr_list')
     return render(request, 'dashboard/cefr/list.html', {'levels': levels})
+
+
+# ── Users ────────────────────────────────────────────────────
+@role_required('admin')
+def user_list(request):
+    query = request.GET.get('q', '')
+    User  = get_user_model()
+    users = User.objects.order_by('email')
+    if query:
+        users = users.filter(email__icontains=query) | users.filter(username__icontains=query)
+    return render(request, 'dashboard/users/list.html', {'users': users, 'query': query})
+
+
+@role_required('admin')
+def user_detail(request, pk):
+    User       = get_user_model()
+    target     = get_object_or_404(User, pk=pk)
+    form       = UserRoleForm(request.POST or None, initial={
+        'role': target.role, 'is_active': target.is_active
+    })
+    if request.method == 'POST' and form.is_valid():
+        target.role      = form.cleaned_data['role']
+        target.is_active = form.cleaned_data['is_active']
+        target.save(update_fields=['role', 'is_active'])
+        messages.success(request, f'{target.email} updated.')
+        return redirect('dashboard_user_list')
+    return render(request, 'dashboard/users/detail.html', {'target': target, 'form': form})
