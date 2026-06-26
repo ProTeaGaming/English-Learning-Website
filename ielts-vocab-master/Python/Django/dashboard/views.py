@@ -148,7 +148,7 @@ def user_list(request):
     User  = get_user_model()
     users = User.objects.order_by('email')
     if query:
-        users = users.filter(email__icontains=query) | users.filter(username__icontains=query)
+        users = (users.filter(email__icontains=query) | users.filter(username__icontains=query)).distinct()
     return render(request, 'dashboard/users/list.html', {'users': users, 'query': query})
 
 
@@ -160,8 +160,28 @@ def user_detail(request, pk):
         'role': target.role, 'is_active': target.is_active
     })
     if request.method == 'POST' and form.is_valid():
-        target.role      = form.cleaned_data['role']
-        target.is_active = form.cleaned_data['is_active']
+        new_role      = form.cleaned_data['role']
+        new_is_active = form.cleaned_data.get('is_active', False)
+
+        # Guard against an admin locking themselves out of management.
+        if target == request.user:
+            if not new_is_active:
+                messages.error(request, 'You cannot deactivate your own account.')
+                return redirect('dashboard_user_detail', pk=target.pk)
+            if new_role != 'admin':
+                messages.error(request, 'You cannot demote your own admin role.')
+                return redirect('dashboard_user_detail', pk=target.pk)
+
+        # Guard against removing the last active admin (demotion or deactivation).
+        demoting_admin = target.role == 'admin' and (new_role != 'admin' or not new_is_active)
+        if demoting_admin:
+            active_admins = User.objects.filter(role='admin', is_active=True).count()
+            if active_admins <= 1:
+                messages.error(request, 'You cannot remove the last active admin.')
+                return redirect('dashboard_user_detail', pk=target.pk)
+
+        target.role      = new_role
+        target.is_active = new_is_active
         target.save(update_fields=['role', 'is_active'])
         messages.success(request, f'{target.email} updated.')
         return redirect('dashboard_user_list')
