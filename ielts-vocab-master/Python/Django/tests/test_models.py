@@ -1,6 +1,8 @@
 import pytest
 from django.contrib.auth import get_user_model
 
+from vocab.models import CEFRLevel, Color, Category, Word
+
 
 @pytest.mark.django_db
 def test_custom_user_email_is_username_field():
@@ -33,10 +35,6 @@ def test_role_choices_exist():
     assert 'user' in roles
     assert 'staff' in roles
     assert 'admin' in roles
-
-
-import pytest
-from vocab.models import CEFRLevel, Color, Category, Word
 
 
 @pytest.mark.django_db
