@@ -20,7 +20,10 @@ def sync(request):
         return err
     if request.method == 'GET':
         return JsonResponse({'learn_map': request.user.learn_map})
-    body = json.loads(request.body or '{}')
+    try:
+        body = json.loads(request.body or '{}')
+    except (json.JSONDecodeError, ValueError):
+        return JsonResponse({'error': 'Invalid JSON'}, status=400)
     request.user.learn_map = body.get('learn_map', {})
     request.user.save(update_fields=['learn_map'])
     return JsonResponse({'ok': True})
@@ -66,7 +69,10 @@ def delete_account(request):
     err = _require_auth(request)
     if err:
         return err
-    body = json.loads(request.body or '{}')
+    try:
+        body = json.loads(request.body or '{}')
+    except (json.JSONDecodeError, ValueError):
+        return JsonResponse({'error': 'Invalid JSON'}, status=400)
     password = body.get('password', '')
     if not request.user.check_password(password):
         return JsonResponse({'error': 'Incorrect password.'}, status=401)
