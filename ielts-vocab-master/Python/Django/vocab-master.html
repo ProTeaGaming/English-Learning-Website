@@ -2195,13 +2195,25 @@ function previewAvatarFile(file, wrapId, imgId){
   reader.readAsDataURL(file);
 }
 
-function socialLogin(provider){
-  // allauth headless provider redirect — this is a full-page redirect, so the
-  // browser leaves the SPA, completes OAuth, then allauth returns to callback_url.
-  const callbackUrl = window.location.origin + '/';
-  window.location.href =
-    `${ALLAUTH_BASE}/auth/provider/redirect?provider=${encodeURIComponent(provider)}` +
-    `&callback_url=${encodeURIComponent(callbackUrl)}&process=login`;
+function socialLogin(provider) {
+  const form = document.createElement('form');
+  form.method = 'POST';
+  form.action = '/_allauth/browser/v1/auth/provider/redirect';
+  const fields = {
+    provider: provider,
+    callback_url: window.location.origin + '/',
+    process: 'login',
+    csrfmiddlewaretoken: getCsrf()
+  };
+  for (const [name, value] of Object.entries(fields)) {
+    const input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = name;
+    input.value = value;
+    form.appendChild(input);
+  }
+  document.body.appendChild(form);
+  form.submit();
 }
 
 document.querySelectorAll(".auth-social-btn").forEach((btn) => {

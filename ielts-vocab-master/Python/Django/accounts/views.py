@@ -86,7 +86,10 @@ def delete_account(request):
 @csrf_exempt
 @require_http_methods(['POST'])
 def check_email(request):
-    body = json.loads(request.body or '{}')
-    email = body.get('email', '').strip().lower()
+    try:
+        data = json.loads(request.body or '{}')
+    except (json.JSONDecodeError, ValueError):
+        return JsonResponse({'error': 'Invalid JSON'}, status=400)
+    email = data.get('email', '').strip().lower()
     exists = User.objects.filter(email=email).exists()
     return JsonResponse({'exists': exists})
