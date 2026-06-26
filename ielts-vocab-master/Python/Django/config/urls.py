@@ -9,4 +9,5 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
     path('auth/', include('accounts.urls')),
     path('api/', include('api.urls')),
+    path('dashboard/', include('dashboard.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
