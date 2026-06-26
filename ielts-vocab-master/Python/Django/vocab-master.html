@@ -2365,6 +2365,8 @@ async function loadVocab() {
     CATEGORIES.forEach(cat      => { CAT_WORDS[cat.id] = VOCAB_DATA.filter(w => w.cat === cat.id); });
     CEFR_CATEGORIES.forEach(cat => { CAT_WORDS[cat.id] = VOCAB_DATA.filter(w => w.cefr === cat.cefrLevel); });
 
+    GAP_POOL = VOCAB_DATA.filter(w => w.gap && w.gap.includes('___'));
+
     saveLearned();
     if (typeof renderBrowse === 'function')     renderBrowse();
     if (typeof renderExamples === 'function')   renderExamples();
@@ -2810,7 +2812,7 @@ const QUIZ_MODES = [
 
 const TEST_MODE_ORDER = ["quiz", "gap", "challenge"];
 const TEST_COUNTS = [10, 20, 30, "all"];
-const GAP_POOL = VOCAB_DATA.filter(w => w.gap && w.gap.includes("___"));
+let GAP_POOL = [];
 
 const TEST_MODE_META = {
   quiz: {
