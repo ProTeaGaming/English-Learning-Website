@@ -1586,7 +1586,7 @@ const syncLearnMapToServer = debounce(() => postLearnMapNow(false), 800);
 // signals so the most recent change is never lost to that race.
 window.addEventListener("pagehide", () => postLearnMapNow(true));
 document.addEventListener("visibilitychange", () => {
-  if (document.visibilityState === "hidden") postLearnMapNow(true);
+  if (document.visibilityState === "hidden") postLearnMapNow(false);
 });
 
 function saveLearned(){
@@ -1639,9 +1639,20 @@ async function initAuth(){
     user = data?.data?.user ?? null;   // allauth headless v1 shape
   } catch(e){}
 
-  state.auth = user
-    ? { loggedIn:true, id:user.id, name:user.display||"", username:user.username||"", email:user.email, picture:"" }
-    : { loggedIn:false, id:null, name:"", username:"", email:"", picture:"" };
+  if (user) {
+    // Fetch full profile from our custom session — allauth's user.display is just email-derived
+    try {
+      const profileRes = await fetch(`${AUTH_BASE}/session/`, { credentials: 'same-origin' });
+      const profile = await profileRes.json();
+      state.auth = profile.loggedIn
+        ? { loggedIn:true, id:profile.id, name:profile.name||"", username:profile.username||"", email:profile.email, picture:profile.picture||"" }
+        : { loggedIn:false, id:null, name:"", username:"", email:"", picture:"" };
+    } catch(e){
+      state.auth = { loggedIn:true, id:user.id, name:user.display||"", username:user.username||"", email:user.email, picture:"" };
+    }
+  } else {
+    state.auth = { loggedIn:false, id:null, name:"", username:"", email:"", picture:"" };
+  }
   renderAuthUI();
 
   if (!state.auth.loggedIn) return;
@@ -2402,7 +2413,7 @@ document.getElementById("authForm").addEventListener("submit", async (e) => {
     try {
       const res = await authFetch(`${ALLAUTH_BASE}/auth/signup`, {
         method: 'POST',
-        body: JSON.stringify({ email, username, password1: password, password2: password }),
+        body: JSON.stringify({ email, username, password }),
       });
       const data = await res.json();
       // Mandatory email verification: allauth returns 401 with a pending
@@ -2419,6 +2430,16 @@ document.getElementById("authForm").addEventListener("submit", async (e) => {
         return;
       }
       if (data.status !== 200){ showAuthError((data.errors?.[0]?.message) || "Could not create account."); return; }
+      // Allauth headless doesn't accept name/picture — save them now that the account exists
+      if (name || pictureInput.files[0]) {
+        const pf = new FormData();
+        if (name) pf.append('name', name);
+        if (pictureInput.files[0]) pf.append('picture', pictureInput.files[0]);
+        await fetch(`${AUTH_BASE}/update-profile/`, {
+          method: 'POST', credentials: 'same-origin',
+          headers: { 'X-CSRFToken': getCsrf() }, body: pf,
+        }).catch(() => {});
+      }
       closeAuthModal();
       await initAuth();
     } catch(err){
@@ -3037,7 +3058,7 @@ state.test = {
   mode: "quiz",
   quizMode: "definition",
   count: 10,
-  filters: {headline:"all", section:"all", cat:"all", cefr:"all", learned:"all"},
+  filters: {headline:"all", section:"all", cats: new Set(), cefr:"all", learned:"all"},
   questions: [], idx: 0, score: 0,
 };
 
@@ -3103,14 +3124,14 @@ function applyBrowseFiltersToTest(){
     const hl = cat ? (SECTION_HEADLINES[cat.section] || "all") : "all";
     state.test.filters.headline = hl;
     state.test.filters.section = hl === "cefr" ? "all" : (cat && cat.section ? cat.section : "all");
-    state.test.filters.cat = catState.cat;
+    state.test.filters.cats = new Set([catState.cat]);
     state.test.filters.cefr = catState.cefr;
     state.test.filters.learned = catState.learned === "little" ? "unlearned" : catState.learned;
   } else {
     state.test.filters.headline = browseState.headline;
     state.test.filters.section = browseState.headline === "cefr" ? "all" : browseState.section;
     state.test.filters.cefr = browseState.cefr;
-    state.test.filters.cat = "all";
+    state.test.filters.cats = new Set();
     state.test.filters.learned = "all";
   }
 }
