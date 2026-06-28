@@ -1770,7 +1770,8 @@ function buildSectionChips(container, f, onChange){
   [allChip, ...optionChips].forEach(chip => {
     chip.addEventListener("click", () => {
       f.section = chip.dataset.section;
-      f.cat = "all";
+      if (f.cats !== undefined) f.cats = new Set();
+      else f.cat = "all";
       onChange();
     });
   });
@@ -1851,7 +1852,8 @@ function initTopicFilters(prefix, f, getPool, unitLabel){
     btn.addEventListener("click", () => {
       f.headline = btn.dataset.headline;
       f.section = "all";
-      f.cat = "all";
+      if (f.cats !== undefined) f.cats = new Set();
+      else f.cat = "all";
       renderTopicFilters(prefix, f, getPool, unitLabel);
     });
   });
