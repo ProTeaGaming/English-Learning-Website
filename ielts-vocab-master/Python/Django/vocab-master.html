@@ -1683,7 +1683,18 @@ function debounce(fn, delay){
 function matchesFilters(word, f){
   const cat = CAT_MAP[word.cat];
   if (f.section !== "all" && cat && cat.section !== f.section) return false;
-  if (f.cat !== "all"){
+  if (f.cats) {
+    // Test page: multi-select Set (empty = all)
+    if (f.cats.size > 0) {
+      let matched = false;
+      for (const catId of f.cats) {
+        const cefrLevel = CEFR_CAT_LEVEL[catId];
+        if (cefrLevel ? word.cefr === cefrLevel : word.cat === catId) { matched = true; break; }
+      }
+      if (!matched) return false;
+    }
+  } else if (f.cat !== "all") {
+    // Browse/Examples pages: single-select string
     const cefrLevel = CEFR_CAT_LEVEL[f.cat];
     if (cefrLevel){
       if (word.cefr !== cefrLevel) return false;
