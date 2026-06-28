@@ -1780,6 +1780,7 @@ function buildSectionChips(container, f, onChange){
 
 function buildCategoryChips(container, f, onChange){
   const hl = f.headline;
+  const multiSelect = f.cats !== undefined;
   let cats;
   if (hl === "cefr"){
     cats = CEFR_CATEGORIES;
@@ -1790,13 +1791,13 @@ function buildCategoryChips(container, f, onChange){
     cats = cats.filter(c => f.section==="all" || c.section===f.section);
   }
   const allChip = document.createElement("button");
-  allChip.className = "chip" + (f.cat==="all" ? " active" : "");
+  allChip.className = "chip" + (multiSelect ? (f.cats.size===0 ? " active" : "") : (f.cat==="all" ? " active" : ""));
   allChip.dataset.cat = "all";
   allChip.textContent = "All Categories";
 
   const optionChips = cats.map(c => {
     const chip = document.createElement("button");
-    chip.className = `chip t-${c.theme}` + (f.cat===c.id ? " active" : "");
+    chip.className = `chip t-${c.theme}` + (multiSelect ? (f.cats.has(c.id) ? " active" : "") : (f.cat===c.id ? " active" : ""));
     chip.dataset.cat = c.id;
     chip.textContent = `${c.icon} ${c.name}`;
     return chip;
@@ -1804,7 +1805,16 @@ function buildCategoryChips(container, f, onChange){
 
   [allChip, ...optionChips].forEach(chip => {
     chip.addEventListener("click", () => {
-      f.cat = chip.dataset.cat;
+      if (multiSelect) {
+        if (chip.dataset.cat === "all") {
+          f.cats = new Set();
+        } else {
+          if (f.cats.has(chip.dataset.cat)) f.cats.delete(chip.dataset.cat);
+          else f.cats.add(chip.dataset.cat);
+        }
+      } else {
+        f.cat = chip.dataset.cat;
+      }
       onChange();
     });
   });
@@ -1858,8 +1868,10 @@ function initTopicFilters(prefix, f, getPool, unitLabel){
     });
   });
   document.getElementById(`${prefix}ClearFilters`).addEventListener("click", () => {
-    f.section = "all"; f.cat = "all"; f.cefr = "all"; f.learned = "all";
+    f.section = "all"; f.cefr = "all"; f.learned = "all";
     if (f.headline !== undefined) f.headline = "all";
+    if (f.cats !== undefined) f.cats = new Set();
+    else f.cat = "all";
     renderTopicFilters(prefix, f, getPool, unitLabel);
   });
   renderTopicFilters(prefix, f, getPool, unitLabel);
