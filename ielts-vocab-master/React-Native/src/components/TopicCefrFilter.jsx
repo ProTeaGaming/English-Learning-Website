@@ -1,11 +1,23 @@
+import { useEffect, useState } from "react";
 import { CATEGORIES, SECTION_ORDER } from "../data/vocab-data";
 import { CEFR_LEVELS, cefrColor } from "../utils/cefr";
 import ExpandableChips from "./ExpandableChips";
 
 export default function TopicCefrFilter({ filters, setFilters, resultLabel }) {
+  const [catSearch, setCatSearch] = useState("");
+
+  useEffect(() => {
+    setCatSearch("");
+  }, [filters.section]);
+
   const visibleCats = CATEGORIES.filter(
     (c) => filters.section === "all" || c.section === filters.section
   );
+
+  const q = catSearch.toLowerCase();
+  const filteredCats = q
+    ? visibleCats.filter((c) => c.name.toLowerCase().includes(q))
+    : visibleCats;
 
   const update = (patch) => setFilters((f) => ({ ...f, ...patch }));
 
@@ -37,6 +49,17 @@ export default function TopicCefrFilter({ filters, setFilters, resultLabel }) {
         />
       </div>
 
+      <div className="relative">
+        <span className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-[.85rem] opacity-50">🔍</span>
+        <input
+          type="search"
+          value={catSearch}
+          onChange={(e) => setCatSearch(e.target.value)}
+          placeholder="Search categories…"
+          className="w-full appearance-none bg-surface2 border border-line text-ink pl-10 pr-4 py-2.5 rounded-xl text-[.95rem] focus:outline-none focus:border-accent [&::-webkit-search-decoration]:appearance-none [&::-webkit-search-cancel-button]:appearance-none"
+        />
+      </div>
+
       <div className="flex gap-2 flex-wrap items-center">
         <button
           className={"chip" + (filters.cat === "all" ? " active" : "")}
@@ -44,18 +67,34 @@ export default function TopicCefrFilter({ filters, setFilters, resultLabel }) {
         >
           All Categories
         </button>
-        <ExpandableChips
-          items={visibleCats}
-          renderItem={(c) => (
-            <button
-              key={c.id}
-              className={`chip t-${c.theme}` + (filters.cat === c.id ? " active" : "")}
-              onClick={() => update({ cat: c.id })}
-            >
-              {c.icon} {c.name}
-            </button>
-          )}
-        />
+        {catSearch ? (
+          filteredCats.length > 0 ? (
+            filteredCats.map((c) => (
+              <button
+                key={c.id}
+                className={`chip t-${c.theme}` + (filters.cat === c.id ? " active" : "")}
+                onClick={() => update({ cat: c.id })}
+              >
+                {c.icon} {c.name}
+              </button>
+            ))
+          ) : (
+            <span className="text-[.82rem] text-muted">No categories match</span>
+          )
+        ) : (
+          <ExpandableChips
+            items={visibleCats}
+            renderItem={(c) => (
+              <button
+                key={c.id}
+                className={`chip t-${c.theme}` + (filters.cat === c.id ? " active" : "")}
+                onClick={() => update({ cat: c.id })}
+              >
+                {c.icon} {c.name}
+              </button>
+            )}
+          />
+        )}
       </div>
 
       <div className="flex gap-2 flex-wrap items-center">
