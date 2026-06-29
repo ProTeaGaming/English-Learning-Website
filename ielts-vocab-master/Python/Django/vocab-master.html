@@ -530,14 +530,15 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
   background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:18px 20px;
 }
 .browse-bar .search-row::before{content:"🔍"; position:absolute; left:14px; top:50%; transform:translateY(-50%); font-size:.9rem; opacity:.5; pointer-events:none;}
-#browseSearch, #catSearchInput{
+#browseSearch, #catSearchInput, #testCatSearch{
   flex:1; width:100%; background:var(--surface2); border:1px solid var(--border);
   color:var(--text); padding:10px 16px 10px 38px; border-radius:10px; font-size:.93rem; font-family:inherit;
   -webkit-appearance:none; appearance:none; transition:border-color .18s ease;
 }
-#browseSearch:focus, #catSearchInput:focus{outline:none; border-color:var(--accent); box-shadow:0 0 0 3px rgba(99,102,241,.12);}
+#browseSearch:focus, #catSearchInput:focus, #testCatSearch:focus{outline:none; border-color:var(--accent); box-shadow:0 0 0 3px rgba(99,102,241,.12);}
 #browseSearch::-webkit-search-decoration, #browseSearch::-webkit-search-cancel-button,
-#catSearchInput::-webkit-search-decoration, #catSearchInput::-webkit-search-cancel-button{-webkit-appearance:none;}
+#catSearchInput::-webkit-search-decoration, #catSearchInput::-webkit-search-cancel-button,
+#testCatSearch::-webkit-search-decoration, #testCatSearch::-webkit-search-cancel-button{-webkit-appearance:none;}
 
 /* ===== SECTION HEADER ===== */
 .section-header{display:flex; align-items:center; gap:12px; margin-bottom:16px;}
@@ -955,6 +956,9 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
           <button class="headline-btn" data-headline="cefr">📊 CEFR Levels</button>
         </div>
         <div class="filter-row" id="testSectionFilters"></div>
+        <div class="search-row" style="position:relative;">
+          <input type="search" id="testCatSearch" placeholder="Search categories…">
+        </div>
         <div class="filter-row" id="testCategoryFilters"></div>
         <div class="filter-row" id="testLearnedFilters">
           <span class="filter-label">Progress</span>
@@ -1779,7 +1783,7 @@ function buildSectionChips(container, f, onChange){
   renderExpandableChips(container, allChip, optionChips);
 }
 
-function buildCategoryChips(container, f, onChange){
+function buildCategoryChips(container, f, onChange, catSearch = ""){
   const hl = f.headline;
   const multiSelect = f.cats !== undefined;
   let cats;
@@ -1791,6 +1795,9 @@ function buildCategoryChips(container, f, onChange){
       : CATEGORIES.filter(c => SECTION_HEADLINES[c.section] === hl);
     cats = cats.filter(c => f.section==="all" || c.section===f.section);
   }
+  const q = catSearch.trim().toLowerCase();
+  if (q) cats = cats.filter(c => c.name.toLowerCase().includes(q));
+
   const allChip = document.createElement("button");
   allChip.className = "chip" + (multiSelect ? (f.cats.size===0 ? " active" : "") : (f.cat==="all" ? " active" : ""));
   allChip.dataset.cat = "all";
@@ -1820,7 +1827,20 @@ function buildCategoryChips(container, f, onChange){
     });
   });
 
-  renderExpandableChips(container, allChip, optionChips);
+  if (q) {
+    container.innerHTML = "";
+    container.appendChild(allChip);
+    if (optionChips.length === 0) {
+      const none = document.createElement("span");
+      none.style.cssText = "font-size:.82rem; color:var(--muted);";
+      none.textContent = "No categories match";
+      container.appendChild(none);
+    } else {
+      optionChips.forEach(chip => container.appendChild(chip));
+    }
+  } else {
+    renderExpandableChips(container, allChip, optionChips);
+  }
 }
 
 /* ════════════════════════════════════════════════════════
@@ -1831,7 +1851,9 @@ function renderTopicFilters(prefix, f, getPool, unitLabel){
     btn.classList.toggle("active", btn.dataset.headline === (f.headline || "all"));
   });
   buildSectionChips(document.getElementById(`${prefix}SectionFilters`), f, () => renderTopicFilters(prefix, f, getPool, unitLabel));
-  buildCategoryChips(document.getElementById(`${prefix}CategoryFilters`), f, () => renderTopicFilters(prefix, f, getPool, unitLabel));
+  const catSearchEl = document.getElementById(`${prefix}CatSearch`);
+  const catSearch = catSearchEl ? catSearchEl.value : "";
+  buildCategoryChips(document.getElementById(`${prefix}CategoryFilters`), f, () => renderTopicFilters(prefix, f, getPool, unitLabel), catSearch);
   document.querySelectorAll(`#${prefix}CefrFilters [data-cefr]`).forEach(chip => {
     chip.classList.toggle("active", chip.dataset.cefr === f.cefr);
   });
@@ -1848,12 +1870,17 @@ function renderTopicFilters(prefix, f, getPool, unitLabel){
 }
 
 function initTopicFilters(prefix, f, getPool, unitLabel){
+  const catSearchEl = document.getElementById(`${prefix}CatSearch`);
+  if (catSearchEl) {
+    catSearchEl.addEventListener("input", () => renderTopicFilters(prefix, f, getPool, unitLabel));
+  }
   document.querySelectorAll(`#${prefix}HeadlineFilters [data-headline]`).forEach(btn => {
     btn.addEventListener("click", () => {
       f.headline = btn.dataset.headline;
       f.section = "all";
       if (f.cats !== undefined) f.cats = new Set();
       else f.cat = "all";
+      if (catSearchEl) catSearchEl.value = "";
       renderTopicFilters(prefix, f, getPool, unitLabel);
     });
   });
