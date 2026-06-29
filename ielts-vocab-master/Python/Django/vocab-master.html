@@ -436,7 +436,16 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
 }
 .mode-toggle-btn:hover{border-color:var(--accent);}
 
-.count-row{display:flex; justify-content:center; gap:10px; margin-bottom:24px; flex-wrap:wrap;}
+.count-row{display:flex; justify-content:center; gap:10px; margin-bottom:24px; flex-wrap:wrap; align-items:center;}
+.custom-count-input{
+  width:72px; padding:6px 10px; border-radius:20px; text-align:center;
+  background:var(--surface2); border:1.5px solid var(--accent); color:var(--text);
+  font-size:.82rem; font-weight:600; font-family:inherit;
+  -moz-appearance:textfield;
+}
+.custom-count-input::-webkit-outer-spin-button,
+.custom-count-input::-webkit-inner-spin-button{-webkit-appearance:none;}
+.custom-count-input:focus{outline:none; box-shadow:0 0 0 3px rgba(99,102,241,.12);}
 .btn{
   font-weight:700; font-size:.95rem; padding:11px 32px; border-radius:12px;
   border:none; cursor:pointer; color:#fff;
@@ -3114,6 +3123,7 @@ state.test = {
   mode: "quiz",
   quizMode: "definition",
   count: 10,
+  customCount: 10,
   filters: {headline:"all", section:"all", cats: new Set(), cefr:"all", learned:"all"},
   questions: [], idx: 0, score: 0,
 };
@@ -3241,6 +3251,30 @@ function renderTestCounts(){
     });
     container.appendChild(btn);
   });
+
+  const customBtn = document.createElement("button");
+  customBtn.className = "chip" + (state.test.count === "custom" ? " active" : "");
+  customBtn.textContent = "Custom";
+  customBtn.addEventListener("click", () => {
+    state.test.count = "custom";
+    renderTestCounts();
+    document.getElementById("testCustomCount")?.focus();
+  });
+  container.appendChild(customBtn);
+
+  if (state.test.count === "custom") {
+    const inp = document.createElement("input");
+    inp.type = "number";
+    inp.id = "testCustomCount";
+    inp.min = 1;
+    inp.value = state.test.customCount;
+    inp.className = "custom-count-input";
+    inp.addEventListener("input", () => {
+      const val = parseInt(inp.value, 10);
+      if (val > 0) state.test.customCount = val;
+    });
+    container.appendChild(inp);
+  }
 }
 
 function renderTestSetupCopy(){
@@ -3273,7 +3307,11 @@ document.getElementById("testModeNext").addEventListener("click", () => cycleTes
 document.getElementById("testStart").addEventListener("click", () => {
   const pool = testPool();
   if (!pool.length) return;
-  const count = state.test.count === "all" ? pool.length : Math.min(state.test.count, pool.length);
+  const count = state.test.count === "all"
+    ? pool.length
+    : state.test.count === "custom"
+      ? Math.min(Math.max(1, state.test.customCount || 1), pool.length)
+      : Math.min(state.test.count, pool.length);
   state.test.questions = shuffle(pool).slice(0, count).map(buildTestQuestion);
   state.test.idx = 0;
   state.test.score = 0;
