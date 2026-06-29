@@ -109,7 +109,7 @@ export default function Test({ learned }) {
     return (
       <section>
         <PageHead title={meta.pageTitle} desc={meta.pageDesc} />
-        <div className="setup-card">
+        <div className="setup-card mb-6">
           <div className="mode-toggle-row">
             <button className="mode-toggle-btn" onClick={() => cycleMode(-1)} aria-label="Previous test mode">‹</button>
             <span className="mode-toggle-label">{meta.toggleLabel}</span>
@@ -131,7 +131,7 @@ export default function Test({ learned }) {
               ))}
             </div>
           )}
-          <div className="count-row">
+          <div className="count-row mb-0">
             {TEST_COUNTS.map((c) => (
               <button
                 key={c}
@@ -142,6 +142,8 @@ export default function Test({ learned }) {
               </button>
             ))}
           </div>
+        </div>
+        <div className="max-w-[680px] mx-auto">
           <TopicCefrFilter
             filters={filters}
             setFilters={setFilters}
@@ -150,7 +152,7 @@ export default function Test({ learned }) {
           {pool.length === 0 ? (
             <p className="text-c2 text-[.85rem] mb-4">No {meta.poolUnit}s match these filters — try widening your selection.</p>
           ) : null}
-          <button className="btn" onClick={start} disabled={!pool.length}>{meta.startLabel}</button>
+          <button className="btn w-full" onClick={start} disabled={!pool.length}>{meta.startLabel}</button>
         </div>
       </section>
     );

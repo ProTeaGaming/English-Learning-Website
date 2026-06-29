@@ -22,13 +22,25 @@ export default function TopicCefrFilter({ filters, setFilters, resultLabel }) {
   const update = (patch) => setFilters((f) => ({ ...f, ...patch }));
 
   return (
-    <div className="flex flex-col gap-3 mb-6 text-left">
+    <div className="browse-bar text-left">
       <div className="flex items-center justify-between flex-wrap gap-2">
-        <span className="text-[.78rem] font-bold text-muted uppercase tracking-wider">Topic &amp; Level</span>
+        <span className="filter-label">Topic &amp; Level</span>
         {resultLabel && <span className="text-[.85rem] text-muted">{resultLabel}</span>}
       </div>
 
+      <div className="relative">
+        <span className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-[.85rem] opacity-50">🔍</span>
+        <input
+          type="search"
+          value={catSearch}
+          onChange={(e) => setCatSearch(e.target.value)}
+          placeholder="Search categories…"
+          className="w-full appearance-none bg-surface2 border border-line text-ink pl-10 pr-4 py-2.5 rounded-xl text-[.95rem] focus:outline-none focus:border-accent [&::-webkit-search-decoration]:appearance-none [&::-webkit-search-cancel-button]:appearance-none"
+        />
+      </div>
+
       <div className="flex gap-2 flex-wrap items-center">
+        <span className="filter-label">Section</span>
         <button
           className={"chip" + (filters.section === "all" ? " active" : "")}
           onClick={() => update({ section: "all", cat: "all" })}
@@ -49,23 +61,13 @@ export default function TopicCefrFilter({ filters, setFilters, resultLabel }) {
         />
       </div>
 
-      <div className="relative">
-        <span className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-[.85rem] opacity-50">🔍</span>
-        <input
-          type="search"
-          value={catSearch}
-          onChange={(e) => setCatSearch(e.target.value)}
-          placeholder="Search categories…"
-          className="w-full appearance-none bg-surface2 border border-line text-ink pl-10 pr-4 py-2.5 rounded-xl text-[.95rem] focus:outline-none focus:border-accent [&::-webkit-search-decoration]:appearance-none [&::-webkit-search-cancel-button]:appearance-none"
-        />
-      </div>
-
       <div className="flex gap-2 flex-wrap items-center">
+        <span className="filter-label">Category</span>
         <button
           className={"chip" + (filters.cat === "all" ? " active" : "")}
           onClick={() => update({ cat: "all" })}
         >
-          All Categories
+          All
         </button>
         {catSearch ? (
           filteredCats.length > 0 ? (
@@ -98,7 +100,7 @@ export default function TopicCefrFilter({ filters, setFilters, resultLabel }) {
       </div>
 
       <div className="flex gap-2 flex-wrap items-center">
-        <span className="text-[.78rem] font-bold text-muted uppercase tracking-wider mr-1">Progress</span>
+        <span className="filter-label">Progress</span>
         <button
           className={"chip" + (filters.learned === "all" ? " active" : "")}
           onClick={() => update({ learned: "all" })}
@@ -120,7 +122,7 @@ export default function TopicCefrFilter({ filters, setFilters, resultLabel }) {
       </div>
 
       <div className="flex gap-2 flex-wrap items-center">
-        <span className="text-[.78rem] font-bold text-muted uppercase tracking-wider mr-1">CEFR Level</span>
+        <span className="filter-label">CEFR</span>
         <button
           className={"chip" + (filters.cefr === "all" ? " active" : "")}
           onClick={() => update({ cefr: "all" })}
