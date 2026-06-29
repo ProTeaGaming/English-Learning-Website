@@ -933,32 +933,34 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
       <h1 id="testTitle">Quiz</h1>
       <p id="testDesc">Test your knowledge with multiple question types.</p>
     </div>
-    <div id="testSetup" class="setup-card">
-      <div class="mode-toggle-row">
-        <button class="mode-toggle-btn" id="testModePrev" aria-label="Previous test mode">‹</button>
-        <span class="mode-toggle-label" id="testModeLabel">Quiz</span>
-        <button class="mode-toggle-btn" id="testModeNext" aria-label="Next test mode">›</button>
+    <div id="testSetup">
+      <div class="setup-card" style="margin-bottom:20px;">
+        <div class="mode-toggle-row">
+          <button class="mode-toggle-btn" id="testModePrev" aria-label="Previous test mode">‹</button>
+          <span class="mode-toggle-label" id="testModeLabel">Quiz</span>
+          <button class="mode-toggle-btn" id="testModeNext" aria-label="Next test mode">›</button>
+        </div>
+        <h2 id="testSetupTitle">Choose a quiz mode</h2>
+        <p class="sub" id="testSetupSub">Pick a question style, choose how many questions, then start.</p>
+        <div class="option-grid" id="testModes"></div>
+        <div class="count-row" id="testCounts"></div>
       </div>
-      <h2 id="testSetupTitle">Choose a quiz mode</h2>
-      <p class="sub" id="testSetupSub">Pick a question style, choose how many questions, then start.</p>
-      <div class="option-grid" id="testModes"></div>
-      <div class="count-row" id="testCounts"></div>
-      <div class="setup-filters">
+      <div class="headline-bar" id="testHeadlineFilters">
+        <button class="headline-btn active" data-headline="all">All</button>
+        <button class="headline-btn" data-headline="basic">🌱 Basic</button>
+        <button class="headline-btn" data-headline="intermediate">📈 Intermediate</button>
+        <button class="headline-btn" data-headline="advanced">🎓 Advanced</button>
+        <button class="headline-btn" data-headline="cefr">📊 CEFR Levels</button>
+      </div>
+      <div class="browse-bar">
         <div class="filter-head">
           <span class="filter-label">Topic &amp; Level</span>
           <span class="result-count" id="testFilterCount"></span>
         </div>
-        <div class="headline-bar" id="testHeadlineFilters">
-          <button class="headline-btn active" data-headline="all">All</button>
-          <button class="headline-btn" data-headline="basic">🌱 Basic</button>
-          <button class="headline-btn" data-headline="intermediate">📈 Intermediate</button>
-          <button class="headline-btn" data-headline="advanced">🎓 Advanced</button>
-          <button class="headline-btn" data-headline="cefr">📊 CEFR Levels</button>
-        </div>
-        <div class="filter-row" id="testSectionFilters"></div>
         <div class="search-row" style="position:relative;">
           <input type="search" id="testCatSearch" placeholder="Search categories…">
         </div>
+        <div class="filter-row" id="testSectionFilters"></div>
         <div class="filter-row" id="testCategoryFilters"></div>
         <div class="filter-row" id="testLearnedFilters">
           <span class="filter-label">Progress</span>
@@ -978,7 +980,9 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
         </div>
       </div>
       <p class="no-match" id="testNoMatch" style="display:none;">No words match these filters — try widening your selection.</p>
-      <button class="btn" id="testStart">Start Quiz</button>
+      <div style="text-align:center;">
+        <button class="btn" id="testStart">Start Quiz</button>
+      </div>
     </div>
     <div id="testPlay" class="quiz-wrap" style="display:none;"></div>
     <div id="testResult" class="result-card" style="display:none;"></div>
