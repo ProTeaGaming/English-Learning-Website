@@ -390,6 +390,10 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
 .page-btn.active{background:var(--accent);border-color:var(--accent);color:#fff;}
 .page-btn:disabled{opacity:.4;cursor:default;}
 .page-ellipsis{color:var(--muted);font-size:.9rem;padding:0 4px;}
+.page-goto{display:flex;align-items:center;gap:6px;margin-left:8px;}
+.page-goto-label{color:var(--muted);font-size:.82rem;font-weight:600;white-space:nowrap;}
+.page-goto-input{width:52px;height:36px;text-align:center;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-family:'Sora',sans-serif;font-size:.82rem;font-weight:600;padding:0 6px;}
+.page-goto-input:focus{outline:none;border-color:var(--accent);}
 
 /* cat progress bar 3-state */
 .cat-pfill-little{height:100%; border-radius:99px 0 0 99px; background:var(--c1); transition:width .4s ease; opacity:.7;}
@@ -8535,6 +8539,22 @@ function buildPagination(container, total, perPage, current, onPageChange){
     else container.appendChild(mkBtn(p, p, p === current, false));
   });
   container.appendChild(mkBtn("»", current + 1, false, current === totalPages));
+  const goto = document.createElement("div");
+  goto.className = "page-goto";
+  const gotoLabel = document.createElement("span");
+  gotoLabel.className = "page-goto-label";
+  gotoLabel.textContent = "Go to:";
+  const gotoInput = document.createElement("input");
+  gotoInput.type = "number"; gotoInput.min = 1; gotoInput.max = totalPages;
+  gotoInput.className = "page-goto-input"; gotoInput.placeholder = "…";
+  gotoInput.addEventListener("keydown", e => {
+    if (e.key !== "Enter") return;
+    const p = Math.min(Math.max(1, parseInt(gotoInput.value) || 1), totalPages);
+    gotoInput.value = "";
+    onPageChange(p);
+  });
+  goto.appendChild(gotoLabel); goto.appendChild(gotoInput);
+  container.appendChild(goto);
 }
 
 function renderExamplesFilters(){
