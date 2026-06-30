@@ -605,6 +605,28 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
 }
 .cat-filter-bar .search-row{position:relative;}
 .cat-filter-bar .search-row::before{content:"🔍"; position:absolute; left:14px; top:50%; transform:translateY(-50%); font-size:.9rem; opacity:.5; pointer-events:none;}
+/* ===== WORD DETAIL MODAL ===== */
+.modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.65);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;z-index:1000;padding:20px;}
+.modal-card{background:var(--surface);border-radius:20px;max-width:400px;width:100%;border-top:4px solid var(--accent-c,var(--accent));box-shadow:0 32px 80px rgba(0,0,0,.6);overflow:hidden;position:relative;max-height:85vh;display:flex;flex-direction:column;}
+.modal-header{padding:24px 24px 16px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-shrink:0;}
+.modal-word{font-size:1.8rem;font-weight:800;font-family:'Sora',sans-serif;color:var(--accent-c,var(--accent));line-height:1.1;}
+.modal-pos{font-size:.85rem;color:var(--muted);font-style:italic;margin-top:4px;}
+.modal-body{padding:20px 24px;display:flex;flex-direction:column;gap:14px;overflow-y:auto;}
+.modal-def{font-size:1.05rem;font-weight:600;line-height:1.5;color:var(--text);}
+.modal-row{font-size:.92rem;line-height:1.5;color:var(--muted);}
+.modal-row b{color:var(--text);font-weight:700;}
+.modal-ex{font-size:.92rem;font-style:italic;color:var(--muted);line-height:1.6;padding-top:14px;border-top:1px solid var(--border);}
+.modal-ex em{color:var(--accent-c,var(--accent));font-style:normal;font-weight:700;}
+.modal-cat{font-size:.8rem;color:var(--muted);}
+.modal-cat b{color:var(--text);}
+/* interactive ex-item */
+.ex-item.interactive{cursor:pointer;position:relative;overflow:hidden;}
+.ex-item.interactive:hover{box-shadow:0 4px 16px rgba(0,0,0,.2);}
+.ex-item.interactive .ex-reveal{position:absolute;inset:0;background:linear-gradient(160deg,rgb(var(--surface-rgb)/.97) 0%,rgb(var(--surface-rgb)) 100%);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);padding:12px 18px;opacity:0;transform:translateY(8px);transition:opacity .2s ease,transform .2s ease;display:flex;flex-direction:column;gap:5px;font-size:.83rem;pointer-events:none;}
+.ex-item.interactive:hover .ex-reveal{opacity:1;transform:translateY(0);}
+.ex-reveal .rdef{font-weight:600;line-height:1.4;color:var(--text);}
+.ex-reveal .rrow{color:var(--muted);line-height:1.4;}
+.ex-reveal .rrow b{color:var(--text);font-weight:600;}
 </style>
 <script>
 (function(){
@@ -8371,7 +8393,7 @@ function renderWordGrid(){
       </div>`;
     card.addEventListener("click", (e) => {
       if (e.target.closest(".learn-state-btn")) return;
-      card.classList.toggle("revealed");
+      openWordModal(word);
     });
     const stateBtn = card.querySelector(".learn-state-btn");
     stateBtn.addEventListener("click", (e) => {
@@ -8590,6 +8612,13 @@ function renderExamples(){
         <span class="cefr-badge ${word.cefr}">${word.cefr}</span>
       </div>
       <div class="ex-sentence">${word.ex}</div>`;
+    item.classList.add("interactive");
+    item.insertAdjacentHTML("beforeend", `<div class="ex-reveal">
+      <div class="rdef">${word.def}</div>
+      ${word.syn && word.syn.length ? `<div class="rrow"><b>Synonyms:</b> ${word.syn.join(", ")}</div>` : ""}
+      ${word.ant && word.ant.length ? `<div class="rrow"><b>Antonyms:</b> ${word.ant.join(", ")}</div>` : ""}
+    </div>`);
+    item.addEventListener("click", () => openWordModal(word));
     list.appendChild(item);
   });
   buildPagination(document.getElementById("exPagination"), total, EX_PER_PAGE, page, p => {
@@ -9013,6 +9042,57 @@ function showTestResult(){
 }
 
 /* ════════════════════════════════════════════════════════
+   WORD DETAIL MODAL
+   ════════════════════════════════════════════════════════ */
+function openWordModal(word){
+  const cat = CAT_MAP[word.cat];
+  document.getElementById("word-modal-card").className = `modal-card t-${CEFR_THEME[word.cefr]||"tb"}`;
+  document.getElementById("modal-word").textContent = word.w;
+  document.getElementById("modal-pos").textContent = word.pos;
+  const cefrEl = document.getElementById("modal-cefr");
+  cefrEl.textContent = word.cefr; cefrEl.className = `cefr-badge ${word.cefr}`;
+  document.getElementById("modal-def").textContent = word.def;
+  const synEl = document.getElementById("modal-syn");
+  synEl.innerHTML = word.syn && word.syn.length ? `<b>Synonyms:</b> ${word.syn.join(", ")}` : "";
+  synEl.style.display = word.syn && word.syn.length ? "" : "none";
+  const antEl = document.getElementById("modal-ant");
+  antEl.innerHTML = word.ant && word.ant.length ? `<b>Antonyms:</b> ${word.ant.join(", ")}` : "";
+  antEl.style.display = word.ant && word.ant.length ? "" : "none";
+  document.getElementById("modal-ex").innerHTML = word.ex;
+  const catEl = document.getElementById("modal-cat");
+  if (cat){ catEl.innerHTML = `<b>Category:</b> ${cat.name}`; catEl.style.display = ""; }
+  else catEl.style.display = "none";
+  renderModalProgress(word);
+  document.getElementById("word-modal").style.display = "flex";
+  document.body.style.overflow = "hidden";
+}
+function closeWordModal(){
+  document.getElementById("word-modal").style.display = "none";
+  document.body.style.overflow = "";
+}
+function renderModalProgress(word){
+  const el = document.getElementById("modal-progress");
+  const ws = learnedState(word.w);
+  el.innerHTML = `<div class="learn-state-row">
+    <span class="learn-state-label">Progress:</span>
+    <button class="learn-state-btn" data-state="${ws===null?"none":ws}">${ws==="learned"?"Learned":ws==="little"?"Little Bit":"Not Learned"}</button>
+  </div>`;
+  el.querySelector(".learn-state-btn").addEventListener("click", () => {
+    const cycle = [null, "little", "learned"];
+    const current = state.learnMap[word.w] || null;
+    const newState = cycle[(cycle.indexOf(current) + 1) % cycle.length];
+    if (newState === null) delete state.learnMap[word.w];
+    else state.learnMap[word.w] = newState;
+    saveLearned();
+    renderModalProgress(word);
+  });
+}
+document.addEventListener("click", e => {
+  if (e.target.id === "word-modal") closeWordModal();
+});
+document.addEventListener("keydown", e => { if (e.key === "Escape") closeWordModal(); });
+
+/* ════════════════════════════════════════════════════════
    INIT
    ════════════════════════════════════════════════════════ */
 renderBrowse();
@@ -9074,5 +9154,25 @@ saveLearned();
     if (!res.ok) throw new Error(data.error || "Could not sign in.");
   };
 </script>
+
+<div id="word-modal" class="modal-backdrop" style="display:none;" role="dialog" aria-modal="true">
+  <div class="modal-card" id="word-modal-card">
+    <div class="modal-header">
+      <div>
+        <div class="modal-word" id="modal-word"></div>
+        <div class="modal-pos" id="modal-pos"></div>
+      </div>
+      <span class="cefr-badge" id="modal-cefr"></span>
+    </div>
+    <div class="modal-body">
+      <div class="modal-def" id="modal-def"></div>
+      <div class="modal-row" id="modal-syn"></div>
+      <div class="modal-row" id="modal-ant"></div>
+      <div class="modal-ex" id="modal-ex"></div>
+      <div class="modal-cat" id="modal-cat"></div>
+      <div id="modal-progress"></div>
+    </div>
+  </div>
+</div>
 </body>
 </html>

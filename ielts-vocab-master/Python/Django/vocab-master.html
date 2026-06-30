@@ -2886,8 +2886,7 @@ function renderWordGrid(){
       </div>`;
     card.addEventListener("click", (e) => {
       if (e.target.closest(".learn-state-btn")) return;
-      if (word.w === "heinous") { openWordModal(word); return; }
-      card.classList.toggle("revealed");
+      openWordModal(word);
     });
     const stateBtn = card.querySelector(".learn-state-btn");
     stateBtn.addEventListener("click", (e) => {
@@ -3106,15 +3105,13 @@ function renderExamples(){
         <span class="cefr-badge ${word.cefr}">${word.cefr}</span>
       </div>
       <div class="ex-sentence">${word.ex}</div>`;
-    if (word.w === "heinous") {
-      item.classList.add("interactive");
-      item.insertAdjacentHTML("beforeend", `<div class="ex-reveal">
-        <div class="rdef">${word.def}</div>
-        ${word.syn && word.syn.length ? `<div class="rrow"><b>Synonyms:</b> ${word.syn.join(", ")}</div>` : ""}
-        ${word.ant && word.ant.length ? `<div class="rrow"><b>Antonyms:</b> ${word.ant.join(", ")}</div>` : ""}
-      </div>`);
-      item.addEventListener("click", () => openWordModal(word));
-    }
+    item.classList.add("interactive");
+    item.insertAdjacentHTML("beforeend", `<div class="ex-reveal">
+      <div class="rdef">${word.def}</div>
+      ${word.syn && word.syn.length ? `<div class="rrow"><b>Synonyms:</b> ${word.syn.join(", ")}</div>` : ""}
+      ${word.ant && word.ant.length ? `<div class="rrow"><b>Antonyms:</b> ${word.ant.join(", ")}</div>` : ""}
+    </div>`);
+    item.addEventListener("click", () => openWordModal(word));
     list.appendChild(item);
   });
   buildPagination(document.getElementById("exPagination"), total, EX_PER_PAGE, page, p => {
