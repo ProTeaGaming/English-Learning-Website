@@ -1731,6 +1731,7 @@ function debounce(fn, delay){
 function matchesFilters(word, f){
   const cat = CAT_MAP[word.cat];
   if (f.section !== "all" && cat && cat.section !== f.section) return false;
+  if (f.headline && f.headline !== "all" && cat && SECTION_HEADLINES[cat.section] !== f.headline) return false;
   if (f.cats) {
     // Test page: multi-select Set (empty = all)
     if (f.cats.size > 0) {
