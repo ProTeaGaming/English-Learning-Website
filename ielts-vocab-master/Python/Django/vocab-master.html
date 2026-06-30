@@ -3653,8 +3653,8 @@ function renderModalProgress(word){
     renderModalProgress(word);
   });
 }
-document.getElementById("word-modal").addEventListener("click", e => {
-  if (e.target === document.getElementById("word-modal")) closeWordModal();
+document.addEventListener("click", e => {
+  if (e.target.id === "word-modal") closeWordModal();
 });
 document.addEventListener("keydown", e => { if (e.key === "Escape") closeWordModal(); });
 
