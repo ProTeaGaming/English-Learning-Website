@@ -26,7 +26,7 @@ export default function Examples({ learned }) {
   return (
     <section>
       <div className="mb-5">
-        <h1 className="text-[1.7rem] font-extrabold mb-1">Examples</h1>
+        <h1 className="text-[1.7rem] font-extrabold mb-1">Word</h1>
         <p className="text-muted text-[.95rem]">See every word used correctly in a full sentence.</p>
       </div>
 

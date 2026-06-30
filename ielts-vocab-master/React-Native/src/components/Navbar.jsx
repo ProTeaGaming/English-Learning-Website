@@ -5,8 +5,8 @@ const SECTIONS = [
     id: "vocabulary",
     label: "Vocabulary",
     pages: [
-      { id: "list", label: "Word List" },
-      { id: "examples", label: "Examples" },
+      { id: "list", label: "Category" },
+      { id: "examples", label: "Word" },
       { id: "test", label: "Test" },
     ],
   },

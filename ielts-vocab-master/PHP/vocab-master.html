@@ -65,9 +65,9 @@ h1,h2,h3,.brand,.tab,.btn,.modeCard h3,.mode-toggle-label{font-family:'Sora',san
 .nav-group{position:relative;}
 .nav-dropdown{
   display:none; position:absolute; left:0; top:100%; min-width:170px; z-index:60;
-  background:var(--surface); border:1px solid var(--border); border-radius:12px;
+  background:var(--surface); border:1px solid var(--border); border-radius:0 0 12px 12px;
   box-shadow:0 16px 48px rgba(0,0,0,.45), 0 4px 12px rgba(0,0,0,.2);
-  overflow:hidden; padding-top:6px;
+  overflow:hidden;
 }
 .nav-group:hover .nav-dropdown, .nav-group.open .nav-dropdown{display:block;}
 .nav-dropdown-item{
@@ -621,8 +621,8 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
         <div class="nav-group" data-section="vocabulary">
           <button class="tab active" data-section-btn="vocabulary">Vocabulary <span class="nav-caret">▾</span></button>
           <div class="nav-dropdown">
-            <button class="nav-dropdown-item active" data-page="list">Word List</button>
-            <button class="nav-dropdown-item" data-page="examples">Examples</button>
+            <button class="nav-dropdown-item active" data-page="list">Category</button>
+            <button class="nav-dropdown-item" data-page="examples">Word</button>
             <button class="nav-dropdown-item" data-page="test">Test</button>
           </div>
         </div>
@@ -779,7 +779,7 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
   <!-- ===== WORD LIST PAGE ===== -->
   <section id="page-list" class="page active">
     <div class="page-head">
-      <h1>Word List</h1>
+      <h1>Category</h1>
       <p>5000 essential words across every CEFR level, organised by section and category. Click a category to explore its words.</p>
     </div>
 
@@ -878,7 +878,7 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
   <!-- ===== EXAMPLES PAGE ===== -->
   <section id="page-examples" class="page">
     <div class="page-head">
-      <h1>Examples</h1>
+      <h1>Word</h1>
       <p>See every word used correctly in a full sentence.</p>
     </div>
     <div class="filters">
@@ -8645,7 +8645,7 @@ const TEST_MODE_META = {
       if (pct === 100) return "Perfect score! You're ready for anything the exam throws at you.";
       if (pct >= 80) return "Excellent — a strong, well-rounded command of these words.";
       if (pct >= 60) return "Good effort — a bit more practice across modes and you'll nail it.";
-      return "Keep practising — try the Word List and Quiz pages to build confidence.";
+      return "Keep practising — try the Category and Quiz pages to build confidence.";
     },
     secondaryLabel: "Change Setup",
   },

@@ -87,7 +87,7 @@ export const TEST_MODE_META = {
       if (pct === 100) return "Perfect score! You're ready for anything the exam throws at you.";
       if (pct >= 80) return "Excellent — a strong, well-rounded command of these words.";
       if (pct >= 60) return "Good effort — a bit more practice across modes and you'll nail it.";
-      return "Keep practising — try the Word List and Quiz pages to build confidence.";
+      return "Keep practising — try the Category and Quiz pages to build confidence.";
     },
     secondaryButtonLabel: "Change Setup",
   },
