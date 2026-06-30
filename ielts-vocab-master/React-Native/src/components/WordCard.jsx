@@ -1,14 +1,15 @@
-import { useState } from "react";
 import { CAT_MAP } from "../data/vocab-data";
 
-export default function WordCard({ word, learned, onToggleLearned }) {
+export default function WordCard({ word, learnState, openModal, onCycle }) {
   const cat = CAT_MAP[word.cat];
-  const [revealed, setRevealed] = useState(false);
+  const isLearned = learnState === "learned";
+  const isLittle = learnState === "little";
+  const stateLabel = isLearned ? "Learned" : isLittle ? "Little Bit" : "Not Learned";
 
   return (
     <div
-      className={`word-card t-${cat.theme}` + (learned ? " learned" : "") + (revealed ? " revealed" : "")}
-      onClick={() => setRevealed((r) => !r)}
+      className={`word-card t-${cat.theme}` + (isLearned ? " learned" : isLittle ? " little" : "")}
+      onClick={() => openModal(word)}
     >
       <div className="flex justify-between items-start gap-2">
         <div>
@@ -27,14 +28,16 @@ export default function WordCard({ word, learned, onToggleLearned }) {
           <div className="rrow"><b>Antonyms:</b> {word.ant.join(", ")}</div>
         )}
         <div className="rex" dangerouslySetInnerHTML={{ __html: word.ex }} />
-        <label className="learn-row" onClick={(e) => e.stopPropagation()}>
-          <input
-            type="checkbox"
-            checked={learned}
-            onChange={(e) => onToggleLearned(word.w, e.target.checked)}
-          />
-          Mark as learned
-        </label>
+        <div className="learn-state-row" onClick={(e) => e.stopPropagation()}>
+          <span className="learn-state-label">Progress:</span>
+          <button
+            className="learn-state-btn"
+            data-state={learnState || "none"}
+            onClick={() => onCycle(word.w)}
+          >
+            {stateLabel}
+          </button>
+        </div>
       </div>
     </div>
   );

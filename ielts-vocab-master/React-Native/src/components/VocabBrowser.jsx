@@ -18,7 +18,7 @@ const CAT_WORDS = (() => {
   return map;
 })();
 
-export default function VocabBrowser({ filters, setFilters, learned, onSelectCategory }) {
+export default function VocabBrowser({ filters, setFilters, learnMap, onSelectCategory }) {
   const upd = (patch) => setFilters(f => ({ ...f, ...patch }));
 
   const sectionsData = useMemo(() => {
@@ -53,7 +53,7 @@ export default function VocabBrowser({ filters, setFilters, learned, onSelectCat
       <div className="mb-6">
         <h1 className="text-[1.7rem] font-extrabold font-sora mb-1">Vocabulary</h1>
         <p className="text-muted text-[.95rem]">
-          {VOCAB_DATA.length} words across {CATEGORIES.length} categories · {learned.size} learned
+          {VOCAB_DATA.length} words across {CATEGORIES.length} categories · {[...learnMap.values()].filter(v => v === "learned").length} learned
         </p>
       </div>
 
@@ -142,7 +142,7 @@ export default function VocabBrowser({ filters, setFilters, learned, onSelectCat
               <div className="cat-grid">
                 {cats.map(cat => {
                   const words = CAT_WORDS[cat.id];
-                  const learnedCnt = words.filter(w => learned.has(w.w)).length;
+                  const learnedCnt = words.filter(w => learnMap.get(w.w) === "learned").length;
                   const cefrCnt = filters.cefr !== "all"
                     ? words.filter(w => w.cefr === filters.cefr).length
                     : null;

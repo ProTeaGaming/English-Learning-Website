@@ -17,7 +17,7 @@ import { DEFAULT_TOPIC_FILTERS, matchesFilters } from "../utils/filters";
 import TopicCefrFilter from "./TopicCefrFilter";
 import GapSentence from "./GapSentence";
 
-export default function Test({ learned }) {
+export default function Test({ learnMap }) {
   const [testMode, setTestMode] = useState("quiz");
   const [quizMode, setQuizMode] = useState("definition");
   const [count, setCount] = useState(10);
@@ -34,9 +34,9 @@ export default function Test({ learned }) {
 
   const pool = useMemo(() => {
     if (testMode === "gap") {
-      return GAP_POOL.filter((w) => matchesFilters(w, filters, learned));
+      return GAP_POOL.filter((w) => matchesFilters(w, filters, learnMap));
     }
-    let p = VOCAB_DATA.filter((w) => matchesFilters(w, filters, learned));
+    let p = VOCAB_DATA.filter((w) => matchesFilters(w, filters, learnMap));
     if (testMode === "quiz") {
       if (quizMode === "synonym") p = p.filter((w) => w.syn?.length);
       if (quizMode === "antonym") p = p.filter((w) => w.ant?.length);

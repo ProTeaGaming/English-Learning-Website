@@ -9,11 +9,11 @@ const DEFAULT_BROWSE = { search: "", section: "all", cefr: "all" };
 const DEFAULT_CAT = { search: "", cefr: "all", learned: "all" };
 
 function getWordsForCategory(cat) {
-  if (cat.cefrLevel) return VOCAB_DATA.filter(w => w.cefr === cat.cefrLevel);
-  return VOCAB_DATA.filter(w => w.cat === cat.id);
+  if (cat.cefrLevel) return VOCAB_DATA.filter((w) => w.cefr === cat.cefrLevel);
+  return VOCAB_DATA.filter((w) => w.cat === cat.id);
 }
 
-export default function WordList({ learned, toggleLearned }) {
+export default function WordList({ learnMap, onCycle, openModal }) {
   const [activeCategory, setActiveCategory] = useState(null);
   const [browseFilters, setBrowseFilters] = useState(DEFAULT_BROWSE);
   const [catFilters, setCatFilters] = useState(DEFAULT_CAT);
@@ -30,10 +30,12 @@ export default function WordList({ learned, toggleLearned }) {
   );
 
   const filteredWords = useMemo(() => {
-    return allCategoryWords.filter(w => {
+    return allCategoryWords.filter((w) => {
       if (catFilters.cefr !== "all" && w.cefr !== catFilters.cefr) return false;
-      if (catFilters.learned === "learned" && !learned.has(w.w)) return false;
-      if (catFilters.learned === "unlearned" && learned.has(w.w)) return false;
+      const ws = learnMap.get(w.w) || null;
+      if (catFilters.learned === "learned" && ws !== "learned") return false;
+      if (catFilters.learned === "little" && ws !== "little") return false;
+      if (catFilters.learned === "unlearned" && ws !== null) return false;
       if (catFilters.search) {
         const q = catFilters.search.toLowerCase();
         const hay = [w.w, w.def, ...(w.syn || []), ...(w.ant || [])].join(" ").toLowerCase();
@@ -41,7 +43,7 @@ export default function WordList({ learned, toggleLearned }) {
       }
       return true;
     });
-  }, [allCategoryWords, catFilters, learned]);
+  }, [allCategoryWords, catFilters, learnMap]);
 
   useEffect(() => {
     if (gridRef.current && filteredWords.length > 0) {
@@ -58,26 +60,23 @@ export default function WordList({ learned, toggleLearned }) {
       <VocabBrowser
         filters={browseFilters}
         setFilters={setBrowseFilters}
-        learned={learned}
+        learnMap={learnMap}
         onSelectCategory={handleSelectCategory}
       />
     );
   }
 
-  const upd = (patch) => setCatFilters(f => ({ ...f, ...patch }));
+  const upd = (patch) => setCatFilters((f) => ({ ...f, ...patch }));
   const catIsDirty = catFilters.search || catFilters.cefr !== "all" || catFilters.learned !== "all";
 
   return (
     <section>
-      {/* Category view header */}
       <div className="cat-view-header">
         <button className="back-btn" onClick={() => setActiveCategory(null)}>
           ← All Sections
         </button>
         <div className="cat-view-title-row">
-          <div className={`cat-view-icon t-${activeCategory.theme}`}>
-            {activeCategory.icon}
-          </div>
+          <div className={`cat-view-icon t-${activeCategory.theme}`}>{activeCategory.icon}</div>
           <div>
             <h1 className="cat-view-name">{activeCategory.name}</h1>
             <p className="text-muted text-[.88rem] mt-0.5">
@@ -89,14 +88,13 @@ export default function WordList({ learned, toggleLearned }) {
         </div>
       </div>
 
-      {/* Category filter bar */}
       <div className="cat-filter-bar">
         <div className="relative">
           <span className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-[.85rem] opacity-50">🔍</span>
           <input
             type="search"
             value={catFilters.search}
-            onChange={e => upd({ search: e.target.value })}
+            onChange={(e) => upd({ search: e.target.value })}
             placeholder="Search words, definitions, synonyms…"
             className="w-full appearance-none bg-surface2 border border-line text-ink pl-10 pr-4 py-2.5 rounded-xl text-[.95rem] focus:outline-none focus:border-accent [&::-webkit-search-decoration]:appearance-none [&::-webkit-search-cancel-button]:appearance-none"
           />
@@ -104,7 +102,7 @@ export default function WordList({ learned, toggleLearned }) {
         <div className="flex gap-2 flex-wrap items-center">
           <span className="filter-label">CEFR</span>
           <button className={"chip" + (catFilters.cefr === "all" ? " active" : "")} onClick={() => upd({ cefr: "all" })}>All</button>
-          {CEFR_LEVELS.map(lvl => (
+          {CEFR_LEVELS.map((lvl) => (
             <button
               key={lvl}
               className={"chip" + (catFilters.cefr === lvl ? " active" : "")}
@@ -115,7 +113,7 @@ export default function WordList({ learned, toggleLearned }) {
         </div>
         <div className="flex gap-2 flex-wrap items-center">
           <span className="filter-label">Progress</span>
-          {[["all", "All"], ["learned", "Learned"], ["unlearned", "Not Learned"]].map(([val, label]) => (
+          {[["all", "All"], ["learned", "Learned"], ["little", "Little Bit"], ["unlearned", "Not Learned"]].map(([val, label]) => (
             <button key={val} className={"chip" + (catFilters.learned === val ? " active" : "")} onClick={() => upd({ learned: val })}>{label}</button>
           ))}
           {catIsDirty && (
@@ -133,8 +131,9 @@ export default function WordList({ learned, toggleLearned }) {
           <WordCard
             key={`${word.cat}-${word.w}`}
             word={word}
-            learned={learned.has(word.w)}
-            onToggleLearned={toggleLearned}
+            learnState={learnMap.get(word.w) || null}
+            onCycle={onCycle}
+            openModal={openModal}
           />
         ))}
         {filteredWords.length === 0 && (

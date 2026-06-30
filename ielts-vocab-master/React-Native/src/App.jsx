@@ -8,11 +8,13 @@ import WordList from "./components/WordList";
 import Examples from "./components/Examples";
 import Test from "./components/Test";
 import ComingSoon from "./components/ComingSoon";
+import WordModal from "./components/WordModal";
 
 export default function App() {
   const [page, setPage] = useState("list");
-  const { learned, toggle } = useLearned();
+  const { learnMap, cycle, setWordState, learnedCount } = useLearned();
   const { theme, toggle: toggleTheme } = useTheme();
+  const [modalWord, setModalWord] = useState(null);
   const pageRef = useRef(null);
 
   useEffect(() => {
@@ -26,19 +28,25 @@ export default function App() {
       <Navbar
         page={page}
         setPage={setPage}
-        learnedCount={learned.size}
+        learnedCount={learnedCount}
         total={VOCAB_DATA.length}
         theme={theme}
         toggleTheme={toggleTheme}
       />
       <main className="max-w-[1100px] mx-auto px-5 py-7" ref={pageRef}>
-        {page === "list" && <WordList learned={learned} toggleLearned={toggle} />}
-        {page === "examples" && <Examples learned={learned} />}
-        {page === "test" && <Test learned={learned} />}
-        {page === "grammar" && <ComingSoon title="Grammar" />}
-        {page === "reading" && <ComingSoon title="Reading" />}
-        {page === "writing" && <ComingSoon title="Writing" />}
+        {page === "list"     && <WordList learnMap={learnMap} onCycle={cycle} openModal={setModalWord} />}
+        {page === "examples" && <Examples learnMap={learnMap} openModal={setModalWord} />}
+        {page === "test"     && <Test learnMap={learnMap} />}
+        {page === "grammar"  && <ComingSoon title="Grammar" />}
+        {page === "reading"  && <ComingSoon title="Reading" />}
+        {page === "writing"  && <ComingSoon title="Writing" />}
       </main>
+      <WordModal
+        word={modalWord}
+        onClose={() => setModalWord(null)}
+        learnMap={learnMap}
+        onCycle={cycle}
+      />
     </div>
   );
 }

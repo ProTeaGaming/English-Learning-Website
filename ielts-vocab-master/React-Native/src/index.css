@@ -380,4 +380,96 @@ h1, h2, h3, .font-display { font-family: 'Sora', sans-serif; }
   .cat-filter-bar {
     @apply flex flex-col gap-3 mb-6 bg-surface border border-line rounded-2xl px-5 py-4;
   }
+
+  /* ===== Word-card: little-bit state ===== */
+  .word-card.little { box-shadow: 0 0 0 2px #f59e0b inset; }
+  .word-card.little::before {
+    content: "~"; position: absolute; top: 10px; right: 10px; width: 20px; height: 20px;
+    background: #f59e0b; color: #1c1917; border-radius: 50%; display: flex;
+    align-items: center; justify-content: center; font-size: .85rem; font-weight: 900; z-index: 2; line-height: 1;
+  }
+
+  /* ===== 3-state learn control ===== */
+  .learn-state-row { @apply flex items-center gap-1.5 mt-auto pt-2 border-t border-line; }
+  .learn-state-label { @apply text-[.72rem] text-muted whitespace-nowrap shrink-0; }
+  .learn-state-btn {
+    @apply flex-1 text-[.68rem] font-bold font-sora px-1.5 py-1 rounded-md border border-line
+           bg-surface2 text-muted cursor-pointer leading-tight;
+    transition: all .15s ease;
+  }
+  .learn-state-btn[data-state="little"] { background: #f59e0b; border-color: #f59e0b; color: #1c1917; }
+  .learn-state-btn[data-state="learned"] { background: #22c55e; border-color: #22c55e; @apply text-white; }
+  .learn-state-btn[data-state="none"]:hover { @apply border-accent text-ink; }
+
+  /* ===== Word detail modal ===== */
+  .modal-backdrop {
+    position: fixed; inset: 0; background: rgba(0,0,0,.65);
+    backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+    display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 20px;
+  }
+  .modal-card {
+    @apply bg-surface rounded-[20px] w-full;
+    max-width: 400px; border-top: 4px solid var(--accent-c); overflow: hidden; position: relative;
+    max-height: 85vh; display: flex; flex-direction: column;
+    box-shadow: 0 32px 80px rgba(0,0,0,.6);
+  }
+  .modal-header {
+    @apply px-6 pt-6 pb-4 border-b border-line flex justify-between items-start gap-3 shrink-0;
+  }
+  .modal-word { @apply font-sora font-extrabold text-[1.8rem] leading-none; color: var(--accent-c); }
+  .modal-pos { @apply text-[.85rem] text-muted italic mt-1; }
+  .modal-body { @apply px-6 py-5 flex flex-col gap-3.5 overflow-y-auto; }
+  .modal-def { @apply text-[1.05rem] font-semibold leading-relaxed text-ink; }
+  .modal-row { @apply text-[.92rem] leading-relaxed text-muted; }
+  .modal-row b { @apply text-ink font-bold; }
+  .modal-ex { @apply text-[.92rem] italic text-muted leading-relaxed pt-3.5 border-t border-line; }
+  .modal-ex em { color: var(--accent-c); font-style: normal; font-weight: 700; }
+  .modal-cat { @apply text-[.8rem] text-muted; }
+  .modal-cat b { @apply text-ink; }
+
+  /* ===== Interactive word-page rows ===== */
+  .ex-item.interactive { @apply cursor-pointer relative overflow-hidden; }
+  .ex-item.interactive:hover { box-shadow: 0 4px 16px rgba(0,0,0,.2); }
+  .ex-item.interactive .ex-reveal {
+    position: absolute; inset: 0; padding: 12px 18px;
+    background: linear-gradient(160deg, rgb(var(--color-surface) / .97) 0%, rgb(var(--color-surface)) 100%);
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+    opacity: 0; transform: translateY(8px);
+    transition: opacity .2s ease, transform .2s ease;
+    display: flex; flex-direction: column; gap: 5px; font-size: .83rem; pointer-events: none;
+  }
+  .ex-item.interactive:hover .ex-reveal { opacity: 1; transform: translateY(0); }
+  .ex-reveal .rdef { @apply font-semibold leading-snug text-ink; }
+  .ex-reveal .rrow { @apply text-muted leading-snug; }
+  .ex-reveal .rrow b { @apply text-ink font-semibold; }
+
+  /* ===== Pagination ===== */
+  .pagination { @apply flex items-center justify-center gap-1.5 flex-wrap mt-6; }
+  .page-btn {
+    @apply min-w-[36px] h-9 px-2.5 flex items-center justify-center rounded-xl text-[.85rem]
+           font-semibold border border-line bg-surface2 text-muted cursor-pointer;
+    transition: border-color .15s ease, background .15s ease, color .15s ease;
+  }
+  .page-btn:hover { @apply border-accent text-ink; }
+  .page-btn.active { @apply border-transparent text-white bg-accent; box-shadow: 0 4px 14px rgba(99,102,241,.35); }
+  .page-btn:disabled { @apply opacity-40 cursor-not-allowed; }
+  .page-btn.ellipsis { @apply cursor-default border-transparent bg-transparent; }
+  .goto-wrap { @apply flex items-center gap-2 ml-2; }
+  .goto-label { @apply text-[.82rem] text-muted whitespace-nowrap; }
+  .goto-input {
+    @apply w-14 h-9 text-center text-[.85rem] font-bold rounded-xl border border-accent
+           bg-accent text-white appearance-none focus:outline-none;
+  }
+  .goto-input::-webkit-inner-spin-button,
+  .goto-input::-webkit-outer-spin-button { -webkit-appearance: none; }
+
+  /* ===== Headline CEFR filter bar ===== */
+  .headline-bar { @apply flex flex-wrap gap-2 mb-4; }
+  .headline-btn {
+    @apply font-sora font-bold text-[.88rem] px-4 py-2 rounded-xl border border-line
+           bg-surface2 text-muted cursor-pointer;
+    transition: background .15s ease, color .15s ease, border-color .15s ease;
+  }
+  .headline-btn:hover { @apply text-ink border-accent; }
+  .headline-btn.active { @apply text-white border-transparent bg-accent; box-shadow: 0 4px 14px rgba(99,102,241,.35); }
 }

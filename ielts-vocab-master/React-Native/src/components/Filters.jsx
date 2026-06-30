@@ -2,7 +2,7 @@ import { CATEGORIES, SECTION_ORDER } from "../data/vocab-data";
 import { CEFR_LEVELS, cefrColor } from "../utils/cefr";
 import ExpandableChips from "./ExpandableChips";
 
-export default function Filters({ filters, setFilters, resultLabel, searchPlaceholder }) {
+export default function Filters({ filters, setFilters, resultLabel, searchPlaceholder, hideCefrRow }) {
   const visibleCats = CATEGORIES.filter(
     (c) => filters.section === "all" || c.section === filters.section
   );
@@ -82,6 +82,12 @@ export default function Filters({ filters, setFilters, resultLabel, searchPlaceh
           Learned
         </button>
         <button
+          className={"chip" + (filters.learned === "little" ? " active" : "")}
+          onClick={() => update({ learned: "little" })}
+        >
+          Little Bit
+        </button>
+        <button
           className={"chip" + (filters.learned === "unlearned" ? " active" : "")}
           onClick={() => update({ learned: "unlearned" })}
         >
@@ -89,7 +95,7 @@ export default function Filters({ filters, setFilters, resultLabel, searchPlaceh
         </button>
       </div>
 
-      <div className="flex gap-2 flex-wrap items-center">
+      {!hideCefrRow && <div className="flex gap-2 flex-wrap items-center">
         <span className="text-[.78rem] font-bold text-muted uppercase tracking-wider mr-1">CEFR Level</span>
         <button
           className={"chip" + (filters.cefr === "all" ? " active" : "")}
@@ -113,7 +119,7 @@ export default function Filters({ filters, setFilters, resultLabel, searchPlaceh
         >
           Clear filters
         </button>
-      </div>
+      </div>}
     </div>
   );
 }
