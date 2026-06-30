@@ -384,6 +384,12 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
 .headline-pill.intermediate{background:var(--b2);}
 .headline-pill.advanced{background:var(--c1); color:#1c1917;}
 .headline-pill.cefr{background:var(--c2p);}
+.pagination{display:flex;gap:6px;align-items:center;justify-content:center;margin:24px 0;flex-wrap:wrap;}
+.page-btn{min-width:36px;height:36px;padding:0 10px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--muted);font-family:'Sora',sans-serif;font-size:.82rem;font-weight:600;cursor:pointer;transition:background .15s,color .15s,border-color .15s;}
+.page-btn:hover:not(:disabled){border-color:var(--accent);color:var(--accent);}
+.page-btn.active{background:var(--accent);border-color:var(--accent);color:#fff;}
+.page-btn:disabled{opacity:.4;cursor:default;}
+.page-ellipsis{color:var(--muted);font-size:.9rem;padding:0 4px;}
 
 /* cat progress bar 3-state */
 .cat-pfill-little{height:100%; border-radius:99px 0 0 99px; background:var(--c1); transition:width .4s ease; opacity:.7;}
@@ -915,6 +921,7 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
       </div>
     </div>
     <div class="ex-list" id="exList"></div>
+    <div class="pagination" id="exPagination"></div>
   </section>
 
   <!-- ===== TEST PAGE ===== -->
@@ -7357,7 +7364,7 @@ function loadCachedLearnMap(){
 const state = {
   learnMap: loadCachedLearnMap(),   /* { "word": "little"|"learned" } — only persisted for signed-in accounts */
   list: { search:"", section:"all", cat:"all", cefr:"all", learned:"all" },
-  examples: { search:"", section:"all", cat:"all", cefr:"all", learned:"all", headline:"all" },
+  examples: { search:"", section:"all", cat:"all", cefr:"all", learned:"all", headline:"all", page:1 },
   auth: { loggedIn:false, id:null, name:"", email:"", picture:"" },
 };
 
@@ -7754,6 +7761,7 @@ document.getElementById("reviewLittleBtn").addEventListener("click", () => {
   state.examples.cat = "all";
   state.examples.cefr = "all";
   state.examples.learned = "little";
+  state.examples.page = 1;
   document.getElementById("exSearchInput").value = "";
   renderExamplesFilters();
   renderExamples();
@@ -8498,13 +8506,45 @@ document.getElementById("clearCatFilters").addEventListener("click", () => {
 /* ════════════════════════════════════════════════════════
    EXAMPLES PAGE
    ════════════════════════════════════════════════════════ */
+const EX_PER_PAGE = 25;
+
+function buildPagination(container, total, perPage, current, onPageChange){
+  container.innerHTML = "";
+  const totalPages = Math.ceil(total / perPage);
+  if (totalPages <= 1) return;
+  function pageList(){
+    const res = [], delta = 2;
+    const lo = Math.max(2, current - delta), hi = Math.min(totalPages - 1, current + delta);
+    res.push(1);
+    if (lo > 2) res.push(null);
+    for (let i = lo; i <= hi; i++) res.push(i);
+    if (hi < totalPages - 1) res.push(null);
+    if (totalPages > 1) res.push(totalPages);
+    return res;
+  }
+  function mkBtn(label, page, isActive, disabled){
+    const b = document.createElement("button");
+    b.className = "page-btn" + (isActive ? " active" : "");
+    b.textContent = label; b.disabled = !!disabled;
+    if (!disabled) b.addEventListener("click", () => onPageChange(page));
+    return b;
+  }
+  container.appendChild(mkBtn("«", current - 1, false, current === 1));
+  pageList().forEach(p => {
+    if (p === null){ const s = document.createElement("span"); s.className = "page-ellipsis"; s.textContent = "…"; container.appendChild(s); }
+    else container.appendChild(mkBtn(p, p, p === current, false));
+  });
+  container.appendChild(mkBtn("»", current + 1, false, current === totalPages));
+}
+
 function renderExamplesFilters(){
   const f = state.examples;
   document.querySelectorAll("#exHeadlineFilters [data-headline]").forEach(btn => {
     btn.classList.toggle("active", btn.dataset.headline === (f.headline || "all"));
   });
-  buildSectionChips(document.getElementById("exSectionFilters"), f, () => { renderExamplesFilters(); renderExamples(); });
-  buildCategoryChips(document.getElementById("exCategoryFilters"), f, () => { renderExamplesFilters(); renderExamples(); });
+  const onExChange = () => { state.examples.page = 1; renderExamplesFilters(); renderExamples(); };
+  buildSectionChips(document.getElementById("exSectionFilters"), f, onExChange);
+  buildCategoryChips(document.getElementById("exCategoryFilters"), f, onExChange);
   const cefrRow = document.getElementById("exCefrRow");
   cefrRow.style.display = f.headline === "cefr" ? "none" : "";
   document.querySelectorAll("#page-examples .filters [data-cefr]").forEach(chip => {
@@ -8517,9 +8557,12 @@ function renderExamplesFilters(){
 
 function renderExamples(){
   const f = state.examples;
-  const words = VOCAB_DATA.filter(w => matchesFilters(w, f));
+  const allWords = VOCAB_DATA.filter(w => matchesFilters(w, f));
+  const total = allWords.length;
+  const page = f.page || 1;
+  const words = allWords.slice((page - 1) * EX_PER_PAGE, page * EX_PER_PAGE);
   const list = document.getElementById("exList");
-  document.getElementById("exCount").textContent = `${words.length} word${words.length!==1?"s":""}`;
+  document.getElementById("exCount").textContent = `${total} word${total!==1?"s":""}`;
   list.innerHTML = "";
   words.forEach(word => {
     const item = document.createElement("div");
@@ -8533,18 +8576,25 @@ function renderExamples(){
       <div class="ex-sentence">${word.ex}</div>`;
     list.appendChild(item);
   });
-  if (typeof gsap !== "undefined"){
+  buildPagination(document.getElementById("exPagination"), total, EX_PER_PAGE, page, p => {
+    state.examples.page = p;
+    renderExamples();
+    document.getElementById("page-examples").scrollIntoView({behavior:"smooth", block:"start"});
+  });
+  if (typeof gsap !== "undefined" && list.children.length){
     gsap.fromTo(list.children, {opacity:0, y:10}, {opacity:1, y:0, duration:.35, ease:"power2.out", stagger:{amount:0.3, from:"start"}});
   }
 }
 
 document.getElementById("exSearchInput").addEventListener("input", debounce(e => {
   state.examples.search = e.target.value.trim();
+  state.examples.page = 1;
   renderExamples();
 }, 150));
 document.querySelectorAll("#page-examples .filters [data-cefr]").forEach(chip => {
   chip.addEventListener("click", () => {
     state.examples.cefr = chip.dataset.cefr;
+    state.examples.page = 1;
     renderExamplesFilters();
     renderExamples();
   });
@@ -8552,12 +8602,13 @@ document.querySelectorAll("#page-examples .filters [data-cefr]").forEach(chip =>
 document.querySelectorAll("#page-examples .filters [data-learned]").forEach(chip => {
   chip.addEventListener("click", () => {
     state.examples.learned = chip.dataset.learned;
+    state.examples.page = 1;
     renderExamplesFilters();
     renderExamples();
   });
 });
 document.getElementById("exClearFilters").addEventListener("click", () => {
-  state.examples = { search:"", section:"all", cat:"all", cefr:"all", learned:"all", headline:"all" };
+  state.examples = { search:"", section:"all", cat:"all", cefr:"all", learned:"all", headline:"all", page:1 };
   document.getElementById("exSearchInput").value = "";
   renderExamplesFilters();
   renderExamples();
@@ -8567,6 +8618,7 @@ document.querySelectorAll("#exHeadlineFilters [data-headline]").forEach(btn => {
     state.examples.headline = btn.dataset.headline;
     state.examples.section = "all";
     state.examples.cat = "all";
+    state.examples.page = 1;
     renderExamplesFilters();
     renderExamples();
   });
