@@ -881,6 +881,13 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
       <h1>Word</h1>
       <p>See every word used correctly in a full sentence.</p>
     </div>
+    <div class="headline-bar" id="exHeadlineFilters">
+      <button class="headline-btn active" data-headline="all">All</button>
+      <button class="headline-btn" data-headline="basic">🌱 Basic</button>
+      <button class="headline-btn" data-headline="intermediate">📈 Intermediate</button>
+      <button class="headline-btn" data-headline="advanced">🎓 Advanced</button>
+      <button class="headline-btn" data-headline="cefr">📊 CEFR Levels</button>
+    </div>
     <div class="filters">
       <div class="search-row">
         <input type="search" id="exSearchInput" placeholder="Search words, definitions, synonyms…">
@@ -895,7 +902,7 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
         <button class="chip" data-learned="little">Little Bit</button>
         <button class="chip" data-learned="unlearned">Not Learned</button>
       </div>
-      <div class="filter-row">
+      <div class="filter-row" id="exCefrRow">
         <span class="filter-label">CEFR Level</span>
         <button class="chip active" data-cefr="all">All</button>
         <button class="chip" data-cefr="A1">A1</button><button class="chip" data-cefr="A1+">A1+</button>
@@ -7350,7 +7357,7 @@ function loadCachedLearnMap(){
 const state = {
   learnMap: loadCachedLearnMap(),   /* { "word": "little"|"learned" } — only persisted for signed-in accounts */
   list: { search:"", section:"all", cat:"all", cefr:"all", learned:"all" },
-  examples: { search:"", section:"all", cat:"all", cefr:"all", learned:"all" },
+  examples: { search:"", section:"all", cat:"all", cefr:"all", learned:"all", headline:"all" },
   auth: { loggedIn:false, id:null, name:"", email:"", picture:"" },
 };
 
@@ -7741,6 +7748,7 @@ document.getElementById("resetProgressBtn").addEventListener("click", () => {
 
 document.getElementById("reviewLittleBtn").addEventListener("click", () => {
   state.examples.search = "";
+  state.examples.headline = "all";
   state.examples.section = "all";
   state.examples.cat = "all";
   state.examples.cefr = "all";
@@ -8490,13 +8498,19 @@ document.getElementById("clearCatFilters").addEventListener("click", () => {
    EXAMPLES PAGE
    ════════════════════════════════════════════════════════ */
 function renderExamplesFilters(){
-  buildSectionChips(document.getElementById("exSectionFilters"), state.examples, () => { renderExamplesFilters(); renderExamples(); });
-  buildCategoryChips(document.getElementById("exCategoryFilters"), state.examples, () => { renderExamplesFilters(); renderExamples(); });
+  const f = state.examples;
+  document.querySelectorAll("#exHeadlineFilters [data-headline]").forEach(btn => {
+    btn.classList.toggle("active", btn.dataset.headline === (f.headline || "all"));
+  });
+  buildSectionChips(document.getElementById("exSectionFilters"), f, () => { renderExamplesFilters(); renderExamples(); });
+  buildCategoryChips(document.getElementById("exCategoryFilters"), f, () => { renderExamplesFilters(); renderExamples(); });
+  const cefrRow = document.getElementById("exCefrRow");
+  cefrRow.style.display = f.headline === "cefr" ? "none" : "";
   document.querySelectorAll("#page-examples .filters [data-cefr]").forEach(chip => {
-    chip.classList.toggle("active", chip.dataset.cefr === state.examples.cefr);
+    chip.classList.toggle("active", chip.dataset.cefr === f.cefr);
   });
   document.querySelectorAll("#page-examples .filters [data-learned]").forEach(chip => {
-    chip.classList.toggle("active", chip.dataset.learned === state.examples.learned);
+    chip.classList.toggle("active", chip.dataset.learned === f.learned);
   });
 }
 
@@ -8542,10 +8556,19 @@ document.querySelectorAll("#page-examples .filters [data-learned]").forEach(chip
   });
 });
 document.getElementById("exClearFilters").addEventListener("click", () => {
-  state.examples = { search:"", section:"all", cat:"all", cefr:"all", learned:"all" };
+  state.examples = { search:"", section:"all", cat:"all", cefr:"all", learned:"all", headline:"all" };
   document.getElementById("exSearchInput").value = "";
   renderExamplesFilters();
   renderExamples();
+});
+document.querySelectorAll("#exHeadlineFilters [data-headline]").forEach(btn => {
+  btn.addEventListener("click", () => {
+    state.examples.headline = btn.dataset.headline;
+    state.examples.section = "all";
+    state.examples.cat = "all";
+    renderExamplesFilters();
+    renderExamples();
+  });
 });
 
 /* ════════════════════════════════════════════════════════
