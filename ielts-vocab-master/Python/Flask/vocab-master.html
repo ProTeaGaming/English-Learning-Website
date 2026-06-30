@@ -64,7 +64,7 @@ h1,h2,h3,.brand,.tab,.btn,.modeCard h3,.mode-toggle-label{font-family:'Sora',san
 /* ===== NAV DROPDOWNS ===== */
 .nav-group{position:relative;}
 .nav-dropdown{
-  display:none; position:absolute; left:0; top:100%; min-width:170px; z-index:60;
+  display:none; position:absolute; left:0; top:100%; width:100%; z-index:60;
   background:var(--surface); border:1px solid var(--border); border-radius:0 0 12px 12px;
   box-shadow:0 16px 48px rgba(0,0,0,.45), 0 4px 12px rgba(0,0,0,.2);
   overflow:hidden;
@@ -74,7 +74,7 @@ h1,h2,h3,.brand,.tab,.btn,.modeCard h3,.mode-toggle-label{font-family:'Sora',san
   display:block; width:100%; text-align:left; font-family:'Sora',sans-serif;
   font-size:.88rem; font-weight:600; color:var(--muted); background:transparent;
   border:none; padding:10px 16px; cursor:pointer;
-  transition:background .15s ease, color .15s ease; white-space:nowrap;
+  transition:background .15s ease, color .15s ease;
 }
 .nav-dropdown-item:hover{color:var(--text); background:var(--surface2);}
 .nav-dropdown-item.active{color:var(--accent);}
