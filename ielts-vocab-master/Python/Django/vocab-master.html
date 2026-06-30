@@ -641,7 +641,7 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
 
 /* ===== WORD DETAIL MODAL ===== */
 .modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.65);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;z-index:1000;padding:20px;}
-.modal-card{background:var(--surface);border-radius:20px;max-width:500px;width:100%;border-top:4px solid var(--accent-c,var(--accent));box-shadow:0 32px 80px rgba(0,0,0,.6);overflow:hidden;position:relative;max-height:85vh;display:flex;flex-direction:column;}
+.modal-card{background:var(--surface);border-radius:20px;max-width:400px;width:100%;border-top:4px solid var(--accent-c,var(--accent));box-shadow:0 32px 80px rgba(0,0,0,.6);overflow:hidden;position:relative;max-height:85vh;display:flex;flex-direction:column;}
 .modal-header{padding:24px 24px 16px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-shrink:0;}
 .modal-word{font-size:1.8rem;font-weight:800;font-family:'Sora',sans-serif;color:var(--accent-c,var(--accent));line-height:1.1;}
 .modal-pos{font-size:.85rem;color:var(--muted);font-style:italic;margin-top:4px;}
@@ -653,8 +653,6 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
 .modal-ex em{color:var(--accent-c,var(--accent));font-style:normal;font-weight:700;}
 .modal-cat{font-size:.8rem;color:var(--muted);}
 .modal-cat b{color:var(--text);}
-.modal-close{position:absolute;top:14px;right:14px;background:var(--surface2);border:1px solid var(--border);border-radius:50%;width:30px;height:30px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--muted);font-size:.8rem;font-weight:700;line-height:1;transition:color .15s,background .15s;}
-.modal-close:hover{color:var(--text);background:var(--border);}
 /* interactive ex-item */
 .ex-item.interactive{cursor:pointer;position:relative;overflow:hidden;}
 .ex-item.interactive:hover{box-shadow:0 4px 16px rgba(0,0,0,.2);}
@@ -3658,7 +3656,6 @@ function renderModalProgress(word){
 document.getElementById("word-modal").addEventListener("click", e => {
   if (e.target === document.getElementById("word-modal")) closeWordModal();
 });
-document.getElementById("word-modal-close").addEventListener("click", closeWordModal);
 document.addEventListener("keydown", e => { if (e.key === "Escape") closeWordModal(); });
 
 /* ════════════════════════════════════════════════════════
@@ -3676,7 +3673,6 @@ saveLearned();
 
 <div id="word-modal" class="modal-backdrop" style="display:none;" role="dialog" aria-modal="true">
   <div class="modal-card" id="word-modal-card">
-    <button class="modal-close" id="word-modal-close" aria-label="Close">✕</button>
     <div class="modal-header">
       <div>
         <div class="modal-word" id="modal-word"></div>
