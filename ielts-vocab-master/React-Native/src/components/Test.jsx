@@ -242,13 +242,23 @@ export default function Test({ learnMap }) {
           ) : (
             <>
               <div className="headline-bar">
-                {WORD_HEADLINES.map(([hl, label]) => (
-                  <button
-                    key={hl}
-                    className={"headline-btn" + (wordHeadline === hl ? " active" : "")}
-                    onClick={() => { setWordHeadline(hl); setWordPage(1); }}
-                  >{label}</button>
-                ))}
+                {WORD_HEADLINES.map(([hl, label]) => {
+                  const isActive = wordHeadline === hl;
+                  const hlColors = {
+                    basic:        { background: "#06b6d4", borderColor: "#06b6d4", color: "#064e3b" },
+                    intermediate: { background: "#3b82f6", borderColor: "#3b82f6", color: "#fff" },
+                    advanced:     { background: "#f59e0b", borderColor: "#f59e0b", color: "#1c1917" },
+                    cefr:         { background: "#a855f7", borderColor: "#a855f7", color: "#fff" },
+                  };
+                  return (
+                    <button
+                      key={hl}
+                      className={"headline-btn" + (isActive ? " active" : "")}
+                      style={isActive && hlColors[hl] ? hlColors[hl] : undefined}
+                      onClick={() => { setWordHeadline(hl); setWordPage(1); }}
+                    >{label}</button>
+                  );
+                })}
               </div>
               <div className="browse-bar">
                 <div className="flex items-center justify-between flex-wrap gap-2">
