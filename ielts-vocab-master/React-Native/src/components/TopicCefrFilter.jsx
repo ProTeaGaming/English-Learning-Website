@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { CATEGORIES, SECTION_ORDER } from "../data/vocab-data";
+import { CEFR_LEVELS, cefrColor } from "../utils/cefr";
 import ExpandableChips from "./ExpandableChips";
 
 export default function TopicCefrFilter({ filters, setFilters, resultLabel }) {
@@ -96,6 +97,26 @@ export default function TopicCefrFilter({ filters, setFilters, resultLabel }) {
             )}
           />
         )}
+      </div>
+
+      <div className="flex gap-2 flex-wrap items-center">
+        <span className="filter-label">CEFR Level</span>
+        <button
+          className={"chip" + (filters.cefr === "all" ? " active" : "")}
+          onClick={() => update({ cefr: "all" })}
+        >
+          All
+        </button>
+        {CEFR_LEVELS.map((lvl) => (
+          <button
+            key={lvl}
+            className={"chip" + (filters.cefr === lvl ? " active" : "")}
+            style={filters.cefr === lvl ? { background: cefrColor(lvl), color: "#fff", borderColor: "transparent" } : undefined}
+            onClick={() => update({ cefr: lvl })}
+          >
+            {lvl}
+          </button>
+        ))}
       </div>
 
       <div className="flex gap-2 flex-wrap items-center">
