@@ -118,7 +118,7 @@ h1, h2, h3, .font-display { font-family: 'Sora', sans-serif; }
            px-3.5 py-1.5 cursor-pointer font-semibold;
     transition: color .15s ease, border-color .15s ease, background .15s ease;
   }
-  .clear-btn:hover { @apply text-white border-c2; background: rgba(239,68,68,.1); }
+  .clear-btn:hover { @apply text-ink border-accent; background: rgba(99,102,241,.1); }
 
   .view-all-link {
     @apply text-[.82rem] font-semibold text-accent underline underline-offset-2

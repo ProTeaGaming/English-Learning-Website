@@ -272,7 +272,7 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
   border-radius:999px; padding:6px 14px; cursor:pointer; font-weight:600;
   transition:color .15s, border-color .15s, background .15s;
 }
-.clear-btn:hover{color:#fff; border-color:#ef4444; background:rgba(239,68,68,.1);}
+.clear-btn:hover{color:var(--text); border-color:var(--accent); background:rgba(99,102,241,.1);}
 .view-all-link{font-size:.82rem; font-weight:600; color:var(--accent); text-decoration:underline; text-underline-offset:2px; background:none; border:none; padding:6px 4px; cursor:pointer; transition:color .15s;}
 .view-all-link:hover{color:var(--text);}
 
@@ -900,6 +900,7 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
         </div>
       </div>
       <div id="browseContent"></div>
+      <div class="pagination" id="browsePagination"></div>
     </div>
 
     <!-- CATEGORY VIEW: word cards for one category -->
@@ -945,6 +946,7 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
         </div>
       </div>
       <div class="card-grid" id="wordGrid"></div>
+      <div class="pagination" id="catPagination"></div>
       <div class="cat-bulk-actions">
         <button class="cat-bulk-btn" id="catCompleteAllBtn">✓ Mark All Completed</button>
         <button class="cat-bulk-btn cat-bulk-btn-secondary" id="catResetAllBtn">↺ Reset All</button>
@@ -1791,29 +1793,73 @@ function matchesFilters(word, f){
   return true;
 }
 
-const EXPANDABLE_CHIPS_DEFAULT_COUNT = 5;
+function measurePageBreaks(container, pinnedChip, optionChips, maxRows){
+  if (container.getBoundingClientRect().width === 0) return null;
+  const breaks = [];
+  let pageStart = 0;
+  while (pageStart < optionChips.length){
+    container.innerHTML = "";
+    container.appendChild(pinnedChip.cloneNode(true));
+    for (let i = pageStart; i < optionChips.length; i++) container.appendChild(optionChips[i].cloneNode(true));
+    const clones = Array.from(container.children).slice(1);
+    let rowCount = 0, lastTop = null, pageEnd = optionChips.length;
+    for (let i = 0; i < clones.length; i++){
+      const top = clones[i].getBoundingClientRect().top;
+      if (lastTop === null || Math.abs(top - lastTop) > 4){ rowCount++; lastTop = top; }
+      if (rowCount > maxRows){ pageEnd = pageStart + i; break; }
+    }
+    if (pageEnd <= pageStart) pageEnd = Math.min(pageStart + 1, optionChips.length);
+    breaks.push([pageStart, pageEnd]);
+    pageStart = pageEnd;
+  }
+  container.innerHTML = "";
+  return breaks;
+}
 
-// Renders a pinned "All ..." chip plus a list of option chips, truncating the
-// options to `defaultCount` behind a "View All" / "Hide All" toggle link.
-function renderExpandableChips(container, pinnedChip, optionChips, defaultCount = EXPANDABLE_CHIPS_DEFAULT_COUNT){
+function renderExpandableChips(container, pinnedChip, optionChips, maxRows = 2){
+  const fp = optionChips.length + ":" + (optionChips[0] ? optionChips[0].textContent : "");
+  if (container.dataset.chipFp !== fp){ container.dataset.chipPage = "0"; container.dataset.chipFp = fp; container.dataset.chipBreaks = ""; }
+  if (!container.dataset.chipBreaks){
+    const measured = measurePageBreaks(container, pinnedChip, optionChips, maxRows);
+    if (measured === null){
+      container.innerHTML = "";
+      container.appendChild(pinnedChip);
+      optionChips.forEach(chip => container.appendChild(chip));
+      return;
+    }
+    container.dataset.chipBreaks = JSON.stringify(measured);
+  }
+  const breaks = JSON.parse(container.dataset.chipBreaks);
+  let page = parseInt(container.dataset.chipPage || "0", 10);
+  const totalPages = breaks.length;
+  if (page >= totalPages) page = 0;
+  const [start, end] = breaks[page];
+
   container.innerHTML = "";
   container.appendChild(pinnedChip);
+  optionChips.slice(start, end).forEach(chip => container.appendChild(chip));
 
-  const showToggle = optionChips.length > defaultCount;
-  const expanded = container.dataset.expanded === "true";
-  const visible = showToggle && !expanded ? optionChips.slice(0, defaultCount) : optionChips;
-  visible.forEach(chip => container.appendChild(chip));
+  if (totalPages > 1){
+    const prev = document.createElement("button");
+    prev.type = "button"; prev.className = "clear-btn"; prev.textContent = "← Prev";
+    prev.disabled = page === 0;
+    if (page === 0){ prev.style.opacity = "0.35"; prev.style.cursor = "default"; }
+    prev.addEventListener("click", () => { container.dataset.chipPage = page - 1; renderExpandableChips(container, pinnedChip, optionChips, maxRows); });
 
-  if (showToggle){
-    const toggle = document.createElement("button");
-    toggle.type = "button";
-    toggle.className = "view-all-link";
-    toggle.textContent = expanded ? "Hide All" : "View All";
-    toggle.addEventListener("click", () => {
-      container.dataset.expanded = expanded ? "false" : "true";
-      renderExpandableChips(container, pinnedChip, optionChips, defaultCount);
-    });
-    container.appendChild(toggle);
+    const counter = document.createElement("span");
+    counter.style.cssText = "font-size:.78rem;color:var(--muted);font-weight:600;padding:0 4px;white-space:nowrap;";
+    counter.textContent = "Page " + (page + 1) + " / " + totalPages;
+
+    const next = document.createElement("button");
+    next.type = "button"; next.className = "clear-btn"; next.textContent = "Next →";
+    next.disabled = page === totalPages - 1;
+    if (page === totalPages - 1){ next.style.opacity = "0.35"; next.style.cursor = "default"; }
+    next.addEventListener("click", () => { container.dataset.chipPage = page + 1; renderExpandableChips(container, pinnedChip, optionChips, maxRows); });
+
+    const navRow = document.createElement("div");
+    navRow.style.cssText = "width:100%;display:flex;justify-content:center;align-items:center;gap:8px;margin-top:4px;";
+    navRow.appendChild(prev); navRow.appendChild(counter); navRow.appendChild(next);
+    container.appendChild(navRow);
   }
 }
 
@@ -2011,6 +2057,9 @@ function goToPage(pageId){
 
   const page = document.getElementById(`page-${pageId}`);
   page.classList.add("active");
+  page.querySelectorAll("[data-chip-fp]").forEach(el => { el.dataset.chipBreaks = ""; });
+  if (pageId === "examples") renderExamplesFilters();
+  else if (pageId === "test") renderTestMode();
   if (typeof gsap !== "undefined"){
     gsap.fromTo(page, {opacity:0, y:12}, {opacity:1, y:0, duration:.35, ease:"power2.out"});
   }
@@ -2689,7 +2738,8 @@ loadVocab();
 /* ════════════════════════════════════════════════════════
    WORD LIST PAGE — section/category browser
    ════════════════════════════════════════════════════════ */
-const browseState = { search:"", section:"all", cefr:"all", status:"all", headline:"all" };
+const browseState = { search:"", section:"all", cefr:"all", status:"all", headline:"all", page:1 };
+const BROWSE_SECTIONS_PER_PAGE = 10;
 
 function categoryStatusOf(catId){
   const words = CAT_WORDS[catId];
@@ -2700,7 +2750,8 @@ function categoryStatusOf(catId){
   if (learnedCnt === 0 && littleCnt === 0) return "notStarted";
   return "inProgress";
 }
-const catState    = { cat:null, search:"", cefr:"all", learned:"all" };
+const catState    = { cat:null, search:"", cefr:"all", learned:"all", page:1 };
+const CAT_PER_PAGE = 25;
 const CEFR_COLORS = {
   "A1":"#10b981", "A1+":"#eab308",
   "A2":"#06b6d4", "A2+":"#f97316",
@@ -2795,7 +2846,7 @@ function renderBrowse(){
     const allBtn = document.createElement("button");
     allBtn.className = "chip" + (browseState.section==="all"?" active":"");
     allBtn.textContent = "All";
-    allBtn.addEventListener("click", () => { browseState.section="all"; renderBrowse(); });
+    allBtn.addEventListener("click", () => { browseState.section="all"; browseState.page=1; renderBrowse(); });
     const sectionsForChips = hl === "all"
       ? ALL_SECTION_ORDER.filter(s => SECTION_HEADLINES[s] !== "cefr")
       : ALL_SECTION_ORDER.filter(s => SECTION_HEADLINES[s] === hl);
@@ -2803,7 +2854,7 @@ function renderBrowse(){
       const btn = document.createElement("button");
       btn.className = "chip" + (browseState.section===sName?" active":"");
       btn.textContent = sName;
-      btn.addEventListener("click", () => { browseState.section=sName; renderBrowse(); });
+      btn.addEventListener("click", () => { browseState.section=sName; browseState.page=1; renderBrowse(); });
       return btn;
     });
     renderExpandableChips(sc, allBtn, sectionBtns);
@@ -2826,6 +2877,7 @@ function renderBrowse(){
   if (hl !== "all") {
     sectionsToShow = sectionsToShow.filter(s => SECTION_HEADLINES[s] === hl);
   }
+  const matchedSections = [];
   sectionsToShow.forEach(sName => {
     let cats = ALL_CATEGORIES.filter(c => c.section===sName);
     if (q) cats = cats.filter(c => c.name.toLowerCase().includes(q));
@@ -2835,19 +2887,28 @@ function renderBrowse(){
     if (browseState.status !== "all") {
       cats = cats.filter(c => categoryStatusOf(c.id) === browseState.status);
     }
-    if (!cats.length) return;
-    content.appendChild(renderBrowseSection(sName, cats));
+    if (cats.length) matchedSections.push({ sName, cats });
   });
+  const totalBrowsePages = Math.max(1, Math.ceil(matchedSections.length / BROWSE_SECTIONS_PER_PAGE));
+  if (browseState.page > totalBrowsePages) browseState.page = totalBrowsePages;
+  const pageSections = matchedSections.slice((browseState.page - 1) * BROWSE_SECTIONS_PER_PAGE, browseState.page * BROWSE_SECTIONS_PER_PAGE);
+  content.innerHTML = "";
+  pageSections.forEach(({ sName, cats }) => content.appendChild(renderBrowseSection(sName, cats)));
   if (typeof gsap !== "undefined"){
     gsap.fromTo(content.querySelectorAll(".cat-card"),
       {opacity:0,y:16},{opacity:1,y:0,duration:.35,ease:"power2.out",stagger:{amount:.25,from:"start"}});
   }
+  buildPagination(document.getElementById("browsePagination"), matchedSections.length, BROWSE_SECTIONS_PER_PAGE, browseState.page, p => {
+    browseState.page = p;
+    renderBrowse();
+    document.getElementById("page-list").scrollIntoView({behavior:"smooth", block:"start"});
+  });
 }
 
 function renderWordGrid(){
   const f = catState;
   const baseWords = CAT_WORDS[f.cat] || [];
-  const words = baseWords.filter(w => {
+  const allWords = baseWords.filter(w => {
     if (f.cefr !== "all" && w.cefr !== f.cefr) return false;
     if (f.learned === "learned" && !isLearned(w.w)) return false;
     if (f.learned === "little"  && !isLittle(w.w)) return false;
@@ -2859,8 +2920,11 @@ function renderWordGrid(){
     }
     return true;
   });
+  const totalPages = Math.max(1, Math.ceil(allWords.length / CAT_PER_PAGE));
+  if (catState.page > totalPages) catState.page = totalPages;
+  const words = allWords.slice((catState.page - 1) * CAT_PER_PAGE, catState.page * CAT_PER_PAGE);
   const grid = document.getElementById("wordGrid");
-  document.getElementById("listCount").textContent = `${words.length} word${words.length!==1?"s":""}`;
+  document.getElementById("listCount").textContent = `${allWords.length} word${allWords.length!==1?"s":""}`;
   grid.innerHTML = "";
   words.forEach(word => {
     const ws = learnedState(word.w);
@@ -2907,6 +2971,11 @@ function renderWordGrid(){
   if (typeof gsap !== "undefined"){
     gsap.fromTo(grid.children, {opacity:0,y:14},{opacity:1,y:0,duration:.4,ease:"power2.out",stagger:{amount:.3,from:"start"}});
   }
+  buildPagination(document.getElementById("catPagination"), allWords.length, CAT_PER_PAGE, catState.page, p => {
+    catState.page = p;
+    renderWordGrid();
+    document.getElementById("listCatView").scrollIntoView({behavior:"smooth", block:"start"});
+  });
 }
 
 document.getElementById("catCompleteAllBtn").addEventListener("click", () => {
@@ -2928,6 +2997,7 @@ function enterCatView(cat){
   catState.search = "";
   catState.cefr = "all";
   catState.learned = "all";
+  catState.page = 1;
   document.getElementById("catSearchInput").value = "";
   document.getElementById("catViewIcon").textContent = cat.icon || "📚";
   document.getElementById("catViewIcon").className = `cat-view-icon t-${cat.theme}`;
@@ -2959,33 +3029,34 @@ document.querySelectorAll("#listBrowse .headline-btn").forEach(btn => {
   btn.addEventListener("click", () => {
     browseState.headline = btn.dataset.headline;
     browseState.section = "all";
+    browseState.page = 1;
     renderBrowse();
   });
 });
 
 // Browse event listeners
 document.getElementById("browseSearch").addEventListener("input", debounce(e => {
-  browseState.search = e.target.value.trim();
+  browseState.search = e.target.value.trim(); browseState.page = 1;
   renderBrowse();
 }, 150));
 document.querySelectorAll("[data-browse-cefr]").forEach(chip => {
   chip.addEventListener("click", () => {
-    browseState.cefr = chip.dataset.browseCefr;
+    browseState.cefr = chip.dataset.browseCefr; browseState.page = 1;
     renderBrowse();
   });
 });
 document.getElementById("browseCefrAll").addEventListener("click", () => {
-  browseState.cefr = "all";
+  browseState.cefr = "all"; browseState.page = 1;
   renderBrowse();
 });
 document.querySelectorAll("[data-browse-status]").forEach(chip => {
   chip.addEventListener("click", () => {
-    browseState.status = chip.dataset.browseStatus;
+    browseState.status = chip.dataset.browseStatus; browseState.page = 1;
     renderBrowse();
   });
 });
 document.getElementById("browseStatusAll").addEventListener("click", () => {
-  browseState.status = "all";
+  browseState.status = "all"; browseState.page = 1;
   renderBrowse();
 });
 
@@ -2993,25 +3064,25 @@ document.getElementById("browseStatusAll").addEventListener("click", () => {
 document.getElementById("backToBrowse").addEventListener("click", exitCatView);
 document.getElementById("backToBrowseBottom").addEventListener("click", exitCatView);
 document.getElementById("catSearchInput").addEventListener("input", debounce(e => {
-  catState.search = e.target.value.trim();
+  catState.search = e.target.value.trim(); catState.page = 1;
   renderWordGrid();
 }, 150));
 document.querySelectorAll("[data-cat-cefr]").forEach(chip => {
   chip.addEventListener("click", () => {
-    catState.cefr = chip.dataset.catCefr;
+    catState.cefr = chip.dataset.catCefr; catState.page = 1;
     document.querySelectorAll("[data-cat-cefr]").forEach(c => c.classList.toggle("active", c.dataset.catCefr===catState.cefr));
     renderWordGrid();
   });
 });
 document.querySelectorAll("[data-cat-learned]").forEach(chip => {
   chip.addEventListener("click", () => {
-    catState.learned = chip.dataset.catLearned;
+    catState.learned = chip.dataset.catLearned; catState.page = 1;
     document.querySelectorAll("[data-cat-learned]").forEach(c => c.classList.toggle("active", c.dataset.catLearned===catState.learned));
     renderWordGrid();
   });
 });
 document.getElementById("clearCatFilters").addEventListener("click", () => {
-  catState.search=""; catState.cefr="all"; catState.learned="all";
+  catState.search=""; catState.cefr="all"; catState.learned="all"; catState.page=1;
   document.getElementById("catSearchInput").value="";
   document.querySelectorAll("[data-cat-cefr]").forEach(c => c.classList.toggle("active", c.dataset.catCefr==="all"));
   document.querySelectorAll("[data-cat-learned]").forEach(c => c.classList.toggle("active", c.dataset.catLearned==="all"));

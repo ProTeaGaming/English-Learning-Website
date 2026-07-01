@@ -7,21 +7,39 @@ import VocabBrowser from "./VocabBrowser";
 
 const DEFAULT_BROWSE = { search: "", section: "all", cefr: "all" };
 const DEFAULT_CAT = { search: "", cefr: "all", learned: "all" };
+const CAT_PER_PAGE = 25;
 
 function getWordsForCategory(cat) {
   if (cat.cefrLevel) return VOCAB_DATA.filter((w) => w.cefr === cat.cefrLevel);
   return VOCAB_DATA.filter((w) => w.cat === cat.id);
 }
 
+function pageWindows(cur, total) {
+  if (total <= 7) return Array.from({ length: total }, (_, i) => i + 1);
+  const pages = [1];
+  const lo = Math.max(2, cur - 2);
+  const hi = Math.min(total - 1, cur + 2);
+  if (lo > 2) pages.push("...");
+  for (let i = lo; i <= hi; i++) pages.push(i);
+  if (hi < total - 1) pages.push("...");
+  pages.push(total);
+  return pages;
+}
+
 export default function WordList({ learnMap, onCycle, openModal }) {
   const [activeCategory, setActiveCategory] = useState(null);
   const [browseFilters, setBrowseFilters] = useState(DEFAULT_BROWSE);
   const [catFilters, setCatFilters] = useState(DEFAULT_CAT);
+  const [catPage, setCatPage] = useState(1);
+  const [gotoVal, setGotoVal] = useState("");
   const gridRef = useRef(null);
+  const topRef = useRef(null);
 
   const handleSelectCategory = (cat) => {
     setActiveCategory(cat);
     setCatFilters(DEFAULT_CAT);
+    setCatPage(1);
+    setGotoVal("");
   };
 
   const allCategoryWords = useMemo(
@@ -45,15 +63,27 @@ export default function WordList({ learnMap, onCycle, openModal }) {
     });
   }, [allCategoryWords, catFilters, learnMap]);
 
+  const totalPages = Math.max(1, Math.ceil(filteredWords.length / CAT_PER_PAGE));
+  const safePage = Math.min(catPage, totalPages);
+  const pageWords = filteredWords.slice((safePage - 1) * CAT_PER_PAGE, safePage * CAT_PER_PAGE);
+
+  const upd = (patch) => { setCatFilters((f) => ({ ...f, ...patch })); setCatPage(1); setGotoVal(""); };
+
+  const goTo = (p) => {
+    const clamped = Math.max(1, Math.min(totalPages, p));
+    setCatPage(clamped);
+    topRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
   useEffect(() => {
-    if (gridRef.current && filteredWords.length > 0) {
+    if (gridRef.current && pageWords.length > 0) {
       gsap.fromTo(
         gridRef.current.children,
         { opacity: 0, y: 14 },
         { opacity: 1, y: 0, duration: 0.4, ease: "power2.out", stagger: 0.015 }
       );
     }
-  }, [filteredWords]);
+  }, [pageWords]);
 
   if (!activeCategory) {
     return (
@@ -66,12 +96,11 @@ export default function WordList({ learnMap, onCycle, openModal }) {
     );
   }
 
-  const upd = (patch) => setCatFilters((f) => ({ ...f, ...patch }));
   const catIsDirty = catFilters.search || catFilters.cefr !== "all" || catFilters.learned !== "all";
 
   return (
     <section>
-      <div className="cat-view-header">
+      <div ref={topRef} className="cat-view-header">
         <button className="back-btn" onClick={() => setActiveCategory(null)}>
           ← All Sections
         </button>
@@ -117,7 +146,7 @@ export default function WordList({ learnMap, onCycle, openModal }) {
             <button key={val} className={"chip" + (catFilters.learned === val ? " active" : "")} onClick={() => upd({ learned: val })}>{label}</button>
           ))}
           {catIsDirty && (
-            <button className="clear-btn" onClick={() => setCatFilters(DEFAULT_CAT)}>Clear</button>
+            <button className="clear-btn" onClick={() => { setCatFilters(DEFAULT_CAT); setCatPage(1); setGotoVal(""); }}>Clear</button>
           )}
         </div>
       </div>
@@ -127,7 +156,7 @@ export default function WordList({ learnMap, onCycle, openModal }) {
         className="grid gap-3.5"
         style={{ gridTemplateColumns: "repeat(auto-fill, minmax(230px, 1fr))" }}
       >
-        {filteredWords.map((word) => (
+        {pageWords.map((word) => (
           <WordCard
             key={`${word.cat}-${word.w}`}
             word={word}
@@ -142,6 +171,51 @@ export default function WordList({ learnMap, onCycle, openModal }) {
           </p>
         )}
       </div>
+
+      {totalPages > 1 && (
+        <div className="pagination">
+          <button className="page-btn" disabled={safePage === 1} onClick={() => goTo(safePage - 1)}>«</button>
+
+          {pageWindows(safePage, totalPages).map((p, i) =>
+            p === "..." ? (
+              <span key={`e${i}`} className="page-btn ellipsis">…</span>
+            ) : (
+              <button
+                key={p}
+                className={"page-btn" + (p === safePage ? " active" : "")}
+                onClick={() => goTo(p)}
+              >{p}</button>
+            )
+          )}
+
+          <button className="page-btn" disabled={safePage === totalPages} onClick={() => goTo(safePage + 1)}>»</button>
+
+          <div className="goto-wrap">
+            <span className="goto-label">Go to</span>
+            <input
+              type="number"
+              className="goto-input"
+              min={1}
+              max={totalPages}
+              value={gotoVal}
+              placeholder={safePage}
+              onChange={(e) => setGotoVal(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  const n = parseInt(gotoVal, 10);
+                  if (!isNaN(n)) goTo(n);
+                  setGotoVal("");
+                }
+              }}
+              onBlur={() => {
+                const n = parseInt(gotoVal, 10);
+                if (!isNaN(n)) goTo(n);
+                setGotoVal("");
+              }}
+            />
+          </div>
+        </div>
+      )}
     </section>
   );
 }

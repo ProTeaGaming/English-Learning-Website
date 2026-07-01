@@ -13,6 +13,27 @@ def _require_auth(request):
     return None
 
 
+def _picture_url(request, user):
+    if user.picture:
+        return request.build_absolute_uri(user.picture.url)
+    return ''
+
+
+@require_http_methods(['GET'])
+def session(request):
+    if not request.user.is_authenticated:
+        return JsonResponse({'loggedIn': False})
+    u = request.user
+    return JsonResponse({
+        'loggedIn': True,
+        'id': u.pk,
+        'name': u.name,
+        'username': u.username,
+        'email': u.email,
+        'picture': _picture_url(request, u),
+    })
+
+
 @require_http_methods(['GET', 'POST'])
 def sync(request):
     err = _require_auth(request)
@@ -61,7 +82,7 @@ def update_profile(request):
         user.picture = f
 
     user.save()
-    return JsonResponse({'ok': True})
+    return JsonResponse({'ok': True, 'picture': _picture_url(request, user)})
 
 
 @require_http_methods(['POST'])

@@ -1,10 +1,11 @@
-import { useMemo } from "react";
+import { useMemo, useState, useRef } from "react";
 import { CATEGORIES, SECTION_ORDER, VOCAB_DATA, CEFR_SECTION, CEFR_CATEGORIES } from "../data/vocab-data";
 import { CEFR_LEVELS, cefrColor } from "../utils/cefr";
 import ExpandableChips from "./ExpandableChips";
 import CategoryCard from "./CategoryCard";
 
 const ALL_SECTIONS = [...SECTION_ORDER, CEFR_SECTION];
+const BROWSE_PER_PAGE = 10;
 
 // Pre-compute at module load — runs once, avoids repeated filtering on every render
 const CAT_WORDS = (() => {
@@ -18,8 +19,24 @@ const CAT_WORDS = (() => {
   return map;
 })();
 
+function pageWindows(cur, total) {
+  if (total <= 7) return Array.from({ length: total }, (_, i) => i + 1);
+  const pages = [1];
+  const lo = Math.max(2, cur - 2);
+  const hi = Math.min(total - 1, cur + 2);
+  if (lo > 2) pages.push("...");
+  for (let i = lo; i <= hi; i++) pages.push(i);
+  if (hi < total - 1) pages.push("...");
+  pages.push(total);
+  return pages;
+}
+
 export default function VocabBrowser({ filters, setFilters, learnMap, onSelectCategory }) {
-  const upd = (patch) => setFilters(f => ({ ...f, ...patch }));
+  const [browsePage, setBrowsePage] = useState(1);
+  const [gotoVal, setGotoVal] = useState("");
+  const topRef = useRef(null);
+
+  const upd = (patch) => { setFilters(f => ({ ...f, ...patch })); setBrowsePage(1); setGotoVal(""); };
 
   const sectionsData = useMemo(() => {
     const toShow = filters.section === "all" ? ALL_SECTIONS : [filters.section];
@@ -46,11 +63,21 @@ export default function VocabBrowser({ filters, setFilters, learnMap, onSelectCa
     }).filter(({ cats }) => cats.length > 0);
   }, [filters]);
 
+  const totalPages = Math.max(1, Math.ceil(sectionsData.length / BROWSE_PER_PAGE));
+  const safePage = Math.min(browsePage, totalPages);
+  const pageSections = sectionsData.slice((safePage - 1) * BROWSE_PER_PAGE, safePage * BROWSE_PER_PAGE);
+
+  const goTo = (p) => {
+    const clamped = Math.max(1, Math.min(totalPages, p));
+    setBrowsePage(clamped);
+    topRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
   const isDirty = filters.search || filters.section !== "all" || filters.cefr !== "all";
 
   return (
     <div>
-      <div className="mb-6">
+      <div ref={topRef} className="mb-6">
         <h1 className="text-[1.7rem] font-extrabold font-sora mb-1">Vocabulary</h1>
         <p className="text-muted text-[.95rem]">
           {VOCAB_DATA.length} words across {CATEGORIES.length} categories · {[...learnMap.values()].filter(v => v === "learned").length} learned
@@ -115,7 +142,7 @@ export default function VocabBrowser({ filters, setFilters, learnMap, onSelectCa
           {isDirty && (
             <button
               className="clear-btn"
-              onClick={() => setFilters({ search: "", section: "all", cefr: "all" })}
+              onClick={() => { setFilters({ search: "", section: "all", cefr: "all" }); setBrowsePage(1); setGotoVal(""); }}
             >
               Clear filters
             </button>
@@ -128,7 +155,7 @@ export default function VocabBrowser({ filters, setFilters, learnMap, onSelectCa
         {sectionsData.length === 0 && (
           <p className="text-muted text-[.95rem] py-12 text-center">No categories match the current filters.</p>
         )}
-        {sectionsData.map(({ section, cats }) => {
+        {pageSections.map(({ section, cats }) => {
           const sectionWordCount = cats.reduce((s, c) => s + CAT_WORDS[c.id].length, 0);
           return (
             <div key={section}>
@@ -163,6 +190,51 @@ export default function VocabBrowser({ filters, setFilters, learnMap, onSelectCa
           );
         })}
       </div>
+
+      {totalPages > 1 && (
+        <div className="pagination">
+          <button className="page-btn" disabled={safePage === 1} onClick={() => goTo(safePage - 1)}>«</button>
+
+          {pageWindows(safePage, totalPages).map((p, i) =>
+            p === "..." ? (
+              <span key={`e${i}`} className="page-btn ellipsis">…</span>
+            ) : (
+              <button
+                key={p}
+                className={"page-btn" + (p === safePage ? " active" : "")}
+                onClick={() => goTo(p)}
+              >{p}</button>
+            )
+          )}
+
+          <button className="page-btn" disabled={safePage === totalPages} onClick={() => goTo(safePage + 1)}>»</button>
+
+          <div className="goto-wrap">
+            <span className="goto-label">Go to</span>
+            <input
+              type="number"
+              className="goto-input"
+              min={1}
+              max={totalPages}
+              value={gotoVal}
+              placeholder={safePage}
+              onChange={(e) => setGotoVal(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  const n = parseInt(gotoVal, 10);
+                  if (!isNaN(n)) goTo(n);
+                  setGotoVal("");
+                }
+              }}
+              onBlur={() => {
+                const n = parseInt(gotoVal, 10);
+                if (!isNaN(n)) goTo(n);
+                setGotoVal("");
+              }}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 }
