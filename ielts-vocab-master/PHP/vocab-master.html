@@ -8853,6 +8853,7 @@ const GAP_MODES = [
   {id:"nuance",      name:"Lexical Nuance",        desc:"Near-synonyms are the distractors — only one word is precisely correct."},
   {id:"collocation", name:"Collocation & Idiom",   desc:"The blank requires a specific fixed word partnership or collocation."},
   {id:"connotation", name:"Connotation Match",     desc:"Choose the word whose tone — positive, negative or formal — fits the sentence."},
+  {id:"mixed",       name:"Mixed Review",          desc:"A random mix of all four gap fill types."},
 ];
 
 const TEST_MODE_ORDER = ["quiz", "gap", "challenge"];
@@ -8976,6 +8977,11 @@ function buildQuestion(word, mode){
 }
 
 function buildGapQuestion(word, gapMode = "context"){
+  if (gapMode === "mixed") {
+    const concrete = ["context","nuance","collocation","connotation"];
+    return buildGapQuestion(word, concrete[Math.floor(Math.random()*concrete.length)]);
+  }
+
   const others = VOCAB_DATA.filter(w => w.w !== word.w);
   const samePos = others.filter(w => w.pos === word.pos);
   let distractorPool, prompt;
