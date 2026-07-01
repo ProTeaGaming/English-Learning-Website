@@ -139,14 +139,15 @@ export default function VocabBrowser({ filters, setFilters, learnMap, onSelectCa
               {lvl}
             </button>
           ))}
-          {isDirty && (
-            <button
-              className="clear-btn"
-              onClick={() => { setFilters({ search: "", section: "all", cefr: "all" }); setBrowsePage(1); setGotoVal(""); }}
-            >
-              Clear filters
-            </button>
-          )}
+        </div>
+
+        <div className="flex justify-end">
+          <button
+            className="clear-btn"
+            onClick={() => { setFilters({ search: "", section: "all", cefr: "all" }); setBrowsePage(1); setGotoVal(""); }}
+          >
+            Clear filters
+          </button>
         </div>
       </div>
 

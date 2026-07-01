@@ -898,6 +898,9 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
           <button class="chip" data-browse-status="inProgress">In Progress</button>
           <button class="chip" data-browse-status="notStarted">Not Started</button>
         </div>
+        <div class="filter-row" style="justify-content:flex-end;">
+          <button class="clear-btn" id="browseClearFilters">Clear filters</button>
+        </div>
       </div>
       <div id="browseContent"></div>
       <div class="pagination" id="browsePagination"></div>
@@ -3094,6 +3097,12 @@ document.querySelectorAll("[data-browse-status]").forEach(chip => {
 });
 document.getElementById("browseStatusAll").addEventListener("click", () => {
   browseState.status = "all"; browseState.page = 1;
+  renderBrowse();
+});
+document.getElementById("browseClearFilters").addEventListener("click", () => {
+  browseState.search = ""; browseState.section = "all"; browseState.cefr = "all";
+  browseState.status = "all"; browseState.headline = "all"; browseState.page = 1;
+  document.getElementById("browseSearch").value = "";
   renderBrowse();
 });
 
