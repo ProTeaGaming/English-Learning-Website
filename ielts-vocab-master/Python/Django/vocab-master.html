@@ -567,16 +567,17 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
   display:flex; flex-direction:column; gap:14px; margin-bottom:28px;
   background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:18px 20px;
 }
-.browse-bar .search-row::before{content:"🔍"; position:absolute; left:14px; top:50%; transform:translateY(-50%); font-size:.9rem; opacity:.5; pointer-events:none;}
-#browseSearch, #catSearchInput, #testCatSearch{
+.browse-bar .search-row::before, .setup-filters .search-row::before{content:"🔍"; position:absolute; left:14px; top:50%; transform:translateY(-50%); font-size:.9rem; opacity:.5; pointer-events:none;}
+#browseSearch, #catSearchInput, #testCatSearch, #testWordSearch{
   flex:1; width:100%; background:var(--surface2); border:1px solid var(--border);
   color:var(--text); padding:10px 16px 10px 38px; border-radius:10px; font-size:.93rem; font-family:inherit;
   -webkit-appearance:none; appearance:none; transition:border-color .18s ease;
 }
-#browseSearch:focus, #catSearchInput:focus, #testCatSearch:focus{outline:none; border-color:var(--accent); box-shadow:0 0 0 3px rgba(99,102,241,.12);}
+#browseSearch:focus, #catSearchInput:focus, #testCatSearch:focus, #testWordSearch:focus{outline:none; border-color:var(--accent); box-shadow:0 0 0 3px rgba(99,102,241,.12);}
 #browseSearch::-webkit-search-decoration, #browseSearch::-webkit-search-cancel-button,
 #catSearchInput::-webkit-search-decoration, #catSearchInput::-webkit-search-cancel-button,
-#testCatSearch::-webkit-search-decoration, #testCatSearch::-webkit-search-cancel-button{-webkit-appearance:none;}
+#testCatSearch::-webkit-search-decoration, #testCatSearch::-webkit-search-cancel-button,
+#testWordSearch::-webkit-search-decoration, #testWordSearch::-webkit-search-cancel-button{-webkit-appearance:none;}
 
 /* ===== SECTION HEADER ===== */
 .section-header{display:flex; align-items:center; gap:12px; margin-bottom:16px;}
