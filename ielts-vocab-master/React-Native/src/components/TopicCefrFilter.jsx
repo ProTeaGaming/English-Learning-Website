@@ -100,29 +100,7 @@ export default function TopicCefrFilter({ filters, setFilters, resultLabel }) {
       </div>
 
       <div className="flex gap-2 flex-wrap items-center">
-        <span className="filter-label">Progress</span>
-        <button
-          className={"chip" + (filters.learned === "all" ? " active" : "")}
-          onClick={() => update({ learned: "all" })}
-        >
-          All
-        </button>
-        <button
-          className={"chip" + (filters.learned === "learned" ? " active" : "")}
-          onClick={() => update({ learned: "learned" })}
-        >
-          Learned
-        </button>
-        <button
-          className={"chip" + (filters.learned === "unlearned" ? " active" : "")}
-          onClick={() => update({ learned: "unlearned" })}
-        >
-          Not Learned
-        </button>
-      </div>
-
-      <div className="flex gap-2 flex-wrap items-center">
-        <span className="filter-label">CEFR</span>
+        <span className="filter-label">CEFR Level</span>
         <button
           className={"chip" + (filters.cefr === "all" ? " active" : "")}
           onClick={() => update({ cefr: "all" })}
@@ -144,6 +122,28 @@ export default function TopicCefrFilter({ filters, setFilters, resultLabel }) {
           onClick={() => update({ section: "all", cat: "all", cefr: "all", learned: "all" })}
         >
           Clear filters
+        </button>
+      </div>
+
+      <div className="flex gap-2 flex-wrap items-center">
+        <span className="filter-label">Progress</span>
+        <button
+          className={"chip" + (filters.learned === "all" ? " active" : "")}
+          onClick={() => update({ learned: "all" })}
+        >
+          All
+        </button>
+        <button
+          className={"chip" + (filters.learned === "learned" ? " active" : "")}
+          onClick={() => update({ learned: "learned" })}
+        >
+          Learned
+        </button>
+        <button
+          className={"chip" + (filters.learned === "unlearned" ? " active" : "")}
+          onClick={() => update({ learned: "unlearned" })}
+        >
+          Not Learned
         </button>
       </div>
     </div>
