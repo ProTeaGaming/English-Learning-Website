@@ -1,0 +1,3762 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IELTS Vocab Master</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0b0e14; --bg-rgb:11 14 20;
+  --surface:#161a23; --surface-rgb:22 26 35;
+  --surface2:#1e2330; --border:#2a3040;
+  --text:#e8eaf0; --muted:#9aa3b5; --accent:#6366f1;
+  --card-bg:#161a23; --card-border:#2a3040;
+  --a1:#10b981; --a1p:#eab308; --a2:#06b6d4; --a2p:#f97316;
+  --b1:#6366f1; --b1p:#ec4899; --b2:#3b82f6; --b2p:#1e40af; --c1:#f59e0b; --c1p:#f43f5e; --c2:#ef4444; --c2p:#a855f7;
+  --tb:#3b82f6; --tv:#8b5cf6; --tp:#ec4899; --tr:#ef4444; --te:#10b981;
+  --ta:#f59e0b; --tc:#06b6d4; --tg:#eab308; --ti:#6366f1; --to:#f97316;
+  --tro:#f43f5e; --tfg:#16a34a; --tpurp:#a855f7; --ts:#0d9488; --tnavy:#1e40af;
+}
+[data-theme="light"]{
+  --bg:#f5f6fa; --bg-rgb:245 246 250;
+  --surface:#ffffff; --surface-rgb:255 255 255;
+  --surface2:#eef0f5; --border:#e0e3ea;
+  --text:#1a1d27; --muted:#646d7d;
+  --a1:#059669; --a1p:#ca8a04; --a2:#06b6d4; --a2p:#ea580c;
+  --b1:#4f46e5; --b1p:#db2777; --b2:#2563eb; --b2p:#1e3a8a; --c1:#d97706; --c1p:#e11d48; --c2:#dc2626; --c2p:#9333ea;
+  --card-bg:#ffffff; --card-border:#bcc6d8;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  font-family:'Inter',sans-serif; background:var(--bg); color:var(--text);
+  line-height:1.5; min-height:100vh;
+  transition:background-color .25s ease, color .25s ease;
+}
+h1,h2,h3,.brand,.tab,.btn,.modeCard h3,.mode-toggle-label{font-family:'Sora',sans-serif;}
+
+/* ===== TOPBAR ===== */
+.topbar{
+  position:sticky; top:0; z-index:50;
+  padding:14px 28px; background:rgb(var(--bg-rgb) / .85); backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);
+}
+.topbar-inner{
+  max-width:1280px; margin:0 auto; width:100%;
+  display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;
+}
+.topbar-left{display:flex; align-items:center; gap:24px; flex-wrap:wrap;}
+.brand{font-weight:800; font-size:1.2rem; letter-spacing:-.02em; display:flex; align-items:center; gap:8px;}
+.brand span{background:linear-gradient(135deg,#6366f1,#a855f7); -webkit-background-clip:text; background-clip:text; color:transparent;}
+.tabs{display:flex; gap:6px; flex-wrap:wrap;}
+.topbar-right{display:flex; align-items:center; gap:14px; flex-wrap:wrap;}
+.tab{
+  font-size:.88rem; font-weight:600; color:var(--muted); background:transparent;
+  border:1px solid transparent; padding:8px 16px; border-radius:10px; cursor:pointer;
+  transition:background .18s ease, color .18s ease, box-shadow .18s ease; white-space:nowrap;
+}
+.tab:hover{color:var(--text); background:var(--surface2);}
+.tab.active{color:#fff; background:var(--accent); box-shadow:0 4px 14px rgba(99,102,241,.35);}
+.nav-caret{font-size:.7em; margin-left:4px; opacity:.6;}
+
+/* ===== NAV DROPDOWNS ===== */
+.nav-group{position:relative;}
+.nav-dropdown{
+  display:none; position:absolute; left:0; top:100%; width:100%; z-index:60;
+  background:var(--surface); border:1px solid var(--border); border-radius:0 0 12px 12px;
+  box-shadow:0 16px 48px rgba(0,0,0,.45), 0 4px 12px rgba(0,0,0,.2);
+  overflow:hidden;
+}
+.nav-group:hover .nav-dropdown, .nav-group.open .nav-dropdown{display:block;}
+.nav-dropdown-item{
+  display:block; width:100%; text-align:left; font-family:'Sora',sans-serif;
+  font-size:.88rem; font-weight:600; color:var(--muted); background:transparent;
+  border:none; padding:10px 16px; cursor:pointer;
+  transition:background .15s ease, color .15s ease;
+}
+.nav-dropdown-item:hover{color:var(--text); background:var(--surface2);}
+.nav-dropdown-item.active{color:var(--accent);}
+
+/* ===== THEME TOGGLE ===== */
+.theme-toggle{
+  display:flex; align-items:center; justify-content:center; width:36px; height:36px;
+  border-radius:999px; border:1px solid var(--border); background:var(--surface2);
+  font-size:1rem; line-height:1; cursor:pointer; transition:border-color .18s ease;
+}
+.theme-toggle:hover{border-color:var(--accent);}
+
+.stats{font-size:.85rem; color:var(--muted); font-weight:600; white-space:nowrap;}
+.stats b{color:var(--text); font-size:1rem;}
+.review-link{
+  margin-left:8px; padding:2px 10px; border-radius:999px; border:1px solid var(--c1);
+  background:transparent; color:var(--c1); font-size:.78rem; font-weight:700; cursor:pointer;
+  transition:background .15s ease;
+}
+.review-link:hover{background:var(--c1); color:#fff;}
+
+/* ===== AUTH ===== */
+.auth-area{position:relative;}
+.signin-btn{
+  padding:7px 16px; border-radius:999px; border:1px solid var(--accent);
+  background:var(--accent); color:#fff; font-size:.85rem; font-weight:700; cursor:pointer;
+  transition:opacity .15s ease;
+}
+.signin-btn:hover{opacity:.88;}
+.user-chip{display:flex; align-items:center; gap:6px; cursor:pointer; position:relative;}
+.user-avatar{
+  width:30px; height:30px; border-radius:50%; overflow:hidden; border:1px solid var(--border);
+  background:var(--surface2); display:flex; align-items:center; justify-content:center; flex-shrink:0;
+}
+.user-avatar img{width:100%; height:100%; object-fit:cover;}
+.avatar-initials{
+  width:100%; height:100%; display:flex; align-items:center; justify-content:center;
+  background:var(--accent); color:#fff; font-size:.85rem; font-weight:700;
+}
+.user-name{font-size:.85rem; font-weight:600; color:var(--text); max-width:120px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+.user-menu{
+  display:none; position:absolute; top:calc(100% + 8px); right:0; min-width:180px;
+  background:var(--surface); border:1px solid var(--border); border-radius:10px;
+  box-shadow:0 8px 24px rgba(0,0,0,.15); padding:10px; z-index:50; flex-direction:column; gap:8px;
+}
+.user-chip.open .user-menu{display:flex;}
+.user-menu-name{font-size:.88rem; font-weight:700; color:var(--text);}
+.user-menu-username{font-size:.8rem; color:var(--muted);}
+.user-menu-username:empty{display:none;}
+.user-menu-email{font-size:.78rem; color:var(--muted); word-break:break-all;}
+.user-menu button{
+  padding:6px 10px; border-radius:8px; border:1px solid var(--border); background:var(--surface2);
+  color:var(--text); font-size:.82rem; font-weight:600; cursor:pointer;
+}
+.user-menu button:hover{border-color:var(--accent);}
+
+.auth-hidden{display:none !important;}
+
+.auth-modal-overlay{
+  display:none; position:fixed; inset:0; background:rgba(0,0,0,.5);
+  align-items:center; justify-content:center; z-index:200; padding:16px;
+}
+.auth-modal-overlay.open{display:flex;}
+.auth-modal{
+  position:relative; width:100%; max-width:380px; background:var(--surface);
+  border:1px solid var(--border); border-radius:14px; padding:28px 24px;
+  box-shadow:0 16px 48px rgba(0,0,0,.25);
+}
+.auth-modal-lg{max-width:440px; padding:36px 32px;}
+.auth-modal-lg .auth-modal-title{margin-bottom:6px;}
+.auth-modal-subtitle{margin:0 0 14px; font-size:.92rem; color:var(--muted); text-align:center;}
+#authRegisterHint{margin:0 0 22px;}
+.auth-social-row{display:flex; gap:10px; justify-content:center; margin-bottom:20px;}
+.auth-social-btn{
+  flex:1; max-width:80px; aspect-ratio:1; display:flex; align-items:center; justify-content:center;
+  border:1px solid var(--border); border-radius:10px; background:var(--surface2); color:var(--text);
+  cursor:pointer; transition:border-color .15s ease, background .15s ease;
+}
+.auth-social-btn:hover{border-color:var(--accent); background:rgb(var(--surface-rgb) / .5);}
+.auth-divider{display:flex; align-items:center; gap:10px; margin:0 0 20px; color:var(--muted); font-size:.8rem;}
+.auth-divider::before, .auth-divider::after{content:""; flex:1; height:1px; background:var(--border);}
+.auth-password-wrap{position:relative;}
+.auth-password-wrap input{padding-right:42px;}
+.auth-pw-toggle{
+  position:absolute; right:6px; top:50%; transform:translateY(-50%); width:30px; height:30px;
+  border:none; background:transparent; cursor:pointer; font-size:1rem; color:var(--muted);
+  display:flex; align-items:center; justify-content:center; border-radius:6px;
+}
+.auth-pw-toggle:hover{background:var(--border);}
+.avatar-preview-wrap{display:flex; justify-content:center; margin-bottom:14px;}
+.avatar-preview-wrap img{
+  width:84px; height:84px; border-radius:50%; object-fit:cover; border:2px solid var(--border);
+}
+.auth-modal-close{
+  position:absolute; top:14px; right:14px; width:28px; height:28px; border-radius:50%;
+  border:none; background:transparent; color:var(--muted); font-size:1.3rem; line-height:1;
+  cursor:pointer; display:flex; align-items:center; justify-content:center;
+}
+.auth-modal-close:hover{background:var(--surface2); color:var(--text);}
+.auth-modal-title{margin:0 0 18px; font-size:1.25rem; font-weight:800; color:var(--text); text-align:center;}
+.auth-modal-error{
+  margin:0 0 14px; padding:9px 12px; border-radius:8px; background:rgba(220,38,38,.1);
+  border:1px solid rgba(220,38,38,.35); color:#dc2626; font-size:.82rem; font-weight:600;
+}
+.auth-modal-error:empty{display:none;}
+.auth-field{display:block; margin-bottom:14px;}
+.auth-field span{display:block; margin-bottom:6px; font-size:.82rem; font-weight:700; color:var(--text);}
+.auth-field small{font-weight:400; color:var(--muted);}
+.auth-field input{
+  width:100%; padding:10px 12px; border-radius:8px; border:1px solid var(--border);
+  background:var(--surface2); color:var(--text); font-size:.92rem; box-sizing:border-box;
+}
+.auth-field input:focus{outline:none; border-color:var(--accent); box-shadow:0 0 0 3px rgba(99,102,241,.12);}
+.auth-submit-btn{
+  width:100%; padding:11px; border-radius:8px; border:none; background:var(--accent);
+  color:#fff; font-size:.92rem; font-weight:700; cursor:pointer; transition:opacity .15s ease;
+}
+.auth-submit-btn:hover{opacity:.88;}
+.auth-submit-btn:disabled{opacity:.6; cursor:not-allowed;}
+.auth-switch{margin:16px 0 0; text-align:center; font-size:.82rem; color:var(--muted);}
+.auth-switch a{color:var(--accent); font-weight:700; text-decoration:none; cursor:pointer;}
+.auth-switch a:hover{text-decoration:underline;}
+.auth-modal-info{
+  margin:0 0 14px; padding:9px 12px; border-radius:8px; background:rgba(99,102,241,.1);
+  border:1px solid rgba(99,102,241,.35); color:var(--text); font-size:.82rem; font-weight:600;
+}
+.auth-modal-info:empty{display:none;}
+.auth-options-row{display:flex; align-items:center; justify-content:space-between; gap:10px; margin:-6px 0 14px;}
+.auth-forgot-link{margin:0; font-size:.8rem;}
+.auth-forgot-link a{color:var(--accent); font-weight:600; text-decoration:none; cursor:pointer;}
+.auth-forgot-link a:hover{text-decoration:underline;}
+.auth-remember-me{display:flex; align-items:center; gap:6px; font-size:.8rem; color:var(--muted); cursor:pointer; user-select:none;}
+.auth-remember-me input{width:14px; height:14px; accent-color:var(--accent); cursor:pointer;}
+.delete-account-link{
+  display:block; width:100%; margin-top:4px; padding:6px 10px; border-radius:8px;
+  border:1px solid rgba(220,38,38,.35); background:transparent; color:#dc2626;
+  font-size:.78rem; font-weight:600; cursor:pointer; text-align:center;
+}
+.delete-account-link:hover{background:rgba(220,38,38,.1);}
+
+/* ===== MAIN / PAGES ===== */
+main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
+.page{display:none;}
+.page.active{display:block;}
+.page-head{margin-bottom:22px;}
+.page-head h1{font-size:1.75rem; font-weight:800; margin-bottom:4px;}
+.page-head p{color:var(--muted); font-size:.95rem;}
+
+/* ===== FILTERS ===== */
+.filters{
+  display:flex; flex-direction:column; gap:14px; margin-bottom:24px;
+  background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:18px 20px;
+}
+.search-row{display:flex; gap:10px; flex-wrap:wrap; align-items:center; position:relative;}
+.search-row::before{content:"🔍"; position:absolute; left:14px; top:50%; transform:translateY(-50%); font-size:.9rem; opacity:.5; pointer-events:none;}
+#searchInput, #exSearchInput{
+  flex:1; min-width:200px; background:var(--surface2); border:1px solid var(--border);
+  color:var(--text); padding:10px 16px 10px 38px; border-radius:10px; font-size:.93rem; font-family:inherit;
+  -webkit-appearance:none; appearance:none;
+  transition:border-color .18s ease;
+}
+#searchInput:focus, #exSearchInput:focus{outline:none; border-color:var(--accent); box-shadow:0 0 0 3px rgba(99,102,241,.12);}
+#searchInput::-webkit-search-decoration, #searchInput::-webkit-search-cancel-button,
+#exSearchInput::-webkit-search-decoration, #exSearchInput::-webkit-search-cancel-button{-webkit-appearance:none;}
+.result-count{font-size:.84rem; color:var(--muted); white-space:nowrap;}
+.filter-row{display:flex; gap:8px; flex-wrap:wrap; align-items:center;}
+.filter-label{font-size:.78rem; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:.06em; margin-right:4px;}
+.chip{
+  font-size:.82rem; font-weight:600; padding:6px 14px; border-radius:999px;
+  background:var(--surface2); border:1px solid var(--border); color:var(--muted);
+  cursor:pointer; display:flex; align-items:center; gap:6px;
+  transition:color .15s ease, border-color .15s ease, background .15s ease, transform .15s ease;
+}
+.chip:hover{color:var(--text); border-color:var(--accent);}
+.chip.active{color:#fff; border-color:transparent; background:var(--accent);}
+.chip.active[data-cefr="A1"],.chip.active[data-browse-cefr="A1"],.chip.active[data-cat-cefr="A1"]{background:var(--a1);}
+.chip.active[data-cefr="A1+"],.chip.active[data-browse-cefr="A1+"],.chip.active[data-cat-cefr="A1+"]{background:var(--a1p);}
+.chip.active[data-cefr="A2"],.chip.active[data-browse-cefr="A2"],.chip.active[data-cat-cefr="A2"]{background:var(--a2);}
+.chip.active[data-cefr="A2+"],.chip.active[data-browse-cefr="A2+"],.chip.active[data-cat-cefr="A2+"]{background:var(--a2p);}
+.chip.active[data-cefr="B1"],.chip.active[data-browse-cefr="B1"],.chip.active[data-cat-cefr="B1"]{background:var(--b1);}
+.chip.active[data-cefr="B1+"],.chip.active[data-browse-cefr="B1+"],.chip.active[data-cat-cefr="B1+"]{background:var(--b1p);}
+.chip.active[data-cefr="B2"],.chip.active[data-browse-cefr="B2"],.chip.active[data-cat-cefr="B2"]{background:var(--b2);}
+.chip.active[data-cefr="B2+"],.chip.active[data-browse-cefr="B2+"],.chip.active[data-cat-cefr="B2+"]{background:var(--b2p);}
+.chip.active[data-cefr="C1"],.chip.active[data-browse-cefr="C1"],.chip.active[data-cat-cefr="C1"]{background:var(--c1);}
+.chip.active[data-cefr="C1+"],.chip.active[data-browse-cefr="C1+"],.chip.active[data-cat-cefr="C1+"]{background:var(--c1p);}
+.chip.active[data-cefr="C2"],.chip.active[data-browse-cefr="C2"],.chip.active[data-cat-cefr="C2"]{background:var(--c2);}
+.chip.active[data-cefr="C2+"],.chip.active[data-browse-cefr="C2+"],.chip.active[data-cat-cefr="C2+"]{background:var(--c2p);}
+.chip.active[data-section]{background:var(--accent);}
+.chip.active[data-cat]{background:var(--accent-c,var(--accent));}
+.chip.active[data-browse-status="completed"]{background:var(--tfg);}
+.chip.active[data-browse-status="inProgress"]{background:var(--c1);}
+.chip.active[data-browse-status="notStarted"]{background:var(--muted);}
+.clear-btn{
+  font-size:.8rem; color:var(--muted); background:none; border:1px solid var(--border);
+  border-radius:999px; padding:6px 14px; cursor:pointer; font-weight:600;
+  transition:color .15s, border-color .15s, background .15s;
+}
+.clear-btn:hover{color:var(--text); border-color:var(--accent); background:rgba(99,102,241,.1);}
+.view-all-link{font-size:.82rem; font-weight:600; color:var(--accent); text-decoration:underline; text-underline-offset:2px; background:none; border:none; padding:6px 4px; cursor:pointer; transition:color .15s;}
+.view-all-link:hover{color:var(--text);}
+
+/* ===== CEFR BADGE ===== */
+.cefr-badge{
+  font-size:.7rem; font-weight:800; padding:3px 9px; border-radius:6px; color:#fff; letter-spacing:.03em; flex-shrink:0;
+}
+.cefr-badge.A1{background:var(--a1);}
+.cefr-badge.A1\+{background:var(--a1p);}
+.cefr-badge.A2{background:var(--a2);}
+.cefr-badge.A2\+{background:var(--a2p);}
+.cefr-badge.B1{background:var(--b1);}
+.cefr-badge.B1\+{background:var(--b1p);}
+.cefr-badge.B2{background:var(--b2);}
+.cefr-badge.B2\+{background:var(--b2p);}
+.cefr-badge.C1{background:var(--c1);}
+.cefr-badge.C1\+{background:var(--c1p);}
+.cefr-badge.C2{background:var(--c2);}
+.cefr-badge.C2\+{background:var(--c2p);}
+
+/* ===== WORD CARD GRID ===== */
+.card-grid{
+  display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:16px;
+}
+.word-card{
+  position:relative; border:1px solid var(--card-border); border-radius:16px;
+  background:var(--card-bg);
+  padding:16px; min-height:120px; overflow:hidden; cursor:pointer;
+  border-top:3px solid var(--accent-c, var(--accent));
+  transition:transform .24s cubic-bezier(.4,0,.2,1), box-shadow .24s cubic-bezier(.4,0,.2,1);
+}
+.word-card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 20px 48px rgba(0,0,0,.5), 0 4px 12px rgba(0,0,0,.25), 0 0 0 1px var(--accent-c, var(--accent));
+}
+.word-card .face{display:flex; justify-content:space-between; align-items:flex-start; gap:8px;}
+.word-card .word{font-size:1.1rem; font-weight:700; font-family:'Sora',sans-serif; letter-spacing:-.01em; line-height:1.25;}
+.word-card .pos{font-size:.75rem; color:var(--muted); margin-top:2px; font-style:italic;}
+.word-card .reveal{
+  position:absolute; inset:0;
+  background:linear-gradient(160deg, rgb(var(--surface-rgb) / .98) 0%, rgb(var(--surface-rgb)) 100%);
+  backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
+  padding:14px 16px; opacity:0; transform:translateY(8px);
+  transition:opacity .2s cubic-bezier(.4,0,.2,1), transform .2s cubic-bezier(.4,0,.2,1);
+  overflow-y:auto; display:flex; flex-direction:column; gap:6px; font-size:.82rem;
+}
+.word-card:hover .reveal, .word-card.revealed .reveal{opacity:1; transform:translateY(0); pointer-events:auto;}
+.word-card .reveal{pointer-events:none;}
+.reveal .rdef{font-weight:600; line-height:1.4;}
+.reveal .rrow{color:var(--muted); line-height:1.4;}
+.reveal .rrow b{color:var(--text); font-weight:600;}
+.reveal .rex{color:var(--muted); font-style:italic; line-height:1.4; margin-top:auto; padding-top:6px; border-top:1px solid var(--border);}
+.reveal .rex em{color:var(--accent-c,var(--accent)); font-style:normal; font-weight:700;}
+.word-card .top-line{display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;}
+.word-card .top-line .word{color:var(--accent-c,var(--accent));}
+.reveal .learn-row{display:flex; align-items:center; gap:6px; margin-top:auto; padding-top:6px; font-size:.78rem; color:var(--muted); cursor:pointer;}
+.reveal .learn-row input{accent-color:var(--accent-c,var(--accent)); width:14px; height:14px; cursor:pointer;}
+.word-card.learned{box-shadow:0 0 0 2px #22c55e inset;}
+.word-card.learned::before{
+  content:"✓"; position:absolute; top:10px; right:10px; width:20px; height:20px; background:#22c55e;
+  color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center;
+  font-size:.7rem; font-weight:800; z-index:2;
+}
+.word-card.little{box-shadow:0 0 0 2px #f59e0b inset;}
+.word-card.little::before{
+  content:"~"; position:absolute; top:10px; right:10px; width:20px; height:20px; background:#f59e0b;
+  color:#1c1917; border-radius:50%; display:flex; align-items:center; justify-content:center;
+  font-size:.85rem; font-weight:900; z-index:2; line-height:1;
+}
+
+/* ===== 3-STATE LEARN CONTROL ===== */
+.learn-state-row{display:flex; align-items:center; gap:6px; margin-top:auto; padding-top:8px; border-top:1px solid var(--border);}
+.learn-state-label{font-size:.72rem; color:var(--muted); white-space:nowrap; flex-shrink:0;}
+.learn-state-btn{
+  flex:1; font-size:.68rem; font-weight:700; font-family:'Sora',sans-serif; padding:4px 6px;
+  border-radius:6px; border:1px solid var(--border); background:var(--surface2); color:var(--muted);
+  cursor:pointer; transition:all .15s ease; line-height:1.2;
+}
+.learn-state-btn[data-state="little"]{background:#f59e0b; border-color:#f59e0b; color:#1c1917;}
+.learn-state-btn[data-state="learned"]{background:#22c55e; border-color:#22c55e; color:#fff;}
+.learn-state-btn[data-state="none"]:hover{border-color:var(--accent-c,var(--accent)); color:var(--text);}
+
+.cat-bulk-actions{display:flex; gap:10px; justify-content:center; margin:24px 0 8px;}
+.cat-bulk-btn{
+  font-size:.82rem; font-weight:700; font-family:'Sora',sans-serif; padding:9px 18px;
+  border-radius:9px; border:1px solid var(--border); background:#22c55e; color:#fff;
+  cursor:pointer; transition:filter .15s ease;
+}
+.cat-bulk-btn:hover{filter:brightness(1.08);}
+.cat-bulk-btn-secondary{background:var(--surface2); color:var(--text);}
+
+/* ===== HEADLINE FILTER ===== */
+.headline-bar{display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-bottom:20px;}
+.headline-btn{
+  font-family:'Sora',sans-serif; font-size:.82rem; font-weight:700; padding:7px 18px;
+  border-radius:99px; border:1.5px solid var(--border); background:var(--surface);
+  color:var(--muted); cursor:pointer; transition:all .18s ease; white-space:nowrap;
+}
+.headline-btn:hover{border-color:var(--accent); color:var(--accent);}
+.headline-btn.active[data-headline="all"]{background:var(--accent); border-color:var(--accent); color:#fff;}
+.headline-btn.active[data-headline="basic"]{background:var(--a2); border-color:var(--a2); color:#064e3b;}
+.headline-btn.active[data-headline="intermediate"]{background:var(--b2); border-color:var(--b2); color:#fff;}
+.headline-btn.active[data-headline="advanced"]{background:var(--c1); border-color:var(--c1); color:#1c1917;}
+.headline-btn.active[data-headline="cefr"]{background:var(--c2p); border-color:var(--c2p); color:#fff;}
+.headline-pill{
+  font-size:.65rem; font-weight:800; padding:2px 7px; border-radius:99px; letter-spacing:.04em; flex-shrink:0; color:#fff;
+}
+.headline-pill.basic{background:var(--a2p);}
+.headline-pill.intermediate{background:var(--b2);}
+.headline-pill.advanced{background:var(--c1); color:#1c1917;}
+.headline-pill.cefr{background:var(--c2p);}
+.pagination{display:flex;gap:6px;align-items:center;justify-content:center;margin:24px 0;flex-wrap:wrap;}
+.page-btn{min-width:36px;height:36px;padding:0 10px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--muted);font-family:'Sora',sans-serif;font-size:.82rem;font-weight:600;cursor:pointer;transition:background .15s,color .15s,border-color .15s;}
+.page-btn:hover:not(:disabled){border-color:var(--accent);color:var(--accent);}
+.page-btn.active{background:var(--accent);border-color:var(--accent);color:#fff;}
+.page-btn:disabled{opacity:.4;cursor:default;}
+.page-ellipsis{color:var(--muted);font-size:.9rem;padding:0 4px;}
+
+/* cat progress bar 3-state */
+.cat-pfill-little{height:100%; border-radius:99px 0 0 99px; background:var(--c1); transition:width .4s ease; opacity:.7;}
+
+/* theme accent colors applied per category */
+.t-tb{--accent-c:var(--tb);} .t-tv{--accent-c:var(--tv);} .t-tp{--accent-c:var(--tp);}
+.t-tr{--accent-c:var(--tr);} .t-te{--accent-c:var(--te);} .t-ta{--accent-c:var(--ta);}
+.t-tc{--accent-c:var(--tc);} .t-tg{--accent-c:var(--tg);} .t-ti{--accent-c:var(--ti);}
+.t-to{--accent-c:var(--to);} .t-tro{--accent-c:var(--tro);} .t-tfg{--accent-c:var(--tfg);}
+.t-tpurp{--accent-c:var(--tpurp);} .t-ts{--accent-c:var(--ts);}
+.t-tnavy{--accent-c:var(--tnavy);}
+.word-card{border-top-color:var(--accent-c,var(--accent));}
+
+/* ===== EXAMPLES PAGE ===== */
+.ex-list{display:flex; flex-direction:column; gap:10px;}
+.ex-item{
+  background:var(--surface); border:1px solid var(--border); border-left:4px solid var(--accent-c,var(--accent));
+  border-radius:10px; padding:14px 18px; display:flex; flex-direction:column; gap:6px;
+}
+.ex-item .ex-head{display:flex; align-items:center; gap:10px; flex-wrap:wrap;}
+.ex-item .ex-word{font-weight:700; font-size:1.02rem; font-family:'Sora',sans-serif; color:var(--accent-c,var(--accent));}
+.ex-item .ex-pos{font-size:.75rem; color:var(--muted); font-style:italic;}
+.ex-item .ex-sentence{font-size:.92rem; color:var(--text); line-height:1.5;}
+.ex-item .ex-sentence em{color:var(--accent-c,var(--accent)); font-weight:700; font-style:normal;}
+
+/* ===== QUIZ / GAP SETUP ===== */
+.setup-card{
+  max-width:680px; margin:0 auto; background:var(--surface); border:1px solid var(--border);
+  border-radius:20px; padding:32px; text-align:center;
+  box-shadow:0 8px 32px rgba(0,0,0,.25);
+}
+.setup-card h2{font-size:1.4rem; margin-bottom:8px;}
+.setup-card .sub{color:var(--muted); font-size:.92rem; margin-bottom:24px;}
+.option-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px; margin-bottom:22px;}
+.modeCard{
+  background:var(--surface2); border:2px solid var(--border); border-radius:12px; padding:14px;
+  cursor:pointer; transition:border-color .18s ease, background .18s ease; text-align:left;
+}
+.modeCard:hover{border-color:var(--accent);}
+.modeCard.active{border-color:var(--accent); background:rgba(99,102,241,.1);}
+.modeCard h3{font-size:.95rem; margin-bottom:4px;}
+.modeCard p{font-size:.78rem; color:var(--muted); line-height:1.35;}
+
+/* ===== TEST MODE TOGGLE ===== */
+.mode-toggle-row{display:flex; align-items:center; justify-content:center; gap:12px; margin-bottom:20px;}
+.mode-toggle-btn{
+  display:flex; align-items:center; justify-content:center; width:36px; height:36px;
+  border-radius:999px; border:1px solid var(--border); background:var(--surface2);
+  font-size:1rem; line-height:1; cursor:pointer; transition:border-color .18s ease; color:var(--text);
+}
+.mode-toggle-btn:hover{border-color:var(--accent);}
+
+.count-row{display:flex; justify-content:center; gap:10px; margin-top:36px; margin-bottom:24px; flex-wrap:wrap; align-items:center;}
+.count-row .chip.active{padding:6px 22px;}
+.custom-chip{
+  display:inline-flex; align-items:center; gap:8px;
+  padding:6px 14px; border-radius:999px; cursor:pointer;
+  background:var(--surface2); border:1px solid var(--border); color:var(--muted);
+  font-size:.82rem; font-weight:600; font-family:inherit; line-height:1;
+  transition:color .15s ease, border-color .15s ease, background .15s ease, transform .15s ease;
+}
+.custom-chip:hover{color:var(--text); border-color:var(--accent);}
+.custom-chip.active{background:var(--accent); border-color:transparent; color:#fff;}
+.custom-count-input{
+  width:36px; padding:3px 4px; border-radius:6px; text-align:center;
+  background:#fff; border:none;
+  color:#6366f1; font-size:.82rem; font-weight:700; font-family:inherit;
+  -moz-appearance:textfield;
+}
+.custom-count-input::-webkit-outer-spin-button,
+.custom-count-input::-webkit-inner-spin-button{-webkit-appearance:none;}
+.custom-count-input:focus{outline:none; box-shadow:0 0 0 2px rgba(255,255,255,0.8);}
+.custom-count-input.bad{background:#fca5a5; color:#7f1d1d;}
+.custom-count-warn{display:none; font-size:.78rem; color:#f87171; margin-top:-16px; margin-bottom:8px; text-align:center;}
+.btn{
+  font-weight:700; font-size:.95rem; padding:11px 32px; border-radius:12px;
+  border:none; cursor:pointer; color:#fff;
+  background:linear-gradient(135deg,#6366f1 0%,#7c3aed 100%);
+  transition:transform .18s cubic-bezier(.4,0,.2,1), box-shadow .18s ease, background .18s ease;
+}
+.btn:hover{
+  transform:translateY(-1px);
+  background:linear-gradient(135deg,#818cf8 0%,#9333ea 100%);
+  box-shadow:0 8px 24px rgba(99,102,241,.4);
+}
+.btn.secondary{
+  background:var(--surface2); border:1px solid var(--border); color:var(--text);
+  box-shadow:none;
+}
+.btn.secondary:hover{box-shadow:none; border-color:var(--accent); background:var(--surface2); transform:none;}
+.btn:disabled{opacity:.4; cursor:not-allowed; transform:none; box-shadow:none;}
+
+/* ===== SETUP TOPIC/CEFR FILTERS ===== */
+.setup-filters{display:flex; flex-direction:column; gap:10px; margin-bottom:24px; text-align:left;}
+.setup-filters .filter-head{display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;}
+.no-match{color:var(--c2); font-size:.85rem; margin-bottom:16px;}
+
+/* ===== QUESTION SCREEN ===== */
+.quiz-wrap{max-width:680px; margin:0 auto;}
+.progress-bar{height:4px; background:var(--surface2); border-radius:99px; overflow:hidden; margin-bottom:18px;}
+.progress-fill{
+  height:100%; border-radius:99px; transition:width .4s ease;
+  background:linear-gradient(90deg,#6366f1 0%,#a855f7 100%);
+}
+.q-meta{display:flex; justify-content:space-between; font-size:.85rem; color:var(--muted); margin-bottom:14px; font-weight:600;}
+.q-card{
+  background:var(--surface); border:1px solid var(--border); border-radius:20px; padding:32px;
+  box-shadow:0 8px 32px rgba(0,0,0,.2);
+}
+.q-prompt{font-size:.85rem; color:var(--muted); text-transform:uppercase; letter-spacing:.08em; font-weight:700; margin-bottom:10px;}
+.q-text{font-size:1.25rem; font-weight:700; font-family:'Sora',sans-serif; margin-bottom:24px; line-height:1.5;}
+.q-text .qpos{font-size:.7em; color:var(--muted); font-weight:400; font-style:italic;}
+.q-text .gapblank{color:var(--accent); font-weight:800; border-bottom:2px dashed var(--accent); padding:0 4px;}
+.q-options{display:flex; flex-direction:column; gap:10px;}
+.q-opt{
+  text-align:left; background:var(--surface2); border:1px solid var(--border); color:var(--text);
+  padding:13px 18px; border-radius:12px; font-size:.95rem; cursor:pointer; font-family:inherit;
+  transition:border-color .15s ease, background .15s ease, box-shadow .15s ease;
+}
+.q-opt:hover{border-color:var(--accent); background:rgba(99,102,241,.05); box-shadow:0 0 0 1px rgba(99,102,241,.2);}
+.q-opt.correct{background:rgba(34,197,94,.18); border-color:#22c55e; color:#86efac;}
+.q-opt.wrong{background:rgba(239,68,68,.18); border-color:#ef4444; color:#fca5a5;}
+[data-theme="light"] .q-opt.correct{color:#15803d;}
+[data-theme="light"] .q-opt.wrong{color:#b91c1c;}
+.q-opt:disabled{cursor:default;}
+.q-opt:disabled:hover{border-color:var(--border); background:var(--surface2); box-shadow:none;}
+.q-feedback{margin-top:18px; font-size:.88rem; color:var(--muted); min-height:20px;}
+.q-feedback b{color:var(--text);}
+.q-next{display:flex; justify-content:flex-end; margin-top:18px;}
+
+/* ===== RESULT SCREEN ===== */
+.result-card{
+  max-width:560px; margin:0 auto; text-align:center; background:var(--surface);
+  border:1px solid var(--border); border-radius:20px; padding:40px;
+  box-shadow:0 8px 32px rgba(0,0,0,.25);
+}
+.result-card h2{font-size:1.3rem; color:var(--muted); margin-bottom:8px;}
+.result-score{
+  font-size:3.5rem; font-weight:800; font-family:'Sora',sans-serif; margin:8px 0;
+  background:linear-gradient(135deg,#6366f1,#a855f7); -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+.result-msg{color:var(--muted); margin-bottom:28px; font-size:.95rem;}
+.result-actions{display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-bottom:24px;}
+#testReview{margin-top:8px; display:flex; flex-direction:column; gap:8px; text-align:left;}
+.review-item{display:flex; gap:12px; padding:12px 14px; border-radius:12px; border:1px solid var(--border); background:var(--surface2);}
+.review-item.review-correct{border-color:rgba(52,211,153,.35);}
+.review-item.review-wrong{border-color:rgba(248,113,113,.35);}
+.review-num{font-size:.75rem; font-weight:700; color:var(--muted); min-width:20px; padding-top:2px;}
+.review-body{flex:1; display:flex; flex-direction:column; gap:6px;}
+.review-q{font-size:.88rem; color:var(--text); font-weight:500;}
+.review-ans{display:flex; flex-wrap:wrap; gap:6px;}
+.review-tag{font-size:.78rem; font-weight:600; padding:3px 10px; border-radius:999px;}
+.review-tag.correct{background:rgba(52,211,153,.15); color:#34d399;}
+.review-tag.wrong{background:rgba(248,113,113,.15); color:#f87171;}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width:640px){
+  .topbar{padding:12px 16px; backdrop-filter:none; background:rgb(var(--bg-rgb) / .97);}
+  .topbar-inner{gap:12px;}
+  main{padding:18px 14px 48px;}
+  .card-grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));}
+  .q-card,.setup-card,.result-card{padding:20px;}
+  .search-row{flex-direction:column; align-items:stretch;}
+  #searchInput, #exSearchInput{min-width:0;}
+  .search-row::before{top:22px;}
+  .word-card:hover{transform:none; box-shadow:none;}
+  .word-card{padding:12px; min-height:100px; min-width:0;}
+  .word-card .face{min-width:0;}
+  .word-card .face > div:first-child{min-width:0;}
+  .word-card .word{font-size:1.05rem; overflow-wrap:break-word; word-break:break-word;}
+}
+
+/* ===== BROWSE BAR ===== */
+.browse-bar{
+  display:flex; flex-direction:column; gap:14px; margin-bottom:28px;
+  background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:18px 20px;
+}
+.browse-bar .search-row::before{content:"🔍"; position:absolute; left:14px; top:50%; transform:translateY(-50%); font-size:.9rem; opacity:.5; pointer-events:none;}
+#browseSearch, #catSearchInput, #testCatSearch{
+  flex:1; width:100%; background:var(--surface2); border:1px solid var(--border);
+  color:var(--text); padding:10px 16px 10px 38px; border-radius:10px; font-size:.93rem; font-family:inherit;
+  -webkit-appearance:none; appearance:none; transition:border-color .18s ease;
+}
+#browseSearch:focus, #catSearchInput:focus, #testCatSearch:focus{outline:none; border-color:var(--accent); box-shadow:0 0 0 3px rgba(99,102,241,.12);}
+#browseSearch::-webkit-search-decoration, #browseSearch::-webkit-search-cancel-button,
+#catSearchInput::-webkit-search-decoration, #catSearchInput::-webkit-search-cancel-button,
+#testCatSearch::-webkit-search-decoration, #testCatSearch::-webkit-search-cancel-button{-webkit-appearance:none;}
+
+/* ===== SECTION HEADER ===== */
+.section-header{display:flex; align-items:center; gap:12px; margin-bottom:16px;}
+.section-title{font-family:'Sora',sans-serif; font-weight:800; font-size:1rem; color:var(--text); white-space:nowrap; flex-shrink:0;}
+.section-rule{flex:1; height:1px; background:var(--border);}
+.section-meta{font-size:.75rem; color:var(--muted); white-space:nowrap; flex-shrink:0;}
+
+/* ===== CATEGORY GRID ===== */
+.cat-grid{display:grid; gap:12px; grid-template-columns:repeat(auto-fill,minmax(270px,1fr));}
+
+/* ===== CATEGORY CARD ===== */
+.cat-card{
+  border:1px solid var(--card-border); border-radius:14px; padding:16px;
+  background:var(--card-bg); border-top:3px solid var(--accent-c,var(--accent));
+  cursor:pointer; display:flex; flex-direction:column; gap:12px;
+  transition:transform .22s cubic-bezier(.4,0,.2,1), box-shadow .22s cubic-bezier(.4,0,.2,1);
+}
+.cat-card:hover{transform:translateY(-3px); box-shadow:0 14px 36px rgba(0,0,0,.45), 0 0 0 1px var(--accent-c,var(--accent));}
+.cat-card-row{display:flex; align-items:center; gap:12px;}
+.cat-icon-box{
+  width:44px; height:44px; border-radius:12px; display:flex; align-items:center;
+  justify-content:center; font-size:1.5rem; flex-shrink:0; background:var(--surface2);
+  border:2px solid var(--accent-c,var(--accent));
+}
+.cat-info{flex:1; min-width:0;}
+.cat-name{
+  font-family:'Sora',sans-serif; font-weight:700; font-size:1rem; line-height:1.25;
+  color:var(--accent-c,var(--accent)); overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+}
+.cat-stats{display:flex; align-items:center; gap:8px; margin-top:3px;}
+.cat-wcount{font-size:.78rem; color:var(--muted);}
+.cat-cefr-pill{font-size:.68rem; font-weight:700; padding:2px 6px; border-radius:5px; color:#fff;}
+.cat-chevron{font-size:1.2rem; color:var(--muted); opacity:.4; flex-shrink:0; transition:opacity .15s ease, transform .15s ease;}
+.cat-card:hover .cat-chevron{opacity:1; transform:translateX(3px);}
+.cat-pbar-row{display:flex; align-items:center; gap:10px;}
+.cat-pbar{flex:1; height:5px; border-radius:99px; background:var(--surface2); overflow:hidden; position:relative;}
+.cat-pfill{height:100%; border-radius:99px; background:var(--accent-c,var(--accent)); transition:width .4s ease;}
+.cat-plabel{font-size:.73rem; color:var(--muted); white-space:nowrap;}
+
+/* ===== CATEGORY VIEW ===== */
+.cat-view-header{margin-bottom:22px;}
+.back-btn{
+  font-family:'Sora',sans-serif; font-size:.88rem; font-weight:600; color:var(--muted);
+  background:none; border:none; padding:0; cursor:pointer; margin-bottom:12px; display:block;
+  transition:color .15s ease;
+}
+.back-btn:hover{color:var(--accent);}
+.cat-view-title-row{display:flex; align-items:center; gap:14px;}
+.cat-view-icon{
+  width:48px; height:48px; border-radius:14px; display:flex; align-items:center;
+  justify-content:center; font-size:1.5rem; flex-shrink:0; background:var(--surface2);
+  border:2px solid var(--accent-c,var(--accent));
+}
+.cat-view-name{font-size:1.65rem; font-weight:800; font-family:'Sora',sans-serif; margin:0; color:var(--accent-c,var(--accent));}
+.cat-view-sub{font-size:.9rem; color:var(--muted); margin-top:3px;}
+.cat-filter-bar{
+  display:flex; flex-direction:column; gap:14px; margin-bottom:24px;
+  background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:18px 20px;
+}
+.cat-filter-bar .search-row{position:relative;}
+.cat-filter-bar .search-row::before{content:"🔍"; position:absolute; left:14px; top:50%; transform:translateY(-50%); font-size:.9rem; opacity:.5; pointer-events:none;}
+
+/* ===== WORD DETAIL MODAL ===== */
+.modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.65);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;z-index:1000;padding:20px;}
+.modal-card{background:var(--surface);border-radius:20px;max-width:400px;width:100%;border-top:4px solid var(--accent-c,var(--accent));box-shadow:0 32px 80px rgba(0,0,0,.6);overflow:hidden;position:relative;max-height:85vh;display:flex;flex-direction:column;}
+.modal-header{padding:24px 24px 16px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-shrink:0;}
+.modal-word{font-size:1.8rem;font-weight:800;font-family:'Sora',sans-serif;color:var(--accent-c,var(--accent));line-height:1.1;}
+.modal-pos{font-size:.85rem;color:var(--muted);font-style:italic;margin-top:4px;}
+.modal-body{padding:20px 24px;display:flex;flex-direction:column;gap:14px;overflow-y:auto;}
+.modal-def{font-size:1.05rem;font-weight:600;line-height:1.5;color:var(--text);}
+.modal-row{font-size:.92rem;line-height:1.5;color:var(--muted);}
+.modal-row b{color:var(--text);font-weight:700;}
+.modal-ex{font-size:.92rem;font-style:italic;color:var(--muted);line-height:1.6;padding-top:14px;border-top:1px solid var(--border);}
+.modal-ex em{color:var(--accent-c,var(--accent));font-style:normal;font-weight:700;}
+.modal-cat{font-size:.8rem;color:var(--muted);}
+.modal-cat b{color:var(--text);}
+/* interactive ex-item */
+.ex-item.interactive{cursor:pointer;position:relative;overflow:hidden;}
+.ex-item.interactive:hover{box-shadow:0 4px 16px rgba(0,0,0,.2);}
+.ex-item.interactive .ex-reveal{position:absolute;inset:0;background:linear-gradient(160deg,rgb(var(--surface-rgb)/.97) 0%,rgb(var(--surface-rgb)) 100%);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);padding:12px 18px;opacity:0;transform:translateY(8px);transition:opacity .2s ease,transform .2s ease;display:flex;flex-direction:column;gap:5px;font-size:.83rem;pointer-events:none;}
+.ex-item.interactive:hover .ex-reveal{opacity:1;transform:translateY(0);}
+.ex-reveal .rdef{font-weight:600;line-height:1.4;color:var(--text);}
+.ex-reveal .rrow{color:var(--muted);line-height:1.4;}
+.ex-reveal .rrow b{color:var(--text);font-weight:600;}
+</style>
+<script>
+(function(){
+  var saved = null;
+  try { saved = localStorage.getItem("ivm_theme"); } catch(e) {}
+  if (saved !== "light" && saved !== "dark") {
+    saved = (window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches) ? "light" : "dark";
+  }
+  document.documentElement.setAttribute("data-theme", saved);
+})();
+</script>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="topbar-left">
+      <div class="brand">📚 IELTS <span>Vocab Master</span></div>
+      <nav class="tabs">
+        <div class="nav-group" data-section="vocabulary">
+          <button class="tab active" data-section-btn="vocabulary">Vocabulary <span class="nav-caret">▾</span></button>
+          <div class="nav-dropdown">
+            <button class="nav-dropdown-item active" data-page="list">Category</button>
+            <button class="nav-dropdown-item" data-page="examples">Word</button>
+            <button class="nav-dropdown-item" data-page="test">Test</button>
+          </div>
+        </div>
+        <div class="nav-group" data-section="grammar">
+          <button class="tab" data-section-btn="grammar">Grammar</button>
+        </div>
+        <div class="nav-group" data-section="reading">
+          <button class="tab" data-section-btn="reading">Reading</button>
+        </div>
+        <div class="nav-group" data-section="writing">
+          <button class="tab" data-section-btn="writing">Writing</button>
+        </div>
+      </nav>
+    </div>
+    <div class="topbar-right">
+      <button class="theme-toggle" id="themeToggle" title="Toggle theme" aria-label="Toggle theme">🌙</button>
+      <button class="theme-toggle" id="resetProgressBtn" title="Reset all learning progress" aria-label="Reset all learning progress">🔄</button>
+      <div class="stats">
+        Learned: <b id="learnedCount">0</b> / <b id="totalCount">5000</b>
+        <button class="review-link" id="reviewLittleBtn" title="Review words marked &quot;little bit&quot;" style="display:none;"><span id="littleCount">0</span> to review</button>
+      </div>
+      <div class="auth-area">
+        <button class="signin-btn" id="signInBtn" style="display:none;">Sign In</button>
+        <div class="user-chip" id="userChip" style="display:none;">
+          <div class="user-avatar" id="userAvatar"></div>
+          <span class="user-name" id="userName"></span>
+          <div class="user-menu" id="userMenu">
+            <span class="user-menu-name" id="userMenuName"></span>
+            <span class="user-menu-username" id="userMenuUsername"></span>
+            <span class="user-menu-email" id="userEmail"></span>
+            <button id="editProfileBtn">Edit profile</button>
+            <button id="signOutBtn">Sign out</button>
+            <button id="deleteAccountBtn" class="delete-account-link">Delete account</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="auth-modal-overlay" id="authOverlay">
+  <div class="auth-modal auth-modal-lg">
+    <button class="auth-modal-close" id="authClose" aria-label="Close">&times;</button>
+    <h2 class="auth-modal-title" id="authTitle">Sign in</h2>
+    <p class="auth-modal-subtitle">Get access to more learning features</p>
+    <p class="auth-switch" id="authRegisterHint">Don't have an account? <a href="#" id="authRegisterLink">Register</a></p>
+
+    <div class="auth-social-row">
+      <button type="button" class="auth-social-btn" data-provider="google" title="Continue with Google">
+        <svg viewBox="0 0 24 24" width="22" height="22"><path fill="#4285F4" d="M23.49 12.27c0-.82-.07-1.42-.22-2.04H12v3.91h6.4c-.13 1.06-.83 2.66-2.39 3.74l-.02.14 3.47 2.69.24.02c2.21-2.04 3.79-5.04 3.79-8.46Z"/><path fill="#34A853" d="M12 24c3.24 0 5.95-1.07 7.93-2.91l-3.78-2.93c-1.02.71-2.38 1.21-4.15 1.21-3.16 0-5.84-2.07-6.79-4.96l-.14.01-3.6 2.78-.05.13C3.4 21.3 7.36 24 12 24Z"/><path fill="#FBBC05" d="M5.21 14.41A7.4 7.4 0 0 1 4.8 12c0-.84.15-1.65.4-2.41l-.01-.16-3.65-2.83-.12.06A11.97 11.97 0 0 0 0 12c0 1.93.47 3.76 1.42 5.34l3.79-2.93Z"/><path fill="#EA4335" d="M12 4.75c2.26 0 3.78.97 4.65 1.79l3.39-3.31C17.94 1.19 15.24 0 12 0 7.36 0 3.4 2.7 1.42 6.66l3.78 2.93C6.16 6.7 8.84 4.75 12 4.75Z"/></svg>
+      </button>
+      <button type="button" class="auth-social-btn" data-provider="facebook" title="Continue with Facebook">
+        <svg viewBox="0 0 24 24" width="22" height="22"><path fill="#1877F2" d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+      </button>
+      <button type="button" class="auth-social-btn" data-provider="github" title="Continue with GitHub">
+        <svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.5 11.5 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222 0 1.606-.014 2.898-.014 3.293 0 .322.216.694.825.576C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+      </button>
+      <button type="button" class="auth-social-btn" data-provider="microsoft" title="Continue with Microsoft">
+        <svg viewBox="0 0 24 24" width="22" height="22"><path fill="#F25022" d="M1 1h10.3v10.3H1z"/><path fill="#7FBA00" d="M12.7 1H23v10.3H12.7z"/><path fill="#00A4EF" d="M1 12.7h10.3V23H1z"/><path fill="#FFB900" d="M12.7 12.7H23V23H12.7z"/></svg>
+      </button>
+    </div>
+    <div class="auth-divider"><span>or</span></div>
+
+    <p class="auth-modal-error" id="authError"></p>
+    <p class="auth-modal-info auth-hidden" id="authInfo"></p>
+    <form id="authForm">
+      <label class="auth-field">
+        <span>Email</span>
+        <input type="email" id="authEmail" required autocomplete="email">
+      </label>
+      <div id="authPasswordGroup" class="auth-hidden">
+        <label class="auth-field">
+          <span>Password</span>
+          <div class="auth-password-wrap">
+            <input type="password" id="authPassword" autocomplete="current-password">
+            <button type="button" class="auth-pw-toggle" id="authPwToggle" aria-label="Show password">👁</button>
+          </div>
+        </label>
+        <div class="auth-options-row">
+          <label class="auth-remember-me">
+            <input type="checkbox" id="authRememberMe">
+            <span>Remember me</span>
+          </label>
+          <p class="auth-forgot-link auth-hidden" id="authForgotWrap"><a href="#" id="authForgotLink">Forgot your password?</a></p>
+        </div>
+      </div>
+      <div id="authSignupExtra" class="auth-hidden">
+        <label class="auth-field">
+          <span>Full name</span>
+          <input type="text" id="authName" autocomplete="name">
+        </label>
+        <label class="auth-field">
+          <span>Username</span>
+          <input type="text" id="authUsername" autocomplete="username">
+        </label>
+        <label class="auth-field">
+          <span>Profile picture <small>(optional)</small></span>
+          <input type="file" id="authPicture" accept="image/png,image/jpeg,image/gif,image/webp">
+        </label>
+        <div class="avatar-preview-wrap auth-hidden" id="authAvatarPreviewWrap">
+          <img id="authAvatarPreview" alt="Profile picture preview">
+        </div>
+      </div>
+      <div id="authMfaGroup" class="auth-hidden">
+        <label class="auth-field">
+          <span>Authentication code</span>
+          <input type="text" id="authMfaCode" inputmode="numeric" autocomplete="one-time-code" placeholder="6-digit code">
+        </label>
+      </div>
+      <div id="authResetGroup" class="auth-hidden">
+        <label class="auth-field">
+          <span>New password</span>
+          <input type="password" id="authResetPassword" autocomplete="new-password">
+        </label>
+        <label class="auth-field">
+          <span>Confirm new password</span>
+          <input type="password" id="authResetPassword2" autocomplete="new-password">
+        </label>
+      </div>
+      <button type="submit" class="auth-submit-btn" id="authSubmitBtn">Continue</button>
+    </form>
+    <p class="auth-switch auth-hidden" id="authSwitch"></p>
+  </div>
+</div>
+
+<div class="auth-modal-overlay" id="deleteOverlay">
+  <div class="auth-modal">
+    <button class="auth-modal-close" id="deleteClose" aria-label="Close">&times;</button>
+    <h2 class="auth-modal-title">Delete your account?</h2>
+    <p class="auth-modal-error" id="deleteError"></p>
+    <p style="font-size:.85rem;color:var(--muted);margin:0 0 14px;">This permanently deletes your account and all saved progress. Enter your password to confirm.</p>
+    <form id="deleteForm">
+      <label class="auth-field">
+        <span>Password</span>
+        <input type="password" id="deletePassword" autocomplete="current-password" required>
+      </label>
+      <button type="submit" class="auth-submit-btn" id="deleteSubmitBtn" style="background:#dc2626;">Delete my account</button>
+    </form>
+  </div>
+</div>
+
+<div class="auth-modal-overlay" id="profileOverlay">
+  <div class="auth-modal">
+    <button class="auth-modal-close" id="profileClose" aria-label="Close">&times;</button>
+    <h2 class="auth-modal-title">Edit profile</h2>
+    <p class="auth-modal-error" id="profileError"></p>
+    <form id="profileForm">
+      <div class="avatar-preview-wrap auth-hidden" id="profileAvatarPreviewWrap">
+        <img id="profileAvatarPreview" alt="Profile picture preview">
+      </div>
+      <label class="auth-field">
+        <span>Profile picture</span>
+        <input type="file" id="profilePicture" accept="image/png,image/jpeg,image/gif,image/webp">
+      </label>
+      <label class="auth-field">
+        <span>Full name</span>
+        <input type="text" id="profileName" autocomplete="name">
+      </label>
+      <label class="auth-field">
+        <span>Username</span>
+        <input type="text" id="profileUsername" autocomplete="username">
+      </label>
+      <button type="submit" class="auth-submit-btn" id="profileSubmitBtn">Save changes</button>
+    </form>
+  </div>
+</div>
+
+<main>
+
+  <!-- ===== WORD LIST PAGE ===== -->
+  <section id="page-list" class="page active">
+    <div class="page-head">
+      <h1>Category</h1>
+      <p>5000 essential words across every CEFR level, organised by section and category. Click a category to explore its words.</p>
+    </div>
+
+    <!-- BROWSE VIEW: section/category grid -->
+    <div id="listBrowse">
+      <div class="headline-bar">
+        <button class="headline-btn active" data-headline="all">All</button>
+        <button class="headline-btn" data-headline="basic">🌱 Basic</button>
+        <button class="headline-btn" data-headline="intermediate">📈 Intermediate</button>
+        <button class="headline-btn" data-headline="advanced">🎓 Advanced</button>
+        <button class="headline-btn" data-headline="cefr">📊 CEFR Levels</button>
+      </div>
+      <div class="browse-bar">
+        <div class="search-row" style="position:relative;">
+          <input type="search" id="browseSearch" placeholder="Search categories…">
+        </div>
+        <div class="filter-row" id="browseSectionChips"></div>
+        <div class="filter-row">
+          <span class="filter-label">Sort by CEFR</span>
+          <button class="chip active" id="browseCefrAll">All</button>
+          <button class="chip" data-browse-cefr="A1">A1</button>
+          <button class="chip" data-browse-cefr="A1+">A1+</button>
+          <button class="chip" data-browse-cefr="A2">A2</button>
+          <button class="chip" data-browse-cefr="A2+">A2+</button>
+          <button class="chip" data-browse-cefr="B1">B1</button>
+          <button class="chip" data-browse-cefr="B1+">B1+</button>
+          <button class="chip" data-browse-cefr="B2">B2</button>
+          <button class="chip" data-browse-cefr="B2+">B2+</button>
+          <button class="chip" data-browse-cefr="C1">C1</button>
+          <button class="chip" data-browse-cefr="C1+">C1+</button>
+          <button class="chip" data-browse-cefr="C2">C2</button>
+          <button class="chip" data-browse-cefr="C2+">C2+</button>
+        </div>
+        <div class="filter-row">
+          <span class="filter-label">Progress</span>
+          <button class="chip active" id="browseStatusAll">All</button>
+          <button class="chip" data-browse-status="completed">Completed</button>
+          <button class="chip" data-browse-status="inProgress">In Progress</button>
+          <button class="chip" data-browse-status="notStarted">Not Started</button>
+        </div>
+      </div>
+      <div id="browseContent"></div>
+      <div class="pagination" id="browsePagination"></div>
+    </div>
+
+    <!-- CATEGORY VIEW: word cards for one category -->
+    <div id="listCatView" style="display:none;">
+      <div class="cat-view-header">
+        <button class="back-btn" id="backToBrowse">← All Sections</button>
+        <div class="cat-view-title-row">
+          <div class="cat-view-icon" id="catViewIcon"></div>
+          <div>
+            <h2 class="cat-view-name" id="catViewName"></h2>
+            <p class="cat-view-sub" id="catViewSub"></p>
+          </div>
+        </div>
+      </div>
+      <div class="cat-filter-bar">
+        <div class="search-row" style="position:relative;">
+          <input type="search" id="catSearchInput" placeholder="Search words, definitions, synonyms…">
+          <span class="result-count" id="listCount"></span>
+        </div>
+        <div class="filter-row">
+          <span class="filter-label">CEFR</span>
+          <button class="chip active" data-cat-cefr="all">All</button>
+          <button class="chip" data-cat-cefr="A1">A1</button>
+          <button class="chip" data-cat-cefr="A1+">A1+</button>
+          <button class="chip" data-cat-cefr="A2">A2</button>
+          <button class="chip" data-cat-cefr="A2+">A2+</button>
+          <button class="chip" data-cat-cefr="B1">B1</button>
+          <button class="chip" data-cat-cefr="B1+">B1+</button>
+          <button class="chip" data-cat-cefr="B2">B2</button>
+          <button class="chip" data-cat-cefr="B2+">B2+</button>
+          <button class="chip" data-cat-cefr="C1">C1</button>
+          <button class="chip" data-cat-cefr="C1+">C1+</button>
+          <button class="chip" data-cat-cefr="C2">C2</button>
+          <button class="chip" data-cat-cefr="C2+">C2+</button>
+        </div>
+        <div class="filter-row">
+          <span class="filter-label">Progress</span>
+          <button class="chip active" data-cat-learned="all">All</button>
+          <button class="chip" data-cat-learned="learned">Learned</button>
+          <button class="chip" data-cat-learned="little">Little Bit</button>
+          <button class="chip" data-cat-learned="unlearned">Not Learned</button>
+          <button class="clear-btn" id="clearCatFilters">Clear</button>
+        </div>
+      </div>
+      <div class="card-grid" id="wordGrid"></div>
+      <div class="pagination" id="catPagination"></div>
+      <div class="cat-bulk-actions">
+        <button class="cat-bulk-btn" id="catCompleteAllBtn">✓ Mark All Completed</button>
+        <button class="cat-bulk-btn cat-bulk-btn-secondary" id="catResetAllBtn">↺ Reset All</button>
+        <button class="cat-bulk-btn cat-bulk-btn-secondary" id="backToBrowseBottom">← All Sections</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== EXAMPLES PAGE ===== -->
+  <section id="page-examples" class="page">
+    <div class="page-head">
+      <h1>Word</h1>
+      <p>See every word used correctly in a full sentence.</p>
+    </div>
+    <div class="headline-bar" id="exHeadlineFilters">
+      <button class="headline-btn active" data-headline="all">All</button>
+      <button class="headline-btn" data-headline="basic">🌱 Basic</button>
+      <button class="headline-btn" data-headline="intermediate">📈 Intermediate</button>
+      <button class="headline-btn" data-headline="advanced">🎓 Advanced</button>
+      <button class="headline-btn" data-headline="cefr">📊 CEFR Levels</button>
+    </div>
+    <div class="filters">
+      <div class="search-row">
+        <input type="search" id="exSearchInput" placeholder="Search words, definitions, synonyms…">
+        <span class="result-count" id="exCount"></span>
+      </div>
+      <div class="filter-row" id="exSectionFilters"></div>
+      <div class="filter-row" id="exCategoryFilters"></div>
+      <div class="filter-row">
+        <span class="filter-label">Progress</span>
+        <button class="chip active" data-learned="all">All</button>
+        <button class="chip" data-learned="learned">Learned</button>
+        <button class="chip" data-learned="little">Little Bit</button>
+        <button class="chip" data-learned="unlearned">Not Learned</button>
+      </div>
+      <div class="filter-row" id="exCefrRow">
+        <span class="filter-label">CEFR Level</span>
+        <button class="chip active" data-cefr="all">All</button>
+        <button class="chip" data-cefr="A1">A1</button><button class="chip" data-cefr="A1+">A1+</button>
+        <button class="chip" data-cefr="A2">A2</button><button class="chip" data-cefr="A2+">A2+</button>
+        <button class="chip" data-cefr="B1">B1</button><button class="chip" data-cefr="B1+">B1+</button>
+        <button class="chip" data-cefr="B2">B2</button><button class="chip" data-cefr="B2+">B2+</button>
+        <button class="chip" data-cefr="C1">C1</button><button class="chip" data-cefr="C1+">C1+</button>
+        <button class="chip" data-cefr="C2">C2</button><button class="chip" data-cefr="C2+">C2+</button>
+        <button class="clear-btn" id="exClearFilters">Clear filters</button>
+      </div>
+    </div>
+    <div class="ex-list" id="exList"></div>
+    <div class="pagination" id="exPagination"></div>
+  </section>
+
+  <!-- ===== TEST PAGE ===== -->
+  <section id="page-test" class="page">
+    <div class="page-head">
+      <h1 id="testTitle">Quiz</h1>
+      <p id="testDesc">Test your knowledge with multiple question types.</p>
+    </div>
+    <div id="testSetup">
+      <div class="setup-card" style="margin-bottom:20px; max-width:none;">
+        <div class="mode-toggle-row">
+          <button class="mode-toggle-btn" id="testModePrev" aria-label="Previous test mode">‹</button>
+          <span class="mode-toggle-label" id="testModeLabel">Quiz</span>
+          <button class="mode-toggle-btn" id="testModeNext" aria-label="Next test mode">›</button>
+        </div>
+        <h2 id="testSetupTitle">Choose a quiz mode</h2>
+        <p class="sub" id="testSetupSub">Pick a question style, choose how many questions, then start.</p>
+        <div class="option-grid" id="testModes"></div>
+        <div class="count-row" id="testCounts"></div>
+        <p id="testCustomWarn" class="custom-count-warn"></p>
+      </div>
+      <div class="headline-bar" id="testHeadlineFilters">
+        <button class="headline-btn active" data-headline="all">All</button>
+        <button class="headline-btn" data-headline="basic">🌱 Basic</button>
+        <button class="headline-btn" data-headline="intermediate">📈 Intermediate</button>
+        <button class="headline-btn" data-headline="advanced">🎓 Advanced</button>
+        <button class="headline-btn" data-headline="cefr">📊 CEFR Levels</button>
+      </div>
+      <div class="browse-bar">
+        <div class="filter-head">
+          <span class="filter-label">Topic &amp; Level</span>
+          <span class="result-count" id="testFilterCount"></span>
+        </div>
+        <div class="search-row" style="position:relative;">
+          <input type="search" id="testCatSearch" placeholder="Search categories…">
+        </div>
+        <div class="filter-row" id="testSectionFilters"></div>
+        <div class="filter-row" id="testCategoryFilters"></div>
+        <div class="filter-row" id="testLearnedFilters">
+          <span class="filter-label">Progress</span>
+          <button class="chip active" data-learned="all">All</button>
+          <button class="chip" data-learned="learned">Learned</button>
+          <button class="chip" data-learned="unlearned">Not Learned</button>
+        </div>
+        <div class="filter-row" id="testCefrFilters">
+          <span class="filter-label">CEFR Level</span>
+          <button class="chip active" data-cefr="all">All</button>
+          <button class="chip" data-cefr="B1">B1</button>
+          <button class="chip" data-cefr="B2">B2</button>
+          <button class="chip" data-cefr="C1">C1</button>
+          <button class="chip" data-cefr="C2">C2</button>
+          <button class="chip" data-cefr="C2+">C2+</button>
+          <button class="clear-btn" id="testClearFilters">Clear filters</button>
+        </div>
+      </div>
+      <p class="no-match" id="testNoMatch" style="display:none;">No words match these filters — try widening your selection.</p>
+      <div style="text-align:center;">
+        <button class="btn" id="testStart">Start Quiz</button>
+      </div>
+    </div>
+    <div id="testPlay" class="quiz-wrap" style="display:none;"></div>
+    <div id="testResult" class="result-card" style="display:none;"></div>
+  </section>
+
+  <!-- ===== GRAMMAR PAGE ===== -->
+  <section id="page-grammar" class="page">
+    <div class="page-head">
+      <h1>Grammar</h1>
+      <p>Coming soon.</p>
+    </div>
+    <div class="setup-card">
+      <h2>🚧 Under construction</h2>
+      <p class="sub">This section is being built — check back soon.</p>
+    </div>
+  </section>
+
+  <!-- ===== READING PAGE ===== -->
+  <section id="page-reading" class="page">
+    <div class="page-head">
+      <h1>Reading</h1>
+      <p>Coming soon.</p>
+    </div>
+    <div class="setup-card">
+      <h2>🚧 Under construction</h2>
+      <p class="sub">This section is being built — check back soon.</p>
+    </div>
+  </section>
+
+  <!-- ===== WRITING PAGE ===== -->
+  <section id="page-writing" class="page">
+    <div class="page-head">
+      <h1>Writing</h1>
+      <p>Coming soon.</p>
+    </div>
+    <div class="setup-card">
+      <h2>🚧 Under construction</h2>
+      <p class="sub">This section is being built — check back soon.</p>
+    </div>
+  </section>
+
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script>
+// ── API config ───────────────────────────────────────────
+const ALLAUTH_BASE    = '/_allauth/browser/v1';
+const AUTH_BASE       = '/auth';
+const API_BASE        = '/api';
+const LEARN_STATE_KEY = 'ivm_learn_map';
+
+function getCsrf() {
+  return document.cookie.split(';').map(c => c.trim())
+    .find(c => c.startsWith('csrftoken='))?.split('=')[1] ?? '';
+}
+
+function authFetch(url, opts = {}) {
+  return fetch(url, {
+    credentials: 'same-origin',
+    headers: { 'X-CSRFToken': getCsrf(), 'Content-Type': 'application/json', ...(opts.headers ?? {}) },
+    ...opts,
+  });
+}
+
+const HEX_TO_THEME = {
+  '#3b82f6':'tb', '#8b5cf6':'tv', '#ec4899':'tp',
+  '#ef4444':'tr', '#10b981':'te', '#f59e0b':'ta',
+  '#06b6d4':'tc', '#eab308':'tg', '#6366f1':'ti',
+  '#f97316':'to', '#f43f5e':'tro', '#16a34a':'tfg',
+  '#a855f7':'tpurp', '#0d9488':'ts', '#1e40af':'tnavy',
+};
+
+let CATEGORIES  = [];
+let VOCAB_DATA  = [];
+let CAT_MAP     = {};
+const SECTIONS = {
+  "neg-intensity": "Negative Qualities & Criticism",
+  "deception-falsehood": "Negative Qualities & Criticism",
+  "judgment-criticism": "Negative Qualities & Criticism",
+  "weakness-deterioration": "Negative Qualities & Criticism",
+  "approval-excellence": "Positive Qualities & Strength",
+  "strength-persistence": "Positive Qualities & Strength",
+  "support-agreement": "Positive Qualities & Strength",
+  "ethics-morality": "Positive Qualities & Strength",
+  "emotions-psych": "Mind, Emotion & Description",
+  "appearance-character": "Mind, Emotion & Description",
+  "tone-atmosphere": "Mind, Emotion & Description",
+  "thinking-intelligence": "Mind, Emotion & Description",
+  "scope-scale": "Scale, Change & Society",
+  "magnitude-impact": "Scale, Change & Society",
+  "change-transformation": "Scale, Change & Society",
+  "society-politics": "Scale, Change & Society",
+  "clarity-certainty": "Academic Writing Toolkit",
+  "academic-stance": "Academic Writing Toolkit",
+  "connectors-transitions": "Academic Writing Toolkit",
+  "linking-words": "Academic Writing Toolkit",
+  "professional-register": "Formal English & Fixed Expressions",
+  "abstract-nouns": "Formal English & Fixed Expressions",
+  "phrasal-verbs": "Formal English & Fixed Expressions",
+  "collocations": "Formal English & Fixed Expressions",
+  "trends-data": "IELTS Writing Themes I",
+  "opinion-argument": "IELTS Writing Themes I",
+  "education-learning": "IELTS Writing Themes I",
+  "work-career": "IELTS Writing Themes I",
+  "environment-sustainability": "IELTS Writing Themes II",
+  "technology-modern-life": "IELTS Writing Themes II",
+  "travel-society-culture": "IELTS Writing Themes II",
+  "health-lifestyle": "IELTS Writing Themes II",
+
+  "precision-upgrades": "Mind, Emotion & Description",
+  "essay-power-words": "Academic Writing Toolkit",
+  "society-mind-rhetoric": "Scale, Change & Society",
+
+  "hedging-likelihood": "Academic Writing Toolkit II",
+  "cause-consequence": "Academic Writing Toolkit II",
+  "connectors-time-sequence": "Academic Writing Toolkit II",
+  "difficulty-risk": "Academic Writing Toolkit II",
+
+  "proactive-action": "Vivid Description & Communication",
+  "quantity-degree": "Vivid Description & Communication",
+  "vivid-everyday": "Vivid Description & Communication",
+  "communication-disclosure": "Vivid Description & Communication",
+
+  "cognitive-verbs": "Cognition, Logic & Research",
+  "research-inquiry": "Cognition, Logic & Research",
+  "critical-reasoning": "Cognition, Logic & Research",
+  "memory-perception": "Cognition, Logic & Research",
+
+  "academic-connectors-iii": "Academic Connectors III",
+  "emphasis-contrast": "Academic Connectors III",
+  "cause-purpose": "Academic Connectors III",
+  "summary-conclusion": "Academic Connectors III",
+
+  "business-finance": "Career, Business & Leadership",
+  "workplace-communication": "Career, Business & Leadership",
+  "leadership-management": "Career, Business & Leadership",
+  "career-growth": "Career, Business & Leadership",
+
+  "work-tasks": "Workplace Tasks & Formal Language",
+  "general-useful-verbs": "Workplace Tasks & Formal Language",
+  "formal-register-ii": "Workplace Tasks & Formal Language",
+
+  "governance-law": "Governance, Economy & Society",
+  "economy-trade": "Governance, Economy & Society",
+  "social-justice": "Governance, Economy & Society",
+  "growth-expansion": "Governance, Economy & Society",
+
+  "personality-traits-ii": "Personality, Relationships & Conflict",
+  "interpersonal-relationships": "Personality, Relationships & Conflict",
+  "conflict-resolution": "Personality, Relationships & Conflict",
+  "decision-making": "Personality, Relationships & Conflict",
+
+  "everyday-idioms": "Everyday Life, Money & Idioms",
+  "money-shopping": "Everyday Life, Money & Idioms",
+  "food-health": "Everyday Life, Money & Idioms",
+
+  "tech-digital-life": "Science, Tech & Innovation",
+  "science-innovation": "Science, Tech & Innovation",
+  "digital-communication": "Science, Tech & Innovation",
+  "ai-automation": "Science, Tech & Innovation",
+
+  "climate-weather": "Nature, Climate & Energy",
+  "nature-wildlife": "Nature, Climate & Energy",
+  "energy-resources-ii": "Nature, Climate & Energy",
+
+  "travel-experiences": "Travel, Culture & Urban Life",
+  "cultural-diversity": "Travel, Culture & Urban Life",
+  "urban-development": "Travel, Culture & Urban Life",
+
+  "lifestyle-habits": "Lifestyle, Leisure & Wellbeing",
+  "leisure-hobbies": "Lifestyle, Leisure & Wellbeing",
+  "health-wellbeing-ii": "Lifestyle, Leisure & Wellbeing",
+  "motivation-ambition": "Lifestyle, Leisure & Wellbeing",
+
+  "storytelling-narrative": "Storytelling, Humour & Persuasion",
+  "humor-wit": "Storytelling, Humour & Persuasion",
+  "persuasion-rhetoric-ii": "Storytelling, Humour & Persuasion",
+
+  "size-shape": "Description: Size, Sound & Movement",
+  "sound-light": "Description: Size, Sound & Movement",
+  "movement-action": "Description: Size, Sound & Movement",
+
+  "comparison-contrast": "Habits, Comparison & Politeness",
+  "habits-routines": "Habits, Comparison & Politeness",
+  "risk-caution": "Habits, Comparison & Politeness",
+  "politeness-formality": "Habits, Comparison & Politeness",
+
+  /* ── BASIC categories ── */
+  "core-action-verbs":       "Essential Verbs",
+  "everyday-verbs-ii":       "Essential Verbs",
+  "movement-position-verbs": "Essential Verbs",
+  "communication-basic":     "Communication Basics",
+  "family-people":           "People & Relationships",
+  "describing-people-basic": "People & Relationships",
+  "feelings-emotions-basic": "Mind & Feelings",
+  "home-household":          "Home & Daily Life",
+  "food-drink-basic":        "Home & Daily Life",
+  "time-calendar":           "Time & Description",
+  "weather-nature-basic":    "The Natural World",
+  "body-health-basic":       "Body & Health",
+  "places-transport-basic":  "Out & About",
+  /* new basic */
+  "numbers-school-basic":    "Numbers & Learning",
+  "colours-shapes-basic":    "Colours, Shapes & Sizes",
+  "sports-hobbies-basic":    "Sports & Hobbies",
+  /* intermediate */
+  "complex-emotions":            "Complex Emotions",
+  "personality-character-inter": "Personality & Character",
+  "social-issues-inter":         "Society & Social Issues",
+  "work-career-inter":           "Work & Career",
+  "environment-inter":           "Environment & Climate",
+  "health-medicine-inter":       "Health & Medicine",
+  "technology-media-inter":      "Technology & Media",
+  "academic-language-inter":     "Academic Language & Writing",
+  "food-culture-inter":          "Food, Nutrition & Culture",
+  "travel-culture-inter":          "Travel, Culture & Society",
+  "education-society-inter":       "Education & Society",
+  "law-justice-inter":             "Law, Crime & Justice",
+  "psychology-behaviour-inter":    "Mind, Behaviour & Psychology",
+  "communication-language-inter":  "Communication & Language",
+  "economics-finance-inter":       "Economics & Finance",
+  "global-issues-inter":           "Global Challenges & Politics",
+  "arts-culture-inter":            "Arts, Literature & Culture",
+  "science-discovery-inter":       "Science & Discovery",
+  "urban-architecture-inter":      "Cities, Architecture & Urban Life",
+  "ethics-philosophy-inter":       "Ethics & Philosophy",
+  "relationships-society-inter":   "Relationships & Social Life",
+  "media-journalism-inter":        "Media & Journalism",
+  "health-lifestyle-inter":        "Lifestyle & Wellbeing",
+  /* C1 advanced */
+  "abstract-thought-c1":       "Abstract Thought & Ideas",
+  "rhetoric-persuasion-c1":    "Rhetoric, Argument & Persuasion",
+  "advanced-vocab-c1":         "Precision & Expression",
+  "social-change-c1":          "Social Change & Progress",
+  "human-nature-c1":           "Human Nature & Society",
+  "academic-c1-advanced": "Academic Vocabulary",
+  "environment-c1":            "Environment & Ecology",
+  "globalisation-c1":          "Globalisation & World Economy",
+  "power-politics-c1":         "Power, Politics & Governance",
+  "cognition-mind-c1":         "Cognition, Memory & Intelligence",
+  "language-linguistics-c1":   "Language, Linguistics & Communication",
+  "medicine-biology-c1":       "Medicine, Biology & the Body",
+  "technology-future-c1":      "Technology, AI & the Future",
+  "history-civilisation-c1":   "History, Civilisation & Culture",
+  "arts-expression-c1":        "Arts, Creativity & Expression",
+  "philosophy-thought-c2":     "Philosophy & Critical Thought",
+  "advanced-adjectives-c2":    "Advanced Adjectives",
+  "advanced-verbs-c2":         "Advanced Verbs",
+  "advanced-nouns-c2":         "Advanced Nouns",
+  "c2-expressions":            "C2 Expressions & Collocations",
+  // extended intermediate
+  "emotions-b-extended": "Emotions & States of Mind",
+  "describing-actions-b": "Describing Actions & Movement",
+  "work-society-b2-extended": "Work, Society & Inequality",
+  "nature-landscape-b2":       "Nature, Landscape & the Physical World",
+  "language-communication-b2": "Language & Communication",
+  "politics-governance-b2": "Politics, Governance & Power",
+  // extended advanced / C1+
+  "academic-style-c1b": "Academic Style & Register",
+  "ielts-writing-c1-ext": "IELTS Writing & Critical Argument",
+  "science-tech-b2-ext": "Science, Technology & Innovation",
+  "health-body-b2-ext": "Health, Body & Medicine",
+  "descriptive-adjectives-c1": "Descriptive Adjectives",
+  // batch 14
+  "idioms-phrases-b2": "Idioms & Fixed Expressions",
+  "environment-sustainability-c1": "Environment & Sustainability",
+  "academic-verbs-c1": "Academic & Formal Verbs",
+  "literary-descriptive-c2": "Literary & Descriptive Language",
+  "formal-nouns-c1b": "Formal & Abstract Nouns",
+  // batch 15
+  "arts-media-b2": "Arts, Media & Creative Expression",
+  "philosophy-ethics-c1-ext": "Philosophy, Ethics & Morality",
+  "geography-demography-b2": "Geography & Demographics",
+  // batch 16
+  "business-economics-c1": "Business, Economics & Finance",
+  "social-human-rights-c1": "Social Issues & Human Rights",
+  "verbs-precise-b2": "Precise Action & Process Verbs",
+  // batch 17
+  "cognition-learning-c1": "Cognition, Learning & Intelligence",
+  "idioms-c1-complex": "Complex Idioms & Collocations",
+  "c2-precision-words": "Precision & Register",
+  // batch 18
+  "crime-justice-c1": "Crime, Law & Justice",
+  "personality-adjectives-c1": "Character & Personality Adjectives",
+  "academic-nouns-b2": "Academic Topic Nouns",
+  // batch 19
+  "verbs-b2-advanced": "Verbs for Writing & Analysis",
+  "complex-sentence-connectors": "Complex Sentence Connectors",
+  "collocations-formal-c1": "Academic Collocations & Phrases",
+  // batch 20
+  "global-issues-c1b": "Global Issues & International Affairs",
+  "word-formation-b2": "Word Formation & Derivatives",
+  // batch 21
+  "common-adjectives-b1b": "Common Descriptive Adjectives",
+  "mind-emotion-c1-ext": "Mind, Emotion & Motivation",
+  // batch 22
+  "education-learning-b2": "Education, Learning & Schools",
+  "housing-urban-b2": "Housing, Cities & Urban Issues",
+  "c2-final-vocab":            "C2 Final Vocabulary Set",
+  // batch 23
+  "technology-digital-b2": "Digital Technology & Internet",
+  "food-culture-ext": "Food, Nutrition & Culinary Culture",
+  "travel-tourism-b2": "Travel, Tourism & Adventure",
+  "advanced-connectors-c1-final": "Advanced Connectors & Transitions",
+  // batch 24
+  "social-media-comm-b2": "Social Media & Digital Culture",
+  "science-research-c1": "Science, Research & Discovery",
+  "abstract-concepts-c1-final": "Abstract Concepts & Critical Language",
+  // batch 25
+  "common-verbs-b1-ext": "Essential Verbs & Actions",
+  "formal-adverbs-c1-ext": "Formal Adverbs & Qualifiers",
+  "complex-nouns-b2-final": "Complex Nouns & Key Concepts",
+  // batch 26
+  "adjectives-b2-quality": "Quality & Degree Adjectives",
+  "final-nouns-c1": "Keystone Nouns for Writing",
+  // batch 27
+  "core-ielts-vocab-final": "Core IELTS Vocabulary",
+  "final-advanced-b2":         "B2 Advanced Essentials",
+  // batch 28
+  "key-transitions-b2-final": "Key Transitions & Discourse Markers",
+  "additional-b2-vocab":       "Additional B2 Vocabulary Set",
+  // batch 29
+  "ielts-essay-vocab": "IELTS Essay Vocabulary",
+  "b2-nouns-final-set":        "Keystone B2 Nouns",
+  "c1-writing-toolkit":        "C1 Academic Writing Toolkit",
+  "final-20-words": "Essential 20",
+  // A1+ categories → existing basic sections
+  "a1plus-body-health":        "Body & Health",
+  "a1plus-food-drink":         "Home & Daily Life",
+  "a1plus-home-objects":       "Home & Daily Life",
+  "a1plus-adjectives-basic":   "Time & Description",
+  "a1plus-everyday-verbs":     "Essential Verbs",
+  "a1plus-clothes-appearance": "Home & Daily Life",
+  "a1plus-places-transport":   "Out & About",
+  "a1plus-school-classroom":   "Numbers & Learning",
+  "a1plus-weather-nature":     "The Natural World",
+  "a1plus-shopping-money":     "Out & About",
+  "a1plus-time-routines":      "Time & Description",
+  // A2+ categories → existing basic / intermediate sections
+  "a2plus-feelings-opinions":       "Mind & Feelings",
+  "a2plus-descriptive-adjectives":  "Time & Description",
+  "a2plus-everyday-verbs":          "Essential Verbs",
+  "a2plus-travel-places":           "Travel, Culture & Society",
+  "a2plus-work-education":          "Work & Career",
+  "a2plus-entertainment":           "Sports & Hobbies",
+  // B1+ categories → existing intermediate sections
+  "b1plus-opinion-discussion":  "Academic Language & Writing",
+  "b1plus-society-community":   "Society & Social Issues",
+  "b1plus-environment":         "Environment & Climate",
+  "b1plus-health-lifestyle":    "Health & Medicine",
+  "b1plus-personality":         "Personality & Character",
+  "b1plus-technology-media":    "Technology & Media",
+  "b1plus-education-study":     "Education & Society",
+  "b1plus-economy-work":        "Economics & Finance",
+  // C1+ categories → existing advanced sections
+  "c1plus-formal-verbs":        "Formal English & Fixed Expressions",
+  "c1plus-adjectives-advanced": "Mind, Emotion & Description",
+  "c1plus-abstract-nouns":      "Formal English & Fixed Expressions",
+  "c1plus-literary-expressive": "Mind, Emotion & Description",
+  "c1plus-academic-discourse":  "Academic Writing Toolkit",
+  // B2+ extra → existing intermediate sections
+  "b2plus-analysis-verbs": "Verbs for Writing & Analysis",
+  "b2plus-nuanced-adjectives": "Quality & Degree Adjectives",
+
+  // batch 30 (CEFR balance pass)
+  "c2plus-rare-adjectives": "Advanced Lexical Expansion",
+  "c2plus-elevated-verbs": "Advanced Lexical Expansion",
+  "c2plus-abstract-nouns-ii": "Advanced Lexical Expansion",
+  "c2plus-idioms-collocations": "Advanced Lexical Expansion",
+  "b2plus-precision-adjectives": "Precision & Control Vocabulary",
+  "b2plus-control-verbs": "Precision & Control Vocabulary",
+  "a2-everyday-essentials": "Everyday Actions & Textures",
+  "c1plus-bias-power-hardship": "Bias, Power & Hardship",
+};
+
+const SECTION_ORDER = [
+  "Negative Qualities & Criticism",
+  "Positive Qualities & Strength",
+  "Mind, Emotion & Description",
+  "Scale, Change & Society",
+  "Academic Writing Toolkit",
+  "Formal English & Fixed Expressions",
+  "IELTS Writing Themes I",
+  "IELTS Writing Themes II",
+  "Academic Writing Toolkit II",
+  "Vivid Description & Communication",
+  "Cognition, Logic & Research",
+  "Academic Connectors III",
+  "Career, Business & Leadership",
+  "Workplace Tasks & Formal Language",
+  "Governance, Economy & Society",
+  "Personality, Relationships & Conflict",
+  "Everyday Life, Money & Idioms",
+  "Science, Tech & Innovation",
+  "Nature, Climate & Energy",
+  "Travel, Culture & Urban Life",
+  "Lifestyle, Leisure & Wellbeing",
+  "Storytelling, Humour & Persuasion",
+  "Description: Size, Sound & Movement",
+  "Habits, Comparison & Politeness",
+  "Abstract Thought & Ideas",
+  "Rhetoric, Argument & Persuasion",
+  "Precision & Expression",
+  "Social Change & Progress",
+  "Human Nature & Society",
+  "Academic Vocabulary",
+  "Environment & Ecology",
+  "Globalisation & World Economy",
+  "Power, Politics & Governance",
+  "Cognition, Memory & Intelligence",
+  "Language, Linguistics & Communication",
+  "Medicine, Biology & the Body",
+  "Technology, AI & the Future",
+  "History, Civilisation & Culture",
+  "Arts, Creativity & Expression",
+  "Philosophy & Critical Thought",
+  "Advanced Adjectives",
+  "Advanced Verbs",
+  "Advanced Nouns",
+  "C2 Expressions & Collocations",
+  "Academic Style & Register",
+  "IELTS Writing & Critical Argument",
+  "Descriptive Adjectives",
+  "Environment & Sustainability",
+  "Academic & Formal Verbs",
+  "Literary & Descriptive Language",
+  "Formal & Abstract Nouns",
+  "Philosophy, Ethics & Morality",
+  "Business, Economics & Finance",
+  "Social Issues & Human Rights",
+  "Precision & Register",
+  "Crime, Law & Justice",
+  "Character & Personality Adjectives",
+  "Global Issues & International Affairs",
+  "Mind, Emotion & Motivation",
+  "C2 Final Vocabulary Set",
+  "Advanced Connectors & Transitions",
+  "Science, Research & Discovery",
+  "Abstract Concepts & Critical Language",
+  "Formal Adverbs & Qualifiers",
+  "Keystone Nouns for Writing",
+  "IELTS Essay Vocabulary",
+  "C1 Academic Writing Toolkit",
+  "Essential 20",
+  "Advanced Lexical Expansion",
+  "Bias, Power & Hardship",
+];
+
+/* ── Basic sections ── */
+const BASIC_SECTIONS = [
+  "Essential Verbs",
+  "Communication Basics",
+  "People & Relationships",
+  "Mind & Feelings",
+  "Home & Daily Life",
+  "The Natural World",
+  "Body & Health",
+  "Out & About",
+  "Time & Description",
+  "Numbers & Learning",
+  "Colours, Shapes & Sizes",
+  "Sports & Hobbies",
+  "Everyday Actions & Textures",
+];
+
+/* ── Intermediate sections ── */
+const INTERMEDIATE_SECTIONS = [
+  "Complex Emotions",
+  "Personality & Character",
+  "Society & Social Issues",
+  "Work & Career",
+  "Environment & Climate",
+  "Health & Medicine",
+  "Technology & Media",
+  "Academic Language & Writing",
+  "Food, Nutrition & Culture",
+  "Travel, Culture & Society",
+  "Education & Society",
+  "Law, Crime & Justice",
+  "Mind, Behaviour & Psychology",
+  "Communication & Language",
+  "Economics & Finance",
+  "Global Challenges & Politics",
+  "Arts, Literature & Culture",
+  "Science & Discovery",
+  "Cities, Architecture & Urban Life",
+  "Ethics & Philosophy",
+  "Relationships & Social Life",
+  "Media & Journalism",
+  "Lifestyle & Wellbeing",
+  "Emotions & States of Mind",
+  "Describing Actions & Movement",
+  "Work, Society & Inequality",
+  "Nature, Landscape & the Physical World",
+  "Language & Communication",
+  "Politics, Governance & Power",
+  "Science, Technology & Innovation",
+  "Health, Body & Medicine",
+  "Idioms & Fixed Expressions",
+  "Arts, Media & Creative Expression",
+  "Geography & Demographics",
+  "Precise Action & Process Verbs",
+  "Cognition, Learning & Intelligence",
+  "Complex Idioms & Collocations",
+  "Academic Topic Nouns",
+  "Verbs for Writing & Analysis",
+  "Complex Sentence Connectors",
+  "Academic Collocations & Phrases",
+  "Word Formation & Derivatives",
+  "Common Descriptive Adjectives",
+  "Education, Learning & Schools",
+  "Housing, Cities & Urban Issues",
+  "Digital Technology & Internet",
+  "Food, Nutrition & Culinary Culture",
+  "Travel, Tourism & Adventure",
+  "Social Media & Digital Culture",
+  "Essential Verbs & Actions",
+  "Complex Nouns & Key Concepts",
+  "Quality & Degree Adjectives",
+  "Core IELTS Vocabulary",
+  "B2 Advanced Essentials",
+  "Key Transitions & Discourse Markers",
+  "Additional B2 Vocabulary Set",
+  "Keystone B2 Nouns",
+  "Precision & Control Vocabulary",
+];
+
+/* ── Headline mapping ── */
+const SECTION_HEADLINES = {};
+SECTION_ORDER.forEach(s => { SECTION_HEADLINES[s] = "advanced"; });
+BASIC_SECTIONS.forEach(s => { SECTION_HEADLINES[s] = "basic"; });
+INTERMEDIATE_SECTIONS.forEach(s => { SECTION_HEADLINES[s] = "intermediate"; });
+
+const CEFR_SECTION = "CEFR Levels";
+SECTION_HEADLINES[CEFR_SECTION] = "cefr";
+
+const CEFR_CATEGORIES = [
+  { id:"cefr-a1",  name:"A1",  icon:"🌱", theme:"te",    cefrLevel:"A1",  section:CEFR_SECTION },
+  { id:"cefr-a1p", name:"A1+", icon:"⭐", theme:"tg",    cefrLevel:"A1+", section:CEFR_SECTION },
+  { id:"cefr-a2",  name:"A2",  icon:"🌊", theme:"tc",    cefrLevel:"A2",  section:CEFR_SECTION },
+  { id:"cefr-a2p", name:"A2+", icon:"🔥", theme:"to",    cefrLevel:"A2+", section:CEFR_SECTION },
+  { id:"cefr-b1",  name:"B1",  icon:"🦋", theme:"ti",    cefrLevel:"B1",  section:CEFR_SECTION },
+  { id:"cefr-b1p", name:"B1+", icon:"🌸", theme:"tp",    cefrLevel:"B1+", section:CEFR_SECTION },
+  { id:"cefr-b2",  name:"B2",  icon:"🦅", theme:"tb",    cefrLevel:"B2",  section:CEFR_SECTION },
+  { id:"cefr-b2p", name:"B2+", icon:"💙", theme:"tnavy", cefrLevel:"B2+", section:CEFR_SECTION },
+  { id:"cefr-c1",  name:"C1",  icon:"🏆", theme:"ta",    cefrLevel:"C1",  section:CEFR_SECTION },
+  { id:"cefr-c1p", name:"C1+", icon:"🌹", theme:"tro",   cefrLevel:"C1+", section:CEFR_SECTION },
+  { id:"cefr-c2",  name:"C2",  icon:"🎯", theme:"tr",    cefrLevel:"C2",  section:CEFR_SECTION },
+  { id:"cefr-c2p", name:"C2+", icon:"🔮", theme:"tpurp", cefrLevel:"C2+", section:CEFR_SECTION },
+];
+const ALL_SECTION_ORDER = [...BASIC_SECTIONS, ...INTERMEDIATE_SECTIONS, ...SECTION_ORDER, CEFR_SECTION];
+let ALL_CATEGORIES  = [];
+const CEFR_CAT_LEVEL = Object.fromEntries(CEFR_CATEGORIES.map(c => [c.id, c.cefrLevel]));
+
+/* Pre-compute words per category (including CEFR virtual cats) */
+let CAT_WORDS = {};
+
+/* ════════════════════════════════════════════════════════
+   APP STATE & SHARED HELPERS
+   ════════════════════════════════════════════════════════ */
+function loadCachedLearnMap(){
+  try {
+    const cached = localStorage.getItem(LEARN_STATE_KEY);
+    return cached ? JSON.parse(cached) : {};
+  } catch(e){ return {}; }
+}
+const state = {
+  learnMap: loadCachedLearnMap(),   /* { "word": "little"|"learned" } — only persisted for signed-in accounts */
+  list: { search:"", section:"all", cat:"all", cefr:"all", learned:"all" },
+  examples: { search:"", section:"all", cat:"all", cefr:"all", learned:"all", headline:"all", page:1 },
+  auth: { loggedIn:false, id:null, name:"", email:"", picture:"" },
+};
+
+function learnedState(word){ return state.learnMap[word] || null; }
+function isLearned(word){ return state.learnMap[word] === "learned"; }
+function isLittle(word){ return state.learnMap[word] === "little"; }
+function isAnyLearned(word){ return !!state.learnMap[word]; }
+
+function postLearnMapNow(useKeepalive){
+  // Never flush before the initial page-load merge (authReady, see initAuth())
+  // has landed - state.learnMap is the pre-merge local-only copy until then,
+  // and sending that would overwrite the server's fuller data with it. This
+  // matters even outside the sign-out flow: the INIT block's own first
+  // saveLearned() call queues a debounced save before any merge has ran, and
+  // without this guard it would fire with an empty/incomplete map if the
+  // merge's request happens to take longer than the debounce delay.
+  return authReady.then(() => {
+    if (!state.auth.loggedIn) return;
+    // keepalive is ONLY for the fire-and-forget tab-close/hide flush (see
+    // pagehide/visibilitychange below), where the request must survive a
+    // navigation we can't await. It comes with a hard ~64KB total body-size
+    // cap enforced by the browser - with thousands of words marked, a real
+    // user's learnMap JSON blows past that and the request fails outright
+    // ("Failed to fetch"), silently, every time. Every other caller here
+    // (the debounced regular save, and sign-out which already awaits this
+    // promise before navigating) has no such size limit, so they must NOT
+    // set it.
+    return authFetch(`${AUTH_BASE}/sync/`, {
+      method: 'POST',
+      body: JSON.stringify({ learn_map: state.learnMap }),
+      keepalive: !!useKeepalive,
+    }).catch(()=>{});
+  });
+}
+const syncLearnMapToServer = debounce(() => postLearnMapNow(false), 800);
+
+// The debounce above means a change made right before the tab closes/reloads can
+// miss its 800ms window and never reach the server. Flush immediately on these
+// signals so the most recent change is never lost to that race.
+window.addEventListener("pagehide", () => postLearnMapNow(true));
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState === "hidden") postLearnMapNow(false);
+});
+
+function saveLearned(){
+  if (state.auth.loggedIn) {
+    localStorage.setItem(LEARN_STATE_KEY, JSON.stringify(state.learnMap));
+  }
+  const learned = Object.values(state.learnMap).filter(v=>v==="learned").length;
+  const little  = Object.values(state.learnMap).filter(v=>v==="little").length;
+  document.getElementById("learnedCount").textContent = learned;
+  document.getElementById("littleCount").textContent  = little;
+  document.getElementById("totalCount").textContent   = VOCAB_DATA.length;
+  document.getElementById("reviewLittleBtn").style.display = little > 0 ? "" : "none";
+  syncLearnMapToServer();
+}
+
+function renderAuthUI(){
+  const signInBtn = document.getElementById("signInBtn");
+  const userChip  = document.getElementById("userChip");
+  const avatarBox = document.getElementById("userAvatar");
+  if (state.auth.loggedIn){
+    signInBtn.style.display = "none";
+    userChip.style.display = "flex";
+    if (state.auth.picture){
+      avatarBox.innerHTML = "";
+      const img = document.createElement("img");
+      img.src = state.auth.picture;
+      img.alt = "";
+      avatarBox.appendChild(img);
+    } else {
+      const initial = (state.auth.name || state.auth.email || "?").trim().charAt(0).toUpperCase();
+      avatarBox.innerHTML = `<span class="avatar-initials"></span>`;
+      avatarBox.querySelector(".avatar-initials").textContent = initial;
+    }
+    document.getElementById("userName").textContent = state.auth.name || state.auth.email;
+    document.getElementById("userMenuName").textContent = state.auth.name || "";
+    document.getElementById("userMenuUsername").textContent = state.auth.username ? "@" + state.auth.username : "";
+    document.getElementById("userEmail").textContent = state.auth.email;
+  } else {
+    signInBtn.style.display = "";
+    userChip.style.display = "none";
+    userChip.classList.remove("open");
+  }
+}
+
+async function initAuth(){
+  let user = null;
+  try {
+    const res = await fetch(`${ALLAUTH_BASE}/auth/session`, { credentials: 'same-origin' });
+    const data = await res.json();
+    user = data?.data?.user ?? null;   // allauth headless v1 shape
+  } catch(e){}
+
+  if (user) {
+    // Fetch full profile from our custom session — allauth's user.display is just email-derived
+    try {
+      const profileRes = await fetch(`${AUTH_BASE}/session/`, { credentials: 'same-origin' });
+      const profile = await profileRes.json();
+      state.auth = profile.loggedIn
+        ? { loggedIn:true, id:profile.id, name:profile.name||"", username:profile.username||"", email:profile.email, picture:profile.picture||"" }
+        : { loggedIn:false, id:null, name:"", username:"", email:"", picture:"" };
+    } catch(e){
+      state.auth = { loggedIn:true, id:user.id, name:user.display||"", username:user.username||"", email:user.email, picture:"" };
+    }
+  } else {
+    state.auth = { loggedIn:false, id:null, name:"", username:"", email:"", picture:"" };
+  }
+  renderAuthUI();
+
+  if (!state.auth.loggedIn) return;
+
+  try {
+    const res = await fetch(`${AUTH_BASE}/sync/`, { credentials: 'same-origin' });
+    const syncData = await res.json();
+    const serverMap = syncData.learn_map || {};
+    // Merge rather than overwrite: a change made on this device just before the
+    // last page close may not have reached the server yet (see postLearnMapNow),
+    // so local-only entries must survive being combined with the server's copy.
+    state.learnMap = { ...state.learnMap, ...serverMap };
+    saveLearned();
+    if (typeof renderBrowse === "function") renderBrowse();
+    if (typeof renderExamples === "function") renderExamples();
+    if (typeof renderWordGrid === "function") renderWordGrid();
+  } catch(e){}
+}
+
+function debounce(fn, delay){
+  let timer = null;
+  return (...args) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => fn(...args), delay);
+  };
+}
+
+function matchesFilters(word, f){
+  const cat = CAT_MAP[word.cat];
+  if (f.section !== "all" && cat && cat.section !== f.section) return false;
+  if (f.headline && f.headline !== "all" && cat && SECTION_HEADLINES[cat.section] !== f.headline) return false;
+  if (f.cats) {
+    // Test page: multi-select Set (empty = all)
+    if (f.cats.size > 0) {
+      let matched = false;
+      for (const catId of f.cats) {
+        const cefrLevel = CEFR_CAT_LEVEL[catId];
+        if (cefrLevel ? word.cefr === cefrLevel : word.cat === catId) { matched = true; break; }
+      }
+      if (!matched) return false;
+    }
+  } else if (f.cat !== "all") {
+    // Browse/Examples pages: single-select string
+    const cefrLevel = CEFR_CAT_LEVEL[f.cat];
+    if (cefrLevel){
+      if (word.cefr !== cefrLevel) return false;
+    } else if (word.cat !== f.cat) return false;
+  }
+  if (f.cefr !== "all" && word.cefr !== f.cefr) return false;
+  if (f.learned === "learned" && !isLearned(word.w)) return false;
+  if (f.learned === "little"  && !isLittle(word.w)) return false;
+  if (f.learned === "unlearned" && isAnyLearned(word.w)) return false;
+  if (f.search){
+    const q = f.search.toLowerCase();
+    const hay = [word.w, word.def, ...(word.syn||[]), ...(word.ant||[])].join(" ").toLowerCase();
+    if (!hay.includes(q)) return false;
+  }
+  return true;
+}
+
+function measurePageBreaks(container, pinnedChip, optionChips, maxRows){
+  if (container.getBoundingClientRect().width === 0) return null;
+  const breaks = [];
+  let pageStart = 0;
+  while (pageStart < optionChips.length){
+    container.innerHTML = "";
+    container.appendChild(pinnedChip.cloneNode(true));
+    for (let i = pageStart; i < optionChips.length; i++) container.appendChild(optionChips[i].cloneNode(true));
+    const clones = Array.from(container.children).slice(1);
+    let rowCount = 0, lastTop = null, pageEnd = optionChips.length;
+    for (let i = 0; i < clones.length; i++){
+      const top = clones[i].getBoundingClientRect().top;
+      if (lastTop === null || Math.abs(top - lastTop) > 4){ rowCount++; lastTop = top; }
+      if (rowCount > maxRows){ pageEnd = pageStart + i; break; }
+    }
+    if (pageEnd <= pageStart) pageEnd = Math.min(pageStart + 1, optionChips.length);
+    breaks.push([pageStart, pageEnd]);
+    pageStart = pageEnd;
+  }
+  container.innerHTML = "";
+  return breaks;
+}
+
+function renderExpandableChips(container, pinnedChip, optionChips, maxRows = 2){
+  const fp = optionChips.length + ":" + (optionChips[0] ? optionChips[0].textContent : "");
+  if (container.dataset.chipFp !== fp){ container.dataset.chipPage = "0"; container.dataset.chipFp = fp; container.dataset.chipBreaks = ""; }
+  if (!container.dataset.chipBreaks){
+    const measured = measurePageBreaks(container, pinnedChip, optionChips, maxRows);
+    if (measured === null){
+      container.innerHTML = "";
+      container.appendChild(pinnedChip);
+      optionChips.forEach(chip => container.appendChild(chip));
+      return;
+    }
+    container.dataset.chipBreaks = JSON.stringify(measured);
+  }
+  const breaks = JSON.parse(container.dataset.chipBreaks);
+  let page = parseInt(container.dataset.chipPage || "0", 10);
+  const totalPages = breaks.length;
+  if (page >= totalPages) page = 0;
+  const [start, end] = breaks[page];
+
+  container.innerHTML = "";
+  container.appendChild(pinnedChip);
+  optionChips.slice(start, end).forEach(chip => container.appendChild(chip));
+
+  if (totalPages > 1){
+    const prev = document.createElement("button");
+    prev.type = "button"; prev.className = "clear-btn"; prev.textContent = "← Prev";
+    prev.disabled = page === 0;
+    if (page === 0){ prev.style.opacity = "0.35"; prev.style.cursor = "default"; }
+    prev.addEventListener("click", () => { container.dataset.chipPage = page - 1; renderExpandableChips(container, pinnedChip, optionChips, maxRows); });
+
+    const counter = document.createElement("span");
+    counter.style.cssText = "font-size:.78rem;color:var(--muted);font-weight:600;padding:0 4px;white-space:nowrap;";
+    counter.textContent = "Page " + (page + 1) + " / " + totalPages;
+
+    const next = document.createElement("button");
+    next.type = "button"; next.className = "clear-btn"; next.textContent = "Next →";
+    next.disabled = page === totalPages - 1;
+    if (page === totalPages - 1){ next.style.opacity = "0.35"; next.style.cursor = "default"; }
+    next.addEventListener("click", () => { container.dataset.chipPage = page + 1; renderExpandableChips(container, pinnedChip, optionChips, maxRows); });
+
+    const navRow = document.createElement("div");
+    navRow.style.cssText = "width:100%;display:flex;justify-content:center;align-items:center;gap:8px;margin-top:4px;";
+    navRow.appendChild(prev); navRow.appendChild(counter); navRow.appendChild(next);
+    container.appendChild(navRow);
+  }
+}
+
+function buildSectionChips(container, f, onChange){
+  const hl = f.headline;
+
+  if (hl === "cefr"){
+    container.style.display = "none";
+    container.innerHTML = "";
+    return;
+  }
+  container.style.display = "";
+
+  const allChip = document.createElement("button");
+  allChip.className = "chip" + (f.section==="all" ? " active" : "");
+  allChip.dataset.section = "all";
+  allChip.textContent = "All Sections";
+
+  const sections = hl === undefined
+    ? SECTION_ORDER
+    : hl === "all"
+      ? ALL_SECTION_ORDER.filter(s => SECTION_HEADLINES[s] !== "cefr")
+      : ALL_SECTION_ORDER.filter(s => SECTION_HEADLINES[s] === hl);
+
+  const optionChips = sections.map(sec => {
+    const chip = document.createElement("button");
+    chip.className = "chip" + (f.section===sec ? " active" : "");
+    chip.dataset.section = sec;
+    chip.textContent = sec;
+    return chip;
+  });
+
+  [allChip, ...optionChips].forEach(chip => {
+    chip.addEventListener("click", () => {
+      f.section = chip.dataset.section;
+      if (f.cats !== undefined) f.cats = new Set();
+      else f.cat = "all";
+      onChange();
+    });
+  });
+
+  renderExpandableChips(container, allChip, optionChips);
+}
+
+function buildCategoryChips(container, f, onChange, catSearch = ""){
+  const hl = f.headline;
+  const multiSelect = f.cats !== undefined;
+  let cats;
+  if (hl === "cefr"){
+    cats = CEFR_CATEGORIES;
+  } else {
+    cats = hl === undefined || hl === "all"
+      ? CATEGORIES
+      : CATEGORIES.filter(c => SECTION_HEADLINES[c.section] === hl);
+    cats = cats.filter(c => f.section==="all" || c.section===f.section);
+  }
+  const q = catSearch.trim().toLowerCase();
+  if (q) cats = cats.filter(c => c.name.toLowerCase().includes(q));
+
+  const allChip = document.createElement("button");
+  allChip.className = "chip" + (multiSelect ? (f.cats.size===0 ? " active" : "") : (f.cat==="all" ? " active" : ""));
+  allChip.dataset.cat = "all";
+  allChip.textContent = "All Categories";
+
+  const optionChips = cats.map(c => {
+    const chip = document.createElement("button");
+    chip.className = `chip t-${c.theme}` + (multiSelect ? (f.cats.has(c.id) ? " active" : "") : (f.cat===c.id ? " active" : ""));
+    chip.dataset.cat = c.id;
+    chip.textContent = `${c.icon} ${c.name}`;
+    return chip;
+  });
+
+  [allChip, ...optionChips].forEach(chip => {
+    chip.addEventListener("click", () => {
+      if (multiSelect) {
+        if (chip.dataset.cat === "all") {
+          f.cats = new Set();
+        } else {
+          if (f.cats.has(chip.dataset.cat)) f.cats.delete(chip.dataset.cat);
+          else f.cats.add(chip.dataset.cat);
+        }
+      } else {
+        f.cat = chip.dataset.cat;
+      }
+      onChange();
+    });
+  });
+
+  if (q) {
+    container.innerHTML = "";
+    container.appendChild(allChip);
+    if (optionChips.length === 0) {
+      const none = document.createElement("span");
+      none.style.cssText = "font-size:.82rem; color:var(--muted);";
+      none.textContent = "No categories match";
+      container.appendChild(none);
+    } else {
+      optionChips.forEach(chip => container.appendChild(chip));
+    }
+  } else {
+    renderExpandableChips(container, allChip, optionChips);
+  }
+}
+
+/* ════════════════════════════════════════════════════════
+   TOPIC / CEFR FILTERS (Quiz, Fill the Gap, Challenge setup)
+   ════════════════════════════════════════════════════════ */
+function renderTopicFilters(prefix, f, getPool, unitLabel){
+  document.querySelectorAll(`#${prefix}HeadlineFilters [data-headline]`).forEach(btn => {
+    btn.classList.toggle("active", btn.dataset.headline === (f.headline || "all"));
+  });
+  buildSectionChips(document.getElementById(`${prefix}SectionFilters`), f, () => renderTopicFilters(prefix, f, getPool, unitLabel));
+  const catSearchEl = document.getElementById(`${prefix}CatSearch`);
+  const catSearch = catSearchEl ? catSearchEl.value : "";
+  buildCategoryChips(document.getElementById(`${prefix}CategoryFilters`), f, () => renderTopicFilters(prefix, f, getPool, unitLabel), catSearch);
+  document.querySelectorAll(`#${prefix}CefrFilters [data-cefr]`).forEach(chip => {
+    chip.classList.toggle("active", chip.dataset.cefr === f.cefr);
+  });
+  document.querySelectorAll(`#${prefix}LearnedFilters [data-learned]`).forEach(chip => {
+    chip.classList.toggle("active", chip.dataset.learned === f.learned);
+  });
+  const count = getPool().length;
+  const unit = typeof unitLabel === "function" ? unitLabel() : unitLabel;
+  document.getElementById(`${prefix}FilterCount`).textContent = `${count} ${unit}${count!==1?"s":""} match`;
+  const startBtn = document.getElementById(`${prefix}Start`);
+  if (startBtn) startBtn.disabled = count === 0;
+  const noMatch = document.getElementById(`${prefix}NoMatch`);
+  if (noMatch) noMatch.style.display = count === 0 ? "block" : "none";
+}
+
+function initTopicFilters(prefix, f, getPool, unitLabel){
+  const catSearchEl = document.getElementById(`${prefix}CatSearch`);
+  if (catSearchEl) {
+    catSearchEl.addEventListener("input", () => renderTopicFilters(prefix, f, getPool, unitLabel));
+  }
+  document.querySelectorAll(`#${prefix}HeadlineFilters [data-headline]`).forEach(btn => {
+    btn.addEventListener("click", () => {
+      f.headline = btn.dataset.headline;
+      f.section = "all";
+      if (f.cats !== undefined) f.cats = new Set();
+      else f.cat = "all";
+      if (catSearchEl) catSearchEl.value = "";
+      renderTopicFilters(prefix, f, getPool, unitLabel);
+    });
+  });
+  document.querySelectorAll(`#${prefix}CefrFilters [data-cefr]`).forEach(chip => {
+    chip.addEventListener("click", () => {
+      f.cefr = chip.dataset.cefr;
+      renderTopicFilters(prefix, f, getPool, unitLabel);
+    });
+  });
+  document.querySelectorAll(`#${prefix}LearnedFilters [data-learned]`).forEach(chip => {
+    chip.addEventListener("click", () => {
+      f.learned = chip.dataset.learned;
+      renderTopicFilters(prefix, f, getPool, unitLabel);
+    });
+  });
+  document.getElementById(`${prefix}ClearFilters`).addEventListener("click", () => {
+    f.section = "all"; f.cefr = "all"; f.learned = "all";
+    if (f.headline !== undefined) f.headline = "all";
+    if (f.cats !== undefined) f.cats = new Set();
+    else f.cat = "all";
+    renderTopicFilters(prefix, f, getPool, unitLabel);
+  });
+  renderTopicFilters(prefix, f, getPool, unitLabel);
+}
+
+/* ════════════════════════════════════════════════════════
+   NAVIGATION
+   ════════════════════════════════════════════════════════ */
+const NAV_SECTIONS = {
+  vocabulary: ["list", "examples", "test"],
+  grammar: ["grammar"],
+  reading: ["reading"],
+  writing: ["writing"],
+};
+
+function sectionOfPage(pageId){
+  return Object.keys(NAV_SECTIONS).find(s => NAV_SECTIONS[s].includes(pageId));
+}
+
+function closeNavDropdowns(){
+  document.querySelectorAll(".nav-group.open").forEach(g => g.classList.remove("open"));
+}
+
+function goToPage(pageId){
+  document.querySelectorAll(".nav-group > .tab").forEach(t => t.classList.remove("active"));
+  document.querySelectorAll(".nav-dropdown-item").forEach(i => i.classList.remove("active"));
+  document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+
+  const section = sectionOfPage(pageId);
+  document.querySelector(`.tab[data-section-btn="${section}"]`).classList.add("active");
+  const dropdownItem = document.querySelector(`.nav-dropdown-item[data-page="${pageId}"]`);
+  if (dropdownItem) dropdownItem.classList.add("active");
+
+  const page = document.getElementById(`page-${pageId}`);
+  page.classList.add("active");
+  page.querySelectorAll("[data-chip-fp]").forEach(el => { el.dataset.chipBreaks = ""; });
+  if (pageId === "examples") renderExamplesFilters();
+  else if (pageId === "test") renderTestMode();
+  if (typeof gsap !== "undefined"){
+    gsap.fromTo(page, {opacity:0, y:12}, {opacity:1, y:0, duration:.35, ease:"power2.out"});
+  }
+}
+
+document.querySelectorAll(".nav-dropdown-item").forEach(item => {
+  item.addEventListener("click", () => {
+    if (item.dataset.page === "test"){
+      applyBrowseFiltersToTest();
+      renderTestMode();
+    }
+    goToPage(item.dataset.page);
+    closeNavDropdowns();
+  });
+});
+
+document.querySelectorAll(".tab[data-section-btn]").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const section = btn.dataset.sectionBtn;
+    if (btn.classList.contains("active")) {
+      btn.closest(".nav-group").classList.toggle("open");
+    } else {
+      goToPage(NAV_SECTIONS[section][0]);
+      closeNavDropdowns();
+    }
+  });
+});
+
+document.addEventListener("click", (e) => {
+  if (!e.target.closest(".nav-group")) closeNavDropdowns();
+});
+
+/* ════════════════════════════════════════════════════════
+   THEME TOGGLE
+   ════════════════════════════════════════════════════════ */
+const themeToggleBtn = document.getElementById("themeToggle");
+function updateThemeIcon(){
+  const theme = document.documentElement.getAttribute("data-theme");
+  themeToggleBtn.textContent = theme === "dark" ? "☀️" : "🌙";
+}
+updateThemeIcon();
+themeToggleBtn.addEventListener("click", () => {
+  const current = document.documentElement.getAttribute("data-theme");
+  const next = current === "dark" ? "light" : "dark";
+  document.documentElement.setAttribute("data-theme", next);
+  try { localStorage.setItem("ivm_theme", next); } catch(e) {}
+  updateThemeIcon();
+});
+
+document.getElementById("resetProgressBtn").addEventListener("click", () => {
+  if (!confirm("Reset all learning progress? This cannot be undone.")) return;
+  try {
+    localStorage.removeItem(LEARN_STATE_KEY);
+    localStorage.removeItem("ivm_learned_words");
+  } catch(e) {}
+  location.reload();
+});
+
+document.getElementById("reviewLittleBtn").addEventListener("click", () => {
+  state.examples.search = "";
+  state.examples.headline = "all";
+  state.examples.section = "all";
+  state.examples.cat = "all";
+  state.examples.cefr = "all";
+  state.examples.learned = "little";
+  state.examples.page = 1;
+  document.getElementById("exSearchInput").value = "";
+  renderExamplesFilters();
+  renderExamples();
+  goToPage("examples");
+});
+
+document.getElementById("userChip").addEventListener("click", (e) => {
+  e.stopPropagation();
+  document.getElementById("userChip").classList.toggle("open");
+});
+
+document.getElementById("signOutBtn").addEventListener("click", async () => {
+  // Wait for the page's own initial server-merge to finish before flushing -
+  // otherwise state.learnMap can still be the pre-merge local-only copy, and
+  // flushing it would overwrite the server's fuller data with that partial one.
+  try { await authReady; } catch(e){}
+  // Flush any not-yet-synced progress WHILE the session is still valid -
+  // logout.php destroys it, after which a save would just get rejected.
+  try { await postLearnMapNow(); } catch(e){}
+  try { await authFetch(`${ALLAUTH_BASE}/auth/session`, { method: 'DELETE' }); } catch(e){}
+  try {
+    localStorage.removeItem(LEARN_STATE_KEY);
+    localStorage.removeItem("ivm_learned_words");
+  } catch(e) {}
+  location.reload();
+});
+
+document.addEventListener("click", (e) => {
+  if (!e.target.closest("#userChip")) document.getElementById("userChip").classList.remove("open");
+});
+
+document.getElementById("deleteAccountBtn").addEventListener("click", () => {
+  document.getElementById("userChip").classList.remove("open");
+  document.getElementById("deletePassword").value = "";
+  document.getElementById("deleteError").textContent = "";
+  document.getElementById("deleteOverlay").classList.add("open");
+});
+document.getElementById("deleteClose").addEventListener("click", () => {
+  document.getElementById("deleteOverlay").classList.remove("open");
+});
+document.getElementById("deleteOverlay").addEventListener("click", (e) => {
+  if (e.target.id === "deleteOverlay") document.getElementById("deleteOverlay").classList.remove("open");
+});
+document.getElementById("deleteForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const password = document.getElementById("deletePassword").value;
+  const submitBtn = document.getElementById("deleteSubmitBtn");
+  const errorEl = document.getElementById("deleteError");
+  errorEl.textContent = "";
+  submitBtn.disabled = true;
+  try {
+    const res = await authFetch(`${AUTH_BASE}/delete-account/`, {
+      method: 'POST',
+      body: JSON.stringify({ password }),
+    });
+    const data = await res.json();
+    if (!res.ok){ errorEl.textContent = data.error || "Could not delete account."; return; }
+    try {
+      localStorage.removeItem(LEARN_STATE_KEY);
+      localStorage.removeItem("ivm_learned_words");
+    } catch(e) {}
+    location.reload();
+  } catch(err){
+    errorEl.textContent = "Could not reach the server.";
+  } finally {
+    submitBtn.disabled = false;
+  }
+});
+
+document.getElementById("editProfileBtn").addEventListener("click", () => {
+  document.getElementById("userChip").classList.remove("open");
+  document.getElementById("profileError").textContent = "";
+  document.getElementById("profileName").value = state.auth.name || "";
+  document.getElementById("profileUsername").value = state.auth.username || "";
+  document.getElementById("profilePicture").value = "";
+  const wrap = document.getElementById("profileAvatarPreviewWrap");
+  const img = document.getElementById("profileAvatarPreview");
+  if (state.auth.picture){
+    img.src = state.auth.picture;
+    wrap.classList.remove("auth-hidden");
+  } else {
+    img.src = "";
+    wrap.classList.add("auth-hidden");
+  }
+  document.getElementById("profileOverlay").classList.add("open");
+});
+document.getElementById("profileClose").addEventListener("click", () => {
+  document.getElementById("profileOverlay").classList.remove("open");
+});
+document.getElementById("profileOverlay").addEventListener("click", (e) => {
+  if (e.target.id === "profileOverlay") document.getElementById("profileOverlay").classList.remove("open");
+});
+document.getElementById("profilePicture").addEventListener("change", (e) => {
+  previewAvatarFile(e.target.files[0], "profileAvatarPreviewWrap", "profileAvatarPreview");
+});
+document.getElementById("profileForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const errorEl = document.getElementById("profileError");
+  errorEl.textContent = "";
+  const name = document.getElementById("profileName").value.trim();
+  const username = document.getElementById("profileUsername").value.trim();
+
+  if (!/^[\p{L}\s]{1,60}$/u.test(name)){
+    errorEl.textContent = "Full name can only contain letters and spaces.";
+    return;
+  }
+  if (!/^[A-Za-z0-9]{3,20}$/.test(username)){
+    errorEl.textContent = "Username must be 3–20 characters, letters and numbers only (no spaces or symbols).";
+    return;
+  }
+
+  const submitBtn = document.getElementById("profileSubmitBtn");
+  submitBtn.disabled = true;
+  try {
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("username", username);
+    const pictureInput = document.getElementById("profilePicture");
+    if (pictureInput.files[0]) formData.append("picture", pictureInput.files[0]);
+
+    const res = await fetch(`${AUTH_BASE}/update-profile/`, {
+      method: 'POST', credentials: 'same-origin',
+      headers: { 'X-CSRFToken': getCsrf() }, body: formData,
+    });
+    const data = await res.json();
+    if (!res.ok){ errorEl.textContent = data.error || "Could not update profile."; return; }
+
+    state.auth.name = data.name || name;
+    state.auth.username = data.username || username;
+    state.auth.picture = data.picture || "";
+    renderAuthUI();
+    document.getElementById("profileOverlay").classList.remove("open");
+  } catch(err){
+    errorEl.textContent = "Could not reach the server.";
+  } finally {
+    submitBtn.disabled = false;
+  }
+});
+
+/* ════════════════════════════════════════════════════════
+   AUTH MODAL (sign in / sign up)
+   ════════════════════════════════════════════════════════ */
+const authState = { step: "email", email: "" };
+
+function resetAuthForm(){
+  authState.step = "email";
+  authState.email = "";
+  document.getElementById("authEmail").value = "";
+  document.getElementById("authEmail").disabled = false;
+  document.getElementById("authPassword").value = "";
+  document.getElementById("authPassword").type = "password";
+  document.getElementById("authPwToggle").textContent = "👁";
+  document.getElementById("authRememberMe").checked = false;
+  document.getElementById("authName").value = "";
+  document.getElementById("authUsername").value = "";
+  document.getElementById("authPicture").value = "";
+  document.getElementById("authAvatarPreviewWrap").classList.add("auth-hidden");
+  document.getElementById("authAvatarPreview").src = "";
+  document.getElementById("authPasswordGroup").classList.add("auth-hidden");
+  document.getElementById("authSignupExtra").classList.add("auth-hidden");
+  document.getElementById("authMfaGroup").classList.add("auth-hidden");
+  document.getElementById("authMfaCode").value = "";
+  document.getElementById("authResetGroup").classList.add("auth-hidden");
+  document.getElementById("authResetPassword").value = "";
+  document.getElementById("authResetPassword2").value = "";
+  document.getElementById("authForgotWrap").classList.add("auth-hidden");
+  document.getElementById("authSwitch").classList.add("auth-hidden");
+  document.getElementById("authRegisterHint").classList.remove("auth-hidden");
+  document.getElementById("authError").textContent = "";
+  showAuthInfo("");
+  document.getElementById("authTitle").textContent = "Sign in";
+  document.getElementById("authSubmitBtn").textContent = "Continue";
+  document.getElementById("authSubmitBtn").disabled = false;
+  document.getElementById("authSubmitBtn").classList.remove("auth-hidden");
+}
+
+function openAuthModal(){
+  resetAuthForm();
+  document.getElementById("authOverlay").classList.add("open");
+  document.getElementById("authEmail").focus();
+}
+
+function closeAuthModal(){
+  document.getElementById("authOverlay").classList.remove("open");
+}
+
+function showAuthError(msg){
+  document.getElementById("authError").textContent = msg;
+}
+
+function showAuthInfo(msg){
+  const el = document.getElementById("authInfo");
+  el.textContent = msg;
+  el.classList.toggle("auth-hidden", !msg);
+}
+
+document.getElementById("signInBtn").addEventListener("click", openAuthModal);
+document.getElementById("authClose").addEventListener("click", closeAuthModal);
+document.getElementById("authOverlay").addEventListener("click", (e) => {
+  if (e.target.id === "authOverlay") closeAuthModal();
+});
+
+document.getElementById("authSwitch").addEventListener("click", (e) => {
+  if (e.target.id === "authBackLink"){
+    e.preventDefault();
+    resetAuthForm();
+    document.getElementById("authEmail").focus();
+  }
+});
+
+document.getElementById("authRegisterLink").addEventListener("click", (e) => {
+  e.preventDefault();
+  authState.step = "signup";
+  showAuthError("");
+  showAuthInfo("");
+  document.getElementById("authTitle").textContent = "Create your account";
+  document.getElementById("authPasswordGroup").classList.remove("auth-hidden");
+  document.getElementById("authForgotWrap").classList.add("auth-hidden");
+  document.getElementById("authSignupExtra").classList.remove("auth-hidden");
+  document.getElementById("authRegisterHint").classList.add("auth-hidden");
+  document.getElementById("authSwitch").classList.remove("auth-hidden");
+  document.getElementById("authSwitch").innerHTML = `Already have an account? <a href="#" id="authBackLink">Sign in</a>`;
+  document.getElementById("authSubmitBtn").textContent = "Create account";
+  document.getElementById("authEmail").focus();
+});
+
+document.getElementById("authForgotLink").addEventListener("click", (e) => {
+  e.preventDefault();
+  authState.step = "forgot";
+  showAuthError("");
+  document.getElementById("authTitle").textContent = "Reset your password";
+  document.getElementById("authPasswordGroup").classList.add("auth-hidden");
+  document.getElementById("authSwitch").classList.add("auth-hidden");
+  showAuthInfo(`We'll email a reset link to ${authState.email}.`);
+  document.getElementById("authSubmitBtn").textContent = "Send reset link";
+});
+
+document.getElementById("authPwToggle").addEventListener("click", () => {
+  const input = document.getElementById("authPassword");
+  const toggle = document.getElementById("authPwToggle");
+  const show = input.type === "password";
+  input.type = show ? "text" : "password";
+  toggle.textContent = show ? "🙈" : "👁";
+});
+
+document.getElementById("authPicture").addEventListener("change", (e) => {
+  previewAvatarFile(e.target.files[0], "authAvatarPreviewWrap", "authAvatarPreview");
+});
+
+function previewAvatarFile(file, wrapId, imgId){
+  const wrap = document.getElementById(wrapId);
+  const img = document.getElementById(imgId);
+  if (!file){ wrap.classList.add("auth-hidden"); img.src = ""; return; }
+  const reader = new FileReader();
+  reader.onload = () => { img.src = reader.result; wrap.classList.remove("auth-hidden"); };
+  reader.readAsDataURL(file);
+}
+
+function socialLogin(provider) {
+  const form = document.createElement('form');
+  form.method = 'POST';
+  form.action = '/_allauth/browser/v1/auth/provider/redirect';
+  const fields = {
+    provider: provider,
+    callback_url: window.location.origin + '/',
+    process: 'login',
+    csrfmiddlewaretoken: getCsrf()
+  };
+  for (const [name, value] of Object.entries(fields)) {
+    const input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = name;
+    input.value = value;
+    form.appendChild(input);
+  }
+  document.body.appendChild(form);
+  form.submit();
+}
+
+document.querySelectorAll(".auth-social-btn").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    showAuthError("");
+    showAuthInfo(`Opening ${btn.dataset.provider} sign-in…`);
+    socialLogin(btn.dataset.provider);
+  });
+});
+
+document.getElementById("authForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  showAuthError("");
+  const submitBtn = document.getElementById("authSubmitBtn");
+
+  if (authState.step === "email"){
+    const email = document.getElementById("authEmail").value.trim();
+    if (!email) return;
+    submitBtn.disabled = true;
+    try {
+      const res = await authFetch(`${AUTH_BASE}/check-email/`, {
+        method: 'POST',
+        body: JSON.stringify({ email }),
+      });
+      const data = await res.json();
+      if (!res.ok){ showAuthError(data.error || "Something went wrong."); return; }
+
+      authState.email = email;
+      document.getElementById("authEmail").disabled = true;
+      document.getElementById("authPasswordGroup").classList.remove("auth-hidden");
+      document.getElementById("authSwitch").classList.remove("auth-hidden");
+      document.getElementById("authSwitch").innerHTML = `Not you? <a href="#" id="authBackLink">Use a different email</a>`;
+      document.getElementById("authRegisterHint").classList.add("auth-hidden");
+      showAuthInfo("");
+
+      if (data.exists){
+        authState.step = "login";
+        document.getElementById("authTitle").textContent = "Sign in";
+        document.getElementById("authSignupExtra").classList.add("auth-hidden");
+        document.getElementById("authForgotWrap").classList.remove("auth-hidden");
+        submitBtn.textContent = "Sign in";
+      } else {
+        authState.step = "signup";
+        document.getElementById("authTitle").textContent = "Create your account";
+        document.getElementById("authSignupExtra").classList.remove("auth-hidden");
+        document.getElementById("authForgotWrap").classList.add("auth-hidden");
+        submitBtn.textContent = "Create account";
+      }
+      document.getElementById("authPassword").focus();
+    } catch(err){
+      showAuthError("Could not reach the server.");
+    } finally {
+      submitBtn.disabled = false;
+    }
+    return;
+  }
+
+  if (authState.step === "login"){
+    const password = document.getElementById("authPassword").value;
+    const remember = document.getElementById("authRememberMe").checked ? "1" : "0";
+    submitBtn.disabled = true;
+    try {
+      const res = await authFetch(`${ALLAUTH_BASE}/auth/login`, {
+        method: 'POST',
+        body: JSON.stringify({ email: authState.email, password }),
+      });
+      const data = await res.json();
+      // MFA-enabled account: allauth returns 401 with a pending
+      // mfa_authenticate flow. Switch to the 2FA code step instead of erroring.
+      const flows = data?.data?.flows || [];
+      if (res.status === 401 && flows.some(f => f.id === "mfa_authenticate")){
+        authState.step = "mfa";
+        document.getElementById("authTitle").textContent = "Two-factor authentication";
+        document.getElementById("authPasswordGroup").classList.add("auth-hidden");
+        document.getElementById("authForgotWrap").classList.add("auth-hidden");
+        document.getElementById("authMfaGroup").classList.remove("auth-hidden");
+        showAuthInfo("Enter the 6-digit code from your authenticator app.");
+        submitBtn.textContent = "Verify";
+        document.getElementById("authMfaCode").focus();
+        return;
+      }
+      if (data.status !== 200){ showAuthError((data.errors?.[0]?.message) || "Incorrect email or password."); return; }
+      closeAuthModal();
+      await initAuth();
+    } catch(err){
+      showAuthError("Could not reach the server.");
+    } finally {
+      submitBtn.disabled = false;
+    }
+    return;
+  }
+
+  if (authState.step === "mfa"){
+    const code = document.getElementById("authMfaCode").value.trim();
+    if (!code){ showAuthError("Please enter your 2FA code."); return; }
+    submitBtn.disabled = true;
+    try {
+      const res = await authFetch(`${ALLAUTH_BASE}/auth/2fa/authenticate`, {
+        method: 'POST',
+        body: JSON.stringify({ code }),
+      });
+      const data = await res.json();
+      if (data.status !== 200){ showAuthError("Invalid 2FA code."); return; }
+      closeAuthModal();
+      await initAuth();
+    } catch(err){
+      showAuthError("Could not reach the server.");
+    } finally {
+      submitBtn.disabled = false;
+    }
+    return;
+  }
+
+  if (authState.step === "reset"){
+    const pw1 = document.getElementById("authResetPassword").value;
+    const pw2 = document.getElementById("authResetPassword2").value;
+    if (!pw1 || pw1.length < 8){ showAuthError("Password must be at least 8 characters."); return; }
+    if (pw1 !== pw2){ showAuthError("Passwords do not match."); return; }
+    submitBtn.disabled = true;
+    try {
+      const res = await authFetch(`${ALLAUTH_BASE}/auth/password/reset`, {
+        method: 'POST',
+        body: JSON.stringify({ key: authState.resetKey, password: pw1 }),
+      });
+      const data = await res.json();
+      if (res.status !== 200 && data.status !== 200){
+        showAuthError((data.errors?.[0]?.message) || "Could not reset password. The link may have expired.");
+        return;
+      }
+      sessionStorage.setItem("ivm_flash", "Password reset successful. You can now sign in.");
+      window.location.href = "/";
+    } catch(err){
+      showAuthError("Could not reach the server.");
+    } finally {
+      submitBtn.disabled = false;
+    }
+    return;
+  }
+
+  if (authState.step === "forgot"){
+    submitBtn.disabled = true;
+    try {
+      await authFetch(`${ALLAUTH_BASE}/auth/password/request`, {
+        method: 'POST',
+        body: JSON.stringify({ email: authState.email }),
+      });
+      authState.step = "forgot-sent";
+      document.getElementById("authTitle").textContent = "Check your email";
+      showAuthInfo(`If an account exists for ${authState.email}, a reset link is on its way.`);
+      submitBtn.classList.add("auth-hidden");
+      document.getElementById("authSwitch").innerHTML = `<a href="#" id="authBackLink">Back to sign in</a>`;
+    } catch(err){
+      showAuthError("Could not reach the server.");
+    } finally {
+      submitBtn.disabled = false;
+    }
+    return;
+  }
+
+  if (authState.step === "forgot-sent"){
+    return;
+  }
+
+  if (authState.step === "signup"){
+    const email = document.getElementById("authEmail").value.trim();
+    const password = document.getElementById("authPassword").value;
+    const name = document.getElementById("authName").value.trim();
+    const username = document.getElementById("authUsername").value.trim();
+    const pictureInput = document.getElementById("authPicture");
+
+    if (!email){
+      showAuthError("Please enter your email address.");
+      return;
+    }
+    if (!/^[\p{L}\s]{1,60}$/u.test(name)){
+      showAuthError("Full name can only contain letters and spaces.");
+      return;
+    }
+    if (!/^[A-Za-z0-9]{3,20}$/.test(username)){
+      showAuthError("Username must be 3–20 characters, letters and numbers only (no spaces or symbols).");
+      return;
+    }
+
+    authState.email = email;
+    submitBtn.disabled = true;
+    try {
+      const res = await authFetch(`${ALLAUTH_BASE}/auth/signup`, {
+        method: 'POST',
+        body: JSON.stringify({ email, username, password }),
+      });
+      const data = await res.json();
+      // Mandatory email verification: allauth returns 401 with a pending
+      // verify_email flow. The account WAS created — don't treat it as an error.
+      const flows = data?.data?.flows || [];
+      if (res.status === 401 && flows.some(f => f.id === "verify_email")){
+        document.getElementById("authTitle").textContent = "Check your email";
+        document.getElementById("authPasswordGroup").classList.add("auth-hidden");
+        document.getElementById("authSignupExtra").classList.add("auth-hidden");
+        document.getElementById("authSubmitBtn").classList.add("auth-hidden");
+        document.getElementById("authSwitch").classList.remove("auth-hidden");
+        document.getElementById("authSwitch").innerHTML = `<a href="#" id="authBackLink">Back to sign in</a>`;
+        showAuthInfo("Account created — please check your email to verify your address.");
+        return;
+      }
+      if (data.status !== 200){ showAuthError((data.errors?.[0]?.message) || "Could not create account."); return; }
+      // Allauth headless doesn't accept name/picture — save them now that the account exists
+      if (name || pictureInput.files[0]) {
+        const pf = new FormData();
+        if (name) pf.append('name', name);
+        if (pictureInput.files[0]) pf.append('picture', pictureInput.files[0]);
+        await fetch(`${AUTH_BASE}/update-profile/`, {
+          method: 'POST', credentials: 'same-origin',
+          headers: { 'X-CSRFToken': getCsrf() }, body: pf,
+        }).catch(() => {});
+      }
+      closeAuthModal();
+      await initAuth();
+    } catch(err){
+      showAuthError("Could not reach the server.");
+    } finally {
+      submitBtn.disabled = false;
+    }
+    return;
+  }
+});
+
+// Show any one-shot flash message stashed before a redirect (e.g. password reset).
+(function showPendingFlash(){
+  let msg = null;
+  try { msg = sessionStorage.getItem("ivm_flash"); sessionStorage.removeItem("ivm_flash"); } catch(e){}
+  if (msg){ openAuthModal(); showAuthInfo(msg); }
+})();
+
+// Handle allauth email links that land on the SPA:
+//   /verify-email/<key>/   → POST the key to the headless verify endpoint
+//   /reset-password/<key>/ → show a set-new-password form
+async function handleAuthDeepLinks(){
+  const verifyMatch = window.location.pathname.match(/^\/verify-email\/([^/]+)\/?$/);
+  const resetMatch  = window.location.pathname.match(/^\/reset-password\/([^/]+)\/?$/);
+
+  if (verifyMatch){
+    const key = decodeURIComponent(verifyMatch[1]);
+    try {
+      const res = await authFetch(`${ALLAUTH_BASE}/auth/email/verify`, {
+        method: 'POST',
+        body: JSON.stringify({ key }),
+      });
+      const data = await res.json().catch(() => ({}));
+      const ok = res.status === 200 || data.status === 200;
+      try {
+        sessionStorage.setItem("ivm_flash", ok
+          ? "Email verified! You can now sign in."
+          : "This verification link is invalid or has expired.");
+      } catch(e){}
+    } catch(e){
+      try { sessionStorage.setItem("ivm_flash", "Could not verify your email — please try again."); } catch(_){}
+    }
+    window.location.href = "/";
+    return;
+  }
+
+  if (resetMatch){
+    authState.resetKey = decodeURIComponent(resetMatch[1]);
+    openAuthModal();
+    authState.step = "reset";
+    document.getElementById("authTitle").textContent = "Set a new password";
+    document.getElementById("authEmail").closest("label").classList.add("auth-hidden");
+    document.getElementById("authPasswordGroup").classList.add("auth-hidden");
+    document.getElementById("authSignupExtra").classList.add("auth-hidden");
+    document.getElementById("authRegisterHint").classList.add("auth-hidden");
+    document.getElementById("authResetGroup").classList.remove("auth-hidden");
+    document.getElementById("authSubmitBtn").textContent = "Reset password";
+    showAuthInfo("Choose a new password for your account.");
+  }
+}
+
+const authReady = initAuth();
+handleAuthDeepLinks();
+
+/* ════════════════════════════════════════════════════════
+   VOCAB LOADER — fetches words & categories from API
+   ════════════════════════════════════════════════════════ */
+async function loadVocab() {
+  try {
+    const [catRes, wordRes] = await Promise.all([
+      fetch(`${API_BASE}/categories/`),
+      fetch(`${API_BASE}/words/`),
+    ]);
+    const apiCats  = await catRes.json();
+    const apiWords = await wordRes.json();
+
+    CATEGORIES = apiCats.map(c => ({
+      id:      c.slug,
+      name:    c.name,
+      icon:    c.icon,
+      theme:   HEX_TO_THEME[c.bg_hex] || 'tb',
+      section: SECTIONS[c.slug] || 'Other',
+    }));
+
+    const catIdToSlug = Object.fromEntries(apiCats.map(c => [c.id, c.slug]));
+
+    VOCAB_DATA = apiWords.map(w => ({
+      w:    w.word,
+      pos:  w.pos,
+      def:  w.definition,
+      syn:  w.synonyms,
+      ant:  w.antonyms,
+      ex:   w.example,
+      gap:  w.gap,
+      cefr: w.cefr_code,
+      cat:  catIdToSlug[w.category_id],
+    }));
+
+    CAT_MAP       = Object.fromEntries(CATEGORIES.map(c => [c.id, c]));
+    ALL_CATEGORIES = [...CATEGORIES, ...CEFR_CATEGORIES];
+
+    CAT_WORDS = {};
+    CATEGORIES.forEach(cat      => { CAT_WORDS[cat.id] = VOCAB_DATA.filter(w => w.cat === cat.id); });
+    CEFR_CATEGORIES.forEach(cat => { CAT_WORDS[cat.id] = VOCAB_DATA.filter(w => w.cefr === cat.cefrLevel); });
+
+    GAP_POOL = VOCAB_DATA.filter(w => w.gap && w.gap.includes('___'));
+
+    saveLearned();
+    if (typeof renderBrowse === 'function')     renderBrowse();
+    if (typeof renderExamples === 'function')   renderExamples();
+    if (typeof renderWordGrid === 'function')   renderWordGrid();
+    if (typeof renderTestCounts === 'function') renderTestCounts();
+  } catch(e){ console.error('loadVocab failed:', e); }
+}
+
+loadVocab();
+
+/* ════════════════════════════════════════════════════════
+   WORD LIST PAGE — section/category browser
+   ════════════════════════════════════════════════════════ */
+const browseState = { search:"", section:"all", cefr:"all", status:"all", headline:"all", page:1 };
+const BROWSE_SECTIONS_PER_PAGE = 10;
+
+function categoryStatusOf(catId){
+  const words = CAT_WORDS[catId];
+  if (!words || !words.length) return "notStarted";
+  const learnedCnt = words.filter(w => isLearned(w.w)).length;
+  const littleCnt  = words.filter(w => isLittle(w.w)).length;
+  if (learnedCnt === words.length) return "completed";
+  if (learnedCnt === 0 && littleCnt === 0) return "notStarted";
+  return "inProgress";
+}
+const catState    = { cat:null, search:"", cefr:"all", learned:"all", page:1 };
+const CAT_PER_PAGE = 25;
+const CEFR_COLORS = {
+  "A1":"#10b981", "A1+":"#eab308",
+  "A2":"#06b6d4", "A2+":"#f97316",
+  "B1":"#6366f1", "B1+":"#ec4899",
+  "B2":"#3b82f6", "B2+":"#1e40af",
+  "C1":"#f59e0b", "C1+":"#f43f5e",
+  "C2":"#ef4444", "C2+":"#a855f7"
+};
+const CEFR_THEME = {
+  "A1":"te", "A1+":"tg",
+  "A2":"tc", "A2+":"to",
+  "B1":"ti", "B1+":"tp",
+  "B2":"tb", "B2+":"tnavy",
+  "C1":"ta", "C1+":"tro",
+  "C2":"tr", "C2+":"tpurp"
+};
+
+function cefrPillHtml(level){
+  const c = CEFR_COLORS[level] || "#888";
+  return `<span class="cat-cefr-pill" style="background:${c}">${level}</span>`;
+}
+
+function topCefrOf(catId){
+  const counts = {};
+  CAT_WORDS[catId].forEach(w => { counts[w.cefr] = (counts[w.cefr]||0)+1; });
+  const top = Object.entries(counts).sort((a,b)=>b[1]-a[1])[0];
+  return top ? top[0] : null;
+}
+
+function renderBrowseSection(sectionName, cats){
+  const wrap = document.createElement("div");
+  wrap.style.marginBottom = "36px";
+  const totalWords = cats.reduce((s,c) => s + CAT_WORDS[c.id].length, 0);
+  wrap.innerHTML = `
+    <div class="section-header">
+      <span class="section-title">${sectionName}</span>
+      <span class="section-rule"></span>
+      <span class="section-meta">${cats.length} categor${cats.length!==1?"ies":"y"} · ${totalWords} words</span>
+    </div>
+    <div class="cat-grid"></div>`;
+  const grid = wrap.querySelector(".cat-grid");
+  cats.forEach(cat => {
+    const words = CAT_WORDS[cat.id];
+    const learnedCnt = words.filter(w => isLearned(w.w)).length;
+    const littleCnt  = words.filter(w => isLittle(w.w)).length;
+    const pct   = words.length ? Math.round(learnedCnt / words.length * 100) : 0;
+    const pctLi = words.length ? Math.round((learnedCnt + littleCnt) / words.length * 100) : 0;
+    const pillLevel = browseState.cefr !== "all" ? browseState.cefr : topCefrOf(cat.id);
+    const cefrCount = browseState.cefr !== "all" ? words.filter(w => w.cefr === browseState.cefr).length : null;
+    const card = document.createElement("div");
+    card.className = `cat-card t-${cat.theme}`;
+    card.innerHTML = `
+      <div class="cat-card-row">
+        <div class="cat-icon-box t-${cat.theme}">${cat.icon}</div>
+        <div class="cat-info">
+          <div class="cat-name">${cat.name}</div>
+          <div class="cat-stats">
+            <span class="cat-wcount">${cefrCount !== null ? `${cefrCount} ${browseState.cefr} word${cefrCount!==1?"s":""}` : `${words.length} words`}</span>
+            ${pillLevel ? cefrPillHtml(pillLevel) : ""}
+          </div>
+        </div>
+        <span class="cat-chevron">›</span>
+      </div>
+      <div class="cat-pbar-row">
+        <div class="cat-pbar">
+          <div class="cat-pfill-little" style="width:${pctLi}%"></div>
+          <div class="cat-pfill" style="width:${pct}%;position:absolute;top:0;left:0;"></div>
+        </div>
+        <span class="cat-plabel">${learnedCnt}/${words.length}${littleCnt>0?` · ${littleCnt}~`:""}</span>
+      </div>`;
+    card.addEventListener("click", () => enterCatView(cat));
+    grid.appendChild(card);
+  });
+  return wrap;
+}
+
+function renderBrowse(){
+  const sc = document.getElementById("browseSectionChips");
+  const hl = browseState.headline;
+
+  // Headline button sync
+  document.querySelectorAll("#listBrowse .headline-btn").forEach(b => {
+    b.classList.toggle("active", b.dataset.headline === hl);
+  });
+
+  // Section chips: hidden for CEFR Levels, otherwise filtered to the active headline
+  if (hl === "cefr") {
+    sc.style.display = "none";
+  } else {
+    sc.style.display = "";
+    sc.innerHTML = `<span class="filter-label">Section</span>`;
+    const allBtn = document.createElement("button");
+    allBtn.className = "chip" + (browseState.section==="all"?" active":"");
+    allBtn.textContent = "All";
+    allBtn.addEventListener("click", () => { browseState.section="all"; browseState.page=1; renderBrowse(); });
+    const sectionsForChips = hl === "all"
+      ? ALL_SECTION_ORDER.filter(s => SECTION_HEADLINES[s] !== "cefr")
+      : ALL_SECTION_ORDER.filter(s => SECTION_HEADLINES[s] === hl);
+    const sectionBtns = sectionsForChips.map(sName => {
+      const btn = document.createElement("button");
+      btn.className = "chip" + (browseState.section===sName?" active":"");
+      btn.textContent = sName;
+      btn.addEventListener("click", () => { browseState.section=sName; browseState.page=1; renderBrowse(); });
+      return btn;
+    });
+    renderExpandableChips(sc, allBtn, sectionBtns);
+  }
+
+  document.querySelectorAll("[data-browse-cefr]").forEach(c => {
+    c.classList.toggle("active", c.dataset.browseCefr === browseState.cefr);
+  });
+  document.getElementById("browseCefrAll").classList.toggle("active", browseState.cefr==="all");
+
+  document.querySelectorAll("[data-browse-status]").forEach(c => {
+    c.classList.toggle("active", c.dataset.browseStatus === browseState.status);
+  });
+  document.getElementById("browseStatusAll").classList.toggle("active", browseState.status==="all");
+
+  const q = browseState.search.toLowerCase();
+  const content = document.getElementById("browseContent");
+  content.innerHTML = "";
+  let sectionsToShow = browseState.section==="all" ? ALL_SECTION_ORDER : [browseState.section];
+  if (hl !== "all") {
+    sectionsToShow = sectionsToShow.filter(s => SECTION_HEADLINES[s] === hl);
+  }
+  const matchedSections = [];
+  sectionsToShow.forEach(sName => {
+    let cats = ALL_CATEGORIES.filter(c => c.section===sName);
+    if (q) cats = cats.filter(c => c.name.toLowerCase().includes(q));
+    if (browseState.cefr !== "all") {
+      cats = cats.filter(c => topCefrOf(c.id) === browseState.cefr);
+    }
+    if (browseState.status !== "all") {
+      cats = cats.filter(c => categoryStatusOf(c.id) === browseState.status);
+    }
+    if (cats.length) matchedSections.push({ sName, cats });
+  });
+  const totalBrowsePages = Math.max(1, Math.ceil(matchedSections.length / BROWSE_SECTIONS_PER_PAGE));
+  if (browseState.page > totalBrowsePages) browseState.page = totalBrowsePages;
+  const pageSections = matchedSections.slice((browseState.page - 1) * BROWSE_SECTIONS_PER_PAGE, browseState.page * BROWSE_SECTIONS_PER_PAGE);
+  content.innerHTML = "";
+  pageSections.forEach(({ sName, cats }) => content.appendChild(renderBrowseSection(sName, cats)));
+  if (typeof gsap !== "undefined"){
+    gsap.fromTo(content.querySelectorAll(".cat-card"),
+      {opacity:0,y:16},{opacity:1,y:0,duration:.35,ease:"power2.out",stagger:{amount:.25,from:"start"}});
+  }
+  buildPagination(document.getElementById("browsePagination"), matchedSections.length, BROWSE_SECTIONS_PER_PAGE, browseState.page, p => {
+    browseState.page = p;
+    renderBrowse();
+    document.getElementById("page-list").scrollIntoView({behavior:"smooth", block:"start"});
+  });
+}
+
+function renderWordGrid(){
+  const f = catState;
+  const baseWords = CAT_WORDS[f.cat] || [];
+  const allWords = baseWords.filter(w => {
+    if (f.cefr !== "all" && w.cefr !== f.cefr) return false;
+    if (f.learned === "learned" && !isLearned(w.w)) return false;
+    if (f.learned === "little"  && !isLittle(w.w)) return false;
+    if (f.learned === "unlearned" && isAnyLearned(w.w)) return false;
+    if (f.search){
+      const q = f.search.toLowerCase();
+      const hay = [w.w, w.def, ...(w.syn||[]), ...(w.ant||[])].join(" ").toLowerCase();
+      if (!hay.includes(q)) return false;
+    }
+    return true;
+  });
+  const totalPages = Math.max(1, Math.ceil(allWords.length / CAT_PER_PAGE));
+  if (catState.page > totalPages) catState.page = totalPages;
+  const words = allWords.slice((catState.page - 1) * CAT_PER_PAGE, catState.page * CAT_PER_PAGE);
+  const grid = document.getElementById("wordGrid");
+  document.getElementById("listCount").textContent = `${allWords.length} word${allWords.length!==1?"s":""}`;
+  grid.innerHTML = "";
+  words.forEach(word => {
+    const ws = learnedState(word.w);
+    const card = document.createElement("div");
+    card.className = `word-card t-${CEFR_THEME[word.cefr]||"tb"}` + (ws==="learned"?" learned":ws==="little"?" little":"");
+    card.innerHTML = `
+      <div class="face">
+        <div>
+          <div class="word">${word.w}</div>
+          <div class="pos">${word.pos}</div>
+        </div>
+        <span class="cefr-badge ${word.cefr}">${word.cefr}</span>
+      </div>
+      <div class="reveal">
+        <div class="rdef">${word.def}</div>
+        ${word.syn && word.syn.length ? `<div class="rrow"><b>Synonyms:</b> ${word.syn.join(", ")}</div>` : ""}
+        ${word.ant && word.ant.length ? `<div class="rrow"><b>Antonyms:</b> ${word.ant.join(", ")}</div>` : ""}
+        <div class="rex">${word.ex}</div>
+        <div class="learn-state-row">
+          <span class="learn-state-label">Progress:</span>
+          <button class="learn-state-btn" data-state="${ws===null?"none":ws}">${ws==="learned"?"Learned":ws==="little"?"Little Bit":"Not Learned"}</button>
+        </div>
+      </div>`;
+    card.addEventListener("click", (e) => {
+      if (e.target.closest(".learn-state-btn")) return;
+      openWordModal(word);
+    });
+    const stateBtn = card.querySelector(".learn-state-btn");
+    stateBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const cycle = [null, "little", "learned"];
+      const current = state.learnMap[word.w] || null;
+      const newState = cycle[(cycle.indexOf(current) + 1) % cycle.length];
+      if (newState === null) delete state.learnMap[word.w];
+      else state.learnMap[word.w] = newState;
+      stateBtn.dataset.state = newState === null ? "none" : newState;
+      stateBtn.textContent = newState === "learned" ? "Learned" : newState === "little" ? "Little Bit" : "Not Learned";
+      card.className = `word-card t-${CEFR_THEME[word.cefr]||"tb"}` + (newState==="learned"?" learned":newState==="little"?" little":"");
+      saveLearned();
+      if (catState.learned !== "all") renderWordGrid();
+    });
+    grid.appendChild(card);
+  });
+  if (typeof gsap !== "undefined"){
+    gsap.fromTo(grid.children, {opacity:0,y:14},{opacity:1,y:0,duration:.4,ease:"power2.out",stagger:{amount:.3,from:"start"}});
+  }
+  buildPagination(document.getElementById("catPagination"), allWords.length, CAT_PER_PAGE, catState.page, p => {
+    catState.page = p;
+    renderWordGrid();
+    document.getElementById("listCatView").scrollIntoView({behavior:"smooth", block:"start"});
+  });
+}
+
+document.getElementById("catCompleteAllBtn").addEventListener("click", () => {
+  const words = CAT_WORDS[catState.cat] || [];
+  words.forEach(w => { state.learnMap[w.w] = "learned"; });
+  saveLearned();
+  renderWordGrid();
+});
+
+document.getElementById("catResetAllBtn").addEventListener("click", () => {
+  const words = CAT_WORDS[catState.cat] || [];
+  words.forEach(w => { delete state.learnMap[w.w]; });
+  saveLearned();
+  renderWordGrid();
+});
+
+function enterCatView(cat){
+  catState.cat = cat.id;
+  catState.search = "";
+  catState.cefr = "all";
+  catState.learned = "all";
+  catState.page = 1;
+  document.getElementById("catSearchInput").value = "";
+  document.getElementById("catViewIcon").textContent = cat.icon || "📚";
+  document.getElementById("catViewIcon").className = `cat-view-icon t-${cat.theme}`;
+  document.getElementById("catViewName").textContent = cat.name;
+  document.getElementById("catViewName").className = `cat-view-name t-${cat.theme}`;
+  document.getElementById("catViewSub").textContent = `${CAT_WORDS[cat.id].length} words · ${cat.section||""}`;
+  document.querySelectorAll("[data-cat-cefr]").forEach(c => c.classList.toggle("active", c.dataset.catCefr==="all"));
+  document.querySelectorAll("[data-cat-learned]").forEach(c => c.classList.toggle("active", c.dataset.catLearned==="all"));
+  document.getElementById("listBrowse").style.display = "none";
+  document.getElementById("listCatView").style.display = "block";
+  renderWordGrid();
+  if (typeof gsap !== "undefined"){
+    gsap.fromTo("#listCatView", {opacity:0,x:18},{opacity:1,x:0,duration:.3,ease:"power2.out"});
+  }
+}
+
+function exitCatView(){
+  catState.cat = null;
+  document.getElementById("listCatView").style.display = "none";
+  document.getElementById("listBrowse").style.display = "block";
+  renderBrowse();
+  if (typeof gsap !== "undefined"){
+    gsap.fromTo("#listBrowse", {opacity:0,x:-18},{opacity:1,x:0,duration:.3,ease:"power2.out"});
+  }
+}
+
+// Headline buttons
+document.querySelectorAll("#listBrowse .headline-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    browseState.headline = btn.dataset.headline;
+    browseState.section = "all";
+    browseState.page = 1;
+    renderBrowse();
+  });
+});
+
+// Browse event listeners
+document.getElementById("browseSearch").addEventListener("input", debounce(e => {
+  browseState.search = e.target.value.trim(); browseState.page = 1;
+  renderBrowse();
+}, 150));
+document.querySelectorAll("[data-browse-cefr]").forEach(chip => {
+  chip.addEventListener("click", () => {
+    browseState.cefr = chip.dataset.browseCefr; browseState.page = 1;
+    renderBrowse();
+  });
+});
+document.getElementById("browseCefrAll").addEventListener("click", () => {
+  browseState.cefr = "all"; browseState.page = 1;
+  renderBrowse();
+});
+document.querySelectorAll("[data-browse-status]").forEach(chip => {
+  chip.addEventListener("click", () => {
+    browseState.status = chip.dataset.browseStatus; browseState.page = 1;
+    renderBrowse();
+  });
+});
+document.getElementById("browseStatusAll").addEventListener("click", () => {
+  browseState.status = "all"; browseState.page = 1;
+  renderBrowse();
+});
+
+// Category view event listeners
+document.getElementById("backToBrowse").addEventListener("click", exitCatView);
+document.getElementById("backToBrowseBottom").addEventListener("click", exitCatView);
+document.getElementById("catSearchInput").addEventListener("input", debounce(e => {
+  catState.search = e.target.value.trim(); catState.page = 1;
+  renderWordGrid();
+}, 150));
+document.querySelectorAll("[data-cat-cefr]").forEach(chip => {
+  chip.addEventListener("click", () => {
+    catState.cefr = chip.dataset.catCefr; catState.page = 1;
+    document.querySelectorAll("[data-cat-cefr]").forEach(c => c.classList.toggle("active", c.dataset.catCefr===catState.cefr));
+    renderWordGrid();
+  });
+});
+document.querySelectorAll("[data-cat-learned]").forEach(chip => {
+  chip.addEventListener("click", () => {
+    catState.learned = chip.dataset.catLearned; catState.page = 1;
+    document.querySelectorAll("[data-cat-learned]").forEach(c => c.classList.toggle("active", c.dataset.catLearned===catState.learned));
+    renderWordGrid();
+  });
+});
+document.getElementById("clearCatFilters").addEventListener("click", () => {
+  catState.search=""; catState.cefr="all"; catState.learned="all"; catState.page=1;
+  document.getElementById("catSearchInput").value="";
+  document.querySelectorAll("[data-cat-cefr]").forEach(c => c.classList.toggle("active", c.dataset.catCefr==="all"));
+  document.querySelectorAll("[data-cat-learned]").forEach(c => c.classList.toggle("active", c.dataset.catLearned==="all"));
+  renderWordGrid();
+});
+
+/* ════════════════════════════════════════════════════════
+   EXAMPLES PAGE
+   ════════════════════════════════════════════════════════ */
+const EX_PER_PAGE = 25;
+
+function buildPagination(container, total, perPage, current, onPageChange){
+  container.innerHTML = "";
+  const totalPages = Math.ceil(total / perPage);
+  if (totalPages <= 1) return;
+  function pageList(){
+    const res = [], delta = 2;
+    const lo = Math.max(2, current - delta), hi = Math.min(totalPages - 1, current + delta);
+    res.push(1);
+    if (lo > 2) res.push(null);
+    for (let i = lo; i <= hi; i++) res.push(i);
+    if (hi < totalPages - 1) res.push(null);
+    if (totalPages > 1) res.push(totalPages);
+    return res;
+  }
+  function mkBtn(label, page, isActive, disabled){
+    const b = document.createElement("button");
+    b.className = "page-btn" + (isActive ? " active" : "");
+    b.textContent = label; b.disabled = !!disabled;
+    if (!disabled) b.addEventListener("click", () => onPageChange(page));
+    return b;
+  }
+  container.appendChild(mkBtn("«", current - 1, false, current === 1));
+  pageList().forEach(p => {
+    if (p === null){ const s = document.createElement("span"); s.className = "page-ellipsis"; s.textContent = "…"; container.appendChild(s); }
+    else container.appendChild(mkBtn(p, p, p === current, false));
+  });
+  container.appendChild(mkBtn("»", current + 1, false, current === totalPages));
+  const gotoChip = document.createElement("div");
+  gotoChip.className = "custom-chip active"; gotoChip.style.marginLeft = "8px";
+  const gotoText = document.createElement("span");
+  gotoText.textContent = "Go to";
+  const gotoInput = document.createElement("input");
+  gotoInput.type = "number"; gotoInput.min = 1; gotoInput.max = totalPages;
+  gotoInput.className = "custom-count-input"; gotoInput.placeholder = "…";
+  gotoInput.addEventListener("click", e => e.stopPropagation());
+  gotoInput.addEventListener("keydown", e => {
+    if (e.key !== "Enter") return;
+    const p = Math.min(Math.max(1, parseInt(gotoInput.value) || 1), totalPages);
+    gotoInput.value = "";
+    onPageChange(p);
+  });
+  gotoChip.appendChild(gotoText); gotoChip.appendChild(gotoInput);
+  container.appendChild(gotoChip);
+}
+
+function renderExamplesFilters(){
+  const f = state.examples;
+  document.querySelectorAll("#exHeadlineFilters [data-headline]").forEach(btn => {
+    btn.classList.toggle("active", btn.dataset.headline === (f.headline || "all"));
+  });
+  const onExChange = () => { state.examples.page = 1; renderExamplesFilters(); renderExamples(); };
+  buildSectionChips(document.getElementById("exSectionFilters"), f, onExChange);
+  buildCategoryChips(document.getElementById("exCategoryFilters"), f, onExChange);
+  const cefrRow = document.getElementById("exCefrRow");
+  cefrRow.style.display = f.headline === "cefr" ? "none" : "";
+  document.querySelectorAll("#page-examples .filters [data-cefr]").forEach(chip => {
+    chip.classList.toggle("active", chip.dataset.cefr === f.cefr);
+  });
+  document.querySelectorAll("#page-examples .filters [data-learned]").forEach(chip => {
+    chip.classList.toggle("active", chip.dataset.learned === f.learned);
+  });
+}
+
+function renderExamples(){
+  const f = state.examples;
+  const allWords = VOCAB_DATA.filter(w => matchesFilters(w, f));
+  const total = allWords.length;
+  const page = f.page || 1;
+  const words = allWords.slice((page - 1) * EX_PER_PAGE, page * EX_PER_PAGE);
+  const list = document.getElementById("exList");
+  document.getElementById("exCount").textContent = `${total} word${total!==1?"s":""}`;
+  list.innerHTML = "";
+  words.forEach(word => {
+    const item = document.createElement("div");
+    item.className = `ex-item t-${CEFR_THEME[word.cefr]||"tb"}`;
+    item.innerHTML = `
+      <div class="ex-head">
+        <span class="ex-word">${word.w}</span>
+        <span class="ex-pos">${word.pos}</span>
+        <span class="cefr-badge ${word.cefr}">${word.cefr}</span>
+      </div>
+      <div class="ex-sentence">${word.ex}</div>`;
+    item.classList.add("interactive");
+    item.insertAdjacentHTML("beforeend", `<div class="ex-reveal">
+      <div class="rdef">${word.def}</div>
+      ${word.syn && word.syn.length ? `<div class="rrow"><b>Synonyms:</b> ${word.syn.join(", ")}</div>` : ""}
+      ${word.ant && word.ant.length ? `<div class="rrow"><b>Antonyms:</b> ${word.ant.join(", ")}</div>` : ""}
+    </div>`);
+    item.addEventListener("click", () => openWordModal(word));
+    list.appendChild(item);
+  });
+  buildPagination(document.getElementById("exPagination"), total, EX_PER_PAGE, page, p => {
+    state.examples.page = p;
+    renderExamples();
+    document.getElementById("page-examples").scrollIntoView({behavior:"smooth", block:"start"});
+  });
+  if (typeof gsap !== "undefined" && list.children.length){
+    gsap.fromTo(list.children, {opacity:0, y:10}, {opacity:1, y:0, duration:.35, ease:"power2.out", stagger:{amount:0.3, from:"start"}});
+  }
+}
+
+document.getElementById("exSearchInput").addEventListener("input", debounce(e => {
+  state.examples.search = e.target.value.trim();
+  state.examples.page = 1;
+  renderExamples();
+}, 150));
+document.querySelectorAll("#page-examples .filters [data-cefr]").forEach(chip => {
+  chip.addEventListener("click", () => {
+    state.examples.cefr = chip.dataset.cefr;
+    state.examples.page = 1;
+    renderExamplesFilters();
+    renderExamples();
+  });
+});
+document.querySelectorAll("#page-examples .filters [data-learned]").forEach(chip => {
+  chip.addEventListener("click", () => {
+    state.examples.learned = chip.dataset.learned;
+    state.examples.page = 1;
+    renderExamplesFilters();
+    renderExamples();
+  });
+});
+document.getElementById("exClearFilters").addEventListener("click", () => {
+  state.examples = { search:"", section:"all", cat:"all", cefr:"all", learned:"all", headline:"all", page:1 };
+  document.getElementById("exSearchInput").value = "";
+  renderExamplesFilters();
+  renderExamples();
+});
+document.querySelectorAll("#exHeadlineFilters [data-headline]").forEach(btn => {
+  btn.addEventListener("click", () => {
+    state.examples.headline = btn.dataset.headline;
+    state.examples.section = "all";
+    state.examples.cat = "all";
+    state.examples.page = 1;
+    renderExamplesFilters();
+    renderExamples();
+  });
+});
+
+/* ════════════════════════════════════════════════════════
+   SHARED QUIZ / GAP HELPERS
+   ════════════════════════════════════════════════════════ */
+function shuffle(arr){
+  const a = [...arr];
+  for (let i=a.length-1; i>0; i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]] = [a[j],a[i]];
+  }
+  return a;
+}
+
+function capitalize(str){
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+function buildOptions(correct, others, getValue){
+  const opts = new Set([correct]);
+  const pool = shuffle([...others]);
+  let i = 0;
+  while (opts.size < 4 && i < pool.length){
+    const candidate = getValue(pool[i]);
+    if (candidate && !opts.has(candidate)) opts.add(candidate);
+    i++;
+  }
+  return shuffle([...opts]);
+}
+
+/* ════════════════════════════════════════════════════════
+   TEST PAGE (Quiz / Fill the Gap / Challenge, merged)
+   ════════════════════════════════════════════════════════ */
+const QUIZ_MODES = [
+  {id:"definition", name:"Definition Match", desc:"See a word — choose its correct definition."},
+  {id:"word", name:"Word from Definition", desc:"Read a definition — choose the matching word."},
+  {id:"synonym", name:"Synonym Match", desc:"See a word — choose a word with a similar meaning."},
+  {id:"antonym", name:"Antonym Match", desc:"See a word — choose a word with the opposite meaning."},
+  {id:"mixed", name:"Mixed Review", desc:"A random mix of every question type."},
+];
+
+const TEST_MODE_ORDER = ["quiz", "gap", "challenge"];
+const TEST_COUNTS = [10, 20, 30, "all"];
+let GAP_POOL = [];
+
+const TEST_MODE_META = {
+  quiz: {
+    toggleLabel: "Quiz",
+    pageTitle: "Quiz",
+    pageDesc: "Test your knowledge with multiple question types.",
+    setupTitle: "Choose a quiz mode",
+    setupSub: "Pick a question style, choose how many questions, then start.",
+    unit: "word",
+    noun: "Question",
+    countLabel: c => c === "all" ? "All words" : `${c} questions`,
+    startLabel: "Start Quiz",
+    resultTitle: "Quiz Complete",
+    resultMessage: pct => {
+      if (pct === 100) return "Perfect score! Outstanding vocabulary mastery.";
+      if (pct >= 80) return "Excellent work — you know these words well.";
+      if (pct >= 60) return "Good effort — a bit more practice and you'll nail it.";
+      return "Keep practising — review the word list and try again.";
+    },
+    secondaryLabel: "Leave",
+  },
+  gap: {
+    toggleLabel: "Fill the Gap",
+    pageTitle: "Fill the Gap",
+    pageDesc: "Choose the word that correctly completes each sentence.",
+    setupTitle: "Ready to practise?",
+    setupSub: "Choose how many sentences, then start.",
+    unit: "sentence",
+    noun: "Sentence",
+    countLabel: c => c === "all" ? "All sentences" : `${c} sentences`,
+    startLabel: "Start Exercise",
+    resultTitle: "Exercise Complete",
+    resultMessage: pct => {
+      if (pct === 100) return "Flawless! Every gap filled correctly.";
+      if (pct >= 80) return "Great job — your usage is on point.";
+      if (pct >= 60) return "Solid attempt — review the examples page for tricky words.";
+      return "Keep practising — re-reading the example sentences will help.";
+    },
+    secondaryLabel: null,
+  },
+  challenge: {
+    toggleLabel: "Challenge",
+    pageTitle: "Challenge",
+    pageDesc: "The jack-of-all-trades test: definitions, synonyms, antonyms, word recall and fill-the-gap, all mixed into one round.",
+    setupTitle: "Ready for the Challenge?",
+    setupSub: "Every question can be any type — choose your topic, level and length, then go.",
+    unit: "word",
+    noun: "Question",
+    countLabel: c => c === "all" ? "All words" : `${c} questions`,
+    startLabel: "Start Challenge",
+    resultTitle: "Challenge Complete",
+    resultMessage: pct => {
+      if (pct === 100) return "Perfect score! You're ready for anything the exam throws at you.";
+      if (pct >= 80) return "Excellent — a strong, well-rounded command of these words.";
+      if (pct >= 60) return "Good effort — a bit more practice across modes and you'll nail it.";
+      return "Keep practising — try the Category and Quiz pages to build confidence.";
+    },
+    secondaryLabel: "Leave",
+  },
+};
+
+state.test = {
+  mode: "quiz",
+  quizMode: "definition",
+  count: 10,
+  customCount: 10,
+  filters: {headline:"all", section:"all", cats: new Set(), cefr:"all", learned:"all"},
+  questions: [], answers: [], idx: 0, score: 0,
+};
+
+function randomMixedMode(word){
+  const options = ["definition","word"];
+  if (word.syn && word.syn.length) options.push("synonym");
+  if (word.ant && word.ant.length) options.push("antonym");
+  return options[Math.floor(Math.random()*options.length)];
+}
+
+function buildQuestion(word, mode){
+  const others = VOCAB_DATA.filter(w => w.w !== word.w);
+  let prompt, text, correct, options;
+  switch(mode){
+    case "word":
+      prompt = "Which word matches this definition?";
+      text = word.def;
+      correct = word.w;
+      options = buildOptions(correct, others, w => w.w);
+      break;
+    case "synonym":
+      prompt = "Choose the closest synonym";
+      text = `${word.w} <span class="qpos">(${word.pos})</span>`;
+      correct = capitalize(word.syn[Math.floor(Math.random()*word.syn.length)]);
+      options = buildOptions(correct, others.filter(w => w.w !== correct), w => w.w);
+      break;
+    case "antonym":
+      prompt = "Choose the word with the opposite meaning";
+      text = `${word.w} <span class="qpos">(${word.pos})</span>`;
+      correct = capitalize(word.ant[Math.floor(Math.random()*word.ant.length)]);
+      options = buildOptions(correct, others.filter(w => w.w !== correct), w => w.w);
+      break;
+    default:
+      prompt = "Choose the correct definition";
+      text = `${word.w} <span class="qpos">(${word.pos})</span>`;
+      correct = word.def;
+      options = buildOptions(correct, others, w => w.def);
+  }
+  return {prompt, text, options, correct, word};
+}
+
+function buildGapQuestion(word){
+  const others = VOCAB_DATA.filter(w => w.w !== word.w);
+  const samePos = others.filter(w => w.pos === word.pos);
+  const distractorPool = samePos.length >= 3 ? samePos : others;
+  const options = buildOptions(word.w, distractorPool, w => w.w);
+  const text = word.gap.replace("___", `<span class="gapblank">_____</span>`);
+  return {text, options, correct:word.w, word};
+}
+
+function buildHybridQuestion(word){
+  const modes = ["gap","definition","word"];
+  if (word.syn && word.syn.length) modes.push("synonym");
+  if (word.ant && word.ant.length) modes.push("antonym");
+  const pick = modes[Math.floor(Math.random()*modes.length)];
+  if (pick === "gap") return {type:"gap", ...buildGapQuestion(word)};
+  return {type:"quiz", ...buildQuestion(word, pick)};
+}
+
+function applyBrowseFiltersToTest(){
+  if (catState.cat){
+    const cat = ALL_CATEGORIES.find(c => c.id === catState.cat);
+    const hl = cat ? (SECTION_HEADLINES[cat.section] || "all") : "all";
+    state.test.filters.headline = hl;
+    state.test.filters.section = hl === "cefr" ? "all" : (cat && cat.section ? cat.section : "all");
+    state.test.filters.cats = new Set([catState.cat]);
+    state.test.filters.cefr = catState.cefr;
+    state.test.filters.learned = catState.learned === "little" ? "unlearned" : catState.learned;
+  } else {
+    state.test.filters.headline = browseState.headline;
+    state.test.filters.section = browseState.headline === "cefr" ? "all" : browseState.section;
+    state.test.filters.cefr = browseState.cefr;
+    state.test.filters.cats = new Set();
+    state.test.filters.learned = "all";
+  }
+}
+
+function testPool(){
+  if (state.test.mode === "gap") return GAP_POOL.filter(w => matchesFilters(w, state.test.filters));
+  let p = VOCAB_DATA.filter(w => matchesFilters(w, state.test.filters));
+  if (state.test.mode === "quiz") {
+    if (state.test.quizMode === "synonym") p = p.filter(w => w.syn && w.syn.length);
+    if (state.test.quizMode === "antonym") p = p.filter(w => w.ant && w.ant.length);
+  }
+  return p;
+}
+
+function buildTestQuestion(word){
+  if (state.test.mode === "gap") return {type:"gap", ...buildGapQuestion(word)};
+  if (state.test.mode === "challenge") return buildHybridQuestion(word);
+  const qm = state.test.quizMode === "mixed" ? randomMixedMode(word) : state.test.quizMode;
+  return {type:"quiz", ...buildQuestion(word, qm)};
+}
+
+function renderTestModes(){
+  const container = document.getElementById("testModes");
+  container.innerHTML = "";
+  if (state.test.mode !== "quiz") { container.style.display = "none"; return; }
+  container.style.display = "";
+  QUIZ_MODES.forEach(m => {
+    const card = document.createElement("div");
+    card.className = "modeCard" + (state.test.quizMode===m.id ? " active" : "");
+    card.innerHTML = `<h3>${m.name}</h3><p>${m.desc}</p>`;
+    card.addEventListener("click", () => {
+      state.test.quizMode = m.id;
+      renderTestModes();
+      renderTopicFilters("test", state.test.filters, testPool, () => TEST_MODE_META[state.test.mode].unit);
+    });
+    container.appendChild(card);
+  });
+}
+
+function renderTestCounts(){
+  const container = document.getElementById("testCounts");
+  container.innerHTML = "";
+  const meta = TEST_MODE_META[state.test.mode];
+  TEST_COUNTS.forEach(c => {
+    const btn = document.createElement("button");
+    btn.className = "chip" + (state.test.count===c ? " active" : "");
+    btn.textContent = meta.countLabel(c);
+    btn.addEventListener("click", () => {
+      state.test.count = c;
+      renderTestCounts();
+    });
+    container.appendChild(btn);
+  });
+
+  const isCustom = state.test.count === "custom";
+  const customChip = document.createElement("label");
+  customChip.className = "custom-chip" + (isCustom ? " active" : "");
+
+  const customText = document.createElement("span");
+  customText.textContent = "Custom";
+  customChip.appendChild(customText);
+
+  if (isCustom) {
+    const inp = document.createElement("input");
+    inp.type = "number";
+    inp.id = "testCustomCount";
+    inp.min = 1;
+    inp.value = state.test.customCount;
+    inp.className = "custom-count-input";
+    inp.addEventListener("click", e => e.stopPropagation());
+    inp.addEventListener("input", () => {
+      const val = parseInt(inp.value, 10);
+      const warn = document.getElementById("testCustomWarn");
+      if (val > 0) {
+        state.test.customCount = val;
+        inp.classList.remove("bad");
+        if (warn) warn.style.display = "none";
+      } else {
+        inp.classList.add("bad");
+        if (warn) { warn.textContent = "Please enter a number ≥ 1"; warn.style.display = "block"; }
+      }
+    });
+    customChip.appendChild(inp);
+  }
+
+  customChip.addEventListener("click", () => {
+    state.test.count = "custom";
+    renderTestCounts();
+    document.getElementById("testCustomCount")?.focus();
+  });
+  container.appendChild(customChip);
+}
+
+function renderTestSetupCopy(){
+  const meta = TEST_MODE_META[state.test.mode];
+  document.getElementById("testTitle").textContent = meta.pageTitle;
+  document.getElementById("testDesc").textContent = meta.pageDesc;
+  document.getElementById("testModeLabel").textContent = meta.toggleLabel;
+  document.getElementById("testSetupTitle").textContent = meta.setupTitle;
+  document.getElementById("testSetupSub").textContent = meta.setupSub;
+  document.getElementById("testStart").textContent = meta.startLabel;
+  document.getElementById("testNoMatch").textContent = `No ${meta.unit}s match these filters — try widening your selection.`;
+}
+
+function renderTestMode(){
+  renderTestSetupCopy();
+  renderTestModes();
+  renderTestCounts();
+  renderTopicFilters("test", state.test.filters, testPool, () => TEST_MODE_META[state.test.mode].unit);
+}
+
+function cycleTestMode(dir){
+  const i = TEST_MODE_ORDER.indexOf(state.test.mode);
+  state.test.mode = TEST_MODE_ORDER[(i + dir + TEST_MODE_ORDER.length) % TEST_MODE_ORDER.length];
+  renderTestMode();
+}
+
+document.getElementById("testModePrev").addEventListener("click", () => cycleTestMode(-1));
+document.getElementById("testModeNext").addEventListener("click", () => cycleTestMode(1));
+
+document.getElementById("testStart").addEventListener("click", () => {
+  const pool = testPool();
+  if (!pool.length) return;
+  const count = state.test.count === "all"
+    ? pool.length
+    : state.test.count === "custom"
+      ? Math.min(Math.max(1, state.test.customCount || 1), pool.length)
+      : Math.min(state.test.count, pool.length);
+  state.test.questions = shuffle(pool).slice(0, count).map(buildTestQuestion);
+  state.test.answers = [];
+  state.test.idx = 0;
+  state.test.score = 0;
+  document.getElementById("testSetup").style.display = "none";
+  document.getElementById("testResult").style.display = "none";
+  document.getElementById("testPlay").style.display = "block";
+  renderTestQuestion();
+});
+
+function renderTestQuestion(){
+  const q = state.test.questions[state.test.idx];
+  const total = state.test.questions.length;
+  const meta = TEST_MODE_META[state.test.mode];
+  const play = document.getElementById("testPlay");
+  const prompt = q.type === "gap" ? "Choose the word that correctly completes the sentence" : q.prompt;
+  const pct = Math.round(((state.test.idx + 1) / total) * 100);
+  play.innerHTML = `
+    <button class="back-btn" id="testLeaveBtn">← Leave</button>
+    <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+    <div class="q-meta"><span>${meta.noun} ${state.test.idx+1} of ${total}</span><span>Score: ${state.test.score}</span></div>
+    <div class="q-card">
+      <div class="q-prompt">${prompt}</div>
+      <div class="q-text">${q.text}</div>
+      <div class="q-options">
+        ${q.options.map(opt => `<button class="q-opt">${opt}</button>`).join("")}
+      </div>
+      <div class="q-feedback"></div>
+      <div class="q-next" style="display:none;"><button class="btn" id="testNextBtn">${state.test.idx+1===total ? "See Results" : `Next ${meta.noun}`}</button></div>
+    </div>`;
+  play.querySelectorAll(".q-opt").forEach(btn => {
+    btn.addEventListener("click", () => handleTestAnswer(btn, q));
+  });
+  document.getElementById("testLeaveBtn").addEventListener("click", () => {
+    document.getElementById("testPlay").style.display = "none";
+    document.getElementById("testSetup").style.display = "block";
+  });
+  if (typeof gsap !== "undefined"){
+    gsap.fromTo(play.querySelector(".q-card"), {opacity:0, y:14}, {opacity:1, y:0, duration:.35, ease:"power2.out"});
+  }
+}
+
+function handleTestAnswer(selectedBtn, q){
+  const play = document.getElementById("testPlay");
+  const isCorrect = selectedBtn.textContent === q.correct;
+  play.querySelectorAll(".q-opt").forEach(btn => {
+    btn.disabled = true;
+    if (btn.textContent === q.correct) btn.classList.add("correct");
+    else if (btn === selectedBtn) btn.classList.add("wrong");
+  });
+  if (isCorrect) state.test.score++;
+  state.test.answers.push({ question: q, selected: selectedBtn.textContent, isCorrect });
+  let feedback;
+  if (q.type === "gap"){
+    const fullEx = q.word.ex.replace(/<\/?em>/g, "");
+    feedback = isCorrect
+      ? `<b>Correct!</b> ${q.word.w} — ${q.word.def}<br>${fullEx}`
+      : `<b>Not quite.</b> The answer is "${q.correct}" — ${q.word.def}<br>${fullEx}`;
+  } else {
+    feedback = isCorrect
+      ? `<b>Correct!</b> ${q.word.w} — ${q.word.def}`
+      : `<b>Not quite.</b> ${q.word.w} — ${q.word.def}`;
+  }
+  play.querySelector(".q-feedback").innerHTML = feedback;
+  play.querySelector(".q-meta span:last-child").textContent = `Score: ${state.test.score}`;
+  play.querySelector(".q-next").style.display = "flex";
+  document.getElementById("testNextBtn").addEventListener("click", () => {
+    state.test.idx++;
+    if (state.test.idx < state.test.questions.length) renderTestQuestion();
+    else showTestResult();
+  });
+}
+
+function showTestResult(){
+  document.getElementById("testPlay").style.display = "none";
+  const result = document.getElementById("testResult");
+  result.style.display = "block";
+  const total = state.test.questions.length;
+  const score = state.test.score;
+  const pct = Math.round((score/total)*100);
+  const meta = TEST_MODE_META[state.test.mode];
+  const secondaryBtn = meta.secondaryLabel
+    ? `<button class="btn secondary" id="testChangeBtn">${meta.secondaryLabel}</button>`
+    : "";
+  result.innerHTML = `
+    <h2>${meta.resultTitle}</h2>
+    <div class="result-score" id="testScoreNum">0</div>
+    <div class="result-msg">You scored ${score} out of ${total} (${pct}%). ${meta.resultMessage(pct)}</div>
+    <div class="result-actions">
+      <button class="btn" id="testRetryBtn">Try Again</button>
+      ${secondaryBtn}
+      <button class="btn secondary" id="testReviewBtn">Review</button>
+    </div>
+    <div id="testReview" style="display:none;"></div>`;
+  const scoreEl = document.getElementById("testScoreNum");
+  if (typeof gsap !== "undefined"){
+    gsap.to({val:0}, {val:score, duration:1, ease:"power1.out", onUpdate(){
+      scoreEl.textContent = Math.round(this.targets()[0].val);
+    }});
+  } else {
+    scoreEl.textContent = score;
+  }
+  document.getElementById("testRetryBtn").addEventListener("click", () => {
+    document.getElementById("testStart").click();
+  });
+  const changeBtn = document.getElementById("testChangeBtn");
+  if (changeBtn){
+    changeBtn.addEventListener("click", () => {
+      document.getElementById("testResult").style.display = "none";
+      document.getElementById("testSetup").style.display = "block";
+    });
+  }
+  document.getElementById("testReviewBtn").addEventListener("click", () => {
+    const panel = document.getElementById("testReview");
+    if (panel.style.display === "block") { panel.style.display = "none"; return; }
+    panel.innerHTML = state.test.answers.map((a, i) => `
+      <div class="review-item ${a.isCorrect ? "review-correct" : "review-wrong"}">
+        <div class="review-num">${i + 1}</div>
+        <div class="review-body">
+          <div class="review-q">${a.question.text}</div>
+          <div class="review-ans">
+            ${a.isCorrect
+              ? `<span class="review-tag correct">✓ ${a.selected}</span>`
+              : `<span class="review-tag wrong">✗ ${a.selected}</span>
+                 <span class="review-tag correct">✓ ${a.question.correct}</span>`}
+          </div>
+        </div>
+      </div>`).join("");
+    panel.style.display = "block";
+  });
+}
+
+/* ════════════════════════════════════════════════════════
+   WORD DETAIL MODAL
+   ════════════════════════════════════════════════════════ */
+function openWordModal(word){
+  const cat = CAT_MAP[word.cat];
+  document.getElementById("word-modal-card").className = `modal-card t-${CEFR_THEME[word.cefr]||"tb"}`;
+  document.getElementById("modal-word").textContent = word.w;
+  document.getElementById("modal-pos").textContent = word.pos;
+  const cefrEl = document.getElementById("modal-cefr");
+  cefrEl.textContent = word.cefr; cefrEl.className = `cefr-badge ${word.cefr}`;
+  document.getElementById("modal-def").textContent = word.def;
+  const synEl = document.getElementById("modal-syn");
+  synEl.innerHTML = word.syn && word.syn.length ? `<b>Synonyms:</b> ${word.syn.join(", ")}` : "";
+  synEl.style.display = word.syn && word.syn.length ? "" : "none";
+  const antEl = document.getElementById("modal-ant");
+  antEl.innerHTML = word.ant && word.ant.length ? `<b>Antonyms:</b> ${word.ant.join(", ")}` : "";
+  antEl.style.display = word.ant && word.ant.length ? "" : "none";
+  document.getElementById("modal-ex").innerHTML = word.ex;
+  const catEl = document.getElementById("modal-cat");
+  if (cat){ catEl.innerHTML = `<b>Category:</b> ${cat.name}`; catEl.style.display = ""; }
+  else catEl.style.display = "none";
+  renderModalProgress(word);
+  document.getElementById("word-modal").style.display = "flex";
+  document.body.style.overflow = "hidden";
+}
+function closeWordModal(){
+  document.getElementById("word-modal").style.display = "none";
+  document.body.style.overflow = "";
+}
+function renderModalProgress(word){
+  const el = document.getElementById("modal-progress");
+  const ws = learnedState(word.w);
+  el.innerHTML = `<div class="learn-state-row">
+    <span class="learn-state-label">Progress:</span>
+    <button class="learn-state-btn" data-state="${ws===null?"none":ws}">${ws==="learned"?"Learned":ws==="little"?"Little Bit":"Not Learned"}</button>
+  </div>`;
+  el.querySelector(".learn-state-btn").addEventListener("click", () => {
+    const cycle = [null, "little", "learned"];
+    const current = state.learnMap[word.w] || null;
+    const newState = cycle[(cycle.indexOf(current) + 1) % cycle.length];
+    if (newState === null) delete state.learnMap[word.w];
+    else state.learnMap[word.w] = newState;
+    saveLearned();
+    renderModalProgress(word);
+  });
+}
+document.addEventListener("click", e => {
+  if (e.target.id === "word-modal") closeWordModal();
+});
+document.addEventListener("keydown", e => { if (e.key === "Escape") closeWordModal(); });
+
+/* ════════════════════════════════════════════════════════
+   INIT
+   ════════════════════════════════════════════════════════ */
+renderBrowse();
+renderExamplesFilters();
+renderExamples();
+renderTestSetupCopy();
+renderTestModes();
+renderTestCounts();
+initTopicFilters("test", state.test.filters, testPool, () => TEST_MODE_META[state.test.mode].unit);
+saveLearned();
+</script>
+
+<div id="word-modal" class="modal-backdrop" style="display:none;" role="dialog" aria-modal="true">
+  <div class="modal-card" id="word-modal-card">
+    <div class="modal-header">
+      <div>
+        <div class="modal-word" id="modal-word"></div>
+        <div class="modal-pos" id="modal-pos"></div>
+      </div>
+      <span class="cefr-badge" id="modal-cefr"></span>
+    </div>
+    <div class="modal-body">
+      <div class="modal-def" id="modal-def"></div>
+      <div class="modal-row" id="modal-syn"></div>
+      <div class="modal-row" id="modal-ant"></div>
+      <div class="modal-ex" id="modal-ex"></div>
+      <div class="modal-cat" id="modal-cat"></div>
+      <div id="modal-progress"></div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

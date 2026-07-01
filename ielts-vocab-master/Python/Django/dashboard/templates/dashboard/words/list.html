@@ -1,0 +1,61 @@
+{% extends "dashboard/base.html" %}
+{% block title %}Words{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h1>Words</h1>
+  <a href="{% url 'dashboard_word_add' %}" class="btn btn-success">+ Add Word</a>
+</div>
+
+<form class="row g-2 mb-3" method="get">
+  <div class="col-md-4">
+    <select name="category" class="form-select">
+      <option value="">All categories</option>
+      {% for cat in categories %}
+        <option value="{{ cat.id }}" {% if selected_cat == cat.id|stringformat:"s" %}selected{% endif %}>{{ cat.name }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="col-md-3">
+    <select name="cefr" class="form-select">
+      <option value="">All CEFR levels</option>
+      {% for level in cefr_levels %}
+        <option value="{{ level.code }}" {% if selected_cefr == level.code %}selected{% endif %}>{{ level.code }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="col-auto"><button class="btn btn-outline-secondary">Filter</button></div>
+</form>
+
+{% if confirm_delete %}
+<div class="alert alert-danger">
+  Delete <strong>{{ confirm_delete.word }}</strong>?
+  <form method="post" action="{% url 'dashboard_word_delete' confirm_delete.pk %}" class="d-inline">
+    {% csrf_token %}<button class="btn btn-sm btn-danger ms-2">Yes, delete</button>
+  </form>
+  <a href="{% url 'dashboard_word_list' %}" class="btn btn-sm btn-secondary ms-1">Cancel</a>
+</div>
+{% endif %}
+
+<table class="table table-striped table-hover">
+  <thead><tr>
+    <th>Word</th><th>POS</th><th>CEFR</th><th>Category</th><th>Definition</th><th></th>
+  </tr></thead>
+  <tbody>
+    {% for w in words %}
+    <tr>
+      <td><strong>{{ w.word }}</strong></td>
+      <td>{{ w.pos }}</td>
+      <td>{{ w.cefr_level.code|default:"—" }}</td>
+      <td>{{ w.category.name }}</td>
+      <td class="text-truncate" style="max-width:300px">{{ w.definition }}</td>
+      <td class="text-nowrap">
+        <a href="{% url 'dashboard_word_edit' w.pk %}" class="btn btn-sm btn-outline-primary">Edit</a>
+        <a href="{% url 'dashboard_word_delete' w.pk %}" class="btn btn-sm btn-outline-danger">Del</a>
+      </td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="6" class="text-center text-muted">No words found.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

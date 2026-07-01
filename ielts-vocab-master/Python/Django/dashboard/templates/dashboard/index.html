@@ -1,0 +1,45 @@
+{% extends "dashboard/base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<h1 class="mb-4">Dashboard</h1>
+<div class="row g-3">
+  <div class="col-md-3">
+    <div class="card text-center">
+      <div class="card-body">
+        <h2 class="card-title">{{ word_count }}</h2>
+        <p class="card-text text-muted">Words</p>
+        <a href="/dashboard/words/" class="btn btn-sm btn-primary">Manage</a>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card text-center">
+      <div class="card-body">
+        <h2 class="card-title">{{ category_count }}</h2>
+        <p class="card-text text-muted">Categories</p>
+        <a href="/dashboard/categories/" class="btn btn-sm btn-primary">Manage</a>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card text-center">
+      <div class="card-body">
+        <h2 class="card-title">{{ color_count }}</h2>
+        <p class="card-text text-muted">Colors</p>
+        <a href="/dashboard/colors/" class="btn btn-sm btn-primary">Manage</a>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card text-center">
+      <div class="card-body">
+        <h2 class="card-title">{{ user_count }}</h2>
+        <p class="card-text text-muted">Users</p>
+        {% if request.user.role == 'admin' %}
+        <a href="/dashboard/users/" class="btn btn-sm btn-secondary">Manage</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
