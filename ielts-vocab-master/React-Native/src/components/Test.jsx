@@ -25,15 +25,20 @@ const WORD_HEADLINES = [
   ["basic", "🌱 Basic"],
   ["intermediate", "📈 Intermediate"],
   ["advanced", "🎓 Advanced"],
-  ["cefr", "📊 CEFR Levels"],
 ];
+
+const WORD_CEFR_LEVELS = ["A1","A1+","A2","A2+","B1","B1+","B2","B2+","C1","C1+","C2","C2+"];
+const WORD_CEFR_COLOR = {
+  "A1":"#10b981","A1+":"#eab308","A2":"#06b6d4","A2+":"#f97316",
+  "B1":"#6366f1","B1+":"#ec4899","B2":"#3b82f6","B2+":"#1e40af",
+  "C1":"#f59e0b","C1+":"#f43f5e","C2":"#ef4444","C2+":"#a855f7",
+};
 
 function wordHeadlineMatch(cefr, hl) {
   if (hl === "all") return true;
   if (hl === "basic") return ["A1","A1+","A2","A2+"].includes(cefr);
   if (hl === "intermediate") return ["B1","B1+","B2"].includes(cefr);
   if (hl === "advanced") return ["C1","C1+","C2","C2+"].includes(cefr);
-  if (hl === "cefr") return ["A1","A2","B1","B2","C1","C2"].includes(cefr);
   return true;
 }
 
@@ -64,6 +69,7 @@ export default function Test({ learnMap }) {
   const [wordSearch, setWordSearch] = useState("");
   const [wordPage, setWordPage] = useState(1);
   const [wordHeadline, setWordHeadline] = useState("all");
+  const [wordCefr, setWordCefr] = useState("all");
   const cardRef = useRef(null);
   const scoreRef = useRef(null);
 
@@ -73,11 +79,12 @@ export default function Test({ learnMap }) {
     const q = wordSearch.toLowerCase().trim();
     return VOCAB_DATA.filter(w => {
       if (!wordHeadlineMatch(w.cefr, wordHeadline)) return false;
+      if (wordCefr !== "all" && w.cefr !== wordCefr) return false;
       if (!q) return true;
       const hay = [w.w, w.def, ...(w.syn || []), ...(w.ant || [])].join(" ").toLowerCase();
       return hay.includes(q);
     });
-  }, [wordSearch, wordHeadline]);
+  }, [wordSearch, wordHeadline, wordCefr]);
 
   const pickerTotalPages = Math.max(1, Math.ceil(pickerWords.length / WORD_PICKER_PER_PAGE));
   const safeWordPage = Math.min(wordPage, pickerTotalPages);
@@ -248,7 +255,6 @@ export default function Test({ learnMap }) {
                     basic:        { background: "#06b6d4", borderColor: "#06b6d4", color: "#064e3b" },
                     intermediate: { background: "#3b82f6", borderColor: "#3b82f6", color: "#fff" },
                     advanced:     { background: "#f59e0b", borderColor: "#f59e0b", color: "#1c1917" },
-                    cefr:         { background: "#a855f7", borderColor: "#a855f7", color: "#fff" },
                   };
                   return (
                     <button
@@ -276,6 +282,21 @@ export default function Test({ learnMap }) {
                     placeholder="Search words, definitions, synonyms…"
                     className="w-full appearance-none bg-surface2 border border-line text-ink pl-10 pr-4 py-2.5 rounded-xl text-[.95rem] focus:outline-none focus:border-accent [&::-webkit-search-decoration]:appearance-none [&::-webkit-search-cancel-button]:appearance-none"
                   />
+                </div>
+                <div className="flex gap-2 flex-wrap items-center">
+                  <span className="filter-label">CEFR Level</span>
+                  <button
+                    className={"chip" + (wordCefr === "all" ? " active" : "")}
+                    onClick={() => { setWordCefr("all"); setWordPage(1); }}
+                  >All</button>
+                  {WORD_CEFR_LEVELS.map(lvl => (
+                    <button
+                      key={lvl}
+                      className={"chip" + (wordCefr === lvl ? " active" : "")}
+                      style={wordCefr === lvl ? { background: WORD_CEFR_COLOR[lvl], color: "#fff", borderColor: "transparent" } : undefined}
+                      onClick={() => { setWordCefr(lvl); setWordPage(1); }}
+                    >{lvl}</button>
+                  ))}
                 </div>
                 <div className="flex gap-2 flex-wrap items-center">
                   <button className="chip" onClick={selectAllResults}>Select all results</button>

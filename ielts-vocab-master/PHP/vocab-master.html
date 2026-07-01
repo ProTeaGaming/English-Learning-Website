@@ -991,16 +991,6 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
           </div>
           <div class="filter-row" id="testSectionFilters"></div>
           <div class="filter-row" id="testCategoryFilters"></div>
-          <div class="filter-row" id="testCefrFilters">
-            <span class="filter-label">CEFR Level</span>
-            <button class="chip active" data-cefr="all">All</button>
-            <button class="chip" data-cefr="A1">A1</button><button class="chip" data-cefr="A1+">A1+</button>
-            <button class="chip" data-cefr="A2">A2</button><button class="chip" data-cefr="A2+">A2+</button>
-            <button class="chip" data-cefr="B1">B1</button><button class="chip" data-cefr="B1+">B1+</button>
-            <button class="chip" data-cefr="B2">B2</button><button class="chip" data-cefr="B2+">B2+</button>
-            <button class="chip" data-cefr="C1">C1</button><button class="chip" data-cefr="C1+">C1+</button>
-            <button class="chip" data-cefr="C2">C2</button><button class="chip" data-cefr="C2+">C2+</button>
-          </div>
           <div class="filter-row" id="testLearnedFilters">
             <span class="filter-label">Progress</span>
             <button class="chip active" data-learned="all">All</button>
@@ -1018,7 +1008,6 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
           <button class="headline-btn" data-word-headline="basic">🌱 Basic</button>
           <button class="headline-btn" data-word-headline="intermediate">📈 Intermediate</button>
           <button class="headline-btn" data-word-headline="advanced">🎓 Advanced</button>
-          <button class="headline-btn" data-word-headline="cefr">📊 CEFR Levels</button>
         </div>
         <div class="browse-bar">
           <div class="filter-head">
@@ -1027,6 +1016,16 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
           </div>
           <div class="search-row" style="position:relative;">
             <input type="search" id="testWordSearch" placeholder="Search words, definitions, synonyms…">
+          </div>
+          <div class="filter-row" id="testWordCefrFilters">
+            <span class="filter-label">CEFR Level</span>
+            <button class="chip active" data-cefr="all">All</button>
+            <button class="chip" data-cefr="A1">A1</button><button class="chip" data-cefr="A1+">A1+</button>
+            <button class="chip" data-cefr="A2">A2</button><button class="chip" data-cefr="A2+">A2+</button>
+            <button class="chip" data-cefr="B1">B1</button><button class="chip" data-cefr="B1+">B1+</button>
+            <button class="chip" data-cefr="B2">B2</button><button class="chip" data-cefr="B2+">B2+</button>
+            <button class="chip" data-cefr="C1">C1</button><button class="chip" data-cefr="C1+">C1+</button>
+            <button class="chip" data-cefr="C2">C2</button><button class="chip" data-cefr="C2+">C2+</button>
           </div>
           <div class="filter-row">
             <button class="chip" id="testSelectAllWords">Select all results</button>
@@ -8905,6 +8904,7 @@ state.test = {
   wordSearch: "",
   wordPage: 1,
   wordHeadline: "all",
+  wordCefr: "all",
   questions: [], idx: 0, score: 0,
 };
 
@@ -9006,7 +9006,6 @@ function wordMatchesHeadline(cefr, hl){
   if (hl === "basic") return ["A1","A1+","A2","A2+"].includes(cefr);
   if (hl === "intermediate") return ["B1","B1+","B2"].includes(cefr);
   if (hl === "advanced") return ["C1","C1+","C2","C2+"].includes(cefr);
-  if (hl === "cefr") return ["A1","A2","B1","B2","C1","C2"].includes(cefr);
   return true;
 }
 
@@ -9017,14 +9016,19 @@ function renderTestFiltersSection(){
 
 function renderWordPicker(){
   const hl = state.test.wordHeadline;
+  const wc = state.test.wordCefr;
   const q = state.test.wordSearch.toLowerCase().trim();
   const allWords = VOCAB_DATA.filter(w => {
     if (!wordMatchesHeadline(w.cefr, hl)) return false;
+    if (wc !== "all" && w.cefr !== wc) return false;
     if (!q) return true;
     return [w.w, w.def, ...(w.syn||[]), ...(w.ant||[])].join(" ").toLowerCase().includes(q);
   });
   document.querySelectorAll("#testWordHeadlineBar [data-word-headline]").forEach(btn => {
     btn.classList.toggle("active", btn.dataset.wordHeadline === hl);
+  });
+  document.querySelectorAll("#testWordCefrFilters [data-cefr]").forEach(btn => {
+    btn.classList.toggle("active", btn.dataset.cefr === wc);
   });
   const totalPages = Math.max(1, Math.ceil(allWords.length / 25));
   if (state.test.wordPage > totalPages) state.test.wordPage = totalPages;
@@ -9335,9 +9339,11 @@ document.getElementById("testWordSearch").addEventListener("input", debounce(e =
 }, 150));
 document.getElementById("testSelectAllWords").addEventListener("click", () => {
   const hl = state.test.wordHeadline;
+  const wc = state.test.wordCefr;
   const q = state.test.wordSearch.toLowerCase().trim();
   VOCAB_DATA.filter(w => {
     if (!wordMatchesHeadline(w.cefr, hl)) return false;
+    if (wc !== "all" && w.cefr !== wc) return false;
     if (!q) return true;
     return [w.w, w.def, ...(w.syn||[]), ...(w.ant||[])].join(" ").toLowerCase().includes(q);
   }).forEach(w => state.test.selectedWords.add(w.w));
@@ -9350,6 +9356,13 @@ document.getElementById("testClearWordSel").addEventListener("click", () => {
 document.querySelectorAll("#testWordHeadlineBar [data-word-headline]").forEach(btn => {
   btn.addEventListener("click", () => {
     state.test.wordHeadline = btn.dataset.wordHeadline;
+    state.test.wordPage = 1;
+    renderWordPicker();
+  });
+});
+document.querySelectorAll("#testWordCefrFilters [data-cefr]").forEach(btn => {
+  btn.addEventListener("click", () => {
+    state.test.wordCefr = btn.dataset.cefr;
     state.test.wordPage = 1;
     renderWordPicker();
   });
