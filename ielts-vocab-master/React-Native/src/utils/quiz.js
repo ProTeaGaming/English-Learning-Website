@@ -33,6 +33,13 @@ export const QUIZ_MODES = [
   { id: "mixed", name: "Mixed Review", desc: "A random mix of every question type." },
 ];
 
+export const GAP_MODES = [
+  { id: "context",     name: "Contextual Definition", desc: "The sentence provides context clues — use them to find the missing word." },
+  { id: "nuance",      name: "Lexical Nuance",        desc: "Near-synonyms are the distractors — only one word is precisely correct." },
+  { id: "collocation", name: "Collocation & Idiom",   desc: "The blank requires a specific fixed word partnership or collocation." },
+  { id: "connotation", name: "Connotation Match",     desc: "Choose the word whose tone — positive, negative or formal — fits the sentence." },
+];
+
 export const TEST_MODE_ORDER = ["quiz", "gap", "challenge"];
 export const TEST_COUNTS = [10, 20, 30, "all"];
 
@@ -59,8 +66,8 @@ export const TEST_MODE_META = {
     toggleLabel: "Fill the Gap",
     pageTitle: "Fill the Gap",
     pageDesc: "Choose the word that correctly completes each sentence.",
-    setupTitle: "Ready to practise?",
-    setupSub: "Choose how many sentences, then start.",
+    setupTitle: "Choose a gap fill mode",
+    setupSub: "Pick a question style, choose how many sentences, then start.",
     poolUnit: "sentence",
     countLabel: (c) => (c === "all" ? "All sentences" : `${c} sentences`),
     startLabel: "Start Exercise",
@@ -71,7 +78,7 @@ export const TEST_MODE_META = {
       if (pct >= 60) return "Solid attempt — review the examples page for tricky words.";
       return "Keep practising — re-reading the example sentences will help.";
     },
-    secondaryButtonLabel: null,
+    secondaryButtonLabel: "Change Mode",
   },
   challenge: {
     toggleLabel: "Challenge",
@@ -133,12 +140,45 @@ export function buildQuestion(word, mode) {
   return { prompt, text, options, correct, word };
 }
 
-export function buildGapQuestion(word) {
+export function buildGapQuestion(word, gapMode = "context") {
   const others = VOCAB_DATA.filter((w) => w.w !== word.w);
   const samePos = others.filter((w) => w.pos === word.pos);
-  const distractorPool = samePos.length >= 3 ? samePos : others;
+  let distractorPool, prompt;
+
+  switch (gapMode) {
+    case "nuance": {
+      const synSet = new Set((word.syn || []).map((s) => s.toLowerCase()));
+      const synPool = others.filter(
+        (w) => w.syn && w.syn.some((s) => synSet.has(s.toLowerCase()))
+      );
+      distractorPool = synPool.length >= 3 ? synPool : samePos;
+      prompt = "Near-synonyms are the distractors — choose the most precise word";
+      break;
+    }
+    case "collocation": {
+      const sameCat = others.filter((w) => w.cat === word.cat);
+      distractorPool = sameCat.length >= 3 ? sameCat : samePos;
+      prompt = "Choose the word that completes the fixed expression";
+      break;
+    }
+    case "connotation": {
+      const antSet = new Set((word.ant || []).map((a) => a.toLowerCase()));
+      const antPool = others.filter((w) => antSet.has(w.w.toLowerCase()));
+      distractorPool =
+        antPool.length >= 2
+          ? [...antPool, ...samePos.filter((w) => !antSet.has(w.w.toLowerCase()))]
+          : samePos;
+      prompt = "Choose the word that matches the sentence's tone";
+      break;
+    }
+    default: {
+      distractorPool = samePos.length >= 3 ? samePos : others;
+      prompt = "Use the sentence context to identify the missing word";
+    }
+  }
+
   const options = buildOptions(word.w, distractorPool, (w) => w.w);
-  return { gap: word.gap, options, correct: word.w, word };
+  return { gap: word.gap, options, correct: word.w, word, prompt };
 }
 
 // Hybrid "Challenge" question: randomly picks the fill-the-gap exercise or

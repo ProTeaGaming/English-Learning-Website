@@ -6,6 +6,7 @@ import {
   TEST_MODE_META,
   TEST_COUNTS,
   QUIZ_MODES,
+  GAP_MODES,
   GAP_POOL,
   shuffle,
   buildQuestion,
@@ -57,6 +58,7 @@ function pageWindows(cur, total) {
 export default function Test({ learnMap }) {
   const [testMode, setTestMode] = useState("quiz");
   const [quizMode, setQuizMode] = useState("definition");
+  const [gapMode, setGapMode] = useState("context");
   const [count, setCount] = useState(10);
   const [filters, setFilters] = useState(DEFAULT_TOPIC_FILTERS);
   const [stage, setStage] = useState("setup");
@@ -139,7 +141,7 @@ export default function Test({ learnMap }) {
   };
 
   const buildTestQuestion = (word) => {
-    if (testMode === "gap") return { type: "gap", ...buildGapQuestion(word) };
+    if (testMode === "gap") return { type: "gap", ...buildGapQuestion(word, gapMode) };
     if (testMode === "challenge") return buildHybridQuestion(word);
     const qm = quizMode === "mixed" ? randomMixedMode(word) : quizMode;
     return { type: "quiz", ...buildQuestion(word, qm) };
@@ -217,6 +219,20 @@ export default function Test({ learnMap }) {
                   key={m.id}
                   className={"mode-card" + (quizMode === m.id ? " active" : "")}
                   onClick={() => setQuizMode(m.id)}
+                >
+                  <h3 className="text-[.95rem] mb-1 font-sora">{m.name}</h3>
+                  <p className="text-[.78rem] text-muted leading-snug">{m.desc}</p>
+                </div>
+              ))}
+            </div>
+          )}
+          {testMode === "gap" && (
+            <div className="option-grid">
+              {GAP_MODES.map(m => (
+                <div
+                  key={m.id}
+                  className={"mode-card" + (gapMode === m.id ? " active" : "")}
+                  onClick={() => setGapMode(m.id)}
                 >
                   <h3 className="text-[.95rem] mb-1 font-sora">{m.name}</h3>
                   <p className="text-[.78rem] text-muted leading-snug">{m.desc}</p>
@@ -423,7 +439,7 @@ export default function Test({ learnMap }) {
           </div>
           <div className="q-card" ref={cardRef}>
             <div className="text-[.85rem] text-muted uppercase tracking-wider font-bold mb-2.5">
-              {isGap ? "Choose the word that correctly completes the sentence" : q.prompt}
+              {q.prompt}
             </div>
             <div className="text-[1.25rem] font-bold font-sora mb-6 leading-relaxed">
               {isGap ? <GapSentence gap={q.gap} /> : q.text}

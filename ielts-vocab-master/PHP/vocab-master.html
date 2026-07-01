@@ -970,6 +970,7 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
       <h2 id="testSetupTitle">Choose a quiz mode</h2>
       <p class="sub" id="testSetupSub">Pick a question style, choose how many questions, then start.</p>
       <div class="option-grid" id="testModes"></div>
+      <div class="option-grid" id="testGapModes"></div>
       <div class="count-row" id="testCounts"></div>
       <div class="filter-row" style="margin-bottom:12px;">
         <span class="filter-label">Source</span>
@@ -8847,6 +8848,13 @@ const QUIZ_MODES = [
   {id:"mixed", name:"Mixed Review", desc:"A random mix of every question type."},
 ];
 
+const GAP_MODES = [
+  {id:"context",     name:"Contextual Definition", desc:"The sentence provides context clues — use them to find the missing word."},
+  {id:"nuance",      name:"Lexical Nuance",        desc:"Near-synonyms are the distractors — only one word is precisely correct."},
+  {id:"collocation", name:"Collocation & Idiom",   desc:"The blank requires a specific fixed word partnership or collocation."},
+  {id:"connotation", name:"Connotation Match",     desc:"Choose the word whose tone — positive, negative or formal — fits the sentence."},
+];
+
 const TEST_MODE_ORDER = ["quiz", "gap", "challenge"];
 const TEST_COUNTS = [10, 20, 30, "all"];
 const GAP_POOL = VOCAB_DATA.filter(w => w.gap && w.gap.includes("___"));
@@ -8875,8 +8883,8 @@ const TEST_MODE_META = {
     toggleLabel: "Fill the Gap",
     pageTitle: "Fill the Gap",
     pageDesc: "Choose the word that correctly completes each sentence.",
-    setupTitle: "Ready to practise?",
-    setupSub: "Choose how many sentences, then start.",
+    setupTitle: "Choose a gap fill mode",
+    setupSub: "Pick a question style, choose how many sentences, then start.",
     unit: "sentence",
     noun: "Sentence",
     countLabel: c => c === "all" ? "All sentences" : `${c} sentences`,
@@ -8888,7 +8896,7 @@ const TEST_MODE_META = {
       if (pct >= 60) return "Solid attempt — review the examples page for tricky words.";
       return "Keep practising — re-reading the example sentences will help.";
     },
-    secondaryLabel: null,
+    secondaryLabel: "Change Mode",
   },
   challenge: {
     toggleLabel: "Challenge",
@@ -8914,6 +8922,7 @@ const TEST_MODE_META = {
 state.test = {
   mode: "quiz",
   quizMode: "definition",
+  gapMode: "context",
   count: 10,
   filters: {headline:"all", section:"all", cat:"all", cefr:"all", learned:"all"},
   sourceMode: "category",
@@ -8966,13 +8975,43 @@ function buildQuestion(word, mode){
   return {prompt, text, options, correct, word};
 }
 
-function buildGapQuestion(word){
+function buildGapQuestion(word, gapMode = "context"){
   const others = VOCAB_DATA.filter(w => w.w !== word.w);
   const samePos = others.filter(w => w.pos === word.pos);
-  const distractorPool = samePos.length >= 3 ? samePos : others;
+  let distractorPool, prompt;
+
+  switch (gapMode) {
+    case "nuance": {
+      const synSet = new Set((word.syn || []).map(s => s.toLowerCase()));
+      const synPool = others.filter(w => w.syn && w.syn.some(s => synSet.has(s.toLowerCase())));
+      distractorPool = synPool.length >= 3 ? synPool : samePos;
+      prompt = "Near-synonyms are the distractors — choose the most precise word";
+      break;
+    }
+    case "collocation": {
+      const sameCat = others.filter(w => w.cat === word.cat);
+      distractorPool = sameCat.length >= 3 ? sameCat : samePos;
+      prompt = "Choose the word that completes the fixed expression";
+      break;
+    }
+    case "connotation": {
+      const antSet = new Set((word.ant || []).map(a => a.toLowerCase()));
+      const antPool = others.filter(w => antSet.has(w.w.toLowerCase()));
+      distractorPool = antPool.length >= 2
+        ? [...antPool, ...samePos.filter(w => !antSet.has(w.w.toLowerCase()))]
+        : samePos;
+      prompt = "Choose the word that matches the sentence's tone";
+      break;
+    }
+    default: {
+      distractorPool = samePos.length >= 3 ? samePos : others;
+      prompt = "Use the sentence context to identify the missing word";
+    }
+  }
+
   const options = buildOptions(word.w, distractorPool, w => w.w);
   const text = word.gap.replace("___", `<span class="gapblank">_____</span>`);
-  return {text, options, correct:word.w, word};
+  return {text, options, correct:word.w, word, prompt};
 }
 
 function buildHybridQuestion(word){
@@ -9114,28 +9153,49 @@ function renderWordPicker(){
 }
 
 function buildTestQuestion(word){
-  if (state.test.mode === "gap") return {type:"gap", ...buildGapQuestion(word)};
+  if (state.test.mode === "gap") return {type:"gap", ...buildGapQuestion(word, state.test.gapMode)};
   if (state.test.mode === "challenge") return buildHybridQuestion(word);
   const qm = state.test.quizMode === "mixed" ? randomMixedMode(word) : state.test.quizMode;
   return {type:"quiz", ...buildQuestion(word, qm)};
 }
 
 function renderTestModes(){
-  const container = document.getElementById("testModes");
-  container.innerHTML = "";
-  if (state.test.mode !== "quiz") { container.style.display = "none"; return; }
-  container.style.display = "";
-  QUIZ_MODES.forEach(m => {
-    const card = document.createElement("div");
-    card.className = "modeCard" + (state.test.quizMode===m.id ? " active" : "");
-    card.innerHTML = `<h3>${m.name}</h3><p>${m.desc}</p>`;
-    card.addEventListener("click", () => {
-      state.test.quizMode = m.id;
-      renderTestModes();
-      renderTestFiltersSection();
+  const quizContainer = document.getElementById("testModes");
+  const gapContainer = document.getElementById("testGapModes");
+  quizContainer.innerHTML = "";
+  gapContainer.innerHTML = "";
+
+  if (state.test.mode === "quiz") {
+    quizContainer.style.display = "";
+    gapContainer.style.display = "none";
+    QUIZ_MODES.forEach(m => {
+      const card = document.createElement("div");
+      card.className = "modeCard" + (state.test.quizMode===m.id ? " active" : "");
+      card.innerHTML = `<h3>${m.name}</h3><p>${m.desc}</p>`;
+      card.addEventListener("click", () => {
+        state.test.quizMode = m.id;
+        renderTestModes();
+        renderTestFiltersSection();
+      });
+      quizContainer.appendChild(card);
     });
-    container.appendChild(card);
-  });
+  } else if (state.test.mode === "gap") {
+    quizContainer.style.display = "none";
+    gapContainer.style.display = "";
+    GAP_MODES.forEach(m => {
+      const card = document.createElement("div");
+      card.className = "modeCard" + (state.test.gapMode===m.id ? " active" : "");
+      card.innerHTML = `<h3>${m.name}</h3><p>${m.desc}</p>`;
+      card.addEventListener("click", () => {
+        state.test.gapMode = m.id;
+        renderTestModes();
+      });
+      gapContainer.appendChild(card);
+    });
+  } else {
+    quizContainer.style.display = "none";
+    gapContainer.style.display = "none";
+  }
 }
 
 function renderTestCounts(){
@@ -9199,7 +9259,7 @@ function renderTestQuestion(){
   const total = state.test.questions.length;
   const meta = TEST_MODE_META[state.test.mode];
   const play = document.getElementById("testPlay");
-  const prompt = q.type === "gap" ? "Choose the word that correctly completes the sentence" : q.prompt;
+  const prompt = q.prompt;
   const pct = Math.round(((state.test.idx + 1) / total) * 100);
   play.innerHTML = `
     <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
