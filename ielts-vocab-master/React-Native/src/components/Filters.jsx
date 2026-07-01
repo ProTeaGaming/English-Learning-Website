@@ -67,6 +67,26 @@ export default function Filters({ filters, setFilters, resultLabel, searchPlaceh
         />
       </div>
 
+      {!hideCefrRow && <div className="flex gap-2 flex-wrap items-center">
+        <span className="text-[.78rem] font-bold text-muted uppercase tracking-wider mr-1">CEFR Level</span>
+        <button
+          className={"chip" + (filters.cefr === "all" ? " active" : "")}
+          onClick={() => update({ cefr: "all" })}
+        >
+          All
+        </button>
+        {CEFR_LEVELS.map((lvl) => (
+          <button
+            key={lvl}
+            className={"chip" + (filters.cefr === lvl ? " active" : "")}
+            style={filters.cefr === lvl ? { background: cefrColor(lvl), color: "#fff", borderColor: "transparent" } : undefined}
+            onClick={() => update({ cefr: lvl })}
+          >
+            {lvl}
+          </button>
+        ))}
+      </div>}
+
       <div className="flex gap-2 flex-wrap items-center">
         <span className="text-[.78rem] font-bold text-muted uppercase tracking-wider mr-1">Progress</span>
         <button
@@ -94,32 +114,6 @@ export default function Filters({ filters, setFilters, resultLabel, searchPlaceh
           Not Learned
         </button>
       </div>
-
-      {!hideCefrRow && <div className="flex gap-2 flex-wrap items-center">
-        <span className="text-[.78rem] font-bold text-muted uppercase tracking-wider mr-1">CEFR Level</span>
-        <button
-          className={"chip" + (filters.cefr === "all" ? " active" : "")}
-          onClick={() => update({ cefr: "all" })}
-        >
-          All
-        </button>
-        {CEFR_LEVELS.map((lvl) => (
-          <button
-            key={lvl}
-            className={"chip" + (filters.cefr === lvl ? " active" : "")}
-            style={filters.cefr === lvl ? { background: cefrColor(lvl), color: "#fff", borderColor: "transparent" } : undefined}
-            onClick={() => update({ cefr: lvl })}
-          >
-            {lvl}
-          </button>
-        ))}
-        <button
-          className="clear-btn"
-          onClick={() => update({ search: "", section: "all", cat: "all", cefr: "all", learned: "all" })}
-        >
-          Clear filters
-        </button>
-      </div>}
     </div>
   );
 }

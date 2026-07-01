@@ -120,7 +120,7 @@ export default function VocabBrowser({ filters, setFilters, learnMap, onSelectCa
         </div>
 
         <div className="flex gap-2 flex-wrap items-center">
-          <span className="filter-label">Sort by CEFR</span>
+          <span className="filter-label">CEFR Level</span>
           <button
             className={"chip" + (filters.cefr === "all" ? " active" : "")}
             onClick={() => upd({ cefr: "all" })}
