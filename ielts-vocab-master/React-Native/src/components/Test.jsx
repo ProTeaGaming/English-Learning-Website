@@ -14,8 +14,40 @@ import {
   randomMixedMode,
 } from "../utils/quiz";
 import { DEFAULT_TOPIC_FILTERS, matchesFilters } from "../utils/filters";
+import { cefrColor } from "../utils/cefr";
 import TopicCefrFilter from "./TopicCefrFilter";
 import GapSentence from "./GapSentence";
+
+const WORD_PICKER_PER_PAGE = 25;
+
+const WORD_HEADLINES = [
+  ["all", "All"],
+  ["basic", "🌱 Basic"],
+  ["intermediate", "📈 Intermediate"],
+  ["advanced", "🎓 Advanced"],
+  ["cefr", "📊 CEFR Levels"],
+];
+
+function wordHeadlineMatch(cefr, hl) {
+  if (hl === "all") return true;
+  if (hl === "basic") return ["A1","A1+","A2","A2+"].includes(cefr);
+  if (hl === "intermediate") return ["B1","B1+","B2"].includes(cefr);
+  if (hl === "advanced") return ["C1","C1+","C2","C2+"].includes(cefr);
+  if (hl === "cefr") return ["A1","A2","B1","B2","C1","C2"].includes(cefr);
+  return true;
+}
+
+function pageWindows(cur, total) {
+  if (total <= 7) return Array.from({ length: total }, (_, i) => i + 1);
+  const pages = [1];
+  const lo = Math.max(2, cur - 2);
+  const hi = Math.min(total - 1, cur + 2);
+  if (lo > 2) pages.push("...");
+  for (let i = lo; i <= hi; i++) pages.push(i);
+  if (hi < total - 1) pages.push("...");
+  pages.push(total);
+  return pages;
+}
 
 export default function Test({ learnMap }) {
   const [testMode, setTestMode] = useState("quiz");
@@ -27,22 +59,63 @@ export default function Test({ learnMap }) {
   const [idx, setIdx] = useState(0);
   const [score, setScore] = useState(0);
   const [answer, setAnswer] = useState(null);
+  const [sourceMode, setSourceMode] = useState("category");
+  const [selectedWords, setSelectedWords] = useState(new Set());
+  const [wordSearch, setWordSearch] = useState("");
+  const [wordPage, setWordPage] = useState(1);
+  const [wordHeadline, setWordHeadline] = useState("all");
   const cardRef = useRef(null);
   const scoreRef = useRef(null);
 
   const meta = TEST_MODE_META[testMode];
 
+  const pickerWords = useMemo(() => {
+    const q = wordSearch.toLowerCase().trim();
+    return VOCAB_DATA.filter(w => {
+      if (!wordHeadlineMatch(w.cefr, wordHeadline)) return false;
+      if (!q) return true;
+      const hay = [w.w, w.def, ...(w.syn || []), ...(w.ant || [])].join(" ").toLowerCase();
+      return hay.includes(q);
+    });
+  }, [wordSearch, wordHeadline]);
+
+  const pickerTotalPages = Math.max(1, Math.ceil(pickerWords.length / WORD_PICKER_PER_PAGE));
+  const safeWordPage = Math.min(wordPage, pickerTotalPages);
+  const pagePickerWords = pickerWords.slice((safeWordPage - 1) * WORD_PICKER_PER_PAGE, safeWordPage * WORD_PICKER_PER_PAGE);
+
   const pool = useMemo(() => {
-    if (testMode === "gap") {
-      return GAP_POOL.filter((w) => matchesFilters(w, filters, learnMap));
+    if (sourceMode === "words") {
+      let p = VOCAB_DATA.filter(w => selectedWords.has(w.w));
+      if (testMode === "gap") p = p.filter(w => w.gap && w.gap.includes("___"));
+      if (testMode === "quiz" && quizMode === "synonym") p = p.filter(w => w.syn?.length);
+      if (testMode === "quiz" && quizMode === "antonym") p = p.filter(w => w.ant?.length);
+      return p;
     }
-    let p = VOCAB_DATA.filter((w) => matchesFilters(w, filters, learnMap));
+    if (testMode === "gap") return GAP_POOL.filter(w => matchesFilters(w, filters, learnMap));
+    let p = VOCAB_DATA.filter(w => matchesFilters(w, filters, learnMap));
     if (testMode === "quiz") {
-      if (quizMode === "synonym") p = p.filter((w) => w.syn?.length);
-      if (quizMode === "antonym") p = p.filter((w) => w.ant?.length);
+      if (quizMode === "synonym") p = p.filter(w => w.syn?.length);
+      if (quizMode === "antonym") p = p.filter(w => w.ant?.length);
     }
     return p;
-  }, [filters, testMode, quizMode, learned]);
+  }, [filters, testMode, quizMode, learnMap, sourceMode, selectedWords]);
+
+  const toggleWord = (w) => {
+    setSelectedWords(prev => {
+      const next = new Set(prev);
+      if (next.has(w.w)) next.delete(w.w);
+      else next.add(w.w);
+      return next;
+    });
+  };
+
+  const selectAllResults = () => {
+    setSelectedWords(prev => {
+      const next = new Set(prev);
+      pickerWords.forEach(w => next.add(w.w));
+      return next;
+    });
+  };
 
   const cycleMode = (dir) => {
     const i = TEST_MODE_ORDER.indexOf(testMode);
@@ -70,12 +143,12 @@ export default function Test({ learnMap }) {
   const handleAnswer = (opt) => {
     if (answer !== null) return;
     setAnswer(opt);
-    if (opt === questions[idx].correct) setScore((s) => s + 1);
+    if (opt === questions[idx].correct) setScore(s => s + 1);
   };
 
   const next = () => {
     if (idx + 1 < questions.length) {
-      setIdx((i) => i + 1);
+      setIdx(i => i + 1);
       setAnswer(null);
     } else {
       setStage("result");
@@ -96,9 +169,7 @@ export default function Test({ learnMap }) {
         duration: 1,
         ease: "power1.out",
         onUpdate() {
-          if (scoreRef.current) {
-            scoreRef.current.textContent = Math.round(this.targets()[0].val);
-          }
+          if (scoreRef.current) scoreRef.current.textContent = Math.round(this.targets()[0].val);
         },
       });
       return () => tween.kill();
@@ -106,6 +177,12 @@ export default function Test({ learnMap }) {
   }, [stage, score]);
 
   if (stage === "setup") {
+    const noMatchMsg = sourceMode === "words"
+      ? selectedWords.size === 0
+        ? "No words selected — pick some words above to start."
+        : `None of your selected words work for ${testMode} mode — try a different mode or select more words.`
+      : `No ${meta.poolUnit}s match these filters — try widening your selection.`;
+
     return (
       <section>
         <PageHead title={meta.pageTitle} desc={meta.pageDesc} />
@@ -119,7 +196,7 @@ export default function Test({ learnMap }) {
           <p className="text-muted text-[.92rem] mb-6">{meta.setupSub}</p>
           {testMode === "quiz" && (
             <div className="option-grid">
-              {QUIZ_MODES.map((m) => (
+              {QUIZ_MODES.map(m => (
                 <div
                   key={m.id}
                   className={"mode-card" + (quizMode === m.id ? " active" : "")}
@@ -132,26 +209,115 @@ export default function Test({ learnMap }) {
             </div>
           )}
           <div className="count-row mb-0">
-            {TEST_COUNTS.map((c) => (
-              <button
-                key={c}
-                className={"chip" + (count === c ? " active" : "")}
-                onClick={() => setCount(c)}
-              >
+            {TEST_COUNTS.map(c => (
+              <button key={c} className={"chip" + (count === c ? " active" : "")} onClick={() => setCount(c)}>
                 {meta.countLabel(c)}
               </button>
             ))}
           </div>
         </div>
+
         <div className="max-w-[680px] mx-auto">
-          <TopicCefrFilter
-            filters={filters}
-            setFilters={setFilters}
-            resultLabel={`${pool.length} ${meta.poolUnit}${pool.length !== 1 ? "s" : ""} match`}
-          />
-          {pool.length === 0 ? (
-            <p className="text-c2 text-[.85rem] mb-4">No {meta.poolUnit}s match these filters — try widening your selection.</p>
-          ) : null}
+          {/* Source toggle */}
+          <div className="browse-bar mb-4">
+            <div className="flex gap-2 items-center">
+              <span className="filter-label">Source</span>
+              <button
+                className={"chip" + (sourceMode === "category" ? " active" : "")}
+                onClick={() => setSourceMode("category")}
+              >By Category</button>
+              <button
+                className={"chip" + (sourceMode === "words" ? " active" : "")}
+                onClick={() => setSourceMode("words")}
+              >By Words</button>
+            </div>
+          </div>
+
+          {sourceMode === "category" ? (
+            <TopicCefrFilter
+              filters={filters}
+              setFilters={setFilters}
+              resultLabel={`${pool.length} ${meta.poolUnit}${pool.length !== 1 ? "s" : ""} match`}
+            />
+          ) : (
+            <>
+              <div className="headline-bar">
+                {WORD_HEADLINES.map(([hl, label]) => (
+                  <button
+                    key={hl}
+                    className={"headline-btn" + (wordHeadline === hl ? " active" : "")}
+                    onClick={() => { setWordHeadline(hl); setWordPage(1); }}
+                  >{label}</button>
+                ))}
+              </div>
+              <div className="browse-bar">
+                <div className="flex items-center justify-between flex-wrap gap-2">
+                  <span className="filter-label">Select Words</span>
+                  <span className="text-[.85rem] text-muted">
+                    {selectedWords.size} selected · {pool.length} {meta.poolUnit}{pool.length !== 1 ? "s" : ""} match
+                  </span>
+                </div>
+                <div className="relative">
+                  <span className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-[.85rem] opacity-50">🔍</span>
+                  <input
+                    type="search"
+                    value={wordSearch}
+                    onChange={e => { setWordSearch(e.target.value); setWordPage(1); }}
+                    placeholder="Search words, definitions, synonyms…"
+                    className="w-full appearance-none bg-surface2 border border-line text-ink pl-10 pr-4 py-2.5 rounded-xl text-[.95rem] focus:outline-none focus:border-accent [&::-webkit-search-decoration]:appearance-none [&::-webkit-search-cancel-button]:appearance-none"
+                  />
+                </div>
+                <div className="flex gap-2 flex-wrap items-center">
+                  <button className="chip" onClick={selectAllResults}>Select all results</button>
+                  {selectedWords.size > 0 && (
+                    <button className="clear-btn" onClick={() => setSelectedWords(new Set())}>Clear selection</button>
+                  )}
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {pagePickerWords.map(w => {
+                    const sel = selectedWords.has(w.w);
+                    const color = cefrColor(w.cefr);
+                    return (
+                      <button
+                        key={w.w}
+                        className={"chip" + (sel ? " active" : "")}
+                        onClick={() => toggleWord(w)}
+                      >
+                        {w.w}
+                        <span
+                          className="inline-block ml-1.5 text-[.65rem] font-bold px-1.5 py-px rounded"
+                          style={sel
+                            ? { background: "rgba(255,255,255,.25)", color: "#fff" }
+                            : { background: color + "22", color }}
+                        >{w.cefr}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+                {pickerTotalPages > 1 && (
+                  <div className="pagination" style={{ paddingTop: 0 }}>
+                    <button className="page-btn" disabled={safeWordPage === 1} onClick={() => setWordPage(p => p - 1)}>«</button>
+                    {pageWindows(safeWordPage, pickerTotalPages).map((p, i) =>
+                      p === "..." ? (
+                        <span key={`e${i}`} className="page-btn ellipsis">…</span>
+                      ) : (
+                        <button
+                          key={p}
+                          className={"page-btn" + (p === safeWordPage ? " active" : "")}
+                          onClick={() => setWordPage(p)}
+                        >{p}</button>
+                      )
+                    )}
+                    <button className="page-btn" disabled={safeWordPage === pickerTotalPages} onClick={() => setWordPage(p => p + 1)}>»</button>
+                  </div>
+                )}
+              </div>
+            </>
+          )}
+
+          {pool.length === 0 && (
+            <p className="text-c2 text-[.85rem] mb-4">{noMatchMsg}</p>
+          )}
           <button className="btn w-full" onClick={start} disabled={!pool.length}>{meta.startLabel}</button>
         </div>
       </section>
@@ -180,7 +346,7 @@ export default function Test({ learnMap }) {
               {isGap ? <GapSentence gap={q.gap} /> : q.text}
             </div>
             <div className="flex flex-col gap-2.5">
-              {q.options.map((opt) => {
+              {q.options.map(opt => {
                 let cls = "q-opt";
                 if (answer !== null) {
                   if (opt === q.correct) cls += " correct";

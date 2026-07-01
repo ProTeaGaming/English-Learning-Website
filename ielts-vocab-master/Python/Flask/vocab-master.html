@@ -964,35 +964,66 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
       <p class="sub" id="testSetupSub">Pick a question style, choose how many questions, then start.</p>
       <div class="option-grid" id="testModes"></div>
       <div class="count-row" id="testCounts"></div>
-      <div class="setup-filters">
-        <div class="filter-head">
-          <span class="filter-label">Topic &amp; Level</span>
-          <span class="result-count" id="testFilterCount"></span>
+      <div class="filter-row" style="margin-bottom:12px;">
+        <span class="filter-label">Source</span>
+        <button class="chip active" id="testSourceCategory">By Category</button>
+        <button class="chip" id="testSourceWords">By Words</button>
+      </div>
+      <div id="testCategoryFilter">
+        <div class="setup-filters">
+          <div class="filter-head">
+            <span class="filter-label">Topic &amp; Level</span>
+            <span class="result-count" id="testFilterCount"></span>
+          </div>
+          <div class="headline-bar" id="testHeadlineFilters">
+            <button class="headline-btn active" data-headline="all">All</button>
+            <button class="headline-btn" data-headline="basic">🌱 Basic</button>
+            <button class="headline-btn" data-headline="intermediate">📈 Intermediate</button>
+            <button class="headline-btn" data-headline="advanced">🎓 Advanced</button>
+            <button class="headline-btn" data-headline="cefr">📊 CEFR Levels</button>
+          </div>
+          <div class="filter-row" id="testSectionFilters"></div>
+          <div class="filter-row" id="testCategoryFilters"></div>
+          <div class="filter-row" id="testLearnedFilters">
+            <span class="filter-label">Progress</span>
+            <button class="chip active" data-learned="all">All</button>
+            <button class="chip" data-learned="learned">Learned</button>
+            <button class="chip" data-learned="unlearned">Not Learned</button>
+          </div>
+          <div class="filter-row" id="testCefrFilters">
+            <span class="filter-label">CEFR Level</span>
+            <button class="chip active" data-cefr="all">All</button>
+            <button class="chip" data-cefr="B1">B1</button>
+            <button class="chip" data-cefr="B2">B2</button>
+            <button class="chip" data-cefr="C1">C1</button>
+            <button class="chip" data-cefr="C2">C2</button>
+            <button class="chip" data-cefr="C2+">C2+</button>
+            <button class="clear-btn" id="testClearFilters">Clear filters</button>
+          </div>
         </div>
-        <div class="headline-bar" id="testHeadlineFilters">
-          <button class="headline-btn active" data-headline="all">All</button>
-          <button class="headline-btn" data-headline="basic">🌱 Basic</button>
-          <button class="headline-btn" data-headline="intermediate">📈 Intermediate</button>
-          <button class="headline-btn" data-headline="advanced">🎓 Advanced</button>
-          <button class="headline-btn" data-headline="cefr">📊 CEFR Levels</button>
+      </div>
+      <div id="testWordPicker" style="display:none;">
+        <div class="headline-bar" id="testWordHeadlineBar">
+          <button class="headline-btn active" data-word-headline="all">All</button>
+          <button class="headline-btn" data-word-headline="basic">🌱 Basic</button>
+          <button class="headline-btn" data-word-headline="intermediate">📈 Intermediate</button>
+          <button class="headline-btn" data-word-headline="advanced">🎓 Advanced</button>
+          <button class="headline-btn" data-word-headline="cefr">📊 CEFR Levels</button>
         </div>
-        <div class="filter-row" id="testSectionFilters"></div>
-        <div class="filter-row" id="testCategoryFilters"></div>
-        <div class="filter-row" id="testLearnedFilters">
-          <span class="filter-label">Progress</span>
-          <button class="chip active" data-learned="all">All</button>
-          <button class="chip" data-learned="learned">Learned</button>
-          <button class="chip" data-learned="unlearned">Not Learned</button>
-        </div>
-        <div class="filter-row" id="testCefrFilters">
-          <span class="filter-label">CEFR Level</span>
-          <button class="chip active" data-cefr="all">All</button>
-          <button class="chip" data-cefr="B1">B1</button>
-          <button class="chip" data-cefr="B2">B2</button>
-          <button class="chip" data-cefr="C1">C1</button>
-          <button class="chip" data-cefr="C2">C2</button>
-          <button class="chip" data-cefr="C2+">C2+</button>
-          <button class="clear-btn" id="testClearFilters">Clear filters</button>
+        <div class="browse-bar">
+          <div class="filter-head">
+            <span class="filter-label">Select Words</span>
+            <span class="result-count" id="testWordMatchCount">0 words selected</span>
+          </div>
+          <div class="search-row" style="position:relative;">
+            <input type="search" id="testWordSearch" placeholder="Search words, definitions, synonyms…">
+          </div>
+          <div class="filter-row">
+            <button class="chip" id="testSelectAllWords">Select all results</button>
+            <button class="clear-btn" id="testClearWordSel" style="display:none;">Clear selection</button>
+          </div>
+          <div class="filter-row" id="testWordGrid" style="flex-wrap:wrap; gap:6px; row-gap:6px;"></div>
+          <div class="pagination" id="testWordPagination"></div>
         </div>
       </div>
       <p class="no-match" id="testNoMatch" style="display:none;">No words match these filters — try widening your selection.</p>
@@ -8848,6 +8879,11 @@ state.test = {
   quizMode: "definition",
   count: 10,
   filters: {headline:"all", section:"all", cat:"all", cefr:"all", learned:"all"},
+  sourceMode: "category",
+  selectedWords: new Set(),
+  wordSearch: "",
+  wordPage: 1,
+  wordHeadline: "all",
   questions: [], idx: 0, score: 0,
 };
 
@@ -8926,6 +8962,15 @@ function applyBrowseFiltersToTest(){
 }
 
 function testPool(){
+  if (state.test.sourceMode === "words") {
+    let p = VOCAB_DATA.filter(w => state.test.selectedWords.has(w.w));
+    if (state.test.mode === "gap") p = p.filter(w => w.gap && w.gap.includes("___"));
+    if (state.test.mode === "quiz") {
+      if (state.test.quizMode === "synonym") p = p.filter(w => w.syn && w.syn.length);
+      if (state.test.quizMode === "antonym") p = p.filter(w => w.ant && w.ant.length);
+    }
+    return p;
+  }
   if (state.test.mode === "gap") return GAP_POOL.filter(w => matchesFilters(w, state.test.filters));
   let p = VOCAB_DATA.filter(w => matchesFilters(w, state.test.filters));
   if (state.test.mode === "quiz") {
@@ -8933,6 +8978,76 @@ function testPool(){
     if (state.test.quizMode === "antonym") p = p.filter(w => w.ant && w.ant.length);
   }
   return p;
+}
+
+function wordMatchesHeadline(cefr, hl){
+  if (hl === "all") return true;
+  if (hl === "basic") return ["A1","A1+","A2","A2+"].includes(cefr);
+  if (hl === "intermediate") return ["B1","B1+","B2"].includes(cefr);
+  if (hl === "advanced") return ["C1","C1+","C2","C2+"].includes(cefr);
+  if (hl === "cefr") return ["A1","A2","B1","B2","C1","C2"].includes(cefr);
+  return true;
+}
+
+function renderTestFiltersSection(){
+  if (state.test.sourceMode === "words") renderWordPicker();
+  else renderTopicFilters("test", state.test.filters, testPool, () => TEST_MODE_META[state.test.mode].unit);
+}
+
+function renderWordPicker(){
+  const hl = state.test.wordHeadline;
+  const q = state.test.wordSearch.toLowerCase().trim();
+  const allWords = VOCAB_DATA.filter(w => {
+    if (!wordMatchesHeadline(w.cefr, hl)) return false;
+    if (!q) return true;
+    return [w.w, w.def, ...(w.syn||[]), ...(w.ant||[])].join(" ").toLowerCase().includes(q);
+  });
+  document.querySelectorAll("#testWordHeadlineBar [data-word-headline]").forEach(btn => {
+    btn.classList.toggle("active", btn.dataset.wordHeadline === hl);
+  });
+  const totalPages = Math.max(1, Math.ceil(allWords.length / 25));
+  if (state.test.wordPage > totalPages) state.test.wordPage = totalPages;
+  const pageWords = allWords.slice((state.test.wordPage - 1) * 25, state.test.wordPage * 25);
+
+  const pool = testPool();
+  const meta = TEST_MODE_META[state.test.mode];
+  document.getElementById("testWordMatchCount").textContent =
+    `${state.test.selectedWords.size} selected · ${pool.length} ${meta.unit}${pool.length!==1?"s":""} match`;
+
+  const clearBtn = document.getElementById("testClearWordSel");
+  if (clearBtn) clearBtn.style.display = state.test.selectedWords.size > 0 ? "" : "none";
+
+  const grid = document.getElementById("testWordGrid");
+  grid.innerHTML = "";
+  pageWords.forEach(w => {
+    const btn = document.createElement("button");
+    const sel = state.test.selectedWords.has(w.w);
+    btn.className = "chip" + (sel ? " active" : "");
+    btn.innerHTML = `${w.w} <span class="cefr-badge ${w.cefr}" style="font-size:.6rem;padding:1px 5px;margin-left:3px;vertical-align:middle;">${w.cefr}</span>`;
+    btn.addEventListener("click", () => {
+      if (state.test.selectedWords.has(w.w)) state.test.selectedWords.delete(w.w);
+      else state.test.selectedWords.add(w.w);
+      renderWordPicker();
+    });
+    grid.appendChild(btn);
+  });
+
+  buildPagination(document.getElementById("testWordPagination"), allWords.length, 25, state.test.wordPage, p => {
+    state.test.wordPage = p;
+    renderWordPicker();
+  });
+
+  const startBtn = document.getElementById("testStart");
+  if (startBtn) startBtn.disabled = pool.length === 0;
+  const noMatch = document.getElementById("testNoMatch");
+  if (noMatch) {
+    noMatch.style.display = pool.length === 0 ? "block" : "none";
+    if (pool.length === 0) {
+      noMatch.textContent = state.test.selectedWords.size === 0
+        ? "No words selected — pick some words above to start."
+        : `None of your selected words work for ${state.test.mode} mode — try a different mode or select more words.`;
+    }
+  }
 }
 
 function buildTestQuestion(word){
@@ -8954,7 +9069,7 @@ function renderTestModes(){
     card.addEventListener("click", () => {
       state.test.quizMode = m.id;
       renderTestModes();
-      renderTopicFilters("test", state.test.filters, testPool, () => TEST_MODE_META[state.test.mode].unit);
+      renderTestFiltersSection();
     });
     container.appendChild(card);
   });
@@ -8991,7 +9106,7 @@ function renderTestMode(){
   renderTestSetupCopy();
   renderTestModes();
   renderTestCounts();
-  renderTopicFilters("test", state.test.filters, testPool, () => TEST_MODE_META[state.test.mode].unit);
+  renderTestFiltersSection();
 }
 
 function cycleTestMode(dir){
@@ -9173,6 +9288,52 @@ renderTestSetupCopy();
 renderTestModes();
 renderTestCounts();
 initTopicFilters("test", state.test.filters, testPool, () => TEST_MODE_META[state.test.mode].unit);
+
+document.getElementById("testSourceCategory").addEventListener("click", () => {
+  if (state.test.sourceMode === "category") return;
+  state.test.sourceMode = "category";
+  document.getElementById("testSourceCategory").classList.add("active");
+  document.getElementById("testSourceWords").classList.remove("active");
+  document.getElementById("testCategoryFilter").style.display = "";
+  document.getElementById("testWordPicker").style.display = "none";
+  renderTopicFilters("test", state.test.filters, testPool, () => TEST_MODE_META[state.test.mode].unit);
+});
+document.getElementById("testSourceWords").addEventListener("click", () => {
+  if (state.test.sourceMode === "words") return;
+  state.test.sourceMode = "words";
+  document.getElementById("testSourceWords").classList.add("active");
+  document.getElementById("testSourceCategory").classList.remove("active");
+  document.getElementById("testCategoryFilter").style.display = "none";
+  document.getElementById("testWordPicker").style.display = "";
+  renderWordPicker();
+});
+document.getElementById("testWordSearch").addEventListener("input", debounce(e => {
+  state.test.wordSearch = e.target.value;
+  state.test.wordPage = 1;
+  renderWordPicker();
+}, 150));
+document.getElementById("testSelectAllWords").addEventListener("click", () => {
+  const hl = state.test.wordHeadline;
+  const q = state.test.wordSearch.toLowerCase().trim();
+  VOCAB_DATA.filter(w => {
+    if (!wordMatchesHeadline(w.cefr, hl)) return false;
+    if (!q) return true;
+    return [w.w, w.def, ...(w.syn||[]), ...(w.ant||[])].join(" ").toLowerCase().includes(q);
+  }).forEach(w => state.test.selectedWords.add(w.w));
+  renderWordPicker();
+});
+document.getElementById("testClearWordSel").addEventListener("click", () => {
+  state.test.selectedWords = new Set();
+  renderWordPicker();
+});
+document.querySelectorAll("#testWordHeadlineBar [data-word-headline]").forEach(btn => {
+  btn.addEventListener("click", () => {
+    state.test.wordHeadline = btn.dataset.wordHeadline;
+    state.test.wordPage = 1;
+    renderWordPicker();
+  });
+});
+
 saveLearned();
 </script>
 
