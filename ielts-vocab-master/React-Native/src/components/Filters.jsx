@@ -114,6 +114,15 @@ export default function Filters({ filters, setFilters, resultLabel, searchPlaceh
           Not Learned
         </button>
       </div>
+
+      <div className="flex justify-end">
+        <button
+          className="clear-btn"
+          onClick={() => update({ search: "", section: "all", cat: "all", cefr: "all", learned: "all" })}
+        >
+          Clear filters
+        </button>
+      </div>
     </div>
   );
 }

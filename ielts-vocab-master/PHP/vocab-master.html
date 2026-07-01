@@ -934,7 +934,6 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
         <button class="chip" data-cefr="B2">B2</button><button class="chip" data-cefr="B2+">B2+</button>
         <button class="chip" data-cefr="C1">C1</button><button class="chip" data-cefr="C1+">C1+</button>
         <button class="chip" data-cefr="C2">C2</button><button class="chip" data-cefr="C2+">C2+</button>
-        <button class="clear-btn" id="exClearFilters">Clear filters</button>
       </div>
       <div class="filter-row">
         <span class="filter-label">Progress</span>
@@ -942,6 +941,9 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
         <button class="chip" data-learned="learned">Learned</button>
         <button class="chip" data-learned="little">Little Bit</button>
         <button class="chip" data-learned="unlearned">Not Learned</button>
+      </div>
+      <div class="filter-row" style="justify-content:flex-end;">
+        <button class="clear-btn" id="exClearFilters">Clear filters</button>
       </div>
     </div>
     <div class="ex-list" id="exList"></div>
@@ -992,13 +994,15 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
             <button class="chip" data-cefr="C1">C1</button>
             <button class="chip" data-cefr="C2">C2</button>
             <button class="chip" data-cefr="C2+">C2+</button>
-            <button class="clear-btn" id="testClearFilters">Clear filters</button>
           </div>
           <div class="filter-row" id="testLearnedFilters">
             <span class="filter-label">Progress</span>
             <button class="chip active" data-learned="all">All</button>
             <button class="chip" data-learned="learned">Learned</button>
             <button class="chip" data-learned="unlearned">Not Learned</button>
+          </div>
+          <div class="filter-row" style="justify-content:flex-end;">
+            <button class="clear-btn" id="testClearFilters">Clear filters</button>
           </div>
         </div>
       </div>

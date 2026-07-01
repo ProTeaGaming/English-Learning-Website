@@ -117,12 +117,6 @@ export default function TopicCefrFilter({ filters, setFilters, resultLabel }) {
             {lvl}
           </button>
         ))}
-        <button
-          className="clear-btn"
-          onClick={() => update({ section: "all", cat: "all", cefr: "all", learned: "all" })}
-        >
-          Clear filters
-        </button>
       </div>
 
       <div className="flex gap-2 flex-wrap items-center">
@@ -144,6 +138,15 @@ export default function TopicCefrFilter({ filters, setFilters, resultLabel }) {
           onClick={() => update({ learned: "unlearned" })}
         >
           Not Learned
+        </button>
+      </div>
+
+      <div className="flex justify-end">
+        <button
+          className="clear-btn"
+          onClick={() => update({ section: "all", cat: "all", cefr: "all", learned: "all" })}
+        >
+          Clear filters
         </button>
       </div>
     </div>
