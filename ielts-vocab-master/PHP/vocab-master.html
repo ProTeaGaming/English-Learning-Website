@@ -1026,6 +1026,8 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
           <div class="search-row" style="position:relative;">
             <input type="search" id="testWordSearch" placeholder="Search words, definitions, synonyms…">
           </div>
+          <div class="filter-row" id="testWordSectionFilters"></div>
+          <div class="filter-row" id="testWordCategoryFilters"></div>
           <div class="filter-row" id="testWordCefrFilters">
             <span class="filter-label">CEFR Level</span>
             <button class="chip active" data-cefr="all">All</button>
@@ -1035,6 +1037,12 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
             <button class="chip" data-cefr="B2">B2</button><button class="chip" data-cefr="B2+">B2+</button>
             <button class="chip" data-cefr="C1">C1</button><button class="chip" data-cefr="C1+">C1+</button>
             <button class="chip" data-cefr="C2">C2</button><button class="chip" data-cefr="C2+">C2+</button>
+          </div>
+          <div class="filter-row" id="testWordLearnedFilters">
+            <span class="filter-label">Progress</span>
+            <button class="chip active" data-word-learned="all">All</button>
+            <button class="chip" data-word-learned="learned">Learned</button>
+            <button class="chip" data-word-learned="unlearned">Not Learned</button>
           </div>
           <div class="filter-row">
             <button class="chip" id="testSelectAllWords">Select all results</button>
@@ -8914,6 +8922,9 @@ state.test = {
   wordPage: 1,
   wordHeadline: "all",
   wordCefr: "all",
+  wordSection: "all",
+  wordCat: "all",
+  wordLearned: "all",
   questions: [], idx: 0, score: 0,
 };
 
@@ -9026,10 +9037,25 @@ function renderTestFiltersSection(){
 function renderWordPicker(){
   const hl = state.test.wordHeadline;
   const wc = state.test.wordCefr;
+  const ws = state.test.wordSection;
+  const wcat = state.test.wordCat;
+  const wl = state.test.wordLearned;
   const q = state.test.wordSearch.toLowerCase().trim();
+  const wpf = { section: ws, cat: wcat, headline: undefined };
+  buildSectionChips(document.getElementById("testWordSectionFilters"), wpf, () => {
+    state.test.wordSection = wpf.section; state.test.wordCat = wpf.cat; state.test.wordPage = 1; renderWordPicker();
+  });
+  buildCategoryChips(document.getElementById("testWordCategoryFilters"), wpf, () => {
+    state.test.wordSection = wpf.section; state.test.wordCat = wpf.cat; state.test.wordPage = 1; renderWordPicker();
+  });
   const allWords = VOCAB_DATA.filter(w => {
     if (!wordMatchesHeadline(w.cefr, hl)) return false;
     if (wc !== "all" && w.cefr !== wc) return false;
+    const cat = CAT_MAP[w.cat];
+    if (ws !== "all" && (!cat || cat.section !== ws)) return false;
+    if (wcat !== "all" && w.cat !== wcat) return false;
+    if (wl === "learned" && !isLearned(w.w)) return false;
+    if (wl === "unlearned" && isAnyLearned(w.w)) return false;
     if (!q) return true;
     return [w.w, w.def, ...(w.syn||[]), ...(w.ant||[])].join(" ").toLowerCase().includes(q);
   });
@@ -9038,6 +9064,9 @@ function renderWordPicker(){
   });
   document.querySelectorAll("#testWordCefrFilters [data-cefr]").forEach(btn => {
     btn.classList.toggle("active", btn.dataset.cefr === wc);
+  });
+  document.querySelectorAll("#testWordLearnedFilters [data-word-learned]").forEach(btn => {
+    btn.classList.toggle("active", btn.dataset.wordLearned === wl);
   });
   const totalPages = Math.max(1, Math.ceil(allWords.length / 25));
   if (state.test.wordPage > totalPages) state.test.wordPage = totalPages;
@@ -9349,10 +9378,18 @@ document.getElementById("testWordSearch").addEventListener("input", debounce(e =
 document.getElementById("testSelectAllWords").addEventListener("click", () => {
   const hl = state.test.wordHeadline;
   const wc = state.test.wordCefr;
+  const ws = state.test.wordSection;
+  const wcat = state.test.wordCat;
+  const wl = state.test.wordLearned;
   const q = state.test.wordSearch.toLowerCase().trim();
   VOCAB_DATA.filter(w => {
     if (!wordMatchesHeadline(w.cefr, hl)) return false;
     if (wc !== "all" && w.cefr !== wc) return false;
+    const cat = CAT_MAP[w.cat];
+    if (ws !== "all" && (!cat || cat.section !== ws)) return false;
+    if (wcat !== "all" && w.cat !== wcat) return false;
+    if (wl === "learned" && !isLearned(w.w)) return false;
+    if (wl === "unlearned" && isAnyLearned(w.w)) return false;
     if (!q) return true;
     return [w.w, w.def, ...(w.syn||[]), ...(w.ant||[])].join(" ").toLowerCase().includes(q);
   }).forEach(w => state.test.selectedWords.add(w.w));
@@ -9372,6 +9409,13 @@ document.querySelectorAll("#testWordHeadlineBar [data-word-headline]").forEach(b
 document.querySelectorAll("#testWordCefrFilters [data-cefr]").forEach(btn => {
   btn.addEventListener("click", () => {
     state.test.wordCefr = btn.dataset.cefr;
+    state.test.wordPage = 1;
+    renderWordPicker();
+  });
+});
+document.querySelectorAll("#testWordLearnedFilters [data-word-learned]").forEach(btn => {
+  btn.addEventListener("click", () => {
+    state.test.wordLearned = btn.dataset.wordLearned;
     state.test.wordPage = 1;
     renderWordPicker();
   });

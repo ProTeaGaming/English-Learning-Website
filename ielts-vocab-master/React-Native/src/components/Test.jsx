@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import gsap from "gsap";
-import { VOCAB_DATA } from "../data/vocab-data";
+import { VOCAB_DATA, CATEGORIES, SECTION_ORDER, CAT_MAP } from "../data/vocab-data";
 import {
   TEST_MODE_ORDER,
   TEST_MODE_META,
@@ -70,6 +70,9 @@ export default function Test({ learnMap }) {
   const [wordPage, setWordPage] = useState(1);
   const [wordHeadline, setWordHeadline] = useState("all");
   const [wordCefr, setWordCefr] = useState("all");
+  const [wordSection, setWordSection] = useState("all");
+  const [wordCat, setWordCat] = useState("all");
+  const [wordLearned, setWordLearned] = useState("all");
   const cardRef = useRef(null);
   const scoreRef = useRef(null);
 
@@ -80,11 +83,17 @@ export default function Test({ learnMap }) {
     return VOCAB_DATA.filter(w => {
       if (!wordHeadlineMatch(w.cefr, wordHeadline)) return false;
       if (wordCefr !== "all" && w.cefr !== wordCefr) return false;
+      const cat = CAT_MAP[w.cat];
+      if (wordSection !== "all" && (!cat || cat.section !== wordSection)) return false;
+      if (wordCat !== "all" && w.cat !== wordCat) return false;
+      const ws = learnMap?.get ? (learnMap.get(w.w) || null) : null;
+      if (wordLearned === "learned" && ws !== "learned") return false;
+      if (wordLearned === "unlearned" && ws !== null) return false;
       if (!q) return true;
       const hay = [w.w, w.def, ...(w.syn || []), ...(w.ant || [])].join(" ").toLowerCase();
       return hay.includes(q);
     });
-  }, [wordSearch, wordHeadline, wordCefr]);
+  }, [wordSearch, wordHeadline, wordCefr, wordSection, wordCat, wordLearned, learnMap]);
 
   const pickerTotalPages = Math.max(1, Math.ceil(pickerWords.length / WORD_PICKER_PER_PAGE));
   const safeWordPage = Math.min(wordPage, pickerTotalPages);
@@ -284,6 +293,34 @@ export default function Test({ learnMap }) {
                   />
                 </div>
                 <div className="flex gap-2 flex-wrap items-center">
+                  <span className="filter-label">Section</span>
+                  <button
+                    className={"chip" + (wordSection === "all" ? " active" : "")}
+                    onClick={() => { setWordSection("all"); setWordCat("all"); setWordPage(1); }}
+                  >All Sections</button>
+                  {SECTION_ORDER.map(sec => (
+                    <button
+                      key={sec}
+                      className={"chip" + (wordSection === sec ? " active" : "")}
+                      onClick={() => { setWordSection(sec); setWordCat("all"); setWordPage(1); }}
+                    >{sec}</button>
+                  ))}
+                </div>
+                <div className="flex gap-2 flex-wrap items-center">
+                  <span className="filter-label">Category</span>
+                  <button
+                    className={"chip" + (wordCat === "all" ? " active" : "")}
+                    onClick={() => { setWordCat("all"); setWordPage(1); }}
+                  >All</button>
+                  {(wordSection === "all" ? CATEGORIES : CATEGORIES.filter(c => c.section === wordSection)).map(c => (
+                    <button
+                      key={c.id}
+                      className={`chip t-${c.theme}` + (wordCat === c.id ? " active" : "")}
+                      onClick={() => { setWordCat(c.id); setWordPage(1); }}
+                    >{c.icon} {c.name}</button>
+                  ))}
+                </div>
+                <div className="flex gap-2 flex-wrap items-center">
                   <span className="filter-label">CEFR Level</span>
                   <button
                     className={"chip" + (wordCefr === "all" ? " active" : "")}
@@ -297,6 +334,21 @@ export default function Test({ learnMap }) {
                       onClick={() => { setWordCefr(lvl); setWordPage(1); }}
                     >{lvl}</button>
                   ))}
+                </div>
+                <div className="flex gap-2 flex-wrap items-center">
+                  <span className="filter-label">Progress</span>
+                  <button
+                    className={"chip" + (wordLearned === "all" ? " active" : "")}
+                    onClick={() => { setWordLearned("all"); setWordPage(1); }}
+                  >All</button>
+                  <button
+                    className={"chip" + (wordLearned === "learned" ? " active" : "")}
+                    onClick={() => { setWordLearned("learned"); setWordPage(1); }}
+                  >Learned</button>
+                  <button
+                    className={"chip" + (wordLearned === "unlearned" ? " active" : "")}
+                    onClick={() => { setWordLearned("unlearned"); setWordPage(1); }}
+                  >Not Learned</button>
                 </div>
                 <div className="flex gap-2 flex-wrap items-center">
                   <button className="chip" onClick={selectAllResults}>Select all results</button>
