@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import gsap from "gsap";
 import { VOCAB_DATA, CATEGORIES, SECTION_ORDER, CAT_MAP } from "../data/vocab-data";
+import Icon from "./Icon";
 import {
   TEST_MODE_ORDER,
   TEST_MODE_META,
@@ -23,9 +24,9 @@ const WORD_PICKER_PER_PAGE = 25;
 
 const WORD_HEADLINES = [
   ["all", "All"],
-  ["basic", "🌱 Basic"],
-  ["intermediate", "📈 Intermediate"],
-  ["advanced", "🎓 Advanced"],
+  ["basic", <><Icon name="sprout" /> Basic</>],
+  ["intermediate", <><Icon name="trend-up" /> Intermediate</>],
+  ["advanced", <><Icon name="grad-cap" /> Advanced</>],
 ];
 
 const WORD_CEFR_LEVELS = ["A1","A1+","A2","A2+","B1","B1+","B2","B2+","C1","C1+","C2","C2+"];
@@ -299,7 +300,7 @@ export default function Test({ learnMap }) {
                   </span>
                 </div>
                 <div className="relative">
-                  <span className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-[.85rem] opacity-50">🔍</span>
+                  <Icon name="search" className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-[.9rem] opacity-50" />
                   <input
                     type="search"
                     value={wordSearch}

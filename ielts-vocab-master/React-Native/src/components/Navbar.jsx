@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import Icon from "./Icon";
 
 const SECTIONS = [
   {
@@ -13,6 +14,8 @@ const SECTIONS = [
   { id: "grammar", label: "Grammar", page: "grammar" },
   { id: "reading", label: "Reading", page: "reading" },
   { id: "writing", label: "Writing", page: "writing" },
+  { id: "listening", label: "Listening", page: "listening" },
+  { id: "speaking", label: "Speaking", page: "speaking" },
 ];
 
 export default function Navbar({ page, setPage, learnedCount, total, theme, toggleTheme }) {
@@ -31,8 +34,9 @@ export default function Navbar({ page, setPage, learnedCount, total, theme, togg
     <header className="sticky top-0 z-10 bg-bg/90 backdrop-blur border-b border-line">
       <div className="max-w-[1100px] mx-auto px-5 py-4 flex items-center justify-between gap-4 flex-wrap">
         <div className="flex items-center gap-6 flex-wrap">
-          <div className="font-sora font-extrabold text-lg flex items-center gap-2">
-            <span>📚</span> IELTS Vocab Master
+          <div className="font-sora font-extrabold text-[1.35rem] tracking-tight flex items-center gap-[7px]">
+            <Icon name="mark" className="ico-mark" />
+            <span>Lexi<b className="font-extrabold text-accent">Loop</b></span>
           </div>
           <nav className="flex gap-1.5 flex-wrap" ref={navRef}>
             {SECTIONS.map((section) => {
@@ -69,7 +73,7 @@ export default function Navbar({ page, setPage, learnedCount, total, theme, togg
                       }
                     }}
                   >
-                    {section.label} <span className="nav-caret">▾</span>
+                    {section.label}
                   </button>
                   {isOpen && (
                     <div className="nav-dropdown">
@@ -99,9 +103,9 @@ export default function Navbar({ page, setPage, learnedCount, total, theme, togg
             aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
             title={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
           >
-            {theme === "dark" ? "☀️" : "🌙"}
+            <Icon name={theme === "dark" ? "sun" : "moon"} />
           </button>
-          <div className="text-[.85rem] text-muted font-semibold">
+          <div className="text-[.85rem] text-muted font-semibold font-mono">
             Learned: {learnedCount}/{total}
           </div>
         </div>

@@ -1,14 +1,16 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { CATEGORIES, SECTION_ORDER } from "../data/vocab-data";
 import { CEFR_LEVELS, cefrColor } from "../utils/cefr";
 import ExpandableChips from "./ExpandableChips";
+import Icon from "./Icon";
 
 export default function TopicCefrFilter({ filters, setFilters, resultLabel }) {
   const [catSearch, setCatSearch] = useState("");
-
-  useEffect(() => {
+  const [prevSection, setPrevSection] = useState(filters.section);
+  if (prevSection !== filters.section) {
+    setPrevSection(filters.section);
     setCatSearch("");
-  }, [filters.section]);
+  }
 
   const visibleCats = CATEGORIES.filter(
     (c) => filters.section === "all" || c.section === filters.section
@@ -29,7 +31,7 @@ export default function TopicCefrFilter({ filters, setFilters, resultLabel }) {
       </div>
 
       <div className="relative">
-        <span className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-[.85rem] opacity-50">🔍</span>
+        <Icon name="search" className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-[.9rem] opacity-50" />
         <input
           type="search"
           value={catSearch}

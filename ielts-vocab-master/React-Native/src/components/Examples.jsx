@@ -2,7 +2,6 @@ import { useMemo, useRef, useEffect, useState } from "react";
 import gsap from "gsap";
 import { VOCAB_DATA, CAT_MAP } from "../data/vocab-data";
 import { matchesFilters } from "../utils/filters";
-import { cefrColor } from "../utils/cefr";
 import Filters from "./Filters";
 
 const EX_PER_PAGE = 25;

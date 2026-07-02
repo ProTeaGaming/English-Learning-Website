@@ -4,6 +4,7 @@ import { VOCAB_DATA } from "../data/vocab-data";
 import { CEFR_LEVELS, cefrColor } from "../utils/cefr";
 import WordCard from "./WordCard";
 import VocabBrowser from "./VocabBrowser";
+import Icon from "./Icon";
 
 const DEFAULT_BROWSE = { search: "", section: "all", cefr: "all" };
 const DEFAULT_CAT = { search: "", cefr: "all", learned: "all" };
@@ -119,7 +120,7 @@ export default function WordList({ learnMap, onCycle, openModal }) {
 
       <div className="cat-filter-bar">
         <div className="relative">
-          <span className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-[.85rem] opacity-50">🔍</span>
+          <Icon name="search" className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-[.9rem] opacity-50" />
           <input
             type="search"
             value={catFilters.search}

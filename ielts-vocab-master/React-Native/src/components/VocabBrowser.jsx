@@ -1,10 +1,11 @@
 import { useMemo, useState, useRef } from "react";
-import { CATEGORIES, SECTION_ORDER, VOCAB_DATA, CEFR_SECTION, CEFR_CATEGORIES } from "../data/vocab-data";
+import { CATEGORIES, SECTION_ORDER, VOCAB_DATA, CEFR_SECTIONS, CEFR_CATEGORIES } from "../data/vocab-data";
 import { CEFR_LEVELS, cefrColor } from "../utils/cefr";
 import ExpandableChips from "./ExpandableChips";
 import CategoryCard from "./CategoryCard";
+import Icon from "./Icon";
 
-const ALL_SECTIONS = [...SECTION_ORDER, CEFR_SECTION];
+const ALL_SECTIONS = [...SECTION_ORDER, ...CEFR_SECTIONS];
 const BROWSE_PER_PAGE = 10;
 
 // Pre-compute at module load — runs once, avoids repeated filtering on every render
@@ -42,8 +43,8 @@ export default function VocabBrowser({ filters, setFilters, learnMap, onSelectCa
     const toShow = filters.section === "all" ? ALL_SECTIONS : [filters.section];
 
     return toShow.map(section => {
-      let cats = section === CEFR_SECTION
-        ? CEFR_CATEGORIES
+      let cats = CEFR_SECTIONS.includes(section)
+        ? CEFR_CATEGORIES.filter(c => c.section === section)
         : CATEGORIES.filter(c => c.section === section);
 
       if (filters.search) {
@@ -73,13 +74,13 @@ export default function VocabBrowser({ filters, setFilters, learnMap, onSelectCa
     topRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
-  const isDirty = filters.search || filters.section !== "all" || filters.cefr !== "all";
 
   return (
     <div>
-      <div ref={topRef} className="mb-6">
-        <h1 className="text-[1.7rem] font-extrabold font-sora mb-1">Vocabulary</h1>
-        <p className="text-muted text-[.95rem]">
+      <div ref={topRef} className="mb-8">
+        <span className="eyebrow block mb-2.5">Section 01 / Vocabulary</span>
+        <h1 className="text-[2.3rem] font-extrabold font-sora tracking-tight mb-1">Category</h1>
+        <p className="text-muted text-[1.05rem] font-serif italic">
           {VOCAB_DATA.length} words across {CATEGORIES.length} categories · {[...learnMap.values()].filter(v => v === "learned").length} learned
         </p>
       </div>
@@ -87,7 +88,7 @@ export default function VocabBrowser({ filters, setFilters, learnMap, onSelectCa
       {/* Browse filter bar */}
       <div className="browse-bar">
         <div className="relative">
-          <span className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-[.85rem] opacity-50">🔍</span>
+          <Icon name="search" className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-[.9rem] opacity-50" />
           <input
             type="search"
             value={filters.search}
@@ -156,11 +157,13 @@ export default function VocabBrowser({ filters, setFilters, learnMap, onSelectCa
         {sectionsData.length === 0 && (
           <p className="text-muted text-[.95rem] py-12 text-center">No categories match the current filters.</p>
         )}
-        {pageSections.map(({ section, cats }) => {
+        {pageSections.map(({ section, cats }, i) => {
           const sectionWordCount = cats.reduce((s, c) => s + CAT_WORDS[c.id].length, 0);
+          const num = (safePage - 1) * BROWSE_PER_PAGE + i + 1;
           return (
             <div key={section}>
               <div className="section-header">
+                <span className="section-num">{String(num).padStart(2, "0")}</span>
                 <h2 className="section-title">{section}</h2>
                 <div className="section-rule" />
                 <span className="section-meta">

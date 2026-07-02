@@ -1,6 +1,7 @@
 import { CATEGORIES, SECTION_ORDER } from "../data/vocab-data";
 import { CEFR_LEVELS, cefrColor } from "../utils/cefr";
 import ExpandableChips from "./ExpandableChips";
+import Icon from "./Icon";
 
 export default function Filters({ filters, setFilters, resultLabel, searchPlaceholder, hideCefrRow }) {
   const visibleCats = CATEGORIES.filter(
@@ -13,7 +14,7 @@ export default function Filters({ filters, setFilters, resultLabel, searchPlaceh
     <div className="flex flex-col gap-3.5 mb-6 bg-surface border border-line rounded-2xl px-5 py-4">
       <div className="flex flex-col sm:flex-row gap-2.5 sm:items-center">
         <div className="relative flex-1 min-w-0 sm:min-w-[200px]">
-          <span className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-[.85rem] opacity-50">🔍</span>
+          <Icon name="search" className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-[.9rem] opacity-50" />
           <input
             type="search"
             value={filters.search}

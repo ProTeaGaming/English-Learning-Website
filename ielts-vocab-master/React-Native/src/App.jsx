@@ -12,7 +12,7 @@ import WordModal from "./components/WordModal";
 
 export default function App() {
   const [page, setPage] = useState("list");
-  const { learnMap, cycle, setWordState, learnedCount } = useLearned();
+  const { learnMap, cycle, learnedCount } = useLearned();
   const { theme, toggle: toggleTheme } = useTheme();
   const [modalWord, setModalWord] = useState(null);
   const pageRef = useRef(null);
@@ -37,9 +37,11 @@ export default function App() {
         {page === "list"     && <WordList learnMap={learnMap} onCycle={cycle} openModal={setModalWord} />}
         {page === "examples" && <Examples learnMap={learnMap} openModal={setModalWord} />}
         {page === "test"     && <Test learnMap={learnMap} />}
-        {page === "grammar"  && <ComingSoon title="Grammar" />}
-        {page === "reading"  && <ComingSoon title="Reading" />}
-        {page === "writing"  && <ComingSoon title="Writing" />}
+        {page === "grammar"   && <ComingSoon title="Grammar" num="02" />}
+        {page === "reading"   && <ComingSoon title="Reading" num="03" />}
+        {page === "writing"   && <ComingSoon title="Writing" num="04" />}
+        {page === "listening" && <ComingSoon title="Listening" num="05" />}
+        {page === "speaking"  && <ComingSoon title="Speaking" num="06" />}
       </main>
       <WordModal
         word={modalWord}

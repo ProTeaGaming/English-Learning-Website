@@ -32,8 +32,10 @@ export default {
         ts: "#0d9488",
       },
       fontFamily: {
-        sora: ["Sora", "sans-serif"],
+        sora: ["Plus Jakarta Sans", "Sora", "sans-serif"],
         sans: ["Inter", "sans-serif"],
+        mono: ["JetBrains Mono", "monospace"],
+        serif: ["Fraunces", "Georgia", "serif"],
       },
     },
   },

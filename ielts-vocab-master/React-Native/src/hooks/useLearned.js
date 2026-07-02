@@ -20,7 +20,7 @@ function load() {
 function save(map) {
   try {
     localStorage.setItem(LEARN_KEY, JSON.stringify(Object.fromEntries(map)));
-  } catch {}
+  } catch { /* storage unavailable */ }
 }
 
 const STATES = [null, "little", "learned"];
