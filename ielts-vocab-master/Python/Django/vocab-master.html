@@ -6,14 +6,17 @@
 <title>LexiLoop — IELTS Vocabulary</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;700&family=Fraunces:ital,opsz,wght@1,9..144,400..600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#0b0e14; --bg-rgb:11 14 20;
-  --surface:#161a23; --surface-rgb:22 26 35;
-  --surface2:#1e2330; --border:#2a3040;
-  --text:#e8eaf0; --muted:#9aa3b5; --accent:#7c3aed;
-  --card-bg:#161a23; --card-border:#2a3040;
+  --bg:#0b0d12; --bg-rgb:11 13 18;
+  --surface:#12151d; --surface-rgb:18 21 29;
+  --surface2:#191d27; --border:#232937;
+  --text:#eceef4; --muted:#98a0b3; --accent:#7c3aed;
+  --card-bg:#12151d; --card-border:#232937;
+  --gold:#d4af6a; --gold-rgb:212 175 106;
+  --serif:'Fraunces',Georgia,serif;
+  --ease-luxe:cubic-bezier(.22,1,.36,1);
   --a1:#10b981; --a1p:#eab308; --a2:#06b6d4; --a2p:#f97316;
   --b1:#6366f1; --b1p:#ec4899; --b2:#3b82f6; --b2p:#1e40af; --c1:#f59e0b; --c1p:#f43f5e; --c2:#ef4444; --c2p:#a855f7;
   --tb:#3b82f6; --tv:#8b5cf6; --tp:#ec4899; --tr:#ef4444; --te:#10b981;
@@ -22,19 +25,37 @@
   --vio:124,58,237;
 }
 [data-theme="light"]{
-  --bg:#f9f9fb; --bg-rgb:249 249 251;
+  --bg:#f6f5f2; --bg-rgb:246 245 242;
   --surface:#ffffff; --surface-rgb:255 255 255;
-  --surface2:#f0f0f8; --border:#e2e2ee;
-  --text:#1a1a2e; --muted:#6a6a8a;
+  --surface2:#eceae4; --border:#dcd7cc;
+  --text:#16181d; --muted:#585d68;
+  --gold:#b08a3e; --gold-rgb:176 138 62;
   --a1:#059669; --a1p:#ca8a04; --a2:#06b6d4; --a2p:#ea580c;
   --b1:#4f46e5; --b1p:#db2777; --b2:#2563eb; --b2p:#1e3a8a; --c1:#d97706; --c1p:#e11d48; --c2:#dc2626; --c2p:#9333ea;
-  --card-bg:#ffffff; --card-border:#e2e2ee;
+  --card-bg:#ffffff; --card-border:#dcd7cc;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 body{
   font-family:'Inter',sans-serif; background:var(--bg); color:var(--text);
   line-height:1.5; min-height:100vh;
   transition:background-color .25s ease, color .25s ease;
+}
+/* soft ambient gradient behind everything */
+body::before{
+  content:""; position:fixed; inset:0; z-index:-1; pointer-events:none;
+  background:
+    radial-gradient(1100px 520px at 82% -8%, rgba(var(--vio),.09), transparent 60%),
+    radial-gradient(900px 480px at -10% 30%, rgba(var(--vio),.05), transparent 55%);
+}
+/* film grain over everything, both themes */
+body::after{
+  content:""; position:fixed; inset:0; z-index:2147483000; pointer-events:none; opacity:.028;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+/* mono eyebrow micro-label */
+.eyebrow{
+  font-family:'JetBrains Mono',monospace; font-size:.66rem; font-weight:700;
+  text-transform:uppercase; letter-spacing:.32em; color:var(--muted);
 }
 ::selection{background:rgb(var(--vio));color:#fff;}
 ::-webkit-scrollbar{width:7px;}
@@ -53,27 +74,25 @@ h1,h2,h3,.brand,.tab,.btn,.modeCard h3,.mode-toggle-label{font-family:'Plus Jaka
 /* ===== TOPBAR ===== */
 .topbar{
   position:sticky; top:0; z-index:50;
-  padding:14px 28px; background:rgba(var(--bg-rgb),.88); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+  padding:14px 10px; background:rgba(var(--bg-rgb),.88); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
   border-bottom:1px solid rgba(var(--vio),.18);
 }
 .topbar-inner{
   max-width:1280px; margin:0 auto; width:100%;
   display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;
 }
-.topbar-left{display:flex; align-items:center; gap:24px; flex-wrap:wrap;}
+.topbar-left{display:flex; align-items:center; gap:16px; flex-wrap:wrap;}
 .brand{font-weight:800; font-size:1.35rem; letter-spacing:-.035em; display:flex; align-items:center; gap:7px;}
 .brand-name b{font-weight:inherit; color:rgb(var(--vio));}
-.tabs{display:flex; gap:6px; flex-wrap:wrap;}
+.tabs{display:flex; gap:3px; flex-wrap:wrap;}
 .topbar-right{display:flex; align-items:center; gap:14px; flex-wrap:wrap;}
 .tab{
   font-size:.88rem; font-weight:600; color:var(--muted); background:transparent;
-  border:1px solid transparent; padding:8px 16px; border-radius:10px; cursor:pointer;
+  border:1px solid transparent; padding:8px 12px; border-radius:10px; cursor:pointer;
   transition:background .18s ease, color .18s ease, box-shadow .18s ease, transform .2s cubic-bezier(.25,.46,.45,.94); white-space:nowrap;
 }
 .tab:hover{color:var(--text); background:rgba(var(--vio),.1); border-color:rgba(var(--vio),.2); transform:translateY(-1px);}
 .tab.active{color:#fff; background:rgb(var(--vio)); box-shadow:0 4px 14px rgba(var(--vio),.4);}
-.nav-caret{font-size:.7em; margin-left:4px; opacity:.6;}
-
 /* ===== NAV DROPDOWNS ===== */
 .nav-group{position:relative;}.nav-group::after{content:'';position:absolute;left:0;right:0;bottom:-8px;height:8px;}
 .nav-dropdown{
@@ -86,8 +105,8 @@ h1,h2,h3,.brand,.tab,.btn,.modeCard h3,.mode-toggle-label{font-family:'Plus Jaka
 .nav-group:hover .nav-dropdown, .nav-group.open .nav-dropdown{display:block;}
 .nav-dropdown-item{
   display:block; width:100%; text-align:left; font-family:'Plus Jakarta Sans','Sora',sans-serif;
-  font-size:.88rem; font-weight:600; color:var(--muted); background:transparent;
-  border:none; padding:10px 16px; cursor:pointer;
+  font-size:.84rem; font-weight:600; color:var(--muted); background:transparent;
+  border:none; padding:7px 12px; cursor:pointer;
   transition:background .15s ease, color .15s ease;
 }
 .nav-dropdown-item:hover{color:var(--text); background:rgba(var(--vio),.1);}
@@ -243,9 +262,10 @@ h1,h2,h3,.brand,.tab,.btn,.modeCard h3,.mode-toggle-label{font-family:'Plus Jaka
 main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
 .page{display:none;}
 .page.active{display:block;}
-.page-head{margin-bottom:22px;}
-.page-head h1{font-size:1.75rem; font-weight:800; margin-bottom:4px; font-family:'Plus Jakarta Sans','Sora',sans-serif;}
-.page-head p{color:var(--muted); font-size:.95rem;}
+.page-head{margin-bottom:34px;}
+.page-head .eyebrow{display:block; margin-bottom:10px;}
+.page-head h1{font-size:2.3rem; font-weight:800; letter-spacing:-.03em; margin-bottom:8px; font-family:'Plus Jakarta Sans','Sora',sans-serif;}
+.page-head p{color:var(--muted); font-size:1.05rem; font-family:var(--serif); font-style:italic;}
 
 /* ===== FILTERS ===== */
 .filters{
@@ -748,9 +768,9 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
 .dash-card{
   background:rgba(var(--vio),.07);border:1px solid rgba(var(--vio),.16);border-radius:16px;
   padding:14px 16px;display:flex;flex-direction:column;gap:8px;
-  transition:border-color .2s ease,box-shadow .2s ease;
+  transition:border-color .4s var(--ease-luxe),box-shadow .4s var(--ease-luxe),transform .4s var(--ease-luxe);
 }
-.dash-card:hover{border-color:rgba(var(--vio),.35);box-shadow:0 4px 16px rgba(var(--vio),.1);}
+.dash-card:hover{border-color:rgba(var(--vio),.35);box-shadow:0 14px 34px rgba(0,0,0,.16);transform:translateY(-2px);}
 .dash-card-label{font-family:'JetBrains Mono',monospace;font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);}
 .dash-card-val{font-family:'Plus Jakarta Sans','Sora',sans-serif;font-size:1.5rem;font-weight:800;color:var(--text);line-height:1;}
 .dash-card-sub{font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--muted);}
@@ -835,30 +855,30 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
 
 /* ===== SECTION ACCORDION BLOCK ===== */
 .section-block{
-  margin-bottom:10px; border:1px solid rgba(var(--vio),.18); border-radius:20px; overflow:hidden;
-  background:rgba(255,255,255,0.55); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
-  transition:border-color .2s ease, box-shadow .2s ease;
+  margin-bottom:12px; border:1px solid var(--card-border); border-radius:22px; overflow:hidden;
+  background:var(--card-bg);
+  transition:border-color .35s var(--ease-luxe), box-shadow .35s var(--ease-luxe), transform .35s var(--ease-luxe);
 }
-[data-theme="dark"] .section-block{background:rgba(20,20,26,0.65);}
-.section-block:hover{border-color:rgba(var(--vio),.38); box-shadow:0 6px 20px rgba(var(--vio),.1);}
-.section-block.open{border-color:rgba(var(--vio),.45); box-shadow:0 8px 28px rgba(var(--vio),.15);}
+.section-block:hover{border-color:rgba(var(--vio),.35); box-shadow:0 18px 44px rgba(0,0,0,.14); transform:translateY(-1px);}
+.section-block.open{border-color:rgba(var(--vio),.4); box-shadow:0 22px 56px rgba(0,0,0,.16);}
 .section-block-header{
-  display:flex; align-items:center; gap:16px; padding:18px 22px; cursor:pointer; user-select:none;
+  display:flex; align-items:center; gap:18px; padding:20px 26px; cursor:pointer; user-select:none;
 }
-.section-block-icon{
-  font-size:1.6rem; flex-shrink:0; width:48px; height:48px;
-  display:flex; align-items:center; justify-content:center; color:rgb(var(--vio));
-  background:rgba(var(--vio),.1); border-radius:14px; border:1.5px solid rgba(var(--vio),.2);
+.section-block-num{
+  font-family:'Plus Jakarta Sans','Sora',sans-serif; font-weight:800; font-size:2.1rem;
+  letter-spacing:-.05em; line-height:1; color:var(--text); opacity:.14; min-width:54px;
+  transition:opacity .35s var(--ease-luxe), color .35s var(--ease-luxe);
 }
+.section-block:hover .section-block-num, .section-block.open .section-block-num{opacity:.85; color:rgb(var(--vio));}
 .section-block-info{flex:1; min-width:0;}
 .section-block-name{
-  font-family:'Plus Jakarta Sans','Sora',sans-serif; font-size:1rem; font-weight:800;
-  color:var(--text); margin-bottom:3px; line-height:1.2;
+  font-family:'Plus Jakarta Sans','Sora',sans-serif; font-size:1.05rem; font-weight:800;
+  color:var(--text); margin-bottom:3px; line-height:1.2; letter-spacing:-.01em;
 }
-.section-block-meta{font-size:.73rem; color:var(--muted); font-family:'JetBrains Mono',monospace;}
+.section-block-meta{font-size:.85rem; color:var(--muted); font-family:var(--serif); font-style:italic;}
 .section-block-right{display:flex; align-items:center; gap:14px; flex-shrink:0;}
 .section-block-prog{display:flex; flex-direction:column; align-items:flex-end; gap:4px;}
-.section-block-pbar{width:72px; height:4px; border-radius:99px; background:rgba(var(--vio),.12); overflow:hidden;}
+.section-block-pbar{width:72px; height:2px; border-radius:99px; background:rgba(var(--vio),.12); overflow:hidden;}
 .section-block-pfill{height:100%; border-radius:99px; background:rgb(var(--vio)); transition:width .4s ease;}
 .section-block-pct{font-size:.72rem; font-weight:700; color:rgb(var(--vio)); font-family:'JetBrains Mono',monospace;}
 .section-block-chevron{
@@ -876,32 +896,37 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
 
 /* ===== CATEGORY CARD ===== */
 .cat-card{
-  border:1px solid rgba(var(--vio),.15); border-radius:18px; padding:16px;
-  background:var(--card-bg); border-top:3px solid var(--accent-c,rgb(var(--vio)));
-  cursor:pointer; display:flex; flex-direction:column; gap:12px;
-  transition:transform .22s cubic-bezier(.25,.46,.45,.94), box-shadow .22s cubic-bezier(.25,.46,.45,.94);
+  position:relative; border:1px solid var(--card-border); border-radius:20px; padding:18px;
+  background:var(--card-bg);
+  cursor:pointer; display:flex; flex-direction:column; gap:14px;
+  transition:transform .4s var(--ease-luxe), box-shadow .4s var(--ease-luxe), border-color .4s var(--ease-luxe);
 }
-.cat-card:hover{transform:translateY(-4px); box-shadow:0 14px 40px rgba(0,0,0,.4), 0 0 0 1px var(--accent-c,rgba(var(--vio),.5)), 0 4px 16px rgba(var(--vio),.12);}
-.cat-card-row{display:flex; align-items:center; gap:12px;}
-.cat-icon-box{
-  width:44px; height:44px; border-radius:12px; display:flex; align-items:center;
-  justify-content:center; font-size:1.5rem; flex-shrink:0; background:var(--surface2);
-  border:2px solid var(--accent-c,var(--accent)); color:var(--accent-c,var(--accent));
+.cat-card:hover{transform:translateY(-4px); border-color:var(--accent-c,rgba(var(--vio),.5)); box-shadow:0 24px 60px rgba(0,0,0,.18), 0 6px 18px rgba(var(--vio),.08);}
+.cat-card-top{display:flex;align-items:center;gap:8px;}
+.cat-tag{
+  display:inline-flex;align-items:center;gap:6px;
+  font-family:'JetBrains Mono',monospace;font-size:.58rem;font-weight:700;
+  text-transform:uppercase;letter-spacing:.12em;padding:4px 10px;border-radius:999px;
+  color:var(--accent-c,rgb(var(--vio)));
+  background:color-mix(in srgb, var(--accent-c,#7c3aed) 10%, transparent);
+  border:1px solid color-mix(in srgb, var(--accent-c,#7c3aed) 38%, transparent);
 }
-.cat-info{flex:1; min-width:0;}
+.cat-tag .ico{font-size:.85rem;}
+.cat-arrow{
+  margin-left:auto;font-size:1rem;color:var(--muted);opacity:.5;flex-shrink:0;
+  transition:color .3s var(--ease-luxe),opacity .3s var(--ease-luxe),transform .45s var(--ease-luxe);
+}
+.cat-card:hover .cat-arrow{color:var(--accent-c,rgb(var(--vio)));opacity:1;transform:translate(2px,-2px);}
+.cat-medal{font-size:1.15rem; color:#eab308; flex-shrink:0; filter:drop-shadow(0 0 6px rgba(234,179,8,.35));}
 .cat-name{
-  font-family:'Sora',sans-serif; font-weight:700; font-size:1rem; line-height:1.25;
-  color:var(--accent-c,var(--accent)); overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+  font-family:'Plus Jakarta Sans','Sora',sans-serif; font-weight:800; font-size:1.02rem; line-height:1.3;
+  color:var(--accent-c,var(--accent)); letter-spacing:-.01em;
 }
-.cat-stats{display:flex; align-items:center; gap:8px; margin-top:3px;}
-.cat-wcount{font-size:.78rem; color:var(--muted);}
-.cat-cefr-pill{font-size:.68rem; font-weight:700; padding:2px 6px; border-radius:5px; color:#fff;}
-.cat-chevron{font-size:1.2rem; color:var(--muted); opacity:.4; flex-shrink:0; transition:opacity .15s ease, transform .15s ease;}
-.cat-card:hover .cat-chevron{opacity:1; transform:translateX(3px);}
+.cat-cefr-pill{font-size:.62rem; font-weight:700; padding:3px 8px; border-radius:999px; font-family:'JetBrains Mono',monospace; letter-spacing:.06em;}
 .cat-pbar-row{display:flex; align-items:center; gap:10px;}
-.cat-pbar{flex:1; height:5px; border-radius:99px; background:var(--surface2); overflow:hidden; position:relative;}
+.cat-pbar{flex:1; height:2.5px; border-radius:99px; background:var(--surface2); overflow:hidden; position:relative;}
 .cat-pfill{height:100%; border-radius:99px; background:var(--accent-c,var(--accent)); transition:width .4s ease;}
-.cat-plabel{font-size:.73rem; color:var(--muted); white-space:nowrap;}
+.cat-plabel{font-size:.66rem; color:var(--muted); white-space:nowrap; font-family:'JetBrains Mono',monospace;}
 
 /* ===== CATEGORY VIEW ===== */
 .cat-view-header{margin-bottom:22px;}
@@ -961,7 +986,7 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
 #page-home{padding:0;max-width:100%;}
 .home-hero{
   position:relative;overflow:hidden;
-  padding:72px 32px 64px;text-align:center;
+  padding:104px 32px 92px;text-align:center;
   border-bottom:1px solid rgba(var(--vio),.12);
 }
 .home-grid-bg{
@@ -978,25 +1003,24 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
   pointer-events:none;
 }
 .home-badge{
-  display:inline-flex;align-items:center;gap:6px;
-  padding:6px 16px;border-radius:999px;
-  background:rgba(var(--vio),.1);border:1px solid rgba(var(--vio),.28);
-  font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:700;
-  color:rgb(var(--vio));letter-spacing:.06em;text-transform:uppercase;
-  margin-bottom:28px;position:relative;
+  display:inline-flex;align-items:center;gap:10px;
+  font-family:'JetBrains Mono',monospace;font-size:.68rem;font-weight:700;
+  color:var(--muted);letter-spacing:.34em;text-transform:uppercase;
+  margin-bottom:34px;position:relative;
 }
+.home-badge .ico{color:rgb(var(--vio));}
 .home-title{
   font-family:'Plus Jakarta Sans','Sora',sans-serif;
-  font-size:clamp(2.2rem,5vw,3.8rem);font-weight:800;line-height:1.1;
-  letter-spacing:-.03em;margin-bottom:20px;position:relative;color:var(--text);
+  font-size:clamp(2.6rem,6vw,4.6rem);font-weight:800;line-height:1.06;
+  letter-spacing:-.035em;margin-bottom:26px;position:relative;color:var(--text);
 }
 .home-grad{
-  background:linear-gradient(135deg,#7c3aed 0%,#a855f7 50%,#4ade80 100%);
-  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  font-family:var(--serif);font-style:italic;font-weight:500;
+  color:rgb(var(--vio));letter-spacing:-.01em;
 }
 .home-sub{
-  font-size:1.05rem;color:var(--muted);max-width:560px;margin:0 auto 32px;
-  line-height:1.7;position:relative;
+  font-size:1.18rem;color:var(--muted);max-width:600px;margin:0 auto 40px;
+  line-height:1.75;position:relative;font-family:var(--serif);font-style:italic;
 }
 .home-hero-actions{
   display:flex;align-items:center;justify-content:center;gap:12px;
@@ -1011,11 +1035,11 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
 .home-btn-outline:hover{background:rgba(var(--vio),.08);border-color:rgba(var(--vio),.6);}
 .home-content{max-width:940px;margin:0 auto;padding:44px 32px;display:flex;flex-direction:column;gap:44px;}
 .home-section-hd{
-  font-family:'Plus Jakarta Sans','Sora',sans-serif;font-size:1rem;font-weight:800;
-  color:var(--text);margin-bottom:16px;display:flex;align-items:center;gap:12px;
-  text-transform:uppercase;letter-spacing:.06em;
+  font-family:'JetBrains Mono',monospace;font-size:.7rem;font-weight:700;
+  color:var(--muted);margin-bottom:20px;display:flex;align-items:center;gap:16px;
+  text-transform:uppercase;letter-spacing:.3em;
 }
-.home-section-hd::after{content:'';flex:1;height:1px;background:rgba(var(--vio),.15);}
+.home-section-hd::after{content:'';flex:1;height:1px;background:var(--border);}
 /* stat cards */
 .home-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
 @media(max-width:640px){.home-stats{grid-template-columns:repeat(2,1fr);}}
@@ -1023,10 +1047,10 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
   background:rgba(22,26,35,.78);border:1px solid rgba(var(--vio),.18);
   border-radius:18px;padding:20px 18px;backdrop-filter:blur(14px);
   display:flex;flex-direction:column;align-items:flex-start;gap:6px;
-  transition:border-color .15s,box-shadow .15s;
+  transition:border-color .4s var(--ease-luxe),box-shadow .4s var(--ease-luxe),transform .4s var(--ease-luxe);
 }
 [data-theme="light"] .home-stat{background:rgba(255,255,255,.86);}
-.home-stat:hover{border-color:rgba(var(--vio),.4);box-shadow:0 8px 24px rgba(var(--vio),.12);}
+.home-stat:hover{border-color:rgba(var(--vio),.4);box-shadow:0 16px 40px rgba(0,0,0,.15);transform:translateY(-2px);}
 .home-stat-ico{
   font-size:1.4rem;width:40px;height:40px;border-radius:12px;
   background:rgba(var(--vio),.12);display:flex;align-items:center;justify-content:center;
@@ -1048,13 +1072,13 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
   background:rgba(22,26,35,.78);border:1px solid rgba(var(--vio),.15);
   border-radius:20px;padding:22px 20px;backdrop-filter:blur(14px);
   display:flex;flex-direction:column;gap:7px;position:relative;overflow:hidden;
-  transition:transform .18s,border-color .18s,box-shadow .18s;
+  transition:transform .45s var(--ease-luxe),border-color .45s var(--ease-luxe),box-shadow .45s var(--ease-luxe);
 }
 [data-theme="light"] .home-sec{background:rgba(255,255,255,.86);}
 .home-sec.clickable{cursor:pointer;}
 .home-sec.clickable:hover{
-  transform:translateY(-3px);
-  border-color:rgba(var(--vio),.5);box-shadow:0 12px 32px rgba(var(--vio),.18);
+  transform:translateY(-4px);
+  border-color:rgba(var(--vio),.45);box-shadow:0 26px 60px rgba(0,0,0,.2), 0 6px 18px rgba(var(--vio),.08);
 }
 .home-sec-ico{font-size:1.9rem;margin-bottom:4px;color:rgb(var(--vio));}
 .home-sec-name{
@@ -1083,22 +1107,44 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
 }
 .home-sec-pill.live{background:rgba(74,222,128,.14);color:#4ade80;border:1px solid rgba(74,222,128,.22);}
 .home-sec-pill.soon{background:rgba(var(--vio),.1);color:rgb(var(--vio));border:1px solid rgba(var(--vio),.2);}
+/* light mode: deepen colors tuned for dark backgrounds */
+[data-theme="light"] .home-sec-status.live{color:#15803d;}
+[data-theme="light"] .home-sec-status.live::before{background:#16a34a;}
+[data-theme="light"] .home-sec-status.soon{opacity:.9;}
+[data-theme="light"] .home-sec-pill.live{background:rgba(22,163,74,.1);color:#15803d;border-color:rgba(22,163,74,.35);}
+[data-theme="light"] .cat-cefr-pill{filter:saturate(1.15) brightness(.78);}
+[data-theme="light"] .cat-medal{color:#ca8a04;filter:none;}
 /* CEFR bars */
-.home-cefr{display:flex;flex-direction:column;gap:10px;}
-.home-cefr-row{display:grid;grid-template-columns:52px 1fr 90px;align-items:center;gap:12px;}
-.home-cefr-lbl{
-  font-family:'JetBrains Mono',monospace;font-size:.75rem;font-weight:700;
-  color:var(--text);text-align:right;
+.home-cefr{
+  display:flex;flex-direction:column;
+  background:var(--card-bg);border:1px solid var(--card-border);border-radius:24px;
+  padding:8px 28px;box-shadow:0 1px 2px rgba(0,0,0,.04);
 }
-.home-cefr-track{height:8px;border-radius:99px;background:rgba(var(--vio),.1);overflow:hidden;}
+.home-cefr-row{
+  display:grid;grid-template-columns:64px 1fr 72px;align-items:center;gap:20px;
+  padding:17px 0;border-bottom:1px solid var(--border);
+  transition:background .3s var(--ease-luxe);
+}
+.home-cefr-row:last-child{border-bottom:none;}
+.home-cefr-badge{
+  justify-self:start;font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:700;
+  letter-spacing:.06em;padding:5px 11px;border-radius:8px;color:var(--lv);
+  background:color-mix(in srgb, var(--lv) 11%, transparent);
+  border:1px solid color-mix(in srgb, var(--lv) 42%, transparent);
+}
+.home-cefr-track{height:6px;border-radius:99px;background:var(--surface2);overflow:hidden;}
 .home-cefr-fill{
-  height:100%;border-radius:99px;
-  background:linear-gradient(90deg,#7c3aed,#a855f7);
-  width:0%;transition:width .65s cubic-bezier(.25,.46,.45,.94);
+  height:100%;border-radius:99px;background:var(--lv,rgb(var(--vio)));
+  box-shadow:0 0 12px color-mix(in srgb, var(--lv,#7c3aed) 55%, transparent);
+  width:0%;transition:width .9s var(--ease-luxe);
 }
-.home-cefr-fill.upper{background:linear-gradient(90deg,#a855f7,#4ade80);}
-.home-cefr-stat{
-  font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--muted);
+.home-cefr-pct{
+  font-family:'Plus Jakarta Sans','Sora',sans-serif;font-size:1.15rem;font-weight:800;
+  letter-spacing:-.03em;color:var(--text);text-align:right;font-variant-numeric:tabular-nums;
+}
+@media(max-width:560px){
+  .home-cefr{padding:4px 18px;}
+  .home-cefr-row{grid-template-columns:52px 1fr 56px;gap:12px;}
 }
 </style>
 <script>
@@ -1206,6 +1252,8 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
   <symbol id="i-shuffle" viewBox="0 0 24 24"><path d="M2 18h1.4c1.3 0 2.5-.6 3.3-1.7l6.1-8.6c.7-1.1 2-1.7 3.3-1.7H22"/><path d="m18 2 4 4-4 4"/><path d="M2 6h1.9c1.5 0 2.9.9 3.6 2.2"/><path d="M22 18h-5.9c-1.3 0-2.6-.7-3.3-1.8l-.5-.8"/><path d="m18 14 4 4-4 4"/></symbol>
   <symbol id="i-bus" viewBox="0 0 24 24"><path d="M8 6v6"/><path d="M15 6v6"/><path d="M2 12h19.6"/><path d="M18 18h3s.5-1.7.8-2.8c.1-.4.2-.8.2-1.2 0-.4-.1-.8-.2-1.2l-1.4-5C20.1 6.8 19.1 6 18 6H4a2 2 0 0 0-2 2v10h3"/><circle cx="7" cy="18" r="2"/><path d="M9 18h5"/><circle cx="16" cy="18" r="2"/></symbol>
   <symbol id="i-newspaper" viewBox="0 0 24 24"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6Z"/></symbol>
+  <symbol id="i-arrow-up-right" viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></symbol>
+  <symbol id="i-medal" viewBox="0 0 24 24"><path d="M7.21 15 2.66 7.14a2 2 0 0 1 .13-2.2L4.4 2.8A2 2 0 0 1 6 2h12a2 2 0 0 1 1.6.8l1.6 2.14a2 2 0 0 1 .14 2.2L16.79 15"/><path d="M11 12 5.12 2.2"/><path d="m13 12 5.88-9.8"/><path d="M8 7h8"/><circle cx="12" cy="17" r="5"/><path d="M12 18v-2h-.5"/></symbol>
 </svg>
 <script>
 /* Category data (shared with other products / the API) still stores emoji; resolve to sprite ids at render time.
@@ -1249,7 +1297,7 @@ function iconSvg(emoji, cls){
           <button class="tab active" data-section-btn="home">Home</button>
         </div>
         <div class="nav-group" data-section="vocabulary">
-          <button class="tab" data-section-btn="vocabulary">Vocabulary <span class="nav-caret">▾</span></button>
+          <button class="tab" data-section-btn="vocabulary">Vocabulary</button>
           <div class="nav-dropdown">
             <button class="nav-dropdown-item active" data-page="list">Category</button>
             <button class="nav-dropdown-item" data-page="examples">Word</button>
@@ -1264,6 +1312,12 @@ function iconSvg(emoji, cls){
         </div>
         <div class="nav-group" data-section="writing">
           <button class="tab" data-section-btn="writing">Writing</button>
+        </div>
+        <div class="nav-group" data-section="listening">
+          <button class="tab" data-section-btn="listening">Listening</button>
+        </div>
+        <div class="nav-group" data-section="speaking">
+          <button class="tab" data-section-btn="speaking">Speaking</button>
         </div>
       </nav>
     </div>
@@ -1429,8 +1483,8 @@ function iconSvg(emoji, cls){
       <div class="home-grid-bg"></div>
       <div class="home-glow"></div>
       <div class="home-badge"><svg class="ico" aria-hidden="true"><use href="#i-grad-cap"/></svg> IELTS Preparation · Band 5–9</div>
-      <h1 class="home-title">Master Every Word<br><span class="home-grad">Before Your Exam</span></h1>
-      <p class="home-sub">5,000 essential IELTS words organised by CEFR level, section and category — with spaced repetition, tests, and examples.</p>
+      <h1 class="home-title">Master every word,<br><span class="home-grad">one loop at a time.</span></h1>
+      <p class="home-sub">Five thousand essential IELTS words — levelled, sectioned, and returned to you until they stay.</p>
       <div class="home-hero-actions">
         <button class="btn" onclick="goToPage('list')">Start Learning →</button>
         <button class="home-btn-outline" onclick="goToPage('test')">Quick Test</button>
@@ -1506,7 +1560,7 @@ function iconSvg(emoji, cls){
               <div class="home-sec-pill live">Live</div>
             </div>
           </div>
-          <div class="home-sec">
+          <div class="home-sec clickable" onclick="goToPage('listening')">
             <div class="home-sec-ico"><svg class="ico" aria-hidden="true"><use href="#i-headphones"/></svg></div>
             <div class="home-sec-name">Listening</div>
             <div class="home-sec-desc">Practise dictation, gap-fill, and note-taking with audio-linked vocabulary sets.</div>
@@ -1515,7 +1569,7 @@ function iconSvg(emoji, cls){
               <div class="home-sec-pill soon">Soon</div>
             </div>
           </div>
-          <div class="home-sec">
+          <div class="home-sec clickable" onclick="goToPage('speaking')">
             <div class="home-sec-ico"><svg class="ico" aria-hidden="true"><use href="#i-mic"/></svg></div>
             <div class="home-sec-name">Speaking</div>
             <div class="home-sec-desc">Part 1, 2, and 3 topic vocabulary banks with pronunciation guides and example answers.</div>
@@ -1531,35 +1585,35 @@ function iconSvg(emoji, cls){
       <div>
         <div class="home-section-hd">CEFR Breakdown</div>
         <div class="home-cefr">
-          <div class="home-cefr-row">
-            <div class="home-cefr-lbl">A1</div>
+          <div class="home-cefr-row" style="--lv:var(--a1)">
+            <div class="home-cefr-badge">A1</div>
             <div class="home-cefr-track"><div class="home-cefr-fill" id="hcefr-A1"></div></div>
-            <div class="home-cefr-stat" id="hcefrs-A1">0 / — words</div>
+            <div class="home-cefr-pct" id="hcefrp-A1">0%</div>
           </div>
-          <div class="home-cefr-row">
-            <div class="home-cefr-lbl">A2</div>
+          <div class="home-cefr-row" style="--lv:var(--a2)">
+            <div class="home-cefr-badge">A2</div>
             <div class="home-cefr-track"><div class="home-cefr-fill" id="hcefr-A2"></div></div>
-            <div class="home-cefr-stat" id="hcefrs-A2">0 / — words</div>
+            <div class="home-cefr-pct" id="hcefrp-A2">0%</div>
           </div>
-          <div class="home-cefr-row">
-            <div class="home-cefr-lbl">B1</div>
+          <div class="home-cefr-row" style="--lv:var(--b1)">
+            <div class="home-cefr-badge">B1</div>
             <div class="home-cefr-track"><div class="home-cefr-fill" id="hcefr-B1"></div></div>
-            <div class="home-cefr-stat" id="hcefrs-B1">0 / — words</div>
+            <div class="home-cefr-pct" id="hcefrp-B1">0%</div>
           </div>
-          <div class="home-cefr-row">
-            <div class="home-cefr-lbl">B2</div>
+          <div class="home-cefr-row" style="--lv:var(--b2)">
+            <div class="home-cefr-badge">B2</div>
             <div class="home-cefr-track"><div class="home-cefr-fill" id="hcefr-B2"></div></div>
-            <div class="home-cefr-stat" id="hcefrs-B2">0 / — words</div>
+            <div class="home-cefr-pct" id="hcefrp-B2">0%</div>
           </div>
-          <div class="home-cefr-row">
-            <div class="home-cefr-lbl">C1</div>
-            <div class="home-cefr-track"><div class="home-cefr-fill upper" id="hcefr-C1"></div></div>
-            <div class="home-cefr-stat" id="hcefrs-C1">0 / — words</div>
+          <div class="home-cefr-row" style="--lv:var(--c1)">
+            <div class="home-cefr-badge">C1</div>
+            <div class="home-cefr-track"><div class="home-cefr-fill" id="hcefr-C1"></div></div>
+            <div class="home-cefr-pct" id="hcefrp-C1">0%</div>
           </div>
-          <div class="home-cefr-row">
-            <div class="home-cefr-lbl">C2</div>
-            <div class="home-cefr-track"><div class="home-cefr-fill upper" id="hcefr-C2"></div></div>
-            <div class="home-cefr-stat" id="hcefrs-C2">0 / — words</div>
+          <div class="home-cefr-row" style="--lv:var(--c2)">
+            <div class="home-cefr-badge">C2</div>
+            <div class="home-cefr-track"><div class="home-cefr-fill" id="hcefr-C2"></div></div>
+            <div class="home-cefr-pct" id="hcefrp-C2">0%</div>
           </div>
         </div>
       </div>
@@ -1570,8 +1624,9 @@ function iconSvg(emoji, cls){
   <!-- ===== WORD LIST PAGE ===== -->
   <section id="page-list" class="page">
     <div class="page-head">
+      <span class="eyebrow">Section 01 / Vocabulary</span>
       <h1>Category</h1>
-      <p>5000 essential words across every CEFR level, organised by section and category. Click a category to explore its words.</p>
+      <p>5,000 essential words, organised by section and category — click one to begin.</p>
     </div>
 
     <!-- BROWSE VIEW: section/category grid -->
@@ -1673,8 +1728,9 @@ function iconSvg(emoji, cls){
   <!-- ===== EXAMPLES PAGE ===== -->
   <section id="page-examples" class="page">
     <div class="page-head">
+      <span class="eyebrow">Section 01 / Vocabulary</span>
       <h1>Word</h1>
-      <p>See every word used correctly in a full sentence.</p>
+      <p>Every word, used correctly in a full sentence.</p>
     </div>
     <div class="headline-bar" id="exHeadlineFilters">
       <button class="headline-btn active" data-headline="all">All</button>
@@ -1718,6 +1774,7 @@ function iconSvg(emoji, cls){
   <!-- ===== TEST PAGE ===== -->
   <section id="page-test" class="page">
     <div class="page-head">
+      <span class="eyebrow">Section 01 / Vocabulary</span>
       <h1 id="testTitle">Quiz</h1>
       <p id="testDesc">Test your knowledge with multiple question types.</p>
     </div>
@@ -1833,6 +1890,7 @@ function iconSvg(emoji, cls){
   <!-- ===== GRAMMAR PAGE ===== -->
   <section id="page-grammar" class="page">
     <div class="page-head">
+      <span class="eyebrow">Section 02 / Grammar</span>
       <h1>Grammar</h1>
       <p>Coming soon.</p>
     </div>
@@ -1845,6 +1903,7 @@ function iconSvg(emoji, cls){
   <!-- ===== READING PAGE ===== -->
   <section id="page-reading" class="page">
     <div class="page-head">
+      <span class="eyebrow">Section 03 / Reading</span>
       <h1>Reading</h1>
       <p>Coming soon.</p>
     </div>
@@ -1857,7 +1916,34 @@ function iconSvg(emoji, cls){
   <!-- ===== WRITING PAGE ===== -->
   <section id="page-writing" class="page">
     <div class="page-head">
+      <span class="eyebrow">Section 04 / Writing</span>
       <h1>Writing</h1>
+      <p>Coming soon.</p>
+    </div>
+    <div class="setup-card">
+      <h2><svg class="ico" aria-hidden="true"><use href="#i-hard-hat"/></svg> Under construction</h2>
+      <p class="sub">This section is being built — check back soon.</p>
+    </div>
+  </section>
+
+  <!-- ===== LISTENING PAGE ===== -->
+  <section id="page-listening" class="page">
+    <div class="page-head">
+      <span class="eyebrow">Section 05 / Listening</span>
+      <h1>Listening</h1>
+      <p>Coming soon.</p>
+    </div>
+    <div class="setup-card">
+      <h2><svg class="ico" aria-hidden="true"><use href="#i-hard-hat"/></svg> Under construction</h2>
+      <p class="sub">This section is being built — check back soon.</p>
+    </div>
+  </section>
+
+  <!-- ===== SPEAKING PAGE ===== -->
+  <section id="page-speaking" class="page">
+    <div class="page-head">
+      <span class="eyebrow">Section 06 / Speaking</span>
+      <h1>Speaking</h1>
       <p>Coming soon.</p>
     </div>
     <div class="setup-card">
@@ -2079,7 +2165,7 @@ const SECTIONS = {
   "core-action-verbs":       "Essential Verbs",
   "everyday-verbs-ii":       "Essential Verbs",
   "movement-position-verbs": "Essential Verbs",
-  "communication-basic":     "Communication Basics",
+  "communication-basic":     "People & Relationships",
   "family-people":           "People & Relationships",
   "describing-people-basic": "People & Relationships",
   "feelings-emotions-basic": "Mind & Feelings",
@@ -2091,10 +2177,10 @@ const SECTIONS = {
   "places-transport-basic":  "Out & About",
   /* new basic */
   "numbers-school-basic":    "Numbers & Learning",
-  "colours-shapes-basic":    "Colours, Shapes & Sizes",
+  "colours-shapes-basic":    "Numbers & Learning",
   "sports-hobbies-basic":    "Sports & Hobbies",
   /* intermediate */
-  "complex-emotions":            "Complex Emotions",
+  "complex-emotions":            "Emotions in Depth",
   "personality-character-inter": "Personality & Character",
   "social-issues-inter":         "Society & Social Issues",
   "work-career-inter":           "Work & Career",
@@ -2105,115 +2191,115 @@ const SECTIONS = {
   "food-culture-inter":          "Food, Nutrition & Culture",
   "travel-culture-inter":          "Travel, Culture & Society",
   "education-society-inter":       "Education & Society",
-  "law-justice-inter":             "Law, Crime & Justice",
+  "law-justice-inter":             "Society & Social Issues",
   "psychology-behaviour-inter":    "Mind, Behaviour & Psychology",
-  "communication-language-inter":  "Communication & Language",
+  "communication-language-inter":  "Language & Communication",
   "economics-finance-inter":       "Economics & Finance",
-  "global-issues-inter":           "Global Challenges & Politics",
-  "arts-culture-inter":            "Arts, Literature & Culture",
-  "science-discovery-inter":       "Science & Discovery",
-  "urban-architecture-inter":      "Cities, Architecture & Urban Life",
-  "ethics-philosophy-inter":       "Ethics & Philosophy",
-  "relationships-society-inter":   "Relationships & Social Life",
+  "global-issues-inter":           "Politics & Global Affairs",
+  "arts-culture-inter":            "Arts, Media & Culture",
+  "science-discovery-inter":       "Science & Innovation",
+  "urban-architecture-inter":      "Cities & Urban Life",
+  "ethics-philosophy-inter":       "Society & Social Issues",
+  "relationships-society-inter":   "Personality & Character",
   "media-journalism-inter":        "Media & Journalism",
-  "health-lifestyle-inter":        "Lifestyle & Wellbeing",
+  "health-lifestyle-inter":        "Health & Medicine",
   /* C1 advanced */
-  "abstract-thought-c1":       "Abstract Thought & Ideas",
-  "rhetoric-persuasion-c1":    "Rhetoric, Argument & Persuasion",
-  "advanced-vocab-c1":         "Precision & Expression",
-  "social-change-c1":          "Social Change & Progress",
-  "human-nature-c1":           "Human Nature & Society",
-  "academic-c1-advanced": "Academic Vocabulary",
-  "environment-c1":            "Environment & Ecology",
-  "globalisation-c1":          "Globalisation & World Economy",
-  "power-politics-c1":         "Power, Politics & Governance",
-  "cognition-mind-c1":         "Cognition, Memory & Intelligence",
-  "language-linguistics-c1":   "Language, Linguistics & Communication",
-  "medicine-biology-c1":       "Medicine, Biology & the Body",
-  "technology-future-c1":      "Technology, AI & the Future",
-  "history-civilisation-c1":   "History, Civilisation & Culture",
-  "arts-expression-c1":        "Arts, Creativity & Expression",
+  "abstract-thought-c1":       "Mind & Abstract Thought",
+  "rhetoric-persuasion-c1":    "Storytelling, Humour & Persuasion",
+  "advanced-vocab-c1":         "Precision & Literary Language",
+  "social-change-c1":          "Society, Rights & Change",
+  "human-nature-c1":           "Society, Rights & Change",
+  "academic-c1-advanced": "Academic Register & Style",
+  "environment-c1":            "Nature, Climate & Energy",
+  "globalisation-c1":          "Global Power & Economy",
+  "power-politics-c1":         "Global Power & Economy",
+  "cognition-mind-c1":         "Mind & Abstract Thought",
+  "language-linguistics-c1":   "Academic Register & Style",
+  "medicine-biology-c1":       "Science, Research & Medicine",
+  "technology-future-c1":      "Science, Tech & Innovation",
+  "history-civilisation-c1":   "Arts, History & Culture",
+  "arts-expression-c1":        "Arts, History & Culture",
   "philosophy-thought-c2":     "Philosophy & Critical Thought",
   "advanced-adjectives-c2":    "Advanced Adjectives",
-  "advanced-verbs-c2":         "Advanced Verbs",
-  "advanced-nouns-c2":         "Advanced Nouns",
-  "c2-expressions":            "C2 Expressions & Collocations",
+  "advanced-verbs-c2":         "Advanced Verbs & Nouns",
+  "advanced-nouns-c2":         "Advanced Verbs & Nouns",
+  "c2-expressions":            "C2 Finishing Sets",
   // extended intermediate
-  "emotions-b-extended": "Emotions & States of Mind",
-  "describing-actions-b": "Describing Actions & Movement",
-  "work-society-b2-extended": "Work, Society & Inequality",
-  "nature-landscape-b2":       "Nature, Landscape & the Physical World",
+  "emotions-b-extended": "Emotions in Depth",
+  "describing-actions-b": "Action & Process Verbs",
+  "work-society-b2-extended": "Work & Career",
+  "nature-landscape-b2":       "Environment & Climate",
   "language-communication-b2": "Language & Communication",
-  "politics-governance-b2": "Politics, Governance & Power",
+  "politics-governance-b2": "Politics & Global Affairs",
   // extended advanced / C1+
-  "academic-style-c1b": "Academic Style & Register",
-  "ielts-writing-c1-ext": "IELTS Writing & Critical Argument",
-  "science-tech-b2-ext": "Science, Technology & Innovation",
-  "health-body-b2-ext": "Health, Body & Medicine",
-  "descriptive-adjectives-c1": "Descriptive Adjectives",
+  "academic-style-c1b": "Academic Register & Style",
+  "ielts-writing-c1-ext": "IELTS Essay Mastery",
+  "science-tech-b2-ext": "Science & Innovation",
+  "health-body-b2-ext": "Health & Medicine",
+  "descriptive-adjectives-c1": "Advanced Adjectives",
   // batch 14
-  "idioms-phrases-b2": "Idioms & Fixed Expressions",
-  "environment-sustainability-c1": "Environment & Sustainability",
-  "academic-verbs-c1": "Academic & Formal Verbs",
-  "literary-descriptive-c2": "Literary & Descriptive Language",
-  "formal-nouns-c1b": "Formal & Abstract Nouns",
+  "idioms-phrases-b2": "Idioms & Collocations",
+  "environment-sustainability-c1": "Nature, Climate & Energy",
+  "academic-verbs-c1": "Academic Register & Style",
+  "literary-descriptive-c2": "Precision & Literary Language",
+  "formal-nouns-c1b": "Formal Nouns & Qualifiers",
   // batch 15
-  "arts-media-b2": "Arts, Media & Creative Expression",
-  "philosophy-ethics-c1-ext": "Philosophy, Ethics & Morality",
-  "geography-demography-b2": "Geography & Demographics",
+  "arts-media-b2": "Arts, Media & Culture",
+  "philosophy-ethics-c1-ext": "Philosophy & Critical Thought",
+  "geography-demography-b2": "Politics & Global Affairs",
   // batch 16
-  "business-economics-c1": "Business, Economics & Finance",
-  "social-human-rights-c1": "Social Issues & Human Rights",
-  "verbs-precise-b2": "Precise Action & Process Verbs",
+  "business-economics-c1": "Career, Business & Leadership",
+  "social-human-rights-c1": "Society, Rights & Change",
+  "verbs-precise-b2": "Action & Process Verbs",
   // batch 17
-  "cognition-learning-c1": "Cognition, Learning & Intelligence",
-  "idioms-c1-complex": "Complex Idioms & Collocations",
-  "c2-precision-words": "Precision & Register",
+  "cognition-learning-c1": "Mind, Behaviour & Psychology",
+  "idioms-c1-complex": "Idioms & Collocations",
+  "c2-precision-words": "Precision & Literary Language",
   // batch 18
-  "crime-justice-c1": "Crime, Law & Justice",
-  "personality-adjectives-c1": "Character & Personality Adjectives",
-  "academic-nouns-b2": "Academic Topic Nouns",
+  "crime-justice-c1": "Governance, Economy & Society",
+  "personality-adjectives-c1": "Advanced Adjectives",
+  "academic-nouns-b2": "Academic Language & Writing",
   // batch 19
   "verbs-b2-advanced": "Verbs for Writing & Analysis",
-  "complex-sentence-connectors": "Complex Sentence Connectors",
-  "collocations-formal-c1": "Academic Collocations & Phrases",
+  "complex-sentence-connectors": "Connectors & Discourse Markers",
+  "collocations-formal-c1": "Academic Language & Writing",
   // batch 20
-  "global-issues-c1b": "Global Issues & International Affairs",
-  "word-formation-b2": "Word Formation & Derivatives",
+  "global-issues-c1b": "Global Power & Economy",
+  "word-formation-b2": "Language & Communication",
   // batch 21
-  "common-adjectives-b1b": "Common Descriptive Adjectives",
-  "mind-emotion-c1-ext": "Mind, Emotion & Motivation",
+  "common-adjectives-b1b": "Quality & Degree Adjectives",
+  "mind-emotion-c1-ext": "Mind & Abstract Thought",
   // batch 22
-  "education-learning-b2": "Education, Learning & Schools",
-  "housing-urban-b2": "Housing, Cities & Urban Issues",
-  "c2-final-vocab":            "C2 Final Vocabulary Set",
+  "education-learning-b2": "Education & Society",
+  "housing-urban-b2": "Cities & Urban Life",
+  "c2-final-vocab":            "C2 Finishing Sets",
   // batch 23
-  "technology-digital-b2": "Digital Technology & Internet",
-  "food-culture-ext": "Food, Nutrition & Culinary Culture",
-  "travel-tourism-b2": "Travel, Tourism & Adventure",
-  "advanced-connectors-c1-final": "Advanced Connectors & Transitions",
+  "technology-digital-b2": "Technology & Media",
+  "food-culture-ext": "Food, Nutrition & Culture",
+  "travel-tourism-b2": "Travel, Culture & Society",
+  "advanced-connectors-c1-final": "Academic Connectors III",
   // batch 24
-  "social-media-comm-b2": "Social Media & Digital Culture",
-  "science-research-c1": "Science, Research & Discovery",
-  "abstract-concepts-c1-final": "Abstract Concepts & Critical Language",
+  "social-media-comm-b2": "Media & Journalism",
+  "science-research-c1": "Science, Research & Medicine",
+  "abstract-concepts-c1-final": "Philosophy & Critical Thought",
   // batch 25
-  "common-verbs-b1-ext": "Essential Verbs & Actions",
-  "formal-adverbs-c1-ext": "Formal Adverbs & Qualifiers",
-  "complex-nouns-b2-final": "Complex Nouns & Key Concepts",
+  "common-verbs-b1-ext": "Action & Process Verbs",
+  "formal-adverbs-c1-ext": "Formal Nouns & Qualifiers",
+  "complex-nouns-b2-final": "B2 Noun Bank",
   // batch 26
   "adjectives-b2-quality": "Quality & Degree Adjectives",
-  "final-nouns-c1": "Keystone Nouns for Writing",
+  "final-nouns-c1": "Formal Nouns & Qualifiers",
   // batch 27
-  "core-ielts-vocab-final": "Core IELTS Vocabulary",
-  "final-advanced-b2":         "B2 Advanced Essentials",
+  "core-ielts-vocab-final": "B2 Milestone Sets",
+  "final-advanced-b2":         "B2 Milestone Sets",
   // batch 28
-  "key-transitions-b2-final": "Key Transitions & Discourse Markers",
-  "additional-b2-vocab":       "Additional B2 Vocabulary Set",
+  "key-transitions-b2-final": "Connectors & Discourse Markers",
+  "additional-b2-vocab":       "B2 Milestone Sets",
   // batch 29
-  "ielts-essay-vocab": "IELTS Essay Vocabulary",
-  "b2-nouns-final-set":        "Keystone B2 Nouns",
-  "c1-writing-toolkit":        "C1 Academic Writing Toolkit",
-  "final-20-words": "Essential 20",
+  "ielts-essay-vocab": "IELTS Essay Mastery",
+  "b2-nouns-final-set":        "B2 Noun Bank",
+  "c1-writing-toolkit":        "IELTS Essay Mastery",
+  "final-20-words": "C2 Finishing Sets",
   // A1+ categories → existing basic sections
   "a1plus-body-health":        "Body & Health",
   "a1plus-food-drink":         "Home & Daily Life",
@@ -2259,8 +2345,8 @@ const SECTIONS = {
   "c2plus-idioms-collocations": "Advanced Lexical Expansion",
   "b2plus-precision-adjectives": "Precision & Control Vocabulary",
   "b2plus-control-verbs": "Precision & Control Vocabulary",
-  "a2-everyday-essentials": "Everyday Actions & Textures",
-  "c1plus-bias-power-hardship": "Bias, Power & Hardship",
+  "a2-everyday-essentials": "Home & Daily Life",
+  "c1plus-bias-power-hardship": "Society, Rights & Change",
 };
 
 const SECTION_ORDER = [
@@ -2288,58 +2374,25 @@ const SECTION_ORDER = [
   "Storytelling, Humour & Persuasion",
   "Description: Size, Sound & Movement",
   "Habits, Comparison & Politeness",
-  "Abstract Thought & Ideas",
-  "Rhetoric, Argument & Persuasion",
-  "Precision & Expression",
-  "Social Change & Progress",
-  "Human Nature & Society",
-  "Academic Vocabulary",
-  "Environment & Ecology",
-  "Globalisation & World Economy",
-  "Power, Politics & Governance",
-  "Cognition, Memory & Intelligence",
-  "Language, Linguistics & Communication",
-  "Medicine, Biology & the Body",
-  "Technology, AI & the Future",
-  "History, Civilisation & Culture",
-  "Arts, Creativity & Expression",
+  "Mind & Abstract Thought",
+  "Society, Rights & Change",
+  "Global Power & Economy",
   "Philosophy & Critical Thought",
+  "Arts, History & Culture",
+  "Science, Research & Medicine",
+  "Academic Register & Style",
+  "Precision & Literary Language",
   "Advanced Adjectives",
-  "Advanced Verbs",
-  "Advanced Nouns",
-  "C2 Expressions & Collocations",
-  "Academic Style & Register",
-  "IELTS Writing & Critical Argument",
-  "Descriptive Adjectives",
-  "Environment & Sustainability",
-  "Academic & Formal Verbs",
-  "Literary & Descriptive Language",
-  "Formal & Abstract Nouns",
-  "Philosophy, Ethics & Morality",
-  "Business, Economics & Finance",
-  "Social Issues & Human Rights",
-  "Precision & Register",
-  "Crime, Law & Justice",
-  "Character & Personality Adjectives",
-  "Global Issues & International Affairs",
-  "Mind, Emotion & Motivation",
-  "C2 Final Vocabulary Set",
-  "Advanced Connectors & Transitions",
-  "Science, Research & Discovery",
-  "Abstract Concepts & Critical Language",
-  "Formal Adverbs & Qualifiers",
-  "Keystone Nouns for Writing",
-  "IELTS Essay Vocabulary",
-  "C1 Academic Writing Toolkit",
-  "Essential 20",
+  "Advanced Verbs & Nouns",
+  "Formal Nouns & Qualifiers",
+  "IELTS Essay Mastery",
   "Advanced Lexical Expansion",
-  "Bias, Power & Hardship",
+  "C2 Finishing Sets",
 ];
 
 /* ── Basic sections ── */
 const BASIC_SECTIONS = [
   "Essential Verbs",
-  "Communication Basics",
   "People & Relationships",
   "Mind & Feelings",
   "Home & Daily Life",
@@ -2348,71 +2401,38 @@ const BASIC_SECTIONS = [
   "Out & About",
   "Time & Description",
   "Numbers & Learning",
-  "Colours, Shapes & Sizes",
   "Sports & Hobbies",
-  "Everyday Actions & Textures",
 ];
 
 /* ── Intermediate sections ── */
 const INTERMEDIATE_SECTIONS = [
-  "Complex Emotions",
+  "Emotions in Depth",
   "Personality & Character",
+  "Mind, Behaviour & Psychology",
   "Society & Social Issues",
   "Work & Career",
+  "Education & Society",
+  "Economics & Finance",
+  "Politics & Global Affairs",
   "Environment & Climate",
   "Health & Medicine",
+  "Science & Innovation",
   "Technology & Media",
-  "Academic Language & Writing",
-  "Food, Nutrition & Culture",
-  "Travel, Culture & Society",
-  "Education & Society",
-  "Law, Crime & Justice",
-  "Mind, Behaviour & Psychology",
-  "Communication & Language",
-  "Economics & Finance",
-  "Global Challenges & Politics",
-  "Arts, Literature & Culture",
-  "Science & Discovery",
-  "Cities, Architecture & Urban Life",
-  "Ethics & Philosophy",
-  "Relationships & Social Life",
   "Media & Journalism",
-  "Lifestyle & Wellbeing",
-  "Emotions & States of Mind",
-  "Describing Actions & Movement",
-  "Work, Society & Inequality",
-  "Nature, Landscape & the Physical World",
+  "Cities & Urban Life",
+  "Travel, Culture & Society",
+  "Food, Nutrition & Culture",
+  "Arts, Media & Culture",
   "Language & Communication",
-  "Politics, Governance & Power",
-  "Science, Technology & Innovation",
-  "Health, Body & Medicine",
-  "Idioms & Fixed Expressions",
-  "Arts, Media & Creative Expression",
-  "Geography & Demographics",
-  "Precise Action & Process Verbs",
-  "Cognition, Learning & Intelligence",
-  "Complex Idioms & Collocations",
-  "Academic Topic Nouns",
-  "Verbs for Writing & Analysis",
-  "Complex Sentence Connectors",
-  "Academic Collocations & Phrases",
-  "Word Formation & Derivatives",
-  "Common Descriptive Adjectives",
-  "Education, Learning & Schools",
-  "Housing, Cities & Urban Issues",
-  "Digital Technology & Internet",
-  "Food, Nutrition & Culinary Culture",
-  "Travel, Tourism & Adventure",
-  "Social Media & Digital Culture",
-  "Essential Verbs & Actions",
-  "Complex Nouns & Key Concepts",
+  "Action & Process Verbs",
   "Quality & Degree Adjectives",
-  "Core IELTS Vocabulary",
-  "B2 Advanced Essentials",
-  "Key Transitions & Discourse Markers",
-  "Additional B2 Vocabulary Set",
-  "Keystone B2 Nouns",
+  "Idioms & Collocations",
+  "Connectors & Discourse Markers",
+  "Academic Language & Writing",
+  "Verbs for Writing & Analysis",
   "Precision & Control Vocabulary",
+  "B2 Noun Bank",
+  "B2 Milestone Sets",
 ];
 
 /* ── Headline mapping ── */
@@ -2421,24 +2441,27 @@ SECTION_ORDER.forEach(s => { SECTION_HEADLINES[s] = "advanced"; });
 BASIC_SECTIONS.forEach(s => { SECTION_HEADLINES[s] = "basic"; });
 INTERMEDIATE_SECTIONS.forEach(s => { SECTION_HEADLINES[s] = "intermediate"; });
 
-const CEFR_SECTION = "CEFR Levels";
-SECTION_HEADLINES[CEFR_SECTION] = "cefr";
+const CEFR_SECTION_BEGINNER    = "Beginner";
+const CEFR_SECTION_INDEPENDENT = "Independent";
+const CEFR_SECTION_EXPERT      = "Expert";
+const CEFR_SECTIONS = [CEFR_SECTION_BEGINNER, CEFR_SECTION_INDEPENDENT, CEFR_SECTION_EXPERT];
+CEFR_SECTIONS.forEach(s => { SECTION_HEADLINES[s] = "cefr"; });
 
 const CEFR_CATEGORIES = [
-  { id:"cefr-a1",  name:"A1",  icon:"🌱", theme:"te",    cefrLevel:"A1",  section:CEFR_SECTION },
-  { id:"cefr-a1p", name:"A1+", icon:"⭐", theme:"tg",    cefrLevel:"A1+", section:CEFR_SECTION },
-  { id:"cefr-a2",  name:"A2",  icon:"🌊", theme:"tc",    cefrLevel:"A2",  section:CEFR_SECTION },
-  { id:"cefr-a2p", name:"A2+", icon:"🔥", theme:"to",    cefrLevel:"A2+", section:CEFR_SECTION },
-  { id:"cefr-b1",  name:"B1",  icon:"🦋", theme:"ti",    cefrLevel:"B1",  section:CEFR_SECTION },
-  { id:"cefr-b1p", name:"B1+", icon:"🌸", theme:"tp",    cefrLevel:"B1+", section:CEFR_SECTION },
-  { id:"cefr-b2",  name:"B2",  icon:"🦅", theme:"tb",    cefrLevel:"B2",  section:CEFR_SECTION },
-  { id:"cefr-b2p", name:"B2+", icon:"💙", theme:"tnavy", cefrLevel:"B2+", section:CEFR_SECTION },
-  { id:"cefr-c1",  name:"C1",  icon:"🏆", theme:"ta",    cefrLevel:"C1",  section:CEFR_SECTION },
-  { id:"cefr-c1p", name:"C1+", icon:"🌹", theme:"tro",   cefrLevel:"C1+", section:CEFR_SECTION },
-  { id:"cefr-c2",  name:"C2",  icon:"🎯", theme:"tr",    cefrLevel:"C2",  section:CEFR_SECTION },
-  { id:"cefr-c2p", name:"C2+", icon:"🔮", theme:"tpurp", cefrLevel:"C2+", section:CEFR_SECTION },
+  { id:"cefr-a1",  name:"A1",  icon:"🌱", theme:"te",    cefrLevel:"A1",  section:CEFR_SECTION_BEGINNER },
+  { id:"cefr-a1p", name:"A1+", icon:"⭐", theme:"tg",    cefrLevel:"A1+", section:CEFR_SECTION_BEGINNER },
+  { id:"cefr-a2",  name:"A2",  icon:"🌊", theme:"tc",    cefrLevel:"A2",  section:CEFR_SECTION_BEGINNER },
+  { id:"cefr-a2p", name:"A2+", icon:"🔥", theme:"to",    cefrLevel:"A2+", section:CEFR_SECTION_BEGINNER },
+  { id:"cefr-b1",  name:"B1",  icon:"🦋", theme:"ti",    cefrLevel:"B1",  section:CEFR_SECTION_INDEPENDENT },
+  { id:"cefr-b1p", name:"B1+", icon:"🌸", theme:"tp",    cefrLevel:"B1+", section:CEFR_SECTION_INDEPENDENT },
+  { id:"cefr-b2",  name:"B2",  icon:"🦅", theme:"tb",    cefrLevel:"B2",  section:CEFR_SECTION_INDEPENDENT },
+  { id:"cefr-b2p", name:"B2+", icon:"💙", theme:"tnavy", cefrLevel:"B2+", section:CEFR_SECTION_INDEPENDENT },
+  { id:"cefr-c1",  name:"C1",  icon:"🏆", theme:"ta",    cefrLevel:"C1",  section:CEFR_SECTION_EXPERT },
+  { id:"cefr-c1p", name:"C1+", icon:"🌹", theme:"tro",   cefrLevel:"C1+", section:CEFR_SECTION_EXPERT },
+  { id:"cefr-c2",  name:"C2",  icon:"🎯", theme:"tr",    cefrLevel:"C2",  section:CEFR_SECTION_EXPERT },
+  { id:"cefr-c2p", name:"C2+", icon:"🔮", theme:"tpurp", cefrLevel:"C2+", section:CEFR_SECTION_EXPERT },
 ];
-const ALL_SECTION_ORDER = [...BASIC_SECTIONS, ...INTERMEDIATE_SECTIONS, ...SECTION_ORDER, CEFR_SECTION];
+const ALL_SECTION_ORDER = [...BASIC_SECTIONS, ...INTERMEDIATE_SECTIONS, ...SECTION_ORDER, ...CEFR_SECTIONS];
 let ALL_CATEGORIES  = [];
 const CEFR_CAT_LEVEL = Object.fromEntries(CEFR_CATEGORIES.map(c => [c.id, c.cefrLevel]));
 
@@ -2620,9 +2643,9 @@ function updateHome(){
     const learnedInLvl = words.filter(w => learnMap[w.w] === "learned").length;
     const barPct = words.length ? Math.round(learnedInLvl / words.length * 100) : 0;
     const bar  = el("hcefr-"  + lvl);
-    const stat = el("hcefrs-" + lvl);
-    if(bar)  bar.style.width = barPct + "%";
-    if(stat) stat.textContent = learnedInLvl + " / " + words.length + " words";
+    const pctEl = el("hcefrp-" + lvl);
+    if(bar)   bar.style.width = barPct + "%";
+    if(pctEl) pctEl.textContent = barPct + "%";
   });
 }
 
@@ -2980,6 +3003,8 @@ const NAV_SECTIONS = {
   grammar: ["grammar"],
   reading: ["reading"],
   writing: ["writing"],
+  listening: ["listening"],
+  speaking: ["speaking"],
 };
 
 function sectionOfPage(pageId){
@@ -3007,7 +3032,7 @@ function goToPage(pageId){
   else if (pageId === "examples") renderExamplesFilters();
   else if (pageId === "test") renderTestMode();
   if (typeof gsap !== "undefined"){
-    gsap.fromTo(page, {opacity:0, y:12}, {opacity:1, y:0, duration:.35, ease:"power2.out"});
+    gsap.fromTo(page, {opacity:0, y:18}, {opacity:1, y:0, duration:.5, ease:"power3.out"});
   }
 }
 
@@ -3716,7 +3741,7 @@ const CEFR_THEME = {
 
 function cefrPillHtml(level){
   const c = CEFR_COLORS[level] || "#888";
-  return `<span class="cat-cefr-pill" style="background:${c}">${level}</span>`;
+  return `<span class="cat-cefr-pill" style="background:${c}1c;border:1px solid ${c}55;color:${c}">${level}</span>`;
 }
 
 function topCefrOf(catId){
@@ -3726,17 +3751,16 @@ function topCefrOf(catId){
   return top ? top[0] : null;
 }
 
-function renderBrowseSection(sectionName, cats){
+function renderBrowseSection(sectionName, cats, num){
   const totalWords   = cats.reduce((s,c) => s + CAT_WORDS[c.id].length, 0);
   const totalLearned = cats.reduce((s,c) => s + CAT_WORDS[c.id].filter(w => isLearned(w.w)).length, 0);
   const secPct = totalWords ? Math.round(totalLearned / totalWords * 100) : 0;
-  const repIcon = iconSvg(cats[0]?.icon);
 
   const wrap = document.createElement("div");
   wrap.className = "section-block";
   wrap.innerHTML = `
     <div class="section-block-header">
-      <div class="section-block-icon">${repIcon}</div>
+      <div class="section-block-num">${String(num).padStart(2, "0")}</div>
       <div class="section-block-info">
         <div class="section-block-name">${sectionName}</div>
         <div class="section-block-meta">${cats.length} categor${cats.length!==1?"ies":"y"} · ${totalWords} words</div>
@@ -3776,23 +3800,20 @@ function renderBrowseSection(sectionName, cats){
     const card = document.createElement("div");
     card.className = `cat-card t-${cat.theme}`;
     card.innerHTML = `
-      <div class="cat-card-row">
-        <div class="cat-icon-box t-${cat.theme}">${iconSvg(cat.icon)}</div>
-        <div class="cat-info">
-          <div class="cat-name">${cat.name}</div>
-          <div class="cat-stats">
-            <span class="cat-wcount">${cefrCount !== null ? `${cefrCount} ${browseState.cefr} word${cefrCount!==1?"s":""}` : `${words.length} words`}</span>
-            ${pillLevel ? cefrPillHtml(pillLevel) : ""}
-          </div>
-        </div>
-        <span class="cat-chevron">›</span>
+      <div class="cat-card-top">
+        <span class="cat-tag">${iconSvg(cat.icon)} ${cefrCount !== null ? `${cefrCount} ${browseState.cefr} word${cefrCount!==1?"s":""}` : `${words.length} words`}</span>
+        ${pillLevel ? cefrPillHtml(pillLevel) : ""}
+        <svg class="ico cat-arrow" aria-hidden="true"><use href="#i-arrow-up-right"/></svg>
       </div>
+      <div class="cat-name">${cat.name}</div>
       <div class="cat-pbar-row">
         <div class="cat-pbar">
           <div class="cat-pfill-little" style="width:${pctLi}%"></div>
-          <div class="cat-pfill" style="width:${pct}%;position:absolute;top:0;left:0;"></div>
+          <div class="cat-pfill" style="width:${pct}%;position:absolute;top:0;left:0;${pct===100?"background:#10b981;":""}"></div>
         </div>
-        <span class="cat-plabel">${learnedCnt}/${words.length}${littleCnt>0?` · ${littleCnt}~`:""}</span>
+        ${pct === 100
+          ? `<svg class="ico cat-medal" aria-label="Mastered"><use href="#i-medal"/></svg>`
+          : `<span class="cat-plabel">${learnedCnt}/${words.length}${littleCnt>0?` · ${littleCnt}~`:""}</span>`}
       </div>`;
     card.addEventListener("click", () => enterCatView(cat));
     grid.appendChild(card);
@@ -3809,28 +3830,24 @@ function renderBrowse(){
     b.classList.toggle("active", b.dataset.headline === hl);
   });
 
-  // Section chips: hidden for CEFR Levels, otherwise filtered to the active headline
-  if (hl === "cefr") {
-    sc.style.display = "none";
-  } else {
-    sc.style.display = "";
-    sc.innerHTML = `<span class="filter-label">Section</span>`;
-    const allBtn = document.createElement("button");
-    allBtn.className = "chip" + (browseState.section==="all"?" active":"");
-    allBtn.textContent = "All";
-    allBtn.addEventListener("click", () => { browseState.section="all"; browseState.page=1; renderBrowse(); });
-    const sectionsForChips = hl === "all"
-      ? ALL_SECTION_ORDER.filter(s => SECTION_HEADLINES[s] !== "cefr")
-      : ALL_SECTION_ORDER.filter(s => SECTION_HEADLINES[s] === hl);
-    const sectionBtns = sectionsForChips.map(sName => {
-      const btn = document.createElement("button");
-      btn.className = "chip" + (browseState.section===sName?" active":"");
-      btn.textContent = sName;
-      btn.addEventListener("click", () => { browseState.section=sName; browseState.page=1; renderBrowse(); });
-      return btn;
-    });
-    renderExpandableChips(sc, allBtn, sectionBtns);
-  }
+  // Section chips, filtered to the active headline (CEFR shows its three stages)
+  sc.style.display = "";
+  sc.innerHTML = `<span class="filter-label">Section</span>`;
+  const allBtn = document.createElement("button");
+  allBtn.className = "chip" + (browseState.section==="all"?" active":"");
+  allBtn.textContent = "All";
+  allBtn.addEventListener("click", () => { browseState.section="all"; browseState.page=1; renderBrowse(); });
+  const sectionsForChips = hl === "all"
+    ? ALL_SECTION_ORDER.filter(s => SECTION_HEADLINES[s] !== "cefr")
+    : ALL_SECTION_ORDER.filter(s => SECTION_HEADLINES[s] === hl);
+  const sectionBtns = sectionsForChips.map(sName => {
+    const btn = document.createElement("button");
+    btn.className = "chip" + (browseState.section===sName?" active":"");
+    btn.textContent = sName;
+    btn.addEventListener("click", () => { browseState.section=sName; browseState.page=1; renderBrowse(); });
+    return btn;
+  });
+  renderExpandableChips(sc, allBtn, sectionBtns);
 
   document.querySelectorAll("[data-browse-cefr]").forEach(c => {
     c.classList.toggle("active", c.dataset.browseCefr === browseState.cefr);
@@ -3865,7 +3882,10 @@ function renderBrowse(){
   if (browseState.page > totalBrowsePages) browseState.page = totalBrowsePages;
   const pageSections = matchedSections.slice((browseState.page - 1) * BROWSE_SECTIONS_PER_PAGE, browseState.page * BROWSE_SECTIONS_PER_PAGE);
   content.innerHTML = "";
-  pageSections.forEach(({ sName, cats }) => content.appendChild(renderBrowseSection(sName, cats)));
+  pageSections.forEach(({ sName, cats }, i) => {
+    const num = (browseState.page - 1) * BROWSE_SECTIONS_PER_PAGE + i + 1;
+    content.appendChild(renderBrowseSection(sName, cats, num));
+  });
   if (typeof gsap !== "undefined"){
     gsap.fromTo(content.querySelectorAll(".cat-card"),
       {opacity:0,y:16},{opacity:1,y:0,duration:.35,ease:"power2.out",stagger:{amount:.25,from:"start"}});
@@ -4955,6 +4975,22 @@ saveLearned();
 updateFooter();
 updateHome();
 initStreak();
+
+// Scroll reveals: home sections + footer dash cards rise in once as they enter the viewport
+(function(){
+  if (typeof gsap === "undefined" || !("IntersectionObserver" in window)) return;
+  const targets = document.querySelectorAll(".home-content > div, .footer-dash .dash-card");
+  if (!targets.length) return;
+  gsap.set(targets, {opacity:0, y:26});
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      gsap.to(e.target, {opacity:1, y:0, duration:.75, ease:"power3.out"});
+      io.unobserve(e.target);
+    });
+  }, {threshold:.12});
+  targets.forEach(el => io.observe(el));
+})();
 
 // Footer share button
 document.getElementById("footerShareBtn")?.addEventListener("click", function(){
