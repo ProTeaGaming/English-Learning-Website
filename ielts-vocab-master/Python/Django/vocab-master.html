@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>IELTS Vocab Master</title>
+<title>LexiLoop — IELTS Vocabulary</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -43,6 +43,13 @@ body{
 ::-webkit-scrollbar-thumb:hover{background:rgb(var(--vio));}
 h1,h2,h3,.brand,.tab,.btn,.modeCard h3,.mode-toggle-label{font-family:'Plus Jakarta Sans','Sora',sans-serif;}
 
+/* ===== ICONS (inline SVG sprite) ===== */
+.ico{
+  width:1em; height:1em; display:inline-block; flex-shrink:0; vertical-align:-.125em;
+  fill:none; stroke:currentColor; stroke-width:1.75; stroke-linecap:round; stroke-linejoin:round;
+}
+.ico-mark{width:1.65em; height:1.65em; color:rgb(var(--vio)); stroke-width:2.4;}
+
 /* ===== TOPBAR ===== */
 .topbar{
   position:sticky; top:0; z-index:50;
@@ -54,8 +61,8 @@ h1,h2,h3,.brand,.tab,.btn,.modeCard h3,.mode-toggle-label{font-family:'Plus Jaka
   display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;
 }
 .topbar-left{display:flex; align-items:center; gap:24px; flex-wrap:wrap;}
-.brand{font-weight:800; font-size:1.2rem; letter-spacing:-.02em; display:flex; align-items:center; gap:8px;}
-.brand span{background:linear-gradient(135deg,#7c3aed,#4ade80); -webkit-background-clip:text; background-clip:text; color:transparent;}
+.brand{font-weight:800; font-size:1.35rem; letter-spacing:-.035em; display:flex; align-items:center; gap:7px;}
+.brand-name b{font-weight:inherit; color:rgb(var(--vio));}
 .tabs{display:flex; gap:6px; flex-wrap:wrap;}
 .topbar-right{display:flex; align-items:center; gap:14px; flex-wrap:wrap;}
 .tab{
@@ -90,7 +97,7 @@ h1,h2,h3,.brand,.tab,.btn,.modeCard h3,.mode-toggle-label{font-family:'Plus Jaka
 .theme-toggle{
   display:flex; align-items:center; justify-content:center; width:36px; height:36px;
   border-radius:999px; border:1px solid rgba(var(--vio),.25); background:rgba(var(--vio),.08);
-  font-size:1rem; line-height:1; cursor:pointer; transition:border-color .18s ease, background .18s ease;
+  font-size:1rem; line-height:1; cursor:pointer; color:var(--text); transition:border-color .18s ease, background .18s ease;
 }
 .theme-toggle:hover{border-color:rgb(var(--vio)); background:rgba(var(--vio),.15);}
 
@@ -251,7 +258,12 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
   border-color:rgba(124,58,237,0.22);
 }
 .search-row{display:flex; gap:10px; flex-wrap:wrap; align-items:center; position:relative;}
-.search-row::before{content:"🔍"; position:absolute; left:14px; top:50%; transform:translateY(-50%); font-size:.9rem; opacity:.45; pointer-events:none;}
+.search-row::before{
+  content:""; position:absolute; left:14px; top:50%; transform:translateY(-50%);
+  width:14px; height:14px; background:var(--muted); opacity:.55; pointer-events:none;
+  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E") center/contain no-repeat;
+  mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E") center/contain no-repeat;
+}
 #searchInput, #exSearchInput{
   flex:1; min-width:200px; background:rgba(124,58,237,0.06); border:1px solid rgba(124,58,237,0.2);
   color:var(--text); padding:10px 16px 10px 38px; border-radius:12px; font-size:.93rem;
@@ -629,7 +641,7 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
 }
 .chat-avatar{
   width:36px; height:36px; border-radius:50%; flex-shrink:0;
-  background:linear-gradient(135deg,#7c3aed,#4ade80);
+  background:rgb(124,58,237); color:#fff;
   display:flex; align-items:center; justify-content:center; font-size:1.1rem;
   box-shadow:0 0 0 2px rgba(124,58,237,.3);
 }
@@ -656,7 +668,7 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
 .chat-msg{ display:flex; gap:8px; align-items:flex-start; }
 .chat-msg-avatar{
   width:26px; height:26px; border-radius:50%; flex-shrink:0; font-size:.8rem;
-  background:linear-gradient(135deg,#7c3aed,#4ade80);
+  background:rgb(124,58,237); color:#fff;
   display:flex; align-items:center; justify-content:center;
 }
 .chat-bubble{
@@ -731,7 +743,6 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
 .footer-top{display:grid;grid-template-columns:auto 1fr;gap:40px;align-items:start;margin-bottom:28px;}
 @media(max-width:640px){.footer-top{grid-template-columns:1fr;}}
 .footer-logo{font-family:'Plus Jakarta Sans','Sora',sans-serif;font-weight:800;font-size:1.1rem;display:flex;align-items:center;gap:8px;margin-bottom:6px;}
-.footer-logo span{background:linear-gradient(135deg,#7c3aed,#4ade80);-webkit-background-clip:text;background-clip:text;color:transparent;}
 .footer-sub{font-size:.78rem;color:var(--muted);max-width:180px;line-height:1.5;}
 .footer-dash{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;}
 .dash-card{
@@ -809,7 +820,7 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
   border:1px solid rgba(var(--vio),.18); border-radius:20px; padding:20px 22px;
 }
 [data-theme="dark"] .browse-bar{background:rgba(20,20,26,0.82);}
-.browse-bar .search-row::before, .setup-filters .search-row::before{content:"🔍"; position:absolute; left:14px; top:50%; transform:translateY(-50%); font-size:.9rem; opacity:.45; pointer-events:none;}
+.browse-bar .search-row::before, .setup-filters .search-row::before{opacity:.45;}
 #browseSearch, #catSearchInput, #testCatSearch, #testWordSearch{
   flex:1; width:100%; background:rgba(var(--vio),.06); border:1px solid rgba(var(--vio),.2);
   color:var(--text); padding:10px 16px 10px 38px; border-radius:12px; font-size:.93rem;
@@ -836,7 +847,7 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
 }
 .section-block-icon{
   font-size:1.6rem; flex-shrink:0; width:48px; height:48px;
-  display:flex; align-items:center; justify-content:center;
+  display:flex; align-items:center; justify-content:center; color:rgb(var(--vio));
   background:rgba(var(--vio),.1); border-radius:14px; border:1.5px solid rgba(var(--vio),.2);
 }
 .section-block-info{flex:1; min-width:0;}
@@ -875,7 +886,7 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
 .cat-icon-box{
   width:44px; height:44px; border-radius:12px; display:flex; align-items:center;
   justify-content:center; font-size:1.5rem; flex-shrink:0; background:var(--surface2);
-  border:2px solid var(--accent-c,var(--accent));
+  border:2px solid var(--accent-c,var(--accent)); color:var(--accent-c,var(--accent));
 }
 .cat-info{flex:1; min-width:0;}
 .cat-name{
@@ -904,7 +915,7 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
 .cat-view-icon{
   width:48px; height:48px; border-radius:14px; display:flex; align-items:center;
   justify-content:center; font-size:1.5rem; flex-shrink:0; background:var(--surface2);
-  border:2px solid var(--accent-c,var(--accent));
+  border:2px solid var(--accent-c,var(--accent)); color:var(--accent-c,var(--accent));
 }
 .cat-view-name{font-size:1.65rem; font-weight:800; font-family:'Plus Jakarta Sans','Sora',sans-serif; margin:0; color:var(--accent-c,rgb(var(--vio)));}
 .cat-view-sub{font-size:.9rem; color:var(--muted); margin-top:3px;}
@@ -915,7 +926,7 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
 }
 [data-theme="dark"] .cat-filter-bar{background:rgba(20,20,26,0.82);}
 .cat-filter-bar .search-row{position:relative;}
-.cat-filter-bar .search-row::before{content:"🔍"; position:absolute; left:14px; top:50%; transform:translateY(-50%); font-size:.9rem; opacity:.5; pointer-events:none;}
+.cat-filter-bar .search-row::before{opacity:.5;}
 
 /* ===== WORD DETAIL MODAL ===== */
 .modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;z-index:1000;padding:20px;}
@@ -1019,7 +1030,7 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
 .home-stat-ico{
   font-size:1.4rem;width:40px;height:40px;border-radius:12px;
   background:rgba(var(--vio),.12);display:flex;align-items:center;justify-content:center;
-  margin-bottom:4px;
+  margin-bottom:4px;color:rgb(var(--vio));
 }
 .home-stat-val{
   font-family:'Plus Jakarta Sans','Sora',sans-serif;font-size:2rem;font-weight:800;
@@ -1045,7 +1056,7 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
   transform:translateY(-3px);
   border-color:rgba(var(--vio),.5);box-shadow:0 12px 32px rgba(var(--vio),.18);
 }
-.home-sec-ico{font-size:1.9rem;margin-bottom:4px;}
+.home-sec-ico{font-size:1.9rem;margin-bottom:4px;color:rgb(var(--vio));}
 .home-sec-name{
   font-family:'Plus Jakarta Sans','Sora',sans-serif;font-size:1.05rem;font-weight:800;color:var(--text);
 }
@@ -1103,10 +1114,136 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
 </head>
 <body>
 
+<!-- ── Icon sprite: 24×24 stroke icons, styled via .ico (currentColor) ── -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+  <symbol id="i-mark" viewBox="0 0 24 24"><path d="M7.5 4.5V12a5 5 0 0 0 5 5h7"/><path d="m17 14.5 2.5 2.5-2.5 2.5"/><path d="M16.5 19.5V12a5 5 0 0 0-5-5h-7"/><path d="M7 9.5 4.5 7 7 4.5"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></symbol>
+  <symbol id="i-book-open" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></symbol>
+  <symbol id="i-pen" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></symbol>
+  <symbol id="i-file-text" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/></symbol>
+  <symbol id="i-headphones" viewBox="0 0 24 24"><path d="M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a9 9 0 0 1 18 0v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3"/></symbol>
+  <symbol id="i-mic" viewBox="0 0 24 24"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="22"/></symbol>
+  <symbol id="i-sprout" viewBox="0 0 24 24"><path d="M7 20h10"/><path d="M10 20c5.5-2.5.8-6.4 3-10"/><path d="M9.5 9.4c1.1.8 1.8 2.2 2.3 3.7-2 .4-3.5.4-4.8-.3-1.2-.6-2.3-1.9-3-4.2 2.8-.5 4.4 0 5.5.8z"/><path d="M14.1 6a7 7 0 0 0-1.1 4c1.9-.1 3.3-.6 4.3-1.4 1-1 1.6-2.3 1.7-4.6-3.7.3-4.6 1.4-4.9 2z"/></symbol>
+  <symbol id="i-trend-up" viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></symbol>
+  <symbol id="i-trend-down" viewBox="0 0 24 24"><polyline points="22 17 13.5 8.5 8.5 13.5 2 7"/><polyline points="16 17 22 17 22 11"/></symbol>
+  <symbol id="i-grad-cap" viewBox="0 0 24 24"><path d="M22 10v6"/><path d="M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></symbol>
+  <symbol id="i-bar-chart" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></symbol>
+  <symbol id="i-folder" viewBox="0 0 24 24"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></symbol>
+  <symbol id="i-check-circle" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></symbol>
+  <symbol id="i-rotate" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-eye-off" viewBox="0 0 24 24"><path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/><path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/><line x1="2" y1="2" x2="22" y2="22"/></symbol>
+  <symbol id="i-bot" viewBox="0 0 24 24"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></symbol>
+  <symbol id="i-hard-hat" viewBox="0 0 24 24"><path d="M2 18a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1z"/><path d="M10 10V5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v5"/><path d="M4 15v-3a6 6 0 0 1 6-6"/><path d="M14 6a6 6 0 0 1 6 6v3"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></symbol>
+  <symbol id="i-flame" viewBox="0 0 24 24"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></symbol>
+  <symbol id="i-brain" viewBox="0 0 24 24"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2Z"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2Z"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></symbol>
+  <symbol id="i-dumbbell" viewBox="0 0 24 24"><path d="m6.5 6.5 11 11"/><path d="m21 21-1-1"/><path d="m3 3 1 1"/><path d="m18 22 4-4"/><path d="m2 6 4-4"/><path d="m3 10 7-7"/><path d="m14 21 7-7"/></symbol>
+  <symbol id="i-masks" viewBox="0 0 24 24"><path d="M10 11h.01"/><path d="M14 6h.01"/><path d="M18 6h.01"/><path d="M6.5 13.1h.01"/><path d="M22 5c0 9-4 12-6 12s-6-3-6-12c0-2 2-3 6-3s6 1 6 3"/><path d="M17.4 9.9c-.8.8-2 .8-2.8 0"/><path d="M10.1 7.1C9 7.2 7.7 7.7 6 8.6c-3.5 2-4.7 3.9-3.7 5.6 4.5 7.8 9.5 8.4 11.2 7.4.9-.5 1.9-2.1 1.9-4.7"/><path d="M9.1 16.5c.3-1.1 1.4-1.7 2.4-1.4"/></symbol>
+  <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></symbol>
+  <symbol id="i-trophy" viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></symbol>
+  <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></symbol>
+  <symbol id="i-gem" viewBox="0 0 24 24"><path d="M6 3h12l4 6-10 13L2 9Z"/><path d="M11 3 8 9l4 13 4-13-3-6"/><path d="M2 9h20"/></symbol>
+  <symbol id="i-waves" viewBox="0 0 24 24"><path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/></symbol>
+  <symbol id="i-butterfly" viewBox="0 0 24 24"><path d="M12 5v14"/><path d="M12 8c-1.5-3-4.5-4.5-7-4-.5 3 .5 6.5 3 8-2 1-3 3.5-2 6 2.5.5 5-1.5 6-4"/><path d="M12 8c1.5-3 4.5-4.5 7-4 .5 3-.5 6.5-3 8 2 1 3 3.5 2 6-2.5.5-5-1.5-6-4"/></symbol>
+  <symbol id="i-flower" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 16.5A4.5 4.5 0 1 1 7.5 12 4.5 4.5 0 1 1 12 7.5a4.5 4.5 0 1 1 4.5 4.5 4.5 4.5 0 1 1-4.5 4.5"/><path d="M12 7.5V9"/><path d="M7.5 12H9"/><path d="M16.5 12H15"/><path d="M12 16.5V15"/></symbol>
+  <symbol id="i-bird" viewBox="0 0 24 24"><path d="M16 7h.01"/><path d="M3.4 18H12a8 8 0 0 0 8-8V7a4 4 0 0 0-7.28-2.3L2 20"/><path d="m20 7 2 .5-2 .5"/><path d="M10 18v3"/><path d="M14 17.75V21"/><path d="M7 18a6 6 0 0 0 3.84-10.61"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></symbol>
+  <symbol id="i-rose" viewBox="0 0 24 24"><path d="M12 5a3 3 0 1 1 3 3m-3-3a3 3 0 1 0-3 3m3-3v1M9 8a3 3 0 1 0 3 3M9 8h1m5 0a3 3 0 1 1-3 3m3-3h-1m-2 3v-1"/><circle cx="12" cy="8" r="2"/><path d="M12 10v12"/><path d="M12 22c4.2 0 7-1.667 7-5-4.2 0-7 1.667-7 5Z"/><path d="M12 22c-4.2 0-7-1.667-7-5 4.2 0 7 1.667 7 5Z"/></symbol>
+  <symbol id="i-zap" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></symbol>
+  <symbol id="i-palette" viewBox="0 0 24 24"><circle cx="13.5" cy="6.5" r=".5"/><circle cx="17.5" cy="10.5" r=".5"/><circle cx="8.5" cy="7.5" r=".5"/><circle cx="6.5" cy="12.5" r=".5"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></symbol>
+  <symbol id="i-scale" viewBox="0 0 24 24"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/></symbol>
+  <symbol id="i-activity" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></symbol>
+  <symbol id="i-message" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></symbol>
+  <symbol id="i-puzzle" viewBox="0 0 24 24"><path d="M19.4 14c.4 0 .6-.3.6-.6V9.4c0-.3-.3-.6-.6-.6h-2.9c-.3 0-.5-.2-.5-.5 0-.1 0-.2.1-.3.3-.4.5-.9.5-1.4A2.6 2.6 0 0 0 14 4a2.6 2.6 0 0 0-2.6 2.6c0 .5.2 1 .5 1.4.1.1.1.2.1.3 0 .3-.2.5-.5.5H8.6c-.3 0-.6.3-.6.6v2.9c0 .3-.2.5-.5.5-.1 0-.2 0-.3-.1-.4-.3-.9-.5-1.4-.5A2.6 2.6 0 0 0 3.2 15a2.6 2.6 0 0 0 2.6 2.6c.5 0 1-.2 1.4-.5.1-.1.2-.1.3-.1.3 0 .5.2.5.5v2.9c0 .3.3.6.6.6h9.8c.3 0 .6-.3.6-.6v-2.9c0-.3.2-.5.5-.5.1 0 .2 0 .3.1.4.3.9.5 1.4.5a2.6 2.6 0 0 0 2.6-2.6 2.6 2.6 0 0 0-2.6-2.6c-.5 0-1 .2-1.4.5-.1.1-.2.1-.3.1-.3 0-.5-.2-.5-.5z"/></symbol>
+  <symbol id="i-leaf" viewBox="0 0 24 24"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></symbol>
+  <symbol id="i-landmark" viewBox="0 0 24 24"><line x1="3" y1="22" x2="21" y2="22"/><line x1="6" y1="18" x2="6" y2="11"/><line x1="10" y1="18" x2="10" y2="11"/><line x1="14" y1="18" x2="14" y2="11"/><line x1="18" y1="18" x2="18" y2="11"/><polygon points="12 2 20 7 4 7"/></symbol>
+  <symbol id="i-briefcase" viewBox="0 0 24 24"><rect width="20" height="14" x="2" y="7" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></symbol>
+  <symbol id="i-microscope" viewBox="0 0 24 24"><path d="M6 18h8"/><path d="M3 22h18"/><path d="M14 22a7 7 0 1 0 0-14h-1"/><path d="M9 14h2"/><path d="M9 12a2 2 0 0 1-2-2V6h6v4a2 2 0 0 1-2 2Z"/><path d="M12 6V3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3"/></symbol>
+  <symbol id="i-plane" viewBox="0 0 24 24"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/></symbol>
+  <symbol id="i-smartphone" viewBox="0 0 24 24"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></symbol>
+  <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></symbol>
+  <symbol id="i-lightbulb" viewBox="0 0 24 24"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+  <symbol id="i-building" viewBox="0 0 24 24"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/><path d="M10 6h4"/><path d="M10 10h4"/><path d="M10 14h4"/><path d="M10 18h4"/></symbol>
+  <symbol id="i-monitor" viewBox="0 0 24 24"><rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></symbol>
+  <symbol id="i-clipboard" viewBox="0 0 24 24"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></symbol>
+  <symbol id="i-scroll" viewBox="0 0 24 24"><path d="M19 17V5a2 2 0 0 0-2-2H4"/><path d="M8 21h12a2 2 0 0 0 2-2v-1a1 1 0 0 0-1-1H11a1 1 0 0 0-1 1v1a2 2 0 1 1-4 0V5a2 2 0 1 0-4 0v2a1 1 0 0 0 1 1h3"/></symbol>
+  <symbol id="i-ruler" viewBox="0 0 24 24"><path d="M21.3 15.3a2.4 2.4 0 0 1 0 3.4l-2.6 2.6a2.4 2.4 0 0 1-3.4 0L2.7 8.7a2.41 2.41 0 0 1 0-3.4l2.6-2.6a2.41 2.41 0 0 1 3.4 0Z"/><path d="m14.5 12.5 2-2"/><path d="m11.5 9.5 2-2"/><path d="m8.5 6.5 2-2"/><path d="m17.5 15.5 2-2"/></symbol>
+  <symbol id="i-utensils" viewBox="0 0 24 24"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></symbol>
+  <symbol id="i-type" viewBox="0 0 24 24"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></symbol>
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></symbol>
+  <symbol id="i-apple" viewBox="0 0 24 24"><path d="M12 20.94c1.5 0 2.75 1.06 4 1.06 3 0 6-8 6-12.22A4.91 4.91 0 0 0 17 4.5c-1.8 0-3 .5-5 .5s-3.2-.5-5-.5A4.9 4.9 0 0 0 2 9.78C2 14 5 22 8 22c1.25 0 2.5-1.06 4-1.06Z"/><path d="M10 2c1 .5 2 2 2 5"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></symbol>
+  <symbol id="i-compass" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></symbol>
+  <symbol id="i-key" viewBox="0 0 24 24"><circle cx="7.5" cy="15.5" r="5.5"/><path d="m21 2-9.6 9.6"/><path d="m15.5 7.5 3 3L22 7l-3-3"/></symbol>
+  <symbol id="i-megaphone" viewBox="0 0 24 24"><path d="m3 11 18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></symbol>
+  <symbol id="i-hand" viewBox="0 0 24 24"><path d="M18 11V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2"/><path d="M14 10V4a2 2 0 0 0-2-2a2 2 0 0 0-2 2v2"/><path d="M10 10.5V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/></symbol>
+  <symbol id="i-settings" viewBox="0 0 24 24"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-shirt" viewBox="0 0 24 24"><path d="M20.38 3.46 16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z"/></symbol>
+  <symbol id="i-cart" viewBox="0 0 24 24"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></symbol>
+  <symbol id="i-smile" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></symbol>
+  <symbol id="i-rocket" viewBox="0 0 24 24"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></symbol>
+  <symbol id="i-flask" viewBox="0 0 24 24"><path d="M10 2v7.527a2 2 0 0 1-.211.896L4.72 20.55a1 1 0 0 0 .9 1.45h12.76a1 1 0 0 0 .9-1.45l-5.069-10.127A2 2 0 0 1 14 9.527V2"/><path d="M8.5 2h7"/><path d="M7 16h10"/></symbol>
+  <symbol id="i-cloud" viewBox="0 0 24 24"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></symbol>
+  <symbol id="i-banknote" viewBox="0 0 24 24"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/></symbol>
+  <symbol id="i-crown" viewBox="0 0 24 24"><path d="m2 4 3 12h14l3-12-6 7-4-7-4 7-6-7z"/><path d="M5 20h14"/></symbol>
+  <symbol id="i-hash" viewBox="0 0 24 24"><line x1="4" y1="9" x2="20" y2="9"/><line x1="4" y1="15" x2="20" y2="15"/><line x1="10" y1="3" x2="8" y2="21"/><line x1="16" y1="3" x2="14" y2="21"/></symbol>
+  <symbol id="i-hourglass" viewBox="0 0 24 24"><path d="M5 22h14"/><path d="M5 2h14"/><path d="M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22"/><path d="M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2"/></symbol>
+  <symbol id="i-dice" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><path d="M16 8h.01"/><path d="M8 8h.01"/><path d="M8 16h.01"/><path d="M16 16h.01"/><path d="M12 12h.01"/></symbol>
+  <symbol id="i-map-pin" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></symbol>
+  <symbol id="i-sparkles" viewBox="0 0 24 24"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M19 17v4"/><path d="M3 5h4"/><path d="M17 19h4"/></symbol>
+  <symbol id="i-cross" viewBox="0 0 24 24"><path d="M11 2a2 2 0 0 0-2 2v5H4a2 2 0 0 0-2 2v2c0 1.1.9 2 2 2h5v5c0 1.1.9 2 2 2h2a2 2 0 0 0 2-2v-5h5a2 2 0 0 0 2-2v-2a2 2 0 0 0-2-2h-5V4a2 2 0 0 0-2-2h-2z"/></symbol>
+  <symbol id="i-wrench" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></symbol>
+  <symbol id="i-mountain" viewBox="0 0 24 24"><path d="m8 3 4 8 5-5 5 15H2L8 3z"/></symbol>
+  <symbol id="i-shuffle" viewBox="0 0 24 24"><path d="M2 18h1.4c1.3 0 2.5-.6 3.3-1.7l6.1-8.6c.7-1.1 2-1.7 3.3-1.7H22"/><path d="m18 2 4 4-4 4"/><path d="M2 6h1.9c1.5 0 2.9.9 3.6 2.2"/><path d="M22 18h-5.9c-1.3 0-2.6-.7-3.3-1.8l-.5-.8"/><path d="m18 14 4 4-4 4"/></symbol>
+  <symbol id="i-bus" viewBox="0 0 24 24"><path d="M8 6v6"/><path d="M15 6v6"/><path d="M2 12h19.6"/><path d="M18 18h3s.5-1.7.8-2.8c.1-.4.2-.8.2-1.2 0-.4-.1-.8-.2-1.2l-1.4-5C20.1 6.8 19.1 6 18 6H4a2 2 0 0 0-2 2v10h3"/><circle cx="7" cy="18" r="2"/><path d="M9 18h5"/><circle cx="16" cy="18" r="2"/></symbol>
+  <symbol id="i-newspaper" viewBox="0 0 24 24"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6Z"/></symbol>
+</svg>
+<script>
+/* Category data (shared with other products / the API) still stores emoji; resolve to sprite ids at render time.
+   Keys are stored without U+FE0F variation selectors; iconSvg strips them before lookup. */
+const EMOJI_ICON_MAP = {
+  "📚":"i-book","🧠":"i-brain","🔥":"i-flame","🔍":"i-search","📉":"i-trend-down","💪":"i-dumbbell",
+  "🎭":"i-masks","🌐":"i-globe","⭐":"i-star","🌱":"i-sprout","🌊":"i-waves","🦋":"i-butterfly",
+  "🌸":"i-flower","🦅":"i-bird","💙":"i-heart","🏆":"i-trophy","🌹":"i-rose","🎯":"i-target","🔮":"i-gem",
+  "⚡":"i-zap","🎨":"i-palette","⚖":"i-scale","🏃":"i-activity","💬":"i-message","🧩":"i-puzzle",
+  "🌿":"i-leaf","🏛":"i-landmark","🎓":"i-grad-cap","💼":"i-briefcase","📊":"i-bar-chart","✍":"i-pen",
+  "🔬":"i-microscope","✈":"i-plane","📱":"i-smartphone","🔗":"i-link","💡":"i-lightbulb","📝":"i-file-text",
+  "🤝":"i-users","🌍":"i-globe","📖":"i-book-open","🔄":"i-rotate","🏙":"i-building","💻":"i-monitor",
+  "📋":"i-clipboard","📜":"i-scroll","📐":"i-ruler","🤖":"i-bot","🏫":"i-building","💎":"i-gem",
+  "🧘":"i-flower","🏥":"i-cross","🖊":"i-pen","🍽":"i-utensils","🔤":"i-type","💭":"i-message",
+  "🌟":"i-star","🖋":"i-pen","🏗":"i-hard-hat","🏠":"i-home","➿":"i-link","🍎":"i-apple",
+  "⚠":"i-alert","📈":"i-trend-up","🧭":"i-compass","🔑":"i-key","🗣":"i-megaphone","✊":"i-hand",
+  "🗨":"i-message","⚙":"i-settings","🍜":"i-utensils","🌅":"i-sun","🧰":"i-wrench","🌄":"i-mountain",
+  "✨":"i-sparkles","🩺":"i-cross","☀":"i-sun","🚌":"i-bus","👕":"i-shirt","🛒":"i-cart",
+  "🌌":"i-sparkles","⏰":"i-clock","✋":"i-hand","✒":"i-pen","🔭":"i-microscope","🔀":"i-shuffle",
+  "🗝":"i-key","🧍":"i-user","🛠":"i-wrench","↔":"i-shuffle","◈":"i-gem","🧮":"i-brain",
+  "📨":"i-mail","😏":"i-smile","📢":"i-megaphone","🚀":"i-rocket","📏":"i-ruler","🌡":"i-sparkles",
+  "🧪":"i-flask","🌦":"i-cloud","💰":"i-banknote","🕊":"i-bird","🎩":"i-crown","🤔":"i-compass",
+  "🧳":"i-briefcase","🌪":"i-zap","🔢":"i-hash","⏳":"i-hourglass","🎲":"i-dice","📌":"i-map-pin",
+  "🎙":"i-mic","📰":"i-newspaper","👨‍👩‍👧‍👦":"i-users","🔧":"i-wrench","✅":"i-check-circle","🪞":"i-user",
+  "🌤":"i-cloud","📅":"i-calendar","😊":"i-smile","🎧":"i-headphones","🎤":"i-mic","🌙":"i-moon",
+  "📂":"i-folder","🚧":"i-hard-hat","👁":"i-eye","⚽":"i-activity"
+};
+function iconSvg(emoji, cls){
+  const key = (emoji || "").replace(/\uFE0F/g, "");
+  const id = EMOJI_ICON_MAP[key] || "i-book";
+  return `<svg class="ico${cls ? " " + cls : ""}" aria-hidden="true"><use href="#${id}"/></svg>`;
+}
+</script>
+
 <header class="topbar">
   <div class="topbar-inner">
     <div class="topbar-left">
-      <div class="brand">📚 IELTS <span>Vocab Master</span></div>
+      <div class="brand"><svg class="ico ico-mark" aria-hidden="true"><use href="#i-mark"/></svg><span class="brand-name">Lexi<b>Loop</b></span></div>
       <nav class="tabs">
         <div class="nav-group" data-section="home">
           <button class="tab active" data-section-btn="home">Home</button>
@@ -1131,8 +1268,8 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
       </nav>
     </div>
     <div class="topbar-right">
-      <button class="theme-toggle" id="themeToggle" title="Toggle theme" aria-label="Toggle theme">🌙</button>
-      <button class="theme-toggle" id="resetProgressBtn" title="Reset all learning progress" aria-label="Reset all learning progress">🔄</button>
+      <button class="theme-toggle" id="themeToggle" title="Toggle theme" aria-label="Toggle theme"><svg class="ico" aria-hidden="true"><use href="#i-moon"/></svg></button>
+      <button class="theme-toggle" id="resetProgressBtn" title="Reset all learning progress" aria-label="Reset all learning progress"><svg class="ico" aria-hidden="true"><use href="#i-rotate"/></svg></button>
       <div class="stats">
         Learned: <b id="learnedCount">0</b> / <b id="totalCount">5000</b>
         <button class="review-link" id="reviewLittleBtn" title="Review words marked &quot;little bit&quot;" style="display:none;"><span id="littleCount">0</span> to review</button>
@@ -1191,7 +1328,7 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
           <span>Password</span>
           <div class="auth-password-wrap">
             <input type="password" id="authPassword" autocomplete="current-password">
-            <button type="button" class="auth-pw-toggle" id="authPwToggle" aria-label="Show password">👁</button>
+            <button type="button" class="auth-pw-toggle" id="authPwToggle" aria-label="Show password"><svg class="ico" aria-hidden="true"><use href="#i-eye"/></svg></button>
           </div>
         </label>
         <div class="auth-options-row">
@@ -1291,7 +1428,7 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
     <div class="home-hero">
       <div class="home-grid-bg"></div>
       <div class="home-glow"></div>
-      <div class="home-badge">🎓 IELTS Preparation · Band 5–9</div>
+      <div class="home-badge"><svg class="ico" aria-hidden="true"><use href="#i-grad-cap"/></svg> IELTS Preparation · Band 5–9</div>
       <h1 class="home-title">Master Every Word<br><span class="home-grad">Before Your Exam</span></h1>
       <p class="home-sub">5,000 essential IELTS words organised by CEFR level, section and category — with spaced repetition, tests, and examples.</p>
       <div class="home-hero-actions">
@@ -1307,17 +1444,17 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
         <div class="home-section-hd">Your Progress</div>
         <div class="home-stats">
           <div class="home-stat">
-            <div class="home-stat-ico">✅</div>
+            <div class="home-stat-ico"><svg class="ico" aria-hidden="true"><use href="#i-check-circle"/></svg></div>
             <div class="home-stat-val" id="hStatLearned">0</div>
             <div class="home-stat-lbl">Words learned</div>
           </div>
           <div class="home-stat">
-            <div class="home-stat-ico">📂</div>
+            <div class="home-stat-ico"><svg class="ico" aria-hidden="true"><use href="#i-folder"/></svg></div>
             <div class="home-stat-val" id="hStatCats">0</div>
             <div class="home-stat-lbl">Categories started</div>
           </div>
           <div class="home-stat">
-            <div class="home-stat-ico">📊</div>
+            <div class="home-stat-ico"><svg class="ico" aria-hidden="true"><use href="#i-bar-chart"/></svg></div>
             <div class="home-stat-val" id="hStatPct">0%</div>
             <div class="home-stat-lbl">Complete</div>
           </div>
@@ -1334,7 +1471,7 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
         <div class="home-section-hd">Explore Sections</div>
         <div class="home-secs">
           <div class="home-sec clickable" onclick="goToPage('list')">
-            <div class="home-sec-ico">📚</div>
+            <div class="home-sec-ico"><svg class="ico" aria-hidden="true"><use href="#i-book"/></svg></div>
             <div class="home-sec-name">Vocabulary</div>
             <div class="home-sec-desc">5,000 words across 85+ categories, organised by CEFR level and topic. Browse, filter, and mark words as learned.</div>
             <div class="home-sec-footer">
@@ -1343,7 +1480,7 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
             </div>
           </div>
           <div class="home-sec clickable" onclick="goToPage('grammar')">
-            <div class="home-sec-ico">✏️</div>
+            <div class="home-sec-ico"><svg class="ico" aria-hidden="true"><use href="#i-pen"/></svg></div>
             <div class="home-sec-name">Grammar</div>
             <div class="home-sec-desc">Essential IELTS grammar rules covering tense, articles, conditionals, and academic writing structures.</div>
             <div class="home-sec-footer">
@@ -1352,7 +1489,7 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
             </div>
           </div>
           <div class="home-sec clickable" onclick="goToPage('reading')">
-            <div class="home-sec-ico">📖</div>
+            <div class="home-sec-ico"><svg class="ico" aria-hidden="true"><use href="#i-book-open"/></svg></div>
             <div class="home-sec-name">Reading</div>
             <div class="home-sec-desc">Comprehension strategies for academic and general training passages, including skimming, scanning, and inference.</div>
             <div class="home-sec-footer">
@@ -1361,7 +1498,7 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
             </div>
           </div>
           <div class="home-sec clickable" onclick="goToPage('writing')">
-            <div class="home-sec-ico">📝</div>
+            <div class="home-sec-ico"><svg class="ico" aria-hidden="true"><use href="#i-file-text"/></svg></div>
             <div class="home-sec-name">Writing</div>
             <div class="home-sec-desc">Task 1 and Task 2 guidance — vocabulary for graphs, linking words, and band-9 essay frameworks.</div>
             <div class="home-sec-footer">
@@ -1370,7 +1507,7 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
             </div>
           </div>
           <div class="home-sec">
-            <div class="home-sec-ico">🎧</div>
+            <div class="home-sec-ico"><svg class="ico" aria-hidden="true"><use href="#i-headphones"/></svg></div>
             <div class="home-sec-name">Listening</div>
             <div class="home-sec-desc">Practise dictation, gap-fill, and note-taking with audio-linked vocabulary sets.</div>
             <div class="home-sec-footer">
@@ -1379,7 +1516,7 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
             </div>
           </div>
           <div class="home-sec">
-            <div class="home-sec-ico">🎤</div>
+            <div class="home-sec-ico"><svg class="ico" aria-hidden="true"><use href="#i-mic"/></svg></div>
             <div class="home-sec-name">Speaking</div>
             <div class="home-sec-desc">Part 1, 2, and 3 topic vocabulary banks with pronunciation guides and example answers.</div>
             <div class="home-sec-footer">
@@ -1441,10 +1578,10 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
     <div id="listBrowse">
       <div class="headline-bar">
         <button class="headline-btn active" data-headline="all">All</button>
-        <button class="headline-btn" data-headline="basic">🌱 Basic</button>
-        <button class="headline-btn" data-headline="intermediate">📈 Intermediate</button>
-        <button class="headline-btn" data-headline="advanced">🎓 Advanced</button>
-        <button class="headline-btn" data-headline="cefr">📊 CEFR Levels</button>
+        <button class="headline-btn" data-headline="basic"><svg class="ico" aria-hidden="true"><use href="#i-sprout"/></svg> Basic</button>
+        <button class="headline-btn" data-headline="intermediate"><svg class="ico" aria-hidden="true"><use href="#i-trend-up"/></svg> Intermediate</button>
+        <button class="headline-btn" data-headline="advanced"><svg class="ico" aria-hidden="true"><use href="#i-grad-cap"/></svg> Advanced</button>
+        <button class="headline-btn" data-headline="cefr"><svg class="ico" aria-hidden="true"><use href="#i-bar-chart"/></svg> CEFR Levels</button>
       </div>
       <div class="browse-bar">
         <div class="search-row" style="position:relative;">
@@ -1525,7 +1662,6 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
         </div>
       </div>
       <div class="card-grid" id="wordGrid"></div>
-      <div class="pagination" id="catPagination"></div>
       <div class="cat-bulk-actions">
         <button class="cat-bulk-btn" id="catCompleteAllBtn">✓ Mark All Completed</button>
         <button class="cat-bulk-btn cat-bulk-btn-secondary" id="catResetAllBtn">↺ Reset All</button>
@@ -1542,10 +1678,10 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
     </div>
     <div class="headline-bar" id="exHeadlineFilters">
       <button class="headline-btn active" data-headline="all">All</button>
-      <button class="headline-btn" data-headline="basic">🌱 Basic</button>
-      <button class="headline-btn" data-headline="intermediate">📈 Intermediate</button>
-      <button class="headline-btn" data-headline="advanced">🎓 Advanced</button>
-      <button class="headline-btn" data-headline="cefr">📊 CEFR Levels</button>
+      <button class="headline-btn" data-headline="basic"><svg class="ico" aria-hidden="true"><use href="#i-sprout"/></svg> Basic</button>
+      <button class="headline-btn" data-headline="intermediate"><svg class="ico" aria-hidden="true"><use href="#i-trend-up"/></svg> Intermediate</button>
+      <button class="headline-btn" data-headline="advanced"><svg class="ico" aria-hidden="true"><use href="#i-grad-cap"/></svg> Advanced</button>
+      <button class="headline-btn" data-headline="cefr"><svg class="ico" aria-hidden="true"><use href="#i-bar-chart"/></svg> CEFR Levels</button>
     </div>
     <div class="filters">
       <div class="search-row">
@@ -1609,9 +1745,9 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
       <div id="testCategoryFilter">
         <div class="headline-bar" id="testHeadlineFilters">
           <button class="headline-btn active" data-headline="all">All</button>
-          <button class="headline-btn" data-headline="basic">🌱 Basic</button>
-          <button class="headline-btn" data-headline="intermediate">📈 Intermediate</button>
-          <button class="headline-btn" data-headline="advanced">🎓 Advanced</button>
+          <button class="headline-btn" data-headline="basic"><svg class="ico" aria-hidden="true"><use href="#i-sprout"/></svg> Basic</button>
+          <button class="headline-btn" data-headline="intermediate"><svg class="ico" aria-hidden="true"><use href="#i-trend-up"/></svg> Intermediate</button>
+          <button class="headline-btn" data-headline="advanced"><svg class="ico" aria-hidden="true"><use href="#i-grad-cap"/></svg> Advanced</button>
         </div>
         <div class="browse-bar">
           <div class="filter-head">
@@ -1647,9 +1783,9 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
       <div id="testWordPicker" style="display:none;">
         <div class="headline-bar" id="testWordHeadlineBar">
           <button class="headline-btn active" data-word-headline="all">All</button>
-          <button class="headline-btn" data-word-headline="basic">🌱 Basic</button>
-          <button class="headline-btn" data-word-headline="intermediate">📈 Intermediate</button>
-          <button class="headline-btn" data-word-headline="advanced">🎓 Advanced</button>
+          <button class="headline-btn" data-word-headline="basic"><svg class="ico" aria-hidden="true"><use href="#i-sprout"/></svg> Basic</button>
+          <button class="headline-btn" data-word-headline="intermediate"><svg class="ico" aria-hidden="true"><use href="#i-trend-up"/></svg> Intermediate</button>
+          <button class="headline-btn" data-word-headline="advanced"><svg class="ico" aria-hidden="true"><use href="#i-grad-cap"/></svg> Advanced</button>
         </div>
         <div class="browse-bar">
           <div class="filter-head">
@@ -1701,7 +1837,7 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
       <p>Coming soon.</p>
     </div>
     <div class="setup-card">
-      <h2>🚧 Under construction</h2>
+      <h2><svg class="ico" aria-hidden="true"><use href="#i-hard-hat"/></svg> Under construction</h2>
       <p class="sub">This section is being built — check back soon.</p>
     </div>
   </section>
@@ -1713,7 +1849,7 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
       <p>Coming soon.</p>
     </div>
     <div class="setup-card">
-      <h2>🚧 Under construction</h2>
+      <h2><svg class="ico" aria-hidden="true"><use href="#i-hard-hat"/></svg> Under construction</h2>
       <p class="sub">This section is being built — check back soon.</p>
     </div>
   </section>
@@ -1725,7 +1861,7 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
       <p>Coming soon.</p>
     </div>
     <div class="setup-card">
-      <h2>🚧 Under construction</h2>
+      <h2><svg class="ico" aria-hidden="true"><use href="#i-hard-hat"/></svg> Under construction</h2>
       <p class="sub">This section is being built — check back soon.</p>
     </div>
   </section>
@@ -1737,7 +1873,7 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
     <div class="footer-top">
 
       <div>
-        <div class="footer-logo">📚 IELTS <span>Vocab Master</span></div>
+        <div class="footer-logo"><svg class="ico ico-mark" aria-hidden="true"><use href="#i-mark"/></svg><span class="brand-name">Lexi<b>Loop</b></span></div>
         <p class="footer-sub">Track your progress across 5,000 IELTS words across every CEFR level.</p>
       </div>
 
@@ -1786,7 +1922,7 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
     </div>
 
     <div class="footer-bottom">
-      <span class="footer-copy">© 2025 IELTS Vocab Master · All rights reserved</span>
+      <span class="footer-copy">© 2025 LexiLoop · All rights reserved</span>
       <div class="footer-bottom-right">
         <span class="footer-tag">Built for IELTS learners</span>
       </div>
@@ -2736,7 +2872,7 @@ function buildCategoryChips(container, f, onChange, catSearch = ""){
     const chip = document.createElement("button");
     chip.className = `chip t-${c.theme}` + (multiSelect ? (f.cats.has(c.id) ? " active" : "") : (f.cat===c.id ? " active" : ""));
     chip.dataset.cat = c.id;
-    chip.textContent = `${c.icon} ${c.name}`;
+    chip.innerHTML = `${iconSvg(c.icon)} ${c.name}`;
     return chip;
   });
 
@@ -2908,7 +3044,7 @@ document.addEventListener("click", (e) => {
 const themeToggleBtn = document.getElementById("themeToggle");
 function updateThemeIcon(){
   const theme = document.documentElement.getAttribute("data-theme");
-  themeToggleBtn.textContent = theme === "dark" ? "☀️" : "🌙";
+  themeToggleBtn.innerHTML = `<svg class="ico" aria-hidden="true"><use href="#${theme === "dark" ? "i-sun" : "i-moon"}"/></svg>`;
 }
 updateThemeIcon();
 themeToggleBtn.addEventListener("click", () => {
@@ -3087,7 +3223,7 @@ function resetAuthForm(){
   document.getElementById("authEmail").disabled = false;
   document.getElementById("authPassword").value = "";
   document.getElementById("authPassword").type = "password";
-  document.getElementById("authPwToggle").textContent = "👁";
+  document.getElementById("authPwToggle").innerHTML = `<svg class="ico" aria-hidden="true"><use href="#i-eye"/></svg>`;
   document.getElementById("authRememberMe").checked = false;
   document.getElementById("authName").value = "";
   document.getElementById("authUsername").value = "";
@@ -3178,7 +3314,7 @@ document.getElementById("authPwToggle").addEventListener("click", () => {
   const toggle = document.getElementById("authPwToggle");
   const show = input.type === "password";
   input.type = show ? "text" : "password";
-  toggle.textContent = show ? "🙈" : "👁";
+  toggle.innerHTML = `<svg class="ico" aria-hidden="true"><use href="#${show ? "i-eye-off" : "i-eye"}"/></svg>`;
 });
 
 document.getElementById("authPicture").addEventListener("change", (e) => {
@@ -3560,8 +3696,7 @@ function categoryStatusOf(catId){
   if (learnedCnt === 0 && littleCnt === 0) return "notStarted";
   return "inProgress";
 }
-const catState    = { cat:null, search:"", cefr:"all", learned:"all", page:1 };
-const CAT_PER_PAGE = 25;
+const catState    = { cat:null, search:"", cefr:"all", learned:"all" };
 const CEFR_COLORS = {
   "A1":"#10b981", "A1+":"#eab308",
   "A2":"#06b6d4", "A2+":"#f97316",
@@ -3595,7 +3730,7 @@ function renderBrowseSection(sectionName, cats){
   const totalWords   = cats.reduce((s,c) => s + CAT_WORDS[c.id].length, 0);
   const totalLearned = cats.reduce((s,c) => s + CAT_WORDS[c.id].filter(w => isLearned(w.w)).length, 0);
   const secPct = totalWords ? Math.round(totalLearned / totalWords * 100) : 0;
-  const repIcon = cats[0]?.icon || "📚";
+  const repIcon = iconSvg(cats[0]?.icon);
 
   const wrap = document.createElement("div");
   wrap.className = "section-block";
@@ -3642,7 +3777,7 @@ function renderBrowseSection(sectionName, cats){
     card.className = `cat-card t-${cat.theme}`;
     card.innerHTML = `
       <div class="cat-card-row">
-        <div class="cat-icon-box t-${cat.theme}">${cat.icon}</div>
+        <div class="cat-icon-box t-${cat.theme}">${iconSvg(cat.icon)}</div>
         <div class="cat-info">
           <div class="cat-name">${cat.name}</div>
           <div class="cat-stats">
@@ -3757,9 +3892,7 @@ function renderWordGrid(){
     }
     return true;
   });
-  const totalPages = Math.max(1, Math.ceil(allWords.length / CAT_PER_PAGE));
-  if (catState.page > totalPages) catState.page = totalPages;
-  const words = allWords.slice((catState.page - 1) * CAT_PER_PAGE, catState.page * CAT_PER_PAGE);
+  const words = allWords;
   const grid = document.getElementById("wordGrid");
   document.getElementById("listCount").textContent = `${allWords.length} word${allWords.length!==1?"s":""}`;
   grid.innerHTML = "";
@@ -3808,11 +3941,6 @@ function renderWordGrid(){
   if (typeof gsap !== "undefined"){
     gsap.fromTo(grid.children, {opacity:0,y:14},{opacity:1,y:0,duration:.4,ease:"power2.out",stagger:{amount:.3,from:"start"}});
   }
-  buildPagination(document.getElementById("catPagination"), allWords.length, CAT_PER_PAGE, catState.page, p => {
-    catState.page = p;
-    renderWordGrid();
-    document.getElementById("listCatView").scrollIntoView({behavior:"smooth", block:"start"});
-  });
 }
 
 document.getElementById("catCompleteAllBtn").addEventListener("click", () => {
@@ -3834,9 +3962,8 @@ function enterCatView(cat){
   catState.search = "";
   catState.cefr = "all";
   catState.learned = "all";
-  catState.page = 1;
   document.getElementById("catSearchInput").value = "";
-  document.getElementById("catViewIcon").textContent = cat.icon || "📚";
+  document.getElementById("catViewIcon").innerHTML = iconSvg(cat.icon);
   document.getElementById("catViewIcon").className = `cat-view-icon t-${cat.theme}`;
   document.getElementById("catViewName").textContent = cat.name;
   document.getElementById("catViewName").className = `cat-view-name t-${cat.theme}`;
@@ -3907,25 +4034,25 @@ document.getElementById("browseClearFilters").addEventListener("click", () => {
 document.getElementById("backToBrowse").addEventListener("click", exitCatView);
 document.getElementById("backToBrowseBottom").addEventListener("click", exitCatView);
 document.getElementById("catSearchInput").addEventListener("input", debounce(e => {
-  catState.search = e.target.value.trim(); catState.page = 1;
+  catState.search = e.target.value.trim();
   renderWordGrid();
 }, 150));
 document.querySelectorAll("[data-cat-cefr]").forEach(chip => {
   chip.addEventListener("click", () => {
-    catState.cefr = chip.dataset.catCefr; catState.page = 1;
+    catState.cefr = chip.dataset.catCefr;
     document.querySelectorAll("[data-cat-cefr]").forEach(c => c.classList.toggle("active", c.dataset.catCefr===catState.cefr));
     renderWordGrid();
   });
 });
 document.querySelectorAll("[data-cat-learned]").forEach(chip => {
   chip.addEventListener("click", () => {
-    catState.learned = chip.dataset.catLearned; catState.page = 1;
+    catState.learned = chip.dataset.catLearned;
     document.querySelectorAll("[data-cat-learned]").forEach(c => c.classList.toggle("active", c.dataset.catLearned===catState.learned));
     renderWordGrid();
   });
 });
 document.getElementById("clearCatFilters").addEventListener("click", () => {
-  catState.search=""; catState.cefr="all"; catState.learned="all"; catState.page=1;
+  catState.search=""; catState.cefr="all"; catState.learned="all";
   document.getElementById("catSearchInput").value="";
   document.querySelectorAll("[data-cat-cefr]").forEach(c => c.classList.toggle("active", c.dataset.catCefr==="all"));
   document.querySelectorAll("[data-cat-learned]").forEach(c => c.classList.toggle("active", c.dataset.catLearned==="all"));
@@ -4832,10 +4959,10 @@ initStreak();
 // Footer share button
 document.getElementById("footerShareBtn")?.addEventListener("click", function(){
   const learned = Object.values(state.learnMap).filter(v=>v==="learned").length;
-  const text = `I've learned ${learned} IELTS words on IELTS Vocab Master! 🎓`;
+  const text = `I've learned ${learned} IELTS words on LexiLoop! 🎓`;
   navigator.clipboard?.writeText(text).then(() => {
-    this.textContent = "✅ Copied!";
-    setTimeout(() => { this.textContent = "📋 Copy"; }, 2000);
+    this.textContent = "Copied ✓";
+    setTimeout(() => { this.textContent = "Copy"; }, 2000);
   });
 });
 </script>
@@ -4864,7 +4991,7 @@ document.getElementById("footerShareBtn")?.addEventListener("click", function(){
 <div class="chat-widget" id="chatWidget">
   <div class="chat-box" id="chatBox">
     <div class="chat-header">
-      <div class="chat-avatar">🤖</div>
+      <div class="chat-avatar"><svg class="ico" aria-hidden="true"><use href="#i-bot"/></svg></div>
       <div class="chat-header-info">
         <div class="chat-header-name">IELTS Assistant</div>
         <div class="chat-header-status">
@@ -4876,14 +5003,14 @@ document.getElementById("footerShareBtn")?.addEventListener("click", function(){
 
     <div class="chat-messages">
       <div class="chat-msg">
-        <div class="chat-msg-avatar">🤖</div>
+        <div class="chat-msg-avatar"><svg class="ico" aria-hidden="true"><use href="#i-bot"/></svg></div>
         <div>
           <div class="chat-bubble">Hey! 👋 I'm your <b>IELTS Assistant</b>. I can help you understand words, explain definitions, and guide your study sessions.</div>
           <div class="chat-time">Just now</div>
         </div>
       </div>
       <div class="chat-msg">
-        <div class="chat-msg-avatar">🤖</div>
+        <div class="chat-msg-avatar"><svg class="ico" aria-hidden="true"><use href="#i-bot"/></svg></div>
         <div>
           <div class="chat-bubble">Try asking me: <b>"What does 'ambiguous' mean?"</b> or <b>"Give me B2 words for emotions"</b>.</div>
           <div class="chat-time">Just now</div>
@@ -4944,7 +5071,7 @@ document.getElementById("footerShareBtn")?.addEventListener("click", function(){
 
     if(!isUser){
       const av = document.createElement("div");
-      av.className = "chat-msg-avatar"; av.textContent = "🤖";
+      av.className = "chat-msg-avatar"; av.innerHTML = `<svg class="ico" aria-hidden="true"><use href="#i-bot"/></svg>`;
       row.appendChild(av);
     }
 
@@ -4967,7 +5094,7 @@ document.getElementById("footerShareBtn")?.addEventListener("click", function(){
     const row = document.createElement("div");
     row.className = "chat-msg"; row.id = "chatTypingRow";
     const av = document.createElement("div");
-    av.className = "chat-msg-avatar"; av.textContent = "🤖";
+    av.className = "chat-msg-avatar"; av.innerHTML = `<svg class="ico" aria-hidden="true"><use href="#i-bot"/></svg>`;
     const bubble = document.createElement("div");
     bubble.className = "chat-bubble chat-typing";
     bubble.innerHTML = "<span></span><span></span><span></span>";
