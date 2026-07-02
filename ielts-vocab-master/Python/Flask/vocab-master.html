@@ -3,31 +3,36 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>IELTS Vocab Master</title>
+<title>LexiLoop — IELTS Vocabulary</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;700&family=Fraunces:ital,opsz,wght@1,9..144,400..600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#0b0e14; --bg-rgb:11 14 20;
-  --surface:#161a23; --surface-rgb:22 26 35;
-  --surface2:#1e2330; --border:#2a3040;
-  --text:#e8eaf0; --muted:#9aa3b5; --accent:#6366f1;
-  --card-bg:#161a23; --card-border:#2a3040;
+  --bg:#0b0d12; --bg-rgb:11 13 18;
+  --surface:#12151d; --surface-rgb:18 21 29;
+  --surface2:#191d27; --border:#232937;
+  --text:#eceef4; --muted:#98a0b3; --accent:#7c3aed;
+  --card-bg:#12151d; --card-border:#232937;
+  --gold:#d4af6a; --gold-rgb:212 175 106;
+  --serif:'Fraunces',Georgia,serif;
+  --ease-luxe:cubic-bezier(.22,1,.36,1);
   --a1:#10b981; --a1p:#eab308; --a2:#06b6d4; --a2p:#f97316;
   --b1:#6366f1; --b1p:#ec4899; --b2:#3b82f6; --b2p:#1e40af; --c1:#f59e0b; --c1p:#f43f5e; --c2:#ef4444; --c2p:#a855f7;
   --tb:#3b82f6; --tv:#8b5cf6; --tp:#ec4899; --tr:#ef4444; --te:#10b981;
   --ta:#f59e0b; --tc:#06b6d4; --tg:#eab308; --ti:#6366f1; --to:#f97316;
   --tro:#f43f5e; --tfg:#16a34a; --tpurp:#a855f7; --ts:#0d9488; --tnavy:#1e40af;
+  --vio:124,58,237;
 }
 [data-theme="light"]{
-  --bg:#f5f6fa; --bg-rgb:245 246 250;
+  --bg:#f6f5f2; --bg-rgb:246 245 242;
   --surface:#ffffff; --surface-rgb:255 255 255;
-  --surface2:#eef0f5; --border:#e0e3ea;
-  --text:#1a1d27; --muted:#646d7d;
+  --surface2:#eceae4; --border:#dcd7cc;
+  --text:#16181d; --muted:#585d68;
+  --gold:#b08a3e; --gold-rgb:176 138 62;
   --a1:#059669; --a1p:#ca8a04; --a2:#06b6d4; --a2p:#ea580c;
   --b1:#4f46e5; --b1p:#db2777; --b2:#2563eb; --b2p:#1e3a8a; --c1:#d97706; --c1p:#e11d48; --c2:#dc2626; --c2p:#9333ea;
-  --card-bg:#ffffff; --card-border:#bcc6d8;
+  --card-bg:#ffffff; --card-border:#dcd7cc;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 body{
@@ -35,59 +40,87 @@ body{
   line-height:1.5; min-height:100vh;
   transition:background-color .25s ease, color .25s ease;
 }
-h1,h2,h3,.brand,.tab,.btn,.modeCard h3,.mode-toggle-label{font-family:'Sora',sans-serif;}
+/* soft ambient gradient behind everything */
+body::before{
+  content:""; position:fixed; inset:0; z-index:-1; pointer-events:none;
+  background:
+    radial-gradient(1100px 520px at 82% -8%, rgba(var(--vio),.09), transparent 60%),
+    radial-gradient(900px 480px at -10% 30%, rgba(var(--vio),.05), transparent 55%);
+}
+/* film grain over everything, both themes */
+body::after{
+  content:""; position:fixed; inset:0; z-index:2147483000; pointer-events:none; opacity:.028;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+/* mono eyebrow micro-label */
+.eyebrow{
+  font-family:'JetBrains Mono',monospace; font-size:.66rem; font-weight:700;
+  text-transform:uppercase; letter-spacing:.32em; color:var(--muted);
+}
+::selection{background:rgb(var(--vio));color:#fff;}
+::-webkit-scrollbar{width:7px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:rgba(var(--vio),.5);border-radius:99px;}
+::-webkit-scrollbar-thumb:hover{background:rgb(var(--vio));}
+h1,h2,h3,.brand,.tab,.btn,.modeCard h3,.mode-toggle-label{font-family:'Plus Jakarta Sans','Sora',sans-serif;}
+
+/* ===== ICONS (inline SVG sprite) ===== */
+.ico{
+  width:1em; height:1em; display:inline-block; flex-shrink:0; vertical-align:-.125em;
+  fill:none; stroke:currentColor; stroke-width:1.75; stroke-linecap:round; stroke-linejoin:round;
+}
+.ico-mark{width:1.65em; height:1.65em; color:rgb(var(--vio)); stroke-width:2.4;}
 
 /* ===== TOPBAR ===== */
 .topbar{
   position:sticky; top:0; z-index:50;
-  padding:14px 28px; background:rgb(var(--bg-rgb) / .85); backdrop-filter:blur(12px);
-  border-bottom:1px solid var(--border);
+  padding:14px 10px; background:rgba(var(--bg-rgb),.88); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(var(--vio),.18);
 }
 .topbar-inner{
   max-width:1280px; margin:0 auto; width:100%;
   display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;
 }
-.topbar-left{display:flex; align-items:center; gap:24px; flex-wrap:wrap;}
-.brand{font-weight:800; font-size:1.2rem; letter-spacing:-.02em; display:flex; align-items:center; gap:8px;}
-.brand span{background:linear-gradient(135deg,#6366f1,#a855f7); -webkit-background-clip:text; background-clip:text; color:transparent;}
-.tabs{display:flex; gap:6px; flex-wrap:wrap;}
+.topbar-left{display:flex; align-items:center; gap:16px; flex-wrap:wrap;}
+.brand{font-weight:800; font-size:1.35rem; letter-spacing:-.035em; display:flex; align-items:center; gap:7px;}
+.brand-name b{font-weight:inherit; color:rgb(var(--vio));}
+.tabs{display:flex; gap:3px; flex-wrap:wrap;}
 .topbar-right{display:flex; align-items:center; gap:14px; flex-wrap:wrap;}
 .tab{
   font-size:.88rem; font-weight:600; color:var(--muted); background:transparent;
-  border:1px solid transparent; padding:8px 16px; border-radius:10px; cursor:pointer;
-  transition:background .18s ease, color .18s ease, box-shadow .18s ease; white-space:nowrap;
+  border:1px solid transparent; padding:8px 12px; border-radius:10px; cursor:pointer;
+  transition:background .18s ease, color .18s ease, box-shadow .18s ease, transform .2s cubic-bezier(.25,.46,.45,.94); white-space:nowrap;
 }
-.tab:hover{color:var(--text); background:var(--surface2);}
-.tab.active{color:#fff; background:var(--accent); box-shadow:0 4px 14px rgba(99,102,241,.35);}
-.nav-caret{font-size:.7em; margin-left:4px; opacity:.6;}
-
+.tab:hover{color:var(--text); background:rgba(var(--vio),.1); border-color:rgba(var(--vio),.2); transform:translateY(-1px);}
+.tab.active{color:#fff; background:rgb(var(--vio)); box-shadow:0 4px 14px rgba(var(--vio),.4);}
 /* ===== NAV DROPDOWNS ===== */
-.nav-group{position:relative;}
+.nav-group{position:relative;}.nav-group::after{content:'';position:absolute;left:0;right:0;bottom:-8px;height:8px;}
 .nav-dropdown{
   display:none; position:absolute; left:0; top:100%; width:100%; z-index:60;
-  background:var(--surface); border:1px solid var(--border); border-radius:0 0 12px 12px;
-  box-shadow:0 16px 48px rgba(0,0,0,.45), 0 4px 12px rgba(0,0,0,.2);
-  overflow:hidden;
+  background:rgba(22,26,35,.94); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+  border:1px solid rgba(var(--vio),.22); border-top:none; border-radius:0 0 14px 14px;
+  box-shadow:0 16px 48px rgba(0,0,0,.5); overflow:hidden;
 }
+[data-theme="light"] .nav-dropdown{background:rgba(255,255,255,.94);}
 .nav-group:hover .nav-dropdown, .nav-group.open .nav-dropdown{display:block;}
 .nav-dropdown-item{
-  display:block; width:100%; text-align:left; font-family:'Sora',sans-serif;
-  font-size:.88rem; font-weight:600; color:var(--muted); background:transparent;
-  border:none; padding:10px 16px; cursor:pointer;
+  display:block; width:100%; text-align:left; font-family:'Plus Jakarta Sans','Sora',sans-serif;
+  font-size:.84rem; font-weight:600; color:var(--muted); background:transparent;
+  border:none; padding:7px 12px; cursor:pointer;
   transition:background .15s ease, color .15s ease;
 }
-.nav-dropdown-item:hover{color:var(--text); background:var(--surface2);}
-.nav-dropdown-item.active{color:var(--accent);}
+.nav-dropdown-item:hover{color:var(--text); background:rgba(var(--vio),.1);}
+.nav-dropdown-item.active{color:rgb(var(--vio));}
 
 /* ===== THEME TOGGLE ===== */
 .theme-toggle{
   display:flex; align-items:center; justify-content:center; width:36px; height:36px;
-  border-radius:999px; border:1px solid var(--border); background:var(--surface2);
-  font-size:1rem; line-height:1; cursor:pointer; transition:border-color .18s ease;
+  border-radius:999px; border:1px solid rgba(var(--vio),.25); background:rgba(var(--vio),.08);
+  font-size:1rem; line-height:1; cursor:pointer; color:var(--text); transition:border-color .18s ease, background .18s ease;
 }
-.theme-toggle:hover{border-color:var(--accent);}
+.theme-toggle:hover{border-color:rgb(var(--vio)); background:rgba(var(--vio),.15);}
 
-.stats{font-size:.85rem; color:var(--muted); font-weight:600; white-space:nowrap;}
+.stats{font-size:.85rem; color:var(--muted); font-weight:600; white-space:nowrap; font-family:'JetBrains Mono',monospace;}
 .stats b{color:var(--text); font-size:1rem;}
 .review-link{
   margin-left:8px; padding:2px 10px; border-radius:999px; border:1px solid var(--c1);
@@ -99,50 +132,56 @@ h1,h2,h3,.brand,.tab,.btn,.modeCard h3,.mode-toggle-label{font-family:'Sora',san
 /* ===== AUTH ===== */
 .auth-area{position:relative;}
 .signin-btn{
-  padding:7px 16px; border-radius:999px; border:1px solid var(--accent);
-  background:var(--accent); color:#fff; font-size:.85rem; font-weight:700; cursor:pointer;
-  transition:opacity .15s ease;
+  padding:7px 18px; border-radius:999px; border:none;
+  background:linear-gradient(135deg,#7c3aed,#6d28d9); color:#fff; font-size:.85rem; font-weight:700; cursor:pointer;
+  box-shadow:0 4px 14px rgba(var(--vio),.35);
+  transition:transform .2s cubic-bezier(.25,.46,.45,.94), box-shadow .2s ease;
 }
-.signin-btn:hover{opacity:.88;}
+.signin-btn:hover{transform:translateY(-1px); box-shadow:0 6px 20px rgba(var(--vio),.45);}
 .user-chip{display:flex; align-items:center; gap:6px; cursor:pointer; position:relative;}
 .user-avatar{
-  width:30px; height:30px; border-radius:50%; overflow:hidden; border:1px solid var(--border);
-  background:var(--surface2); display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  width:30px; height:30px; border-radius:50%; overflow:hidden; border:2px solid rgba(var(--vio),.4);
+  background:rgba(var(--vio),.12); display:flex; align-items:center; justify-content:center; flex-shrink:0;
 }
 .user-avatar img{width:100%; height:100%; object-fit:cover;}
 .avatar-initials{
   width:100%; height:100%; display:flex; align-items:center; justify-content:center;
-  background:var(--accent); color:#fff; font-size:.85rem; font-weight:700;
+  background:linear-gradient(135deg,#7c3aed,#6d28d9); color:#fff; font-size:.85rem; font-weight:700;
 }
 .user-name{font-size:.85rem; font-weight:600; color:var(--text); max-width:120px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
 .user-menu{
-  display:none; position:absolute; top:calc(100% + 8px); right:0; min-width:180px;
-  background:var(--surface); border:1px solid var(--border); border-radius:10px;
-  box-shadow:0 8px 24px rgba(0,0,0,.15); padding:10px; z-index:50; flex-direction:column; gap:8px;
+  display:none; position:absolute; top:calc(100% + 8px); right:0; min-width:200px;
+  background:rgba(22,26,35,.94); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+  border:1px solid rgba(var(--vio),.22); border-radius:16px;
+  box-shadow:0 16px 48px rgba(0,0,0,.4); padding:12px; z-index:50; flex-direction:column; gap:8px;
 }
+[data-theme="light"] .user-menu{background:rgba(255,255,255,.94);}
 .user-chip.open .user-menu{display:flex;}
 .user-menu-name{font-size:.88rem; font-weight:700; color:var(--text);}
-.user-menu-username{font-size:.8rem; color:var(--muted);}
+.user-menu-username{font-size:.8rem; color:var(--muted); font-family:'JetBrains Mono',monospace;}
 .user-menu-username:empty{display:none;}
-.user-menu-email{font-size:.78rem; color:var(--muted); word-break:break-all;}
+.user-menu-email{font-size:.78rem; color:var(--muted); word-break:break-all; font-family:'JetBrains Mono',monospace;}
 .user-menu button{
-  padding:6px 10px; border-radius:8px; border:1px solid var(--border); background:var(--surface2);
-  color:var(--text); font-size:.82rem; font-weight:600; cursor:pointer;
+  padding:7px 12px; border-radius:10px; border:1px solid rgba(var(--vio),.2); background:rgba(var(--vio),.08);
+  color:var(--text); font-size:.82rem; font-weight:600; cursor:pointer; font-family:'Plus Jakarta Sans','Inter',sans-serif;
+  transition:border-color .15s, background .15s, transform .2s cubic-bezier(.25,.46,.45,.94);
 }
-.user-menu button:hover{border-color:var(--accent);}
+.user-menu button:hover{border-color:rgba(var(--vio),.5); background:rgba(var(--vio),.14); transform:translateY(-1px);}
 
 .auth-hidden{display:none !important;}
 
 .auth-modal-overlay{
-  display:none; position:fixed; inset:0; background:rgba(0,0,0,.5);
+  display:none; position:fixed; inset:0; background:rgba(0,0,0,.6); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px);
   align-items:center; justify-content:center; z-index:200; padding:16px;
 }
 .auth-modal-overlay.open{display:flex;}
 .auth-modal{
-  position:relative; width:100%; max-width:380px; background:var(--surface);
-  border:1px solid var(--border); border-radius:14px; padding:28px 24px;
-  box-shadow:0 16px 48px rgba(0,0,0,.25);
+  position:relative; width:100%; max-width:380px;
+  background:rgba(22,26,35,.95); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+  border:1px solid rgba(var(--vio),.25); border-radius:20px; padding:28px 24px;
+  box-shadow:0 24px 64px rgba(0,0,0,.5);
 }
+[data-theme="light"] .auth-modal{background:rgba(255,255,255,.96);}
 .auth-modal-lg{max-width:440px; padding:36px 32px;}
 .auth-modal-lg .auth-modal-title{margin-bottom:6px;}
 .auth-modal-subtitle{margin:0 0 14px; font-size:.92rem; color:var(--muted); text-align:center;}
@@ -150,12 +189,12 @@ h1,h2,h3,.brand,.tab,.btn,.modeCard h3,.mode-toggle-label{font-family:'Sora',san
 .auth-social-row{display:flex; gap:10px; justify-content:center; margin-bottom:20px;}
 .auth-social-btn{
   flex:1; max-width:80px; aspect-ratio:1; display:flex; align-items:center; justify-content:center;
-  border:1px solid var(--border); border-radius:10px; background:var(--surface2); color:var(--text);
-  cursor:pointer; transition:border-color .15s ease, background .15s ease;
+  border:1px solid rgba(var(--vio),.2); border-radius:12px; background:rgba(var(--vio),.07); color:var(--text);
+  cursor:pointer; transition:border-color .15s ease, background .15s ease, transform .2s cubic-bezier(.25,.46,.45,.94);
 }
-.auth-social-btn:hover{border-color:var(--accent); background:rgb(var(--surface-rgb) / .5);}
-.auth-divider{display:flex; align-items:center; gap:10px; margin:0 0 20px; color:var(--muted); font-size:.8rem;}
-.auth-divider::before, .auth-divider::after{content:""; flex:1; height:1px; background:var(--border);}
+.auth-social-btn:hover{border-color:rgba(var(--vio),.5); background:rgba(var(--vio),.14); transform:translateY(-1px);}
+.auth-divider{display:flex; align-items:center; gap:10px; margin:0 0 20px; color:var(--muted); font-size:.8rem; font-family:'JetBrains Mono',monospace;}
+.auth-divider::before, .auth-divider::after{content:""; flex:1; height:1px; background:rgba(var(--vio),.2);}
 .auth-password-wrap{position:relative;}
 .auth-password-wrap input{padding-right:42px;}
 .auth-pw-toggle{
@@ -184,30 +223,34 @@ h1,h2,h3,.brand,.tab,.btn,.modeCard h3,.mode-toggle-label{font-family:'Sora',san
 .auth-field span{display:block; margin-bottom:6px; font-size:.82rem; font-weight:700; color:var(--text);}
 .auth-field small{font-weight:400; color:var(--muted);}
 .auth-field input{
-  width:100%; padding:10px 12px; border-radius:8px; border:1px solid var(--border);
-  background:var(--surface2); color:var(--text); font-size:.92rem; box-sizing:border-box;
+  width:100%; padding:10px 12px; border-radius:10px; border:1px solid rgba(var(--vio),.22);
+  background:rgba(var(--vio),.07); color:var(--text); font-size:.92rem; box-sizing:border-box;
+  font-family:'Plus Jakarta Sans','Inter',sans-serif; transition:border-color .18s, box-shadow .18s;
 }
-.auth-field input:focus{outline:none; border-color:var(--accent); box-shadow:0 0 0 3px rgba(99,102,241,.12);}
+.auth-field input:focus{outline:none; border-color:rgba(var(--vio),.6); box-shadow:0 0 0 3px rgba(var(--vio),.12);}
 .auth-submit-btn{
-  width:100%; padding:11px; border-radius:8px; border:none; background:var(--accent);
-  color:#fff; font-size:.92rem; font-weight:700; cursor:pointer; transition:opacity .15s ease;
+  width:100%; padding:11px; border-radius:10px; border:none;
+  background:linear-gradient(135deg,#7c3aed,#6d28d9);
+  color:#fff; font-size:.92rem; font-weight:700; cursor:pointer;
+  box-shadow:0 4px 14px rgba(var(--vio),.35);
+  transition:transform .2s cubic-bezier(.25,.46,.45,.94), box-shadow .2s ease;
 }
-.auth-submit-btn:hover{opacity:.88;}
-.auth-submit-btn:disabled{opacity:.6; cursor:not-allowed;}
+.auth-submit-btn:hover{transform:translateY(-1px); box-shadow:0 6px 20px rgba(var(--vio),.45);}
+.auth-submit-btn:disabled{opacity:.6; cursor:not-allowed; transform:none; box-shadow:none;}
 .auth-switch{margin:16px 0 0; text-align:center; font-size:.82rem; color:var(--muted);}
-.auth-switch a{color:var(--accent); font-weight:700; text-decoration:none; cursor:pointer;}
+.auth-switch a{color:rgb(var(--vio)); font-weight:700; text-decoration:none; cursor:pointer;}
 .auth-switch a:hover{text-decoration:underline;}
 .auth-modal-info{
-  margin:0 0 14px; padding:9px 12px; border-radius:8px; background:rgba(99,102,241,.1);
-  border:1px solid rgba(99,102,241,.35); color:var(--text); font-size:.82rem; font-weight:600;
+  margin:0 0 14px; padding:9px 12px; border-radius:10px; background:rgba(var(--vio),.1);
+  border:1px solid rgba(var(--vio),.3); color:var(--text); font-size:.82rem; font-weight:600;
 }
 .auth-modal-info:empty{display:none;}
 .auth-options-row{display:flex; align-items:center; justify-content:space-between; gap:10px; margin:-6px 0 14px;}
 .auth-forgot-link{margin:0; font-size:.8rem;}
-.auth-forgot-link a{color:var(--accent); font-weight:600; text-decoration:none; cursor:pointer;}
+.auth-forgot-link a{color:rgb(var(--vio)); font-weight:600; text-decoration:none; cursor:pointer;}
 .auth-forgot-link a:hover{text-decoration:underline;}
 .auth-remember-me{display:flex; align-items:center; gap:6px; font-size:.8rem; color:var(--muted); cursor:pointer; user-select:none;}
-.auth-remember-me input{width:14px; height:14px; accent-color:var(--accent); cursor:pointer;}
+.auth-remember-me input{width:14px; height:14px; accent-color:rgb(var(--vio)); cursor:pointer;}
 .delete-account-link{
   display:block; width:100%; margin-top:4px; padding:6px 10px; border-radius:8px;
   border:1px solid rgba(220,38,38,.35); background:transparent; color:#dc2626;
@@ -219,37 +262,49 @@ h1,h2,h3,.brand,.tab,.btn,.modeCard h3,.mode-toggle-label{font-family:'Sora',san
 main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
 .page{display:none;}
 .page.active{display:block;}
-.page-head{margin-bottom:22px;}
-.page-head h1{font-size:1.75rem; font-weight:800; margin-bottom:4px;}
-.page-head p{color:var(--muted); font-size:.95rem;}
+.page-head{margin-bottom:34px;}
+.page-head .eyebrow{display:block; margin-bottom:10px;}
+.page-head h1{font-size:2.3rem; font-weight:800; letter-spacing:-.03em; margin-bottom:8px; font-family:'Plus Jakarta Sans','Sora',sans-serif;}
+.page-head p{color:var(--muted); font-size:1.05rem; font-family:var(--serif); font-style:italic;}
 
 /* ===== FILTERS ===== */
 .filters{
   display:flex; flex-direction:column; gap:14px; margin-bottom:24px;
-  background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:18px 20px;
+  background:rgba(255,255,255,0.72); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+  border:1px solid rgba(124,58,237,0.18); border-radius:20px; padding:20px 22px;
+}
+[data-theme="dark"] .filters{
+  background:rgba(20,20,26,0.82);
+  border-color:rgba(124,58,237,0.22);
 }
 .search-row{display:flex; gap:10px; flex-wrap:wrap; align-items:center; position:relative;}
-.search-row::before{content:"🔍"; position:absolute; left:14px; top:50%; transform:translateY(-50%); font-size:.9rem; opacity:.5; pointer-events:none;}
-#searchInput, #exSearchInput{
-  flex:1; min-width:200px; background:var(--surface2); border:1px solid var(--border);
-  color:var(--text); padding:10px 16px 10px 38px; border-radius:10px; font-size:.93rem; font-family:inherit;
-  -webkit-appearance:none; appearance:none;
-  transition:border-color .18s ease;
+.search-row::before{
+  content:""; position:absolute; left:14px; top:50%; transform:translateY(-50%);
+  width:14px; height:14px; background:var(--muted); opacity:.55; pointer-events:none;
+  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E") center/contain no-repeat;
+  mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E") center/contain no-repeat;
 }
-#searchInput:focus, #exSearchInput:focus{outline:none; border-color:var(--accent); box-shadow:0 0 0 3px rgba(99,102,241,.12);}
+#searchInput, #exSearchInput{
+  flex:1; min-width:200px; background:rgba(124,58,237,0.06); border:1px solid rgba(124,58,237,0.2);
+  color:var(--text); padding:10px 16px 10px 38px; border-radius:12px; font-size:.93rem;
+  font-family:'Plus Jakarta Sans','Inter',sans-serif;
+  -webkit-appearance:none; appearance:none;
+  transition:border-color .18s ease, box-shadow .18s ease;
+}
+#searchInput:focus, #exSearchInput:focus{outline:none; border-color:rgba(124,58,237,0.6); box-shadow:0 0 0 3px rgba(124,58,237,0.12);}
 #searchInput::-webkit-search-decoration, #searchInput::-webkit-search-cancel-button,
 #exSearchInput::-webkit-search-decoration, #exSearchInput::-webkit-search-cancel-button{-webkit-appearance:none;}
-.result-count{font-size:.84rem; color:var(--muted); white-space:nowrap;}
+.result-count{font-size:.84rem; color:var(--muted); white-space:nowrap; font-family:'JetBrains Mono',monospace;}
 .filter-row{display:flex; gap:8px; flex-wrap:wrap; align-items:center;}
-.filter-label{font-size:.78rem; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:.06em; margin-right:4px;}
+.filter-label{font-size:.72rem; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:.1em; margin-right:4px; font-family:'JetBrains Mono',monospace;}
 .chip{
   font-size:.82rem; font-weight:600; padding:6px 14px; border-radius:999px;
-  background:var(--surface2); border:1px solid var(--border); color:var(--muted);
+  background:rgba(124,58,237,0.06); border:1px solid rgba(124,58,237,0.18); color:var(--muted);
   cursor:pointer; display:flex; align-items:center; gap:6px;
-  transition:color .15s ease, border-color .15s ease, background .15s ease;
+  transition:color .15s ease, border-color .15s ease, background .15s ease, transform .2s cubic-bezier(.25,.46,.45,.94), box-shadow .2s ease;
 }
-.chip:hover{color:var(--text); border-color:var(--accent);}
-.chip.active{color:#fff; border-color:transparent; background:var(--accent);}
+.chip:hover{color:var(--text); border-color:rgba(124,58,237,0.5); background:rgba(124,58,237,0.1); transform:translateY(-1px); box-shadow:0 4px 12px rgba(124,58,237,0.15);}
+.chip.active{color:#fff; border-color:transparent; background:rgb(124,58,237); box-shadow:0 4px 14px rgba(124,58,237,0.35);}
 .chip.active[data-cefr="A1"],.chip.active[data-browse-cefr="A1"],.chip.active[data-cat-cefr="A1"]{background:var(--a1);}
 .chip.active[data-cefr="A1+"],.chip.active[data-browse-cefr="A1+"],.chip.active[data-cat-cefr="A1+"]{background:var(--a1p);}
 .chip.active[data-cefr="A2"],.chip.active[data-browse-cefr="A2"],.chip.active[data-cat-cefr="A2"]{background:var(--a2);}
@@ -262,23 +317,25 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
 .chip.active[data-cefr="C1+"],.chip.active[data-browse-cefr="C1+"],.chip.active[data-cat-cefr="C1+"]{background:var(--c1p);}
 .chip.active[data-cefr="C2"],.chip.active[data-browse-cefr="C2"],.chip.active[data-cat-cefr="C2"]{background:var(--c2);}
 .chip.active[data-cefr="C2+"],.chip.active[data-browse-cefr="C2+"],.chip.active[data-cat-cefr="C2+"]{background:var(--c2p);}
-.chip.active[data-section]{background:var(--accent);}
-.chip.active[data-cat]{background:var(--accent-c,var(--accent));}
+.chip.active[data-section]{background:rgb(124,58,237);}
+.chip.active[data-cat]{background:var(--accent-c,rgb(124,58,237));}
 .chip.active[data-browse-status="completed"]{background:var(--tfg);}
 .chip.active[data-browse-status="inProgress"]{background:var(--c1);}
 .chip.active[data-browse-status="notStarted"]{background:var(--muted);}
 .clear-btn{
-  font-size:.8rem; color:var(--muted); background:none; border:1px solid var(--border);
+  font-size:.78rem; color:var(--muted); background:rgba(124,58,237,0.05); border:1px solid rgba(124,58,237,0.18);
   border-radius:999px; padding:6px 14px; cursor:pointer; font-weight:600;
-  transition:color .15s, border-color .15s, background .15s;
+  font-family:'JetBrains Mono',monospace; letter-spacing:.04em;
+  transition:color .15s, border-color .15s, background .15s, transform .2s cubic-bezier(.25,.46,.45,.94);
 }
-.clear-btn:hover{color:var(--text); border-color:var(--accent); background:rgba(99,102,241,.1);}
+.clear-btn:hover{color:var(--text); border-color:rgba(124,58,237,0.5); background:rgba(124,58,237,0.1); transform:translateY(-1px);}
 .view-all-link{font-size:.82rem; font-weight:600; color:var(--accent); text-decoration:underline; text-underline-offset:2px; background:none; border:none; padding:6px 4px; cursor:pointer; transition:color .15s;}
 .view-all-link:hover{color:var(--text);}
 
 /* ===== CEFR BADGE ===== */
 .cefr-badge{
-  font-size:.7rem; font-weight:800; padding:3px 9px; border-radius:6px; color:#fff; letter-spacing:.03em; flex-shrink:0;
+  font-size:.68rem; font-weight:800; padding:3px 9px; border-radius:6px; color:#fff; letter-spacing:.06em; flex-shrink:0;
+  font-family:'JetBrains Mono',monospace;
 }
 .cefr-badge.A1{background:var(--a1);}
 .cefr-badge.A1\+{background:var(--a1p);}
@@ -298,18 +355,18 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
   display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:16px;
 }
 .word-card{
-  position:relative; border:1px solid var(--card-border); border-radius:16px;
-  background:var(--card-bg);
+  position:relative; border:1px solid rgba(var(--vio),.15); border-radius:18px;
+  background:var(--card-bg); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
   padding:16px; min-height:120px; overflow:hidden; cursor:pointer;
-  border-top:3px solid var(--accent-c, var(--accent));
-  transition:transform .24s cubic-bezier(.4,0,.2,1), box-shadow .24s cubic-bezier(.4,0,.2,1);
+  border-top:3px solid var(--accent-c, rgb(var(--vio)));
+  transition:transform .24s cubic-bezier(.25,.46,.45,.94), box-shadow .24s cubic-bezier(.25,.46,.45,.94);
 }
 .word-card:hover{
-  transform:translateY(-4px);
-  box-shadow:0 20px 48px rgba(0,0,0,.5), 0 4px 12px rgba(0,0,0,.25), 0 0 0 1px var(--accent-c, var(--accent));
+  transform:translateY(-5px);
+  box-shadow:0 20px 48px rgba(0,0,0,.45), 0 0 0 1px var(--accent-c,rgba(var(--vio),.5)), 0 4px 16px rgba(var(--vio),.15);
 }
 .word-card .face{display:flex; justify-content:space-between; align-items:flex-start; gap:8px;}
-.word-card .word{font-size:1.1rem; font-weight:700; font-family:'Sora',sans-serif; letter-spacing:-.01em; line-height:1.25;}
+.word-card .word{font-size:1.1rem; font-weight:700; font-family:'Plus Jakarta Sans','Sora',sans-serif; letter-spacing:-.01em; line-height:1.25;}
 .word-card .pos{font-size:.75rem; color:var(--muted); margin-top:2px; font-style:italic;}
 .word-card .reveal{
   position:absolute; inset:0;
@@ -347,8 +404,8 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
 .learn-state-row{display:flex; align-items:center; gap:6px; margin-top:auto; padding-top:8px; border-top:1px solid var(--border);}
 .learn-state-label{font-size:.72rem; color:var(--muted); white-space:nowrap; flex-shrink:0;}
 .learn-state-btn{
-  flex:1; font-size:.68rem; font-weight:700; font-family:'Sora',sans-serif; padding:4px 6px;
-  border-radius:6px; border:1px solid var(--border); background:var(--surface2); color:var(--muted);
+  flex:1; font-size:.68rem; font-weight:700; font-family:'JetBrains Mono',monospace; padding:4px 6px;
+  border-radius:6px; border:1px solid rgba(var(--vio),.15); background:rgba(var(--vio),.06); color:var(--muted);
   cursor:pointer; transition:all .15s ease; line-height:1.2;
 }
 .learn-state-btn[data-state="little"]{background:#f59e0b; border-color:#f59e0b; color:#1c1917;}
@@ -357,21 +414,23 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
 
 .cat-bulk-actions{display:flex; gap:10px; justify-content:center; margin:24px 0 8px;}
 .cat-bulk-btn{
-  font-size:.82rem; font-weight:700; font-family:'Sora',sans-serif; padding:9px 18px;
-  border-radius:9px; border:1px solid var(--border); background:#22c55e; color:#fff;
-  cursor:pointer; transition:filter .15s ease;
+  font-size:.82rem; font-weight:700; font-family:'Plus Jakarta Sans','Sora',sans-serif; padding:9px 20px;
+  border-radius:12px; border:none; background:#22c55e; color:#fff;
+  cursor:pointer; box-shadow:0 4px 14px rgba(34,197,94,.35);
+  transition:transform .2s cubic-bezier(.25,.46,.45,.94), box-shadow .2s ease;
 }
-.cat-bulk-btn:hover{filter:brightness(1.08);}
-.cat-bulk-btn-secondary{background:var(--surface2); color:var(--text);}
+.cat-bulk-btn:hover{transform:translateY(-1px); box-shadow:0 6px 20px rgba(34,197,94,.45);}
+.cat-bulk-btn-secondary{background:rgba(var(--vio),.1); border:1px solid rgba(var(--vio),.2); color:var(--text); box-shadow:none;}
+.cat-bulk-btn-secondary:hover{background:rgba(var(--vio),.16); box-shadow:none;}
 
 /* ===== HEADLINE FILTER ===== */
 .headline-bar{display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-bottom:20px;}
 .headline-btn{
-  font-family:'Sora',sans-serif; font-size:.82rem; font-weight:700; padding:7px 18px;
-  border-radius:99px; border:1.5px solid var(--border); background:var(--surface);
-  color:var(--muted); cursor:pointer; transition:all .18s ease; white-space:nowrap;
+  font-family:'Plus Jakarta Sans','Sora',sans-serif; font-size:.82rem; font-weight:700; padding:7px 18px;
+  border-radius:99px; border:1.5px solid rgba(var(--vio),.2); background:rgba(var(--vio),.06);
+  color:var(--muted); cursor:pointer; transition:all .18s ease, transform .2s cubic-bezier(.25,.46,.45,.94); white-space:nowrap;
 }
-.headline-btn:hover{border-color:var(--accent); color:var(--accent);}
+.headline-btn:hover{border-color:rgba(var(--vio),.5); color:rgb(var(--vio)); transform:translateY(-1px);}
 .headline-btn.active[data-headline="all"],.headline-btn.active[data-word-headline="all"]{background:var(--accent); border-color:var(--accent); color:#fff;}
 .headline-btn.active[data-headline="basic"],.headline-btn.active[data-word-headline="basic"]{background:var(--a2); border-color:var(--a2); color:#064e3b;}
 .headline-btn.active[data-headline="intermediate"],.headline-btn.active[data-word-headline="intermediate"]{background:var(--b2); border-color:var(--b2); color:#fff;}
@@ -385,11 +444,11 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
 .headline-pill.advanced{background:var(--c1); color:#1c1917;}
 .headline-pill.cefr{background:var(--c2p);}
 .pagination{display:flex;gap:6px;align-items:center;justify-content:center;margin:24px 0;flex-wrap:wrap;}
-.page-btn{min-width:36px;height:36px;padding:0 10px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--muted);font-family:'Sora',sans-serif;font-size:.82rem;font-weight:600;cursor:pointer;transition:background .15s,color .15s,border-color .15s;}
-.page-btn:hover:not(:disabled){border-color:var(--accent);color:var(--accent);}
-.page-btn.active{background:var(--accent);border-color:var(--accent);color:#fff;}
+.page-btn{min-width:36px;height:36px;padding:0 10px;border-radius:9px;border:1px solid rgba(var(--vio),.18);background:rgba(var(--vio),.06);color:var(--muted);font-family:'JetBrains Mono',monospace;font-size:.82rem;font-weight:600;cursor:pointer;transition:background .15s,color .15s,border-color .15s,transform .2s cubic-bezier(.25,.46,.45,.94);}
+.page-btn:hover:not(:disabled){border-color:rgba(var(--vio),.5);color:rgb(var(--vio));transform:translateY(-1px);}
+.page-btn.active{background:rgb(var(--vio));border-color:rgb(var(--vio));color:#fff;box-shadow:0 4px 12px rgba(var(--vio),.35);}
 .page-btn:disabled{opacity:.4;cursor:default;}
-.page-ellipsis{color:var(--muted);font-size:.9rem;padding:0 4px;}
+.page-ellipsis{color:var(--muted);font-size:.9rem;padding:0 4px;font-family:'JetBrains Mono',monospace;}
 
 /* cat progress bar 3-state */
 .cat-pfill-little{height:100%; border-radius:99px 0 0 99px; background:var(--c1); transition:width .4s ease; opacity:.7;}
@@ -406,9 +465,11 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
 /* ===== EXAMPLES PAGE ===== */
 .ex-list{display:flex; flex-direction:column; gap:10px;}
 .ex-item{
-  background:var(--surface); border:1px solid var(--border); border-left:4px solid var(--accent-c,var(--accent));
-  border-radius:10px; padding:14px 18px; display:flex; flex-direction:column; gap:6px;
+  background:rgba(var(--vio),.05); border:1px solid rgba(var(--vio),.15); border-left:4px solid var(--accent-c,rgb(var(--vio)));
+  border-radius:14px; padding:14px 18px; display:flex; flex-direction:column; gap:6px;
+  transition:box-shadow .2s ease, transform .2s cubic-bezier(.25,.46,.45,.94);
 }
+.ex-item:not(.interactive):hover{transform:translateY(-1px); box-shadow:0 4px 16px rgba(var(--vio),.12);}
 .ex-item .ex-head{display:flex; align-items:center; gap:10px; flex-wrap:wrap;}
 .ex-item .ex-word{font-weight:700; font-size:1.02rem; font-family:'Sora',sans-serif; color:var(--accent-c,var(--accent));}
 .ex-item .ex-pos{font-size:.75rem; color:var(--muted); font-style:italic;}
@@ -417,19 +478,21 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
 
 /* ===== QUIZ / GAP SETUP ===== */
 .setup-card{
-  max-width:680px; margin:0 auto; background:var(--surface); border:1px solid var(--border);
-  border-radius:20px; padding:32px; text-align:center;
-  box-shadow:0 8px 32px rgba(0,0,0,.25);
+  max-width:680px; margin:0 auto;
+  background:rgba(22,26,35,.82); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+  border:1px solid rgba(var(--vio),.22); border-radius:24px; padding:32px; text-align:center;
+  box-shadow:0 16px 48px rgba(0,0,0,.35);
 }
+[data-theme="light"] .setup-card{background:rgba(255,255,255,.88);}
 .setup-card h2{font-size:1.4rem; margin-bottom:8px;}
 .setup-card .sub{color:var(--muted); font-size:.92rem; margin-bottom:24px;}
 .option-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px; margin-bottom:22px;}
 .modeCard{
-  background:var(--surface2); border:2px solid var(--border); border-radius:12px; padding:14px;
-  cursor:pointer; transition:border-color .18s ease, background .18s ease; text-align:left;
+  background:rgba(var(--vio),.06); border:1.5px solid rgba(var(--vio),.18); border-radius:14px; padding:14px;
+  cursor:pointer; transition:border-color .18s ease, background .18s ease, transform .2s cubic-bezier(.25,.46,.45,.94); text-align:left;
 }
-.modeCard:hover{border-color:var(--accent);}
-.modeCard.active{border-color:var(--accent); background:rgba(99,102,241,.1);}
+.modeCard:hover{border-color:rgba(var(--vio),.45); transform:translateY(-2px);}
+.modeCard.active{border-color:rgb(var(--vio)); background:rgba(var(--vio),.14); box-shadow:0 0 0 3px rgba(var(--vio),.1);}
 .modeCard h3{font-size:.95rem; margin-bottom:4px;}
 .modeCard p{font-size:.78rem; color:var(--muted); line-height:1.35;}
 
@@ -437,28 +500,49 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
 .mode-toggle-row{display:flex; align-items:center; justify-content:center; gap:12px; margin-bottom:20px;}
 .mode-toggle-btn{
   display:flex; align-items:center; justify-content:center; width:36px; height:36px;
-  border-radius:999px; border:1px solid var(--border); background:var(--surface2);
-  font-size:1rem; line-height:1; cursor:pointer; transition:border-color .18s ease; color:var(--text);
+  border-radius:999px; border:1px solid rgba(var(--vio),.25); background:rgba(var(--vio),.08);
+  font-size:1rem; line-height:1; cursor:pointer; transition:border-color .18s ease, background .18s ease; color:var(--text);
 }
-.mode-toggle-btn:hover{border-color:var(--accent);}
+.mode-toggle-btn:hover{border-color:rgb(var(--vio)); background:rgba(var(--vio),.16);}
 
-.count-row{display:flex; justify-content:center; gap:10px; margin-bottom:24px; flex-wrap:wrap;}
+.count-row{display:flex; justify-content:center; gap:10px; margin-top:36px; margin-bottom:24px; flex-wrap:wrap; align-items:center;}
+.count-row .chip.active{padding:6px 22px;}
+.custom-chip{
+  display:inline-flex; align-items:center; gap:8px;
+  padding:6px 14px; border-radius:999px; cursor:pointer;
+  background:rgba(var(--vio),.06); border:1px solid rgba(var(--vio),.18); color:var(--muted);
+  font-size:.82rem; font-weight:600; font-family:'Plus Jakarta Sans','Inter',sans-serif; line-height:1;
+  transition:color .15s ease, border-color .15s ease, background .15s ease, transform .2s cubic-bezier(.25,.46,.45,.94);
+}
+.custom-chip:hover{color:var(--text); border-color:rgba(var(--vio),.5); background:rgba(var(--vio),.1); transform:translateY(-1px);}
+.custom-chip.active{background:rgb(var(--vio)); border-color:transparent; color:#fff; box-shadow:0 4px 14px rgba(var(--vio),.35);}
+.custom-count-input{
+  width:36px; padding:3px 4px; border-radius:6px; text-align:center;
+  background:#fff; border:none;
+  color:#6366f1; font-size:.82rem; font-weight:700; font-family:inherit;
+  -moz-appearance:textfield;
+}
+.custom-count-input::-webkit-outer-spin-button,
+.custom-count-input::-webkit-inner-spin-button{-webkit-appearance:none;}
+.custom-count-input:focus{outline:none; box-shadow:0 0 0 2px rgba(255,255,255,0.8);}
+.custom-count-input.bad{background:#fca5a5; color:#7f1d1d;}
+.custom-count-warn{display:none; font-size:.78rem; color:#f87171; margin-top:-16px; margin-bottom:8px; text-align:center;}
 .btn{
   font-weight:700; font-size:.95rem; padding:11px 32px; border-radius:12px;
   border:none; cursor:pointer; color:#fff;
-  background:linear-gradient(135deg,#6366f1 0%,#7c3aed 100%);
-  transition:transform .18s cubic-bezier(.4,0,.2,1), box-shadow .18s ease, background .18s ease;
+  background:linear-gradient(135deg,#7c3aed 0%,#6d28d9 100%);
+  box-shadow:0 4px 16px rgba(var(--vio),.35);
+  transition:transform .2s cubic-bezier(.25,.46,.45,.94), box-shadow .2s ease;
 }
 .btn:hover{
-  transform:translateY(-1px);
-  background:linear-gradient(135deg,#818cf8 0%,#9333ea 100%);
-  box-shadow:0 8px 24px rgba(99,102,241,.4);
+  transform:translateY(-2px);
+  box-shadow:0 8px 28px rgba(var(--vio),.45);
 }
 .btn.secondary{
-  background:var(--surface2); border:1px solid var(--border); color:var(--text);
+  background:rgba(var(--vio),.08); border:1px solid rgba(var(--vio),.22); color:var(--text);
   box-shadow:none;
 }
-.btn.secondary:hover{box-shadow:none; border-color:var(--accent); background:var(--surface2); transform:none;}
+.btn.secondary:hover{box-shadow:none; border-color:rgba(var(--vio),.5); background:rgba(var(--vio),.14); transform:translateY(-1px);}
 .btn:disabled{opacity:.4; cursor:not-allowed; transform:none; box-shadow:none;}
 
 /* ===== SETUP TOPIC/CEFR FILTERS ===== */
@@ -471,47 +555,266 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
 .progress-bar{height:4px; background:var(--surface2); border-radius:99px; overflow:hidden; margin-bottom:18px;}
 .progress-fill{
   height:100%; border-radius:99px; transition:width .4s ease;
-  background:linear-gradient(90deg,#6366f1 0%,#a855f7 100%);
+  background:linear-gradient(90deg,#7c3aed 0%,#a855f7 100%);
 }
-.q-meta{display:flex; justify-content:space-between; font-size:.85rem; color:var(--muted); margin-bottom:14px; font-weight:600;}
+.q-meta{display:flex; justify-content:space-between; font-size:.85rem; color:var(--muted); margin-bottom:14px; font-weight:600; font-family:'JetBrains Mono',monospace;}
 .q-card{
-  background:var(--surface); border:1px solid var(--border); border-radius:20px; padding:32px;
-  box-shadow:0 8px 32px rgba(0,0,0,.2);
+  background:rgba(22,26,35,.82); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+  border:1px solid rgba(var(--vio),.22); border-radius:24px; padding:32px;
+  box-shadow:0 16px 48px rgba(0,0,0,.3);
 }
-.q-prompt{font-size:.85rem; color:var(--muted); text-transform:uppercase; letter-spacing:.08em; font-weight:700; margin-bottom:10px;}
-.q-text{font-size:1.25rem; font-weight:700; font-family:'Sora',sans-serif; margin-bottom:24px; line-height:1.5;}
+[data-theme="light"] .q-card{background:rgba(255,255,255,.88);}
+.q-prompt{font-size:.78rem; color:var(--muted); text-transform:uppercase; letter-spacing:.1em; font-weight:700; margin-bottom:10px; font-family:'JetBrains Mono',monospace;}
+.q-text{font-size:1.25rem; font-weight:700; font-family:'Plus Jakarta Sans','Sora',sans-serif; margin-bottom:24px; line-height:1.5;}
 .q-text .qpos{font-size:.7em; color:var(--muted); font-weight:400; font-style:italic;}
 .q-text .gapblank{color:var(--accent); font-weight:800; border-bottom:2px dashed var(--accent); padding:0 4px;}
 .q-options{display:flex; flex-direction:column; gap:10px;}
 .q-opt{
-  text-align:left; background:var(--surface2); border:1px solid var(--border); color:var(--text);
-  padding:13px 18px; border-radius:12px; font-size:.95rem; cursor:pointer; font-family:inherit;
-  transition:border-color .15s ease, background .15s ease, box-shadow .15s ease;
+  text-align:left; background:rgba(var(--vio),.06); border:1px solid rgba(var(--vio),.18); color:var(--text);
+  padding:13px 18px; border-radius:14px; font-size:.95rem; cursor:pointer;
+  font-family:'Plus Jakarta Sans','Inter',sans-serif;
+  transition:border-color .15s ease, background .15s ease, box-shadow .15s ease, transform .2s cubic-bezier(.25,.46,.45,.94);
 }
-.q-opt:hover{border-color:var(--accent); background:rgba(99,102,241,.05); box-shadow:0 0 0 1px rgba(99,102,241,.2);}
-.q-opt.correct{background:rgba(34,197,94,.18); border-color:#22c55e; color:#86efac;}
-.q-opt.wrong{background:rgba(239,68,68,.18); border-color:#ef4444; color:#fca5a5;}
+.q-opt:hover{border-color:rgba(var(--vio),.5); background:rgba(var(--vio),.1); box-shadow:0 0 0 3px rgba(var(--vio),.1); transform:translateY(-1px);}
+.q-opt.correct{background:rgba(34,197,94,.18); border-color:#22c55e; color:#86efac; transform:none;}
+.q-opt.wrong{background:rgba(239,68,68,.18); border-color:#ef4444; color:#fca5a5; transform:none;}
 [data-theme="light"] .q-opt.correct{color:#15803d;}
 [data-theme="light"] .q-opt.wrong{color:#b91c1c;}
 .q-opt:disabled{cursor:default;}
-.q-opt:disabled:hover{border-color:var(--border); background:var(--surface2); box-shadow:none;}
+.q-opt:disabled:hover{border-color:rgba(var(--vio),.18); background:rgba(var(--vio),.06); box-shadow:none; transform:none;}
 .q-feedback{margin-top:18px; font-size:.88rem; color:var(--muted); min-height:20px;}
 .q-feedback b{color:var(--text);}
 .q-next{display:flex; justify-content:flex-end; margin-top:18px;}
 
 /* ===== RESULT SCREEN ===== */
 .result-card{
-  max-width:560px; margin:0 auto; text-align:center; background:var(--surface);
-  border:1px solid var(--border); border-radius:20px; padding:40px;
-  box-shadow:0 8px 32px rgba(0,0,0,.25);
+  max-width:560px; margin:0 auto; text-align:center;
+  background:rgba(22,26,35,.82); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+  border:1px solid rgba(var(--vio),.22); border-radius:24px; padding:40px;
+  box-shadow:0 16px 48px rgba(0,0,0,.35);
 }
+[data-theme="light"] .result-card{background:rgba(255,255,255,.88);}
 .result-card h2{font-size:1.3rem; color:var(--muted); margin-bottom:8px;}
 .result-score{
-  font-size:3.5rem; font-weight:800; font-family:'Sora',sans-serif; margin:8px 0;
-  background:linear-gradient(135deg,#6366f1,#a855f7); -webkit-background-clip:text; background-clip:text; color:transparent;
+  font-size:3.5rem; font-weight:800; font-family:'Plus Jakarta Sans','Sora',sans-serif; margin:8px 0;
+  background:linear-gradient(135deg,#7c3aed,#a855f7,#4ade80); -webkit-background-clip:text; background-clip:text; color:transparent;
 }
 .result-msg{color:var(--muted); margin-bottom:28px; font-size:.95rem;}
-.result-actions{display:flex; gap:10px; justify-content:center; flex-wrap:wrap;}
+.result-actions{display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-bottom:24px;}
+#testReview{margin-top:8px; display:flex; flex-direction:column; gap:8px; text-align:left;}
+.review-item{display:flex; gap:12px; padding:12px 14px; border-radius:12px; border:1px solid rgba(var(--vio),.15); background:rgba(var(--vio),.05);}
+.review-item.review-correct{border-color:rgba(52,211,153,.35);}
+.review-item.review-wrong{border-color:rgba(248,113,113,.35);}
+.review-num{font-size:.75rem; font-weight:700; color:var(--muted); min-width:20px; padding-top:2px;}
+.review-body{flex:1; display:flex; flex-direction:column; gap:6px;}
+.review-q{font-size:.88rem; color:var(--text); font-weight:500;}
+.review-ans{display:flex; flex-wrap:wrap; gap:6px;}
+.review-tag{font-size:.78rem; font-weight:600; padding:3px 10px; border-radius:999px;}
+.review-tag.correct{background:rgba(52,211,153,.15); color:#34d399;}
+.review-tag.wrong{background:rgba(248,113,113,.15); color:#f87171;}
+
+/* ===== CHAT WIDGET ===== */
+.chat-widget{
+  position:fixed; bottom:28px; right:28px; z-index:999;
+  display:flex; flex-direction:column; align-items:flex-end; gap:12px;
+}
+.chat-fab{
+  width:54px; height:54px; border-radius:50%; border:none; cursor:pointer;
+  background:linear-gradient(135deg,#7c3aed,#6d28d9);
+  box-shadow:0 6px 24px rgba(124,58,237,.5), 0 2px 8px rgba(0,0,0,.3);
+  display:flex; align-items:center; justify-content:center;
+  transition:transform .25s cubic-bezier(.25,.46,.45,.94), box-shadow .25s ease;
+  flex-shrink:0; position:relative;
+}
+.chat-fab:hover{ transform:scale(1.1) translateY(-2px); box-shadow:0 10px 32px rgba(124,58,237,.6); }
+.chat-fab svg{ width:26px; height:26px; }
+.chat-fab-pulse{
+  position:absolute; top:2px; right:2px; width:12px; height:12px; border-radius:50%;
+  background:#4ade80; border:2px solid var(--bg);
+  animation:chat-pulse 2s infinite;
+}
+@keyframes chat-pulse{
+  0%,100%{ box-shadow:0 0 0 0 rgba(74,222,128,.6); }
+  50%{ box-shadow:0 0 0 5px rgba(74,222,128,0); }
+}
+
+.chat-box{
+  width:320px; background:rgba(14,12,24,.96);
+  backdrop-filter:blur(24px); -webkit-backdrop-filter:blur(24px);
+  border:1px solid rgba(124,58,237,.3); border-radius:20px;
+  box-shadow:0 24px 64px rgba(0,0,0,.6), 0 0 0 1px rgba(124,58,237,.08);
+  overflow:hidden; display:flex; flex-direction:column;
+  opacity:0; transform:translateY(12px) scale(.96); pointer-events:none;
+  transition:opacity .25s cubic-bezier(.25,.46,.45,.94), transform .25s cubic-bezier(.25,.46,.45,.94);
+}
+[data-theme="light"] .chat-box{ background:rgba(255,255,255,.96); }
+.chat-widget:hover .chat-box,
+.chat-widget.pinned .chat-box{
+  opacity:1; transform:translateY(0) scale(1); pointer-events:auto;
+}
+
+/* header */
+.chat-header{
+  display:flex; align-items:center; gap:10px; padding:14px 16px;
+  border-bottom:1px solid rgba(124,58,237,.15);
+  background:linear-gradient(135deg,rgba(124,58,237,.18),rgba(109,40,217,.08));
+}
+.chat-avatar{
+  width:36px; height:36px; border-radius:50%; flex-shrink:0;
+  background:rgb(124,58,237); color:#fff;
+  display:flex; align-items:center; justify-content:center; font-size:1.1rem;
+  box-shadow:0 0 0 2px rgba(124,58,237,.3);
+}
+.chat-header-info{ flex:1; min-width:0; }
+.chat-header-name{
+  font-family:'Plus Jakarta Sans','Sora',sans-serif; font-size:.88rem; font-weight:800;
+  color:var(--text); line-height:1.2;
+}
+.chat-header-status{
+  display:flex; align-items:center; gap:5px;
+  font-family:'JetBrains Mono',monospace; font-size:.65rem; color:var(--muted);
+}
+.chat-status-dot{ width:6px; height:6px; border-radius:50%; background:#4ade80; flex-shrink:0; }
+.chat-header-badge{
+  font-family:'JetBrains Mono',monospace; font-size:.62rem; font-weight:700;
+  padding:3px 8px; border-radius:999px;
+  background:rgba(124,58,237,.2); border:1px solid rgba(124,58,237,.3); color:rgb(124,58,237);
+}
+
+/* messages */
+.chat-messages{ padding:14px; display:flex; flex-direction:column; gap:10px; max-height:220px; overflow-y:auto; }
+.chat-messages::-webkit-scrollbar{ width:4px; }
+.chat-messages::-webkit-scrollbar-thumb{ background:rgba(124,58,237,.3); border-radius:99px; }
+.chat-msg{ display:flex; gap:8px; align-items:flex-start; }
+.chat-msg-avatar{
+  width:26px; height:26px; border-radius:50%; flex-shrink:0; font-size:.8rem;
+  background:rgb(124,58,237); color:#fff;
+  display:flex; align-items:center; justify-content:center;
+}
+.chat-bubble{
+  background:rgba(124,58,237,.12); border:1px solid rgba(124,58,237,.18);
+  border-radius:4px 14px 14px 14px; padding:9px 12px;
+  font-size:.82rem; line-height:1.5; color:var(--text);
+  font-family:'Inter',sans-serif; max-width:220px;
+}
+.chat-bubble b{ color:rgb(124,58,237); }
+.chat-time{
+  font-family:'JetBrains Mono',monospace; font-size:.58rem; color:var(--muted);
+  margin-top:3px; padding-left:34px;
+}
+.chat-msg.user{ flex-direction:row-reverse; }
+.chat-msg.user .chat-bubble{
+  background:linear-gradient(135deg,rgba(124,58,237,.28),rgba(109,40,217,.18));
+  border-color:rgba(124,58,237,.4); border-radius:14px 4px 14px 14px;
+}
+.chat-msg.user .chat-time{ text-align:right; padding-left:0; padding-right:0; }
+.chat-typing{ display:flex; align-items:center; gap:4px; padding:8px 12px; }
+.chat-typing span{
+  width:6px; height:6px; border-radius:50%; background:rgba(124,58,237,.5);
+  animation:typing-dot .9s infinite ease-in-out;
+}
+.chat-typing span:nth-child(2){ animation-delay:.15s; }
+.chat-typing span:nth-child(3){ animation-delay:.3s; }
+@keyframes typing-dot{
+  0%,80%,100%{ transform:scale(1); opacity:.4; }
+  40%{ transform:scale(1.3); opacity:1; }
+}
+
+/* input */
+.chat-input-row{
+  display:flex; gap:8px; padding:12px 14px;
+  border-top:1px solid rgba(124,58,237,.12);
+  background:rgba(124,58,237,.04);
+}
+.chat-input{
+  flex:1; background:rgba(124,58,237,.08); border:1px solid rgba(124,58,237,.2);
+  border-radius:10px; padding:8px 12px; font-size:.82rem;
+  font-family:'Plus Jakarta Sans','Inter',sans-serif; color:var(--text);
+  outline:none; transition:border-color .15s;
+}
+.chat-input::placeholder{ color:var(--muted); }
+.chat-input:focus{ border-color:rgba(124,58,237,.5); }
+.chat-send-btn{
+  width:34px; height:34px; border-radius:10px; border:none; cursor:pointer;
+  background:linear-gradient(135deg,#7c3aed,#6d28d9);
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:0 2px 8px rgba(124,58,237,.35);
+  transition:transform .15s, box-shadow .15s; flex-shrink:0;
+}
+.chat-send-btn:hover{ transform:scale(1.08); box-shadow:0 4px 14px rgba(124,58,237,.5); }
+.chat-footer-note{
+  text-align:center; padding:6px 14px 10px;
+  font-family:'JetBrains Mono',monospace; font-size:.6rem; color:var(--muted); letter-spacing:.04em;
+}
+
+/* ===== FOOTER C ===== */
+.site-footer{
+  border-top:1px solid rgba(var(--vio),.2);
+  background:rgba(10,8,18,.97);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  padding:36px 32px 24px;position:relative;overflow:hidden;margin-top:48px;
+}
+[data-theme="light"] .site-footer{background:rgba(248,248,252,.97);}
+.site-footer::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse 60% 80% at 50% 120%,rgba(124,58,237,.12),transparent);
+}
+.footer-inner{max-width:1280px;margin:0 auto;position:relative;}
+.footer-top{display:grid;grid-template-columns:auto 1fr;gap:40px;align-items:start;margin-bottom:28px;}
+@media(max-width:640px){.footer-top{grid-template-columns:1fr;}}
+.footer-logo{font-family:'Plus Jakarta Sans','Sora',sans-serif;font-weight:800;font-size:1.1rem;display:flex;align-items:center;gap:8px;margin-bottom:6px;}
+.footer-sub{font-size:.78rem;color:var(--muted);max-width:180px;line-height:1.5;}
+.footer-dash{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;}
+.dash-card{
+  background:rgba(var(--vio),.07);border:1px solid rgba(var(--vio),.16);border-radius:16px;
+  padding:14px 16px;display:flex;flex-direction:column;gap:8px;
+  transition:border-color .4s var(--ease-luxe),box-shadow .4s var(--ease-luxe),transform .4s var(--ease-luxe);
+}
+.dash-card:hover{border-color:rgba(var(--vio),.35);box-shadow:0 14px 34px rgba(0,0,0,.16);transform:translateY(-2px);}
+.dash-card-label{font-family:'JetBrains Mono',monospace;font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);}
+.dash-card-val{font-family:'Plus Jakarta Sans','Sora',sans-serif;font-size:1.5rem;font-weight:800;color:var(--text);line-height:1;}
+.dash-card-sub{font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--muted);}
+.dash-card-streak .dash-card-val{background:linear-gradient(135deg,#f59e0b,#ef4444);-webkit-background-clip:text;background-clip:text;color:transparent;}
+.dash-streak{
+  grid-column:span 2;
+  background:linear-gradient(135deg,rgba(245,158,11,.1),rgba(239,68,68,.06));
+  border:1px solid rgba(245,158,11,.28);border-radius:16px;
+  padding:14px 18px;display:flex;flex-direction:column;gap:10px;
+}
+@media(max-width:480px){.dash-streak{grid-column:span 1;}}
+.dash-streak-top{display:flex;align-items:center;gap:14px;}
+.dash-streak-fire{font-size:2rem;line-height:1;flex-shrink:0;}
+.dash-streak-num{
+  font-family:'Plus Jakarta Sans','Sora',sans-serif;
+  font-size:2.4rem;font-weight:800;line-height:1;letter-spacing:-.04em;
+  background:linear-gradient(135deg,#f59e0b,#ef4444);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+}
+.dash-streak-meta{display:flex;flex-direction:column;gap:2px;}
+.dash-streak-lbl{font-family:'JetBrains Mono',monospace;font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);}
+.dash-streak-best{font-family:'JetBrains Mono',monospace;font-size:.67rem;color:var(--muted);}
+.dash-streak-best b{color:#f59e0b;}
+.dash-week{display:flex;align-items:stretch;gap:4px;}
+.dash-week-day{display:flex;flex-direction:column;align-items:center;gap:4px;flex:1;}
+.dash-week-dot{
+  width:22px;height:22px;border-radius:50%;
+  border:1.5px solid rgba(255,255,255,.08);
+  background:rgba(255,255,255,.04);
+}
+.dash-week-dot.active{
+  background:linear-gradient(135deg,#f59e0b,#ef4444);
+  border-color:transparent;
+  box-shadow:0 2px 8px rgba(245,158,11,.4);
+}
+.dash-week-dot.today{outline:2px solid rgba(245,158,11,.55);outline-offset:2px;}
+.dash-week-lbl{font-family:'JetBrains Mono',monospace;font-size:.56rem;color:var(--muted);font-weight:700;text-transform:uppercase;}
+.footer-bottom{
+  display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
+  padding-top:20px;border-top:1px solid rgba(var(--vio),.1);
+}
+.footer-copy{font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--muted);}
+.footer-bottom-right{display:flex;align-items:center;gap:10px;}
+.footer-tag{font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--muted);letter-spacing:.04em;}
 
 /* ===== RESPONSIVE ===== */
 @media (max-width:640px){
@@ -533,85 +836,134 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
 /* ===== BROWSE BAR ===== */
 .browse-bar{
   display:flex; flex-direction:column; gap:14px; margin-bottom:28px;
-  background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:18px 20px;
+  background:rgba(255,255,255,0.72); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+  border:1px solid rgba(var(--vio),.18); border-radius:20px; padding:20px 22px;
 }
-.browse-bar .search-row::before, .setup-filters .search-row::before{content:"🔍"; position:absolute; left:14px; top:50%; transform:translateY(-50%); font-size:.9rem; opacity:.5; pointer-events:none;}
+[data-theme="dark"] .browse-bar{background:rgba(20,20,26,0.82);}
+.browse-bar .search-row::before, .setup-filters .search-row::before{opacity:.45;}
 #browseSearch, #catSearchInput, #testCatSearch, #testWordSearch{
-  flex:1; width:100%; background:var(--surface2); border:1px solid var(--border);
-  color:var(--text); padding:10px 16px 10px 38px; border-radius:10px; font-size:.93rem; font-family:inherit;
-  -webkit-appearance:none; appearance:none; transition:border-color .18s ease;
+  flex:1; width:100%; background:rgba(var(--vio),.06); border:1px solid rgba(var(--vio),.2);
+  color:var(--text); padding:10px 16px 10px 38px; border-radius:12px; font-size:.93rem;
+  font-family:'Plus Jakarta Sans','Inter',sans-serif;
+  -webkit-appearance:none; appearance:none; transition:border-color .18s ease, box-shadow .18s ease;
 }
-#browseSearch:focus, #catSearchInput:focus, #testCatSearch:focus, #testWordSearch:focus{outline:none; border-color:var(--accent); box-shadow:0 0 0 3px rgba(99,102,241,.12);}
+#browseSearch:focus, #catSearchInput:focus, #testCatSearch:focus, #testWordSearch:focus{outline:none; border-color:rgba(var(--vio),.6); box-shadow:0 0 0 3px rgba(var(--vio),.12);}
 #browseSearch::-webkit-search-decoration, #browseSearch::-webkit-search-cancel-button,
 #catSearchInput::-webkit-search-decoration, #catSearchInput::-webkit-search-cancel-button,
 #testCatSearch::-webkit-search-decoration, #testCatSearch::-webkit-search-cancel-button,
 #testWordSearch::-webkit-search-decoration, #testWordSearch::-webkit-search-cancel-button{-webkit-appearance:none;}
 
-/* ===== SECTION HEADER ===== */
-.section-header{display:flex; align-items:center; gap:12px; margin-bottom:16px;}
-.section-title{font-family:'Sora',sans-serif; font-weight:800; font-size:1rem; color:var(--text); white-space:nowrap; flex-shrink:0;}
-.section-rule{flex:1; height:1px; background:var(--border);}
-.section-meta{font-size:.75rem; color:var(--muted); white-space:nowrap; flex-shrink:0;}
+/* ===== SECTION ACCORDION BLOCK ===== */
+.section-block{
+  margin-bottom:12px; border:1px solid var(--card-border); border-radius:22px; overflow:hidden;
+  background:var(--card-bg);
+  transition:border-color .35s var(--ease-luxe), box-shadow .35s var(--ease-luxe), transform .35s var(--ease-luxe);
+}
+.section-block:hover{border-color:rgba(var(--vio),.35); box-shadow:0 18px 44px rgba(0,0,0,.14); transform:translateY(-1px);}
+.section-block.open{border-color:rgba(var(--vio),.4); box-shadow:0 22px 56px rgba(0,0,0,.16);}
+.section-block-header{
+  display:flex; align-items:center; gap:18px; padding:20px 26px; cursor:pointer; user-select:none;
+}
+.section-block-num{
+  font-family:'Plus Jakarta Sans','Sora',sans-serif; font-weight:800; font-size:2.1rem;
+  letter-spacing:-.05em; line-height:1; color:var(--text); opacity:.14; min-width:54px;
+  transition:opacity .35s var(--ease-luxe), color .35s var(--ease-luxe);
+}
+.section-block:hover .section-block-num, .section-block.open .section-block-num{opacity:.85; color:rgb(var(--vio));}
+.section-block-info{flex:1; min-width:0;}
+.section-block-name{
+  font-family:'Plus Jakarta Sans','Sora',sans-serif; font-size:1.05rem; font-weight:800;
+  color:var(--text); margin-bottom:3px; line-height:1.2; letter-spacing:-.01em;
+}
+.section-block-meta{font-size:.85rem; color:var(--muted); font-family:var(--serif); font-style:italic;}
+.section-block-right{display:flex; align-items:center; gap:14px; flex-shrink:0;}
+.section-block-prog{display:flex; flex-direction:column; align-items:flex-end; gap:4px;}
+.section-block-pbar{width:72px; height:2px; border-radius:99px; background:rgba(var(--vio),.12); overflow:hidden;}
+.section-block-pfill{height:100%; border-radius:99px; background:rgb(var(--vio)); transition:width .4s ease;}
+.section-block-pct{font-size:.72rem; font-weight:700; color:rgb(var(--vio)); font-family:'JetBrains Mono',monospace;}
+.section-block-chevron{
+  font-size:1.1rem; color:var(--muted); opacity:.6;
+  transition:transform .3s cubic-bezier(.25,.46,.45,.94), opacity .2s ease;
+}
+.section-block.open .section-block-chevron{transform:rotate(90deg); opacity:1; color:rgb(var(--vio));}
+.section-block-divider{height:1px; background:rgba(var(--vio),.12); margin:0 20px; display:none;}
+.section-block.open .section-block-divider{display:block;}
+.section-block-body{max-height:0; overflow:hidden; transition:max-height .4s cubic-bezier(.25,.46,.45,.94);}
+.section-block-body-inner{padding:18px 18px 20px;}
 
 /* ===== CATEGORY GRID ===== */
 .cat-grid{display:grid; gap:12px; grid-template-columns:repeat(auto-fill,minmax(270px,1fr));}
 
 /* ===== CATEGORY CARD ===== */
 .cat-card{
-  border:1px solid var(--card-border); border-radius:14px; padding:16px;
-  background:var(--card-bg); border-top:3px solid var(--accent-c,var(--accent));
-  cursor:pointer; display:flex; flex-direction:column; gap:12px;
-  transition:transform .22s cubic-bezier(.4,0,.2,1), box-shadow .22s cubic-bezier(.4,0,.2,1);
+  position:relative; border:1px solid var(--card-border); border-radius:20px; padding:18px;
+  background:var(--card-bg);
+  cursor:pointer; display:flex; flex-direction:column; gap:14px;
+  transition:transform .4s var(--ease-luxe), box-shadow .4s var(--ease-luxe), border-color .4s var(--ease-luxe);
 }
-.cat-card:hover{transform:translateY(-3px); box-shadow:0 14px 36px rgba(0,0,0,.45), 0 0 0 1px var(--accent-c,var(--accent));}
-.cat-card-row{display:flex; align-items:center; gap:12px;}
-.cat-icon-box{
-  width:44px; height:44px; border-radius:12px; display:flex; align-items:center;
-  justify-content:center; font-size:1.5rem; flex-shrink:0; background:var(--surface2);
-  border:2px solid var(--accent-c,var(--accent));
+.cat-card:hover{transform:translateY(-4px); border-color:var(--accent-c,rgba(var(--vio),.5)); box-shadow:0 24px 60px rgba(0,0,0,.18), 0 6px 18px rgba(var(--vio),.08);}
+.cat-card-top{display:flex;align-items:center;gap:8px;}
+.cat-tag{
+  display:inline-flex;align-items:center;gap:6px;
+  font-family:'JetBrains Mono',monospace;font-size:.58rem;font-weight:700;
+  text-transform:uppercase;letter-spacing:.12em;padding:4px 10px;border-radius:999px;
+  color:var(--accent-c,rgb(var(--vio)));
+  background:color-mix(in srgb, var(--accent-c,#7c3aed) 10%, transparent);
+  border:1px solid color-mix(in srgb, var(--accent-c,#7c3aed) 38%, transparent);
 }
-.cat-info{flex:1; min-width:0;}
+.cat-tag .ico{font-size:.85rem;}
+.cat-arrow{
+  margin-left:auto;font-size:1rem;color:var(--muted);opacity:.5;flex-shrink:0;
+  transition:color .3s var(--ease-luxe),opacity .3s var(--ease-luxe),transform .45s var(--ease-luxe);
+}
+.cat-card:hover .cat-arrow{color:var(--accent-c,rgb(var(--vio)));opacity:1;transform:translate(2px,-2px);}
+.cat-medal{font-size:1.15rem; color:#eab308; flex-shrink:0; filter:drop-shadow(0 0 6px rgba(234,179,8,.35));}
 .cat-name{
-  font-family:'Sora',sans-serif; font-weight:700; font-size:1rem; line-height:1.25;
-  color:var(--accent-c,var(--accent)); overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+  font-family:'Plus Jakarta Sans','Sora',sans-serif; font-weight:800; font-size:1.02rem; line-height:1.3;
+  color:var(--accent-c,var(--accent)); letter-spacing:-.01em;
 }
-.cat-stats{display:flex; align-items:center; gap:8px; margin-top:3px;}
-.cat-wcount{font-size:.78rem; color:var(--muted);}
-.cat-cefr-pill{font-size:.68rem; font-weight:700; padding:2px 6px; border-radius:5px; color:#fff;}
-.cat-chevron{font-size:1.2rem; color:var(--muted); opacity:.4; flex-shrink:0; transition:opacity .15s ease, transform .15s ease;}
-.cat-card:hover .cat-chevron{opacity:1; transform:translateX(3px);}
+.cat-cefr-pill{font-size:.62rem; font-weight:700; padding:3px 8px; border-radius:999px; font-family:'JetBrains Mono',monospace; letter-spacing:.06em;}
 .cat-pbar-row{display:flex; align-items:center; gap:10px;}
-.cat-pbar{flex:1; height:5px; border-radius:99px; background:var(--surface2); overflow:hidden; position:relative;}
+.cat-pbar{flex:1; height:2.5px; border-radius:99px; background:var(--surface2); overflow:hidden; position:relative;}
 .cat-pfill{height:100%; border-radius:99px; background:var(--accent-c,var(--accent)); transition:width .4s ease;}
-.cat-plabel{font-size:.73rem; color:var(--muted); white-space:nowrap;}
+.cat-plabel{font-size:.66rem; color:var(--muted); white-space:nowrap; font-family:'JetBrains Mono',monospace;}
 
 /* ===== CATEGORY VIEW ===== */
 .cat-view-header{margin-bottom:22px;}
 .back-btn{
-  font-family:'Sora',sans-serif; font-size:.88rem; font-weight:600; color:var(--muted);
+  font-family:'Plus Jakarta Sans','Sora',sans-serif; font-size:.88rem; font-weight:600; color:var(--muted);
   background:none; border:none; padding:0; cursor:pointer; margin-bottom:12px; display:block;
   transition:color .15s ease;
 }
-.back-btn:hover{color:var(--accent);}
+.back-btn:hover{color:rgb(var(--vio));}
 .cat-view-title-row{display:flex; align-items:center; gap:14px;}
 .cat-view-icon{
   width:48px; height:48px; border-radius:14px; display:flex; align-items:center;
   justify-content:center; font-size:1.5rem; flex-shrink:0; background:var(--surface2);
-  border:2px solid var(--accent-c,var(--accent));
+  border:2px solid var(--accent-c,var(--accent)); color:var(--accent-c,var(--accent));
 }
-.cat-view-name{font-size:1.65rem; font-weight:800; font-family:'Sora',sans-serif; margin:0; color:var(--accent-c,var(--accent));}
+.cat-view-name{font-size:1.65rem; font-weight:800; font-family:'Plus Jakarta Sans','Sora',sans-serif; margin:0; color:var(--accent-c,rgb(var(--vio)));}
 .cat-view-sub{font-size:.9rem; color:var(--muted); margin-top:3px;}
 .cat-filter-bar{
   display:flex; flex-direction:column; gap:14px; margin-bottom:24px;
-  background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:18px 20px;
+  background:rgba(255,255,255,0.72); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+  border:1px solid rgba(var(--vio),.18); border-radius:20px; padding:20px 22px;
 }
+[data-theme="dark"] .cat-filter-bar{background:rgba(20,20,26,0.82);}
 .cat-filter-bar .search-row{position:relative;}
-.cat-filter-bar .search-row::before{content:"🔍"; position:absolute; left:14px; top:50%; transform:translateY(-50%); font-size:.9rem; opacity:.5; pointer-events:none;}
+.cat-filter-bar .search-row::before{opacity:.5;}
+
 /* ===== WORD DETAIL MODAL ===== */
-.modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.65);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;z-index:1000;padding:20px;}
-.modal-card{background:var(--surface);border-radius:20px;max-width:400px;width:100%;border-top:4px solid var(--accent-c,var(--accent));box-shadow:0 32px 80px rgba(0,0,0,.6);overflow:hidden;position:relative;max-height:85vh;display:flex;flex-direction:column;}
-.modal-header{padding:24px 24px 16px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-shrink:0;}
-.modal-word{font-size:1.8rem;font-weight:800;font-family:'Sora',sans-serif;color:var(--accent-c,var(--accent));line-height:1.1;}
+.modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;z-index:1000;padding:20px;}
+.modal-card{
+  background:rgba(22,26,35,.95); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+  border-radius:24px;max-width:400px;width:100%;border-top:4px solid var(--accent-c,rgb(var(--vio)));
+  border-left:1px solid rgba(var(--vio),.25); border-right:1px solid rgba(var(--vio),.25); border-bottom:1px solid rgba(var(--vio),.25);
+  box-shadow:0 32px 80px rgba(0,0,0,.6), 0 0 0 1px rgba(var(--vio),.1);overflow:hidden;position:relative;max-height:85vh;display:flex;flex-direction:column;
+}
+[data-theme="light"] .modal-card{background:rgba(255,255,255,.96);}
+.modal-header{padding:24px 24px 16px;border-bottom:1px solid rgba(var(--vio),.15);display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-shrink:0;}
+.modal-word{font-size:1.8rem;font-weight:800;font-family:'Plus Jakarta Sans','Sora',sans-serif;color:var(--accent-c,rgb(var(--vio)));line-height:1.1;}
 .modal-pos{font-size:.85rem;color:var(--muted);font-style:italic;margin-top:4px;}
 .modal-body{padding:20px 24px;display:flex;flex-direction:column;gap:14px;overflow-y:auto;}
 .modal-def{font-size:1.05rem;font-weight:600;line-height:1.5;color:var(--text);}
@@ -629,6 +981,171 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
 .ex-reveal .rdef{font-weight:600;line-height:1.4;color:var(--text);}
 .ex-reveal .rrow{color:var(--muted);line-height:1.4;}
 .ex-reveal .rrow b{color:var(--text);font-weight:600;}
+
+/* ===== HOME PAGE ===== */
+#page-home{padding:0;max-width:100%;}
+.home-hero{
+  position:relative;overflow:hidden;
+  padding:104px 32px 92px;text-align:center;
+  border-bottom:1px solid rgba(var(--vio),.12);
+}
+.home-grid-bg{
+  position:absolute;inset:0;pointer-events:none;
+  background-image:
+    linear-gradient(rgba(var(--vio),.06) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(var(--vio),.06) 1px,transparent 1px);
+  background-size:40px 40px;
+}
+.home-glow{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:700px;height:420px;border-radius:50%;
+  background:radial-gradient(ellipse,rgba(var(--vio),.2) 0%,transparent 70%);
+  pointer-events:none;
+}
+.home-badge{
+  display:inline-flex;align-items:center;gap:10px;
+  font-family:'JetBrains Mono',monospace;font-size:.68rem;font-weight:700;
+  color:var(--muted);letter-spacing:.34em;text-transform:uppercase;
+  margin-bottom:34px;position:relative;
+}
+.home-badge .ico{color:rgb(var(--vio));}
+.home-title{
+  font-family:'Plus Jakarta Sans','Sora',sans-serif;
+  font-size:clamp(2.6rem,6vw,4.6rem);font-weight:800;line-height:1.06;
+  letter-spacing:-.035em;margin-bottom:26px;position:relative;color:var(--text);
+}
+.home-grad{
+  font-family:var(--serif);font-style:italic;font-weight:500;
+  color:rgb(var(--vio));letter-spacing:-.01em;
+}
+.home-sub{
+  font-size:1.18rem;color:var(--muted);max-width:600px;margin:0 auto 40px;
+  line-height:1.75;position:relative;font-family:var(--serif);font-style:italic;
+}
+.home-hero-actions{
+  display:flex;align-items:center;justify-content:center;gap:12px;
+  flex-wrap:wrap;position:relative;
+}
+.home-btn-outline{
+  background:transparent;border:1px solid rgba(var(--vio),.35);
+  color:var(--text);padding:12px 24px;border-radius:12px;font-size:.95rem;
+  font-family:'Plus Jakarta Sans','Sora',sans-serif;font-weight:700;
+  cursor:pointer;transition:background .15s,border-color .15s;
+}
+.home-btn-outline:hover{background:rgba(var(--vio),.08);border-color:rgba(var(--vio),.6);}
+.home-content{max-width:940px;margin:0 auto;padding:44px 32px;display:flex;flex-direction:column;gap:44px;}
+.home-section-hd{
+  font-family:'JetBrains Mono',monospace;font-size:.7rem;font-weight:700;
+  color:var(--muted);margin-bottom:20px;display:flex;align-items:center;gap:16px;
+  text-transform:uppercase;letter-spacing:.3em;
+}
+.home-section-hd::after{content:'';flex:1;height:1px;background:var(--border);}
+/* stat cards */
+.home-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+@media(max-width:640px){.home-stats{grid-template-columns:repeat(2,1fr);}}
+.home-stat{
+  background:rgba(22,26,35,.78);border:1px solid rgba(var(--vio),.18);
+  border-radius:18px;padding:20px 18px;backdrop-filter:blur(14px);
+  display:flex;flex-direction:column;align-items:flex-start;gap:6px;
+  transition:border-color .4s var(--ease-luxe),box-shadow .4s var(--ease-luxe),transform .4s var(--ease-luxe);
+}
+[data-theme="light"] .home-stat{background:rgba(255,255,255,.86);}
+.home-stat:hover{border-color:rgba(var(--vio),.4);box-shadow:0 16px 40px rgba(0,0,0,.15);transform:translateY(-2px);}
+.home-stat-ico{
+  font-size:1.4rem;width:40px;height:40px;border-radius:12px;
+  background:rgba(var(--vio),.12);display:flex;align-items:center;justify-content:center;
+  margin-bottom:4px;color:rgb(var(--vio));
+}
+.home-stat-val{
+  font-family:'Plus Jakarta Sans','Sora',sans-serif;font-size:2rem;font-weight:800;
+  color:var(--text);line-height:1;letter-spacing:-.04em;
+}
+.home-stat-lbl{
+  font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--muted);
+  text-transform:uppercase;letter-spacing:.08em;font-weight:700;
+}
+/* section cards */
+.home-secs{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+@media(max-width:700px){.home-secs{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:460px){.home-secs{grid-template-columns:1fr;}}
+.home-sec{
+  background:rgba(22,26,35,.78);border:1px solid rgba(var(--vio),.15);
+  border-radius:20px;padding:22px 20px;backdrop-filter:blur(14px);
+  display:flex;flex-direction:column;gap:7px;position:relative;overflow:hidden;
+  transition:transform .45s var(--ease-luxe),border-color .45s var(--ease-luxe),box-shadow .45s var(--ease-luxe);
+}
+[data-theme="light"] .home-sec{background:rgba(255,255,255,.86);}
+.home-sec.clickable{cursor:pointer;}
+.home-sec.clickable:hover{
+  transform:translateY(-4px);
+  border-color:rgba(var(--vio),.45);box-shadow:0 26px 60px rgba(0,0,0,.2), 0 6px 18px rgba(var(--vio),.08);
+}
+.home-sec-ico{font-size:1.9rem;margin-bottom:4px;color:rgb(var(--vio));}
+.home-sec-name{
+  font-family:'Plus Jakarta Sans','Sora',sans-serif;font-size:1.05rem;font-weight:800;color:var(--text);
+}
+.home-sec-desc{font-size:.82rem;color:var(--muted);line-height:1.55;}
+.home-sec-footer{
+  margin-top:auto;padding-top:12px;
+  display:flex;align-items:center;justify-content:space-between;gap:8px;
+}
+.home-sec-status{
+  font-family:'JetBrains Mono',monospace;font-size:.63rem;font-weight:700;
+  letter-spacing:.06em;text-transform:uppercase;
+  display:flex;align-items:center;gap:5px;
+}
+.home-sec-status.live{color:#4ade80;}
+.home-sec-status.live::before{
+  content:'';width:6px;height:6px;border-radius:50%;background:#4ade80;display:inline-block;
+  animation:pulse-grn .9s infinite;
+}
+.home-sec-status.soon{color:var(--muted);opacity:.6;}
+@keyframes pulse-grn{0%,100%{opacity:1}50%{opacity:.35}}
+.home-sec-pill{
+  padding:2px 9px;border-radius:999px;
+  font-family:'JetBrains Mono',monospace;font-size:.59rem;font-weight:700;letter-spacing:.05em;
+}
+.home-sec-pill.live{background:rgba(74,222,128,.14);color:#4ade80;border:1px solid rgba(74,222,128,.22);}
+.home-sec-pill.soon{background:rgba(var(--vio),.1);color:rgb(var(--vio));border:1px solid rgba(var(--vio),.2);}
+/* light mode: deepen colors tuned for dark backgrounds */
+[data-theme="light"] .home-sec-status.live{color:#15803d;}
+[data-theme="light"] .home-sec-status.live::before{background:#16a34a;}
+[data-theme="light"] .home-sec-status.soon{opacity:.9;}
+[data-theme="light"] .home-sec-pill.live{background:rgba(22,163,74,.1);color:#15803d;border-color:rgba(22,163,74,.35);}
+[data-theme="light"] .cat-cefr-pill{filter:saturate(1.15) brightness(.78);}
+[data-theme="light"] .cat-medal{color:#ca8a04;filter:none;}
+/* CEFR bars */
+.home-cefr{
+  display:flex;flex-direction:column;
+  background:var(--card-bg);border:1px solid var(--card-border);border-radius:24px;
+  padding:8px 28px;box-shadow:0 1px 2px rgba(0,0,0,.04);
+}
+.home-cefr-row{
+  display:grid;grid-template-columns:64px 1fr 72px;align-items:center;gap:20px;
+  padding:17px 0;border-bottom:1px solid var(--border);
+  transition:background .3s var(--ease-luxe);
+}
+.home-cefr-row:last-child{border-bottom:none;}
+.home-cefr-badge{
+  justify-self:start;font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:700;
+  letter-spacing:.06em;padding:5px 11px;border-radius:8px;color:var(--lv);
+  background:color-mix(in srgb, var(--lv) 11%, transparent);
+  border:1px solid color-mix(in srgb, var(--lv) 42%, transparent);
+}
+.home-cefr-track{height:6px;border-radius:99px;background:var(--surface2);overflow:hidden;}
+.home-cefr-fill{
+  height:100%;border-radius:99px;background:var(--lv,rgb(var(--vio)));
+  box-shadow:0 0 12px color-mix(in srgb, var(--lv,#7c3aed) 55%, transparent);
+  width:0%;transition:width .9s var(--ease-luxe);
+}
+.home-cefr-pct{
+  font-family:'Plus Jakarta Sans','Sora',sans-serif;font-size:1.15rem;font-weight:800;
+  letter-spacing:-.03em;color:var(--text);text-align:right;font-variant-numeric:tabular-nums;
+}
+@media(max-width:560px){
+  .home-cefr{padding:4px 18px;}
+  .home-cefr-row{grid-template-columns:52px 1fr 56px;gap:12px;}
+}
 </style>
 <script>
 (function(){
@@ -643,13 +1160,144 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
 </head>
 <body>
 
+<!-- ── Icon sprite: 24×24 stroke icons, styled via .ico (currentColor) ── -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+  <symbol id="i-mark" viewBox="0 0 24 24"><path d="M7.5 4.5V12a5 5 0 0 0 5 5h7"/><path d="m17 14.5 2.5 2.5-2.5 2.5"/><path d="M16.5 19.5V12a5 5 0 0 0-5-5h-7"/><path d="M7 9.5 4.5 7 7 4.5"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></symbol>
+  <symbol id="i-book-open" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></symbol>
+  <symbol id="i-pen" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></symbol>
+  <symbol id="i-file-text" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/></symbol>
+  <symbol id="i-headphones" viewBox="0 0 24 24"><path d="M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a9 9 0 0 1 18 0v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3"/></symbol>
+  <symbol id="i-mic" viewBox="0 0 24 24"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="22"/></symbol>
+  <symbol id="i-sprout" viewBox="0 0 24 24"><path d="M7 20h10"/><path d="M10 20c5.5-2.5.8-6.4 3-10"/><path d="M9.5 9.4c1.1.8 1.8 2.2 2.3 3.7-2 .4-3.5.4-4.8-.3-1.2-.6-2.3-1.9-3-4.2 2.8-.5 4.4 0 5.5.8z"/><path d="M14.1 6a7 7 0 0 0-1.1 4c1.9-.1 3.3-.6 4.3-1.4 1-1 1.6-2.3 1.7-4.6-3.7.3-4.6 1.4-4.9 2z"/></symbol>
+  <symbol id="i-trend-up" viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></symbol>
+  <symbol id="i-trend-down" viewBox="0 0 24 24"><polyline points="22 17 13.5 8.5 8.5 13.5 2 7"/><polyline points="16 17 22 17 22 11"/></symbol>
+  <symbol id="i-grad-cap" viewBox="0 0 24 24"><path d="M22 10v6"/><path d="M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></symbol>
+  <symbol id="i-bar-chart" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></symbol>
+  <symbol id="i-folder" viewBox="0 0 24 24"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></symbol>
+  <symbol id="i-check-circle" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></symbol>
+  <symbol id="i-rotate" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-eye-off" viewBox="0 0 24 24"><path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/><path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/><line x1="2" y1="2" x2="22" y2="22"/></symbol>
+  <symbol id="i-bot" viewBox="0 0 24 24"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></symbol>
+  <symbol id="i-hard-hat" viewBox="0 0 24 24"><path d="M2 18a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1z"/><path d="M10 10V5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v5"/><path d="M4 15v-3a6 6 0 0 1 6-6"/><path d="M14 6a6 6 0 0 1 6 6v3"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></symbol>
+  <symbol id="i-flame" viewBox="0 0 24 24"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></symbol>
+  <symbol id="i-brain" viewBox="0 0 24 24"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2Z"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2Z"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></symbol>
+  <symbol id="i-dumbbell" viewBox="0 0 24 24"><path d="m6.5 6.5 11 11"/><path d="m21 21-1-1"/><path d="m3 3 1 1"/><path d="m18 22 4-4"/><path d="m2 6 4-4"/><path d="m3 10 7-7"/><path d="m14 21 7-7"/></symbol>
+  <symbol id="i-masks" viewBox="0 0 24 24"><path d="M10 11h.01"/><path d="M14 6h.01"/><path d="M18 6h.01"/><path d="M6.5 13.1h.01"/><path d="M22 5c0 9-4 12-6 12s-6-3-6-12c0-2 2-3 6-3s6 1 6 3"/><path d="M17.4 9.9c-.8.8-2 .8-2.8 0"/><path d="M10.1 7.1C9 7.2 7.7 7.7 6 8.6c-3.5 2-4.7 3.9-3.7 5.6 4.5 7.8 9.5 8.4 11.2 7.4.9-.5 1.9-2.1 1.9-4.7"/><path d="M9.1 16.5c.3-1.1 1.4-1.7 2.4-1.4"/></symbol>
+  <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></symbol>
+  <symbol id="i-trophy" viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></symbol>
+  <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></symbol>
+  <symbol id="i-gem" viewBox="0 0 24 24"><path d="M6 3h12l4 6-10 13L2 9Z"/><path d="M11 3 8 9l4 13 4-13-3-6"/><path d="M2 9h20"/></symbol>
+  <symbol id="i-waves" viewBox="0 0 24 24"><path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/></symbol>
+  <symbol id="i-butterfly" viewBox="0 0 24 24"><path d="M12 5v14"/><path d="M12 8c-1.5-3-4.5-4.5-7-4-.5 3 .5 6.5 3 8-2 1-3 3.5-2 6 2.5.5 5-1.5 6-4"/><path d="M12 8c1.5-3 4.5-4.5 7-4 .5 3-.5 6.5-3 8 2 1 3 3.5 2 6-2.5.5-5-1.5-6-4"/></symbol>
+  <symbol id="i-flower" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 16.5A4.5 4.5 0 1 1 7.5 12 4.5 4.5 0 1 1 12 7.5a4.5 4.5 0 1 1 4.5 4.5 4.5 4.5 0 1 1-4.5 4.5"/><path d="M12 7.5V9"/><path d="M7.5 12H9"/><path d="M16.5 12H15"/><path d="M12 16.5V15"/></symbol>
+  <symbol id="i-bird" viewBox="0 0 24 24"><path d="M16 7h.01"/><path d="M3.4 18H12a8 8 0 0 0 8-8V7a4 4 0 0 0-7.28-2.3L2 20"/><path d="m20 7 2 .5-2 .5"/><path d="M10 18v3"/><path d="M14 17.75V21"/><path d="M7 18a6 6 0 0 0 3.84-10.61"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></symbol>
+  <symbol id="i-rose" viewBox="0 0 24 24"><path d="M12 5a3 3 0 1 1 3 3m-3-3a3 3 0 1 0-3 3m3-3v1M9 8a3 3 0 1 0 3 3M9 8h1m5 0a3 3 0 1 1-3 3m3-3h-1m-2 3v-1"/><circle cx="12" cy="8" r="2"/><path d="M12 10v12"/><path d="M12 22c4.2 0 7-1.667 7-5-4.2 0-7 1.667-7 5Z"/><path d="M12 22c-4.2 0-7-1.667-7-5 4.2 0 7 1.667 7 5Z"/></symbol>
+  <symbol id="i-zap" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></symbol>
+  <symbol id="i-palette" viewBox="0 0 24 24"><circle cx="13.5" cy="6.5" r=".5"/><circle cx="17.5" cy="10.5" r=".5"/><circle cx="8.5" cy="7.5" r=".5"/><circle cx="6.5" cy="12.5" r=".5"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></symbol>
+  <symbol id="i-scale" viewBox="0 0 24 24"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/></symbol>
+  <symbol id="i-activity" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></symbol>
+  <symbol id="i-message" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></symbol>
+  <symbol id="i-puzzle" viewBox="0 0 24 24"><path d="M19.4 14c.4 0 .6-.3.6-.6V9.4c0-.3-.3-.6-.6-.6h-2.9c-.3 0-.5-.2-.5-.5 0-.1 0-.2.1-.3.3-.4.5-.9.5-1.4A2.6 2.6 0 0 0 14 4a2.6 2.6 0 0 0-2.6 2.6c0 .5.2 1 .5 1.4.1.1.1.2.1.3 0 .3-.2.5-.5.5H8.6c-.3 0-.6.3-.6.6v2.9c0 .3-.2.5-.5.5-.1 0-.2 0-.3-.1-.4-.3-.9-.5-1.4-.5A2.6 2.6 0 0 0 3.2 15a2.6 2.6 0 0 0 2.6 2.6c.5 0 1-.2 1.4-.5.1-.1.2-.1.3-.1.3 0 .5.2.5.5v2.9c0 .3.3.6.6.6h9.8c.3 0 .6-.3.6-.6v-2.9c0-.3.2-.5.5-.5.1 0 .2 0 .3.1.4.3.9.5 1.4.5a2.6 2.6 0 0 0 2.6-2.6 2.6 2.6 0 0 0-2.6-2.6c-.5 0-1 .2-1.4.5-.1.1-.2.1-.3.1-.3 0-.5-.2-.5-.5z"/></symbol>
+  <symbol id="i-leaf" viewBox="0 0 24 24"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></symbol>
+  <symbol id="i-landmark" viewBox="0 0 24 24"><line x1="3" y1="22" x2="21" y2="22"/><line x1="6" y1="18" x2="6" y2="11"/><line x1="10" y1="18" x2="10" y2="11"/><line x1="14" y1="18" x2="14" y2="11"/><line x1="18" y1="18" x2="18" y2="11"/><polygon points="12 2 20 7 4 7"/></symbol>
+  <symbol id="i-briefcase" viewBox="0 0 24 24"><rect width="20" height="14" x="2" y="7" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></symbol>
+  <symbol id="i-microscope" viewBox="0 0 24 24"><path d="M6 18h8"/><path d="M3 22h18"/><path d="M14 22a7 7 0 1 0 0-14h-1"/><path d="M9 14h2"/><path d="M9 12a2 2 0 0 1-2-2V6h6v4a2 2 0 0 1-2 2Z"/><path d="M12 6V3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3"/></symbol>
+  <symbol id="i-plane" viewBox="0 0 24 24"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/></symbol>
+  <symbol id="i-smartphone" viewBox="0 0 24 24"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></symbol>
+  <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></symbol>
+  <symbol id="i-lightbulb" viewBox="0 0 24 24"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+  <symbol id="i-building" viewBox="0 0 24 24"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/><path d="M10 6h4"/><path d="M10 10h4"/><path d="M10 14h4"/><path d="M10 18h4"/></symbol>
+  <symbol id="i-monitor" viewBox="0 0 24 24"><rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></symbol>
+  <symbol id="i-clipboard" viewBox="0 0 24 24"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></symbol>
+  <symbol id="i-scroll" viewBox="0 0 24 24"><path d="M19 17V5a2 2 0 0 0-2-2H4"/><path d="M8 21h12a2 2 0 0 0 2-2v-1a1 1 0 0 0-1-1H11a1 1 0 0 0-1 1v1a2 2 0 1 1-4 0V5a2 2 0 1 0-4 0v2a1 1 0 0 0 1 1h3"/></symbol>
+  <symbol id="i-ruler" viewBox="0 0 24 24"><path d="M21.3 15.3a2.4 2.4 0 0 1 0 3.4l-2.6 2.6a2.4 2.4 0 0 1-3.4 0L2.7 8.7a2.41 2.41 0 0 1 0-3.4l2.6-2.6a2.41 2.41 0 0 1 3.4 0Z"/><path d="m14.5 12.5 2-2"/><path d="m11.5 9.5 2-2"/><path d="m8.5 6.5 2-2"/><path d="m17.5 15.5 2-2"/></symbol>
+  <symbol id="i-utensils" viewBox="0 0 24 24"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></symbol>
+  <symbol id="i-type" viewBox="0 0 24 24"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></symbol>
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></symbol>
+  <symbol id="i-apple" viewBox="0 0 24 24"><path d="M12 20.94c1.5 0 2.75 1.06 4 1.06 3 0 6-8 6-12.22A4.91 4.91 0 0 0 17 4.5c-1.8 0-3 .5-5 .5s-3.2-.5-5-.5A4.9 4.9 0 0 0 2 9.78C2 14 5 22 8 22c1.25 0 2.5-1.06 4-1.06Z"/><path d="M10 2c1 .5 2 2 2 5"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></symbol>
+  <symbol id="i-compass" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></symbol>
+  <symbol id="i-key" viewBox="0 0 24 24"><circle cx="7.5" cy="15.5" r="5.5"/><path d="m21 2-9.6 9.6"/><path d="m15.5 7.5 3 3L22 7l-3-3"/></symbol>
+  <symbol id="i-megaphone" viewBox="0 0 24 24"><path d="m3 11 18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></symbol>
+  <symbol id="i-hand" viewBox="0 0 24 24"><path d="M18 11V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2"/><path d="M14 10V4a2 2 0 0 0-2-2a2 2 0 0 0-2 2v2"/><path d="M10 10.5V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/></symbol>
+  <symbol id="i-settings" viewBox="0 0 24 24"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-shirt" viewBox="0 0 24 24"><path d="M20.38 3.46 16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z"/></symbol>
+  <symbol id="i-cart" viewBox="0 0 24 24"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></symbol>
+  <symbol id="i-smile" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></symbol>
+  <symbol id="i-rocket" viewBox="0 0 24 24"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></symbol>
+  <symbol id="i-flask" viewBox="0 0 24 24"><path d="M10 2v7.527a2 2 0 0 1-.211.896L4.72 20.55a1 1 0 0 0 .9 1.45h12.76a1 1 0 0 0 .9-1.45l-5.069-10.127A2 2 0 0 1 14 9.527V2"/><path d="M8.5 2h7"/><path d="M7 16h10"/></symbol>
+  <symbol id="i-cloud" viewBox="0 0 24 24"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></symbol>
+  <symbol id="i-banknote" viewBox="0 0 24 24"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/></symbol>
+  <symbol id="i-crown" viewBox="0 0 24 24"><path d="m2 4 3 12h14l3-12-6 7-4-7-4 7-6-7z"/><path d="M5 20h14"/></symbol>
+  <symbol id="i-hash" viewBox="0 0 24 24"><line x1="4" y1="9" x2="20" y2="9"/><line x1="4" y1="15" x2="20" y2="15"/><line x1="10" y1="3" x2="8" y2="21"/><line x1="16" y1="3" x2="14" y2="21"/></symbol>
+  <symbol id="i-hourglass" viewBox="0 0 24 24"><path d="M5 22h14"/><path d="M5 2h14"/><path d="M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22"/><path d="M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2"/></symbol>
+  <symbol id="i-dice" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><path d="M16 8h.01"/><path d="M8 8h.01"/><path d="M8 16h.01"/><path d="M16 16h.01"/><path d="M12 12h.01"/></symbol>
+  <symbol id="i-map-pin" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></symbol>
+  <symbol id="i-sparkles" viewBox="0 0 24 24"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M19 17v4"/><path d="M3 5h4"/><path d="M17 19h4"/></symbol>
+  <symbol id="i-cross" viewBox="0 0 24 24"><path d="M11 2a2 2 0 0 0-2 2v5H4a2 2 0 0 0-2 2v2c0 1.1.9 2 2 2h5v5c0 1.1.9 2 2 2h2a2 2 0 0 0 2-2v-5h5a2 2 0 0 0 2-2v-2a2 2 0 0 0-2-2h-5V4a2 2 0 0 0-2-2h-2z"/></symbol>
+  <symbol id="i-wrench" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></symbol>
+  <symbol id="i-mountain" viewBox="0 0 24 24"><path d="m8 3 4 8 5-5 5 15H2L8 3z"/></symbol>
+  <symbol id="i-shuffle" viewBox="0 0 24 24"><path d="M2 18h1.4c1.3 0 2.5-.6 3.3-1.7l6.1-8.6c.7-1.1 2-1.7 3.3-1.7H22"/><path d="m18 2 4 4-4 4"/><path d="M2 6h1.9c1.5 0 2.9.9 3.6 2.2"/><path d="M22 18h-5.9c-1.3 0-2.6-.7-3.3-1.8l-.5-.8"/><path d="m18 14 4 4-4 4"/></symbol>
+  <symbol id="i-bus" viewBox="0 0 24 24"><path d="M8 6v6"/><path d="M15 6v6"/><path d="M2 12h19.6"/><path d="M18 18h3s.5-1.7.8-2.8c.1-.4.2-.8.2-1.2 0-.4-.1-.8-.2-1.2l-1.4-5C20.1 6.8 19.1 6 18 6H4a2 2 0 0 0-2 2v10h3"/><circle cx="7" cy="18" r="2"/><path d="M9 18h5"/><circle cx="16" cy="18" r="2"/></symbol>
+  <symbol id="i-newspaper" viewBox="0 0 24 24"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6Z"/></symbol>
+  <symbol id="i-arrow-up-right" viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></symbol>
+  <symbol id="i-medal" viewBox="0 0 24 24"><path d="M7.21 15 2.66 7.14a2 2 0 0 1 .13-2.2L4.4 2.8A2 2 0 0 1 6 2h12a2 2 0 0 1 1.6.8l1.6 2.14a2 2 0 0 1 .14 2.2L16.79 15"/><path d="M11 12 5.12 2.2"/><path d="m13 12 5.88-9.8"/><path d="M8 7h8"/><circle cx="12" cy="17" r="5"/><path d="M12 18v-2h-.5"/></symbol>
+</svg>
+<script>
+/* Category data (shared with other products / the API) still stores emoji; resolve to sprite ids at render time.
+   Keys are stored without U+FE0F variation selectors; iconSvg strips them before lookup. */
+const EMOJI_ICON_MAP = {
+  "📚":"i-book","🧠":"i-brain","🔥":"i-flame","🔍":"i-search","📉":"i-trend-down","💪":"i-dumbbell",
+  "🎭":"i-masks","🌐":"i-globe","⭐":"i-star","🌱":"i-sprout","🌊":"i-waves","🦋":"i-butterfly",
+  "🌸":"i-flower","🦅":"i-bird","💙":"i-heart","🏆":"i-trophy","🌹":"i-rose","🎯":"i-target","🔮":"i-gem",
+  "⚡":"i-zap","🎨":"i-palette","⚖":"i-scale","🏃":"i-activity","💬":"i-message","🧩":"i-puzzle",
+  "🌿":"i-leaf","🏛":"i-landmark","🎓":"i-grad-cap","💼":"i-briefcase","📊":"i-bar-chart","✍":"i-pen",
+  "🔬":"i-microscope","✈":"i-plane","📱":"i-smartphone","🔗":"i-link","💡":"i-lightbulb","📝":"i-file-text",
+  "🤝":"i-users","🌍":"i-globe","📖":"i-book-open","🔄":"i-rotate","🏙":"i-building","💻":"i-monitor",
+  "📋":"i-clipboard","📜":"i-scroll","📐":"i-ruler","🤖":"i-bot","🏫":"i-building","💎":"i-gem",
+  "🧘":"i-flower","🏥":"i-cross","🖊":"i-pen","🍽":"i-utensils","🔤":"i-type","💭":"i-message",
+  "🌟":"i-star","🖋":"i-pen","🏗":"i-hard-hat","🏠":"i-home","➿":"i-link","🍎":"i-apple",
+  "⚠":"i-alert","📈":"i-trend-up","🧭":"i-compass","🔑":"i-key","🗣":"i-megaphone","✊":"i-hand",
+  "🗨":"i-message","⚙":"i-settings","🍜":"i-utensils","🌅":"i-sun","🧰":"i-wrench","🌄":"i-mountain",
+  "✨":"i-sparkles","🩺":"i-cross","☀":"i-sun","🚌":"i-bus","👕":"i-shirt","🛒":"i-cart",
+  "🌌":"i-sparkles","⏰":"i-clock","✋":"i-hand","✒":"i-pen","🔭":"i-microscope","🔀":"i-shuffle",
+  "🗝":"i-key","🧍":"i-user","🛠":"i-wrench","↔":"i-shuffle","◈":"i-gem","🧮":"i-brain",
+  "📨":"i-mail","😏":"i-smile","📢":"i-megaphone","🚀":"i-rocket","📏":"i-ruler","🌡":"i-sparkles",
+  "🧪":"i-flask","🌦":"i-cloud","💰":"i-banknote","🕊":"i-bird","🎩":"i-crown","🤔":"i-compass",
+  "🧳":"i-briefcase","🌪":"i-zap","🔢":"i-hash","⏳":"i-hourglass","🎲":"i-dice","📌":"i-map-pin",
+  "🎙":"i-mic","📰":"i-newspaper","👨‍👩‍👧‍👦":"i-users","🔧":"i-wrench","✅":"i-check-circle","🪞":"i-user",
+  "🌤":"i-cloud","📅":"i-calendar","😊":"i-smile","🎧":"i-headphones","🎤":"i-mic","🌙":"i-moon",
+  "📂":"i-folder","🚧":"i-hard-hat","👁":"i-eye","⚽":"i-activity"
+};
+function iconSvg(emoji, cls){
+  const key = (emoji || "").replace(/\uFE0F/g, "");
+  const id = EMOJI_ICON_MAP[key] || "i-book";
+  return `<svg class="ico${cls ? " " + cls : ""}" aria-hidden="true"><use href="#${id}"/></svg>`;
+}
+</script>
+
 <header class="topbar">
   <div class="topbar-inner">
     <div class="topbar-left">
-      <div class="brand">📚 IELTS <span>Vocab Master</span></div>
+      <div class="brand"><svg class="ico ico-mark" aria-hidden="true"><use href="#i-mark"/></svg><span class="brand-name">Lexi<b>Loop</b></span></div>
       <nav class="tabs">
+        <div class="nav-group" data-section="home">
+          <button class="tab active" data-section-btn="home">Home</button>
+        </div>
         <div class="nav-group" data-section="vocabulary">
-          <button class="tab active" data-section-btn="vocabulary">Vocabulary <span class="nav-caret">▾</span></button>
+          <button class="tab" data-section-btn="vocabulary">Vocabulary</button>
           <div class="nav-dropdown">
             <button class="nav-dropdown-item active" data-page="list">Category</button>
             <button class="nav-dropdown-item" data-page="examples">Word</button>
@@ -665,11 +1313,17 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
         <div class="nav-group" data-section="writing">
           <button class="tab" data-section-btn="writing">Writing</button>
         </div>
+        <div class="nav-group" data-section="listening">
+          <button class="tab" data-section-btn="listening">Listening</button>
+        </div>
+        <div class="nav-group" data-section="speaking">
+          <button class="tab" data-section-btn="speaking">Speaking</button>
+        </div>
       </nav>
     </div>
     <div class="topbar-right">
-      <button class="theme-toggle" id="themeToggle" title="Toggle theme" aria-label="Toggle theme">🌙</button>
-      <button class="theme-toggle" id="resetProgressBtn" title="Reset all learning progress" aria-label="Reset all learning progress">🔄</button>
+      <button class="theme-toggle" id="themeToggle" title="Toggle theme" aria-label="Toggle theme"><svg class="ico" aria-hidden="true"><use href="#i-moon"/></svg></button>
+      <button class="theme-toggle" id="resetProgressBtn" title="Reset all learning progress" aria-label="Reset all learning progress"><svg class="ico" aria-hidden="true"><use href="#i-rotate"/></svg></button>
       <div class="stats">
         Learned: <b id="learnedCount">0</b> / <b id="totalCount">5000</b>
         <button class="review-link" id="reviewLittleBtn" title="Review words marked &quot;little bit&quot;" style="display:none;"><span id="littleCount">0</span> to review</button>
@@ -728,7 +1382,7 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
           <span>Password</span>
           <div class="auth-password-wrap">
             <input type="password" id="authPassword" autocomplete="current-password">
-            <button type="button" class="auth-pw-toggle" id="authPwToggle" aria-label="Show password">👁</button>
+            <button type="button" class="auth-pw-toggle" id="authPwToggle" aria-label="Show password"><svg class="ico" aria-hidden="true"><use href="#i-eye"/></svg></button>
           </div>
         </label>
         <div class="auth-options-row">
@@ -806,21 +1460,167 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
 
 <main>
 
+  <!-- ===== HOME PAGE ===== -->
+  <section id="page-home" class="page active">
+    <!-- Hero -->
+    <div class="home-hero">
+      <div class="home-grid-bg"></div>
+      <div class="home-glow"></div>
+      <div class="home-badge"><svg class="ico" aria-hidden="true"><use href="#i-grad-cap"/></svg> IELTS Preparation · Band 5–9</div>
+      <h1 class="home-title">Master every word,<br><span class="home-grad">one loop at a time.</span></h1>
+      <p class="home-sub">Five thousand essential IELTS words — levelled, sectioned, and returned to you until they stay.</p>
+      <div class="home-hero-actions">
+        <button class="btn" onclick="goToPage('list')">Start Learning →</button>
+        <button class="home-btn-outline" onclick="goToPage('test')">Quick Test</button>
+      </div>
+    </div>
+
+    <div class="home-content">
+
+      <!-- Live Stats -->
+      <div>
+        <div class="home-section-hd">Your Progress</div>
+        <div class="home-stats">
+          <div class="home-stat">
+            <div class="home-stat-ico"><svg class="ico" aria-hidden="true"><use href="#i-check-circle"/></svg></div>
+            <div class="home-stat-val" id="hStatLearned">0</div>
+            <div class="home-stat-lbl">Words learned</div>
+          </div>
+          <div class="home-stat">
+            <div class="home-stat-ico"><svg class="ico" aria-hidden="true"><use href="#i-folder"/></svg></div>
+            <div class="home-stat-val" id="hStatCats">0</div>
+            <div class="home-stat-lbl">Categories started</div>
+          </div>
+          <div class="home-stat">
+            <div class="home-stat-ico"><svg class="ico" aria-hidden="true"><use href="#i-bar-chart"/></svg></div>
+            <div class="home-stat-val" id="hStatPct">0%</div>
+            <div class="home-stat-lbl">Complete</div>
+          </div>
+          <div class="home-stat">
+            <div class="home-stat-ico">🔥</div>
+            <div class="home-stat-val" id="hStatStreak" style="background:linear-gradient(135deg,#f59e0b,#ef4444);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;">0</div>
+            <div class="home-stat-lbl">Day streak</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section Preview Cards -->
+      <div>
+        <div class="home-section-hd">Explore Sections</div>
+        <div class="home-secs">
+          <div class="home-sec clickable" onclick="goToPage('list')">
+            <div class="home-sec-ico"><svg class="ico" aria-hidden="true"><use href="#i-book"/></svg></div>
+            <div class="home-sec-name">Vocabulary</div>
+            <div class="home-sec-desc">5,000 words across 85+ categories, organised by CEFR level and topic. Browse, filter, and mark words as learned.</div>
+            <div class="home-sec-footer">
+              <div class="home-sec-status live">Active</div>
+              <div class="home-sec-pill live">Live</div>
+            </div>
+          </div>
+          <div class="home-sec clickable" onclick="goToPage('grammar')">
+            <div class="home-sec-ico"><svg class="ico" aria-hidden="true"><use href="#i-pen"/></svg></div>
+            <div class="home-sec-name">Grammar</div>
+            <div class="home-sec-desc">Essential IELTS grammar rules covering tense, articles, conditionals, and academic writing structures.</div>
+            <div class="home-sec-footer">
+              <div class="home-sec-status live">Active</div>
+              <div class="home-sec-pill live">Live</div>
+            </div>
+          </div>
+          <div class="home-sec clickable" onclick="goToPage('reading')">
+            <div class="home-sec-ico"><svg class="ico" aria-hidden="true"><use href="#i-book-open"/></svg></div>
+            <div class="home-sec-name">Reading</div>
+            <div class="home-sec-desc">Comprehension strategies for academic and general training passages, including skimming, scanning, and inference.</div>
+            <div class="home-sec-footer">
+              <div class="home-sec-status live">Active</div>
+              <div class="home-sec-pill live">Live</div>
+            </div>
+          </div>
+          <div class="home-sec clickable" onclick="goToPage('writing')">
+            <div class="home-sec-ico"><svg class="ico" aria-hidden="true"><use href="#i-file-text"/></svg></div>
+            <div class="home-sec-name">Writing</div>
+            <div class="home-sec-desc">Task 1 and Task 2 guidance — vocabulary for graphs, linking words, and band-9 essay frameworks.</div>
+            <div class="home-sec-footer">
+              <div class="home-sec-status live">Active</div>
+              <div class="home-sec-pill live">Live</div>
+            </div>
+          </div>
+          <div class="home-sec clickable" onclick="goToPage('listening')">
+            <div class="home-sec-ico"><svg class="ico" aria-hidden="true"><use href="#i-headphones"/></svg></div>
+            <div class="home-sec-name">Listening</div>
+            <div class="home-sec-desc">Practise dictation, gap-fill, and note-taking with audio-linked vocabulary sets.</div>
+            <div class="home-sec-footer">
+              <div class="home-sec-status soon">Coming soon</div>
+              <div class="home-sec-pill soon">Soon</div>
+            </div>
+          </div>
+          <div class="home-sec clickable" onclick="goToPage('speaking')">
+            <div class="home-sec-ico"><svg class="ico" aria-hidden="true"><use href="#i-mic"/></svg></div>
+            <div class="home-sec-name">Speaking</div>
+            <div class="home-sec-desc">Part 1, 2, and 3 topic vocabulary banks with pronunciation guides and example answers.</div>
+            <div class="home-sec-footer">
+              <div class="home-sec-status soon">Coming soon</div>
+              <div class="home-sec-pill soon">Soon</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CEFR Breakdown -->
+      <div>
+        <div class="home-section-hd">CEFR Breakdown</div>
+        <div class="home-cefr">
+          <div class="home-cefr-row" style="--lv:var(--a1)">
+            <div class="home-cefr-badge">A1</div>
+            <div class="home-cefr-track"><div class="home-cefr-fill" id="hcefr-A1"></div></div>
+            <div class="home-cefr-pct" id="hcefrp-A1">0%</div>
+          </div>
+          <div class="home-cefr-row" style="--lv:var(--a2)">
+            <div class="home-cefr-badge">A2</div>
+            <div class="home-cefr-track"><div class="home-cefr-fill" id="hcefr-A2"></div></div>
+            <div class="home-cefr-pct" id="hcefrp-A2">0%</div>
+          </div>
+          <div class="home-cefr-row" style="--lv:var(--b1)">
+            <div class="home-cefr-badge">B1</div>
+            <div class="home-cefr-track"><div class="home-cefr-fill" id="hcefr-B1"></div></div>
+            <div class="home-cefr-pct" id="hcefrp-B1">0%</div>
+          </div>
+          <div class="home-cefr-row" style="--lv:var(--b2)">
+            <div class="home-cefr-badge">B2</div>
+            <div class="home-cefr-track"><div class="home-cefr-fill" id="hcefr-B2"></div></div>
+            <div class="home-cefr-pct" id="hcefrp-B2">0%</div>
+          </div>
+          <div class="home-cefr-row" style="--lv:var(--c1)">
+            <div class="home-cefr-badge">C1</div>
+            <div class="home-cefr-track"><div class="home-cefr-fill" id="hcefr-C1"></div></div>
+            <div class="home-cefr-pct" id="hcefrp-C1">0%</div>
+          </div>
+          <div class="home-cefr-row" style="--lv:var(--c2)">
+            <div class="home-cefr-badge">C2</div>
+            <div class="home-cefr-track"><div class="home-cefr-fill" id="hcefr-C2"></div></div>
+            <div class="home-cefr-pct" id="hcefrp-C2">0%</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
   <!-- ===== WORD LIST PAGE ===== -->
-  <section id="page-list" class="page active">
+  <section id="page-list" class="page">
     <div class="page-head">
+      <span class="eyebrow">Section 01 / Vocabulary</span>
       <h1>Category</h1>
-      <p>5000 essential words across every CEFR level, organised by section and category. Click a category to explore its words.</p>
+      <p>5,000 essential words, organised by section and category — click one to begin.</p>
     </div>
 
     <!-- BROWSE VIEW: section/category grid -->
     <div id="listBrowse">
       <div class="headline-bar">
         <button class="headline-btn active" data-headline="all">All</button>
-        <button class="headline-btn" data-headline="basic">🌱 Basic</button>
-        <button class="headline-btn" data-headline="intermediate">📈 Intermediate</button>
-        <button class="headline-btn" data-headline="advanced">🎓 Advanced</button>
-        <button class="headline-btn" data-headline="cefr">📊 CEFR Levels</button>
+        <button class="headline-btn" data-headline="basic"><svg class="ico" aria-hidden="true"><use href="#i-sprout"/></svg> Basic</button>
+        <button class="headline-btn" data-headline="intermediate"><svg class="ico" aria-hidden="true"><use href="#i-trend-up"/></svg> Intermediate</button>
+        <button class="headline-btn" data-headline="advanced"><svg class="ico" aria-hidden="true"><use href="#i-grad-cap"/></svg> Advanced</button>
+        <button class="headline-btn" data-headline="cefr"><svg class="ico" aria-hidden="true"><use href="#i-bar-chart"/></svg> CEFR Levels</button>
       </div>
       <div class="browse-bar">
         <div class="search-row" style="position:relative;">
@@ -901,7 +1701,6 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
         </div>
       </div>
       <div class="card-grid" id="wordGrid"></div>
-      <div class="pagination" id="catPagination"></div>
       <div class="cat-bulk-actions">
         <button class="cat-bulk-btn" id="catCompleteAllBtn">✓ Mark All Completed</button>
         <button class="cat-bulk-btn cat-bulk-btn-secondary" id="catResetAllBtn">↺ Reset All</button>
@@ -913,15 +1712,16 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
   <!-- ===== EXAMPLES PAGE ===== -->
   <section id="page-examples" class="page">
     <div class="page-head">
+      <span class="eyebrow">Section 01 / Vocabulary</span>
       <h1>Word</h1>
-      <p>See every word used correctly in a full sentence.</p>
+      <p>Every word, used correctly in a full sentence.</p>
     </div>
     <div class="headline-bar" id="exHeadlineFilters">
       <button class="headline-btn active" data-headline="all">All</button>
-      <button class="headline-btn" data-headline="basic">🌱 Basic</button>
-      <button class="headline-btn" data-headline="intermediate">📈 Intermediate</button>
-      <button class="headline-btn" data-headline="advanced">🎓 Advanced</button>
-      <button class="headline-btn" data-headline="cefr">📊 CEFR Levels</button>
+      <button class="headline-btn" data-headline="basic"><svg class="ico" aria-hidden="true"><use href="#i-sprout"/></svg> Basic</button>
+      <button class="headline-btn" data-headline="intermediate"><svg class="ico" aria-hidden="true"><use href="#i-trend-up"/></svg> Intermediate</button>
+      <button class="headline-btn" data-headline="advanced"><svg class="ico" aria-hidden="true"><use href="#i-grad-cap"/></svg> Advanced</button>
+      <button class="headline-btn" data-headline="cefr"><svg class="ico" aria-hidden="true"><use href="#i-bar-chart"/></svg> CEFR Levels</button>
     </div>
     <div class="filters">
       <div class="search-row">
@@ -958,6 +1758,7 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
   <!-- ===== TEST PAGE ===== -->
   <section id="page-test" class="page">
     <div class="page-head">
+      <span class="eyebrow">Section 01 / Vocabulary</span>
       <h1 id="testTitle">Quiz</h1>
       <p id="testDesc">Test your knowledge with multiple question types.</p>
     </div>
@@ -985,9 +1786,9 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
           </div>
           <div class="headline-bar" id="testHeadlineFilters">
             <button class="headline-btn active" data-headline="all">All</button>
-            <button class="headline-btn" data-headline="basic">🌱 Basic</button>
-            <button class="headline-btn" data-headline="intermediate">📈 Intermediate</button>
-            <button class="headline-btn" data-headline="advanced">🎓 Advanced</button>
+          <button class="headline-btn" data-headline="basic"><svg class="ico" aria-hidden="true"><use href="#i-sprout"/></svg> Basic</button>
+          <button class="headline-btn" data-headline="intermediate"><svg class="ico" aria-hidden="true"><use href="#i-trend-up"/></svg> Intermediate</button>
+          <button class="headline-btn" data-headline="advanced"><svg class="ico" aria-hidden="true"><use href="#i-grad-cap"/></svg> Advanced</button>
           </div>
           <div class="filter-row" id="testSectionFilters"></div>
           <div class="filter-row" id="testCategoryFilters"></div>
@@ -1015,9 +1816,9 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
       <div id="testWordPicker" style="display:none;">
         <div class="headline-bar" id="testWordHeadlineBar">
           <button class="headline-btn active" data-word-headline="all">All</button>
-          <button class="headline-btn" data-word-headline="basic">🌱 Basic</button>
-          <button class="headline-btn" data-word-headline="intermediate">📈 Intermediate</button>
-          <button class="headline-btn" data-word-headline="advanced">🎓 Advanced</button>
+          <button class="headline-btn" data-word-headline="basic"><svg class="ico" aria-hidden="true"><use href="#i-sprout"/></svg> Basic</button>
+          <button class="headline-btn" data-word-headline="intermediate"><svg class="ico" aria-hidden="true"><use href="#i-trend-up"/></svg> Intermediate</button>
+          <button class="headline-btn" data-word-headline="advanced"><svg class="ico" aria-hidden="true"><use href="#i-grad-cap"/></svg> Advanced</button>
         </div>
         <div class="browse-bar">
           <div class="filter-head">
@@ -1063,11 +1864,12 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
   <!-- ===== GRAMMAR PAGE ===== -->
   <section id="page-grammar" class="page">
     <div class="page-head">
+      <span class="eyebrow">Section 02 / Grammar</span>
       <h1>Grammar</h1>
       <p>Coming soon.</p>
     </div>
     <div class="setup-card">
-      <h2>🚧 Under construction</h2>
+      <h2><svg class="ico" aria-hidden="true"><use href="#i-hard-hat"/></svg> Under construction</h2>
       <p class="sub">This section is being built — check back soon.</p>
     </div>
   </section>
@@ -1075,11 +1877,12 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
   <!-- ===== READING PAGE ===== -->
   <section id="page-reading" class="page">
     <div class="page-head">
+      <span class="eyebrow">Section 03 / Reading</span>
       <h1>Reading</h1>
       <p>Coming soon.</p>
     </div>
     <div class="setup-card">
-      <h2>🚧 Under construction</h2>
+      <h2><svg class="ico" aria-hidden="true"><use href="#i-hard-hat"/></svg> Under construction</h2>
       <p class="sub">This section is being built — check back soon.</p>
     </div>
   </section>
@@ -1087,16 +1890,106 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
   <!-- ===== WRITING PAGE ===== -->
   <section id="page-writing" class="page">
     <div class="page-head">
+      <span class="eyebrow">Section 04 / Writing</span>
       <h1>Writing</h1>
       <p>Coming soon.</p>
     </div>
     <div class="setup-card">
-      <h2>🚧 Under construction</h2>
+      <h2><svg class="ico" aria-hidden="true"><use href="#i-hard-hat"/></svg> Under construction</h2>
+      <p class="sub">This section is being built — check back soon.</p>
+    </div>
+  </section>
+
+  <!-- ===== LISTENING PAGE ===== -->
+  <section id="page-listening" class="page">
+    <div class="page-head">
+      <span class="eyebrow">Section 05 / Listening</span>
+      <h1>Listening</h1>
+      <p>Coming soon.</p>
+    </div>
+    <div class="setup-card">
+      <h2><svg class="ico" aria-hidden="true"><use href="#i-hard-hat"/></svg> Under construction</h2>
+      <p class="sub">This section is being built — check back soon.</p>
+    </div>
+  </section>
+
+  <!-- ===== SPEAKING PAGE ===== -->
+  <section id="page-speaking" class="page">
+    <div class="page-head">
+      <span class="eyebrow">Section 06 / Speaking</span>
+      <h1>Speaking</h1>
+      <p>Coming soon.</p>
+    </div>
+    <div class="setup-card">
+      <h2><svg class="ico" aria-hidden="true"><use href="#i-hard-hat"/></svg> Under construction</h2>
       <p class="sub">This section is being built — check back soon.</p>
     </div>
   </section>
 
 </main>
+
+<footer class="site-footer" id="siteFooter">
+  <div class="footer-inner">
+    <div class="footer-top">
+
+      <div>
+        <div class="footer-logo"><svg class="ico ico-mark" aria-hidden="true"><use href="#i-mark"/></svg><span class="brand-name">Lexi<b>Loop</b></span></div>
+        <p class="footer-sub">Track your progress across 5,000 IELTS words across every CEFR level.</p>
+      </div>
+
+      <div class="footer-dash">
+
+        <div class="dash-card">
+          <div class="dash-card-label">Total words</div>
+          <div class="dash-card-val">5,000</div>
+          <div class="dash-card-sub">across all levels</div>
+        </div>
+
+        <div class="dash-card">
+          <div class="dash-card-label">Learned</div>
+          <div class="dash-card-val" id="footerLearnedVal" style="color:rgb(var(--vio))">0</div>
+          <div class="dash-card-sub" id="footerLearnedPct">0% complete</div>
+        </div>
+
+        <div class="dash-card dash-card-streak">
+          <div class="dash-card-label">Categories</div>
+          <div class="dash-card-val" id="footerCatVal">—</div>
+          <div class="dash-card-sub" id="footerCatSub">started</div>
+        </div>
+
+        <div class="dash-streak">
+          <div class="dash-card-label">Streak</div>
+          <div class="dash-streak-top">
+            <div class="dash-streak-fire">🔥</div>
+            <div class="dash-streak-num" id="streakCount">0</div>
+            <div class="dash-streak-meta">
+              <div class="dash-streak-lbl">day streak</div>
+              <div class="dash-streak-best">Best: <b id="streakBest">0</b> days</div>
+            </div>
+          </div>
+          <div class="dash-week" id="streakWeek">
+            <div class="dash-week-day"><div class="dash-week-dot" id="sday-0"></div><div class="dash-week-lbl">Mon</div></div>
+            <div class="dash-week-day"><div class="dash-week-dot" id="sday-1"></div><div class="dash-week-lbl">Tue</div></div>
+            <div class="dash-week-day"><div class="dash-week-dot" id="sday-2"></div><div class="dash-week-lbl">Wed</div></div>
+            <div class="dash-week-day"><div class="dash-week-dot" id="sday-3"></div><div class="dash-week-lbl">Thu</div></div>
+            <div class="dash-week-day"><div class="dash-week-dot" id="sday-4"></div><div class="dash-week-lbl">Fri</div></div>
+            <div class="dash-week-day"><div class="dash-week-dot" id="sday-5"></div><div class="dash-week-lbl">Sat</div></div>
+            <div class="dash-week-day"><div class="dash-week-dot" id="sday-6"></div><div class="dash-week-lbl">Sun</div></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span class="footer-copy">© 2025 LexiLoop · All rights reserved</span>
+      <div class="footer-bottom-right">
+        <span class="footer-tag">Built for IELTS learners</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
 
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 <script>
@@ -7062,7 +7955,7 @@ const SECTIONS = {
   "core-action-verbs":       "Essential Verbs",
   "everyday-verbs-ii":       "Essential Verbs",
   "movement-position-verbs": "Essential Verbs",
-  "communication-basic":     "Communication Basics",
+  "communication-basic":     "People & Relationships",
   "family-people":           "People & Relationships",
   "describing-people-basic": "People & Relationships",
   "feelings-emotions-basic": "Mind & Feelings",
@@ -7074,10 +7967,10 @@ const SECTIONS = {
   "places-transport-basic":  "Out & About",
   /* new basic */
   "numbers-school-basic":    "Numbers & Learning",
-  "colours-shapes-basic":    "Colours, Shapes & Sizes",
+  "colours-shapes-basic":    "Numbers & Learning",
   "sports-hobbies-basic":    "Sports & Hobbies",
   /* intermediate */
-  "complex-emotions":            "Complex Emotions",
+  "complex-emotions":            "Emotions in Depth",
   "personality-character-inter": "Personality & Character",
   "social-issues-inter":         "Society & Social Issues",
   "work-career-inter":           "Work & Career",
@@ -7088,115 +7981,115 @@ const SECTIONS = {
   "food-culture-inter":          "Food, Nutrition & Culture",
   "travel-culture-inter":          "Travel, Culture & Society",
   "education-society-inter":       "Education & Society",
-  "law-justice-inter":             "Law, Crime & Justice",
+  "law-justice-inter":             "Society & Social Issues",
   "psychology-behaviour-inter":    "Mind, Behaviour & Psychology",
-  "communication-language-inter":  "Communication & Language",
+  "communication-language-inter":  "Language & Communication",
   "economics-finance-inter":       "Economics & Finance",
-  "global-issues-inter":           "Global Challenges & Politics",
-  "arts-culture-inter":            "Arts, Literature & Culture",
-  "science-discovery-inter":       "Science & Discovery",
-  "urban-architecture-inter":      "Cities, Architecture & Urban Life",
-  "ethics-philosophy-inter":       "Ethics & Philosophy",
-  "relationships-society-inter":   "Relationships & Social Life",
+  "global-issues-inter":           "Politics & Global Affairs",
+  "arts-culture-inter":            "Arts, Media & Culture",
+  "science-discovery-inter":       "Science & Innovation",
+  "urban-architecture-inter":      "Cities & Urban Life",
+  "ethics-philosophy-inter":       "Society & Social Issues",
+  "relationships-society-inter":   "Personality & Character",
   "media-journalism-inter":        "Media & Journalism",
-  "health-lifestyle-inter":        "Lifestyle & Wellbeing",
+  "health-lifestyle-inter":        "Health & Medicine",
   /* C1 advanced */
-  "abstract-thought-c1":       "Abstract Thought & Ideas",
-  "rhetoric-persuasion-c1":    "Rhetoric, Argument & Persuasion",
-  "advanced-vocab-c1":         "Precision & Expression",
-  "social-change-c1":          "Social Change & Progress",
-  "human-nature-c1":           "Human Nature & Society",
-  "academic-c1-advanced": "Academic Vocabulary",
-  "environment-c1":            "Environment & Ecology",
-  "globalisation-c1":          "Globalisation & World Economy",
-  "power-politics-c1":         "Power, Politics & Governance",
-  "cognition-mind-c1":         "Cognition, Memory & Intelligence",
-  "language-linguistics-c1":   "Language, Linguistics & Communication",
-  "medicine-biology-c1":       "Medicine, Biology & the Body",
-  "technology-future-c1":      "Technology, AI & the Future",
-  "history-civilisation-c1":   "History, Civilisation & Culture",
-  "arts-expression-c1":        "Arts, Creativity & Expression",
+  "abstract-thought-c1":       "Mind & Abstract Thought",
+  "rhetoric-persuasion-c1":    "Storytelling, Humour & Persuasion",
+  "advanced-vocab-c1":         "Precision & Literary Language",
+  "social-change-c1":          "Society, Rights & Change",
+  "human-nature-c1":           "Society, Rights & Change",
+  "academic-c1-advanced": "Academic Register & Style",
+  "environment-c1":            "Nature, Climate & Energy",
+  "globalisation-c1":          "Global Power & Economy",
+  "power-politics-c1":         "Global Power & Economy",
+  "cognition-mind-c1":         "Mind & Abstract Thought",
+  "language-linguistics-c1":   "Academic Register & Style",
+  "medicine-biology-c1":       "Science, Research & Medicine",
+  "technology-future-c1":      "Science, Tech & Innovation",
+  "history-civilisation-c1":   "Arts, History & Culture",
+  "arts-expression-c1":        "Arts, History & Culture",
   "philosophy-thought-c2":     "Philosophy & Critical Thought",
   "advanced-adjectives-c2":    "Advanced Adjectives",
-  "advanced-verbs-c2":         "Advanced Verbs",
-  "advanced-nouns-c2":         "Advanced Nouns",
-  "c2-expressions":            "C2 Expressions & Collocations",
+  "advanced-verbs-c2":         "Advanced Verbs & Nouns",
+  "advanced-nouns-c2":         "Advanced Verbs & Nouns",
+  "c2-expressions":            "C2 Finishing Sets",
   // extended intermediate
-  "emotions-b-extended": "Emotions & States of Mind",
-  "describing-actions-b": "Describing Actions & Movement",
-  "work-society-b2-extended": "Work, Society & Inequality",
-  "nature-landscape-b2":       "Nature, Landscape & the Physical World",
+  "emotions-b-extended": "Emotions in Depth",
+  "describing-actions-b": "Action & Process Verbs",
+  "work-society-b2-extended": "Work & Career",
+  "nature-landscape-b2":       "Environment & Climate",
   "language-communication-b2": "Language & Communication",
-  "politics-governance-b2": "Politics, Governance & Power",
+  "politics-governance-b2": "Politics & Global Affairs",
   // extended advanced / C1+
-  "academic-style-c1b": "Academic Style & Register",
-  "ielts-writing-c1-ext": "IELTS Writing & Critical Argument",
-  "science-tech-b2-ext": "Science, Technology & Innovation",
-  "health-body-b2-ext": "Health, Body & Medicine",
-  "descriptive-adjectives-c1": "Descriptive Adjectives",
+  "academic-style-c1b": "Academic Register & Style",
+  "ielts-writing-c1-ext": "IELTS Essay Mastery",
+  "science-tech-b2-ext": "Science & Innovation",
+  "health-body-b2-ext": "Health & Medicine",
+  "descriptive-adjectives-c1": "Advanced Adjectives",
   // batch 14
-  "idioms-phrases-b2": "Idioms & Fixed Expressions",
-  "environment-sustainability-c1": "Environment & Sustainability",
-  "academic-verbs-c1": "Academic & Formal Verbs",
-  "literary-descriptive-c2": "Literary & Descriptive Language",
-  "formal-nouns-c1b": "Formal & Abstract Nouns",
+  "idioms-phrases-b2": "Idioms & Collocations",
+  "environment-sustainability-c1": "Nature, Climate & Energy",
+  "academic-verbs-c1": "Academic Register & Style",
+  "literary-descriptive-c2": "Precision & Literary Language",
+  "formal-nouns-c1b": "Formal Nouns & Qualifiers",
   // batch 15
-  "arts-media-b2": "Arts, Media & Creative Expression",
-  "philosophy-ethics-c1-ext": "Philosophy, Ethics & Morality",
-  "geography-demography-b2": "Geography & Demographics",
+  "arts-media-b2": "Arts, Media & Culture",
+  "philosophy-ethics-c1-ext": "Philosophy & Critical Thought",
+  "geography-demography-b2": "Politics & Global Affairs",
   // batch 16
-  "business-economics-c1": "Business, Economics & Finance",
-  "social-human-rights-c1": "Social Issues & Human Rights",
-  "verbs-precise-b2": "Precise Action & Process Verbs",
+  "business-economics-c1": "Career, Business & Leadership",
+  "social-human-rights-c1": "Society, Rights & Change",
+  "verbs-precise-b2": "Action & Process Verbs",
   // batch 17
-  "cognition-learning-c1": "Cognition, Learning & Intelligence",
-  "idioms-c1-complex": "Complex Idioms & Collocations",
-  "c2-precision-words": "Precision & Register",
+  "cognition-learning-c1": "Mind, Behaviour & Psychology",
+  "idioms-c1-complex": "Idioms & Collocations",
+  "c2-precision-words": "Precision & Literary Language",
   // batch 18
-  "crime-justice-c1": "Crime, Law & Justice",
-  "personality-adjectives-c1": "Character & Personality Adjectives",
-  "academic-nouns-b2": "Academic Topic Nouns",
+  "crime-justice-c1": "Governance, Economy & Society",
+  "personality-adjectives-c1": "Advanced Adjectives",
+  "academic-nouns-b2": "Academic Language & Writing",
   // batch 19
   "verbs-b2-advanced": "Verbs for Writing & Analysis",
-  "complex-sentence-connectors": "Complex Sentence Connectors",
-  "collocations-formal-c1": "Academic Collocations & Phrases",
+  "complex-sentence-connectors": "Connectors & Discourse Markers",
+  "collocations-formal-c1": "Academic Language & Writing",
   // batch 20
-  "global-issues-c1b": "Global Issues & International Affairs",
-  "word-formation-b2": "Word Formation & Derivatives",
+  "global-issues-c1b": "Global Power & Economy",
+  "word-formation-b2": "Language & Communication",
   // batch 21
-  "common-adjectives-b1b": "Common Descriptive Adjectives",
-  "mind-emotion-c1-ext": "Mind, Emotion & Motivation",
+  "common-adjectives-b1b": "Quality & Degree Adjectives",
+  "mind-emotion-c1-ext": "Mind & Abstract Thought",
   // batch 22
-  "education-learning-b2": "Education, Learning & Schools",
-  "housing-urban-b2": "Housing, Cities & Urban Issues",
-  "c2-final-vocab":            "C2 Final Vocabulary Set",
+  "education-learning-b2": "Education & Society",
+  "housing-urban-b2": "Cities & Urban Life",
+  "c2-final-vocab":            "C2 Finishing Sets",
   // batch 23
-  "technology-digital-b2": "Digital Technology & Internet",
-  "food-culture-ext": "Food, Nutrition & Culinary Culture",
-  "travel-tourism-b2": "Travel, Tourism & Adventure",
-  "advanced-connectors-c1-final": "Advanced Connectors & Transitions",
+  "technology-digital-b2": "Technology & Media",
+  "food-culture-ext": "Food, Nutrition & Culture",
+  "travel-tourism-b2": "Travel, Culture & Society",
+  "advanced-connectors-c1-final": "Academic Connectors III",
   // batch 24
-  "social-media-comm-b2": "Social Media & Digital Culture",
-  "science-research-c1": "Science, Research & Discovery",
-  "abstract-concepts-c1-final": "Abstract Concepts & Critical Language",
+  "social-media-comm-b2": "Media & Journalism",
+  "science-research-c1": "Science, Research & Medicine",
+  "abstract-concepts-c1-final": "Philosophy & Critical Thought",
   // batch 25
-  "common-verbs-b1-ext": "Essential Verbs & Actions",
-  "formal-adverbs-c1-ext": "Formal Adverbs & Qualifiers",
-  "complex-nouns-b2-final": "Complex Nouns & Key Concepts",
+  "common-verbs-b1-ext": "Action & Process Verbs",
+  "formal-adverbs-c1-ext": "Formal Nouns & Qualifiers",
+  "complex-nouns-b2-final": "B2 Noun Bank",
   // batch 26
   "adjectives-b2-quality": "Quality & Degree Adjectives",
-  "final-nouns-c1": "Keystone Nouns for Writing",
+  "final-nouns-c1": "Formal Nouns & Qualifiers",
   // batch 27
-  "core-ielts-vocab-final": "Core IELTS Vocabulary",
-  "final-advanced-b2":         "B2 Advanced Essentials",
+  "core-ielts-vocab-final": "B2 Milestone Sets",
+  "final-advanced-b2":         "B2 Milestone Sets",
   // batch 28
-  "key-transitions-b2-final": "Key Transitions & Discourse Markers",
-  "additional-b2-vocab":       "Additional B2 Vocabulary Set",
+  "key-transitions-b2-final": "Connectors & Discourse Markers",
+  "additional-b2-vocab":       "B2 Milestone Sets",
   // batch 29
-  "ielts-essay-vocab": "IELTS Essay Vocabulary",
-  "b2-nouns-final-set":        "Keystone B2 Nouns",
-  "c1-writing-toolkit":        "C1 Academic Writing Toolkit",
-  "final-20-words": "Essential 20",
+  "ielts-essay-vocab": "IELTS Essay Mastery",
+  "b2-nouns-final-set":        "B2 Noun Bank",
+  "c1-writing-toolkit":        "IELTS Essay Mastery",
+  "final-20-words": "C2 Finishing Sets",
   // A1+ categories → existing basic sections
   "a1plus-body-health":        "Body & Health",
   "a1plus-food-drink":         "Home & Daily Life",
@@ -7242,8 +8135,8 @@ const SECTIONS = {
   "c2plus-idioms-collocations": "Advanced Lexical Expansion",
   "b2plus-precision-adjectives": "Precision & Control Vocabulary",
   "b2plus-control-verbs": "Precision & Control Vocabulary",
-  "a2-everyday-essentials": "Everyday Actions & Textures",
-  "c1plus-bias-power-hardship": "Bias, Power & Hardship",
+  "a2-everyday-essentials": "Home & Daily Life",
+  "c1plus-bias-power-hardship": "Society, Rights & Change",
 };
 
 const CATEGORIES = ALL_PARTS.map(({id,name,icon,theme}) => ({id,name,icon,theme,section:SECTIONS[id]||"Other"}));
@@ -7274,58 +8167,25 @@ const SECTION_ORDER = [
   "Storytelling, Humour & Persuasion",
   "Description: Size, Sound & Movement",
   "Habits, Comparison & Politeness",
-  "Abstract Thought & Ideas",
-  "Rhetoric, Argument & Persuasion",
-  "Precision & Expression",
-  "Social Change & Progress",
-  "Human Nature & Society",
-  "Academic Vocabulary",
-  "Environment & Ecology",
-  "Globalisation & World Economy",
-  "Power, Politics & Governance",
-  "Cognition, Memory & Intelligence",
-  "Language, Linguistics & Communication",
-  "Medicine, Biology & the Body",
-  "Technology, AI & the Future",
-  "History, Civilisation & Culture",
-  "Arts, Creativity & Expression",
+  "Mind & Abstract Thought",
+  "Society, Rights & Change",
+  "Global Power & Economy",
   "Philosophy & Critical Thought",
+  "Arts, History & Culture",
+  "Science, Research & Medicine",
+  "Academic Register & Style",
+  "Precision & Literary Language",
   "Advanced Adjectives",
-  "Advanced Verbs",
-  "Advanced Nouns",
-  "C2 Expressions & Collocations",
-  "Academic Style & Register",
-  "IELTS Writing & Critical Argument",
-  "Descriptive Adjectives",
-  "Environment & Sustainability",
-  "Academic & Formal Verbs",
-  "Literary & Descriptive Language",
-  "Formal & Abstract Nouns",
-  "Philosophy, Ethics & Morality",
-  "Business, Economics & Finance",
-  "Social Issues & Human Rights",
-  "Precision & Register",
-  "Crime, Law & Justice",
-  "Character & Personality Adjectives",
-  "Global Issues & International Affairs",
-  "Mind, Emotion & Motivation",
-  "C2 Final Vocabulary Set",
-  "Advanced Connectors & Transitions",
-  "Science, Research & Discovery",
-  "Abstract Concepts & Critical Language",
-  "Formal Adverbs & Qualifiers",
-  "Keystone Nouns for Writing",
-  "IELTS Essay Vocabulary",
-  "C1 Academic Writing Toolkit",
-  "Essential 20",
+  "Advanced Verbs & Nouns",
+  "Formal Nouns & Qualifiers",
+  "IELTS Essay Mastery",
   "Advanced Lexical Expansion",
-  "Bias, Power & Hardship",
+  "C2 Finishing Sets",
 ];
 
 /* ── Basic sections ── */
 const BASIC_SECTIONS = [
   "Essential Verbs",
-  "Communication Basics",
   "People & Relationships",
   "Mind & Feelings",
   "Home & Daily Life",
@@ -7334,71 +8194,38 @@ const BASIC_SECTIONS = [
   "Out & About",
   "Time & Description",
   "Numbers & Learning",
-  "Colours, Shapes & Sizes",
   "Sports & Hobbies",
-  "Everyday Actions & Textures",
 ];
 
 /* ── Intermediate sections ── */
 const INTERMEDIATE_SECTIONS = [
-  "Complex Emotions",
+  "Emotions in Depth",
   "Personality & Character",
+  "Mind, Behaviour & Psychology",
   "Society & Social Issues",
   "Work & Career",
+  "Education & Society",
+  "Economics & Finance",
+  "Politics & Global Affairs",
   "Environment & Climate",
   "Health & Medicine",
+  "Science & Innovation",
   "Technology & Media",
-  "Academic Language & Writing",
-  "Food, Nutrition & Culture",
-  "Travel, Culture & Society",
-  "Education & Society",
-  "Law, Crime & Justice",
-  "Mind, Behaviour & Psychology",
-  "Communication & Language",
-  "Economics & Finance",
-  "Global Challenges & Politics",
-  "Arts, Literature & Culture",
-  "Science & Discovery",
-  "Cities, Architecture & Urban Life",
-  "Ethics & Philosophy",
-  "Relationships & Social Life",
   "Media & Journalism",
-  "Lifestyle & Wellbeing",
-  "Emotions & States of Mind",
-  "Describing Actions & Movement",
-  "Work, Society & Inequality",
-  "Nature, Landscape & the Physical World",
+  "Cities & Urban Life",
+  "Travel, Culture & Society",
+  "Food, Nutrition & Culture",
+  "Arts, Media & Culture",
   "Language & Communication",
-  "Politics, Governance & Power",
-  "Science, Technology & Innovation",
-  "Health, Body & Medicine",
-  "Idioms & Fixed Expressions",
-  "Arts, Media & Creative Expression",
-  "Geography & Demographics",
-  "Precise Action & Process Verbs",
-  "Cognition, Learning & Intelligence",
-  "Complex Idioms & Collocations",
-  "Academic Topic Nouns",
-  "Verbs for Writing & Analysis",
-  "Complex Sentence Connectors",
-  "Academic Collocations & Phrases",
-  "Word Formation & Derivatives",
-  "Common Descriptive Adjectives",
-  "Education, Learning & Schools",
-  "Housing, Cities & Urban Issues",
-  "Digital Technology & Internet",
-  "Food, Nutrition & Culinary Culture",
-  "Travel, Tourism & Adventure",
-  "Social Media & Digital Culture",
-  "Essential Verbs & Actions",
-  "Complex Nouns & Key Concepts",
+  "Action & Process Verbs",
   "Quality & Degree Adjectives",
-  "Core IELTS Vocabulary",
-  "B2 Advanced Essentials",
-  "Key Transitions & Discourse Markers",
-  "Additional B2 Vocabulary Set",
-  "Keystone B2 Nouns",
+  "Idioms & Collocations",
+  "Connectors & Discourse Markers",
+  "Academic Language & Writing",
+  "Verbs for Writing & Analysis",
   "Precision & Control Vocabulary",
+  "B2 Noun Bank",
+  "B2 Milestone Sets",
 ];
 
 /* ── Headline mapping ── */
@@ -7407,24 +8234,27 @@ SECTION_ORDER.forEach(s => { SECTION_HEADLINES[s] = "advanced"; });
 BASIC_SECTIONS.forEach(s => { SECTION_HEADLINES[s] = "basic"; });
 INTERMEDIATE_SECTIONS.forEach(s => { SECTION_HEADLINES[s] = "intermediate"; });
 
-const CEFR_SECTION = "CEFR Levels";
-SECTION_HEADLINES[CEFR_SECTION] = "cefr";
+const CEFR_SECTION_BEGINNER    = "Beginner";
+const CEFR_SECTION_INDEPENDENT = "Independent";
+const CEFR_SECTION_EXPERT      = "Expert";
+const CEFR_SECTIONS = [CEFR_SECTION_BEGINNER, CEFR_SECTION_INDEPENDENT, CEFR_SECTION_EXPERT];
+CEFR_SECTIONS.forEach(s => { SECTION_HEADLINES[s] = "cefr"; });
 
 const CEFR_CATEGORIES = [
-  { id:"cefr-a1",  name:"A1",  icon:"🌱", theme:"te",    cefrLevel:"A1",  section:CEFR_SECTION },
-  { id:"cefr-a1p", name:"A1+", icon:"⭐", theme:"tg",    cefrLevel:"A1+", section:CEFR_SECTION },
-  { id:"cefr-a2",  name:"A2",  icon:"🌊", theme:"tc",    cefrLevel:"A2",  section:CEFR_SECTION },
-  { id:"cefr-a2p", name:"A2+", icon:"🔥", theme:"to",    cefrLevel:"A2+", section:CEFR_SECTION },
-  { id:"cefr-b1",  name:"B1",  icon:"🦋", theme:"ti",    cefrLevel:"B1",  section:CEFR_SECTION },
-  { id:"cefr-b1p", name:"B1+", icon:"🌸", theme:"tp",    cefrLevel:"B1+", section:CEFR_SECTION },
-  { id:"cefr-b2",  name:"B2",  icon:"🦅", theme:"tb",    cefrLevel:"B2",  section:CEFR_SECTION },
-  { id:"cefr-b2p", name:"B2+", icon:"💙", theme:"tnavy", cefrLevel:"B2+", section:CEFR_SECTION },
-  { id:"cefr-c1",  name:"C1",  icon:"🏆", theme:"ta",    cefrLevel:"C1",  section:CEFR_SECTION },
-  { id:"cefr-c1p", name:"C1+", icon:"🌹", theme:"tro",   cefrLevel:"C1+", section:CEFR_SECTION },
-  { id:"cefr-c2",  name:"C2",  icon:"🎯", theme:"tr",    cefrLevel:"C2",  section:CEFR_SECTION },
-  { id:"cefr-c2p", name:"C2+", icon:"🔮", theme:"tpurp", cefrLevel:"C2+", section:CEFR_SECTION },
+  { id:"cefr-a1",  name:"A1",  icon:"🌱", theme:"te",    cefrLevel:"A1",  section:CEFR_SECTION_BEGINNER },
+  { id:"cefr-a1p", name:"A1+", icon:"⭐", theme:"tg",    cefrLevel:"A1+", section:CEFR_SECTION_BEGINNER },
+  { id:"cefr-a2",  name:"A2",  icon:"🌊", theme:"tc",    cefrLevel:"A2",  section:CEFR_SECTION_BEGINNER },
+  { id:"cefr-a2p", name:"A2+", icon:"🔥", theme:"to",    cefrLevel:"A2+", section:CEFR_SECTION_BEGINNER },
+  { id:"cefr-b1",  name:"B1",  icon:"🦋", theme:"ti",    cefrLevel:"B1",  section:CEFR_SECTION_INDEPENDENT },
+  { id:"cefr-b1p", name:"B1+", icon:"🌸", theme:"tp",    cefrLevel:"B1+", section:CEFR_SECTION_INDEPENDENT },
+  { id:"cefr-b2",  name:"B2",  icon:"🦅", theme:"tb",    cefrLevel:"B2",  section:CEFR_SECTION_INDEPENDENT },
+  { id:"cefr-b2p", name:"B2+", icon:"💙", theme:"tnavy", cefrLevel:"B2+", section:CEFR_SECTION_INDEPENDENT },
+  { id:"cefr-c1",  name:"C1",  icon:"🏆", theme:"ta",    cefrLevel:"C1",  section:CEFR_SECTION_EXPERT },
+  { id:"cefr-c1p", name:"C1+", icon:"🌹", theme:"tro",   cefrLevel:"C1+", section:CEFR_SECTION_EXPERT },
+  { id:"cefr-c2",  name:"C2",  icon:"🎯", theme:"tr",    cefrLevel:"C2",  section:CEFR_SECTION_EXPERT },
+  { id:"cefr-c2p", name:"C2+", icon:"🔮", theme:"tpurp", cefrLevel:"C2+", section:CEFR_SECTION_EXPERT },
 ];
-const ALL_SECTION_ORDER = [...BASIC_SECTIONS, ...INTERMEDIATE_SECTIONS, ...SECTION_ORDER, CEFR_SECTION];
+const ALL_SECTION_ORDER = [...BASIC_SECTIONS, ...INTERMEDIATE_SECTIONS, ...SECTION_ORDER, ...CEFR_SECTIONS];
 const ALL_CATEGORIES = [...CATEGORIES, ...CEFR_CATEGORIES];
 const CEFR_CAT_LEVEL = Object.fromEntries(CEFR_CATEGORIES.map(c => [c.id, c.cefrLevel]));
 
@@ -7505,6 +8335,117 @@ function saveLearned(){
   document.getElementById("totalCount").textContent   = VOCAB_DATA.length;
   document.getElementById("reviewLittleBtn").style.display = little > 0 ? "" : "none";
   syncLearnMapToServer();
+  updateFooter();
+  updateHome();
+}
+
+function updateFooter(){
+  const learnMap = state.learnMap;
+  const total = VOCAB_DATA.length;
+  const learned = Object.values(learnMap).filter(v=>v==="learned").length;
+  const pct = total ? Math.round(learned / total * 100) : 0;
+
+  const lv = document.getElementById("footerLearnedVal");
+  const lp = document.getElementById("footerLearnedPct");
+  const sc = document.getElementById("footerShareCount");
+  if(lv) lv.textContent = learned;
+  if(lp) lp.textContent = pct + "% complete";
+  if(sc) sc.textContent = learned;
+
+  // categories started
+  const catsStarted = CATEGORIES.filter(c => CAT_WORDS[c.id]?.some(w => learnMap[w.w])).length;
+  const cv = document.getElementById("footerCatVal");
+  const cs = document.getElementById("footerCatSub");
+  if(cv) cv.textContent = catsStarted;
+  if(cs) cs.textContent = "of " + CATEGORIES.length + " categories";
+
+  // CEFR breakdown
+  const cefrLevels = ["A1","A2","B1","B2","C1","C2"];
+  cefrLevels.forEach(lvl => {
+    const words = VOCAB_DATA.filter(w => w.cefr && w.cefr.startsWith(lvl.replace("+","")));
+    const learnedInLvl = words.filter(w => learnMap[w.w] === "learned").length;
+    const barPct = words.length ? Math.round(learnedInLvl / words.length * 100) : 0;
+    const bar = document.getElementById("fbar-" + lvl);
+    const cnt = document.getElementById("fcnt-" + lvl);
+    if(bar) bar.style.width = barPct + "%";
+    if(cnt) cnt.textContent = learnedInLvl;
+  });
+}
+
+function localDateStr(d){
+  // Use local calendar date, not UTC — avoids UTC+N offset bugs
+  return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+}
+
+function initStreak(){
+  const today    = new Date();
+  const todayStr = localDateStr(today);
+  const dow      = (today.getDay()+6)%7;   // 0=Mon … 6=Sun
+
+  const mon = new Date(today);
+  mon.setDate(today.getDate()-dow);
+  const weekStart = localDateStr(mon);
+
+  let d = {};
+  try { d = JSON.parse(localStorage.getItem('ielts_streak')||'{}'); } catch(e){}
+
+  let { count=0, longest=0, lastDate='', weekStart:ws='', weekVisits=Array(7).fill(false) } = d;
+
+  // Reset week dots when a new Mon–Sun cycle begins
+  if(ws !== weekStart){ weekVisits = Array(7).fill(false); ws = weekStart; }
+
+  // Advance streak only once per calendar day
+  if(lastDate !== todayStr){
+    const yest = new Date(today);
+    yest.setDate(today.getDate()-1);
+    count   = (lastDate === localDateStr(yest)) ? count+1 : 1;
+    lastDate = todayStr;
+  }
+
+  weekVisits[dow] = true;
+  longest = Math.max(longest, count);
+
+  try { localStorage.setItem('ielts_streak', JSON.stringify({count,longest,lastDate,weekStart:ws,weekVisits})); } catch(e){}
+
+  renderStreak(count, longest, weekVisits, dow);
+}
+
+function renderStreak(count, longest, weekVisits, dow){
+  const el = id => document.getElementById(id);
+  if(el('streakCount'))   el('streakCount').textContent   = count;
+  if(el('streakBest'))    el('streakBest').textContent    = longest;
+  if(el('hStatStreak'))   el('hStatStreak').textContent   = count;
+  for(let i=0;i<7;i++){
+    const dot = el('sday-'+i);
+    if(!dot) continue;
+    dot.classList.toggle('active', !!weekVisits[i]);
+    dot.classList.toggle('today',  i===dow);
+  }
+}
+
+function updateHome(){
+  const learnMap = state.learnMap;
+  const total = VOCAB_DATA.length;
+  const learned = Object.values(learnMap).filter(v => v === "learned").length;
+  const pct = total ? Math.round(learned / total * 100) : 0;
+  const catsStarted = CATEGORIES.filter(c => CAT_WORDS[c.id]?.some(w => learnMap[w.w])).length;
+
+  const el = id => document.getElementById(id);
+  if(el("hStatLearned")) el("hStatLearned").textContent = learned;
+  if(el("hStatCats"))    el("hStatCats").textContent    = catsStarted;
+  if(el("hStatPct"))     el("hStatPct").textContent     = pct + "%";
+  if(el("hStatTotal"))   el("hStatTotal").textContent   = total.toLocaleString();
+
+  const cefrLevels = ["A1","A2","B1","B2","C1","C2"];
+  cefrLevels.forEach(lvl => {
+    const words = VOCAB_DATA.filter(w => w.cefr && w.cefr.startsWith(lvl.replace("+","")));
+    const learnedInLvl = words.filter(w => learnMap[w.w] === "learned").length;
+    const barPct = words.length ? Math.round(learnedInLvl / words.length * 100) : 0;
+    const bar  = el("hcefr-"  + lvl);
+    const pctEl = el("hcefrp-" + lvl);
+    if(bar)   bar.style.width = barPct + "%";
+    if(pctEl) pctEl.textContent = barPct + "%";
+  });
 }
 
 function renderAuthUI(){
@@ -7725,7 +8666,7 @@ function buildCategoryChips(container, f, onChange){
     const chip = document.createElement("button");
     chip.className = `chip t-${c.theme}` + (f.cat===c.id ? " active" : "");
     chip.dataset.cat = c.id;
-    chip.textContent = `${c.icon} ${c.name}`;
+    chip.innerHTML = `${iconSvg(c.icon)} ${c.name}`;
     return chip;
   });
 
@@ -7796,10 +8737,13 @@ function initTopicFilters(prefix, f, getPool, unitLabel){
    NAVIGATION
    ════════════════════════════════════════════════════════ */
 const NAV_SECTIONS = {
+  home: ["home"],
   vocabulary: ["list", "examples", "test"],
   grammar: ["grammar"],
   reading: ["reading"],
   writing: ["writing"],
+  listening: ["listening"],
+  speaking: ["speaking"],
 };
 
 function sectionOfPage(pageId){
@@ -7823,10 +8767,11 @@ function goToPage(pageId){
   const page = document.getElementById(`page-${pageId}`);
   page.classList.add("active");
   page.querySelectorAll("[data-chip-fp]").forEach(el => { el.dataset.chipBreaks = ""; });
-  if (pageId === "examples") renderExamplesFilters();
+  if (pageId === "list") renderBrowse();
+  else if (pageId === "examples") renderExamplesFilters();
   else if (pageId === "test") renderTestMode();
   if (typeof gsap !== "undefined"){
-    gsap.fromTo(page, {opacity:0, y:12}, {opacity:1, y:0, duration:.35, ease:"power2.out"});
+    gsap.fromTo(page, {opacity:0, y:18}, {opacity:1, y:0, duration:.5, ease:"power3.out"});
   }
 }
 
@@ -7863,7 +8808,7 @@ document.addEventListener("click", (e) => {
 const themeToggleBtn = document.getElementById("themeToggle");
 function updateThemeIcon(){
   const theme = document.documentElement.getAttribute("data-theme");
-  themeToggleBtn.textContent = theme === "dark" ? "☀️" : "🌙";
+  themeToggleBtn.innerHTML = `<svg class="ico" aria-hidden="true"><use href="#${theme === "dark" ? "i-sun" : "i-moon"}"/></svg>`;
 }
 updateThemeIcon();
 themeToggleBtn.addEventListener("click", () => {
@@ -8040,7 +8985,7 @@ function resetAuthForm(){
   document.getElementById("authEmail").disabled = false;
   document.getElementById("authPassword").value = "";
   document.getElementById("authPassword").type = "password";
-  document.getElementById("authPwToggle").textContent = "👁";
+  document.getElementById("authPwToggle").innerHTML = `<svg class="ico" aria-hidden="true"><use href="#i-eye"/></svg>`;
   document.getElementById("authRememberMe").checked = false;
   document.getElementById("authName").value = "";
   document.getElementById("authUsername").value = "";
@@ -8126,7 +9071,7 @@ document.getElementById("authPwToggle").addEventListener("click", () => {
   const toggle = document.getElementById("authPwToggle");
   const show = input.type === "password";
   input.type = show ? "text" : "password";
-  toggle.textContent = show ? "🙈" : "👁";
+  toggle.innerHTML = `<svg class="ico" aria-hidden="true"><use href="#${show ? "i-eye-off" : "i-eye"}"/></svg>`;
 });
 
 document.getElementById("authPicture").addEventListener("change", (e) => {
@@ -8315,8 +9260,7 @@ function categoryStatusOf(catId){
   if (learnedCnt === 0 && littleCnt === 0) return "notStarted";
   return "inProgress";
 }
-const catState    = { cat:null, search:"", cefr:"all", learned:"all", page:1 };
-const CAT_PER_PAGE = 25;
+const catState    = { cat:null, search:"", cefr:"all", learned:"all" };
 const CEFR_COLORS = {
   "A1":"#10b981", "A1+":"#eab308",
   "A2":"#06b6d4", "A2+":"#f97316",
@@ -8336,7 +9280,7 @@ const CEFR_THEME = {
 
 function cefrPillHtml(level){
   const c = CEFR_COLORS[level] || "#888";
-  return `<span class="cat-cefr-pill" style="background:${c}">${level}</span>`;
+  return `<span class="cat-cefr-pill" style="background:${c}1c;border:1px solid ${c}55;color:${c}">${level}</span>`;
 }
 
 function topCefrOf(catId){
@@ -8346,17 +9290,43 @@ function topCefrOf(catId){
   return top ? top[0] : null;
 }
 
-function renderBrowseSection(sectionName, cats){
+function renderBrowseSection(sectionName, cats, num){
+  const totalWords   = cats.reduce((s,c) => s + CAT_WORDS[c.id].length, 0);
+  const totalLearned = cats.reduce((s,c) => s + CAT_WORDS[c.id].filter(w => isLearned(w.w)).length, 0);
+  const secPct = totalWords ? Math.round(totalLearned / totalWords * 100) : 0;
+
   const wrap = document.createElement("div");
-  wrap.style.marginBottom = "36px";
-  const totalWords = cats.reduce((s,c) => s + CAT_WORDS[c.id].length, 0);
+  wrap.className = "section-block";
   wrap.innerHTML = `
-    <div class="section-header">
-      <span class="section-title">${sectionName}</span>
-      <span class="section-rule"></span>
-      <span class="section-meta">${cats.length} categor${cats.length!==1?"ies":"y"} · ${totalWords} words</span>
+    <div class="section-block-header">
+      <div class="section-block-num">${String(num).padStart(2, "0")}</div>
+      <div class="section-block-info">
+        <div class="section-block-name">${sectionName}</div>
+        <div class="section-block-meta">${cats.length} categor${cats.length!==1?"ies":"y"} · ${totalWords} words</div>
+      </div>
+      <div class="section-block-right">
+        <div class="section-block-prog">
+          <div class="section-block-pbar"><div class="section-block-pfill" style="width:${secPct}%"></div></div>
+          <div class="section-block-pct">${secPct}%</div>
+        </div>
+        <span class="section-block-chevron">›</span>
+      </div>
     </div>
-    <div class="cat-grid"></div>`;
+    <div class="section-block-divider"></div>
+    <div class="section-block-body">
+      <div class="section-block-body-inner">
+        <div class="cat-grid"></div>
+      </div>
+    </div>`;
+
+  const header = wrap.querySelector(".section-block-header");
+  const body   = wrap.querySelector(".section-block-body");
+  header.addEventListener("click", () => {
+    const opening = !wrap.classList.contains("open");
+    wrap.classList.toggle("open", opening);
+    body.style.maxHeight = opening ? body.scrollHeight + "px" : "0";
+  });
+
   const grid = wrap.querySelector(".cat-grid");
   cats.forEach(cat => {
     const words = CAT_WORDS[cat.id];
@@ -8369,23 +9339,20 @@ function renderBrowseSection(sectionName, cats){
     const card = document.createElement("div");
     card.className = `cat-card t-${cat.theme}`;
     card.innerHTML = `
-      <div class="cat-card-row">
-        <div class="cat-icon-box t-${cat.theme}">${cat.icon}</div>
-        <div class="cat-info">
-          <div class="cat-name">${cat.name}</div>
-          <div class="cat-stats">
-            <span class="cat-wcount">${cefrCount !== null ? `${cefrCount} ${browseState.cefr} word${cefrCount!==1?"s":""}` : `${words.length} words`}</span>
-            ${pillLevel ? cefrPillHtml(pillLevel) : ""}
-          </div>
-        </div>
-        <span class="cat-chevron">›</span>
+      <div class="cat-card-top">
+        <span class="cat-tag">${iconSvg(cat.icon)} ${cefrCount !== null ? `${cefrCount} ${browseState.cefr} word${cefrCount!==1?"s":""}` : `${words.length} words`}</span>
+        ${pillLevel ? cefrPillHtml(pillLevel) : ""}
+        <svg class="ico cat-arrow" aria-hidden="true"><use href="#i-arrow-up-right"/></svg>
       </div>
+      <div class="cat-name">${cat.name}</div>
       <div class="cat-pbar-row">
         <div class="cat-pbar">
           <div class="cat-pfill-little" style="width:${pctLi}%"></div>
-          <div class="cat-pfill" style="width:${pct}%;position:absolute;top:0;left:0;"></div>
+          <div class="cat-pfill" style="width:${pct}%;position:absolute;top:0;left:0;${pct===100?"background:#10b981;":""}"></div>
         </div>
-        <span class="cat-plabel">${learnedCnt}/${words.length}${littleCnt>0?` · ${littleCnt}~`:""}</span>
+        ${pct === 100
+          ? `<svg class="ico cat-medal" aria-label="Mastered"><use href="#i-medal"/></svg>`
+          : `<span class="cat-plabel">${learnedCnt}/${words.length}${littleCnt>0?` · ${littleCnt}~`:""}</span>`}
       </div>`;
     card.addEventListener("click", () => enterCatView(cat));
     grid.appendChild(card);
@@ -8402,28 +9369,24 @@ function renderBrowse(){
     b.classList.toggle("active", b.dataset.headline === hl);
   });
 
-  // Section chips: hidden for CEFR Levels, otherwise filtered to the active headline
-  if (hl === "cefr") {
-    sc.style.display = "none";
-  } else {
-    sc.style.display = "";
-    sc.innerHTML = `<span class="filter-label">Section</span>`;
-    const allBtn = document.createElement("button");
-    allBtn.className = "chip" + (browseState.section==="all"?" active":"");
-    allBtn.textContent = "All";
-    allBtn.addEventListener("click", () => { browseState.section="all"; browseState.page=1; renderBrowse(); });
-    const sectionsForChips = hl === "all"
-      ? ALL_SECTION_ORDER.filter(s => SECTION_HEADLINES[s] !== "cefr")
-      : ALL_SECTION_ORDER.filter(s => SECTION_HEADLINES[s] === hl);
-    const sectionBtns = sectionsForChips.map(sName => {
-      const btn = document.createElement("button");
-      btn.className = "chip" + (browseState.section===sName?" active":"");
-      btn.textContent = sName;
-      btn.addEventListener("click", () => { browseState.section=sName; browseState.page=1; renderBrowse(); });
-      return btn;
-    });
-    renderExpandableChips(sc, allBtn, sectionBtns);
-  }
+  // Section chips, filtered to the active headline (CEFR shows its three stages)
+  sc.style.display = "";
+  sc.innerHTML = `<span class="filter-label">Section</span>`;
+  const allBtn = document.createElement("button");
+  allBtn.className = "chip" + (browseState.section==="all"?" active":"");
+  allBtn.textContent = "All";
+  allBtn.addEventListener("click", () => { browseState.section="all"; browseState.page=1; renderBrowse(); });
+  const sectionsForChips = hl === "all"
+    ? ALL_SECTION_ORDER.filter(s => SECTION_HEADLINES[s] !== "cefr")
+    : ALL_SECTION_ORDER.filter(s => SECTION_HEADLINES[s] === hl);
+  const sectionBtns = sectionsForChips.map(sName => {
+    const btn = document.createElement("button");
+    btn.className = "chip" + (browseState.section===sName?" active":"");
+    btn.textContent = sName;
+    btn.addEventListener("click", () => { browseState.section=sName; browseState.page=1; renderBrowse(); });
+    return btn;
+  });
+  renderExpandableChips(sc, allBtn, sectionBtns);
 
   document.querySelectorAll("[data-browse-cefr]").forEach(c => {
     c.classList.toggle("active", c.dataset.browseCefr === browseState.cefr);
@@ -8458,7 +9421,10 @@ function renderBrowse(){
   if (browseState.page > totalBrowsePages) browseState.page = totalBrowsePages;
   const pageSections = matchedSections.slice((browseState.page - 1) * BROWSE_SECTIONS_PER_PAGE, browseState.page * BROWSE_SECTIONS_PER_PAGE);
   content.innerHTML = "";
-  pageSections.forEach(({ sName, cats }) => content.appendChild(renderBrowseSection(sName, cats)));
+  pageSections.forEach(({ sName, cats }, i) => {
+    const num = (browseState.page - 1) * BROWSE_SECTIONS_PER_PAGE + i + 1;
+    content.appendChild(renderBrowseSection(sName, cats, num));
+  });
   if (typeof gsap !== "undefined"){
     gsap.fromTo(content.querySelectorAll(".cat-card"),
       {opacity:0,y:16},{opacity:1,y:0,duration:.35,ease:"power2.out",stagger:{amount:.25,from:"start"}});
@@ -8485,9 +9451,7 @@ function renderWordGrid(){
     }
     return true;
   });
-  const totalPages = Math.max(1, Math.ceil(allWords.length / CAT_PER_PAGE));
-  if (catState.page > totalPages) catState.page = totalPages;
-  const words = allWords.slice((catState.page - 1) * CAT_PER_PAGE, catState.page * CAT_PER_PAGE);
+  const words = allWords;
   const grid = document.getElementById("wordGrid");
   document.getElementById("listCount").textContent = `${allWords.length} word${allWords.length!==1?"s":""}`;
   grid.innerHTML = "";
@@ -8536,11 +9500,6 @@ function renderWordGrid(){
   if (typeof gsap !== "undefined"){
     gsap.fromTo(grid.children, {opacity:0,y:14},{opacity:1,y:0,duration:.4,ease:"power2.out",stagger:{amount:.3,from:"start"}});
   }
-  buildPagination(document.getElementById("catPagination"), allWords.length, CAT_PER_PAGE, catState.page, p => {
-    catState.page = p;
-    renderWordGrid();
-    document.getElementById("listCatView").scrollIntoView({behavior:"smooth", block:"start"});
-  });
 }
 
 document.getElementById("catCompleteAllBtn").addEventListener("click", () => {
@@ -8562,9 +9521,8 @@ function enterCatView(cat){
   catState.search = "";
   catState.cefr = "all";
   catState.learned = "all";
-  catState.page = 1;
   document.getElementById("catSearchInput").value = "";
-  document.getElementById("catViewIcon").textContent = cat.icon || "📚";
+  document.getElementById("catViewIcon").innerHTML = iconSvg(cat.icon);
   document.getElementById("catViewIcon").className = `cat-view-icon t-${cat.theme}`;
   document.getElementById("catViewName").textContent = cat.name;
   document.getElementById("catViewName").className = `cat-view-name t-${cat.theme}`;
@@ -8635,25 +9593,25 @@ document.getElementById("browseClearFilters").addEventListener("click", () => {
 document.getElementById("backToBrowse").addEventListener("click", exitCatView);
 document.getElementById("backToBrowseBottom").addEventListener("click", exitCatView);
 document.getElementById("catSearchInput").addEventListener("input", debounce(e => {
-  catState.search = e.target.value.trim(); catState.page = 1;
+  catState.search = e.target.value.trim();
   renderWordGrid();
 }, 150));
 document.querySelectorAll("[data-cat-cefr]").forEach(chip => {
   chip.addEventListener("click", () => {
-    catState.cefr = chip.dataset.catCefr; catState.page = 1;
+    catState.cefr = chip.dataset.catCefr;
     document.querySelectorAll("[data-cat-cefr]").forEach(c => c.classList.toggle("active", c.dataset.catCefr===catState.cefr));
     renderWordGrid();
   });
 });
 document.querySelectorAll("[data-cat-learned]").forEach(chip => {
   chip.addEventListener("click", () => {
-    catState.learned = chip.dataset.catLearned; catState.page = 1;
+    catState.learned = chip.dataset.catLearned;
     document.querySelectorAll("[data-cat-learned]").forEach(c => c.classList.toggle("active", c.dataset.catLearned===catState.learned));
     renderWordGrid();
   });
 });
 document.getElementById("clearCatFilters").addEventListener("click", () => {
-  catState.search=""; catState.cefr="all"; catState.learned="all"; catState.page=1;
+  catState.search=""; catState.cefr="all"; catState.learned="all";
   document.getElementById("catSearchInput").value="";
   document.querySelectorAll("[data-cat-cefr]").forEach(c => c.classList.toggle("active", c.dataset.catCefr==="all"));
   document.querySelectorAll("[data-cat-learned]").forEach(c => c.classList.toggle("active", c.dataset.catLearned==="all"));
@@ -9482,6 +10440,35 @@ document.querySelectorAll("#testWordLearnedFilters [data-word-learned]").forEach
 });
 
 saveLearned();
+updateFooter();
+updateHome();
+initStreak();
+
+// Scroll reveals: home sections + footer dash cards rise in once as they enter the viewport
+(function(){
+  if (typeof gsap === "undefined" || !("IntersectionObserver" in window)) return;
+  const targets = document.querySelectorAll(".home-content > div, .footer-dash .dash-card");
+  if (!targets.length) return;
+  gsap.set(targets, {opacity:0, y:26});
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      gsap.to(e.target, {opacity:1, y:0, duration:.75, ease:"power3.out"});
+      io.unobserve(e.target);
+    });
+  }, {threshold:.12});
+  targets.forEach(el => io.observe(el));
+})();
+
+// Footer share button
+document.getElementById("footerShareBtn")?.addEventListener("click", function(){
+  const learned = Object.values(state.learnMap).filter(v=>v==="learned").length;
+  const text = `I've learned ${learned} IELTS words on LexiLoop! 🎓`;
+  navigator.clipboard?.writeText(text).then(() => {
+    this.textContent = "Copied ✓";
+    setTimeout(() => { this.textContent = "Copy"; }, 2000);
+  });
+});
 </script>
 
 <script type="module">
@@ -9553,5 +10540,158 @@ saveLearned();
     </div>
   </div>
 </div>
+
+<!-- ── Chat Widget ── -->
+<div class="chat-widget" id="chatWidget">
+  <div class="chat-box" id="chatBox">
+    <div class="chat-header">
+      <div class="chat-avatar"><svg class="ico" aria-hidden="true"><use href="#i-bot"/></svg></div>
+      <div class="chat-header-info">
+        <div class="chat-header-name">IELTS Assistant</div>
+        <div class="chat-header-status">
+          <span class="chat-status-dot"></span> Online · AI-powered
+        </div>
+      </div>
+      <span class="chat-header-badge">Beta</span>
+    </div>
+
+    <div class="chat-messages">
+      <div class="chat-msg">
+        <div class="chat-msg-avatar"><svg class="ico" aria-hidden="true"><use href="#i-bot"/></svg></div>
+        <div>
+          <div class="chat-bubble">Hey! 👋 I'm your <b>IELTS Assistant</b>. I can help you understand words, explain definitions, and guide your study sessions.</div>
+          <div class="chat-time">Just now</div>
+        </div>
+      </div>
+      <div class="chat-msg">
+        <div class="chat-msg-avatar"><svg class="ico" aria-hidden="true"><use href="#i-bot"/></svg></div>
+        <div>
+          <div class="chat-bubble">Try asking me: <b>"What does 'ambiguous' mean?"</b> or <b>"Give me B2 words for emotions"</b>.</div>
+          <div class="chat-time">Just now</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-input-row">
+      <input class="chat-input" type="text" placeholder="Ask about any word…" id="chatInput">
+      <button class="chat-send-btn" id="chatSendBtn">
+        <svg viewBox="0 0 20 20" fill="none" width="16" height="16">
+          <path d="M3 10L17 3L10 17L9 11L3 10Z" fill="white" stroke="white" stroke-width=".5" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+    <div class="chat-footer-note">AI features coming soon · Preview only</div>
+  </div>
+
+  <button class="chat-fab" id="chatFab" aria-label="Open IELTS Assistant">
+    <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+      <circle cx="9" cy="10" r=".8" fill="white" stroke="none"/>
+      <circle cx="12" cy="10" r=".8" fill="white" stroke="none"/>
+      <circle cx="15" cy="10" r=".8" fill="white" stroke="none"/>
+    </svg>
+    <span class="chat-fab-pulse"></span>
+  </button>
+</div>
+
+<script>
+(function(){
+  const widget   = document.getElementById("chatWidget");
+  const fab      = document.getElementById("chatFab");
+  const input    = document.getElementById("chatInput");
+  const sendBtn  = document.getElementById("chatSendBtn");
+  const messages = widget.querySelector(".chat-messages");
+
+  fab.addEventListener("click", function(e){
+    e.stopPropagation();
+    widget.classList.toggle("pinned");
+    if(widget.classList.contains("pinned")) input.focus();
+  });
+
+  document.addEventListener("click", function(e){
+    if(!widget.contains(e.target)) widget.classList.remove("pinned");
+  });
+
+  function timeStr(){
+    const n = new Date();
+    return String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0');
+  }
+
+  function scrollBottom(){ messages.scrollTop = messages.scrollHeight; }
+
+  function appendMsg(text, isUser){
+    const row = document.createElement("div");
+    row.className = "chat-msg" + (isUser ? " user" : "");
+
+    if(!isUser){
+      const av = document.createElement("div");
+      av.className = "chat-msg-avatar"; av.innerHTML = `<svg class="ico" aria-hidden="true"><use href="#i-bot"/></svg>`;
+      row.appendChild(av);
+    }
+
+    const wrap   = document.createElement("div");
+    const bubble = document.createElement("div");
+    bubble.className = "chat-bubble";
+    bubble.textContent = text;
+    wrap.appendChild(bubble);
+
+    const ts = document.createElement("div");
+    ts.className = "chat-time"; ts.textContent = timeStr();
+    wrap.appendChild(ts);
+
+    row.appendChild(wrap);
+    messages.appendChild(row);
+    scrollBottom();
+  }
+
+  function showTyping(){
+    const row = document.createElement("div");
+    row.className = "chat-msg"; row.id = "chatTypingRow";
+    const av = document.createElement("div");
+    av.className = "chat-msg-avatar"; av.innerHTML = `<svg class="ico" aria-hidden="true"><use href="#i-bot"/></svg>`;
+    const bubble = document.createElement("div");
+    bubble.className = "chat-bubble chat-typing";
+    bubble.innerHTML = "<span></span><span></span><span></span>";
+    row.appendChild(av); row.appendChild(bubble);
+    messages.appendChild(row);
+    scrollBottom();
+  }
+
+  function hideTyping(){
+    const t = document.getElementById("chatTypingRow");
+    if(t) t.remove();
+  }
+
+  const replies = [
+    "Great question! AI isn't wired up yet — but once connected, I'll explain any IELTS word in full detail. 🚀",
+    "I'm a preview for now! When the AI is live, I can give definitions, synonyms, and example sentences on the spot.",
+    "Nice one! While you wait for AI, the Vocabulary tab has search and filters to find any word instantly.",
+    "Coming soon! I'll be able to quiz you, explain tricky words, and help you target your weak CEFR levels.",
+    "I see you're serious about IELTS! Full AI responses are on the way. Try the Test tab to practice in the meantime. 🎓",
+    "That's exactly the kind of question I'll be great at answering — once the AI backend is connected!",
+  ];
+  let replyIdx = 0;
+
+  function send(){
+    const text = input.value.trim();
+    if(!text) return;
+    input.value = "";
+    widget.classList.add("pinned");
+    appendMsg(text, true);
+    showTyping();
+    const delay = 900 + Math.random() * 700;
+    setTimeout(function(){
+      hideTyping();
+      appendMsg(replies[replyIdx++ % replies.length], false);
+    }, delay);
+  }
+
+  sendBtn.addEventListener("click", send);
+  input.addEventListener("keydown", function(e){
+    if(e.key === "Enter") send();
+  });
+})();
+</script>
+
 </body>
 </html>
