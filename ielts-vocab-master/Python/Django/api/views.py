@@ -1,6 +1,6 @@
 from django.http import JsonResponse
 from django.views.decorators.http import require_GET
-from vocab.models import CEFRLevel, Category, Word
+from vocab.models import CEFRLevel, Category, Word, GrammarTopic
 
 
 @require_GET
@@ -48,4 +48,39 @@ def categories(request):
 def cefr_levels(request):
     qs = CEFRLevel.objects.order_by('order')
     data = [{'id': l.id, 'code': l.code, 'name': l.name, 'order': l.order} for l in qs]
+    return JsonResponse(data, safe=False)
+
+
+GRAMMAR_STAGES = [
+    ('beginner', 'Beginner', 'A1–A2'),
+    ('independent', 'Independent', 'B1–B2'),
+    ('expert', 'Expert', 'C1–C2'),
+]
+
+
+@require_GET
+def grammar(request):
+    topics = GrammarTopic.objects.prefetch_related('blocks', 'questions').order_by('order')
+    by_stage = {}
+    for t in topics:
+        by_stage.setdefault(t.stage, []).append({
+            'slug':  t.slug,
+            'title': t.title,
+            'tag':   t.tag,
+            'cefr':  t.cefr_label,
+            'blurb': t.blurb,
+            'lesson': [
+                {'type': b.type, 'title': b.title, 'body': b.body, 'data': b.data}
+                for b in t.blocks.all()
+            ],
+            'quiz': [
+                {'qtype': q.qtype, 'prompt': q.prompt, 'options': q.options,
+                 'answers': q.answers, 'why': q.why}
+                for q in t.questions.all()
+            ],
+        })
+    data = [
+        {'id': sid, 'name': name, 'cefr': cefr, 'topics': by_stage.get(sid, [])}
+        for sid, name, cefr in GRAMMAR_STAGES
+    ]
     return JsonResponse(data, safe=False)
