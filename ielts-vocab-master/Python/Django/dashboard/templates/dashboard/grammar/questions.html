@@ -1,0 +1,31 @@
+{% extends "dashboard/base.html" %}
+{% block title %}Questions — {{ topic.title }}{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h1>Questions — {{ topic.title }}</h1>
+  <a href="{% url 'dashboard_grammar_question_add' topic.pk %}" class="btn btn-success">+ Add Question</a>
+</div>
+<p><a href="{% url 'dashboard_grammar_list' %}">&larr; All topics</a></p>
+<table class="table table-striped table-hover">
+  <thead><tr><th>#</th><th>Type</th><th>Prompt</th><th>Answers</th><th></th></tr></thead>
+  <tbody>
+    {% for q in questions %}
+    <tr>
+      <td>{{ q.order }}</td>
+      <td>{{ q.get_qtype_display }}</td>
+      <td class="text-truncate" style="max-width:400px">{{ q.prompt }}</td>
+      <td class="text-truncate" style="max-width:200px">{{ q.answers }}</td>
+      <td class="text-nowrap">
+        <a href="{% url 'dashboard_grammar_question_edit' q.pk %}" class="btn btn-sm btn-outline-primary">Edit</a>
+        <form method="post" action="{% url 'dashboard_grammar_question_delete' q.pk %}" class="d-inline"
+              onsubmit="return confirm('Delete this question?');">
+          {% csrf_token %}<button class="btn btn-sm btn-outline-danger">Del</button>
+        </form>
+      </td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="5" class="text-center text-muted">No questions yet.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

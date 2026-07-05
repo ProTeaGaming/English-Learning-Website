@@ -2,8 +2,9 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from accounts.decorators import role_required
 from django.contrib.auth import get_user_model
-from vocab.models import Word, Category, CEFRLevel, Color
-from .forms import WordForm, CategoryForm, ColorForm, CEFRForm, UserRoleForm
+from vocab.models import Word, Category, CEFRLevel, Color, GrammarTopic, GrammarLessonBlock, GrammarQuestion
+from .forms import (WordForm, CategoryForm, ColorForm, CEFRForm, UserRoleForm,
+                    GrammarTopicForm, GrammarLessonBlockForm, GrammarQuestionForm)
 
 
 @role_required('staff')
@@ -14,6 +15,7 @@ def index(request):
         'cefr_count':     CEFRLevel.objects.count(),
         'color_count':    Color.objects.count(),
         'user_count':     get_user_model().objects.count(),
+        'grammar_count': GrammarTopic.objects.count(),
     }
     return render(request, 'dashboard/index.html', context)
 
@@ -186,3 +188,130 @@ def user_detail(request, pk):
         messages.success(request, f'{target.email} updated.')
         return redirect('dashboard_user_list')
     return render(request, 'dashboard/users/detail.html', {'target': target, 'form': form})
+
+
+# ── Grammar ─────────────────────────────────────────────────
+@role_required('staff')
+def grammar_topic_list(request):
+    stage = request.GET.get('stage', '')
+    qs = GrammarTopic.objects.order_by('order')
+    if stage:
+        qs = qs.filter(stage=stage)
+    return render(request, 'dashboard/grammar/list.html', {
+        'topics': qs, 'stages': GrammarTopic.STAGES, 'selected_stage': stage,
+    })
+
+
+@role_required('staff')
+def grammar_topic_add(request):
+    form = GrammarTopicForm(request.POST or None)
+    if request.method == 'POST' and form.is_valid():
+        form.save()
+        messages.success(request, 'Grammar topic added.')
+        return redirect('dashboard_grammar_list')
+    return render(request, 'dashboard/grammar/form.html', {'form': form, 'action': 'Add'})
+
+
+@role_required('staff')
+def grammar_topic_edit(request, pk):
+    topic = get_object_or_404(GrammarTopic, pk=pk)
+    form = GrammarTopicForm(request.POST or None, instance=topic)
+    if request.method == 'POST' and form.is_valid():
+        form.save()
+        messages.success(request, 'Grammar topic updated.')
+        return redirect('dashboard_grammar_list')
+    return render(request, 'dashboard/grammar/form.html', {'form': form, 'action': 'Edit', 'obj': topic})
+
+
+@role_required('staff')
+def grammar_topic_delete(request, pk):
+    topic = get_object_or_404(GrammarTopic, pk=pk)
+    if request.method == 'POST':
+        topic.delete()
+        messages.success(request, 'Grammar topic deleted (with its blocks and questions).')
+        return redirect('dashboard_grammar_list')
+    return render(request, 'dashboard/grammar/list.html', {
+        'topics': GrammarTopic.objects.order_by('order'),
+        'stages': GrammarTopic.STAGES, 'selected_stage': '',
+        'confirm_delete': topic,
+    })
+
+
+@role_required('staff')
+def grammar_block_list(request, topic_pk):
+    topic = get_object_or_404(GrammarTopic, pk=topic_pk)
+    return render(request, 'dashboard/grammar/blocks.html', {'topic': topic, 'blocks': topic.blocks.all()})
+
+
+@role_required('staff')
+def grammar_block_add(request, topic_pk):
+    topic = get_object_or_404(GrammarTopic, pk=topic_pk)
+    form = GrammarLessonBlockForm(request.POST or None)
+    if request.method == 'POST' and form.is_valid():
+        block = form.save(commit=False)
+        block.topic = topic
+        block.save()
+        messages.success(request, 'Lesson block added.')
+        return redirect('dashboard_grammar_blocks', topic_pk=topic.pk)
+    return render(request, 'dashboard/grammar/block_form.html', {'form': form, 'action': 'Add', 'topic': topic})
+
+
+@role_required('staff')
+def grammar_block_edit(request, pk):
+    block = get_object_or_404(GrammarLessonBlock, pk=pk)
+    form = GrammarLessonBlockForm(request.POST or None, instance=block)
+    if request.method == 'POST' and form.is_valid():
+        form.save()
+        messages.success(request, 'Lesson block updated.')
+        return redirect('dashboard_grammar_blocks', topic_pk=block.topic_id)
+    return render(request, 'dashboard/grammar/block_form.html', {'form': form, 'action': 'Edit', 'topic': block.topic})
+
+
+@role_required('staff')
+def grammar_block_delete(request, pk):
+    block = get_object_or_404(GrammarLessonBlock, pk=pk)
+    topic_pk = block.topic_id
+    if request.method == 'POST':
+        block.delete()
+        messages.success(request, 'Lesson block deleted.')
+    return redirect('dashboard_grammar_blocks', topic_pk=topic_pk)
+
+
+@role_required('staff')
+def grammar_question_list(request, topic_pk):
+    topic = get_object_or_404(GrammarTopic, pk=topic_pk)
+    return render(request, 'dashboard/grammar/questions.html', {'topic': topic, 'questions': topic.questions.all()})
+
+
+@role_required('staff')
+def grammar_question_add(request, topic_pk):
+    topic = get_object_or_404(GrammarTopic, pk=topic_pk)
+    form = GrammarQuestionForm(request.POST or None)
+    if request.method == 'POST' and form.is_valid():
+        question = form.save(commit=False)
+        question.topic = topic
+        question.save()
+        messages.success(request, 'Question added.')
+        return redirect('dashboard_grammar_questions', topic_pk=topic.pk)
+    return render(request, 'dashboard/grammar/question_form.html', {'form': form, 'action': 'Add', 'topic': topic})
+
+
+@role_required('staff')
+def grammar_question_edit(request, pk):
+    question = get_object_or_404(GrammarQuestion, pk=pk)
+    form = GrammarQuestionForm(request.POST or None, instance=question)
+    if request.method == 'POST' and form.is_valid():
+        form.save()
+        messages.success(request, 'Question updated.')
+        return redirect('dashboard_grammar_questions', topic_pk=question.topic_id)
+    return render(request, 'dashboard/grammar/question_form.html', {'form': form, 'action': 'Edit', 'topic': question.topic})
+
+
+@role_required('staff')
+def grammar_question_delete(request, pk):
+    question = get_object_or_404(GrammarQuestion, pk=pk)
+    topic_pk = question.topic_id
+    if request.method == 'POST':
+        question.delete()
+        messages.success(request, 'Question deleted.')
+    return redirect('dashboard_grammar_questions', topic_pk=topic_pk)
