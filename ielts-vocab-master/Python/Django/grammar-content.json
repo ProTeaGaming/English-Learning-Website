@@ -1,0 +1,2442 @@
+[
+  {
+    "slug": "present-simple-continuous",
+    "stage": "beginner",
+    "title": "Present Simple & Continuous",
+    "tag": "Tenses",
+    "cefr": "A1–A2",
+    "blurb": "Know when to use the simple present and when to use the present continuous.",
+    "lesson": [
+      {
+        "type": "intro",
+        "body": "<p>The present simple describes <b>facts, habits and routines</b>, while the present continuous describes actions <b>happening now</b> or <b>around now</b>. Choosing the correct tense changes the meaning of a sentence.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Present Simple",
+        "body": "<p>Form: base verb (+ <b>-s</b> for he/she/it). Use it for facts (<em>Water boils at 100°C</em>), habits (<em>She studies every evening</em>) and permanent situations (<em>He works in marketing</em>). Add <b>do/does</b> for questions and negatives: <em>She doesn't study on Sundays.</em></p>"
+      },
+      {
+        "type": "rule",
+        "title": "Present Continuous",
+        "body": "<p>Form: <b>am/is/are + verb-ing</b>. Use it for actions happening at this moment (<em>The graph is showing a decline</em>), temporary situations (<em>He is living abroad this year</em>) and current trends (<em>Prices are rising</em>).</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Stative verbs",
+        "body": "<p>Some verbs describe states, not actions, and are rarely used in the continuous form: <em>know, believe, want, own, understand, prefer</em>. Say <em>I understand the question</em>, not <em>I am understanding</em>.</p>"
+      },
+      {
+        "type": "table",
+        "title": "Quick map",
+        "data": {
+          "head": [
+            "Use",
+            "Tense",
+            "Example"
+          ],
+          "rows": [
+            [
+              "Fact / general truth",
+              "Present simple",
+              "The sun rises in the east."
+            ],
+            [
+              "Habit / routine",
+              "Present simple",
+              "She checks her essays before submitting."
+            ],
+            [
+              "Now / this moment",
+              "Present continuous",
+              "The number of applicants is increasing."
+            ],
+            [
+              "Temporary situation",
+              "Present continuous",
+              "He is studying at a language centre this term."
+            ]
+          ]
+        }
+      },
+      {
+        "type": "examples",
+        "data": {
+          "items": [
+            {
+              "en": "The table shows that inflation rises every winter.",
+              "note": "General fact/pattern — present simple."
+            },
+            {
+              "en": "Look at the graph: the line is climbing sharply after 2015.",
+              "note": "Describing what is happening in the visual right now — present continuous."
+            },
+            {
+              "en": "I understand your argument, but I disagree with the conclusion.",
+              "note": "\"Understand\" is a stative verb — no continuous form."
+            },
+            {
+              "en": "More students are choosing to study abroad this year.",
+              "note": "A changing, temporary trend — present continuous."
+            },
+            {
+              "en": "The report states that unemployment affects young people the most.",
+              "note": "General fact about the report's content — present simple."
+            }
+          ]
+        }
+      },
+      {
+        "type": "tip",
+        "body": "<p>In Writing Task 1, use the present simple for the chart's overall pattern (<em>The graph shows…</em>) and the present continuous only for a trend you are describing as still in progress at the final data point (<em>the figure is still rising in 2020</em>).</p>"
+      }
+    ],
+    "quiz": [
+      {
+        "qtype": "mcq",
+        "prompt": "Water ___ at 100°C at sea level.",
+        "options": [
+          "boils",
+          "boil",
+          "is boiling",
+          "boiled"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "A scientific fact takes the present simple, with -s added for \"it\"."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "Look! The number of visitors ___ rapidly this month.",
+        "options": [
+          "rise",
+          "rises",
+          "is rising",
+          "rose"
+        ],
+        "answers": [
+          2
+        ],
+        "why": "An action in progress right now takes the present continuous."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "She usually ___ (study) in the library after class.",
+        "answers": [
+          "studies"
+        ],
+        "why": "A habitual action takes the present simple, with -s for \"she\"."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "I ___ what you mean, but I still think the plan is risky.",
+        "options": [
+          "am understanding",
+          "understand",
+          "understands",
+          "was understanding"
+        ],
+        "answers": [
+          1
+        ],
+        "why": "\"Understand\" is a stative verb and is not used in the continuous form."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "At the moment, more graduates ___ (choose) careers in technology.",
+        "answers": [
+          "are choosing"
+        ],
+        "why": "A current, changing trend takes the present continuous."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "He ___ to the office by train every day.",
+        "options": [
+          "is going",
+          "go",
+          "going",
+          "goes"
+        ],
+        "answers": [
+          3
+        ],
+        "why": "A daily routine takes the present simple; add -s for \"he\"."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "___ she work on weekends?",
+        "options": [
+          "Does",
+          "Do",
+          "Is",
+          "Are"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "Present simple questions with she/he/it use \"does\"."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "The chart ___ (show) a steady decline between 2005 and 2010.",
+        "answers": [
+          "shows"
+        ],
+        "why": "Describing the general content of a chart uses the present simple."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "He ___ (not/like) working overtime, but he does it anyway.",
+        "answers": [
+          "doesn't like",
+          "does not like"
+        ],
+        "why": "Present simple negative for he/she/it uses \"doesn't\" + base verb."
+      },
+      {
+        "qtype": "transform",
+        "prompt": "Rewrite in the present continuous to describe a trend visible right now on the graph: \"The population increases every year.\"",
+        "answers": [
+          "The population is increasing every year.",
+          "The population is increasing every year"
+        ],
+        "why": "A trend described as currently happening takes the present continuous."
+      }
+    ]
+  },
+  {
+    "slug": "past-simple-continuous",
+    "stage": "beginner",
+    "title": "Past Simple & Continuous",
+    "tag": "Tenses",
+    "cefr": "A1–A2",
+    "blurb": "Narrate finished actions and describe interrupted or background actions in the past.",
+    "lesson": [
+      {
+        "type": "intro",
+        "body": "<p>The past simple describes <b>completed actions</b> at a definite time in the past, while the past continuous describes an <b>action in progress</b> — often interrupted by another action or used to set the scene.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Past Simple",
+        "body": "<p>Form: verb + <b>-ed</b> (regular) or an irregular form (<em>went, wrote, saw</em>). Use it for finished actions with a stated or implied time: <em>The survey collected data in 2019.</em></p>"
+      },
+      {
+        "type": "rule",
+        "title": "Past Continuous",
+        "body": "<p>Form: <b>was/were + verb-ing</b>. Use it for an action in progress at a specific past moment (<em>Respondents were still completing the form when the deadline passed</em>) or to describe the background to another event.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Combining the two",
+        "body": "<p>Use <b>while/as + past continuous</b> for the longer background action and the <b>past simple</b> for the shorter action that interrupted it: <em>While researchers were analysing the data, a new trend emerged.</em></p>"
+      },
+      {
+        "type": "table",
+        "title": "Quick map",
+        "data": {
+          "head": [
+            "Use",
+            "Tense",
+            "Example"
+          ],
+          "rows": [
+            [
+              "Finished action, stated time",
+              "Past simple",
+              "The study ended in 2018."
+            ],
+            [
+              "Action in progress at a past moment",
+              "Past continuous",
+              "At 9 a.m. the team was still collecting responses."
+            ],
+            [
+              "Background + interruption",
+              "Both together",
+              "While prices were falling, demand suddenly rose."
+            ]
+          ]
+        }
+      },
+      {
+        "type": "examples",
+        "data": {
+          "items": [
+            {
+              "en": "Researchers surveyed 500 participants last spring.",
+              "note": "A completed action with a stated time — past simple."
+            },
+            {
+              "en": "While the economy was recovering, unemployment continued to fall.",
+              "note": "Background action in progress — past continuous."
+            },
+            {
+              "en": "The figure was rising steadily until it suddenly dropped in March.",
+              "note": "Trend in progress, interrupted by a sudden change."
+            },
+            {
+              "en": "She wrote her dissertation while she was working part-time.",
+              "note": "A completed main action alongside a background action."
+            },
+            {
+              "en": "They collected the data before the policy changed.",
+              "note": "Two completed, sequential past actions — both past simple."
+            }
+          ]
+        }
+      },
+      {
+        "type": "tip",
+        "body": "<p>In Task 1 line graphs, use the past continuous for a trend that was still developing at a point in time (<em>the figure was falling until 2015</em>) and the past simple for a single completed change (<em>it fell sharply in 2016</em>).</p>"
+      }
+    ],
+    "quiz": [
+      {
+        "qtype": "mcq",
+        "prompt": "The number of applicants ___ sharply last year.",
+        "options": [
+          "was rising",
+          "rises",
+          "rose",
+          "rise"
+        ],
+        "answers": [
+          2
+        ],
+        "why": "A completed change with a stated past time takes the past simple."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "While researchers ___ the results, they noticed an error.",
+        "options": [
+          "analysed",
+          "were analysing",
+          "analyse",
+          "have analysed"
+        ],
+        "answers": [
+          1
+        ],
+        "why": "The background action in progress takes the past continuous."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "She ___ (write) her report when the fire alarm rang.",
+        "answers": [
+          "was writing"
+        ],
+        "why": "An action interrupted mid-progress takes the past continuous."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "They ___ the survey in 2020.",
+        "options": [
+          "conducted",
+          "conduct",
+          "conducting",
+          "was conducting"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "A finished action with a definite past time takes the past simple."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "At 8 p.m. yesterday, the committee ___ the proposal.",
+        "answers": [
+          "was still discussing"
+        ],
+        "why": "An action in progress at a specific past time takes the past continuous."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "The line ___ steadily before it suddenly dropped in March.",
+        "options": [
+          "falls",
+          "fell",
+          "has fallen",
+          "was falling"
+        ],
+        "answers": [
+          3
+        ],
+        "why": "A trend still in progress before an interruption takes the past continuous."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "He ___ (not/attend) the seminar because he was ill.",
+        "answers": [
+          "didn't attend",
+          "did not attend"
+        ],
+        "why": "Past simple negative uses \"didn't\" + base verb."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "___ you see the announcement yesterday?",
+        "options": [
+          "Did",
+          "Were",
+          "Was",
+          "Do"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "Past simple questions use \"did\" + base verb."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "While the population ___ (grow), housing prices increased at an even faster rate.",
+        "answers": [
+          "was growing"
+        ],
+        "why": "A background trend in progress takes the past continuous."
+      },
+      {
+        "qtype": "transform",
+        "prompt": "Rewrite using the past continuous and past simple together, showing one action interrupting the other: \"The team analysed the results. At the same time, a new report was published.\"",
+        "answers": [
+          "While the team was analysing the results, a new report was published.",
+          "While the team was analysing the results, a new report was published"
+        ],
+        "why": "The longer background action takes the past continuous; the shorter completed action takes the past simple."
+      }
+    ]
+  },
+  {
+    "slug": "future-forms",
+    "stage": "beginner",
+    "title": "Future Forms (will / going to)",
+    "tag": "Tenses",
+    "cefr": "A1–A2",
+    "blurb": "Choose between will, going to and the present continuous for future plans and predictions.",
+    "lesson": [
+      {
+        "type": "intro",
+        "body": "<p>English has several ways to talk about the future. The three most common for learners are <b>will</b>, <b>going to</b>, and the <b>present continuous</b> — each suits a different kind of future meaning.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Will",
+        "body": "<p>Use <b>will + base verb</b> for spontaneous decisions (<em>I'll answer that email now</em>), predictions based on opinion (<em>I think the trend will continue</em>), and promises or offers.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Going to",
+        "body": "<p>Use <b>am/is/are + going to + base verb</b> for plans already decided before speaking (<em>We are going to launch the survey next month</em>) and for predictions based on present evidence (<em>Look at the data — the figure is going to fall further</em>).</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Present continuous for arrangements",
+        "body": "<p>Use the <b>present continuous</b> for fixed future arrangements with a time and place already set: <em>She is meeting the supervisor on Friday.</em></p>"
+      },
+      {
+        "type": "table",
+        "title": "Quick map",
+        "data": {
+          "head": [
+            "Use",
+            "Form",
+            "Example"
+          ],
+          "rows": [
+            [
+              "Spontaneous decision / general prediction",
+              "will",
+              "I think the figure will rise next year."
+            ],
+            [
+              "Prior plan / evidence-based prediction",
+              "going to",
+              "We are going to redesign the survey."
+            ],
+            [
+              "Fixed arrangement",
+              "present continuous",
+              "They are presenting their findings tomorrow."
+            ]
+          ]
+        }
+      },
+      {
+        "type": "examples",
+        "data": {
+          "items": [
+            {
+              "en": "Analysts believe the trend will continue into next year.",
+              "note": "An opinion-based prediction — will."
+            },
+            {
+              "en": "Based on current data, the figure is going to exceed last year's peak.",
+              "note": "A prediction based on present evidence — going to."
+            },
+            {
+              "en": "The committee is meeting on Thursday to review the results.",
+              "note": "A fixed, pre-arranged future event — present continuous."
+            },
+            {
+              "en": "I'll send you the final report as soon as it is ready.",
+              "note": "A spontaneous offer made at the moment of speaking — will."
+            },
+            {
+              "en": "The university is going to introduce a new grading system next term.",
+              "note": "A decision already made before speaking — going to."
+            }
+          ]
+        }
+      },
+      {
+        "type": "tip",
+        "body": "<p>In Task 2 essays, use <b>will</b> for cautious, general predictions about the future (<em>this trend will likely continue</em>) rather than <em>going to</em>, which sounds too informal for academic writing.</p>"
+      }
+    ],
+    "quiz": [
+      {
+        "qtype": "mcq",
+        "prompt": "Look at those clouds — it ___ rain soon.",
+        "options": [
+          "will",
+          "is raining",
+          "is going to",
+          "would"
+        ],
+        "answers": [
+          2
+        ],
+        "why": "Present evidence supports a \"going to\" prediction."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "I think renewable energy use ___ increase over the next decade.",
+        "options": [
+          "is going to",
+          "will",
+          "is increasing",
+          "was"
+        ],
+        "answers": [
+          1
+        ],
+        "why": "A general opinion-based prediction uses \"will\"."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "We ___ (present) our findings at the conference next week — it's already booked.",
+        "answers": [
+          "are presenting"
+        ],
+        "why": "A fixed future arrangement takes the present continuous."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "A: The phone's ringing. B: Don't worry, I ___ it.",
+        "options": [
+          "will answer",
+          "am going to answer",
+          "answer",
+          "am answering"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "A spontaneous decision made at the moment of speaking uses \"will\"."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "The company ___ (launch) a new product line — the plan was approved last month.",
+        "answers": [
+          "is going to launch"
+        ],
+        "why": "A plan decided before the moment of speaking takes \"going to\"."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "Based on the current data, house prices ___ rise further next quarter.",
+        "options": [
+          "will",
+          "are rising",
+          "would",
+          "are going to"
+        ],
+        "answers": [
+          3
+        ],
+        "why": "The prediction is based on visible present evidence, so \"going to\" is used."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "She ___ (meet) her supervisor at 10 a.m. tomorrow — it's already in the diary.",
+        "answers": [
+          "is meeting"
+        ],
+        "why": "A fixed arrangement with a set time takes the present continuous."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "I promise I ___ finish the assignment by Friday.",
+        "options": [
+          "am finishing",
+          "am going to",
+          "was going to",
+          "will"
+        ],
+        "answers": [
+          3
+        ],
+        "why": "Promises are expressed with \"will\"."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "The results ___ (not/be) ready until next Monday.",
+        "answers": [
+          "won't be",
+          "will not be"
+        ],
+        "why": "Future negative with \"will\" forms \"won't\"."
+      },
+      {
+        "qtype": "transform",
+        "prompt": "Rewrite as a prediction based on present evidence: \"Sales figures are falling. They will drop below target.\"",
+        "answers": [
+          "Sales figures are falling. They are going to drop below target.",
+          "Sales figures are falling. They are going to drop below target"
+        ],
+        "why": "A prediction based on visible current evidence uses \"going to\", not \"will\"."
+      }
+    ]
+  },
+  {
+    "slug": "question-forms",
+    "stage": "beginner",
+    "title": "Question Forms & Short Answers",
+    "tag": "Sentence",
+    "cefr": "A1–A2",
+    "blurb": "Form yes/no and wh- questions correctly, give short answers, and use imperatives for instructions.",
+    "lesson": [
+      {
+        "type": "intro",
+        "body": "<p>Questions in English usually need an <b>auxiliary verb</b> (do/does/did, am/is/are, have/has, will) before the subject. Imperatives, used for instructions and commands, drop the subject entirely.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Yes/No questions",
+        "body": "<p>Invert the auxiliary and subject: <em>Do you agree?</em>, <em>Is the trend continuing?</em>, <em>Have they submitted the report?</em> Answer briefly with the same auxiliary: <em>Yes, I do. / No, it isn't.</em></p>"
+      },
+      {
+        "type": "rule",
+        "title": "Wh- questions",
+        "body": "<p>Put the question word first, then the auxiliary, then the subject: <em>Why did the figure fall? What is the chart showing?</em> When the question word is the subject, no auxiliary is added: <em>Who wrote this report?</em></p>"
+      },
+      {
+        "type": "rule",
+        "title": "Imperatives",
+        "body": "<p>Use the base verb with no subject for instructions, advice or commands: <em>Look at the graph. Do not copy the source text word for word.</em> Add <b>please</b> to sound more polite.</p>"
+      },
+      {
+        "type": "table",
+        "title": "Quick map",
+        "data": {
+          "head": [
+            "Type",
+            "Pattern",
+            "Example"
+          ],
+          "rows": [
+            [
+              "Yes/No question",
+              "Aux + subject + verb",
+              "Does the report mention costs?"
+            ],
+            [
+              "Wh- question",
+              "Wh- + aux + subject + verb",
+              "Why did exports fall in 2019?"
+            ],
+            [
+              "Subject question",
+              "Wh- + verb (no aux)",
+              "Which country produced the most steel?"
+            ],
+            [
+              "Imperative",
+              "Base verb (no subject)",
+              "Compare the two graphs before you write."
+            ]
+          ]
+        }
+      },
+      {
+        "type": "examples",
+        "data": {
+          "items": [
+            {
+              "en": "Does the graph show a rise or a fall in exports?",
+              "note": "Yes/No question with \"does\" for a singular subject."
+            },
+            {
+              "en": "Why did unemployment increase so sharply in 2020?",
+              "note": "Wh- question with \"did\" before the subject."
+            },
+            {
+              "en": "Which sector employed the most workers?",
+              "note": "\"Which sector\" is the subject, so no extra auxiliary is needed."
+            },
+            {
+              "en": "Read the instructions carefully before you begin the test.",
+              "note": "An imperative giving an instruction — no subject."
+            },
+            {
+              "en": "Have the researchers published their conclusions yet?",
+              "note": "Yes/No question with \"have\" for the present perfect."
+            }
+          ]
+        }
+      },
+      {
+        "type": "tip",
+        "body": "<p>Task 1 instructions are imperatives (<em>Summarise the information… Write at least 150 words</em>) — read them carefully, since they tell you exactly what the examiner expects.</p>"
+      }
+    ],
+    "quiz": [
+      {
+        "qtype": "mcq",
+        "prompt": "___ the survey include international students?",
+        "options": [
+          "Does",
+          "Is",
+          "Do",
+          "Are"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "A yes/no question about a singular subject in the present simple uses \"does\"."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "___ caused the sudden drop in sales?",
+        "options": [
+          "Does what",
+          "Is what",
+          "What did",
+          "What"
+        ],
+        "answers": [
+          3
+        ],
+        "why": "\"What\" is the subject of the question, so no extra auxiliary is added."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "___ you finished the report yet?",
+        "answers": [
+          "Have"
+        ],
+        "why": "A present perfect yes/no question begins with \"have\" before the subject."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "A: Did they attend the seminar? B: Yes, ___.",
+        "options": [
+          "they attended",
+          "they do",
+          "they did",
+          "they were"
+        ],
+        "answers": [
+          2
+        ],
+        "why": "Short answers repeat the auxiliary used in the question — \"did\"."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "___ (not/write) your answers in pencil — use blue or black ink.",
+        "answers": [
+          "Do not write",
+          "Don't write"
+        ],
+        "why": "A negative imperative begins with \"do not\" or \"don't\" + base verb."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "___ country has the highest population density?",
+        "options": [
+          "Does which",
+          "Is which",
+          "Which",
+          "Which does"
+        ],
+        "answers": [
+          2
+        ],
+        "why": "\"Which country\" is the subject of the question, so no auxiliary is needed."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "___ the figures rise or fall between 2015 and 2020?",
+        "answers": [
+          "Did"
+        ],
+        "why": "A past simple yes/no question begins with \"did\" before the subject."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "___ carefully before you answer the questions.",
+        "options": [
+          "Reading",
+          "Read",
+          "You read",
+          "Reads"
+        ],
+        "answers": [
+          1
+        ],
+        "why": "An imperative uses the base form of the verb with no subject."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "A: Is the government planning new policies? B: No, it ___.",
+        "answers": [
+          "isn't",
+          "is not"
+        ],
+        "why": "Short negative answers repeat the auxiliary from the question."
+      },
+      {
+        "qtype": "transform",
+        "prompt": "Rewrite as a wh- question asking about the time: \"The report was published in March.\"",
+        "answers": [
+          "When was the report published?"
+        ],
+        "why": "A wh- question about time begins with \"when\", followed by the auxiliary and subject."
+      }
+    ]
+  },
+  {
+    "slug": "word-forms",
+    "stage": "beginner",
+    "title": "Word Forms (noun/verb/adj/adv)",
+    "tag": "Word Building",
+    "cefr": "A1–A2",
+    "blurb": "Recognise and build noun, verb, adjective and adverb forms of the same word family.",
+    "lesson": [
+      {
+        "type": "intro",
+        "body": "<p>Many English words share a root but change form depending on their job in the sentence: a <b>noun</b> names a thing, a <b>verb</b> shows an action, an <b>adjective</b> describes a noun, and an <b>adverb</b> describes a verb, adjective or another adverb.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Common suffixes",
+        "body": "<p>Nouns often end in <b>-tion, -ment, -ness, -ity</b> (<em>education, development, happiness, popularity</em>); adjectives often end in <b>-ful, -ive, -al, -ous</b> (<em>successful, effective, national, dangerous</em>); adverbs are usually adjective + <b>-ly</b> (<em>successfully, effectively</em>).</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Choosing the right form",
+        "body": "<p>Look at the word's job: after <em>a/the</em> or as a subject/object, use a <b>noun</b> (<em>the rise in prices</em>); before a noun or after <em>be</em>, use an <b>adjective</b> (<em>a significant rise</em>); to modify a verb, use an <b>adverb</b> (<em>prices rose significantly</em>).</p>"
+      },
+      {
+        "type": "table",
+        "title": "Word families",
+        "data": {
+          "head": [
+            "Noun",
+            "Verb",
+            "Adjective",
+            "Adverb"
+          ],
+          "rows": [
+            [
+              "decision",
+              "decide",
+              "decisive",
+              "decisively"
+            ],
+            [
+              "significance",
+              "-",
+              "significant",
+              "significantly"
+            ]
+          ]
+        }
+      },
+      {
+        "type": "examples",
+        "data": {
+          "items": [
+            {
+              "en": "The government's decision to increase funding was announced yesterday.",
+              "note": "\"Decision\" is the noun form, used as the subject."
+            },
+            {
+              "en": "Researchers decided to repeat the experiment.",
+              "note": "\"Decided\" is the verb form."
+            },
+            {
+              "en": "The results were statistically significant.",
+              "note": "\"Significant\" is the adjective form, describing \"results\"."
+            },
+            {
+              "en": "The figure rose significantly between 2015 and 2018.",
+              "note": "\"Significantly\" is the adverb form, modifying the verb \"rose\"."
+            },
+            {
+              "en": "Her successful application impressed the admissions panel.",
+              "note": "\"Successful\" is the adjective, describing \"application\"."
+            }
+          ]
+        }
+      },
+      {
+        "type": "tip",
+        "body": "<p>In Task 2, examiners reward accurate word forms. Before submitting, check every key word: does the sentence need a noun, verb, adjective or adverb? A wrong form can cost marks even if the meaning is clear.</p>"
+      }
+    ],
+    "quiz": [
+      {
+        "qtype": "mcq",
+        "prompt": "The company's ___ has grown steadily over the past decade. (SUCCEED)",
+        "options": [
+          "succeed",
+          "successfully",
+          "success",
+          "successful"
+        ],
+        "answers": [
+          2
+        ],
+        "why": "After \"the company's\", a noun is needed, not a verb or adjective."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "The government hopes to ___ (REDUCE) unemployment next year.",
+        "answers": [
+          "reduce"
+        ],
+        "why": "After \"to\", the base verb form is required."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "The survey produced ___ results. (SIGNIFICANCE)",
+        "options": [
+          "signify",
+          "significant",
+          "significantly",
+          "significance"
+        ],
+        "answers": [
+          1
+        ],
+        "why": "Before the noun \"results\", an adjective is needed."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "House prices rose ___ (SIGNIFICANCE) in the final quarter.",
+        "answers": [
+          "significantly"
+        ],
+        "why": "An adverb is needed to modify the verb \"rose\"."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "Her application was ___, and she was offered the position. (SUCCEED)",
+        "options": [
+          "success",
+          "succeed",
+          "successfully",
+          "successful"
+        ],
+        "answers": [
+          3
+        ],
+        "why": "After the verb \"be\", an adjective describes the subject."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "The team's ___ (DECIDE) to expand overseas surprised investors.",
+        "answers": [
+          "decision"
+        ],
+        "why": "After \"the team's\", a noun is needed."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "Researchers ___ to test the hypothesis again. (DECIDE)",
+        "options": [
+          "decided",
+          "decision",
+          "decisive",
+          "decisively"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "A finite verb form is needed after the subject \"researchers\"."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "She responded ___ (DECIDE) when questioned about the results.",
+        "answers": [
+          "decisively"
+        ],
+        "why": "An adverb is needed to modify the verb \"responded\"."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "___ is essential for long-term economic growth. (EDUCATE)",
+        "options": [
+          "Educational",
+          "Educate",
+          "Education",
+          "Educated"
+        ],
+        "answers": [
+          2
+        ],
+        "why": "As the subject of the sentence, a noun is required."
+      },
+      {
+        "qtype": "transform",
+        "prompt": "Rewrite with the correct word forms: \"The company announced a significant expand, and sales grew successful.\"",
+        "answers": [
+          "The company announced a significant expansion, and sales grew successfully.",
+          "The company announced a significant expansion, and sales grew successfully"
+        ],
+        "why": "\"Expand\" (verb) should be the noun \"expansion\"; \"successful\" (adjective) should be the adverb \"successfully\" to modify \"grew\"."
+      }
+    ]
+  },
+  {
+    "slug": "articles",
+    "stage": "beginner",
+    "title": "Articles (a/an/the)",
+    "tag": "Determiners",
+    "cefr": "A1–A2",
+    "blurb": "Choose between a, an, the — or no article at all.",
+    "lesson": [
+      {
+        "type": "intro",
+        "body": "<p>Articles are small words with a big job: they tell the reader whether a noun is <b>one of many</b> (<em>a city</em>) or <b>a specific one</b> (<em>the city we visited</em>). English has three choices: <b>a/an</b>, <b>the</b>, and no article at all.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "A or An",
+        "body": "<p>Use <b>a</b> before a consonant <em>sound</em> and <b>an</b> before a vowel <em>sound</em>. It is the sound that matters, not the letter: <em>a university</em> (/j/ sound), <em>an hour</em> (silent h).</p>"
+      },
+      {
+        "type": "rule",
+        "title": "The",
+        "body": "<p>Use <b>the</b> when both speaker and listener know which one: something already mentioned (<em>a graph… the graph shows</em>), unique things (<em>the internet, the environment</em>), and superlatives (<em>the largest city</em>).</p>"
+      },
+      {
+        "type": "rule",
+        "title": "No article",
+        "body": "<p>Use <b>no article</b> for plural or uncountable nouns in general statements: <em>Cities are growing</em>, <em>Education is important</em> — very common in IELTS essay openings.</p>"
+      },
+      {
+        "type": "table",
+        "title": "Quick map",
+        "data": {
+          "head": [
+            "Situation",
+            "Article",
+            "Example"
+          ],
+          "rows": [
+            [
+              "First mention, one of many",
+              "a / an",
+              "The chart shows a factory."
+            ],
+            [
+              "Known / already mentioned",
+              "the",
+              "The factory produces steel."
+            ],
+            [
+              "Unique things",
+              "the",
+              "the government, the environment"
+            ],
+            [
+              "General plurals & uncountables",
+              "(none)",
+              "Pollution damages cities."
+            ]
+          ]
+        }
+      },
+      {
+        "type": "examples",
+        "data": {
+          "items": [
+            {
+              "en": "The graph shows an increase in car ownership.",
+              "note": "\"increase\" begins with a vowel sound — an."
+            },
+            {
+              "en": "A minority of respondents disagreed, and the majority supported the plan.",
+              "note": "First mention takes a; the known group takes the."
+            },
+            {
+              "en": "Unemployment rose sharply in the 1990s.",
+              "note": "Uncountable noun in a general statement — no article; decades take the."
+            },
+            {
+              "en": "She attends a university in the largest city in Vietnam.",
+              "note": "a + consonant sound /j/; superlative takes the."
+            },
+            {
+              "en": "Governments should invest in public transport.",
+              "note": "General plural statement — no article."
+            }
+          ]
+        }
+      },
+      {
+        "type": "tip",
+        "body": "<p>In Writing Task 1, your first sentence usually introduces the visual with <b>the</b>: <em>The chart illustrates…</em>. But trends inside it are often first mentions: <em>there was a sharp rise…</em>. Mixing these up is one of the most common band-lowering slips.</p>"
+      }
+    ],
+    "quiz": [
+      {
+        "qtype": "mcq",
+        "prompt": "She is ___ engineer at a software company.",
+        "options": [
+          "a",
+          "an",
+          "the",
+          "(no article)"
+        ],
+        "answers": [
+          1
+        ],
+        "why": "\"Engineer\" begins with a vowel sound, so we use \"an\"."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "He graduated from ___ university in Hanoi.",
+        "options": [
+          "an",
+          "a",
+          "the",
+          "(no article)"
+        ],
+        "answers": [
+          1
+        ],
+        "why": "\"University\" starts with a /j/ (consonant) sound, so \"a\" is correct."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "The chart shows ___ number of visitors between 2010 and 2020.",
+        "answers": [
+          "the"
+        ],
+        "why": "\"The number of\" is a fixed, specific reference — it takes \"the\"."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "___ pollution is a serious problem in many cities.",
+        "options": [
+          "A",
+          "An",
+          "The",
+          "(no article)"
+        ],
+        "answers": [
+          3
+        ],
+        "why": "Uncountable noun in a general statement — no article."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "There was ___ sharp increase in exports, and the increase continued until 2019.",
+        "answers": [
+          "a"
+        ],
+        "why": "First mention of the increase is one of many — \"a\"; the second mention takes \"the\"."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "It took her ___ hour to finish the reading section.",
+        "options": [
+          "a",
+          "an",
+          "the",
+          "(no article)"
+        ],
+        "answers": [
+          1
+        ],
+        "why": "The \"h\" in \"hour\" is silent, so the word begins with a vowel sound."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "Ho Chi Minh City is ___ largest city in Vietnam.",
+        "options": [
+          "a",
+          "an",
+          "the",
+          "(no article)"
+        ],
+        "answers": [
+          2
+        ],
+        "why": "Superlatives always take \"the\"."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "___ internet has transformed how students prepare for exams.",
+        "answers": [
+          "the"
+        ],
+        "why": "Unique, one-of-a-kind things take \"the\"."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "In general, ___ children learn languages faster than adults.",
+        "answers": [
+          "(no article)",
+          "no article",
+          "-"
+        ],
+        "why": "General plural statement — no article is used."
+      },
+      {
+        "qtype": "transform",
+        "prompt": "Rewrite with the correct articles: \"Graph shows increase in number of tourists.\"",
+        "answers": [
+          "The graph shows an increase in the number of tourists.",
+          "The graph shows an increase in the number of tourists"
+        ],
+        "why": "The known visual takes \"the\"; a first-mention rise takes \"an\"; \"the number of\" is fixed."
+      }
+    ]
+  },
+  {
+    "slug": "nouns-plurals",
+    "stage": "beginner",
+    "title": "Nouns, Plurals & Countability",
+    "tag": "Nouns",
+    "cefr": "A1–A2",
+    "blurb": "Form regular and irregular plurals, and distinguish countable from uncountable nouns.",
+    "lesson": [
+      {
+        "type": "intro",
+        "body": "<p>Nouns can be <b>countable</b> (you can count them: <em>one chart, two charts</em>) or <b>uncountable</b> (you cannot count them directly: <em>information, research</em>). Countable nouns have singular and plural forms; uncountable nouns do not.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Regular and irregular plurals",
+        "body": "<p>Most nouns add <b>-s</b> (<em>graphs, students</em>) or <b>-es</b> after s/x/ch/sh (<em>boxes, churches</em>). Nouns ending in a consonant + <b>-y</b> change to <b>-ies</b> (<em>country → countries</em>). Some plurals are irregular: <em>child → children, person → people, datum → data</em>.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Countable vs uncountable",
+        "body": "<p>Uncountable nouns (<em>information, advice, research, furniture, equipment</em>) have no plural and take a singular verb: <em>The information is useful</em>, not <em>informations</em>. Use <b>a piece of / an item of</b> to count them: <em>a piece of advice</em>.</p>"
+      },
+      {
+        "type": "table",
+        "title": "Quick reference",
+        "data": {
+          "head": [
+            "Type",
+            "Rule",
+            "Example"
+          ],
+          "rows": [
+            [
+              "Regular plural",
+              "+ -s / -es",
+              "report → reports; box → boxes"
+            ],
+            [
+              "-y ending",
+              "consonant + y → -ies",
+              "city → cities; survey → surveys (vowel + y)"
+            ],
+            [
+              "Irregular plural",
+              "changes form",
+              "child → children; person → people"
+            ],
+            [
+              "Uncountable",
+              "no plural, singular verb",
+              "research, information, furniture"
+            ]
+          ]
+        }
+      },
+      {
+        "type": "examples",
+        "data": {
+          "items": [
+            {
+              "en": "The researchers analysed several surveys from different countries.",
+              "note": "Regular plurals: surveys, and \"country\" → \"countries\"."
+            },
+            {
+              "en": "Very little information was available about the earlier study.",
+              "note": "\"Information\" is uncountable and takes a singular verb."
+            },
+            {
+              "en": "The data show a clear upward trend.",
+              "note": "\"Data\" is traditionally plural in formal academic English."
+            },
+            {
+              "en": "She was given a useful piece of advice before the interview.",
+              "note": "\"Advice\" is uncountable, so \"a piece of\" is used to count it."
+            },
+            {
+              "en": "Many children in the study were tested twice.",
+              "note": "\"Child\" has the irregular plural \"children\"."
+            }
+          ]
+        }
+      },
+      {
+        "type": "tip",
+        "body": "<p>Common IELTS uncountable nouns include <em>information, advice, research, evidence, equipment, furniture, homework, news</em>. Never add -s to these, and always pair them with a singular verb.</p>"
+      }
+    ],
+    "quiz": [
+      {
+        "qtype": "mcq",
+        "prompt": "The report contains useful ___ about local businesses.",
+        "options": [
+          "information",
+          "informations",
+          "a information",
+          "informations'"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "\"Information\" is uncountable and never takes a plural -s."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "Several ___ (COUNTRY) took part in the international survey.",
+        "answers": [
+          "countries"
+        ],
+        "why": "\"Country\" ends in consonant + y, so the plural is \"countries\"."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "The ___ collected so far support the initial hypothesis. (DATA)",
+        "options": [
+          "datas",
+          "a data",
+          "data",
+          "datum's"
+        ],
+        "answers": [
+          2
+        ],
+        "why": "\"Data\" is the standard plural form used with a plural verb in academic writing."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "The ___ (CHILD) in the study were tested at two different ages.",
+        "answers": [
+          "children"
+        ],
+        "why": "\"Child\" has the irregular plural \"children\"."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "We need new ___ for the laboratory. (EQUIPMENT)",
+        "options": [
+          "an equipment",
+          "equipments",
+          "some equipments",
+          "equipment"
+        ],
+        "answers": [
+          3
+        ],
+        "why": "\"Equipment\" is uncountable and has no plural form."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "The museum has several ___ (BOX) of archived documents.",
+        "answers": [
+          "boxes"
+        ],
+        "why": "Nouns ending in -x add -es to form the plural."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "She gave me a useful ___ of advice before the exam. (PIECE)",
+        "options": [
+          "a piece",
+          "piece",
+          "pieces",
+          "many"
+        ],
+        "answers": [
+          1
+        ],
+        "why": "Uncountable nouns like \"advice\" are counted with \"a piece of\"."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "The ___ (PERSON) interviewed for the study came from different backgrounds.",
+        "answers": [
+          "people"
+        ],
+        "why": "\"Person\" has the irregular plural \"people\"."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "Very little ___ has been done on this topic. (RESEARCH)",
+        "options": [
+          "a research",
+          "researches",
+          "research's",
+          "research"
+        ],
+        "answers": [
+          3
+        ],
+        "why": "\"Research\" is uncountable and takes a singular verb, with no plural form."
+      },
+      {
+        "qtype": "transform",
+        "prompt": "Rewrite correcting the noun forms: \"The childs gave many informations about their familys.\"",
+        "answers": [
+          "The children gave a lot of information about their families.",
+          "The children gave lots of information about their families."
+        ],
+        "why": "\"Child\" becomes \"children\"; \"information\" is uncountable so it takes no plural; \"family\" becomes \"families\"."
+      }
+    ]
+  },
+  {
+    "slug": "quantifiers",
+    "stage": "beginner",
+    "title": "Quantifiers & There is/are",
+    "tag": "Determiners",
+    "cefr": "A1–A2",
+    "blurb": "Use much, many, a lot of, few and there is/are accurately with countable and uncountable nouns.",
+    "lesson": [
+      {
+        "type": "intro",
+        "body": "<p>Quantifiers tell us <b>how much or how many</b> of something there is. The right choice depends on whether the noun is countable (<em>books</em>) or uncountable (<em>money</em>), and whether the sentence is a statement, question or negative.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Much, many, a lot of",
+        "body": "<p>Use <b>many</b> with plural countable nouns (<em>many students</em>) and <b>much</b> with uncountable nouns (<em>much time</em>), usually in questions and negatives. <b>A lot of / lots of</b> work with both, in any sentence type: <em>a lot of information, a lot of respondents</em>.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Few, little, some, any",
+        "body": "<p>Use <b>a few</b> (some, a small positive amount) and <b>few</b> (almost none, negative) with countable nouns; <b>a little</b> and <b>little</b> with uncountable nouns. Use <b>some</b> in positive statements and offers, <b>any</b> in negatives and most questions.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "There is / there are",
+        "body": "<p>Use <b>there is/was</b> with singular or uncountable nouns and <b>there are/were</b> with plural nouns to say that something exists: <em>There is a sharp rise in 2019. There are three main reasons for this.</em></p>"
+      },
+      {
+        "type": "table",
+        "title": "Quick map",
+        "data": {
+          "head": [
+            "Quantifier",
+            "Used with",
+            "Example"
+          ],
+          "rows": [
+            [
+              "many / few / a few",
+              "countable",
+              "many surveys, a few responses"
+            ],
+            [
+              "much / little / a little",
+              "uncountable",
+              "much data, a little evidence"
+            ],
+            [
+              "a lot of / lots of",
+              "both",
+              "a lot of information, a lot of students"
+            ],
+            [
+              "there is / there are",
+              "singular vs plural",
+              "there is one factor; there are two reasons"
+            ]
+          ]
+        }
+      },
+      {
+        "type": "examples",
+        "data": {
+          "items": [
+            {
+              "en": "There are several reasons for the decline in sales.",
+              "note": "\"Reasons\" is plural, so \"there are\" is used."
+            },
+            {
+              "en": "There is not much evidence to support this claim.",
+              "note": "\"Evidence\" is uncountable, so \"much\" and \"there is\" are used."
+            },
+            {
+              "en": "Only a few participants completed the follow-up survey.",
+              "note": "\"A few\" (a small positive number) with the countable noun \"participants\"."
+            },
+            {
+              "en": "Little research has been carried out on this specific issue.",
+              "note": "\"Little\" (almost none) with the uncountable noun \"research\"."
+            },
+            {
+              "en": "A lot of graduates struggle to find relevant jobs immediately.",
+              "note": "\"A lot of\" works with the countable plural noun \"graduates\"."
+            }
+          ]
+        }
+      },
+      {
+        "type": "tip",
+        "body": "<p>In Task 2, avoid overusing \"a lot of\" — it is informal. Prefer \"a significant number of\" (countable) or \"a considerable amount of\" (uncountable) for a more academic tone.</p>"
+      }
+    ],
+    "quiz": [
+      {
+        "qtype": "mcq",
+        "prompt": "There weren't ___ people at the lecture — the room was half empty.",
+        "options": [
+          "much",
+          "many",
+          "little",
+          "any"
+        ],
+        "answers": [
+          1
+        ],
+        "why": "\"People\" is countable and plural, so \"many\" is used in this negative sentence."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "There ___ a sharp increase in exports in 2018.",
+        "options": [
+          "was",
+          "were",
+          "are",
+          "have been"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "\"Increase\" is singular, and the sentence refers to a specific past year, so \"there was\" is correct."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "There ___ (be) three main causes of the problem, according to the report.",
+        "answers": [
+          "are"
+        ],
+        "why": "\"Causes\" is plural, so \"there are\" is used."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "We don't have ___ time left before the deadline.",
+        "options": [
+          "a few",
+          "many",
+          "few",
+          "much"
+        ],
+        "answers": [
+          3
+        ],
+        "why": "\"Time\" is uncountable, so \"much\" is used in this negative sentence."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "Only ___ (FEW) students opposed the new policy — most supported it.",
+        "answers": [
+          "A few"
+        ],
+        "why": "\"Students\" is countable, and \"a few\" here means a small positive number."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "___ research has been done on this rare condition, so little is known.",
+        "options": [
+          "A few",
+          "Few",
+          "Little",
+          "A little"
+        ],
+        "answers": [
+          2
+        ],
+        "why": "\"Research\" is uncountable, and \"little\" conveys almost none."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "There ___ (not/be) enough evidence to draw a firm conclusion.",
+        "answers": [
+          "isn't",
+          "is not"
+        ],
+        "why": "\"Evidence\" is uncountable and singular, so the negative form is \"isn't\"."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "___ of the respondents said they were satisfied with the service.",
+        "options": [
+          "Much",
+          "A lot",
+          "Little",
+          "A lot of"
+        ],
+        "answers": [
+          3
+        ],
+        "why": "\"A lot of\" works with the countable plural noun \"respondents\"."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "How ___ (much/many) information do we need before submitting the report?",
+        "answers": [
+          "much"
+        ],
+        "why": "\"Information\" is uncountable, so \"much\" is used in questions about quantity."
+      },
+      {
+        "qtype": "transform",
+        "prompt": "Rewrite correcting the quantifiers: \"There is many reason for the delay, and we don't have much problems left to solve.\"",
+        "answers": [
+          "There are many reasons for the delay, and we don't have many problems left to solve.",
+          "There are many reasons for the delay, and we do not have many problems left to solve."
+        ],
+        "why": "\"Reasons\" and \"problems\" are countable plural nouns, so they need \"there are\" and \"many\", not \"there is\" and \"much\"."
+      }
+    ]
+  },
+  {
+    "slug": "pronouns-possessives",
+    "stage": "beginner",
+    "title": "Pronouns & Possessives",
+    "tag": "Pronouns",
+    "cefr": "A1–A2",
+    "blurb": "Use subject, object, possessive and reflexive pronouns accurately.",
+    "lesson": [
+      {
+        "type": "intro",
+        "body": "<p>Pronouns replace nouns to avoid repetition. English distinguishes <b>subject pronouns</b> (I, you, he, she, it, we, they), <b>object pronouns</b> (me, you, him, her, it, us, them), <b>possessives</b> (my/mine, your/yours…) and <b>reflexives</b> (myself, yourself…).</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Subject vs object",
+        "body": "<p>Use a <b>subject pronoun</b> before the verb (<em>She wrote the report</em>) and an <b>object pronoun</b> after a verb or preposition (<em>The teacher gave her feedback; the results surprised them</em>).</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Possessive adjectives vs possessive pronouns",
+        "body": "<p>A <b>possessive adjective</b> (my, your, his, her, its, our, their) always comes before a noun: <em>her research</em>. A <b>possessive pronoun</b> (mine, yours, his, hers, ours, theirs) stands alone, replacing the noun: <em>This research is hers.</em></p>"
+      },
+      {
+        "type": "rule",
+        "title": "Reflexive pronouns",
+        "body": "<p>Use a <b>reflexive pronoun</b> (myself, yourself, himself, herself, itself, ourselves, yourselves, themselves) when the subject and object of the verb are the same person or thing: <em>She taught herself to code.</em></p>"
+      },
+      {
+        "type": "table",
+        "title": "Pronoun forms",
+        "data": {
+          "head": [
+            "Subject",
+            "Object",
+            "Possessive adj.",
+            "Possessive pronoun",
+            "Reflexive"
+          ],
+          "rows": [
+            [
+              "I",
+              "me",
+              "my",
+              "mine",
+              "myself"
+            ],
+            [
+              "she",
+              "her",
+              "her",
+              "hers",
+              "herself"
+            ],
+            [
+              "they",
+              "them",
+              "their",
+              "theirs",
+              "themselves"
+            ]
+          ]
+        }
+      },
+      {
+        "type": "examples",
+        "data": {
+          "items": [
+            {
+              "en": "The researchers published their findings, and they were widely cited.",
+              "note": "\"Their\" is the possessive adjective before \"findings\"; \"they\" is the subject pronoun."
+            },
+            {
+              "en": "The professor gave him detailed feedback on his essay.",
+              "note": "\"Him\" is the object pronoun; \"his\" is the possessive adjective before \"essay\"."
+            },
+            {
+              "en": "This laptop is mine, not hers.",
+              "note": "\"Mine\" and \"hers\" are possessive pronouns standing alone."
+            },
+            {
+              "en": "Students should check their work themselves before submitting it.",
+              "note": "\"Themselves\" is reflexive because the subject and object refer to the same people."
+            },
+            {
+              "en": "The company increased its market share last year.",
+              "note": "\"Its\" is the possessive form of \"it\", with no apostrophe."
+            }
+          ]
+        }
+      },
+      {
+        "type": "tip",
+        "body": "<p>Do not confuse <em>its</em> (possessive) with <em>it's</em> (it is/it has). In formal IELTS writing, \"it's\" should almost never appear — check every \"its\" for an accidental apostrophe.</p>"
+      }
+    ],
+    "quiz": [
+      {
+        "qtype": "mcq",
+        "prompt": "The manager gave ___ the results before the meeting.",
+        "options": [
+          "her",
+          "hers",
+          "herself",
+          "she"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "An object pronoun is needed after the verb \"gave\"."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "___ (SHE) research focuses on renewable energy.",
+        "answers": [
+          "Her"
+        ],
+        "why": "A possessive adjective is needed before the noun \"research\"."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "This report is not yours — it's ___.",
+        "options": [
+          "my",
+          "me",
+          "mine",
+          "myself"
+        ],
+        "answers": [
+          2
+        ],
+        "why": "A possessive pronoun stands alone, without a following noun."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "The company must protect ___ (IT) reputation carefully.",
+        "answers": [
+          "its"
+        ],
+        "why": "\"Its\" is the possessive form of \"it\", used before the noun \"reputation\"."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "The students taught ___ to use the new software.",
+        "options": [
+          "their",
+          "them",
+          "theirs",
+          "themselves"
+        ],
+        "answers": [
+          3
+        ],
+        "why": "A reflexive pronoun is needed because the subject and object refer to the same people."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "___ (THEY) findings contradicted the earlier study.",
+        "answers": [
+          "Their"
+        ],
+        "why": "A possessive adjective is needed before the noun \"findings\"."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "Between you and ___, I think the second option is stronger.",
+        "options": [
+          "mine",
+          "me",
+          "my",
+          "I"
+        ],
+        "answers": [
+          1
+        ],
+        "why": "After a preposition (\"between\"), an object pronoun is required."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "The idea was originally ___ (I), although she developed it further.",
+        "answers": [
+          "mine"
+        ],
+        "why": "A possessive pronoun stands alone, replacing \"my idea\"."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "She completed the whole project by ___.",
+        "options": [
+          "she",
+          "her",
+          "herself",
+          "hers"
+        ],
+        "answers": [
+          2
+        ],
+        "why": "\"By herself\" is a fixed reflexive phrase meaning \"alone\"."
+      },
+      {
+        "qtype": "transform",
+        "prompt": "Rewrite correcting the pronouns: \"Me and him submitted our report, and the results surprised we.\"",
+        "answers": [
+          "He and I submitted our report, and the results surprised us.",
+          "He and I submitted our report and the results surprised us."
+        ],
+        "why": "Subject pronouns (\"he\", \"I\") are needed before the verb, and the object pronoun \"us\" is needed after \"surprised\"."
+      }
+    ]
+  },
+  {
+    "slug": "comparatives-superlatives",
+    "stage": "beginner",
+    "title": "Comparatives & Superlatives",
+    "tag": "Adjectives",
+    "cefr": "A1–A2",
+    "blurb": "Form and use comparative and superlative adjectives accurately, including irregular forms.",
+    "lesson": [
+      {
+        "type": "intro",
+        "body": "<p>Comparatives compare <b>two</b> things (<em>higher than</em>), and superlatives identify the <b>extreme</b> within a group of three or more (<em>the highest</em>). The form depends on the length of the adjective.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Short adjectives",
+        "body": "<p>One-syllable adjectives, or two syllables ending in -y, add <b>-er/-est</b>: <em>high → higher → the highest</em>; <em>busy → busier → the busiest</em> (y changes to i). Double the final consonant after a short vowel: <em>big → bigger → the biggest</em>.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Long adjectives",
+        "body": "<p>Adjectives of two or more syllables use <b>more/most</b>: <em>expensive → more expensive → the most expensive</em>; <em>popular → more popular → the most popular</em>.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Irregular forms",
+        "body": "<p>Some common adjectives are irregular: <em>good → better → the best</em>; <em>bad → worse → the worst</em>; <em>far → further/farther → the furthest/farthest</em>. Comparatives are followed by <b>than</b>; superlatives usually take <b>the</b>.</p>"
+      },
+      {
+        "type": "table",
+        "title": "Quick map",
+        "data": {
+          "head": [
+            "Adjective type",
+            "Comparative",
+            "Superlative"
+          ],
+          "rows": [
+            [
+              "Short (one syllable)",
+              "higher, faster",
+              "the highest, the fastest"
+            ],
+            [
+              "Long (2+ syllables)",
+              "more significant",
+              "the most significant"
+            ],
+            [
+              "Irregular",
+              "better, worse",
+              "the best, the worst"
+            ]
+          ]
+        }
+      },
+      {
+        "type": "examples",
+        "data": {
+          "items": [
+            {
+              "en": "The graph shows that urban populations grew faster than rural ones.",
+              "note": "Short adjective + -er, followed by \"than\"."
+            },
+            {
+              "en": "Country A recorded the highest levels of car ownership in the region.",
+              "note": "Superlative of a short adjective, with \"the\"."
+            },
+            {
+              "en": "This method is more efficient than the previous one.",
+              "note": "Long adjective takes \"more … than\"."
+            },
+            {
+              "en": "Overall, 2019 was the most successful year for exports.",
+              "note": "Long adjective takes \"the most\" in the superlative."
+            },
+            {
+              "en": "The results were worse than expected, though not the worst on record.",
+              "note": "Irregular comparative and superlative of \"bad\"."
+            }
+          ]
+        }
+      },
+      {
+        "type": "tip",
+        "body": "<p>In Task 1, comparatives and superlatives help you highlight the most striking data points: <em>the sharpest increase, the lowest figure, more than twice as high as</em>. Vary these phrases instead of repeating \"more\" and \"most\" every sentence.</p>"
+      }
+    ],
+    "quiz": [
+      {
+        "qtype": "mcq",
+        "prompt": "City A is ___ than City B in terms of population density. (BUSY)",
+        "options": [
+          "more busy",
+          "most busy",
+          "busier",
+          "busyer"
+        ],
+        "answers": [
+          2
+        ],
+        "why": "\"Busy\" is a short adjective ending in -y, so it changes to \"-ier\" for the comparative."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "This course is ___ (DIFFICULT) than the previous one.",
+        "answers": [
+          "more difficult"
+        ],
+        "why": "\"Difficult\" has three syllables, so it takes \"more\" for the comparative."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "Of all the regions, the north recorded ___ rainfall. (LOW, superlative)",
+        "options": [
+          "low",
+          "the lowest",
+          "the more low",
+          "the lower"
+        ],
+        "answers": [
+          1
+        ],
+        "why": "\"Low\" is a short adjective, so the superlative adds \"-est\" with \"the\"."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "Overall, this was ___ (GOOD) result the team had ever achieved.",
+        "answers": [
+          "the best"
+        ],
+        "why": "\"Good\" is irregular; its superlative is \"the best\"."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "The new policy proved ___ than expected. (EFFECTIVE)",
+        "options": [
+          "more effective",
+          "effectiver",
+          "most effective",
+          "effectivest"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "\"Effective\" has three syllables, so the comparative uses \"more … than\"."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "Traffic congestion is ___ (BAD) in the capital than in smaller towns.",
+        "answers": [
+          "worse"
+        ],
+        "why": "\"Bad\" is irregular; its comparative form is \"worse\"."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "This is ___ significant finding of the whole study. (superlative)",
+        "options": [
+          "more",
+          "most",
+          "the more",
+          "the most"
+        ],
+        "answers": [
+          3
+        ],
+        "why": "\"Significant\" is a long adjective, so its superlative is formed with \"the most\"."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "Of the two applicants, she performed ___ (WELL) in the interview.",
+        "answers": [
+          "better"
+        ],
+        "why": "\"Well\" corresponds to the irregular comparative \"better\"."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "The 2020 figures were ___ than analysts had predicted. (HIGH)",
+        "options": [
+          "most high",
+          "more high",
+          "highest",
+          "higher"
+        ],
+        "answers": [
+          3
+        ],
+        "why": "\"High\" is a short adjective, so its comparative is formed with \"-er\"."
+      },
+      {
+        "qtype": "transform",
+        "prompt": "Rewrite as one comparative sentence: \"Country A's economy grew fast. Country B's economy grew faster than that.\"",
+        "answers": [
+          "Country B's economy grew faster than Country A's.",
+          "Country B's economy grew faster than country A's economy."
+        ],
+        "why": "A comparative adjective + \"than\" combines the two ideas into a single comparison."
+      }
+    ]
+  },
+  {
+    "slug": "prepositions-time-place",
+    "stage": "beginner",
+    "title": "Prepositions of Time & Place",
+    "tag": "Prepositions",
+    "cefr": "A1–A2",
+    "blurb": "Use in, on, at and other common prepositions correctly for time and place.",
+    "lesson": [
+      {
+        "type": "intro",
+        "body": "<p>Prepositions of time and place tell us <b>when</b> and <b>where</b> something happens. The three most important — <b>in, on, at</b> — follow fairly predictable patterns, from the largest unit of time or space to the smallest.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Time: in, on, at",
+        "body": "<p>Use <b>in</b> for months, years, decades and centuries (<em>in 2020, in the 1990s</em>); <b>on</b> for days and dates (<em>on Monday, on 5 July</em>); <b>at</b> for clock times and certain fixed phrases (<em>at 9 a.m., at night, at the weekend</em>).</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Place: in, on, at",
+        "body": "<p>Use <b>in</b> for enclosed spaces and larger areas (<em>in the classroom, in Vietnam</em>); <b>on</b> for surfaces and lines (<em>on the table, on the graph</em>); <b>at</b> for specific points (<em>at the station, at the top of the page</em>).</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Other common prepositions",
+        "body": "<p><b>Between … and …</b> compares two points; <b>from … to …</b> shows a range or duration; <b>during</b> shows something happening within a period: <em>Sales rose between 2015 and 2018; the figure fell during the recession.</em></p>"
+      },
+      {
+        "type": "table",
+        "title": "Quick map",
+        "data": {
+          "head": [
+            "Preposition",
+            "Time use",
+            "Place use"
+          ],
+          "rows": [
+            [
+              "in",
+              "months, years, decades",
+              "countries, cities, enclosed spaces"
+            ],
+            [
+              "on",
+              "days, dates",
+              "surfaces, floors"
+            ],
+            [
+              "at",
+              "clock times, night, weekend",
+              "specific points, addresses"
+            ]
+          ]
+        }
+      },
+      {
+        "type": "examples",
+        "data": {
+          "items": [
+            {
+              "en": "The number of visitors peaked in July 2019.",
+              "note": "\"In\" is used with a month and year."
+            },
+            {
+              "en": "The meeting is scheduled for 3 p.m. on Friday.",
+              "note": "\"At\" for the clock time; \"on\" for the day."
+            },
+            {
+              "en": "The line on the graph rises sharply between 2010 and 2015.",
+              "note": "\"On\" for the surface of the graph; \"between … and …\" for the two points compared."
+            },
+            {
+              "en": "There was a steady decline during the recession.",
+              "note": "\"During\" describes something happening within a period of time."
+            },
+            {
+              "en": "She studies at a university in the capital city.",
+              "note": "\"At\" for the specific institution; \"in\" for the larger place, the city."
+            }
+          ]
+        }
+      },
+      {
+        "type": "tip",
+        "body": "<p>Task 1 answers often need \"between X and Y\" (for two compared points) versus \"from X to Y\" (for a duration or range) — check which one your sentence needs before you write it.</p>"
+      }
+    ],
+    "quiz": [
+      {
+        "qtype": "mcq",
+        "prompt": "The exam takes place ___ 9 a.m. ___ Monday morning.",
+        "options": [
+          "at / on",
+          "on / at",
+          "in / at",
+          "at / in"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "Clock times take \"at\"; days take \"on\"."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "The report was published ___ March 2021.",
+        "answers": [
+          "in"
+        ],
+        "why": "Months and years take \"in\"."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "There was a sharp rise ___ the number of applicants ___ 2018 and 2020.",
+        "options": [
+          "at / in",
+          "in / between",
+          "between / and",
+          "from / to"
+        ],
+        "answers": [
+          1
+        ],
+        "why": "A rise \"in\" a quantity is compared \"between\" two points."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "Costs increased steadily ___ the economic crisis.",
+        "answers": [
+          "during"
+        ],
+        "why": "\"During\" shows something happening within a stated period."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "The library is ___ the corner of Main Street.",
+        "options": [
+          "on",
+          "in",
+          "at",
+          "to"
+        ],
+        "answers": [
+          2
+        ],
+        "why": "A specific point in a location takes \"at\"."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "The data ___ the chart show a downward trend.",
+        "answers": [
+          "on"
+        ],
+        "why": "\"On\" is used for something appearing on a surface, such as a chart or graph."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "She was born ___ 1998 and grew up ___ a small town.",
+        "options": [
+          "on / at",
+          "at / on",
+          "at / in",
+          "in / in"
+        ],
+        "answers": [
+          3
+        ],
+        "why": "Years take \"in\"; towns and larger places also take \"in\"."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "Numbers rose steadily ___ 2000 to 2010, more than doubling.",
+        "answers": [
+          "from"
+        ],
+        "why": "\"From … to …\" introduces a range or duration."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "We usually go over the results ___ the weekend, when the office is quiet.",
+        "options": [
+          "in",
+          "at",
+          "on",
+          "during"
+        ],
+        "answers": [
+          1
+        ],
+        "why": "\"At the weekend\" is a fixed time phrase in British English."
+      },
+      {
+        "qtype": "transform",
+        "prompt": "Rewrite correcting the prepositions: \"The study was conducted on 2019, and the results were published at March.\"",
+        "answers": [
+          "The study was conducted in 2019, and the results were published in March.",
+          "The study was conducted in 2019 and the results were published in March."
+        ],
+        "why": "Years and months take \"in\", not \"on\" or \"at\"."
+      }
+    ]
+  },
+  {
+    "slug": "adverbs-word-order",
+    "stage": "beginner",
+    "title": "Adverbs & Word Order",
+    "tag": "Sentence",
+    "cefr": "A1–A2",
+    "blurb": "Place adverbs of frequency, manner and degree correctly within a sentence.",
+    "lesson": [
+      {
+        "type": "intro",
+        "body": "<p>Adverbs add extra information about a verb, adjective or another adverb — <b>how</b>, <b>how often</b>, or <b>to what degree</b> something happens. Their meaning depends on being placed in the correct position in the sentence.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Adverbs of manner and degree",
+        "body": "<p>Adverbs of manner (usually formed with <b>-ly</b>: <em>carefully, significantly</em>) usually go after the verb or object: <em>The figure rose significantly.</em> Adverbs of degree (<em>very, quite, extremely</em>) go before the adjective or adverb they modify: <em>a very steep rise</em>.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Adverbs of frequency",
+        "body": "<p>Adverbs of frequency (<em>always, usually, often, sometimes, rarely, never</em>) go <b>before</b> the main verb but <b>after</b> the verb \"be\": <em>She often submits her work late; she is rarely late for class.</em></p>"
+      },
+      {
+        "type": "rule",
+        "title": "Word order in sentences",
+        "body": "<p>The usual English order is <b>Subject – Verb – Object – Manner – Place – Time</b>: <em>She wrote her essay carefully in the library yesterday.</em> Moving the time expression to the front is also possible for emphasis: <em>Yesterday, she wrote her essay carefully in the library.</em></p>"
+      },
+      {
+        "type": "table",
+        "title": "Quick map",
+        "data": {
+          "head": [
+            "Adverb type",
+            "Position",
+            "Example"
+          ],
+          "rows": [
+            [
+              "Frequency",
+              "before main verb / after \"be\"",
+              "She rarely misses a deadline; she is always punctual."
+            ],
+            [
+              "Manner",
+              "after verb / object",
+              "He answered the question clearly."
+            ],
+            [
+              "Degree",
+              "before adjective/adverb",
+              "The results were extremely surprising."
+            ]
+          ]
+        }
+      },
+      {
+        "type": "examples",
+        "data": {
+          "items": [
+            {
+              "en": "The government has consistently invested in public transport.",
+              "note": "Adverb of manner placed after the auxiliary and before the main verb."
+            },
+            {
+              "en": "Researchers rarely agree on the exact causes of the decline.",
+              "note": "Adverb of frequency placed before the main verb."
+            },
+            {
+              "en": "The results were extremely encouraging for the research team.",
+              "note": "Adverb of degree placed before the adjective it modifies."
+            },
+            {
+              "en": "She carefully reviewed the data before submitting her essay.",
+              "note": "Adverb of manner placed before the main verb for emphasis."
+            },
+            {
+              "en": "Prices increased gradually throughout the decade.",
+              "note": "Adverb of manner after the verb, followed by the time expression."
+            }
+          ]
+        }
+      },
+      {
+        "type": "tip",
+        "body": "<p>In Task 1, adverbs of degree describe the size of a change precisely: <em>slightly, moderately, considerably, dramatically</em>. Choosing the right one instead of always writing \"a lot\" raises the accuracy of your description.</p>"
+      }
+    ],
+    "quiz": [
+      {
+        "qtype": "mcq",
+        "prompt": "She ___ checks her essays for grammar mistakes before submitting them. (ALWAYS)",
+        "options": [
+          "checks always",
+          "checks are always",
+          "always checks",
+          "is always checks"
+        ],
+        "answers": [
+          2
+        ],
+        "why": "Adverbs of frequency go before the main verb."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "The company is ___ (RARE) late in delivering its quarterly reports.",
+        "answers": [
+          "rarely"
+        ],
+        "why": "Adverbs of frequency go after the verb \"be\"."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "The figures increased ___ over the final quarter. (SIGNIFICANCE, manner)",
+        "options": [
+          "significant",
+          "a significant",
+          "most significant",
+          "significantly"
+        ],
+        "answers": [
+          3
+        ],
+        "why": "An adverb of manner is needed to modify the verb \"increased\"."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "The results were ___ (EXTREME) surprising to the research team.",
+        "answers": [
+          "extremely"
+        ],
+        "why": "An adverb of degree goes before the adjective it modifies."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "___, the report highlights three key recommendations.",
+        "options": [
+          "The report overall highlights",
+          "Overall",
+          "Overall the report, highlights",
+          "Highlights overall"
+        ],
+        "answers": [
+          1
+        ],
+        "why": "\"Overall\" can begin the sentence as a summarising adverb, followed by a comma."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "He ___ (CAREFUL) reviewed the data before drawing his conclusions.",
+        "answers": [
+          "carefully"
+        ],
+        "why": "An adverb of manner modifies the verb \"reviewed\"."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "She is ___ punctual, but yesterday she arrived late.",
+        "options": [
+          "always",
+          "is always",
+          "punctual always",
+          "always is"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "Adverbs of frequency go directly after the verb \"be\"."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "Costs rose ___ (GRADUAL) throughout the decade.",
+        "answers": [
+          "gradually"
+        ],
+        "why": "An adverb of manner describes how the costs rose."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "The proposal was ___ unrealistic, according to most reviewers. (QUITE, degree)",
+        "options": [
+          "quite an",
+          "a quite",
+          "quitely",
+          "quite"
+        ],
+        "answers": [
+          3
+        ],
+        "why": "An adverb of degree goes directly before the adjective it modifies."
+      },
+      {
+        "qtype": "transform",
+        "prompt": "Rewrite with the adverb in the correct position: \"She reviewed careful the report before the meeting.\"",
+        "answers": [
+          "She carefully reviewed the report before the meeting.",
+          "She reviewed the report carefully before the meeting."
+        ],
+        "why": "The adverb of manner \"carefully\" should either precede the verb or follow the object, not interrupt the verb and its object."
+      }
+    ]
+  }
+]
