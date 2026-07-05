@@ -62,3 +62,67 @@ class Word(models.Model):
 
     def __str__(self):
         return self.word
+
+
+class GrammarTopic(models.Model):
+    STAGES = [
+        ('beginner', 'Beginner'),
+        ('independent', 'Independent'),
+        ('expert', 'Expert'),
+    ]
+    slug       = models.SlugField(max_length=100, unique=True)
+    title      = models.CharField(max_length=200)
+    tag        = models.CharField(max_length=50)
+    cefr_label = models.CharField(max_length=10)
+    blurb      = models.CharField(max_length=300)
+    stage      = models.CharField(max_length=12, choices=STAGES)
+    order      = models.PositiveSmallIntegerField(default=0)
+
+    class Meta:
+        ordering = ['order']
+
+    def __str__(self):
+        return self.title
+
+
+class GrammarLessonBlock(models.Model):
+    TYPES = [
+        ('intro', 'Intro'),
+        ('rule', 'Rule'),
+        ('table', 'Table'),
+        ('examples', 'Examples'),
+        ('tip', 'Tip'),
+    ]
+    topic = models.ForeignKey(GrammarTopic, on_delete=models.CASCADE, related_name='blocks')
+    type  = models.CharField(max_length=10, choices=TYPES)
+    title = models.CharField(max_length=200, blank=True)
+    body  = models.TextField(blank=True)
+    data  = models.JSONField(default=dict, blank=True)
+    order = models.PositiveSmallIntegerField(default=0)
+
+    class Meta:
+        ordering = ['order']
+
+    def __str__(self):
+        return f'{self.topic.slug} · {self.type} #{self.order}'
+
+
+class GrammarQuestion(models.Model):
+    QTYPES = [
+        ('mcq', 'Multiple choice'),
+        ('gap', 'Fill the gap'),
+        ('transform', 'Transformation'),
+    ]
+    topic   = models.ForeignKey(GrammarTopic, on_delete=models.CASCADE, related_name='questions')
+    qtype   = models.CharField(max_length=10, choices=QTYPES)
+    prompt  = models.TextField()
+    options = models.JSONField(default=list, blank=True)
+    answers = models.JSONField(default=list)
+    why     = models.TextField()
+    order   = models.PositiveSmallIntegerField(default=0)
+
+    class Meta:
+        ordering = ['order']
+
+    def __str__(self):
+        return f'{self.topic.slug} · {self.qtype} #{self.order}'
