@@ -32,7 +32,7 @@ User feedback on the shipped Grammar section:
 
 ## 3. Muted stage colour system (grammar page only)
 
-New grammar-scoped CSS variables, defined alongside the existing theme variable blocks (both themes):
+> **Rev 2 (2026-07-06, user feedback after ship):** the invented muted palette didn't match the app; the user wants the vocab tier palette. `--gram-*` now alias the vocab vars — `--gram-basic:var(--a2)` (cyan), `--gram-inter:var(--b2)` (blue), `--gram-adv:var(--c1)` (amber) — defined once in `:root` (aliases resolve per theme automatically), and `--gram-done:#10b981` matches vocab's hard-coded mastered green. The mastered medal reverts to the vocab default (gold `#eab308` + glow; the grammar-only medal override and the light-theme `.gram-chip` filter override are removed so vocab treatment applies). Active filter pills use vocab's text colours (`#064e3b` on Basic, `#fff` on Intermediate, `#1c1917` on Advanced). The table below documents Rev 1 (superseded):
 
 | Var | Light ("gallery") | Dark ("velvet") | Used for |
 |---|---|---|---|

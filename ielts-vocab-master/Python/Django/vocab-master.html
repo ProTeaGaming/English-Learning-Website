@@ -22,7 +22,7 @@
   --tb:#3b82f6; --tv:#8b5cf6; --tp:#ec4899; --tr:#ef4444; --te:#10b981;
   --ta:#f59e0b; --tc:#06b6d4; --tg:#eab308; --ti:#6366f1; --to:#f97316;
   --tro:#f43f5e; --tfg:#16a34a; --tpurp:#a855f7; --ts:#0d9488; --tnavy:#1e40af;
-  --gram-basic:#8fbf9f; --gram-inter:#95aed6; --gram-adv:#cfa36b; --gram-done:#7aab8f;
+  --gram-basic:var(--a2); --gram-inter:var(--b2); --gram-adv:var(--c1); --gram-done:#10b981;
   --vio:124,58,237;
 }
 [data-theme="light"]{
@@ -33,7 +33,6 @@
   --gold:#b08a3e; --gold-rgb:176 138 62;
   --a1:#059669; --a1p:#ca8a04; --a2:#06b6d4; --a2p:#ea580c;
   --b1:#4f46e5; --b1p:#db2777; --b2:#2563eb; --b2p:#1e3a8a; --c1:#d97706; --c1p:#e11d48; --c2:#dc2626; --c2p:#9333ea;
-  --gram-basic:#5b8a6e; --gram-inter:#5872a8; --gram-adv:#a1743e; --gram-done:#3f7a5f;
   --card-bg:#ffffff; --card-border:#dcd7cc;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
@@ -925,15 +924,13 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
 .gram-chip.gram-s-inter{background:color-mix(in srgb, var(--gram-inter) 14%, transparent);border-color:color-mix(in srgb, var(--gram-inter) 35%, transparent);color:var(--gram-inter);}
 .gram-chip.gram-s-adv{background:color-mix(in srgb, var(--gram-adv) 14%, transparent);border-color:color-mix(in srgb, var(--gram-adv) 35%, transparent);color:var(--gram-adv);}
 .headline-btn.active[data-grammar-stage="all"]{background:var(--accent);border-color:var(--accent);color:#fff;}
-.headline-btn.active[data-grammar-stage="beginner"]{background:var(--gram-basic);border-color:var(--gram-basic);color:#fff;}
+.headline-btn.active[data-grammar-stage="beginner"]{background:var(--gram-basic);border-color:var(--gram-basic);color:#064e3b;}
 .headline-btn.active[data-grammar-stage="independent"]{background:var(--gram-inter);border-color:var(--gram-inter);color:#fff;}
-.headline-btn.active[data-grammar-stage="expert"]{background:var(--gram-adv);border-color:var(--gram-adv);color:#fff;}
+.headline-btn.active[data-grammar-stage="expert"]{background:var(--gram-adv);border-color:var(--gram-adv);color:#1c1917;}
 #grammarStages .cat-pfill.gram-s-basic{background:var(--gram-basic);}
 #grammarStages .cat-pfill.gram-s-inter{background:var(--gram-inter);}
 #grammarStages .cat-pfill.gram-s-adv{background:var(--gram-adv);}
 #grammarStages .cat-pfill.gram-done{background:var(--gram-done);}
-#grammarStages .cat-medal{color:var(--gram-done);filter:none;}
-[data-theme="light"] .cat-cefr-pill.gram-chip{filter:none;}
 #grammarStages .section-block.gram-s-basic .section-block-pfill{background:var(--gram-basic);}
 #grammarStages .section-block.gram-s-inter .section-block-pfill{background:var(--gram-inter);}
 #grammarStages .section-block.gram-s-adv .section-block-pfill{background:var(--gram-adv);}
