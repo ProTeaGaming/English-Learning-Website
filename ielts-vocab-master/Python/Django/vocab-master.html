@@ -931,9 +931,6 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
 #grammarStages .cat-pfill.gram-s-inter{background:var(--gram-inter);}
 #grammarStages .cat-pfill.gram-s-adv{background:var(--gram-adv);}
 #grammarStages .cat-pfill.gram-done{background:var(--gram-done);}
-#grammarStages .section-block.gram-s-basic .section-block-pfill{background:var(--gram-basic);}
-#grammarStages .section-block.gram-s-inter .section-block-pfill{background:var(--gram-inter);}
-#grammarStages .section-block.gram-s-adv .section-block-pfill{background:var(--gram-adv);}
 .gram-card-blurb{font-size:.85rem;color:var(--muted);margin-top:4px;line-height:1.45;}
 .gram-lesson{max-width:760px;margin:0 auto;}
 .gram-block{margin-bottom:22px;line-height:1.65;}
@@ -3066,6 +3063,58 @@ function recordGrammarScore(slug, pct){
   saveGrammarProgress(p);
 }
 
+const GRAMMAR_SECTION_ORDER = [
+  'Tenses',
+  'Questions & Reported Speech',
+  'Nouns, Pronouns & Determiners',
+  'Adjectives & Adverbs',
+  'Word Forms & Prepositions',
+  'Verb Patterns & Modals',
+  'Voice',
+  'Conditionals & Unreal Forms',
+  'Clauses',
+  'Emphasis & Sentence Focus',
+  'Cohesion & Academic Style',
+];
+const GRAMMAR_SECTIONS = {
+  'present-simple-continuous': 'Tenses',
+  'past-simple-continuous':    'Tenses',
+  'future-forms':              'Tenses',
+  'perfect-tenses':            'Tenses',
+  'question-forms':            'Questions & Reported Speech',
+  'reported-speech':           'Questions & Reported Speech',
+  'question-tags-indirect':    'Questions & Reported Speech',
+  'nouns-plurals':             'Nouns, Pronouns & Determiners',
+  'pronouns-possessives':      'Nouns, Pronouns & Determiners',
+  'articles':                  'Nouns, Pronouns & Determiners',
+  'quantifiers':               'Nouns, Pronouns & Determiners',
+  'comparatives-superlatives': 'Adjectives & Adverbs',
+  'gradable-adjectives':       'Adjectives & Adverbs',
+  'adverbs-word-order':        'Adjectives & Adverbs',
+  'word-forms':                'Word Forms & Prepositions',
+  'prepositions-time-place':   'Word Forms & Prepositions',
+  'gerunds-infinitives':       'Verb Patterns & Modals',
+  'used-to':                   'Verb Patterns & Modals',
+  'modal-verbs':               'Verb Patterns & Modals',
+  'advanced-modality':         'Verb Patterns & Modals',
+  'passive-voice':             'Voice',
+  'causatives':                'Voice',
+  'conditionals':              'Conditionals & Unreal Forms',
+  'mixed-conditionals':        'Conditionals & Unreal Forms',
+  'wish-if-only':              'Conditionals & Unreal Forms',
+  'subjunctive-unreal-past':   'Conditionals & Unreal Forms',
+  'relative-clauses':          'Clauses',
+  'participle-clauses':        'Clauses',
+  'inversion-emphasis':        'Emphasis & Sentence Focus',
+  'cleft-sentences':           'Emphasis & Sentence Focus',
+  'fronting-ever-clauses':     'Emphasis & Sentence Focus',
+  'dummy-subjects':            'Emphasis & Sentence Focus',
+  'linking-words':             'Cohesion & Academic Style',
+  'ellipsis-substitution':     'Cohesion & Academic Style',
+  'nominalisation':            'Cohesion & Academic Style',
+  'hedging-academic-tone':     'Cohesion & Academic Style',
+};
+const GRAMMAR_STAGE_RANK = { beginner: 0, independent: 1, expert: 2 };
 const GRAMMAR_STAGE_KEY = { beginner: 'basic', independent: 'inter', expert: 'adv' };
 const GRAMMAR_CEFR_KEY  = { 'A1': 'basic', 'B1': 'inter', 'C1': 'adv' };
 
@@ -3097,10 +3146,28 @@ function renderGrammarHome(){
   wrap.innerHTML = `<p class="sub" style="text-align:center;">Loading grammar…</p>`;
   loadGrammar().then(stages => {
     wrap.innerHTML = '';
-    stages.forEach((stage, i) => {
-      if (grammarStageFilter !== 'all' && stage.id !== grammarStageFilter) return;
-      wrap.appendChild(renderGrammarStage(stage, i + 1));
+    const topics = [];
+    stages.forEach(stage => stage.topics.forEach(t => topics.push({ ...t, stageId: stage.id })));
+    const grouped = new Map();
+    topics.forEach(t => {
+      const section = GRAMMAR_SECTIONS[t.slug] || t.tag;
+      if (!grouped.has(section)) grouped.set(section, []);
+      grouped.get(section).push(t);
     });
+    const names = [...GRAMMAR_SECTION_ORDER.filter(n => grouped.has(n)),
+                   ...[...grouped.keys()].filter(n => !GRAMMAR_SECTION_ORDER.includes(n))];
+    let rendered = 0;
+    names.forEach((name, i) => {
+      const inSection = grouped.get(name)
+        .filter(t => grammarStageFilter === 'all' || t.stageId === grammarStageFilter)
+        .sort((a, b) => (GRAMMAR_STAGE_RANK[a.stageId] ?? 3) - (GRAMMAR_STAGE_RANK[b.stageId] ?? 3));
+      if (!inSection.length) return;
+      wrap.appendChild(renderGrammarSection(name, inSection, i + 1));
+      rendered++;
+    });
+    if (!rendered){
+      wrap.innerHTML = `<p class="sub" style="text-align:center;">No grammar topics yet.</p>`;
+    }
     if (typeof gsap !== 'undefined'){
       gsap.fromTo(wrap.querySelectorAll('.cat-card'), {opacity:0, y:16},
         {opacity:1, y:0, duration:.35, ease:'power2.out', stagger:{amount:.25, from:'start'}});
@@ -3115,24 +3182,23 @@ function renderGrammarHome(){
   });
 }
 
-function renderGrammarStage(stage, num){
+function renderGrammarSection(name, topics, num){
   const progress = loadGrammarProgress();
-  const doneCnt = stage.topics.filter(t => grammarTopicDone(t.slug)).length;
-  const pct = stage.topics.length ? Math.round(doneCnt / stage.topics.length * 100) : 0;
+  const doneCnt = topics.filter(t => grammarTopicDone(t.slug)).length;
+  const pct = topics.length ? Math.round(doneCnt / topics.length * 100) : 0;
   const wrap = document.createElement('div');
-  const stageKey = GRAMMAR_STAGE_KEY[stage.id] || '';
-  wrap.className = `section-block open${stageKey ? ` gram-s-${stageKey}` : ''}`;
+  wrap.className = 'section-block open';
   wrap.innerHTML = `
     <div class="section-block-header">
       <div class="section-block-num">${String(num).padStart(2, '0')}</div>
       <div class="section-block-info">
-        <div class="section-block-name">${stage.name}</div>
-        <div class="section-block-meta">${stage.cefr} · ${stage.topics.length} topic${stage.topics.length !== 1 ? 's' : ''}</div>
+        <div class="section-block-name">${name}</div>
+        <div class="section-block-meta">${topics.length} topic${topics.length !== 1 ? 's' : ''}</div>
       </div>
       <div class="section-block-right">
         <div class="section-block-prog">
           <div class="section-block-pbar"><div class="section-block-pfill" style="width:${pct}%"></div></div>
-          <div class="section-block-pct">${doneCnt}/${stage.topics.length}</div>
+          <div class="section-block-pct">${doneCnt}/${topics.length}</div>
         </div>
         <span class="section-block-chevron">›</span>
       </div>
@@ -3150,7 +3216,8 @@ function renderGrammarStage(stage, num){
     body.style.maxHeight = opening ? body.scrollHeight + 'px' : '0';
   });
   const grid = wrap.querySelector('.cat-grid');
-  stage.topics.forEach(t => {
+  topics.forEach(t => {
+    const stageKey = GRAMMAR_STAGE_KEY[t.stageId] || '';
     const done = grammarTopicDone(t.slug);
     const best = (progress[t.slug] || {}).best || 0;
     const card = document.createElement('div');
