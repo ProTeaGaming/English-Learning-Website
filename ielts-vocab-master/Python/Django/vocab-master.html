@@ -917,6 +917,26 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
   transition:color .3s var(--ease-luxe),opacity .3s var(--ease-luxe),transform .45s var(--ease-luxe);
 }
 .cat-card:hover .cat-arrow{color:var(--accent-c,rgb(var(--vio)));opacity:1;transform:translate(2px,-2px);}
+/* ── Grammar section ── */
+.gram-card-blurb{font-size:.85rem;color:var(--muted);margin-top:4px;line-height:1.45;}
+.gram-lesson{max-width:760px;margin:0 auto;}
+.gram-block{margin-bottom:22px;line-height:1.65;}
+.gram-intro{font-size:1.04rem;color:var(--muted);}
+.gram-rule{border:1px solid rgba(var(--vio),.28);background:rgba(var(--vio),.06);border-radius:14px;padding:16px 20px;}
+.gram-rule h3{font-size:.78rem;text-transform:uppercase;letter-spacing:.12em;margin-bottom:8px;color:rgb(var(--vio));}
+.gram-table-title{font-size:.78rem;text-transform:uppercase;letter-spacing:.12em;margin-bottom:8px;color:var(--muted);}
+.gram-table{width:100%;border-collapse:collapse;font-size:.94rem;}
+.gram-table th{font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);text-align:left;}
+.gram-table th,.gram-table td{padding:9px 12px;border-bottom:1px solid rgba(128,128,128,.18);}
+.gram-ex{padding:10px 0;border-bottom:1px dashed rgba(128,128,128,.22);}
+.gram-ex-en{font-size:1rem;}
+.gram-ex-note{font-size:.85rem;color:var(--muted);margin-top:2px;}
+.gram-tip{border-left:3px solid rgb(var(--vio));padding:12px 16px;background:rgba(var(--vio),.05);border-radius:0 12px 12px 0;}
+.gram-tip-label{display:block;font-size:.7rem;text-transform:uppercase;letter-spacing:.14em;color:rgb(var(--vio));margin-bottom:4px;}
+.gram-gap-input{width:100%;max-width:340px;padding:10px 14px;border-radius:10px;border:1px solid rgba(128,128,128,.35);background:transparent;color:inherit;font:inherit;}
+.gram-gap-input:focus{outline:none;border-color:rgb(var(--vio));}
+.gram-gap-input.correct{border-color:#10b981;}
+.gram-gap-input.wrong{border-color:#ef4444;}
 .cat-medal{font-size:1.15rem; color:#eab308; flex-shrink:0; filter:drop-shadow(0 0 6px rgba(234,179,8,.35));}
 .cat-name{
   font-family:'Plus Jakarta Sans','Sora',sans-serif; font-weight:800; font-size:1.02rem; line-height:1.3;
@@ -1889,15 +1909,17 @@ function iconSvg(emoji, cls){
 
   <!-- ===== GRAMMAR PAGE ===== -->
   <section id="page-grammar" class="page">
-    <div class="page-head">
-      <span class="eyebrow">Section 02 / Grammar</span>
-      <h1>Grammar</h1>
-      <p>Coming soon.</p>
+    <div id="grammarHome">
+      <div class="page-head">
+        <span class="eyebrow">Section 02 / Grammar</span>
+        <h1>Grammar</h1>
+        <p>From first tenses to advanced structures — a lesson and a practice set for every stage.</p>
+      </div>
+      <div id="grammarStages"></div>
     </div>
-    <div class="setup-card">
-      <h2><svg class="ico" aria-hidden="true"><use href="#i-hard-hat"/></svg> Under construction</h2>
-      <p class="sub">This section is being built — check back soon.</p>
-    </div>
+    <div id="grammarLesson" style="display:none;"></div>
+    <div id="grammarQuizView" class="quiz-wrap" style="display:none;"></div>
+    <div id="grammarResult" class="result-card" style="display:none;"></div>
   </section>
 
   <!-- ===== READING PAGE ===== -->
@@ -2995,6 +3017,141 @@ function initTopicFilters(prefix, f, getPool, unitLabel){
 }
 
 /* ════════════════════════════════════════════════════════
+   GRAMMAR SECTION
+   ════════════════════════════════════════════════════════ */
+const GRAMMAR_PROGRESS_KEY = 'grammarProgress';
+const GRAMMAR_PASS_PCT = 80;
+let GRAMMAR_STAGES_DATA = null;   // fetched once per session
+let grammarLoading = null;        // in-flight fetch promise
+
+function loadGrammarProgress(){
+  try { return JSON.parse(localStorage.getItem(GRAMMAR_PROGRESS_KEY)) || {}; }
+  catch(e){ return {}; }
+}
+function saveGrammarProgress(p){
+  try { localStorage.setItem(GRAMMAR_PROGRESS_KEY, JSON.stringify(p)); } catch(e){}
+}
+function grammarTopicDone(slug){
+  const rec = loadGrammarProgress()[slug];
+  return !!(rec && rec.done);
+}
+function recordGrammarScore(slug, pct){
+  const p = loadGrammarProgress();
+  const prev = p[slug] || { best: 0, done: false };
+  const best = Math.max(prev.best, pct);
+  p[slug] = { best, done: prev.done || best >= GRAMMAR_PASS_PCT };
+  saveGrammarProgress(p);
+}
+
+function cefrRangePillHtml(label){
+  const first = String(label).split('–')[0];
+  const c = CEFR_COLORS[first] || '#888';
+  return `<span class="cat-cefr-pill" style="background:${c}1c;border:1px solid ${c}55;color:${c}">${label}</span>`;
+}
+
+function loadGrammar(){
+  if (GRAMMAR_STAGES_DATA) return Promise.resolve(GRAMMAR_STAGES_DATA);
+  if (!grammarLoading){
+    grammarLoading = fetch(`${API_BASE}/grammar/`)
+      .then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); })
+      .then(data => { GRAMMAR_STAGES_DATA = data; return data; })
+      .catch(err => { grammarLoading = null; throw err; });
+  }
+  return grammarLoading;
+}
+
+function showGrammarView(view){
+  ['grammarHome', 'grammarLesson', 'grammarQuizView', 'grammarResult'].forEach(id => {
+    document.getElementById(id).style.display = (id === view) ? '' : 'none';
+  });
+}
+
+function renderGrammarHome(){
+  showGrammarView('grammarHome');
+  const wrap = document.getElementById('grammarStages');
+  wrap.innerHTML = `<p class="sub" style="text-align:center;">Loading grammar…</p>`;
+  loadGrammar().then(stages => {
+    wrap.innerHTML = '';
+    stages.forEach((stage, i) => wrap.appendChild(renderGrammarStage(stage, i + 1)));
+    if (typeof gsap !== 'undefined'){
+      gsap.fromTo(wrap.querySelectorAll('.cat-card'), {opacity:0, y:16},
+        {opacity:1, y:0, duration:.35, ease:'power2.out', stagger:{amount:.25, from:'start'}});
+    }
+  }).catch(() => {
+    wrap.innerHTML = `
+      <div class="setup-card" style="text-align:center;">
+        <p class="sub">Couldn't load the grammar library. Check your connection and try again.</p>
+        <button class="btn" id="grammarRetryBtn">Retry</button>
+      </div>`;
+    document.getElementById('grammarRetryBtn').addEventListener('click', renderGrammarHome);
+  });
+}
+
+function renderGrammarStage(stage, num){
+  const progress = loadGrammarProgress();
+  const doneCnt = stage.topics.filter(t => grammarTopicDone(t.slug)).length;
+  const pct = stage.topics.length ? Math.round(doneCnt / stage.topics.length * 100) : 0;
+  const wrap = document.createElement('div');
+  wrap.className = 'section-block open';
+  wrap.innerHTML = `
+    <div class="section-block-header">
+      <div class="section-block-num">${String(num).padStart(2, '0')}</div>
+      <div class="section-block-info">
+        <div class="section-block-name">${stage.name}</div>
+        <div class="section-block-meta">${stage.cefr} · ${stage.topics.length} topic${stage.topics.length !== 1 ? 's' : ''}</div>
+      </div>
+      <div class="section-block-right">
+        <div class="section-block-prog">
+          <div class="section-block-pbar"><div class="section-block-pfill" style="width:${pct}%"></div></div>
+          <div class="section-block-pct">${doneCnt}/${stage.topics.length}</div>
+        </div>
+        <span class="section-block-chevron">›</span>
+      </div>
+    </div>
+    <div class="section-block-divider"></div>
+    <div class="section-block-body">
+      <div class="section-block-body-inner"><div class="cat-grid"></div></div>
+    </div>`;
+  const header = wrap.querySelector('.section-block-header');
+  const body = wrap.querySelector('.section-block-body');
+  body.style.maxHeight = 'none';
+  header.addEventListener('click', () => {
+    const opening = !wrap.classList.contains('open');
+    wrap.classList.toggle('open', opening);
+    body.style.maxHeight = opening ? body.scrollHeight + 'px' : '0';
+  });
+  const grid = wrap.querySelector('.cat-grid');
+  stage.topics.forEach(t => {
+    const done = grammarTopicDone(t.slug);
+    const best = (progress[t.slug] || {}).best || 0;
+    const card = document.createElement('div');
+    card.className = 'cat-card t-tv';
+    card.innerHTML = `
+      <div class="cat-card-top">
+        <span class="cat-tag">${t.tag}</span>
+        ${cefrRangePillHtml(t.cefr)}
+        <svg class="ico cat-arrow" aria-hidden="true"><use href="#i-arrow-up-right"/></svg>
+      </div>
+      <div class="cat-name">${t.title}</div>
+      <div class="gram-card-blurb">${t.blurb}</div>
+      <div class="cat-pbar-row">
+        <div class="cat-pbar"><div class="cat-pfill" style="width:${best}%;${done ? 'background:#10b981;' : ''}"></div></div>
+        ${done
+          ? '<svg class="ico cat-medal" aria-label="Mastered"><use href="#i-medal"/></svg>'
+          : `<span class="cat-plabel">${best ? `best ${best}%` : 'not started'}</span>`}
+      </div>`;
+    card.addEventListener('click', () => openGrammarTopic(t));
+    grid.appendChild(card);
+  });
+  return wrap;
+}
+
+function openGrammarTopic(topic){
+  // Real implementation in the lesson-view task.
+  console.log('openGrammarTopic', topic.slug);
+}
+
+/* ════════════════════════════════════════════════════════
    NAVIGATION
    ════════════════════════════════════════════════════════ */
 const NAV_SECTIONS = {
@@ -3031,6 +3188,7 @@ function goToPage(pageId){
   if (pageId === "list") renderBrowse();
   else if (pageId === "examples") renderExamplesFilters();
   else if (pageId === "test") renderTestMode();
+  else if (pageId === "grammar") renderGrammarHome();
   if (typeof gsap !== "undefined"){
     gsap.fromTo(page, {opacity:0, y:18}, {opacity:1, y:0, duration:.5, ease:"power3.out"});
   }
