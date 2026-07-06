@@ -924,6 +924,10 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
 .gram-chip.gram-s-basic{background:color-mix(in srgb, var(--gram-basic) 14%, transparent);border-color:color-mix(in srgb, var(--gram-basic) 35%, transparent);color:var(--gram-basic);}
 .gram-chip.gram-s-inter{background:color-mix(in srgb, var(--gram-inter) 14%, transparent);border-color:color-mix(in srgb, var(--gram-inter) 35%, transparent);color:var(--gram-inter);}
 .gram-chip.gram-s-adv{background:color-mix(in srgb, var(--gram-adv) 14%, transparent);border-color:color-mix(in srgb, var(--gram-adv) 35%, transparent);color:var(--gram-adv);}
+.headline-btn.active[data-grammar-stage="all"]{background:var(--accent);border-color:var(--accent);color:#fff;}
+.headline-btn.active[data-grammar-stage="beginner"]{background:var(--gram-basic);border-color:var(--gram-basic);color:#fff;}
+.headline-btn.active[data-grammar-stage="independent"]{background:var(--gram-inter);border-color:var(--gram-inter);color:#fff;}
+.headline-btn.active[data-grammar-stage="expert"]{background:var(--gram-adv);border-color:var(--gram-adv);color:#fff;}
 #grammarStages .cat-pfill.gram-s-basic{background:var(--gram-basic);}
 #grammarStages .cat-pfill.gram-s-inter{background:var(--gram-inter);}
 #grammarStages .cat-pfill.gram-s-adv{background:var(--gram-adv);}
@@ -1928,6 +1932,12 @@ function iconSvg(emoji, cls){
         <span class="eyebrow">Section 02 / Grammar</span>
         <h1>Grammar</h1>
         <p>From first tenses to advanced structures — a lesson and a practice set for every stage.</p>
+      </div>
+      <div class="headline-bar" id="grammarFilterBar">
+        <button class="headline-btn active" data-grammar-stage="all">All</button>
+        <button class="headline-btn" data-grammar-stage="beginner"><svg class="ico" aria-hidden="true"><use href="#i-sprout"/></svg> Basic</button>
+        <button class="headline-btn" data-grammar-stage="independent"><svg class="ico" aria-hidden="true"><use href="#i-trend-up"/></svg> Intermediate</button>
+        <button class="headline-btn" data-grammar-stage="expert"><svg class="ico" aria-hidden="true"><use href="#i-grad-cap"/></svg> Advanced</button>
       </div>
       <div id="grammarStages"></div>
     </div>
@@ -3036,6 +3046,7 @@ function initTopicFilters(prefix, f, getPool, unitLabel){
 const GRAMMAR_PROGRESS_KEY = 'grammarProgress';
 const GRAMMAR_PASS_PCT = 80;
 let GRAMMAR_STAGES_DATA = null;   // fetched once per session
+let grammarStageFilter = 'all';   // 'all' | stage id; resets on reload
 let grammarLoading = null;        // in-flight fetch promise
 
 function loadGrammarProgress(){
@@ -3088,7 +3099,10 @@ function renderGrammarHome(){
   wrap.innerHTML = `<p class="sub" style="text-align:center;">Loading grammar…</p>`;
   loadGrammar().then(stages => {
     wrap.innerHTML = '';
-    stages.forEach((stage, i) => wrap.appendChild(renderGrammarStage(stage, i + 1)));
+    stages.forEach((stage, i) => {
+      if (grammarStageFilter !== 'all' && stage.id !== grammarStageFilter) return;
+      wrap.appendChild(renderGrammarStage(stage, i + 1));
+    });
     if (typeof gsap !== 'undefined'){
       gsap.fromTo(wrap.querySelectorAll('.cat-card'), {opacity:0, y:16},
         {opacity:1, y:0, duration:.35, ease:'power2.out', stagger:{amount:.25, from:'start'}});
@@ -3340,6 +3354,15 @@ function showGrammarResult(){
   document.getElementById('grammarBackLessonBtn').addEventListener('click', () => openGrammarTopic(t));
   document.getElementById('grammarBackHomeBtn').addEventListener('click', renderGrammarHome);
 }
+
+document.querySelectorAll('#grammarFilterBar .headline-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    grammarStageFilter = btn.dataset.grammarStage;
+    document.querySelectorAll('#grammarFilterBar .headline-btn').forEach(b =>
+      b.classList.toggle('active', b === btn));
+    renderGrammarHome();
+  });
+});
 
 /* ════════════════════════════════════════════════════════
    NAVIGATION
