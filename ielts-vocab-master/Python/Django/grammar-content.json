@@ -5056,13 +5056,13 @@
         "options": [
           "should",
           "shouldn't",
-          "can",
-          "couldn't"
+          "students should",
+          "must not"
         ],
         "answers": [
           0
         ],
-        "why": "“Under no circumstances” already carries the negative meaning, so the following clause must be positive: “should”, not “shouldn't”."
+        "why": "“Under no circumstances” fronted requires inversion with a positive auxiliary: “should” — negative forms would double the negative, and repeating the subject breaks the inverted word order."
       },
       {
         "qtype": "gap",
@@ -5643,7 +5643,8 @@
         "qtype": "gap",
         "prompt": "We ___ (need) have reserved a table; the restaurant was almost empty.",
         "answers": [
-          "needn't"
+          "needn't",
+          "need not"
         ],
         "why": "“Needn't have + V3” = an unnecessary action that still happened; the empty restaurant confirms the booking wasn't required."
       },
@@ -5693,11 +5694,12 @@
       },
       {
         "qtype": "gap",
-        "prompt": "I ___ (should) have double-checked the figures before submitting the report.",
+        "prompt": "I ___ have double-checked the figures before submitting the report — there were two errors.",
         "answers": [
-          "should"
+          "should",
+          "ought to"
         ],
-        "why": "“Should have + V3” criticises the speaker's own past inaction."
+        "why": "The errors show the checking was the right thing to do but wasn't done: “should/ought to have + V3” criticises the speaker's own past inaction."
       },
       {
         "qtype": "transform",
@@ -5894,11 +5896,11 @@
       },
       {
         "qtype": "gap",
-        "prompt": "___ (finish) the interviews, the panel began deliberating immediately.",
+        "prompt": "___ (finish) all twenty interviews the previous day, the panel began deliberating immediately.",
         "answers": [
           "Having finished"
         ],
-        "why": "The perfect participle shows the interviews were completed before the deliberation began."
+        "why": "“The previous day” places the finishing clearly before the deliberating, so the perfect participle “Having finished” is required."
       },
       {
         "qtype": "transform",
@@ -6487,7 +6489,8 @@
         "qtype": "gap",
         "prompt": "If he ___ (not / lose) his passport, he would be on holiday in Spain right now.",
         "answers": [
-          "hadn't lost"
+          "hadn't lost",
+          "had not lost"
         ],
         "why": "Past cause (unreal past action) takes “if + past perfect”: “hadn't lost”, linked to a present result."
       },
@@ -7112,7 +7115,9 @@
         "prompt": "Rewrite fronting the object for emphasis: \"Few researchers would dispute this finding.\"",
         "answers": [
           "This finding, few researchers would dispute.",
-          "This finding few researchers would dispute."
+          "This finding, few researchers would dispute",
+          "This finding few researchers would dispute.",
+          "This finding few researchers would dispute"
         ],
         "why": "Fronting the object “this finding” places emphasis on it and links back to earlier discussion."
       }
@@ -7317,8 +7322,11 @@
         "prompt": "Rewrite replacing 'very' with a more natural intensifier for this extreme adjective: \"The results were very astonishing.\"",
         "answers": [
           "The results were absolutely astonishing.",
+          "The results were absolutely astonishing",
           "The results were utterly astonishing.",
-          "The results were completely astonishing."
+          "The results were utterly astonishing",
+          "The results were completely astonishing.",
+          "The results were completely astonishing"
         ],
         "why": "“Astonishing” is an extreme adjective; it collocates with “absolutely/utterly/completely”, not the gradable intensifier “very”."
       }
