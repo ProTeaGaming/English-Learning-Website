@@ -1415,7 +1415,11 @@
         "prompt": "Rewrite correcting the noun forms: \"The childs gave many informations about their familys.\"",
         "answers": [
           "The children gave a lot of information about their families.",
-          "The children gave lots of information about their families."
+          "The children gave a lot of information about their families",
+          "The children gave lots of information about their families.",
+          "The children gave lots of information about their families",
+          "The children gave much information about their families.",
+          "The children gave much information about their families"
         ],
         "why": "\"Child\" becomes \"children\"; \"information\" is uncountable so it takes no plural; \"family\" becomes \"families\"."
       }
@@ -1622,7 +1626,9 @@
         "prompt": "Rewrite correcting the quantifiers: \"There is many reason for the delay, and we don't have much problems left to solve.\"",
         "answers": [
           "There are many reasons for the delay, and we don't have many problems left to solve.",
-          "There are many reasons for the delay, and we do not have many problems left to solve."
+          "There are many reasons for the delay, and we don't have many problems left to solve",
+          "There are many reasons for the delay, and we do not have many problems left to solve.",
+          "There are many reasons for the delay, and we do not have many problems left to solve"
         ],
         "why": "\"Reasons\" and \"problems\" are countable plural nouns, so they need \"there are\" and \"many\", not \"there is\" and \"much\"."
       }
@@ -1831,7 +1837,9 @@
         "prompt": "Rewrite correcting the pronouns: \"Me and him submitted our report, and the results surprised we.\"",
         "answers": [
           "He and I submitted our report, and the results surprised us.",
-          "He and I submitted our report and the results surprised us."
+          "He and I submitted our report, and the results surprised us",
+          "He and I submitted our report and the results surprised us.",
+          "He and I submitted our report and the results surprised us"
         ],
         "why": "Subject pronouns (\"he\", \"I\") are needed before the verb, and the object pronoun \"us\" is needed after \"surprised\"."
       }
@@ -2032,7 +2040,9 @@
         "prompt": "Rewrite as one comparative sentence: \"Country A's economy grew fast. Country B's economy grew faster than that.\"",
         "answers": [
           "Country B's economy grew faster than Country A's.",
-          "Country B's economy grew faster than Country A's economy."
+          "Country B's economy grew faster than Country A's",
+          "Country B's economy grew faster than Country A's economy.",
+          "Country B's economy grew faster than Country A's economy"
         ],
         "why": "A comparative adjective + \"than\" combines the two ideas into a single comparison."
       }
@@ -2233,7 +2243,9 @@
         "prompt": "Rewrite correcting the prepositions: \"The study was conducted on 2019, and the results were published at March.\"",
         "answers": [
           "The study was conducted in 2019, and the results were published in March.",
-          "The study was conducted in 2019 and the results were published in March."
+          "The study was conducted in 2019, and the results were published in March",
+          "The study was conducted in 2019 and the results were published in March.",
+          "The study was conducted in 2019 and the results were published in March"
         ],
         "why": "Years and months take \"in\", not \"on\" or \"at\"."
       }
@@ -2434,7 +2446,9 @@
         "prompt": "Rewrite with the adverb in the correct position: \"She reviewed careful the report before the meeting.\"",
         "answers": [
           "She carefully reviewed the report before the meeting.",
-          "She reviewed the report carefully before the meeting."
+          "She carefully reviewed the report before the meeting",
+          "She reviewed the report carefully before the meeting.",
+          "She reviewed the report carefully before the meeting"
         ],
         "why": "The adverb of manner \"carefully\" should either precede the verb or follow the object, not interrupt the verb and its object."
       }
@@ -6658,7 +6672,7 @@
       },
       {
         "qtype": "mcq",
-        "prompt": "Is the flight delayed? I'm afraid ___.",
+        "prompt": "Will the results be ready today? I'm afraid ___.",
         "options": [
           "so",
           "no",
@@ -6668,7 +6682,7 @@
         "answers": [
           3
         ],
-        "why": "“Not” substitutes for the negative clause after the belief verb “afraid”."
+        "why": "“Not” substitutes for the negative clause after the belief verb “afraid”, showing the results won't be ready as hoped."
       },
       {
         "qtype": "gap",
