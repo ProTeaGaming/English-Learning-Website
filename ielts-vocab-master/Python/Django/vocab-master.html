@@ -3196,9 +3196,132 @@ function grammarBlockHtml(block){
   }
 }
 
+const grammarQuiz = { topic: null, idx: 0, score: 0 };
+
+function grammarNorm(s){
+  return String(s).trim().replace(/\s+/g, ' ').toLowerCase();
+}
+
 function startGrammarQuiz(topic){
-  // Real implementation in the quiz task.
-  console.log('startGrammarQuiz', topic.slug);
+  grammarQuiz.topic = topic;
+  grammarQuiz.idx = 0;
+  grammarQuiz.score = 0;
+  showGrammarView('grammarQuizView');
+  renderGrammarQuestion();
+}
+
+function renderGrammarQuestion(){
+  const t = grammarQuiz.topic;
+  const q = t.quiz[grammarQuiz.idx];
+  const total = t.quiz.length;
+  const view = document.getElementById('grammarQuizView');
+  const pct = Math.round(((grammarQuiz.idx + 1) / total) * 100);
+  const isTyped = q.qtype !== 'mcq';
+  const promptLabel = q.qtype === 'mcq' ? 'Choose the correct option'
+    : q.qtype === 'gap' ? 'Fill the gap' : 'Rewrite the sentence';
+  view.innerHTML = `
+    <button class="back-btn" id="grammarQuizLeaveBtn">← Leave</button>
+    <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+    <div class="q-meta"><span>Question ${grammarQuiz.idx + 1} of ${total}</span><span>Score: ${grammarQuiz.score}</span></div>
+    <div class="q-card">
+      <div class="q-prompt">${promptLabel}</div>
+      <div class="q-text">${q.prompt}</div>
+      ${isTyped
+        ? `<div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+             <input class="gram-gap-input" id="grammarGapInput" type="text" autocomplete="off" spellcheck="false" aria-label="Your answer">
+             <button class="btn" id="grammarCheckBtn">Check</button>
+           </div>`
+        : `<div class="q-options">${q.options.map((opt, i) => `<button class="q-opt" data-i="${i}">${opt}</button>`).join('')}</div>`}
+      <div class="q-feedback"></div>
+      <div class="q-next" style="display:none;"><button class="btn" id="grammarNextBtn">${grammarQuiz.idx + 1 === total ? 'See Results' : 'Next Question'}</button></div>
+    </div>`;
+  document.getElementById('grammarQuizLeaveBtn').addEventListener('click', () => openGrammarTopic(t));
+  if (isTyped){
+    const input = document.getElementById('grammarGapInput');
+    document.getElementById('grammarCheckBtn').addEventListener('click', () => checkGrammarTyped(q, input));
+    input.addEventListener('keydown', e => { if (e.key === 'Enter') checkGrammarTyped(q, input); });
+    input.focus();
+  } else {
+    view.querySelectorAll('.q-opt').forEach(btn => {
+      btn.addEventListener('click', () => checkGrammarMcq(q, btn));
+    });
+  }
+  if (typeof gsap !== 'undefined'){
+    gsap.fromTo(view.querySelector('.q-card'), {opacity:0, y:14}, {opacity:1, y:0, duration:.35, ease:'power2.out'});
+  }
+}
+
+function grammarShowFeedback(isCorrect, feedbackHtml){
+  const view = document.getElementById('grammarQuizView');
+  if (isCorrect) grammarQuiz.score++;
+  view.querySelector('.q-feedback').innerHTML = feedbackHtml;
+  view.querySelector('.q-meta span:last-child').textContent = `Score: ${grammarQuiz.score}`;
+  view.querySelector('.q-next').style.display = 'flex';
+  document.getElementById('grammarNextBtn').addEventListener('click', () => {
+    grammarQuiz.idx++;
+    if (grammarQuiz.idx < grammarQuiz.topic.quiz.length) renderGrammarQuestion();
+    else showGrammarResult();
+  });
+}
+
+function checkGrammarMcq(q, selectedBtn){
+  const view = document.getElementById('grammarQuizView');
+  const correctIdx = q.answers[0];
+  const isCorrect = Number(selectedBtn.dataset.i) === correctIdx;
+  view.querySelectorAll('.q-opt').forEach(btn => {
+    btn.disabled = true;
+    if (Number(btn.dataset.i) === correctIdx) btn.classList.add('correct');
+    else if (btn === selectedBtn) btn.classList.add('wrong');
+  });
+  grammarShowFeedback(isCorrect, `<b>${isCorrect ? 'Correct!' : 'Not quite.'}</b> ${q.why}`);
+}
+
+function checkGrammarTyped(q, input){
+  if (input.disabled) return;
+  if (!grammarNorm(input.value)){
+    document.querySelector('#grammarQuizView .q-feedback').innerHTML = 'Type an answer first — blank submissions aren\'t counted.';
+    return;
+  }
+  const isCorrect = q.answers.some(a => grammarNorm(a) === grammarNorm(input.value));
+  input.disabled = true;
+  document.getElementById('grammarCheckBtn').disabled = true;
+  input.classList.add(isCorrect ? 'correct' : 'wrong');
+  const feedback = isCorrect
+    ? `<b>Correct!</b> ${q.why}`
+    : `<b>Not quite.</b> The answer is “${q.answers[0]}”. ${q.why}`;
+  grammarShowFeedback(isCorrect, feedback);
+}
+
+function showGrammarResult(){
+  const t = grammarQuiz.topic;
+  const total = t.quiz.length;
+  const score = grammarQuiz.score;
+  const pct = Math.round((score / total) * 100);
+  recordGrammarScore(t.slug, pct);
+  showGrammarView('grammarResult');
+  const result = document.getElementById('grammarResult');
+  result.innerHTML = `
+    <h2>${t.title}</h2>
+    <div class="result-score" id="grammarScoreNum">0</div>
+    <div class="result-msg">You scored ${score} out of ${total} (${pct}%). ${pct >= GRAMMAR_PASS_PCT
+      ? 'Topic mastered — it now counts toward your stage progress.'
+      : `Score ${GRAMMAR_PASS_PCT}% or higher to master this topic.`}</div>
+    <div class="result-actions">
+      <button class="btn" id="grammarRetryBtn2">Try Again</button>
+      <button class="btn secondary" id="grammarBackLessonBtn">Back to Lesson</button>
+      <button class="btn secondary" id="grammarBackHomeBtn">Back to Grammar</button>
+    </div>`;
+  const scoreEl = document.getElementById('grammarScoreNum');
+  if (typeof gsap !== 'undefined'){
+    gsap.to({val: 0}, {val: score, duration: 1, ease: 'power1.out', onUpdate(){
+      scoreEl.textContent = Math.round(this.targets()[0].val);
+    }});
+  } else {
+    scoreEl.textContent = score;
+  }
+  document.getElementById('grammarRetryBtn2').addEventListener('click', () => startGrammarQuiz(t));
+  document.getElementById('grammarBackLessonBtn').addEventListener('click', () => openGrammarTopic(t));
+  document.getElementById('grammarBackHomeBtn').addEventListener('click', renderGrammarHome);
 }
 
 /* ════════════════════════════════════════════════════════
@@ -3293,6 +3416,7 @@ document.getElementById("resetProgressBtn").addEventListener("click", () => {
   try {
     localStorage.removeItem(LEARN_STATE_KEY);
     localStorage.removeItem("ivm_learned_words");
+    localStorage.removeItem("grammarProgress");
   } catch(e) {}
   location.reload();
 });
