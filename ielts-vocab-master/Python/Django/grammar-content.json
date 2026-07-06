@@ -2439,5 +2439,2448 @@
         "why": "The adverb of manner \"carefully\" should either precede the verb or follow the object, not interrupt the verb and its object."
       }
     ]
+  },
+  {
+    "slug": "perfect-tenses",
+    "stage": "independent",
+    "title": "Perfect Tenses",
+    "tag": "Tenses",
+    "cefr": "B1–B2",
+    "blurb": "Link past, present and future with have/has/had + past participle — and their continuous forms.",
+    "lesson": [
+      {
+        "type": "intro",
+        "body": "<p>Perfect tenses connect two points in time: an earlier action and a later reference point. The <b>present perfect</b> links the past to now, the <b>past perfect</b> links an earlier past to a later past, and the <b>future perfect</b> links an action to a point still to come.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Present Perfect",
+        "body": "<p>Use <b>have/has + past participle</b> for an unfinished time period (<em>this year, so far</em>), a life experience with no fixed time, or a past action with a present result. Common signals: <em>already, yet, just, ever, never, since, for</em>.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Past Perfect",
+        "body": "<p>Use <b>had + past participle</b> for the earlier of two past actions, to make the sequence clear: <em>By the time the survey closed, researchers had collected over 500 responses.</em></p>"
+      },
+      {
+        "type": "rule",
+        "title": "Perfect Continuous & Future Perfect",
+        "body": "<p>The <b>perfect continuous</b> (<em>have/had been + -ing</em>) stresses the duration of an activity. The <b>future perfect</b> (<em>will have + past participle</em>) describes something completed before a future point: <em>By 2030, the population will have doubled.</em> The <b>future perfect continuous</b> (<em>will have been + -ing</em>) stresses duration up to that future point.</p>"
+      },
+      {
+        "type": "table",
+        "title": "Perfect forms at a glance",
+        "data": {
+          "head": [
+            "Tense",
+            "Form",
+            "Example"
+          ],
+          "rows": [
+            [
+              "Present perfect",
+              "have/has + V3",
+              "Researchers have identified a clear trend."
+            ],
+            [
+              "Past perfect",
+              "had + V3",
+              "The number had already fallen before the survey began."
+            ],
+            [
+              "Future perfect",
+              "will have + V3",
+              "By 2025, sales will have reached a record high."
+            ],
+            [
+              "Present perfect continuous",
+              "have/has been + -ing",
+              "Demand has been rising since January."
+            ]
+          ]
+        }
+      },
+      {
+        "type": "examples",
+        "data": {
+          "items": [
+            {
+              "en": "Researchers have found a strong link between diet and health.",
+              "note": "Present perfect — a past action with a result relevant now."
+            },
+            {
+              "en": "By the time she arrived, the meeting had already started.",
+              "note": "Past perfect — the earlier of two past events."
+            },
+            {
+              "en": "By 2040, the city will have built three new metro lines.",
+              "note": "Future perfect — completed before a future point."
+            },
+            {
+              "en": "Unemployment has been falling steadily for the past two years.",
+              "note": "Present perfect continuous — emphasises duration up to now."
+            },
+            {
+              "en": "He had been working at the company for a decade before he retired.",
+              "note": "Past perfect continuous — duration before another past event."
+            }
+          ]
+        }
+      },
+      {
+        "type": "tip",
+        "body": "<p>In Writing Task 1, use the present perfect (<em>has risen, have fluctuated</em>) for a period running up to the present, and the future perfect (<em>will have reached</em>) for predictions on a graph that extends beyond today. Precise control of these forms is one marker examiners use for band 7+ Grammatical Range and Accuracy.</p>"
+      }
+    ],
+    "quiz": [
+      {
+        "qtype": "mcq",
+        "prompt": "The team ___ three new products this month.",
+        "options": [
+          "has launched",
+          "launched",
+          "was launching",
+          "launch"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "\"This month\" is an unfinished time period, so the present perfect (has launched) is required."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "She already ___ (finish) the report, so she has some free time now.",
+        "answers": [
+          "has finished"
+        ],
+        "why": "\"Already\" with a present result signals the present perfect: has + past participle."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "By the time the survey closed, researchers ___ over 500 responses.",
+        "options": [
+          "have collected",
+          "were collecting",
+          "had collected",
+          "collect"
+        ],
+        "answers": [
+          2
+        ],
+        "why": "Collecting the responses happened before another past event (the survey closing), so the past perfect is needed."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "The plane ___ (already/leave) by the time we reached the airport.",
+        "answers": [
+          "had already left"
+        ],
+        "why": "The leaving happened before another past action (reaching the airport), so the past perfect is required."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "Scientists predict that by 2050, global sea levels ___ by at least half a metre, and they will keep rising after that.",
+        "options": [
+          "will rise",
+          "have risen",
+          "rose",
+          "will have risen"
+        ],
+        "answers": [
+          3
+        ],
+        "why": "\"By 2050\" marks a completed milestone before the rise continues further, so the future perfect is correct."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "By the time you read this letter, I ___ (already/leave) the country.",
+        "answers": [
+          "will already have left"
+        ],
+        "why": "\"By the time\" + a future reference point requires the future perfect."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "Your hands are covered in paint — ___ (you/paint) the fence?",
+        "answers": [
+          "have you been painting",
+          "have you painted"
+        ],
+        "why": "The present perfect continuous links a recent activity to visible present evidence (the paint on the hands)."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "He was exhausted because he ___ (study) all night for the exam.",
+        "answers": [
+          "had been studying",
+          "had studied"
+        ],
+        "why": "An activity leading up to another past state (exhaustion) can take the past perfect continuous or past perfect."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "She ___ to Japan in 2019.",
+        "options": [
+          "travels",
+          "travelled",
+          "has travelled",
+          "was travelling"
+        ],
+        "answers": [
+          1
+        ],
+        "why": "\"In 2019\" is a finished, specific past time, so the present perfect cannot be used — the simple past is correct."
+      },
+      {
+        "qtype": "transform",
+        "prompt": "Rewrite using the present perfect: \"The last time I saw her was three years ago.\"",
+        "answers": [
+          "I haven't seen her for three years.",
+          "I have not seen her for three years.",
+          "I haven't seen her for three years",
+          "I have not seen her for three years"
+        ],
+        "why": "The negative present perfect with \"for\" expresses time since a past action up to now."
+      }
+    ]
+  },
+  {
+    "slug": "passive-voice",
+    "stage": "independent",
+    "title": "Passive & Active Voice",
+    "tag": "Voice",
+    "cefr": "B1–B2",
+    "blurb": "Shift the focus from the doer to the action with be + past participle.",
+    "lesson": [
+      {
+        "type": "intro",
+        "body": "<p>In the <b>active</b> voice, the subject performs the action (<em>Workers built the bridge</em>). In the <b>passive</b> voice, the subject receives the action (<em>The bridge was built</em>). English switches to the passive when the doer is unknown, unimportant, obvious, or simply less important than the action itself.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Forming the passive",
+        "body": "<p>Use <b>be</b> (in the tense you need) <b>+ past participle</b>. The doer is optional and added with <em>by</em> only when it matters: <em>The report was written (by three researchers).</em></p>"
+      },
+      {
+        "type": "rule",
+        "title": "When to use the passive",
+        "body": "<p>Choose the passive when the agent is unknown or unimportant, when describing a general process, or when a formal, objective tone is needed — very common in academic writing and IELTS Task 1 process diagrams.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Passive across tenses and modals",
+        "body": "<p>Almost every tense has a passive form: <em>is produced</em> (present simple), <em>was built</em> (past simple), <em>has been completed</em> (present perfect), <em>will be launched</em> (future), <em>must be submitted</em> (modal + be + past participle).</p>"
+      },
+      {
+        "type": "table",
+        "title": "Passive forms across tenses",
+        "data": {
+          "head": [
+            "Tense",
+            "Active",
+            "Passive"
+          ],
+          "rows": [
+            [
+              "Present simple",
+              "Manufacturers produce the goods.",
+              "The goods are produced."
+            ],
+            [
+              "Past simple",
+              "Workers built the bridge in 1932.",
+              "The bridge was built in 1932."
+            ],
+            [
+              "Present perfect",
+              "They have completed the survey.",
+              "The survey has been completed."
+            ],
+            [
+              "Modal",
+              "You must submit the form.",
+              "The form must be submitted."
+            ]
+          ]
+        }
+      },
+      {
+        "type": "examples",
+        "data": {
+          "items": [
+            {
+              "en": "Steel is produced by heating iron ore in a furnace.",
+              "note": "Present simple passive — describing a general process."
+            },
+            {
+              "en": "The bridge was completed in 1932.",
+              "note": "Past simple passive — the builder is unimportant."
+            },
+            {
+              "en": "The results will be announced next Friday.",
+              "note": "Future passive."
+            },
+            {
+              "en": "The proposal has already been approved by the committee.",
+              "note": "Present perfect passive with a stated agent."
+            },
+            {
+              "en": "All applications must be submitted online.",
+              "note": "Modal passive — an obligation about the process, not the doer."
+            }
+          ]
+        }
+      },
+      {
+        "type": "tip",
+        "body": "<p>Task 1 process diagrams are almost always described in the passive (<em>the material is heated, then it is cooled</em>) because no individual agent is relevant. In Speaking, however, overusing the passive can sound unnatural — balancing active and passive is part of band 7+ Grammatical Range and Accuracy.</p>"
+      }
+    ],
+    "quiz": [
+      {
+        "qtype": "mcq",
+        "prompt": "The bridge ___ in 1932.",
+        "options": [
+          "was built",
+          "built",
+          "has build",
+          "is building"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "The builder is not mentioned and is unimportant, so the past simple passive (was built) is correct."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "Steel ___ (produce) in large factories using this method.",
+        "answers": [
+          "is produced"
+        ],
+        "why": "A general process with no stated agent takes the present simple passive."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "This report ___ by three researchers.",
+        "options": [
+          "wrote",
+          "was written",
+          "has write",
+          "is write"
+        ],
+        "answers": [
+          1
+        ],
+        "why": "The focus is on the report, not the researchers, so the passive (was written) fits, with the agent added by \"by\"."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "The results ___ (announce) at tomorrow's press conference.",
+        "answers": [
+          "will be announced"
+        ],
+        "why": "A future action with no important agent takes the future passive: will be + past participle."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "All applications ___ submitted online before the deadline.",
+        "options": [
+          "must",
+          "are must",
+          "must be",
+          "must being"
+        ],
+        "answers": [
+          2
+        ],
+        "why": "A modal passive needs modal + be + past participle: must be submitted."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "The new policy ___ (already/implement) in several regions.",
+        "answers": [
+          "has already been implemented"
+        ],
+        "why": "An unfinished time period with an unstated agent takes the present perfect passive."
+      },
+      {
+        "qtype": "transform",
+        "prompt": "Rewrite in the passive: \"Someone stole my laptop last night.\"",
+        "answers": [
+          "My laptop was stolen last night.",
+          "My laptop was stolen last night"
+        ],
+        "why": "The unknown agent (\"someone\") is dropped and the focus shifts to the laptop, the receiver of the action."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "The museum ___ (visit) by thousands of tourists every year.",
+        "answers": [
+          "is visited"
+        ],
+        "why": "A general, repeated fact about the museum takes the present simple passive."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "Which sentence best fits an academic description of a manufacturing process, where the person doing the action does not need to be mentioned?",
+        "options": [
+          "Workers heat the mixture to 200°C.",
+          "The mixture heating happens.",
+          "The mixture is heated to 200°C.",
+          "Heat the mixture."
+        ],
+        "answers": [
+          2
+        ],
+        "why": "Process descriptions in academic writing omit the agent and focus on the action, so the passive is preferred."
+      },
+      {
+        "qtype": "transform",
+        "prompt": "Rewrite in the passive: \"The company will launch the product next month.\"",
+        "answers": [
+          "The product will be launched next month.",
+          "The product will be launched next month"
+        ],
+        "why": "The future passive (will be + past participle) shifts focus from the company to the product."
+      }
+    ]
+  },
+  {
+    "slug": "reported-speech",
+    "stage": "independent",
+    "title": "Reported Speech",
+    "tag": "Sentence",
+    "cefr": "B1–B2",
+    "blurb": "Report what people said with tense back-shift, and pronoun and time changes.",
+    "lesson": [
+      {
+        "type": "intro",
+        "body": "<p>Reported (indirect) speech tells us what someone said without quoting their exact words. When the reporting verb is in the past (<em>she said</em>), the tense of the original words usually shifts one step back, and pronouns and time/place words change to fit the new speaker and moment.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Tense back-shift",
+        "body": "<p>Present simple → past simple; present continuous → past continuous; present perfect → past perfect; past simple → past perfect; <b>will</b> → <b>would</b>; <b>can</b> → <b>could</b>; <b>must</b> → <b>had to</b>.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Pronoun, time and place changes",
+        "body": "<p><em>I</em> → he/she; <em>my</em> → his/her; <em>now</em> → then; <em>today</em> → that day; <em>tomorrow</em> → the next day; <em>here</em> → there; <em>this</em> → that.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Reporting questions and commands",
+        "body": "<p>Reported questions use statement word order (no auxiliary inversion, no question mark), with <em>if/whether</em> for yes/no questions or the wh-word for wh-questions. Reported commands and requests use <b>told/asked + object + to-infinitive</b>: <em>She told me to close the door.</em></p>"
+      },
+      {
+        "type": "table",
+        "title": "Direct → Reported",
+        "data": {
+          "head": [
+            "Direct speech",
+            "Reported speech"
+          ],
+          "rows": [
+            [
+              "\"I am tired,\" she said.",
+              "She said (that) she was tired."
+            ],
+            [
+              "\"I will call you,\" he said.",
+              "He said (that) he would call me."
+            ],
+            [
+              "\"Do you like coffee?\" she asked.",
+              "She asked if I liked coffee."
+            ],
+            [
+              "\"Close the door,\" he said.",
+              "He told me to close the door."
+            ]
+          ]
+        }
+      },
+      {
+        "type": "examples",
+        "data": {
+          "items": [
+            {
+              "en": "She said (that) she was studying for her exam.",
+              "note": "Present continuous shifts to past continuous."
+            },
+            {
+              "en": "He asked where I worked.",
+              "note": "Reported wh-question — statement word order, no \"do\"."
+            },
+            {
+              "en": "She asked if I lived nearby.",
+              "note": "Reported yes/no question uses \"if\"."
+            },
+            {
+              "en": "The manager told the staff to submit their reports by Friday.",
+              "note": "Reported command with told + object + to-infinitive."
+            },
+            {
+              "en": "He said he would finish the project the next day.",
+              "note": "\"Will\" → \"would\"; \"tomorrow\" → \"the next day\"."
+            }
+          ]
+        }
+      },
+      {
+        "type": "tip",
+        "body": "<p>In Speaking Part 2 narrative tasks and in Writing when you summarise what a source said, accurate back-shift (especially remembering to change <em>will</em> to <em>would</em>) signals strong grammatical range. Forgetting the shift is one of the most common slips at this level.</p>"
+      }
+    ],
+    "quiz": [
+      {
+        "qtype": "mcq",
+        "prompt": "Direct: \"I am studying for my exam,\" she said. Reported: She said (that) she ___ for her exam.",
+        "options": [
+          "is studying",
+          "was studying",
+          "has studied",
+          "studies"
+        ],
+        "answers": [
+          1
+        ],
+        "why": "The reporting verb \"said\" is past, so the present continuous shifts back to the past continuous."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "\"I will finish the report tomorrow,\" he said. → He said he ___ (finish) the report the next day.",
+        "answers": [
+          "would finish"
+        ],
+        "why": "\"Will\" back-shifts to \"would\" when the reporting verb is past."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "Direct: \"Do you live here?\" she asked. Reported:",
+        "options": [
+          "She asked if I lived there.",
+          "She asked do I live there.",
+          "She asked if I live here.",
+          "She asked if did I live there."
+        ],
+        "answers": [
+          0
+        ],
+        "why": "Reported yes/no questions use \"if\" + statement word order, with tense and place words shifted back (live→lived, here→there)."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "\"Where do you work?\" he asked. → He asked where ___ (I/work).",
+        "answers": [
+          "I worked"
+        ],
+        "why": "Reported wh-questions drop \"do\" and use statement word order, with the tense shifted back."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "Direct: \"Sit down,\" the teacher said. Reported:",
+        "options": [
+          "The teacher told us to sit down.",
+          "The teacher said to us sit down.",
+          "The teacher told us sit down.",
+          "The teacher said us to sit down."
+        ],
+        "answers": [
+          0
+        ],
+        "why": "Reported commands use told + object + to-infinitive."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "\"I can help you,\" she said. → She said she ___ (can) help me.",
+        "answers": [
+          "could"
+        ],
+        "why": "\"Can\" back-shifts to \"could\" in reported speech."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "\"I'll finish this today,\" he said. Reported later: He said he would finish it ___.",
+        "options": [
+          "today",
+          "that day",
+          "tomorrow",
+          "yesterday"
+        ],
+        "answers": [
+          1
+        ],
+        "why": "\"Today\" shifts to \"that day\" when the reporting happens at a different time."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "\"You must arrive early,\" the manager said. → The manager said we ___ (must) arrive early.",
+        "answers": [
+          "had to"
+        ],
+        "why": "\"Must\" (obligation) back-shifts to \"had to\" in reported speech."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "\"My car broke down,\" she said. → She said ___ car had broken down.",
+        "options": [
+          "my",
+          "her",
+          "she",
+          "hers"
+        ],
+        "answers": [
+          1
+        ],
+        "why": "The first-person possessive \"my\" shifts to the third-person \"her\" when reported by someone else."
+      },
+      {
+        "qtype": "transform",
+        "prompt": "Rewrite in reported speech: \"I have lost my keys,\" she said.",
+        "answers": [
+          "She said (that) she had lost her keys.",
+          "She said she had lost her keys.",
+          "She said that she had lost her keys."
+        ],
+        "why": "Present perfect back-shifts to past perfect, and \"my\" shifts to \"her\"."
+      }
+    ]
+  },
+  {
+    "slug": "conditionals",
+    "stage": "independent",
+    "title": "Conditionals 0–3",
+    "tag": "Conditionals",
+    "cefr": "B1–B2",
+    "blurb": "Talk about facts, likely futures, hypotheticals and past regrets with if-clauses.",
+    "lesson": [
+      {
+        "type": "intro",
+        "body": "<p>Conditional sentences link a condition (the <em>if</em>-clause) to a result. English has four main patterns, each expressing a different degree of reality or time: general facts, real future possibilities, unreal present situations, and impossible past situations.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Zero & First conditional",
+        "body": "<p><b>Zero</b> conditional (<em>if + present simple, present simple</em>) states a general truth: <em>If you heat ice, it melts.</em> <b>First</b> conditional (<em>if + present simple, will + base</em>) describes a real future possibility: <em>If demand rises, prices will increase.</em></p>"
+      },
+      {
+        "type": "rule",
+        "title": "Second conditional",
+        "body": "<p>Use <em>if + past simple, would + base</em> for a hypothetical present or future: <em>If the government invested more, unemployment would fall.</em> In formal or hypothetical style, <b>were</b> replaces <b>was</b> for all persons: <em>If I were you, I would apply.</em></p>"
+      },
+      {
+        "type": "rule",
+        "title": "Third conditional & mixed",
+        "body": "<p>Use <em>if + past perfect, would have + past participle</em> for an impossible past: <em>If the policy had been implemented earlier, the crisis would have been avoided.</em> A <b>mixed conditional</b> (<em>if + past perfect, would + base</em>) links a past cause to a present result: <em>If she had studied medicine, she would be a doctor now.</em></p>"
+      },
+      {
+        "type": "table",
+        "title": "Conditional forms",
+        "data": {
+          "head": [
+            "Type",
+            "If-clause",
+            "Main clause",
+            "Example"
+          ],
+          "rows": [
+            [
+              "Zero",
+              "present simple",
+              "present simple",
+              "If you freeze water, it turns to ice."
+            ],
+            [
+              "First",
+              "present simple",
+              "will + base",
+              "If prices fall, demand will increase."
+            ],
+            [
+              "Second",
+              "past simple",
+              "would + base",
+              "If I had more time, I would travel more."
+            ],
+            [
+              "Third",
+              "past perfect",
+              "would have + V3",
+              "If they had invested earlier, they would have profited."
+            ]
+          ]
+        }
+      },
+      {
+        "type": "examples",
+        "data": {
+          "items": [
+            {
+              "en": "If you mix red and blue paint, you get purple.",
+              "note": "Zero conditional — a general, always-true fact."
+            },
+            {
+              "en": "If the trend continues, prices will double by 2030.",
+              "note": "First conditional — a real future possibility."
+            },
+            {
+              "en": "If more people used bicycles, air pollution would fall.",
+              "note": "Second conditional — a present hypothetical."
+            },
+            {
+              "en": "If she had left earlier, she would have caught the train.",
+              "note": "Third conditional — an impossible past."
+            },
+            {
+              "en": "If she had studied engineering, she would have a very different career now.",
+              "note": "Mixed conditional — a past condition, present result."
+            }
+          ]
+        }
+      },
+      {
+        "type": "tip",
+        "body": "<p>For band 7+ Speaking and Writing, the second and third conditionals are often needed to discuss hypothetical solutions (<em>If the government were to invest in public transport, congestion would decrease</em>) and to evaluate past policy (<em>If stricter laws had been introduced, the outcome would have been different</em>).</p>"
+      }
+    ],
+    "quiz": [
+      {
+        "qtype": "mcq",
+        "prompt": "If you ___ water to 100°C, it boils.",
+        "options": [
+          "heat",
+          "will heat",
+          "heated",
+          "would heat"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "A general scientific fact uses the zero conditional: if + present simple, present simple."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "If the trend ___ (continue), prices will double by 2030.",
+        "answers": [
+          "continues"
+        ],
+        "why": "The if-clause of a first conditional uses the present simple, even though the meaning is future."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "If it rains tomorrow, the match ___.",
+        "options": [
+          "is cancelled",
+          "will be cancelled",
+          "would be cancelled",
+          "cancels"
+        ],
+        "answers": [
+          1
+        ],
+        "why": "A real future possibility takes the first conditional: if + present simple, will + base."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "If I ___ (be) you, I would reconsider the offer.",
+        "answers": [
+          "were",
+          "was"
+        ],
+        "why": "The second conditional describes a hypothetical, and \"were\" (or informally \"was\") is used with \"if I\"."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "If she ___ earlier, she would have caught the train.",
+        "options": [
+          "left",
+          "had left",
+          "has left",
+          "would leave"
+        ],
+        "answers": [
+          1
+        ],
+        "why": "The third conditional describes an impossible past: if + past perfect, would have + past participle."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "If the company ___ (invest) sooner, it would have avoided the loss.",
+        "answers": [
+          "had invested"
+        ],
+        "why": "The if-clause of a third conditional needs the past perfect."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "If more people ___ bicycles, air pollution would fall.",
+        "options": [
+          "use",
+          "used",
+          "will use",
+          "would use"
+        ],
+        "answers": [
+          1
+        ],
+        "why": "The second conditional's if-clause uses the past simple for a hypothetical present situation."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "If she ___ (study) engineering, she would have a very different career now.",
+        "answers": [
+          "had studied"
+        ],
+        "why": "A mixed conditional pairs a past-perfect condition with a present result (would + base)."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "If you mix red and blue, you ___ purple.",
+        "options": [
+          "get",
+          "will get",
+          "got",
+          "would get"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "A general truth about colour mixing uses the zero conditional, not the first or second."
+      },
+      {
+        "qtype": "transform",
+        "prompt": "Rewrite as a third conditional: \"She didn't warn us, so we made a mistake.\"",
+        "answers": [
+          "If she had warned us, we wouldn't have made a mistake.",
+          "If she had warned us, we would not have made a mistake.",
+          "If she had warned us, we wouldn't have made a mistake",
+          "If she had warned us, we would not have made a mistake"
+        ],
+        "why": "The unreal past cause and result both take third conditional forms: had warned / would (not) have made."
+      }
+    ]
+  },
+  {
+    "slug": "relative-clauses",
+    "stage": "independent",
+    "title": "Relative Clauses",
+    "tag": "Clauses",
+    "cefr": "B1–B2",
+    "blurb": "Add detail with who/which/that/whose — and know when commas are required.",
+    "lesson": [
+      {
+        "type": "intro",
+        "body": "<p>A relative clause adds information about a noun using a relative pronoun (<em>who, which, that, whose, where, when</em>). <b>Defining</b> clauses identify which one is meant; <b>non-defining</b> clauses simply add extra, non-essential information.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Defining relative clauses",
+        "body": "<p>No commas; the information is essential to the meaning. <em>That</em> or <em>who/which</em> can both be used, and the pronoun can be dropped if it is the object of the clause: <em>The report (that) she wrote won an award.</em></p>"
+      },
+      {
+        "type": "rule",
+        "title": "Non-defining relative clauses",
+        "body": "<p>Commas are required; the information is extra and could be removed without changing the core meaning. <em>That</em> cannot be used, and the pronoun cannot be dropped: <em>The Amazon, which covers much of Brazil, is shrinking.</em></p>"
+      },
+      {
+        "type": "rule",
+        "title": "Whose, where, when",
+        "body": "<p><b>Whose</b> shows possession (<em>the woman whose car was stolen</em>); <b>where</b> refers to a place (<em>the town where I grew up</em>); <b>when</b> refers to a time (<em>2010 was the year when the company was founded</em>).</p>"
+      },
+      {
+        "type": "table",
+        "title": "Defining vs non-defining",
+        "data": {
+          "head": [
+            "Feature",
+            "Defining",
+            "Non-defining"
+          ],
+          "rows": [
+            [
+              "Commas",
+              "No commas",
+              "Commas required"
+            ],
+            [
+              "Meaning if removed",
+              "Sentence meaning changes",
+              "Sentence meaning barely changes"
+            ],
+            [
+              "Can use \"that\"?",
+              "Yes",
+              "No"
+            ],
+            [
+              "Can omit the pronoun (object)?",
+              "Yes",
+              "No"
+            ]
+          ]
+        }
+      },
+      {
+        "type": "examples",
+        "data": {
+          "items": [
+            {
+              "en": "The scientist who discovered the vaccine won a prize.",
+              "note": "Defining clause — identifies which scientist."
+            },
+            {
+              "en": "The Nile, which flows through eleven countries, is the longest river in Africa.",
+              "note": "Non-defining clause — extra information, set off by commas."
+            },
+            {
+              "en": "The company whose profits doubled last year is expanding rapidly.",
+              "note": "\"Whose\" shows possession."
+            },
+            {
+              "en": "This is the town where I grew up.",
+              "note": "\"Where\" replaces \"in which\" for a place."
+            },
+            {
+              "en": "The theory that was proposed in 1990 is now outdated.",
+              "note": "Defining clause with \"that\" — no commas."
+            }
+          ]
+        }
+      },
+      {
+        "type": "tip",
+        "body": "<p>In Writing Task 2, a non-defining clause (<em>...which is a major concern,</em>) lets you add an evaluative comment smoothly inside one sentence. A missing comma before a non-defining clause is a common accuracy error, so check the punctuation as carefully as the pronoun choice.</p>"
+      }
+    ],
+    "quiz": [
+      {
+        "qtype": "mcq",
+        "prompt": "The scientist ___ discovered the vaccine won a prize.",
+        "options": [
+          "who",
+          "which",
+          "whose",
+          "where"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "\"Who\" refers to a person as the subject of the clause."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "The company ___ profits doubled last year is expanding rapidly.",
+        "answers": [
+          "whose"
+        ],
+        "why": "\"Whose\" shows that the profits belong to the company."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "Choose the correctly punctuated sentence (the speaker has only one brother).",
+        "options": [
+          "My brother who lives in Canada is a doctor.",
+          "My brother, who lives in Canada, is a doctor.",
+          "My brother, who lives in Canada is a doctor.",
+          "My brother who lives in Canada, is a doctor."
+        ],
+        "answers": [
+          1
+        ],
+        "why": "With only one brother, the clause is non-defining extra information and needs a comma on both sides."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "The museum ___ hosted the exhibition is in the city centre.",
+        "answers": [
+          "that",
+          "which"
+        ],
+        "why": "A defining clause identifying the museum can use \"that\" or \"which\" as the subject."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "The woman ___ car was stolen called the police.",
+        "options": [
+          "who's",
+          "whose",
+          "who",
+          "which"
+        ],
+        "answers": [
+          1
+        ],
+        "why": "\"Whose\" shows possession (the woman's car), not \"who's\" (who is/has)."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "2010 was the year ___ the company was founded.",
+        "answers": [
+          "when"
+        ],
+        "why": "\"When\" introduces a relative clause about a time."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "The Nile, ___ flows through eleven countries, is the longest river in Africa.",
+        "options": [
+          "that",
+          "which",
+          "who",
+          "whose"
+        ],
+        "answers": [
+          1
+        ],
+        "why": "This is a non-defining clause (set off by commas), so \"that\" cannot be used; \"which\" is correct."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "This is the town ___ I grew up.",
+        "answers": [
+          "where"
+        ],
+        "why": "\"Where\" refers to the place (the town) and replaces \"in which\"."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "Which sentence is correctly punctuated?",
+        "options": [
+          "The theory, that was proposed in 1990, is now outdated.",
+          "The theory that was proposed in 1990 is now outdated.",
+          "The theory which was proposed in 1990, is now outdated.",
+          "The theory, which was proposed in 1990 is now outdated."
+        ],
+        "answers": [
+          1
+        ],
+        "why": "This is a defining clause identifying which theory, so no commas are used and \"that\" is allowed."
+      },
+      {
+        "qtype": "transform",
+        "prompt": "Combine using a relative clause: \"The professor won an award. She teaches linguistics.\"",
+        "answers": [
+          "The professor who teaches linguistics won an award.",
+          "The professor, who teaches linguistics, won an award.",
+          "The professor who teaches linguistics won an award",
+          "The professor, who teaches linguistics, won an award"
+        ],
+        "why": "\"Who\" introduces a clause identifying or adding information about the professor."
+      }
+    ]
+  },
+  {
+    "slug": "modal-verbs",
+    "stage": "independent",
+    "title": "Modal Verbs",
+    "tag": "Modals",
+    "cefr": "B1–B2",
+    "blurb": "Express ability, permission, obligation, advice and deduction with modal verbs.",
+    "lesson": [
+      {
+        "type": "intro",
+        "body": "<p>Modal verbs (<em>can, could, may, might, must, should, will, would</em>) add meaning such as ability, permission, obligation, advice or possibility to a main verb. They are followed by the base form, with no <em>-s</em> and no <em>to</em>.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Ability & permission",
+        "body": "<p><b>Can/could</b> express ability or informal permission: <em>Can I ask a question?</em> <b>May</b> expresses more formal permission: <em>May I ask a question?</em> Other tenses use <em>be able to</em>: <em>She hasn't been able to attend.</em></p>"
+      },
+      {
+        "type": "rule",
+        "title": "Obligation & advice",
+        "body": "<p><b>Must</b> shows the speaker's own strong feeling of obligation; <b>have to</b> shows an obligation from an outside rule. <b>Mustn't</b> means prohibition, while <b>don't have to</b> means there is no obligation — a very different meaning. <b>Should/ought to</b> give advice.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Possibility & deduction",
+        "body": "<p><b>May/might/could</b> express possibility; <b>must</b> expresses a confident positive deduction; <b>can't</b> expresses a confident negative deduction: <em>That can't be true.</em></p>"
+      },
+      {
+        "type": "table",
+        "title": "Modals for deduction",
+        "data": {
+          "head": [
+            "Certainty",
+            "Modal",
+            "Example"
+          ],
+          "rows": [
+            [
+              "Almost certain (positive)",
+              "must",
+              "She must be the new manager."
+            ],
+            [
+              "Possible",
+              "may / might / could",
+              "The results might be inaccurate."
+            ],
+            [
+              "Almost certain (negative)",
+              "can't",
+              "That can't be true."
+            ]
+          ]
+        }
+      },
+      {
+        "type": "examples",
+        "data": {
+          "items": [
+            {
+              "en": "You mustn't smoke in this building.",
+              "note": "Prohibition, not simply \"no obligation\"."
+            },
+            {
+              "en": "You don't have to attend the meeting if you're busy.",
+              "note": "No obligation — very different from mustn't."
+            },
+            {
+              "en": "The lights are off and the car is gone — she must have left already.",
+              "note": "Confident positive deduction about the past."
+            },
+            {
+              "en": "It might rain later, so take an umbrella just in case.",
+              "note": "Possibility, not certainty."
+            },
+            {
+              "en": "Passengers have to show a valid ticket before boarding.",
+              "note": "Obligation from an external rule."
+            }
+          ]
+        }
+      },
+      {
+        "type": "tip",
+        "body": "<p>Confusing <b>mustn't</b> (prohibition) with <b>don't have to</b> (no obligation) is a common band-lowering error in IELTS Speaking and Writing when discussing rules or policies. Check the meaning, not just the modal, before you write it down.</p>"
+      }
+    ],
+    "quiz": [
+      {
+        "qtype": "mcq",
+        "prompt": "You ___ smoke in this building — it's strictly forbidden.",
+        "options": [
+          "mustn't",
+          "don't have to",
+          "might not",
+          "don't must"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "\"Mustn't\" expresses prohibition, matching \"strictly forbidden\"."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "You ___ (not/have) to attend the meeting if you're busy — it's optional.",
+        "answers": [
+          "don't have"
+        ],
+        "why": "\"Don't have to\" means there is no obligation, matching \"optional\"."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "The lights are off and the car is gone — she ___ have left already.",
+        "options": [
+          "might",
+          "must",
+          "can't",
+          "should"
+        ],
+        "answers": [
+          1
+        ],
+        "why": "The evidence strongly supports one conclusion, so \"must\" expresses a confident positive deduction."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "That ___ (can) be right — the figures don't add up.",
+        "answers": [
+          "can't"
+        ],
+        "why": "\"Can't\" expresses a confident negative deduction."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "In my opinion, you ___ practise writing every day if you want a higher score.",
+        "options": [
+          "can",
+          "may",
+          "should",
+          "must"
+        ],
+        "answers": [
+          2
+        ],
+        "why": "\"In my opinion\" signals advice rather than an order, so \"should\" is correct."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "She ___ (can) speak three languages by the age of ten.",
+        "answers": [
+          "could"
+        ],
+        "why": "\"Could\" expresses general ability in the past."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "___ I use your phone, please?",
+        "options": [
+          "Must",
+          "Should",
+          "May",
+          "Would"
+        ],
+        "answers": [
+          2
+        ],
+        "why": "\"May\" is the standard modal for formally requesting permission."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "Passengers ___ (have) to show a valid ticket before boarding.",
+        "answers": [
+          "have"
+        ],
+        "why": "\"Have to\" expresses an obligation set by an outside rule (the airline/station)."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "It ___ rain later, so take an umbrella just in case.",
+        "options": [
+          "must",
+          "might",
+          "can't",
+          "should"
+        ],
+        "answers": [
+          1
+        ],
+        "why": "\"Might\" expresses possibility, not certainty, matching \"just in case\"."
+      },
+      {
+        "qtype": "transform",
+        "prompt": "Rewrite using \"must\" for logical deduction: \"I'm sure he is the manager because he has the office keys.\"",
+        "answers": [
+          "He must be the manager.",
+          "He must be the manager"
+        ],
+        "why": "\"Must\" expresses a confident deduction based on evidence."
+      }
+    ]
+  },
+  {
+    "slug": "gerunds-infinitives",
+    "stage": "independent",
+    "title": "Gerunds vs Infinitives",
+    "tag": "Verb Patterns",
+    "cefr": "B1–B2",
+    "blurb": "Choose -ing or to + verb after the right verbs, adjectives and prepositions.",
+    "lesson": [
+      {
+        "type": "intro",
+        "body": "<p>Some verbs are followed by a <b>gerund</b> (<em>-ing</em>), some by a <b>to-infinitive</b>, and a few can take either — with a change in meaning. Gerunds also follow prepositions.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Verbs + gerund",
+        "body": "<p><em>enjoy, avoid, suggest, consider, finish, mind, admit, practise</em> + <b>-ing</b>: <em>She suggested revising the essay.</em></p>"
+      },
+      {
+        "type": "rule",
+        "title": "Verbs + to-infinitive",
+        "body": "<p><em>want, decide, agree, plan, hope, afford, manage, refuse</em> + <b>to + base verb</b>: <em>They decided to postpone the meeting.</em></p>"
+      },
+      {
+        "type": "rule",
+        "title": "Verbs that take both, with a meaning change",
+        "body": "<p><em>remember/forget/stop/try</em> + gerund or infinitive change meaning. <b>Stop smoking</b> (quit the habit) vs <b>stop to smoke</b> (pause in order to smoke). <b>Remember doing</b> (a memory of a past act) vs <b>remember to do</b> (not forgetting a future obligation).</p>"
+      },
+      {
+        "type": "table",
+        "title": "Patterns at a glance",
+        "data": {
+          "head": [
+            "Pattern",
+            "Example"
+          ],
+          "rows": [
+            [
+              "Verb + gerund",
+              "She suggested revising the essay."
+            ],
+            [
+              "Verb + to-infinitive",
+              "They decided to postpone the meeting."
+            ],
+            [
+              "Verb + preposition + gerund",
+              "He is interested in studying abroad."
+            ],
+            [
+              "Adjective + preposition + gerund",
+              "She is good at solving problems."
+            ]
+          ]
+        }
+      },
+      {
+        "type": "examples",
+        "data": {
+          "items": [
+            {
+              "en": "She enjoys learning new languages.",
+              "note": "Verb + gerund."
+            },
+            {
+              "en": "They decided to postpone the conference until next year.",
+              "note": "Verb + to-infinitive."
+            },
+            {
+              "en": "I remember reading this article last year — it was fascinating.",
+              "note": "Remember + gerund = a memory of a past action."
+            },
+            {
+              "en": "Please remember to lock the door before you leave.",
+              "note": "Remember + to-infinitive = don't forget a future task."
+            },
+            {
+              "en": "We stopped to have a coffee on the way to work.",
+              "note": "Stop + to-infinitive = paused in order to do something."
+            }
+          ]
+        }
+      },
+      {
+        "type": "tip",
+        "body": "<p>Mixing up <em>remember to do</em> and <em>remember doing</em> — or overusing one pattern — signals limited range. For band 7+ Grammatical Range and Accuracy, examiners reward accurate variety across gerund and infinitive patterns.</p>"
+      }
+    ],
+    "quiz": [
+      {
+        "qtype": "mcq",
+        "prompt": "She enjoys ___ new languages.",
+        "options": [
+          "learn",
+          "to learn",
+          "learning",
+          "learned"
+        ],
+        "answers": [
+          2
+        ],
+        "why": "\"Enjoy\" is always followed by a gerund."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "They decided ___ (postpone) the conference until next year.",
+        "answers": [
+          "to postpone"
+        ],
+        "why": "\"Decide\" is followed by a to-infinitive."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "He avoids ___ junk food before exams.",
+        "options": [
+          "eating",
+          "to eat",
+          "eat",
+          "ate"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "\"Avoid\" is always followed by a gerund."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "She is interested in ___ (study) renewable energy.",
+        "answers": [
+          "studying"
+        ],
+        "why": "A preposition (\"in\") is followed by a gerund, not an infinitive."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "I remember ___ this article last year — it was fascinating.",
+        "options": [
+          "to read",
+          "reading",
+          "read",
+          "to reading"
+        ],
+        "answers": [
+          1
+        ],
+        "why": "\"Remember + gerund\" refers to a memory of something already done."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "Please remember ___ (lock) the door before you leave.",
+        "answers": [
+          "to lock"
+        ],
+        "why": "\"Remember + to-infinitive\" means not forgetting a task that still needs to be done."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "We stopped ___ a coffee for five minutes on the way to work.",
+        "options": [
+          "to have",
+          "having",
+          "have",
+          "had"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "\"Stop + to-infinitive\" means pausing one activity (walking/driving) in order to do another (have a coffee)."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "The government has agreed ___ (increase) funding for public transport.",
+        "answers": [
+          "to increase"
+        ],
+        "why": "\"Agree\" is followed by a to-infinitive."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "The report suggested ___ the current policy.",
+        "options": [
+          "to review",
+          "reviewing",
+          "review",
+          "reviewed"
+        ],
+        "answers": [
+          1
+        ],
+        "why": "\"Suggest\" is always followed by a gerund, never a to-infinitive."
+      },
+      {
+        "qtype": "transform",
+        "prompt": "Rewrite so the sentence uses \"to + infinitive\": \"She managed finishing the project on time.\"",
+        "answers": [
+          "She managed to finish the project on time.",
+          "She managed to finish the project on time"
+        ],
+        "why": "\"Manage\" takes a to-infinitive, not a gerund."
+      }
+    ]
+  },
+  {
+    "slug": "used-to",
+    "stage": "independent",
+    "title": "Used to / Would / Be used to",
+    "tag": "Verb Patterns",
+    "cefr": "B1–B2",
+    "blurb": "Talk about past habits with used to/would, and present adaptation with be/get used to.",
+    "lesson": [
+      {
+        "type": "intro",
+        "body": "<p>Three similar-looking structures have very different meanings. <b>Used to + base</b> describes a past habit or state that is no longer true. <b>Would + base</b> describes a repeated past action (not a state). <b>Be/get used to + -ing/noun</b> describes familiarity or adapting to a situation, in any tense.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Used to",
+        "body": "<p>A past habit or state that is no longer true: <em>I used to live in Hanoi.</em> Questions and negatives use <em>did</em>: <em>Did you use to play tennis? I didn't use to like coffee.</em></p>"
+      },
+      {
+        "type": "rule",
+        "title": "Would (habitual past)",
+        "body": "<p>Repeated past actions only, not states such as <em>live, have, know, like, hate</em>: <em>Every summer, we would visit our grandparents.</em> You cannot say \"would live\" or \"would hate\" to describe a past state.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Be/get used to",
+        "body": "<p><b>Be used to + -ing/noun</b> means accustomed to something (any tense: is/was/will be used to). <b>Get used to</b> describes the process of becoming accustomed. This has a completely different meaning from \"used to do\" — a common confusion.</p>"
+      },
+      {
+        "type": "table",
+        "title": "Three look-alikes",
+        "data": {
+          "head": [
+            "Structure",
+            "Meaning",
+            "Example"
+          ],
+          "rows": [
+            [
+              "used to + base",
+              "past habit/state, not now true",
+              "She used to smoke."
+            ],
+            [
+              "would + base",
+              "repeated past action (not states)",
+              "She would jog every morning."
+            ],
+            [
+              "be/get used to + -ing",
+              "accustomed to / adapting to",
+              "She is used to working nights now."
+            ]
+          ]
+        }
+      },
+      {
+        "type": "examples",
+        "data": {
+          "items": [
+            {
+              "en": "When I was a child, I would go to the beach every summer.",
+              "note": "Would + repeated action."
+            },
+            {
+              "en": "She used to work as a teacher before she became a lawyer.",
+              "note": "Used to + a past job that has changed."
+            },
+            {
+              "en": "It took him months to get used to the noise of the city.",
+              "note": "Get used to = the process of adapting."
+            },
+            {
+              "en": "After ten years abroad, she is used to eating spicy food every day.",
+              "note": "Be used to = accustomed to, in the present."
+            },
+            {
+              "en": "He never used to eat vegetables as a child, but he loves them now.",
+              "note": "Used to + past habit contrasted with the present."
+            }
+          ]
+        }
+      },
+      {
+        "type": "tip",
+        "body": "<p>In Speaking Part 1/2, when talking about childhood or past routines, \"used to\" and \"would\" add natural range beyond the simple past. Never use \"would\" for past states — say <em>used to have</em>, not <em>would have</em>, for possession or description.</p>"
+      }
+    ],
+    "quiz": [
+      {
+        "qtype": "mcq",
+        "prompt": "When I was a child, I ___ to the beach every summer.",
+        "options": [
+          "would go",
+          "used to went",
+          "was used to go",
+          "use to go"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "A repeated past action needs \"would\" + base verb; the other options misuse the \"used to\" structure."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "She ___ (use) to work as a teacher before she became a lawyer.",
+        "answers": [
+          "used"
+        ],
+        "why": "\"Used to\" describes a past job that is no longer true."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "As a teenager, she ___ a large collection of stamps.",
+        "options": [
+          "would have",
+          "used to have",
+          "would used to have",
+          "was used to having"
+        ],
+        "answers": [
+          1
+        ],
+        "why": "\"Have\" describes a state, and \"would\" cannot describe past states — only \"used to\" can."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "It took him months to ___ (get) used to the noise of the city.",
+        "answers": [
+          "get"
+        ],
+        "why": "\"Get used to\" describes the process of becoming accustomed to something."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "I'm not used ___ early — I usually work night shifts.",
+        "options": [
+          "to get up",
+          "to getting up",
+          "get up",
+          "getting up"
+        ],
+        "answers": [
+          1
+        ],
+        "why": "\"Be used to\" is always followed by a gerund (or noun), introduced by \"to\": to getting up."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "___ (do) you use to live near the coast?",
+        "answers": [
+          "Did"
+        ],
+        "why": "Questions with \"used to\" for past habits are formed with \"did\" + subject + use to."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "After ten years abroad, she ___ eating spicy food every day.",
+        "options": [
+          "used to",
+          "is used to",
+          "would",
+          "use to"
+        ],
+        "answers": [
+          1
+        ],
+        "why": "\"Be used to\" + gerund expresses being accustomed to something in the present."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "Every Friday, my grandfather ___ (would/tell) us stories about the war.",
+        "answers": [
+          "would tell"
+        ],
+        "why": "\"Would\" describes a repeated past action (telling stories), not a state."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "He ___ vegetables as a child, but he loves them now.",
+        "options": [
+          "would hate",
+          "used to hate",
+          "would used to hate",
+          "gets used to hating"
+        ],
+        "answers": [
+          1
+        ],
+        "why": "\"Hate\" is a state verb; \"would\" cannot describe past states, only \"used to\" can."
+      },
+      {
+        "qtype": "transform",
+        "prompt": "Rewrite using \"used to\": \"She smoked when she was younger, but she doesn't anymore.\"",
+        "answers": [
+          "She used to smoke when she was younger.",
+          "She used to smoke when she was younger"
+        ],
+        "why": "\"Used to\" describes a past habit that is no longer true."
+      }
+    ]
+  },
+  {
+    "slug": "wish-if-only",
+    "stage": "independent",
+    "title": "Wish & If only",
+    "tag": "Unreal Forms",
+    "cefr": "B1–B2",
+    "blurb": "Express regrets, unreal wishes and complaints about the present with wish/if only.",
+    "lesson": [
+      {
+        "type": "intro",
+        "body": "<p><b>Wish</b> and <b>if only</b> talk about unreal situations. The tense that follows changes the meaning: a present wish uses the past simple, a past regret uses the past perfect, and a wish about someone's annoying behaviour uses <em>would</em>.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Wishing about the present",
+        "body": "<p><em>Wish/if only + past simple</em> describes something unreal now: <em>I wish I had more time.</em> With <em>be</em>, <b>were</b> is preferred for all persons: <em>I wish I were taller.</em></p>"
+      },
+      {
+        "type": "rule",
+        "title": "Wishing about the past (regret)",
+        "body": "<p><em>Wish/if only + past perfect</em> expresses regret about a past action: <em>I wish I had studied harder.</em> / <em>If only I had accepted the offer.</em></p>"
+      },
+      {
+        "type": "rule",
+        "title": "Wishing for change or complaining",
+        "body": "<p><em>Wish + subject + would + base</em> complains about someone else's (or something's) annoying, repeated behaviour: <em>I wish he would answer his phone.</em> It cannot be used about yourself or an unchangeable state.</p>"
+      },
+      {
+        "type": "table",
+        "title": "Wish forms",
+        "data": {
+          "head": [
+            "Use",
+            "Form",
+            "Example"
+          ],
+          "rows": [
+            [
+              "Present unreal",
+              "wish/if only + past simple",
+              "I wish I spoke French."
+            ],
+            [
+              "Past regret",
+              "wish/if only + past perfect",
+              "If only I had accepted the offer."
+            ],
+            [
+              "Complaint about others",
+              "wish + would + base",
+              "I wish he would answer his phone."
+            ]
+          ]
+        }
+      },
+      {
+        "type": "examples",
+        "data": {
+          "items": [
+            {
+              "en": "I wish I had more free time these days.",
+              "note": "Present unreal wish."
+            },
+            {
+              "en": "If only I had studied harder for the exam last year.",
+              "note": "Regret about a past action."
+            },
+            {
+              "en": "I wish you would stop leaving your dishes in the sink.",
+              "note": "Complaint about someone else's repeated behaviour."
+            },
+            {
+              "en": "If only I were taller — I'd play basketball professionally.",
+              "note": "\"Were\" is used with \"if I\" in unreal wishes."
+            },
+            {
+              "en": "I wish I could help you, but I have no experience in this area.",
+              "note": "\"Could\" expresses an unreal present ability."
+            }
+          ]
+        }
+      },
+      {
+        "type": "tip",
+        "body": "<p>\"If only\" adds more emotional emphasis than \"wish\" for regrets (<em>If only I had prepared more for the interview</em>) — a useful register upgrade for band 7+ fluency and range in Speaking and Writing, as long as the tense rules stay exact.</p>"
+      }
+    ],
+    "quiz": [
+      {
+        "qtype": "mcq",
+        "prompt": "I wish I ___ more free time these days.",
+        "options": [
+          "had",
+          "have",
+          "will have",
+          "would have"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "A present unreal wish takes the past simple after \"wish\"."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "She wishes she ___ (can) speak Japanese fluently.",
+        "answers": [
+          "could"
+        ],
+        "why": "\"Wish\" + \"could\" expresses an unreal present ability."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "If only I ___ harder for the exam last year.",
+        "options": [
+          "studied",
+          "had studied",
+          "would study",
+          "study"
+        ],
+        "answers": [
+          1
+        ],
+        "why": "A regret about the past takes the past perfect after \"if only\"."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "He wishes he ___ (not/miss) the deadline last month.",
+        "answers": [
+          "hadn't missed",
+          "had not missed"
+        ],
+        "why": "A regret about a completed past action takes the past perfect."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "I wish you ___ leaving your dishes in the sink.",
+        "options": [
+          "stopped",
+          "stop",
+          "would stop",
+          "had stopped"
+        ],
+        "answers": [
+          2
+        ],
+        "why": "A complaint about someone else's repeated, annoying behaviour uses \"wish + would\"."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "I wish it ___ (stop) raining — we can't start the match.",
+        "answers": [
+          "would stop"
+        ],
+        "why": "A complaint about an ongoing, annoying situation uses \"wish + would\"."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "If only I ___ taller — I'd play basketball professionally.",
+        "options": [
+          "am",
+          "will be",
+          "were",
+          "have been"
+        ],
+        "answers": [
+          2
+        ],
+        "why": "\"If only I\" takes \"were\" for an unreal present state."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "I wish I ___ (not/eat) so much at lunch — I feel uncomfortable now.",
+        "answers": [
+          "hadn't eaten",
+          "had not eaten"
+        ],
+        "why": "A completed past action causing a present feeling still takes the past perfect after \"wish\"."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "I wish I ___ help you, but I have no experience in this area.",
+        "options": [
+          "would",
+          "could",
+          "will",
+          "can"
+        ],
+        "answers": [
+          1
+        ],
+        "why": "\"Could\" expresses an unreal present ability; \"would\" is only for complaining about others' behaviour."
+      },
+      {
+        "qtype": "transform",
+        "prompt": "Rewrite using \"wish\": \"I regret not buying that house.\"",
+        "answers": [
+          "I wish I had bought that house.",
+          "I wish I had bought that house"
+        ],
+        "why": "A regret about a past action takes \"wish + past perfect\"."
+      }
+    ]
+  },
+  {
+    "slug": "causatives",
+    "stage": "independent",
+    "title": "Causatives (have/get something done)",
+    "tag": "Voice",
+    "cefr": "B1–B2",
+    "blurb": "Say that someone else did something for you with have/get + object + past participle.",
+    "lesson": [
+      {
+        "type": "intro",
+        "body": "<p>The <b>causative</b> structure (<em>have/get + object + past participle</em>) describes an action that someone else performs, arranged or paid for by the subject. <em>I had my hair cut</em> means a hairdresser cut it, not that I cut it myself.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Form",
+        "body": "<p><b>Have/get + object + past participle.</b> The tense changes on <em>have/get</em>: <em>I have my car serviced every year. She had her photo taken. We're getting the roof repaired.</em></p>"
+      },
+      {
+        "type": "rule",
+        "title": "Have vs get",
+        "body": "<p><b>Get</b> is more informal and can emphasise effort in arranging something; <b>have</b> is neutral and more formal. Both express the same causative idea in most everyday contexts.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Causative vs active meaning",
+        "body": "<p>Compare the active <em>I painted my house</em> (I did it myself) with the causative <em>I had my house painted</em> (a professional did it). Confusing the two is a common error when describing paid services.</p>"
+      },
+      {
+        "type": "table",
+        "title": "Causative vs active",
+        "data": {
+          "head": [
+            "Meaning",
+            "Example"
+          ],
+          "rows": [
+            [
+              "Did it yourself",
+              "She repaired her bike."
+            ],
+            [
+              "Arranged for someone else",
+              "She had her bike repaired."
+            ],
+            [
+              "Ongoing arrangement",
+              "They are getting their kitchen renovated."
+            ]
+          ]
+        }
+      },
+      {
+        "type": "examples",
+        "data": {
+          "items": [
+            {
+              "en": "She has her hair cut every six weeks.",
+              "note": "Present simple causative — a regular arrangement."
+            },
+            {
+              "en": "We had our house painted last summer.",
+              "note": "Past simple causative — a professional did the work."
+            },
+            {
+              "en": "I need to get my laptop repaired — the screen is cracked.",
+              "note": "\"Get\" causative, informal."
+            },
+            {
+              "en": "By next week, we will have the whole house redecorated.",
+              "note": "Future causative."
+            },
+            {
+              "en": "The company has its data backed up automatically every night.",
+              "note": "Causative used for an automated process, not only people."
+            }
+          ]
+        }
+      },
+      {
+        "type": "tip",
+        "body": "<p>In Speaking Part 1/2, describing services (haircuts, repairs, deliveries) naturally calls for the causative. Using it correctly, rather than the plain active voice, shows precise control of a less common structure valued for band 7+ grammatical range.</p>"
+      }
+    ],
+    "quiz": [
+      {
+        "qtype": "mcq",
+        "prompt": "She ___ her hair cut every six weeks.",
+        "options": [
+          "has",
+          "does",
+          "makes",
+          "takes"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "The causative structure uses \"have\" (or \"get\") + object + past participle."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "We ___ (have) our house painted last summer.",
+        "answers": [
+          "had"
+        ],
+        "why": "The past simple causative uses \"had\" + object + past participle."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "I need to ___ my laptop repaired — the screen is cracked.",
+        "options": [
+          "get",
+          "do",
+          "make",
+          "take"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "\"Get\" + object + past participle is a common informal causative form."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "They are ___ (get) their office redecorated this month.",
+        "answers": [
+          "getting"
+        ],
+        "why": "The present continuous causative uses \"getting\" + object + past participle for an ongoing arrangement."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "Compare: \"He fixed the car himself\" vs \"He ___ the car fixed by a mechanic.\"",
+        "options": [
+          "had",
+          "made",
+          "did",
+          "took"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "\"Had\" + object + past participle shows that someone else (the mechanic) did the work."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "She ___ (have) her nails done before the wedding.",
+        "answers": [
+          "had"
+        ],
+        "why": "The past simple causative describes a service arranged before the event."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "Which sentence means a professional did the work?",
+        "options": [
+          "She cleaned the windows.",
+          "She had the windows cleaned.",
+          "She was cleaning the windows.",
+          "She cleans the windows."
+        ],
+        "answers": [
+          1
+        ],
+        "why": "\"Had the windows cleaned\" is the causative form, showing someone else did the cleaning."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "By next week, we ___ (have) the whole house redecorated.",
+        "answers": [
+          "will have"
+        ],
+        "why": "The future causative uses \"will have\" + object + past participle."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "The company ___ its data backed up automatically every night.",
+        "options": [
+          "has",
+          "makes",
+          "lets",
+          "allows"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "The causative \"have\" also applies to automated processes, not only people."
+      },
+      {
+        "qtype": "transform",
+        "prompt": "Rewrite using a causative structure: \"A mechanic services her car every year.\"",
+        "answers": [
+          "She has her car serviced every year.",
+          "She gets her car serviced every year.",
+          "She has her car serviced every year",
+          "She gets her car serviced every year"
+        ],
+        "why": "The causative shifts focus from the mechanic (agent) to the person arranging the service."
+      }
+    ]
+  },
+  {
+    "slug": "question-tags-indirect",
+    "stage": "independent",
+    "title": "Question Tags & Indirect Questions",
+    "tag": "Sentence",
+    "cefr": "B1–B2",
+    "blurb": "Add tags to check information, and soften direct questions with polite indirect forms.",
+    "lesson": [
+      {
+        "type": "intro",
+        "body": "<p>Two structures make questions sound more natural or more polite: <b>question tags</b> (to check or confirm information) and <b>indirect questions</b> (softer and more formal, common for requests to strangers or in formal writing).</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Question tags",
+        "body": "<p>A positive statement takes a negative tag; a negative statement takes a positive tag. The tag repeats the auxiliary or modal from the sentence (or uses do/does/did for simple tenses): <em>She is a teacher, isn't she?</em> / <em>They haven't finished, have they?</em> / <em>You like coffee, don't you?</em></p>"
+      },
+      {
+        "type": "rule",
+        "title": "Special cases",
+        "body": "<p><em>I am</em> → <em>aren't I?</em>; imperatives take <em>will you?</em>; <em>Let's</em> takes <em>shall we?</em>; <em>there is/are</em> takes <em>isn't there?/aren't there?</em>.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Indirect questions",
+        "body": "<p>Begin with a polite frame (<em>Could you tell me..., Do you know..., I wonder...</em>) followed by <b>statement word order</b> — no auxiliary inversion. Yes/no questions are embedded with <em>if/whether</em>: <em>Could you tell me where the station is?</em> NOT <em>where is the station</em>.</p>"
+      },
+      {
+        "type": "table",
+        "title": "Direct vs indirect",
+        "data": {
+          "head": [
+            "Direct question",
+            "Indirect question"
+          ],
+          "rows": [
+            [
+              "Where is the station?",
+              "Could you tell me where the station is?"
+            ],
+            [
+              "Is the museum open today?",
+              "Do you know if the museum is open today?"
+            ],
+            [
+              "What time does the train leave?",
+              "I wonder what time the train leaves."
+            ]
+          ]
+        }
+      },
+      {
+        "type": "examples",
+        "data": {
+          "items": [
+            {
+              "en": "She's finishing her degree next year, isn't she?",
+              "note": "Tag mirrors the auxiliary \"is\" in the statement."
+            },
+            {
+              "en": "Let's take a short break, shall we?",
+              "note": "Special tag for \"Let's\"."
+            },
+            {
+              "en": "Could you tell me where the nearest bank is?",
+              "note": "Indirect wh-question — statement word order."
+            },
+            {
+              "en": "Do you know if the shop is open on Sundays?",
+              "note": "Indirect yes/no question with \"if\"."
+            },
+            {
+              "en": "They didn't call yesterday, did they?",
+              "note": "Negative statement takes a positive tag."
+            }
+          ]
+        }
+      },
+      {
+        "type": "tip",
+        "body": "<p>Natural question tags (<em>...isn't it?</em>) make Speaking responses sound fluent and idiomatic. In formal Writing or Speaking, indirect questions (<em>I'd like to know whether...</em>) signal politeness and control of complex sentence structure — both reward band 7+ range.</p>"
+      }
+    ],
+    "quiz": [
+      {
+        "qtype": "mcq",
+        "prompt": "She's finishing her degree next year, ___?",
+        "options": [
+          "isn't it",
+          "doesn't she",
+          "isn't she",
+          "won't she"
+        ],
+        "answers": [
+          2
+        ],
+        "why": "The main clause uses \"is finishing\" (present continuous), so the tag must mirror that auxiliary: isn't she."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "You haven't seen this report before, ___ you?",
+        "answers": [
+          "have"
+        ],
+        "why": "A negative statement with \"haven't\" takes a positive tag using the same auxiliary: have you?"
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "Let's take a short break, ___?",
+        "options": [
+          "do we",
+          "shall we",
+          "will we",
+          "don't we"
+        ],
+        "answers": [
+          1
+        ],
+        "why": "\"Let's\" always takes the special tag \"shall we?\""
+      },
+      {
+        "qtype": "gap",
+        "prompt": "I'm right about this, ___ I?",
+        "answers": [
+          "aren't"
+        ],
+        "why": "\"I am\" takes the irregular tag \"aren't I?\""
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "Could you tell me ___?",
+        "options": [
+          "where is the nearest bank",
+          "where the nearest bank is",
+          "is where the nearest bank",
+          "the nearest bank where is"
+        ],
+        "answers": [
+          1
+        ],
+        "why": "Indirect questions use statement word order, not auxiliary inversion."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "Do you know ___ (the shop/be) open on Sundays?",
+        "answers": [
+          "if the shop is",
+          "whether the shop is"
+        ],
+        "why": "An indirect yes/no question is introduced by \"if\" or \"whether\" plus statement word order."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "They didn't call yesterday, ___?",
+        "options": [
+          "did they",
+          "didn't they",
+          "weren't they",
+          "haven't they"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "A negative statement with \"didn't\" takes a positive tag using the same auxiliary: did they?"
+      },
+      {
+        "qtype": "gap",
+        "prompt": "There isn't any evidence for this claim, ___ there?",
+        "answers": [
+          "is"
+        ],
+        "why": "A negative statement with \"there isn't\" takes a positive tag: is there?"
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "Choose the most polite indirect question to ask a stranger at a station.",
+        "options": [
+          "Where's the ticket office?",
+          "Tell me where the ticket office is.",
+          "Could you tell me where the ticket office is?",
+          "Where is ticket office?"
+        ],
+        "answers": [
+          2
+        ],
+        "why": "A polite frame (\"Could you tell me...\") plus statement word order is the standard indirect, polite form."
+      },
+      {
+        "qtype": "transform",
+        "prompt": "Rewrite as an indirect question: \"What time does the museum close?\"",
+        "answers": [
+          "Could you tell me what time the museum closes?",
+          "Do you know what time the museum closes?",
+          "Could you tell me what time the museum closes",
+          "Do you know what time the museum closes"
+        ],
+        "why": "A polite frame plus statement word order (the museum closes) forms the indirect question."
+      }
+    ]
+  },
+  {
+    "slug": "linking-words",
+    "stage": "independent",
+    "title": "Linking Words & Cohesion",
+    "tag": "Cohesion",
+    "cefr": "B1–B2",
+    "blurb": "Connect ideas clearly with contrast, cause and result linkers — plus so/such/too/enough.",
+    "lesson": [
+      {
+        "type": "intro",
+        "body": "<p>Linking words connect clauses and sentences to signal contrast, cause and effect, or result — essential for IELTS Coherence and Cohesion. Different linkers need different grammar and punctuation.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Contrast connectors",
+        "body": "<p><em>Although/even though</em> + a full clause: <em>Although it was raining, they continued.</em> <em>Despite/in spite of</em> + a noun or -ing form (never a full clause): <em>Despite the rain, they continued.</em> <em>However</em> starts a new sentence, followed by a comma.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Cause & result",
+        "body": "<p><em>Because</em> + a full clause; <em>because of</em> + a noun. <em>So</em> introduces a result within one sentence; <em>therefore/as a result</em> are more formal and usually start a new sentence, followed by a comma.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "So/such...that; too/enough",
+        "body": "<p><b>So + adjective/adverb + that</b> vs <b>such + (a/an) + adjective + noun + that</b> both introduce a result: <em>so difficult that</em> / <em>such a difficult test that</em>. <b>Too + adjective + to-infinitive</b> shows an excessive, negative result; <b>adjective + enough + to-infinitive</b> shows sufficiency.</p>"
+      },
+      {
+        "type": "table",
+        "title": "So vs such / too vs enough",
+        "data": {
+          "head": [
+            "Pattern",
+            "Example"
+          ],
+          "rows": [
+            [
+              "so + adj + that",
+              "The test was so difficult that many failed."
+            ],
+            [
+              "such + (a) + adj + noun + that",
+              "It was such a difficult test that many failed."
+            ],
+            [
+              "too + adj + to-infinitive",
+              "The test was too difficult to finish."
+            ],
+            [
+              "adj + enough + to-infinitive",
+              "She wasn't old enough to vote."
+            ]
+          ]
+        }
+      },
+      {
+        "type": "examples",
+        "data": {
+          "items": [
+            {
+              "en": "Despite the heavy rain, the match continued.",
+              "note": "\"Despite\" + noun phrase, no full clause."
+            },
+            {
+              "en": "Although it was raining heavily, the match continued.",
+              "note": "\"Although\" + a full clause."
+            },
+            {
+              "en": "Sales fell sharply. As a result, the company cut costs.",
+              "note": "\"As a result\" starts a new sentence, followed by a comma."
+            },
+            {
+              "en": "The exam was so difficult that half the class failed.",
+              "note": "\"So\" + adjective + \"that\" clause."
+            },
+            {
+              "en": "The coffee was too hot to drink immediately.",
+              "note": "\"Too\" + adjective + to-infinitive shows an excessive result."
+            },
+            {
+              "en": "She wasn't experienced enough to lead the project.",
+              "note": "Adjective + \"enough\" + to-infinitive shows insufficiency."
+            }
+          ]
+        }
+      },
+      {
+        "type": "tip",
+        "body": "<p>Band 7+ Coherence and Cohesion rewards a range of linkers used accurately, not just \"and/but/so\" repeated. Misusing \"despite\" with a full clause (<em>Despite it was raining...</em>) is a very common, heavily penalised error — always follow despite/in spite of with a noun or -ing form.</p>"
+      }
+    ],
+    "quiz": [
+      {
+        "qtype": "mcq",
+        "prompt": "___ the heavy rain, the match continued.",
+        "options": [
+          "Although",
+          "Despite",
+          "Because",
+          "However"
+        ],
+        "answers": [
+          1
+        ],
+        "why": "\"Despite\" is followed directly by a noun phrase (\"the heavy rain\"), not a full clause."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "___ it was raining, the match continued.",
+        "answers": [
+          "Although",
+          "Even though"
+        ],
+        "why": "\"Although\"/\"even though\" is followed by a full clause, unlike \"despite\"."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "The exam was ___ difficult that half the class failed.",
+        "options": [
+          "so",
+          "such",
+          "too",
+          "enough"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "\"So\" + adjective + \"that\" introduces a result clause."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "It was ___ a difficult exam that half the class failed.",
+        "answers": [
+          "such"
+        ],
+        "why": "\"Such\" + a/an + adjective + noun + \"that\" introduces a result clause."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "The coffee was ___ hot to drink immediately.",
+        "options": [
+          "so",
+          "such",
+          "too",
+          "enough"
+        ],
+        "answers": [
+          2
+        ],
+        "why": "\"Too\" + adjective + to-infinitive expresses an excessive, negative result."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "She wasn't experienced ___ to lead the project.",
+        "answers": [
+          "enough"
+        ],
+        "why": "Adjective + \"enough\" + to-infinitive expresses sufficiency (or, negated, insufficiency)."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "Sales fell sharply. ___, the company cut costs.",
+        "options": [
+          "Despite",
+          "Although",
+          "As a result",
+          "Because"
+        ],
+        "answers": [
+          2
+        ],
+        "why": "\"As a result\" formally links a cause in one sentence to a result in the next."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "The flight was delayed ___ (because) bad weather.",
+        "answers": [
+          "because of"
+        ],
+        "why": "\"Because of\" is followed by a noun phrase, unlike \"because\", which needs a full clause."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "___ studying hard, she failed the exam.",
+        "options": [
+          "Although",
+          "Despite",
+          "Because",
+          "So"
+        ],
+        "answers": [
+          1
+        ],
+        "why": "\"Despite\" is followed by a gerund (\"studying\"), not a full clause like \"although\" would need."
+      },
+      {
+        "qtype": "transform",
+        "prompt": "Combine using \"so...that\": \"The music was very loud. We couldn't hear each other.\"",
+        "answers": [
+          "The music was so loud that we couldn't hear each other.",
+          "The music was so loud that we could not hear each other.",
+          "The music was so loud that we couldn't hear each other",
+          "The music was so loud that we could not hear each other"
+        ],
+        "why": "\"So\" + adjective + \"that\" links the cause (loud music) to the result (couldn't hear)."
+      }
+    ]
   }
 ]
