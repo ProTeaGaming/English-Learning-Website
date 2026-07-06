@@ -2959,13 +2959,13 @@
         "qtype": "mcq",
         "prompt": "Direct: \"Do you live here?\" she asked. Reported:",
         "options": [
-          "She asked if I lived there.",
           "She asked do I live there.",
           "She asked if I live here.",
+          "She asked if I lived there.",
           "She asked if did I live there."
         ],
         "answers": [
-          0
+          2
         ],
         "why": "Reported yes/no questions use \"if\" + statement word order, with tense and place words shifted back (live→lived, here→there)."
       },
@@ -3004,12 +3004,12 @@
         "prompt": "\"I'll finish this today,\" he said. Reported later: He said he would finish it ___.",
         "options": [
           "today",
-          "that day",
           "tomorrow",
-          "yesterday"
+          "yesterday",
+          "that day"
         ],
         "answers": [
-          1
+          3
         ],
         "why": "\"Today\" shifts to \"that day\" when the reporting happens at a different time."
       },
@@ -3041,7 +3041,10 @@
         "answers": [
           "She said (that) she had lost her keys.",
           "She said she had lost her keys.",
-          "She said that she had lost her keys."
+          "She said that she had lost her keys.",
+          "She said (that) she had lost her keys",
+          "She said she had lost her keys",
+          "She said that she had lost her keys"
         ],
         "why": "Present perfect back-shifts to past perfect, and \"my\" shifts to \"her\"."
       }
@@ -3172,12 +3175,12 @@
         "prompt": "If it rains tomorrow, the match ___.",
         "options": [
           "is cancelled",
-          "will be cancelled",
           "would be cancelled",
+          "will be cancelled",
           "cancels"
         ],
         "answers": [
-          1
+          2
         ],
         "why": "A real future possibility takes the first conditional: if + present simple, will + base."
       },
@@ -3217,12 +3220,12 @@
         "prompt": "If more people ___ bicycles, air pollution would fall.",
         "options": [
           "use",
-          "used",
           "will use",
-          "would use"
+          "would use",
+          "used"
         ],
         "answers": [
-          1
+          3
         ],
         "why": "The second conditional's if-clause uses the past simple for a hypothetical present situation."
       },
@@ -3381,12 +3384,12 @@
         "prompt": "Choose the correctly punctuated sentence (the speaker has only one brother).",
         "options": [
           "My brother who lives in Canada is a doctor.",
-          "My brother, who lives in Canada, is a doctor.",
           "My brother, who lives in Canada is a doctor.",
-          "My brother who lives in Canada, is a doctor."
+          "My brother who lives in Canada, is a doctor.",
+          "My brother, who lives in Canada, is a doctor."
         ],
         "answers": [
-          1
+          3
         ],
         "why": "With only one brother, the clause is non-defining extra information and needs a comma on both sides."
       },
@@ -3404,12 +3407,12 @@
         "prompt": "The woman ___ car was stolen called the police.",
         "options": [
           "who's",
-          "whose",
           "who",
+          "whose",
           "which"
         ],
         "answers": [
-          1
+          2
         ],
         "why": "\"Whose\" shows possession (the woman's car), not \"who's\" (who is/has)."
       },
@@ -3987,12 +3990,12 @@
         "prompt": "As a teenager, she ___ a large collection of stamps.",
         "options": [
           "would have",
-          "used to have",
           "would used to have",
+          "used to have",
           "was used to having"
         ],
         "answers": [
-          1
+          2
         ],
         "why": "\"Have\" describes a state, and \"would\" cannot describe past states — only \"used to\" can."
       },
@@ -4009,12 +4012,12 @@
         "prompt": "I'm not used ___ early — I usually work night shifts.",
         "options": [
           "to get up",
-          "to getting up",
           "get up",
-          "getting up"
+          "getting up",
+          "to getting up"
         ],
         "answers": [
-          1
+          3
         ],
         "why": "\"Be used to\" is always followed by a gerund (or noun), introduced by \"to\": to getting up."
       },
@@ -4364,13 +4367,13 @@
         "qtype": "mcq",
         "prompt": "She ___ her hair cut every six weeks.",
         "options": [
-          "has",
           "does",
           "makes",
+          "has",
           "takes"
         ],
         "answers": [
-          0
+          2
         ],
         "why": "The causative structure uses \"have\" (or \"get\") + object + past participle."
       },
@@ -4386,13 +4389,13 @@
         "qtype": "mcq",
         "prompt": "I need to ___ my laptop repaired — the screen is cracked.",
         "options": [
-          "get",
           "do",
+          "get",
           "make",
           "take"
         ],
         "answers": [
-          0
+          1
         ],
         "why": "\"Get\" + object + past participle is a common informal causative form."
       },
@@ -4408,13 +4411,13 @@
         "qtype": "mcq",
         "prompt": "Compare: \"He fixed the car himself\" vs \"He ___ the car fixed by a mechanic.\"",
         "options": [
-          "had",
           "made",
           "did",
-          "took"
+          "took",
+          "had"
         ],
         "answers": [
-          0
+          3
         ],
         "why": "\"Had\" + object + past participle shows that someone else (the mechanic) did the work."
       },
