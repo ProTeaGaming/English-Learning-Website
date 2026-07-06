@@ -1,6 +1,7 @@
 import json
 import pytest
 from django.core.management import call_command
+from django.core.management.base import CommandError
 from vocab.models import GrammarTopic, GrammarLessonBlock, GrammarQuestion
 
 TOPIC = {
@@ -53,3 +54,17 @@ def test_import_is_idempotent_and_replaces_children(seed_file, tmp_path):
     t = GrammarTopic.objects.get(slug='articles')
     assert t.title == 'Articles!'
     assert t.questions.count() == 1
+
+
+@pytest.mark.django_db
+def test_import_is_atomic_and_validates_stage(tmp_path):
+    bad_topic = dict(TOPIC, slug='reported-speech', stage='wizard')
+    path = tmp_path / 'grammar.json'
+    path.write_text(json.dumps([TOPIC, bad_topic]), encoding='utf-8')
+
+    with pytest.raises(CommandError, match='reported-speech.*wizard'):
+        call_command('import_grammar', file=str(path))
+
+    assert GrammarTopic.objects.count() == 0
+    assert GrammarLessonBlock.objects.count() == 0
+    assert GrammarQuestion.objects.count() == 0
