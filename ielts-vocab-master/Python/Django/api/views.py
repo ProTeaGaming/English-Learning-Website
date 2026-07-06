@@ -52,9 +52,9 @@ def cefr_levels(request):
 
 
 GRAMMAR_STAGES = [
-    ('beginner', 'Beginner', 'A1–A2'),
-    ('independent', 'Independent', 'B1–B2'),
-    ('expert', 'Expert', 'C1–C2'),
+    ('beginner', 'Basic', 'A1–A2'),
+    ('independent', 'Intermediate', 'B1–B2'),
+    ('expert', 'Advanced', 'C1–C2'),
 ]
 
 

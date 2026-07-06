@@ -66,9 +66,9 @@ class Word(models.Model):
 
 class GrammarTopic(models.Model):
     STAGES = [
-        ('beginner', 'Beginner'),
-        ('independent', 'Independent'),
-        ('expert', 'Expert'),
+        ('beginner', 'Basic'),
+        ('independent', 'Intermediate'),
+        ('expert', 'Advanced'),
     ]
     slug       = models.SlugField(max_length=100, unique=True)
     title      = models.CharField(max_length=200)
