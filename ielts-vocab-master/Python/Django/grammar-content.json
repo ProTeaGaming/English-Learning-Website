@@ -346,8 +346,9 @@
       },
       {
         "qtype": "gap",
-        "prompt": "At 8 p.m. yesterday, the committee ___ the proposal.",
+        "prompt": "At 8 p.m. yesterday, the committee ___ (discuss) the proposal.",
         "answers": [
+          "was discussing",
           "was still discussing"
         ],
         "why": "An action in progress at a specific past time takes the past continuous."
@@ -1567,7 +1568,7 @@
         "qtype": "gap",
         "prompt": "Only ___ (FEW) students opposed the new policy — most supported it.",
         "answers": [
-          "A few"
+          "a few"
         ],
         "why": "\"Students\" is countable, and \"a few\" here means a small positive number."
       },
@@ -1604,9 +1605,9 @@
           "A lot of"
         ],
         "answers": [
-          3
+          1
         ],
-        "why": "\"A lot of\" works with the countable plural noun \"respondents\"."
+        "why": "\"A lot\" combines with the following \"of the respondents\"; adding \"of\" again would wrongly duplicate the preposition."
       },
       {
         "qtype": "gap",
@@ -2031,7 +2032,7 @@
         "prompt": "Rewrite as one comparative sentence: \"Country A's economy grew fast. Country B's economy grew faster than that.\"",
         "answers": [
           "Country B's economy grew faster than Country A's.",
-          "Country B's economy grew faster than country A's economy."
+          "Country B's economy grew faster than Country A's economy."
         ],
         "why": "A comparative adjective + \"than\" combines the two ideas into a single comparison."
       }
@@ -2171,17 +2172,17 @@
       },
       {
         "qtype": "mcq",
-        "prompt": "The library is ___ the corner of Main Street.",
+        "prompt": "The lecture will begin ___ 9 a.m. sharp.",
         "options": [
           "on",
           "in",
           "at",
-          "to"
+          "by"
         ],
         "answers": [
           2
         ],
-        "why": "A specific point in a location takes \"at\"."
+        "why": "Clock times take \"at\": at 9 a.m., at noon, at midnight."
       },
       {
         "qtype": "gap",
