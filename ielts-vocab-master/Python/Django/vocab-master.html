@@ -3147,8 +3147,58 @@ function renderGrammarStage(stage, num){
 }
 
 function openGrammarTopic(topic){
-  // Real implementation in the lesson-view task.
-  console.log('openGrammarTopic', topic.slug);
+  showGrammarView('grammarLesson');
+  const el = document.getElementById('grammarLesson');
+  el.innerHTML = `
+    <button class="back-btn" id="grammarBackBtn">← All grammar</button>
+    <div class="page-head" style="margin-bottom:26px;">
+      <span class="eyebrow">Grammar / ${topic.tag}</span>
+      <h1>${topic.title} ${cefrRangePillHtml(topic.cefr)}</h1>
+      <p>${topic.blurb}</p>
+    </div>
+    <div class="gram-lesson">${topic.lesson.map(grammarBlockHtml).join('')}</div>
+    ${topic.quiz.length
+      ? `<div style="text-align:center;margin-top:30px;">
+           <button class="btn" id="grammarPracticeBtn">Practice — ${topic.quiz.length} question${topic.quiz.length !== 1 ? 's' : ''}</button>
+         </div>`
+      : ''}`;
+  document.getElementById('grammarBackBtn').addEventListener('click', renderGrammarHome);
+  const practiceBtn = document.getElementById('grammarPracticeBtn');
+  if (practiceBtn) practiceBtn.addEventListener('click', () => startGrammarQuiz(topic));
+  document.getElementById('page-grammar').scrollIntoView({behavior: 'smooth', block: 'start'});
+  if (typeof gsap !== 'undefined'){
+    gsap.fromTo(el, {opacity:0, y:14}, {opacity:1, y:0, duration:.4, ease:'power2.out'});
+  }
+}
+
+function grammarBlockHtml(block){
+  switch (block.type){
+    case 'intro':
+      return `<div class="gram-block gram-intro">${block.body}</div>`;
+    case 'rule':
+      return `<div class="gram-block gram-rule">${block.title ? `<h3>${block.title}</h3>` : ''}${block.body}</div>`;
+    case 'table': {
+      const head = (block.data.head || []).map(h => `<th>${h}</th>`).join('');
+      const rows = (block.data.rows || []).map(r => `<tr>${r.map(c => `<td>${c}</td>`).join('')}</tr>`).join('');
+      return `<div class="gram-block">
+        ${block.title ? `<h3 class="gram-table-title">${block.title}</h3>` : ''}
+        <div style="overflow-x:auto;"><table class="gram-table"><thead><tr>${head}</tr></thead><tbody>${rows}</tbody></table></div>
+      </div>`;
+    }
+    case 'examples':
+      return `<div class="gram-block gram-examples">${(block.data.items || []).map(it =>
+        `<div class="gram-ex"><div class="gram-ex-en">${it.en}</div>${it.note ? `<div class="gram-ex-note">${it.note}</div>` : ''}</div>`
+      ).join('')}</div>`;
+    case 'tip':
+      return `<div class="gram-block gram-tip"><span class="gram-tip-label">IELTS tip</span>${block.body}</div>`;
+    default:
+      return '';
+  }
+}
+
+function startGrammarQuiz(topic){
+  // Real implementation in the quiz task.
+  console.log('startGrammarQuiz', topic.slug);
 }
 
 /* ════════════════════════════════════════════════════════
