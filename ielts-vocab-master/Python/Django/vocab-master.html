@@ -22,6 +22,7 @@
   --tb:#3b82f6; --tv:#8b5cf6; --tp:#ec4899; --tr:#ef4444; --te:#10b981;
   --ta:#f59e0b; --tc:#06b6d4; --tg:#eab308; --ti:#6366f1; --to:#f97316;
   --tro:#f43f5e; --tfg:#16a34a; --tpurp:#a855f7; --ts:#0d9488; --tnavy:#1e40af;
+  --gram-basic:#8fbf9f; --gram-inter:#95aed6; --gram-adv:#cfa36b; --gram-done:#7aab8f;
   --vio:124,58,237;
 }
 [data-theme="light"]{
@@ -32,6 +33,7 @@
   --gold:#b08a3e; --gold-rgb:176 138 62;
   --a1:#059669; --a1p:#ca8a04; --a2:#06b6d4; --a2p:#ea580c;
   --b1:#4f46e5; --b1p:#db2777; --b2:#2563eb; --b2p:#1e3a8a; --c1:#d97706; --c1p:#e11d48; --c2:#dc2626; --c2p:#9333ea;
+  --gram-basic:#5b8a6e; --gram-inter:#5872a8; --gram-adv:#a1743e; --gram-done:#3f7a5f;
   --card-bg:#ffffff; --card-border:#dcd7cc;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
@@ -918,6 +920,18 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
 }
 .cat-card:hover .cat-arrow{color:var(--accent-c,rgb(var(--vio)));opacity:1;transform:translate(2px,-2px);}
 /* ── Grammar section ── */
+.gram-chip{background:color-mix(in srgb, var(--muted) 14%, transparent);border:1px solid color-mix(in srgb, var(--muted) 35%, transparent);color:var(--muted);}
+.gram-chip.gram-s-basic{background:color-mix(in srgb, var(--gram-basic) 14%, transparent);border-color:color-mix(in srgb, var(--gram-basic) 35%, transparent);color:var(--gram-basic);}
+.gram-chip.gram-s-inter{background:color-mix(in srgb, var(--gram-inter) 14%, transparent);border-color:color-mix(in srgb, var(--gram-inter) 35%, transparent);color:var(--gram-inter);}
+.gram-chip.gram-s-adv{background:color-mix(in srgb, var(--gram-adv) 14%, transparent);border-color:color-mix(in srgb, var(--gram-adv) 35%, transparent);color:var(--gram-adv);}
+#grammarStages .cat-pfill.gram-s-basic{background:var(--gram-basic);}
+#grammarStages .cat-pfill.gram-s-inter{background:var(--gram-inter);}
+#grammarStages .cat-pfill.gram-s-adv{background:var(--gram-adv);}
+#grammarStages .cat-pfill.gram-done{background:var(--gram-done);}
+#grammarStages .cat-medal{color:var(--gram-done);}
+#grammarStages .section-block.gram-s-basic .section-block-pfill{background:var(--gram-basic);}
+#grammarStages .section-block.gram-s-inter .section-block-pfill{background:var(--gram-inter);}
+#grammarStages .section-block.gram-s-adv .section-block-pfill{background:var(--gram-adv);}
 .gram-card-blurb{font-size:.85rem;color:var(--muted);margin-top:4px;line-height:1.45;}
 .gram-lesson{max-width:760px;margin:0 auto;}
 .gram-block{margin-bottom:22px;line-height:1.65;}
@@ -3043,10 +3057,12 @@ function recordGrammarScore(slug, pct){
   saveGrammarProgress(p);
 }
 
+const GRAMMAR_STAGE_KEY = { beginner: 'basic', independent: 'inter', expert: 'adv' };
+const GRAMMAR_CEFR_KEY  = { 'A1': 'basic', 'B1': 'inter', 'C1': 'adv' };
+
 function cefrRangePillHtml(label){
-  const first = String(label).split('–')[0];
-  const c = CEFR_COLORS[first] || '#888';
-  return `<span class="cat-cefr-pill" style="background:${c}1c;border:1px solid ${c}55;color:${c}">${label}</span>`;
+  const key = GRAMMAR_CEFR_KEY[String(label).split('–')[0]];
+  return `<span class="cat-cefr-pill gram-chip${key ? ` gram-s-${key}` : ''}">${label}</span>`;
 }
 
 function loadGrammar(){
@@ -3092,7 +3108,8 @@ function renderGrammarStage(stage, num){
   const doneCnt = stage.topics.filter(t => grammarTopicDone(t.slug)).length;
   const pct = stage.topics.length ? Math.round(doneCnt / stage.topics.length * 100) : 0;
   const wrap = document.createElement('div');
-  wrap.className = 'section-block open';
+  const stageKey = GRAMMAR_STAGE_KEY[stage.id] || '';
+  wrap.className = `section-block open${stageKey ? ` gram-s-${stageKey}` : ''}`;
   wrap.innerHTML = `
     <div class="section-block-header">
       <div class="section-block-num">${String(num).padStart(2, '0')}</div>
@@ -3135,7 +3152,7 @@ function renderGrammarStage(stage, num){
       <div class="cat-name">${t.title}</div>
       <div class="gram-card-blurb">${t.blurb}</div>
       <div class="cat-pbar-row">
-        <div class="cat-pbar"><div class="cat-pfill" style="width:${best}%;${done ? 'background:#10b981;' : ''}"></div></div>
+        <div class="cat-pbar"><div class="cat-pfill ${done ? 'gram-done' : `gram-s-${stageKey}`}" style="width:${best}%"></div></div>
         ${done
           ? '<svg class="ico cat-medal" aria-label="Mastered"><use href="#i-medal"/></svg>'
           : `<span class="cat-plabel">${best ? `best ${best}%` : 'not started'}</span>`}
