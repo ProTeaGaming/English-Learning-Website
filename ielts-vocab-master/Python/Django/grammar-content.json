@@ -4885,5 +4885,2443 @@
         "why": "\"So\" + adjective + \"that\" links the cause (loud music) to the result (couldn't hear)."
       }
     ]
+  },
+  {
+    "slug": "inversion-emphasis",
+    "stage": "expert",
+    "title": "Inversion & Emphasis",
+    "tag": "Emphasis",
+    "cefr": "C1–C2",
+    "blurb": "Add emphasis with negative adverbial inversion, conditional inversion and emphatic do.",
+    "lesson": [
+      {
+        "type": "intro",
+        "body": "<p>Inversion moves the auxiliary verb before the subject to create emphasis, most often after a negative or restrictive adverbial, in formal conditional sentences, and with the emphatic auxiliary <b>do</b>. It is a hallmark of band 8+ academic and formal writing.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Negative & restrictive adverbial inversion",
+        "body": "<p>When a negative or restrictive adverbial (<em>never, rarely, seldom, little, under no circumstances, not only</em>) opens the sentence, the auxiliary comes before the subject: <em>Never have I seen such enthusiasm.</em> <em>Not only did sales rise, but profits also doubled.</em> <em>Under no circumstances should the data be altered.</em></p>"
+      },
+      {
+        "type": "rule",
+        "title": "Conditional inversion",
+        "body": "<p>In formal style, <em>if</em> can be dropped and the auxiliary inverted with the subject instead: <em>Were I to accept, I would relocate immediately.</em> <em>Had she known the risks, she would not have invested.</em> <em>Should you require further details, please contact the office.</em></p>"
+      },
+      {
+        "type": "rule",
+        "title": "Emphatic do/does/did",
+        "body": "<p>Adding <b>do/does/did</b> before the base verb stresses a positive statement, often countering doubt or contradicting an assumption: <em>I do believe the plan will succeed.</em> <em>She did submit the report on time.</em></p>"
+      },
+      {
+        "type": "table",
+        "title": "Inversion triggers",
+        "data": {
+          "head": [
+            "Trigger",
+            "Example"
+          ],
+          "rows": [
+            [
+              "Never / Rarely / Seldom",
+              "Rarely does the committee meet twice a month."
+            ],
+            [
+              "Not only ... but also",
+              "Not only did costs fall, but quality also improved."
+            ],
+            [
+              "Had (= if ... had)",
+              "Had the warning been heeded, the loss would have been smaller."
+            ],
+            [
+              "Were (= if ... were)",
+              "Were the policy adopted, unemployment would fall."
+            ],
+            [
+              "Should (= if ... should)",
+              "Should any issues arise, contact support immediately."
+            ]
+          ]
+        }
+      },
+      {
+        "type": "examples",
+        "data": {
+          "items": [
+            {
+              "en": "Never have I read such a persuasive argument.",
+              "note": "“Never” fronted → the auxiliary “have” inverts with the subject “I”."
+            },
+            {
+              "en": "Not only did the company cut emissions, but it also increased output.",
+              "note": "“Not only” + inversion; “but also” links the second clause."
+            },
+            {
+              "en": "Had the government invested earlier, the crisis might have been avoided.",
+              "note": "“Had”-inversion replaces “If the government had invested earlier”."
+            },
+            {
+              "en": "Under no circumstances should applicants submit incomplete forms.",
+              "note": "A restrictive negative adverbial triggers inversion with “should”."
+            },
+            {
+              "en": "I do think the proposal deserves serious consideration.",
+              "note": "Emphatic “do” stresses a positive opinion."
+            }
+          ]
+        }
+      },
+      {
+        "type": "tip",
+        "body": "<p>For band 8+ writing, use one inverted structure per essay for impact rather than several — overuse sounds unnatural. In speaking, emphatic do (<em>I do think…</em>) is far more natural than negative-adverbial inversion, which belongs mainly in formal writing.</p>"
+      }
+    ],
+    "quiz": [
+      {
+        "qtype": "mcq",
+        "prompt": "___ have I seen such a compelling presentation.",
+        "options": [
+          "Sometimes",
+          "Often",
+          "Never",
+          "Always"
+        ],
+        "answers": [
+          2
+        ],
+        "why": "“Never” fronted for emphasis requires inversion of the auxiliary “have” and the subject “I”."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "Not only ___ costs fall, but quality also improved.",
+        "options": [
+          "did",
+          "does",
+          "do",
+          "done"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "“Not only” inversion in the past requires the auxiliary “did” before the base verb “fall”."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "___ she known about the delay, she would have rescheduled the meeting.",
+        "options": [
+          "Did",
+          "Was",
+          "Has",
+          "Had"
+        ],
+        "answers": [
+          3
+        ],
+        "why": "“Had she known” = “If she had known”, with the auxiliary fronted for formal conditional inversion."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "___ any problems occur, please contact the technical support team immediately.",
+        "answers": [
+          "Should"
+        ],
+        "why": "“Should” + subject + base verb inverts “If any problems should occur” for a formal, polite conditional."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "I ___ believe that the results, though modest, are statistically significant.",
+        "options": [
+          "am",
+          "do",
+          "have",
+          "will"
+        ],
+        "answers": [
+          1
+        ],
+        "why": "Emphatic “do” + base verb stresses a positive claim, often countering doubt."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "___ (rare) does the panel reach a unanimous decision on the first vote.",
+        "answers": [
+          "Rarely"
+        ],
+        "why": "“Rarely” fronted as a restrictive adverbial triggers inversion with “does”."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "Under no circumstances ___ students use mobile phones during the exam.",
+        "options": [
+          "should",
+          "shouldn't",
+          "can",
+          "couldn't"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "“Under no circumstances” already carries the negative meaning, so the following clause must be positive: “should”, not “shouldn't”."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "___ (little) did the researchers expect such dramatic results.",
+        "answers": [
+          "Little"
+        ],
+        "why": "“Little” as a negative-restrictive adverbial triggers inversion: “Little did they expect…”."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "___ the proposal approved, funding would begin immediately.",
+        "answers": [
+          "Were"
+        ],
+        "why": "Formal conditional inversion drops “if” and fronts “were”: “Were the proposal approved…” = “If the proposal were approved…”."
+      },
+      {
+        "qtype": "transform",
+        "prompt": "Rewrite using inversion: \"If the company had known about the defect, it would have issued a recall.\"",
+        "answers": [
+          "Had the company known about the defect, it would have issued a recall.",
+          "Had the company known about the defect, it would have issued a recall"
+        ],
+        "why": "“Had”-inversion replaces “If the company had known…” in formal style."
+      }
+    ]
+  },
+  {
+    "slug": "cleft-sentences",
+    "stage": "expert",
+    "title": "Cleft Sentences",
+    "tag": "Emphasis",
+    "cefr": "C1–C2",
+    "blurb": "Highlight the most important part of a sentence with it-clefts and wh-clefts.",
+    "lesson": [
+      {
+        "type": "intro",
+        "body": "<p>Cleft sentences split a single idea into two clauses to put special focus on one element. The two main types are <b>it-clefts</b> (<em>It was Maria who…</em>) and <b>wh-clefts</b> (<em>What surprised everyone was…</em>), both common in academic writing and formal speech for emphasis.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "It-clefts",
+        "body": "<p><b>It + be + focused element + who/that + rest of clause</b> highlights a subject, object, time or place: <em>It was the marketing team that launched the campaign.</em> The focused element can be negated for contrast: <em>It wasn't the price that put customers off, but the delivery time.</em></p>"
+      },
+      {
+        "type": "rule",
+        "title": "Wh-clefts (what-clefts)",
+        "body": "<p><b>What + clause + be + focused element</b> highlights an idea, often at the end of the sentence for maximum emphasis: <em>What the report reveals is a sharp decline in exports.</em> <em>What surprised researchers was the speed of the change.</em></p>"
+      },
+      {
+        "type": "rule",
+        "title": "Reversed wh-clefts & all-clefts",
+        "body": "<p>The focused element can come first instead: <em>A shortage of housing is what caused the price rise.</em> <b>All</b> can replace <em>what</em> to mean “the only thing”: <em>All she wants is a fair hearing.</em></p>"
+      },
+      {
+        "type": "table",
+        "title": "Cleft patterns",
+        "data": {
+          "head": [
+            "Pattern",
+            "Example"
+          ],
+          "rows": [
+            [
+              "It-cleft (subject focus)",
+              "It was the government that funded the project."
+            ],
+            [
+              "It-cleft (object focus)",
+              "It was funding that the project lacked."
+            ],
+            [
+              "Wh-cleft",
+              "What the data shows is a steady rise in demand."
+            ],
+            [
+              "Reversed wh-cleft",
+              "A steady rise in demand is what the data shows."
+            ]
+          ]
+        }
+      },
+      {
+        "type": "examples",
+        "data": {
+          "items": [
+            {
+              "en": "It was the final question that decided the debate.",
+              "note": "It-cleft focuses on “the final question” as the cause."
+            },
+            {
+              "en": "It wasn't the cost that worried investors, but the uncertainty.",
+              "note": "A negated it-cleft sets up an explicit contrast."
+            },
+            {
+              "en": "What concerns economists most is the rising cost of borrowing.",
+              "note": "Wh-cleft places the focused idea after “is”."
+            },
+            {
+              "en": "A lack of affordable housing is what drove young people from the city.",
+              "note": "Reversed wh-cleft puts the focused idea first."
+            },
+            {
+              "en": "All the committee wants is a clear, evidence-based proposal.",
+              "note": "“All” + clause + be narrows focus to a single thing."
+            }
+          ]
+        }
+      },
+      {
+        "type": "tip",
+        "body": "<p>Cleft sentences let you control which idea receives stress without relying on spoken intonation, making them valuable in Task 2 essays and Speaking Part 3 for signposting your main point: <em>What this suggests is that…</em> is a strong, natural way to introduce an opinion.</p>"
+      }
+    ],
+    "quiz": [
+      {
+        "qtype": "mcq",
+        "prompt": "___ was the delayed shipment that caused the complaints, not the product quality.",
+        "options": [
+          "This",
+          "It",
+          "There",
+          "What"
+        ],
+        "answers": [
+          1
+        ],
+        "why": "It-cleft structure “It was X that…” focuses on “the delayed shipment” as the cause."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "What surprised the researchers most ___ the speed of the change.",
+        "options": [
+          "were",
+          "did",
+          "had",
+          "was"
+        ],
+        "answers": [
+          3
+        ],
+        "why": "In a wh-cleft, “be” agrees with the focused noun phrase that follows; “the speed” is singular, so “was”."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "___ the committee needs is more time to consider the evidence.",
+        "options": [
+          "All",
+          "Some",
+          "Many",
+          "Few"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "“All + clause + be” narrows the focus to “the only thing”, here more time."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "It wasn't the price ___ put customers off, but the long delivery time.",
+        "answers": [
+          "that",
+          "which"
+        ],
+        "why": "A negated it-cleft (“It wasn't X that…”) sets up the contrast completed by “but the long delivery time”."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "A shortage of skilled workers is ___ has slowed the project's progress.",
+        "options": [
+          "that",
+          "it",
+          "what",
+          "which"
+        ],
+        "answers": [
+          2
+        ],
+        "why": "Reversed wh-cleft: noun phrase + is + what + clause."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "___ the survey reveals is a marked increase in remote working.",
+        "answers": [
+          "What"
+        ],
+        "why": "Wh-cleft opener: “What + clause + be + focused element”."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "It was not until 2015 ___ the company turned a profit.",
+        "answers": [
+          "that"
+        ],
+        "why": "“It + be + not until + time + that…” is a common it-cleft pattern for emphasising when something happened."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "It is the quality of the evidence, ___ the quantity, that determines a strong argument.",
+        "options": [
+          "not",
+          "rather",
+          "instead",
+          "besides"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "The parenthetical “not the quantity” contrasts with the focused element “the quality of the evidence”."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "___ (need) most is a coordinated policy response, not further debate.",
+        "answers": [
+          "What is needed",
+          "What's needed"
+        ],
+        "why": "Wh-cleft opener “What is needed…” focuses on the coordinated policy response as the required thing."
+      },
+      {
+        "qtype": "transform",
+        "prompt": "Rewrite as an it-cleft to focus on \"the new manager\": \"The new manager introduced these changes.\"",
+        "answers": [
+          "It was the new manager who introduced these changes.",
+          "It was the new manager who introduced these changes",
+          "It was the new manager that introduced these changes.",
+          "It was the new manager that introduced these changes"
+        ],
+        "why": "It-cleft “It was X who/that…” shifts focus onto “the new manager”."
+      }
+    ]
+  },
+  {
+    "slug": "subjunctive-unreal-past",
+    "stage": "expert",
+    "title": "Subjunctive & Unreal Past",
+    "tag": "Unreal Forms",
+    "cefr": "C1–C2",
+    "blurb": "Use the mandative subjunctive and unreal past forms for formal recommendations, wishes and hypothetical comparisons.",
+    "lesson": [
+      {
+        "type": "intro",
+        "body": "<p>The subjunctive uses the base form of the verb (not the third-person -s) after verbs and expressions of recommendation, and an unreal past (<em>were</em>, not <em>was</em>) after hypothetical expressions such as <em>as if</em> and <em>would rather</em>. Both are markers of formal, precise English.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Mandative subjunctive",
+        "body": "<p>After verbs like <em>recommend, suggest, insist, demand, propose</em> and expressions like <em>it is essential/vital/important that</em>, the following clause uses the <b>base form</b> for every subject, with no <em>-s</em> and no change for past time: <em>The committee recommends that the policy be reviewed.</em> <em>It is essential that she arrive on time.</em></p>"
+      },
+      {
+        "type": "rule",
+        "title": "Were-subjunctive & as if/as though",
+        "body": "<p><b>Were</b> replaces <em>was</em> in formal hypotheticals for all persons: <em>If I were in charge, I would act differently.</em> <em>As if/as though</em> + past simple describes an unreal comparison in the present: <em>He talks as if he were an expert.</em> + past perfect describes an unreal comparison about the past: <em>She looked as though she had seen a ghost.</em></p>"
+      },
+      {
+        "type": "rule",
+        "title": "Would rather & it's time",
+        "body": "<p><b>Would rather + subject + past simple</b> expresses a preference about someone else's present/future action: <em>I would rather you told me now.</em> <b>It's (high) time + subject + past simple</b> expresses that something should already be happening: <em>It's time the report was finished.</em></p>"
+      },
+      {
+        "type": "table",
+        "title": "Subjunctive & unreal-past patterns",
+        "data": {
+          "head": [
+            "Pattern",
+            "Structure",
+            "Example"
+          ],
+          "rows": [
+            [
+              "Mandative subjunctive",
+              "verb/expression + that + base form",
+              "The doctor insisted that he rest."
+            ],
+            [
+              "Were-subjunctive",
+              "if / as if / as though + were",
+              "She acts as if she were the manager."
+            ],
+            [
+              "Would rather",
+              "would rather + past simple",
+              "I'd rather you didn't mention it."
+            ],
+            [
+              "It's time",
+              "it's time + past simple",
+              "It's time the policy changed."
+            ]
+          ]
+        }
+      },
+      {
+        "type": "examples",
+        "data": {
+          "items": [
+            {
+              "en": "The board recommended that the budget be increased.",
+              "note": "Mandative subjunctive: base form “be” after “recommended that”."
+            },
+            {
+              "en": "It is vital that every participant sign the consent form.",
+              "note": "“Sign”, not “signs” — the subjunctive ignores third-person -s."
+            },
+            {
+              "en": "He speaks as if he were fluent in five languages.",
+              "note": "Were-subjunctive after “as if” for an unreal present comparison."
+            },
+            {
+              "en": "I would rather you arrived a little earlier next time.",
+              "note": "Would rather + past simple expresses a preference about someone else's action."
+            },
+            {
+              "en": "It's high time the committee made a final decision.",
+              "note": "It's (high) time + past simple implies the action is overdue."
+            }
+          ]
+        }
+      },
+      {
+        "type": "tip",
+        "body": "<p>For band 8+ writing, the mandative subjunctive after formal verbs (<em>recommend, propose, demand</em>) sounds noticeably more sophisticated than a modal paraphrase; reserve <em>were</em>-subjunctive and <em>would rather</em> mainly for hypothetical or polite contexts, not everyday facts.</p>"
+      }
+    ],
+    "quiz": [
+      {
+        "qtype": "mcq",
+        "prompt": "The professor insisted that the essay ___ resubmitted.",
+        "options": [
+          "is",
+          "was",
+          "be",
+          "been"
+        ],
+        "answers": [
+          2
+        ],
+        "why": "Mandative subjunctive after “insisted that” uses the base form “be”, regardless of tense."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "It is essential that each candidate ___ the form before Friday.",
+        "options": [
+          "submit",
+          "submits",
+          "submitted",
+          "submitting"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "Mandative subjunctive after “it is essential that” takes the base form “submit” for every subject."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "She acts as if she ___ the only qualified person in the room.",
+        "options": [
+          "is",
+          "be",
+          "being",
+          "were"
+        ],
+        "answers": [
+          3
+        ],
+        "why": "“As if” introducing an unreal present comparison uses the subjunctive “were”, not the present tense “is”."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "He behaves as if he ___ (be) responsible for the entire department.",
+        "answers": [
+          "were",
+          "was"
+        ],
+        "why": "“As if” introduces an unreal comparison; “were” is the traditional subjunctive form, though “was” is common in informal speech."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "The regulations require that every applicant ___ proof of residence.",
+        "options": [
+          "provides",
+          "provide",
+          "provided",
+          "providing"
+        ],
+        "answers": [
+          1
+        ],
+        "why": "Mandative subjunctive after “require that” takes the base form “provide”, not the third-person -s form."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "It is important that the results ___ (verify) independently before publication.",
+        "answers": [
+          "be verified"
+        ],
+        "why": "Mandative subjunctive after “it is important that” uses the base form of “be” + past participle for a passive meaning: “be verified”."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "I would rather you ___ this to anyone right now.",
+        "options": [
+          "didn't mention",
+          "don't mention",
+          "won't mention",
+          "aren't mentioning"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "“Would rather + subject + past simple” expresses a preference about someone else's present/future action."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "It's high time the report ___ (finish).",
+        "answers": [
+          "was finished"
+        ],
+        "why": "“It's (high) time” + past simple describes something that should already have happened; here the passive “was finished”."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "If she ___ (be) in charge, she would reorganise the whole department.",
+        "answers": [
+          "were",
+          "was"
+        ],
+        "why": "Hypothetical “if” clause: “were” is the traditional subjunctive for all persons; “was” is a common informal alternative."
+      },
+      {
+        "qtype": "transform",
+        "prompt": "Rewrite using a mandative subjunctive: \"The dean insists that all staff must attend the meeting.\"",
+        "answers": [
+          "The dean insists that all staff attend the meeting.",
+          "The dean insists that all staff attend the meeting"
+        ],
+        "why": "Mandative subjunctive drops the modal “must” and uses the bare base form “attend” after “insists that”."
+      }
+    ]
+  },
+  {
+    "slug": "advanced-modality",
+    "stage": "expert",
+    "title": "Advanced Modality",
+    "tag": "Modals",
+    "cefr": "C1–C2",
+    "blurb": "Speculate about the past, express criticism and hedge claims with advanced modal patterns.",
+    "lesson": [
+      {
+        "type": "intro",
+        "body": "<p>Beyond basic ability, permission and obligation, modal verbs combine with <em>have + past participle</em> to speculate about the past, criticise past actions, and hedge academic claims. These patterns are essential for nuanced Task 2 argumentation.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Past deduction",
+        "body": "<p><b>Must have + V3</b> expresses a confident positive deduction about the past; <b>can't/couldn't have + V3</b> expresses a confident negative deduction; <b>might/could/may have + V3</b> expresses an uncertain possibility: <em>The results must have been affected by sampling error.</em> <em>She can't have finished already — it's only been ten minutes.</em></p>"
+      },
+      {
+        "type": "rule",
+        "title": "Criticism & regret",
+        "body": "<p><b>Should have/shouldn't have + V3</b> criticises a past action that did or didn't happen: <em>The government should have consulted experts first.</em> <b>Needn't have + V3</b> means an action happened but was unnecessary: <em>She needn't have worried; the results were fine.</em> This differs from <em>didn't need to</em>, which usually means the action was not done because it was unnecessary.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Hedged academic modality",
+        "body": "<p>Combining a modal with a hedging adverb softens a claim for academic caution: <em>may well, might arguably, could conceivably</em>: <em>The trend may well continue if current policies persist.</em> <em>Would seem to</em> hedges an inference: <em>The data would seem to support this hypothesis.</em></p>"
+      },
+      {
+        "type": "table",
+        "title": "Modal + have patterns",
+        "data": {
+          "head": [
+            "Meaning",
+            "Form",
+            "Example"
+          ],
+          "rows": [
+            [
+              "Confident past deduction (positive)",
+              "must have + V3",
+              "He must have missed the announcement."
+            ],
+            [
+              "Confident past deduction (negative)",
+              "can't/couldn't have + V3",
+              "They can't have left already."
+            ],
+            [
+              "Criticism of a past action",
+              "should(n't) have + V3",
+              "You shouldn't have deleted the file."
+            ],
+            [
+              "Unnecessary action (that happened)",
+              "needn't have + V3",
+              "We needn't have booked in advance."
+            ]
+          ]
+        }
+      },
+      {
+        "type": "examples",
+        "data": {
+          "items": [
+            {
+              "en": "The witness must have seen something, given how nervous she looked.",
+              "note": "Must have + V3 = confident positive deduction about the past."
+            },
+            {
+              "en": "He can't have read the instructions carefully, or he wouldn't have made that mistake.",
+              "note": "Can't have + V3 = confident negative deduction."
+            },
+            {
+              "en": "The board should have anticipated the market downturn.",
+              "note": "Should have + V3 criticises a past inaction."
+            },
+            {
+              "en": "You needn't have brought an umbrella; it never rained.",
+              "note": "Needn't have + V3 = an unnecessary action that was still carried out."
+            },
+            {
+              "en": "The policy may well reduce emissions, though further evidence is needed.",
+              "note": "A hedged modal softens the claim for academic caution."
+            }
+          ]
+        }
+      },
+      {
+        "type": "tip",
+        "body": "<p>For band 8+ speaking and writing, layering a hedge onto a modal (<em>may well, would arguably</em>) signals sophisticated caution without sounding vague — far stronger than repeating “maybe” or “probably”.</p>"
+      }
+    ],
+    "quiz": [
+      {
+        "qtype": "mcq",
+        "prompt": "Judging by the empty glasses, several guests ___ before we arrived.",
+        "options": [
+          "must arrive",
+          "must have arrived",
+          "must have arrive",
+          "must arriving"
+        ],
+        "answers": [
+          1
+        ],
+        "why": "Must have + past participle expresses a confident deduction about a completed past action."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "She left only twenty minutes ago, so she ___ have finished the marathon by now.",
+        "options": [
+          "must",
+          "should",
+          "would",
+          "can't"
+        ],
+        "answers": [
+          3
+        ],
+        "why": "Given the short time elapsed, a confident negative deduction is needed: “can't have finished”."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "You ___ have told me the meeting was cancelled — I got up at 5 a.m. for nothing!",
+        "options": [
+          "should",
+          "must",
+          "can't",
+          "needn't"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "“Should have + V3” criticises the past action of not telling the speaker sooner."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "We ___ (need) have reserved a table; the restaurant was almost empty.",
+        "answers": [
+          "needn't"
+        ],
+        "why": "“Needn't have + V3” = an unnecessary action that still happened; the empty restaurant confirms the booking wasn't required."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "The delay ___ have been caused by heavy traffic, though we can't be certain.",
+        "options": [
+          "mustn't",
+          "shouldn't",
+          "may well",
+          "needn't"
+        ],
+        "answers": [
+          2
+        ],
+        "why": "“May well have + V3” hedges a plausible but uncertain past cause."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "Current trends suggest that automation ___ (well) replace many routine jobs within a decade.",
+        "answers": [
+          "may well"
+        ],
+        "why": "“May well” hedges a confident-but-cautious prediction, softer than a bare “will”."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "He ___ have seen the email — he replied to it within a minute.",
+        "options": [
+          "can't",
+          "needn't",
+          "shouldn't",
+          "must"
+        ],
+        "answers": [
+          3
+        ],
+        "why": "Must have + V3 expresses a confident positive deduction, supported by the quick reply."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "The data ___ (seem) to support the hypothesis, although the sample size is small.",
+        "answers": [
+          "would seem"
+        ],
+        "why": "“Would seem to” hedges an inference drawn cautiously from limited data."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "I ___ (should) have double-checked the figures before submitting the report.",
+        "answers": [
+          "should"
+        ],
+        "why": "“Should have + V3” criticises the speaker's own past inaction."
+      },
+      {
+        "qtype": "transform",
+        "prompt": "Rewrite using \"shouldn't have\": \"It was a mistake for the team to ignore the warning signs.\"",
+        "answers": [
+          "The team shouldn't have ignored the warning signs.",
+          "The team shouldn't have ignored the warning signs"
+        ],
+        "why": "“Shouldn't have + V3” criticises the team's past action of ignoring the warnings."
+      }
+    ]
+  },
+  {
+    "slug": "participle-clauses",
+    "stage": "expert",
+    "title": "Participle Clauses",
+    "tag": "Clauses",
+    "cefr": "C1–C2",
+    "blurb": "Reduce relative clauses and combine ideas efficiently with participle clauses.",
+    "lesson": [
+      {
+        "type": "intro",
+        "body": "<p>Participle clauses use <em>-ing</em>, <em>-ed</em>, or a perfect participle instead of a full relative or adverbial clause, producing more concise, sophisticated sentences. They can replace relative clauses or express time, reason, and sequence.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Reduced relative clauses",
+        "body": "<p>An active relative clause (<em>who/which + verb</em>) can reduce to a <b>present participle</b>: <em>Passengers who are waiting</em> → <em>Passengers waiting for the delayed train grew frustrated.</em> A passive relative clause reduces to a <b>past participle</b>: <em>The report that was written by the committee</em> → <em>The report written by the committee was published.</em></p>"
+      },
+      {
+        "type": "rule",
+        "title": "Time, reason & result",
+        "body": "<p>A participle clause can replace an adverbial clause of time or reason when the subjects match: <em>After she finished the exam, she left</em> → <em>Having finished the exam, she left.</em> <em>Because he did not know the answer, he guessed</em> → <em>Not knowing the answer, he guessed.</em></p>"
+      },
+      {
+        "type": "rule",
+        "title": "Perfect participle for earlier action",
+        "body": "<p>The perfect participle (<b>having + V3</b>) shows the participle-clause action happened <b>before</b> the main clause, avoiding ambiguity about sequence: <em>Having submitted the application, she waited anxiously for a reply.</em></p>"
+      },
+      {
+        "type": "table",
+        "title": "Participle clause forms",
+        "data": {
+          "head": [
+            "Full clause",
+            "Participle clause"
+          ],
+          "rows": [
+            [
+              "The man who lives next door is a doctor.",
+              "The man living next door is a doctor."
+            ],
+            [
+              "The bridge that was built in 1990 needs repair.",
+              "The bridge built in 1990 needs repair."
+            ],
+            [
+              "Because she was unsure, she asked for help.",
+              "Unsure, she asked for help."
+            ],
+            [
+              "After he had checked the figures, he signed the report.",
+              "Having checked the figures, he signed the report."
+            ]
+          ]
+        }
+      },
+      {
+        "type": "examples",
+        "data": {
+          "items": [
+            {
+              "en": "Students studying abroad often adapt quickly to new cultures.",
+              "note": "Reduced active relative clause: “who are studying” → “studying”."
+            },
+            {
+              "en": "The data collected during the survey revealed a clear pattern.",
+              "note": "Reduced passive relative clause: “that was collected” → “collected”."
+            },
+            {
+              "en": "Realising her mistake, she corrected the report immediately.",
+              "note": "A participle clause of reason replaces “Because she realised…”."
+            },
+            {
+              "en": "Having reviewed the evidence, the committee reached its decision.",
+              "note": "The perfect participle shows the review happened before the decision."
+            },
+            {
+              "en": "Written in plain language, the guide is accessible to non-specialists.",
+              "note": "A past participle clause fronted for emphasis replaces “Because it is written…”."
+            }
+          ]
+        }
+      },
+      {
+        "type": "tip",
+        "body": "<p>Participle clauses let you avoid a string of short clauses joined by “and” or “because”, raising sentence variety for band 8+ writing. Use the perfect participle (<em>having + V3</em>) whenever the order of events matters, to avoid ambiguity.</p>"
+      }
+    ],
+    "quiz": [
+      {
+        "qtype": "mcq",
+        "prompt": "___ the deadline, the team worked through the weekend.",
+        "options": [
+          "Faced",
+          "Face",
+          "Facing",
+          "To face"
+        ],
+        "answers": [
+          2
+        ],
+        "why": "The active participle “Facing” replaces “Because the team was facing the deadline”."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "The proposal ___ by the board last week has been sent for review.",
+        "options": [
+          "approved",
+          "approving",
+          "approve",
+          "to approve"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "A passive relative clause (“that was approved”) reduces to the past participle “approved”."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "___ her research, she moved on to writing the conclusion.",
+        "options": [
+          "Completed",
+          "Complete",
+          "To complete",
+          "Having completed"
+        ],
+        "answers": [
+          3
+        ],
+        "why": "The perfect participle “Having completed” shows the research finished before the writing began."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "Passengers ___ (wait) for the delayed flight filled the departure lounge.",
+        "answers": [
+          "waiting"
+        ],
+        "why": "A reduced active relative clause: “who were waiting” → “waiting”."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "___ that the results were inconclusive, the researchers repeated the experiment.",
+        "options": [
+          "Realised",
+          "Realising",
+          "To realise",
+          "Realise"
+        ],
+        "answers": [
+          1
+        ],
+        "why": "The active participle “Realising” replaces “Because they realised…”."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "The bridge ___ (build) in the nineteenth century still carries heavy traffic today.",
+        "answers": [
+          "built"
+        ],
+        "why": "A reduced passive relative clause: “that was built” → “built”."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "___ enough evidence, the police were unable to make an arrest.",
+        "options": [
+          "Not having",
+          "Not have",
+          "Having not",
+          "Not had"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "The negative perfect participle places “not” before “having”: “Not having enough evidence…”."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "___ (write) in clear, accessible language, the report reached a wide audience.",
+        "answers": [
+          "Written"
+        ],
+        "why": "A fronted past participle clause of reason replaces “Because it was written…”."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "___ (finish) the interviews, the panel began deliberating immediately.",
+        "answers": [
+          "Having finished"
+        ],
+        "why": "The perfect participle shows the interviews were completed before the deliberation began."
+      },
+      {
+        "qtype": "transform",
+        "prompt": "Combine into one sentence using a participle clause: \"She had reviewed all the applications. Then she shortlisted five candidates.\"",
+        "answers": [
+          "Having reviewed all the applications, she shortlisted five candidates.",
+          "Having reviewed all the applications, she shortlisted five candidates"
+        ],
+        "why": "“Having reviewed + V3” shows the review was completed before the shortlisting."
+      }
+    ]
+  },
+  {
+    "slug": "nominalisation",
+    "stage": "expert",
+    "title": "Nominalisation",
+    "tag": "Academic Style",
+    "cefr": "C1–C2",
+    "blurb": "Convert verbs and adjectives into nouns for a more formal, academic register.",
+    "lesson": [
+      {
+        "type": "intro",
+        "body": "<p><b>Nominalisation</b> turns a verb or adjective into an abstract noun (<em>increase, decrease, implementation, availability</em>), letting a whole clause become a compact noun phrase. It is one of the clearest markers of formal academic writing, common in Task 1 reports and Task 2 essays.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Verb → noun",
+        "body": "<p>Many verbs have a related noun formed with suffixes such as <em>-tion, -sion, -ment, -ance, -al</em>: <em>reduce → reduction, implement → implementation, arrive → arrival, perform → performance</em>. The verb clause <em>Prices increased sharply</em> becomes the noun phrase <em>a sharp increase in prices</em>.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Adjective → noun",
+        "body": "<p>Adjectives nominalise with suffixes such as <em>-ity, -ness, -cy</em>: <em>available → availability, efficient → efficiency, accurate → accuracy</em>. <em>The data is not accurate</em> becomes <em>the inaccuracy of the data</em>.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Building formal sentences with nominalisation",
+        "body": "<p>Nominalised nouns often become the subject of a formal sentence, paired with a general verb such as <em>lead to, result in, contribute to</em>: <em>The introduction of new regulations led to a decline in emissions.</em> This packs two ideas into one clause instead of two.</p>"
+      },
+      {
+        "type": "table",
+        "title": "Verb/adjective → noun",
+        "data": {
+          "head": [
+            "Verb/adjective",
+            "Nominalised form",
+            "Example"
+          ],
+          "rows": [
+            [
+              "reduce",
+              "reduction",
+              "a reduction in government spending"
+            ],
+            [
+              "available",
+              "availability",
+              "the availability of affordable housing"
+            ],
+            [
+              "implement",
+              "implementation",
+              "the implementation of the new policy"
+            ],
+            [
+              "efficient",
+              "efficiency",
+              "an improvement in energy efficiency"
+            ]
+          ]
+        }
+      },
+      {
+        "type": "examples",
+        "data": {
+          "items": [
+            {
+              "en": "The government's implementation of the new tax policy caused public debate.",
+              "note": "“Implement” → “implementation” becomes the subject noun phrase."
+            },
+            {
+              "en": "A steady increase in life expectancy has changed retirement planning.",
+              "note": "“Increase” as a noun avoids the clause “life expectancy increased”."
+            },
+            {
+              "en": "The availability of clean water varies significantly between regions.",
+              "note": "“Available” → “availability” as an abstract noun subject."
+            },
+            {
+              "en": "The reduction in manufacturing jobs contributed to regional unemployment.",
+              "note": "“Reduce” → “reduction” packages the cause into a noun phrase."
+            },
+            {
+              "en": "Improved efficiency in production methods lowered overall costs.",
+              "note": "“Efficient” → “efficiency” as the subject of the sentence."
+            }
+          ]
+        }
+      },
+      {
+        "type": "tip",
+        "body": "<p>For band 7+ writing, overusing nominalisation can sound dense and impersonal — balance nominalised sentences with clearer verb-based ones so the essay remains readable, especially in the conclusion where clarity matters most.</p>"
+      }
+    ],
+    "quiz": [
+      {
+        "qtype": "mcq",
+        "prompt": "The government's ___ of the new curriculum faced criticism from teachers.",
+        "options": [
+          "implement",
+          "implementation",
+          "implementing",
+          "implemented"
+        ],
+        "answers": [
+          1
+        ],
+        "why": "“Implement” nominalises to “implementation”, the noun form used as the subject."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "The ___ of affordable housing remains a major issue in the city.",
+        "options": [
+          "availability",
+          "available",
+          "avail",
+          "availably"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "“Available” nominalises to “availability”, the abstract noun needed as the subject."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "A sharp ___ in oil prices affected transport costs nationwide.",
+        "options": [
+          "increasing",
+          "increased",
+          "increase",
+          "increasingly"
+        ],
+        "answers": [
+          2
+        ],
+        "why": "“Increase” functions as a noun here, following the adjective “sharp”."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "The ___ (reduce) in carbon emissions was smaller than scientists had hoped.",
+        "answers": [
+          "reduction"
+        ],
+        "why": "“Reduce” nominalises to “reduction”, the noun form used as the subject."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "Improvements in production ___ helped the company cut costs significantly.",
+        "options": [
+          "efficient",
+          "efficiently",
+          "efficiency",
+          "efficacious"
+        ],
+        "answers": [
+          2
+        ],
+        "why": "“Efficient” nominalises to “efficiency”, the noun needed after “production”."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "The company's ___ (arrive) in the Asian market boosted its annual revenue.",
+        "answers": [
+          "arrival"
+        ],
+        "why": "“Arrive” nominalises to “arrival”, the noun form used as the subject."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "The ___ of the data was questioned after several errors were found.",
+        "options": [
+          "accurate",
+          "accurately",
+          "accuracies",
+          "accuracy"
+        ],
+        "answers": [
+          3
+        ],
+        "why": "“Accurate” nominalises to the uncountable noun “accuracy”."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "The committee's ___ (decide) to postpone the vote surprised many members.",
+        "answers": [
+          "decision"
+        ],
+        "why": "“Decide” nominalises to “decision”, the noun form used as the subject."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "___ (perform) in the exam depends heavily on effective time management.",
+        "answers": [
+          "Performance"
+        ],
+        "why": "“Perform” nominalises to “performance”, the noun form used as the subject."
+      },
+      {
+        "qtype": "transform",
+        "prompt": "Rewrite using a nominalised form of \"increase\": \"Prices increased sharply after the storm.\"",
+        "answers": [
+          "There was a sharp increase in prices after the storm.",
+          "There was a sharp increase in prices after the storm",
+          "A sharp increase in prices followed the storm.",
+          "A sharp increase in prices followed the storm"
+        ],
+        "why": "“Increase” as a noun packages the verb clause into a noun phrase, typical of formal academic style."
+      }
+    ]
+  },
+  {
+    "slug": "hedging-academic-tone",
+    "stage": "expert",
+    "title": "Hedging & Academic Tone",
+    "tag": "Academic Style",
+    "cefr": "C1–C2",
+    "blurb": "Soften claims and avoid overgeneralisation with hedging verbs, adverbs and quantifiers.",
+    "lesson": [
+      {
+        "type": "intro",
+        "body": "<p><b>Hedging</b> softens a claim so it sounds cautious and evidence-based rather than absolute — essential for academic register, where over-confident generalisations (<em>all, always, definitely</em>) weaken an argument's credibility.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Hedging verbs",
+        "body": "<p>Verbs such as <em>suggest, indicate, appear, seem, tend to</em> present a claim as likely rather than certain: <em>The data suggests a correlation, not necessarily causation.</em> <em>Younger respondents tend to favour online shopping.</em></p>"
+      },
+      {
+        "type": "rule",
+        "title": "Hedging adverbs & quantifiers",
+        "body": "<p>Adverbs like <em>arguably, largely, broadly, potentially</em> and quantifiers like <em>a number of, many, to some extent</em> avoid overgeneralisation: <em>The policy is arguably the most effective option.</em> <em>To some extent, both factors contributed.</em></p>"
+      },
+      {
+        "type": "rule",
+        "title": "Avoiding absolutes",
+        "body": "<p>Replace absolute words (<em>all, every, always, never, prove</em>) with cautious alternatives (<em>most, many, often, rarely, suggest</em>) unless the claim is genuinely universal: <em>Most studies indicate…</em> rather than <em>All studies prove…</em>, which a single counter-example could disprove.</p>"
+      },
+      {
+        "type": "table",
+        "title": "Confident vs hedged claims",
+        "data": {
+          "head": [
+            "Overstated (risky)",
+            "Hedged (academic)"
+          ],
+          "rows": [
+            [
+              "All students prefer online learning.",
+              "Many students appear to prefer online learning."
+            ],
+            [
+              "This proves the theory is correct.",
+              "This suggests the theory may be correct."
+            ],
+            [
+              "The policy will definitely reduce poverty.",
+              "The policy could potentially reduce poverty."
+            ]
+          ]
+        }
+      },
+      {
+        "type": "examples",
+        "data": {
+          "items": [
+            {
+              "en": "The survey results suggest a shift in consumer preferences.",
+              "note": "“Suggest” hedges the claim rather than stating it as fact."
+            },
+            {
+              "en": "Remote work appears to increase productivity for some employees.",
+              "note": "“Appears to” and “for some” avoid overgeneralisation."
+            },
+            {
+              "en": "The findings are arguably the most significant of the decade.",
+              "note": "“Arguably” signals a defensible opinion, not an absolute fact."
+            },
+            {
+              "en": "A number of factors may have contributed to the decline.",
+              "note": "“A number of” and “may have” hedge both quantity and certainty."
+            },
+            {
+              "en": "This trend is likely, to some extent, to continue in the coming years.",
+              "note": "“To some extent” limits the scope of the claim."
+            }
+          ]
+        }
+      },
+      {
+        "type": "tip",
+        "body": "<p>For band 8+ Writing Task 2, hedge your thesis and key claims but not your structure signposts — reserve confident language (<em>clearly, this essay will argue</em>) for organisation, and hedges (<em>arguably, tends to</em>) for the substance of your claims.</p>"
+      }
+    ],
+    "quiz": [
+      {
+        "qtype": "mcq",
+        "prompt": "The results ___ a link between diet and concentration, though further research is needed.",
+        "options": [
+          "suggest",
+          "prove",
+          "guarantee",
+          "confirm absolutely"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "“Suggest” hedges the claim as likely rather than certain."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "___ speaking, urban residents report higher stress levels than rural residents.",
+        "options": [
+          "Absolutely",
+          "Broadly",
+          "Completely",
+          "Definitely"
+        ],
+        "answers": [
+          1
+        ],
+        "why": "“Broadly speaking” hedges a generalisation without claiming it applies to every case."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "Which sentence is best hedged for an academic essay?",
+        "options": [
+          "All commuters hate public transport.",
+          "Every commuter dislikes public transport.",
+          "Commuters always dislike public transport.",
+          "Many commuters express dissatisfaction with public transport."
+        ],
+        "answers": [
+          3
+        ],
+        "why": "“Many” and “express dissatisfaction” avoid the absolute, unsupportable claim made by “all/every/always”."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "The data ___ (indicate) a modest improvement in reading scores.",
+        "answers": [
+          "indicate",
+          "indicates"
+        ],
+        "why": "“Indicate(s)” hedges the claim as likely rather than certain; “data” is treated as plural in formal style, though “indicates” is common too."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "Younger employees ___ to prefer flexible working arrangements these days.",
+        "options": [
+          "tends",
+          "tending",
+          "tend",
+          "tended"
+        ],
+        "answers": [
+          2
+        ],
+        "why": "“Tend to” hedges a generalisation; the plural subject “employees” takes “tend”."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "___ (large), the policy has been well received, though some critics disagree.",
+        "answers": [
+          "Largely"
+        ],
+        "why": "“Largely” hedges the claim, acknowledging it is not universally true."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "The proposal is ___ (argue) the most cost-effective solution available.",
+        "answers": [
+          "arguably"
+        ],
+        "why": "“Arguably” signals a defensible opinion rather than an absolute fact."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "To some ___, both economic and cultural factors explain the trend.",
+        "answers": [
+          "extent"
+        ],
+        "why": "“To some extent” is a fixed hedging phrase limiting the scope of a claim."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "The report notes that the reform ___ (potential) reduces inequality rather than eliminates it.",
+        "answers": [
+          "potentially"
+        ],
+        "why": "“Potentially” hedges the claim, avoiding the overstated verb “eliminates”."
+      },
+      {
+        "qtype": "transform",
+        "prompt": "Rewrite to hedge this overstated claim: \"This proves that social media causes anxiety in teenagers.\"",
+        "answers": [
+          "This suggests that social media may cause anxiety in teenagers.",
+          "This suggests that social media may cause anxiety in teenagers",
+          "This suggests that social media could cause anxiety in teenagers.",
+          "This suggests that social media could cause anxiety in teenagers"
+        ],
+        "why": "“Suggests” and “may/could” replace the absolute claim “proves” with a cautious, evidence-based one."
+      }
+    ]
+  },
+  {
+    "slug": "mixed-conditionals",
+    "stage": "expert",
+    "title": "Mixed Conditionals",
+    "tag": "Conditionals",
+    "cefr": "C1–C2",
+    "blurb": "Combine different time frames in one conditional sentence for nuanced cause-and-effect.",
+    "lesson": [
+      {
+        "type": "intro",
+        "body": "<p>A <b>mixed conditional</b> combines an if-clause and a main clause from different time frames, linking a past cause to a present result, or a present/general truth to a past result — beyond the standard first-third conditional pairings.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Past cause → present result",
+        "body": "<p><em>If + past perfect, would + base form</em> links an unreal past action to a present consequence: <em>If she had studied medicine, she would be a doctor now.</em> The past action didn't happen, and its present effect is also unreal.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Present/general cause → past result",
+        "body": "<p><em>If + past simple, would have + past participle</em> links an ongoing present truth (usually about character or state) to an unreal past result: <em>If he weren't so stubborn, he wouldn't have argued with the referee.</em> The present state is real and ongoing; the past result is unreal.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Choosing the right mix",
+        "body": "<p>Ask which clause is unreal <b>now</b> and which was unreal <b>then</b>. A present state (<em>if I were more organised</em>) needs <em>would have + V3</em> for the past result; a past action (<em>if I had left earlier</em>) needs <em>would + base</em> for the present result.</p>"
+      },
+      {
+        "type": "table",
+        "title": "Mixed conditional patterns",
+        "data": {
+          "head": [
+            "If-clause (time)",
+            "Main clause (time)",
+            "Example"
+          ],
+          "rows": [
+            [
+              "Past (unreal past action)",
+              "Present (would + base)",
+              "If they had missed the flight, they would be stuck at the airport now."
+            ],
+            [
+              "Present (unreal ongoing state)",
+              "Past (would have + V3)",
+              "If I weren't so busy, I would have joined you yesterday."
+            ]
+          ]
+        }
+      },
+      {
+        "type": "examples",
+        "data": {
+          "items": [
+            {
+              "en": "If she had accepted the job offer, she would be living in Singapore now.",
+              "note": "Past cause (unreal) → present result (unreal)."
+            },
+            {
+              "en": "If he weren't afraid of flying, he would have visited his family last year.",
+              "note": "Present ongoing state → unreal past result."
+            },
+            {
+              "en": "If the bridge hadn't been built, the two towns would still be isolated.",
+              "note": "Past cause → present result, with a passive if-clause."
+            },
+            {
+              "en": "If I spoke French fluently, I would have applied for that job in Paris.",
+              "note": "Present state (I don't speak French) → unreal past result."
+            },
+            {
+              "en": "If the company had invested in training, staff turnover would be much lower today.",
+              "note": "Past cause → ongoing present result."
+            }
+          ]
+        }
+      },
+      {
+        "type": "tip",
+        "body": "<p>Mixed conditionals let you show precisely how a past decision still affects the present, or how a stable trait shaped a specific past event — a nuance basic conditionals cannot express, and one examiners notice in band 8+ responses.</p>"
+      }
+    ],
+    "quiz": [
+      {
+        "qtype": "mcq",
+        "prompt": "If she ___ harder at school, she would be at university now.",
+        "options": [
+          "had studied",
+          "studied",
+          "has studied",
+          "would study"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "Past cause (unreal past action) takes “if + past perfect”: “had studied”."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "If he weren't so shy, he ___ to more social events last year.",
+        "options": [
+          "would go",
+          "had gone",
+          "would have gone",
+          "went"
+        ],
+        "answers": [
+          2
+        ],
+        "why": "A present ongoing state (“weren't so shy”) links to an unreal past result: “would have gone”."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "If the team ___ better in the first half, they would be leading the tournament now.",
+        "options": [
+          "played",
+          "had played",
+          "have played",
+          "would play"
+        ],
+        "answers": [
+          1
+        ],
+        "why": "Past cause (unreal past action) takes “if + past perfect”: “had played”."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "If I ___ (be) more careful with money, I wouldn't have gone into debt last year.",
+        "answers": [
+          "were",
+          "was"
+        ],
+        "why": "A present ongoing trait (carelessness with money) links to an unreal past result; “were” is the traditional form, “was” a common informal alternative."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "If they hadn't sold the house, they ___ so much space now.",
+        "options": [
+          "would have had",
+          "wouldn't have",
+          "had",
+          "would have"
+        ],
+        "answers": [
+          3
+        ],
+        "why": "Past cause (unreal past action) links to a present result: “would have” + noun."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "If the government ___ (invest) more in public transport a decade ago, congestion wouldn't be such a problem today.",
+        "answers": [
+          "had invested"
+        ],
+        "why": "Past cause (unreal past action) takes “if + past perfect”: “had invested”, linked to a present result."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "If we hadn't missed the earlier train, we ___ stuck at the station now.",
+        "options": [
+          "wouldn't be",
+          "wouldn't have been",
+          "won't be",
+          "hadn't been"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "Past cause (unreal past action) links to an unreal present result: “wouldn't be”."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "If he ___ (not / lose) his passport, he would be on holiday in Spain right now.",
+        "answers": [
+          "hadn't lost"
+        ],
+        "why": "Past cause (unreal past action) takes “if + past perfect”: “hadn't lost”, linked to a present result."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "If I ___ (know) how to swim, I would have joined the rescue team yesterday.",
+        "answers": [
+          "knew"
+        ],
+        "why": "A present ongoing state (not knowing how to swim) links to an unreal past result: “would have joined”."
+      },
+      {
+        "qtype": "transform",
+        "prompt": "Combine into a mixed conditional (past cause, present result): \"She didn't take the internship. She isn't working in finance now.\"",
+        "answers": [
+          "If she had taken the internship, she would be working in finance now.",
+          "If she had taken the internship, she would be working in finance now"
+        ],
+        "why": "A past unreal cause (didn't take the internship) plus a present unreal result (isn't working in finance) needs “if + past perfect, would + base”."
+      }
+    ]
+  },
+  {
+    "slug": "ellipsis-substitution",
+    "stage": "expert",
+    "title": "Ellipsis & Substitution",
+    "tag": "Cohesion",
+    "cefr": "C1–C2",
+    "blurb": "Avoid repetition with ellipsis and substitution words like one, do so, and so/not.",
+    "lesson": [
+      {
+        "type": "intro",
+        "body": "<p><b>Ellipsis</b> omits words that are recoverable from context; <b>substitution</b> replaces them with a short word such as <em>one, do so, so, not</em>. Both make writing and speech more economical and cohesive, avoiding clumsy repetition.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Ellipsis after auxiliaries",
+        "body": "<p>Repeated verb phrases after auxiliaries can be omitted: <em>She can speak French, and he can [speak French] too.</em> → <em>She can speak French, and he can too.</em> This is common after <em>and, but, if, though</em>.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Substitution with one/ones and do so",
+        "body": "<p><b>One/ones</b> replaces a countable noun already mentioned: <em>I need a pen — do you have one?</em> <b>Do so/did so</b> substitutes for a whole action already named, avoiding repetition of the main verb: <em>She submitted her essay before the deadline; he did so as well.</em></p>"
+      },
+      {
+        "type": "rule",
+        "title": "So/not after belief verbs",
+        "body": "<p>After verbs like <em>think, hope, believe, suppose, expect</em>, <b>so</b> substitutes for a whole positive clause and <b>not</b> (or <em>don't think so</em>) for a negative one: <em>Will the plan succeed? I hope so. / I hope not.</em></p>"
+      },
+      {
+        "type": "table",
+        "title": "Ellipsis & substitution",
+        "data": {
+          "head": [
+            "Device",
+            "Replaces",
+            "Example"
+          ],
+          "rows": [
+            [
+              "Auxiliary ellipsis",
+              "repeated verb phrase",
+              "She has finished, and I have too."
+            ],
+            [
+              "one/ones",
+              "a countable noun",
+              "This report is better than the last one."
+            ],
+            [
+              "do so / did so",
+              "a whole action",
+              "He revised thoroughly; she did so too."
+            ],
+            [
+              "so / not",
+              "a whole clause",
+              "Is the meeting cancelled? I believe so."
+            ]
+          ]
+        }
+      },
+      {
+        "type": "examples",
+        "data": {
+          "items": [
+            {
+              "en": "He hasn't submitted his assignment, but she has.",
+              "note": "Ellipsis omits the repeated verb phrase “submitted her assignment”."
+            },
+            {
+              "en": "The new proposal is more detailed than the previous one.",
+              "note": "“One” substitutes for “proposal”, avoiding repetition."
+            },
+            {
+              "en": "The manager approved the budget, and the board did so unanimously.",
+              "note": "“Did so” substitutes for the whole action “approved the budget”."
+            },
+            {
+              "en": "Will costs keep rising? Economists suspect so.",
+              "note": "“So” replaces the whole clause “that costs will keep rising”."
+            },
+            {
+              "en": "Is the project on schedule? I'm afraid not.",
+              "note": "“Not” substitutes for the negative clause after a belief verb."
+            }
+          ]
+        }
+      },
+      {
+        "type": "tip",
+        "body": "<p>In Speaking Part 3, short substitutions like <em>I think so</em>, <em>I hope not</em> sound natural and fluent; in Writing, ellipsis after auxiliaries (<em>…, and so did the profits</em>) avoids clunky repetition without sacrificing precision.</p>"
+      }
+    ],
+    "quiz": [
+      {
+        "qtype": "mcq",
+        "prompt": "She hasn't finished the report, but he ___.",
+        "options": [
+          "has",
+          "did",
+          "does",
+          "is"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "Ellipsis omits the repeated verb phrase “finished the report” after the auxiliary “has”."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "Do you need a laptop, or do you already have ___?",
+        "options": [
+          "it",
+          "one",
+          "that",
+          "this"
+        ],
+        "answers": [
+          1
+        ],
+        "why": "“One” substitutes for the countable noun “a laptop” already mentioned."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "Will the negotiations succeed? I really hope ___.",
+        "options": [
+          "that",
+          "it",
+          "yes",
+          "so"
+        ],
+        "answers": [
+          3
+        ],
+        "why": "“So” substitutes for the whole positive clause after the belief verb “hope”."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "He revised his essay carefully, and his classmates ___ (do) too.",
+        "answers": [
+          "did"
+        ],
+        "why": "Ellipsis with “did too” substitutes for the repeated action “revised their essays carefully”."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "Is the flight delayed? I'm afraid ___.",
+        "options": [
+          "so",
+          "no",
+          "never",
+          "not"
+        ],
+        "answers": [
+          3
+        ],
+        "why": "“Not” substitutes for the negative clause after the belief verb “afraid”."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "The results were disappointing, and so ___ the team's morale.",
+        "answers": [
+          "was"
+        ],
+        "why": "“So” + auxiliary + subject shows a shared quality; “morale” is singular, so “was”."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "I don't think the plan will work, but my colleague thinks ___.",
+        "options": [
+          "it so",
+          "that so",
+          "so",
+          "this"
+        ],
+        "answers": [
+          2
+        ],
+        "why": "“So” substitutes for the whole positive clause after the belief verb “thinks”."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "The first draft was too long; the revised ___ is much clearer.",
+        "answers": [
+          "one"
+        ],
+        "why": "“One” substitutes for the countable noun “draft” already mentioned."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "She apologised for the delay, and so ___ her manager.",
+        "answers": [
+          "did"
+        ],
+        "why": "“So” + auxiliary + subject shows a shared action; the past tense auxiliary “did” substitutes for “apologised”."
+      },
+      {
+        "qtype": "transform",
+        "prompt": "Rewrite using ellipsis to avoid repeating the verb phrase: \"My sister can drive a car, and my brother can drive a car too.\"",
+        "answers": [
+          "My sister can drive a car, and my brother can too.",
+          "My sister can drive a car, and my brother can too"
+        ],
+        "why": "Ellipsis omits the repeated verb phrase “drive a car” after the auxiliary “can”."
+      }
+    ]
+  },
+  {
+    "slug": "dummy-subjects",
+    "stage": "expert",
+    "title": "Dummy Subjects (it/there)",
+    "tag": "Sentence",
+    "cefr": "C1–C2",
+    "blurb": "Use 'it' and 'there' as dummy subjects, and shift long subject clauses to the end with extraposition.",
+    "lesson": [
+      {
+        "type": "intro",
+        "body": "<p>English disfavours long, heavy subjects. <b>It</b> and <b>there</b> can act as empty “dummy” subjects, allowing the real information to move later in the sentence — a technique called <b>extraposition</b>, common in formal writing.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Dummy it",
+        "body": "<p><b>It</b> stands in for time, weather, distance, or a whole clause: <em>It is important that funding be increased.</em> <em>It takes years to master a language.</em> <em>It is worth noting that the sample size was small.</em></p>"
+      },
+      {
+        "type": "rule",
+        "title": "Dummy there",
+        "body": "<p><b>There</b> introduces the existence of something, with the real subject after <em>be</em>: <em>There is likely to be a shortage of housing.</em> <em>There tends to be less demand in winter.</em> The verb agrees with the noun after <em>be</em>, not with <em>there</em>.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Extraposition",
+        "body": "<p>A long clausal subject usually moves to the end, replaced by <b>it</b>: <em>That she will succeed is unlikely</em> (heavy, unusual) → <em>It is unlikely that she will succeed</em> (natural). This keeps the sentence opening light and easy to process.</p>"
+      },
+      {
+        "type": "table",
+        "title": "Dummy subject patterns",
+        "data": {
+          "head": [
+            "Pattern",
+            "Example"
+          ],
+          "rows": [
+            [
+              "It + be + adjective + that-clause",
+              "It is essential that the data be verified."
+            ],
+            [
+              "It + take + time + to-infinitive",
+              "It took the team three months to finish."
+            ],
+            [
+              "There + be + likely/tend to + noun",
+              "There is likely to be a delay."
+            ],
+            [
+              "Extraposition (heavy subject moved)",
+              "It is surprising how quickly attitudes changed."
+            ]
+          ]
+        }
+      },
+      {
+        "type": "examples",
+        "data": {
+          "items": [
+            {
+              "en": "It is unlikely that the policy will be reversed before the election.",
+              "note": "Extraposition: the heavy that-clause moves after “it is unlikely”."
+            },
+            {
+              "en": "It took researchers five years to develop the vaccine.",
+              "note": "The “it + take + time + to-infinitive” pattern."
+            },
+            {
+              "en": "There is likely to be a significant rise in demand next quarter.",
+              "note": "“There” introduces existence; “be” agrees with “a significant rise”."
+            },
+            {
+              "en": "There tend to be more applicants in the final year of the course.",
+              "note": "“There tend to be” agrees with the plural “applicants”."
+            },
+            {
+              "en": "It is worth remembering that correlation does not imply causation.",
+              "note": "“It is worth + -ing” introduces a cautionary comment."
+            }
+          ]
+        }
+      },
+      {
+        "type": "tip",
+        "body": "<p>Extraposition (<em>It is clear that…</em>, <em>It is worth noting that…</em>) is one of the simplest, most reliable ways to open a formal sentence in Task 2 without an awkward, over-long subject clause.</p>"
+      }
+    ],
+    "quiz": [
+      {
+        "qtype": "mcq",
+        "prompt": "___ is essential that the report be submitted by Friday.",
+        "options": [
+          "It",
+          "This",
+          "There",
+          "That"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "Dummy “it” introduces the extraposed that-clause after “is essential”."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "___ took the committee almost a year to reach a decision.",
+        "options": [
+          "There",
+          "This",
+          "It",
+          "They"
+        ],
+        "answers": [
+          2
+        ],
+        "why": "Dummy “it” is used with “take + time + to-infinitive”."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "___ is likely to be a shortage of qualified teachers in rural areas.",
+        "options": [
+          "It",
+          "There",
+          "This",
+          "He"
+        ],
+        "answers": [
+          1
+        ],
+        "why": "Dummy “there” introduces the existence of a shortage; the real subject follows “be”."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "___ (there) tend to be fewer applicants during the summer months.",
+        "answers": [
+          "There"
+        ],
+        "why": "Dummy “there” introduces existence, agreeing with the plural noun “applicants” after “be”."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "Which sentence uses extraposition correctly?",
+        "options": [
+          "That she left early was surprising.",
+          "It was surprising that she left early.",
+          "She left early was surprising.",
+          "Surprising was that she left early."
+        ],
+        "answers": [
+          1
+        ],
+        "why": "Extraposition moves the heavy clausal subject after “it was surprising”, the natural formal pattern."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "It is worth ___ (note) that the two studies used different methodologies.",
+        "answers": [
+          "noting"
+        ],
+        "why": "“It is worth + -ing” introduces a cautionary or notable comment."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "___ is no doubt that renewable energy will play a larger role in future policy.",
+        "options": [
+          "It",
+          "This",
+          "That",
+          "There"
+        ],
+        "answers": [
+          3
+        ],
+        "why": "“There is no doubt that…” is a fixed dummy-there pattern introducing a clause."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "It ___ (take) the researchers over a decade to complete the longitudinal study.",
+        "answers": [
+          "took"
+        ],
+        "why": "“It + take + time + to-infinitive” describes how long an action required."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "___ (it) is surprising how quickly public opinion shifted on this issue.",
+        "answers": [
+          "It"
+        ],
+        "why": "Dummy “it” introduces the extraposed clause “how quickly public opinion shifted”."
+      },
+      {
+        "qtype": "transform",
+        "prompt": "Rewrite using extraposition with 'it': \"That the experiment failed twice was disappointing.\"",
+        "answers": [
+          "It was disappointing that the experiment failed twice.",
+          "It was disappointing that the experiment failed twice"
+        ],
+        "why": "Extraposition moves the heavy clausal subject after “it was disappointing”."
+      }
+    ]
+  },
+  {
+    "slug": "fronting-ever-clauses",
+    "stage": "expert",
+    "title": "Fronting & -ever Clauses",
+    "tag": "Emphasis",
+    "cefr": "C1–C2",
+    "blurb": "Front elements for emphasis and use -ever clauses to express 'no matter' concessions.",
+    "lesson": [
+      {
+        "type": "intro",
+        "body": "<p><b>Fronting</b> moves an element (usually an adverbial, adjective, or object) to the start of a sentence for emphasis or to link back to previous information. <b>-ever clauses</b> (<em>whatever, whoever, however, wherever, whenever</em>) express a “no matter” concession, a common academic device for anticipating exceptions.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Fronting adverbials & complements",
+        "body": "<p>An adverbial or adjective complement can open the sentence for emphasis, often followed by inversion if the subject is a full noun phrase: <em>Equally important is the need for clear regulation.</em> <em>Especially striking was the rate of change.</em></p>"
+      },
+      {
+        "type": "rule",
+        "title": "Fronting objects",
+        "body": "<p>An object can be fronted to link to something already mentioned or to contrast it: <em>This argument, however, few economists accept.</em> <em>Such claims, critics argue, lack sufficient evidence.</em></p>"
+      },
+      {
+        "type": "rule",
+        "title": "-ever concessive clauses",
+        "body": "<p><b>Whatever/whoever/however/wherever/whenever</b> + clause means “it does not matter which/who/how…”: <em>Whatever the outcome, the team has worked hard.</em> <em>However difficult the exam is, most candidates pass eventually.</em> <em>However</em> + adjective/adverb + subject + verb is a fixed word order — not “however the exam is difficult”.</p>"
+      },
+      {
+        "type": "table",
+        "title": "Fronting & -ever patterns",
+        "data": {
+          "head": [
+            "Device",
+            "Example"
+          ],
+          "rows": [
+            [
+              "Fronted adjective complement",
+              "Equally significant is the drop in exports."
+            ],
+            [
+              "Fronted object",
+              "This claim, few would dispute."
+            ],
+            [
+              "Whatever + noun",
+              "Whatever the reason, the deadline stands."
+            ],
+            [
+              "However + adj/adv + subject + verb",
+              "However hard she tried, the result was the same."
+            ]
+          ]
+        }
+      },
+      {
+        "type": "examples",
+        "data": {
+          "items": [
+            {
+              "en": "Especially concerning is the decline in youth employment.",
+              "note": "A fronted adjective complement, followed by inversion (“is” + subject)."
+            },
+            {
+              "en": "This conclusion, however, not everyone accepts.",
+              "note": "A fronted object “this conclusion” links back to the previous point."
+            },
+            {
+              "en": "Whatever the cause, the effect on local wildlife has been severe.",
+              "note": "“Whatever” concedes the cause is unknown or irrelevant to the point."
+            },
+            {
+              "en": "However carefully the survey was designed, some bias was unavoidable.",
+              "note": "“However” + adverb + subject + verb; note the fixed word order."
+            },
+            {
+              "en": "Wherever the policy has been trialled, results have been mixed.",
+              "note": "“Wherever” concedes location does not change the outcome."
+            }
+          ]
+        }
+      },
+      {
+        "type": "tip",
+        "body": "<p>Fronting and -ever clauses both signal sophistication, but use them sparingly — one per paragraph is usually enough. “However” as a concessive conjunction (<em>however hard…</em>) must not be confused with “however” as a contrast adverb (<em>However, the results were mixed.</em>).</p>"
+      }
+    ],
+    "quiz": [
+      {
+        "qtype": "mcq",
+        "prompt": "Especially ___ is the sharp rise in youth unemployment.",
+        "options": [
+          "concerning",
+          "concerned",
+          "concern",
+          "concernedly"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "The fronted adjective complement “concerning” is followed by inversion (“is” + subject)."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "___ the outcome of the vote, the policy debate will continue.",
+        "options": [
+          "However",
+          "Whoever",
+          "Whatever",
+          "Wherever"
+        ],
+        "answers": [
+          2
+        ],
+        "why": "“Whatever” + noun concedes that the outcome does not change the following statement."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "___ difficult the exam was, nearly all candidates passed.",
+        "options": [
+          "Whatever",
+          "However",
+          "Whoever",
+          "Whenever"
+        ],
+        "answers": [
+          1
+        ],
+        "why": "“However” + adjective + subject + verb is the fixed concessive pattern for degree."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "___ (who) wins the election, the new policy will take effect in January.",
+        "answers": [
+          "Whoever"
+        ],
+        "why": "“Whoever” concedes that the identity of the winner does not change the outcome."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "This theory, ___, few scientists now support.",
+        "options": [
+          "whatever",
+          "therefore",
+          "moreover",
+          "however"
+        ],
+        "answers": [
+          3
+        ],
+        "why": "The fronted object “this theory” is followed by the contrast adverb “however” before the subject “few scientists”."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "___ (where) the factory is built, local residents will be affected by the noise.",
+        "answers": [
+          "Wherever"
+        ],
+        "why": "“Wherever” concedes that the location does not change the outcome."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "Equally ___ is the need for stronger enforcement of the regulations.",
+        "options": [
+          "importance",
+          "importantly",
+          "important",
+          "importunate"
+        ],
+        "answers": [
+          2
+        ],
+        "why": "The fronted adjective complement “important” is followed by inversion (“is” + subject)."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "___ (when) the meeting is rescheduled, at least three members will be unavailable.",
+        "answers": [
+          "Whenever"
+        ],
+        "why": "“Whenever” concedes that the timing does not change the outcome."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "This claim, ___ (few) would seriously question, has shaped policy for a decade.",
+        "answers": [
+          "few"
+        ],
+        "why": "The fronted object “this claim” is followed by the parenthetical subject “few” and verb “would seriously question”."
+      },
+      {
+        "qtype": "transform",
+        "prompt": "Rewrite fronting the object for emphasis: \"Few researchers would dispute this finding.\"",
+        "answers": [
+          "This finding, few researchers would dispute.",
+          "This finding few researchers would dispute."
+        ],
+        "why": "Fronting the object “this finding” places emphasis on it and links back to earlier discussion."
+      }
+    ]
+  },
+  {
+    "slug": "gradable-adjectives",
+    "stage": "expert",
+    "title": "Gradable Adjectives & Intensifiers",
+    "tag": "Adjectives",
+    "cefr": "C1–C2",
+    "blurb": "Distinguish gradable from extreme adjectives, choose the right intensifier, and use -ed/-ing adjectives correctly.",
+    "lesson": [
+      {
+        "type": "intro",
+        "body": "<p><b>Gradable adjectives</b> (<em>big, good, interesting</em>) describe qualities that exist in degrees and combine with intensifiers like <em>very</em>. <b>Extreme/non-gradable adjectives</b> (<em>huge, excellent, fascinating</em>) already express the top of a scale and take different intensifiers. <b>-ed/-ing adjectives</b> (<em>bored/boring</em>) describe feeling versus cause.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Gradable vs extreme adjectives",
+        "body": "<p><b>Gradable</b> adjectives take <em>very, quite, fairly, extremely, rather</em>: <em>very interesting, fairly difficult</em>. <b>Extreme</b> adjectives (<em>huge, superb, exhausted, freezing, terrified</em>) already mean “very + gradable” and instead take <em>absolutely, completely, utterly, really</em>: <em>absolutely exhausted</em>, not <em>very exhausted</em>.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Choosing the right intensifier",
+        "body": "<p><em>Very</em> does not naturally collocate with extreme adjectives (<em>very huge</em> sounds odd); <em>absolutely</em> does not naturally collocate with plain gradable adjectives (<em>absolutely big</em> sounds odd). <em>Really</em> works with both types.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "-ed vs -ing adjectives",
+        "body": "<p><b>-ed</b> adjectives describe how someone feels: <em>The students were bored.</em> <b>-ing</b> adjectives describe the thing or situation causing that feeling: <em>The lecture was boring.</em> Using the wrong form (<em>I am boring</em> instead of <em>I am bored</em>) reverses the meaning.</p>"
+      },
+      {
+        "type": "table",
+        "title": "Gradable vs extreme adjective pairs",
+        "data": {
+          "head": [
+            "Gradable",
+            "Extreme equivalent"
+          ],
+          "rows": [
+            [
+              "big",
+              "huge / enormous"
+            ],
+            [
+              "good",
+              "excellent / superb"
+            ],
+            [
+              "tired",
+              "exhausted"
+            ],
+            [
+              "cold",
+              "freezing"
+            ],
+            [
+              "frightened",
+              "terrified"
+            ]
+          ]
+        }
+      },
+      {
+        "type": "examples",
+        "data": {
+          "items": [
+            {
+              "en": "The exam was extremely difficult, but not impossibly so.",
+              "note": "“Extremely” intensifies the gradable adjective “difficult”."
+            },
+            {
+              "en": "After the twelve-hour flight, we were absolutely exhausted.",
+              "note": "“Absolutely” collocates with the extreme adjective “exhausted”, not “very”."
+            },
+            {
+              "en": "It was freezing outside, so we stayed indoors all afternoon.",
+              "note": "“Freezing” is already an extreme adjective meaning “very cold”."
+            },
+            {
+              "en": "The lecture was so boring that several students fell asleep.",
+              "note": "The “-ing” adjective describes the cause of the feeling."
+            },
+            {
+              "en": "I felt genuinely fascinated by the museum's new exhibition.",
+              "note": "The “-ed” adjective describes the visitor's feeling: “fascinated”, not “fascinating”."
+            }
+          ]
+        }
+      },
+      {
+        "type": "tip",
+        "body": "<p>Mixing up <em>very</em> with extreme adjectives (<em>very huge</em>) or -ed/-ing adjectives (<em>I'm boring</em>) is a very common error that stands out even in otherwise fluent band 7 responses — precise intensifier and -ed/-ing choices are an easy way to signal band 8+ control.</p>"
+      }
+    ],
+    "quiz": [
+      {
+        "qtype": "mcq",
+        "prompt": "After running the marathon, she was ___ exhausted.",
+        "options": [
+          "absolutely",
+          "very",
+          "fairly",
+          "rather"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "“Exhausted” is an extreme adjective and collocates with “absolutely”, not the gradable intensifier “very”."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "The lake was ___ freezing; we could see ice forming at the edges.",
+        "options": [
+          "very",
+          "fairly",
+          "rather",
+          "absolutely"
+        ],
+        "answers": [
+          3
+        ],
+        "why": "“Freezing” is an extreme adjective and collocates with “absolutely”, not gradable intensifiers like “very”."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "The presentation was very ___, though not the worst I've seen.",
+        "options": [
+          "terrible",
+          "appalling",
+          "dull",
+          "atrocious"
+        ],
+        "answers": [
+          2
+        ],
+        "why": "“Rather” pairs naturally with the gradable adjective “dull”; extreme adjectives like “terrible” or “appalling” already denote the top of the scale."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "I am not ___ (bore) by the topic; I actually find it quite interesting.",
+        "answers": [
+          "bored"
+        ],
+        "why": "The “-ed” adjective “bored” describes how the speaker feels."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "Which sentence uses the intensifier correctly?",
+        "options": [
+          "The film was very fascinating.",
+          "The film was absolutely fascinating.",
+          "The film was fairly fascinating.",
+          "The film was pretty fascinating."
+        ],
+        "answers": [
+          1
+        ],
+        "why": "“Fascinating” is an extreme adjective and collocates with “absolutely”, not moderating intensifiers like “very”, “fairly”, or “pretty”."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "The children found the puppet show extremely ___ (amuse).",
+        "answers": [
+          "amusing"
+        ],
+        "why": "The “-ing” adjective “amusing” describes the cause of the children's amusement."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "We were ___ terrified during the turbulence on the flight.",
+        "options": [
+          "utterly",
+          "very",
+          "fairly",
+          "rather"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "“Terrified” is an extreme adjective and collocates with “utterly”, not gradable intensifiers like “very”."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "She looked ___ (fascinate) by the ancient manuscripts on display.",
+        "answers": [
+          "fascinated"
+        ],
+        "why": "The “-ed” adjective “fascinated” describes how she felt."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "The marathon route was ___ (exhaust) even for experienced runners.",
+        "answers": [
+          "exhausting"
+        ],
+        "why": "The “-ing” adjective “exhausting” describes the effect the route had on the runners."
+      },
+      {
+        "qtype": "transform",
+        "prompt": "Rewrite replacing 'very' with a more natural intensifier for this extreme adjective: \"The results were very astonishing.\"",
+        "answers": [
+          "The results were absolutely astonishing.",
+          "The results were utterly astonishing.",
+          "The results were completely astonishing."
+        ],
+        "why": "“Astonishing” is an extreme adjective; it collocates with “absolutely/utterly/completely”, not the gradable intensifier “very”."
+      }
+    ]
   }
 ]
