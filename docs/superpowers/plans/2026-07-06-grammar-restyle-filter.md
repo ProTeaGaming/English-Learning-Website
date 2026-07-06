@@ -229,7 +229,7 @@ with:
 
 Run (from the Django dir): `python -m pytest` — Expected: 42 passed (guard against file corruption).
 Extract the main `<script>` block and run `node --check` on it — Expected: clean parse.
-Grep the file: `grep -c "gram-s-" vocab-master.html` — Expected: ≥ 20 occurrences (CSS + JS).
+Grep the file: `grep -c "gram-s-" vocab-master.html` — Expected: 12 lines (9 CSS + 3 JS).
 
 - [ ] **Step 6: Commit**
 
