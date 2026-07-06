@@ -32,6 +32,7 @@ def test_grammar_endpoint_nests_stages_topics_blocks_questions(grammar_data):
     assert [s['id'] for s in data] == ['beginner', 'independent', 'expert']
     beginner = data[0]
     assert beginner['name'] == 'Basic'
+    assert [s['name'] for s in data] == ['Basic', 'Intermediate', 'Advanced']
     assert beginner['cefr'] == 'A1–A2'
     topic = beginner['topics'][0]
     assert topic['slug'] == 'articles'
