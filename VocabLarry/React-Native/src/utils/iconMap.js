@@ -1,5 +1,5 @@
 // Emoji → stroke-icon name mapping. Category data (shared with the other
-// LexiLoop builds) still stores emoji; components resolve them at render time.
+// VocabLarry builds) still stores emoji; components resolve them at render time.
 
 const EMOJI_ICON = {
   "➿": "link", "⏳": "hourglass", "◈": "gem", "✈": "plane", "✅": "check-circle",

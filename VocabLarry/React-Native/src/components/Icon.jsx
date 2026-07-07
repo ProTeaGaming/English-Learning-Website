@@ -2,7 +2,7 @@
 // Django/Flask/PHP builds so all four products share one visual language.
 
 const PATHS = {
-  mark: <><path d="M7.5 4.5V12a5 5 0 0 0 5 5h7" /><path d="m17 14.5 2.5 2.5-2.5 2.5" /><path d="M16.5 19.5V12a5 5 0 0 0-5-5h-7" /><path d="M7 9.5 4.5 7 7 4.5" /></>,
+  mark: <><path d="M3.4 18H12a8 8 0 0 0 8-8V7a4 4 0 0 0-7.28-2.3L2 20" /><path d="M20 7c1.5.3 2.1 1.9 1.1 3-.6.7-1.5 1-2.4.9" /><path d="M16 7h.01" /><path d="M10 18v3" /><path d="M14 17.75V21" /><path d="M7 18a6 6 0 0 0 3.84-10.61" /></>,
   book: <><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" /><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" /></>,
   "book-open": <><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" /><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" /></>,
   pen: <><path d="M12 20h9" /><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z" /></>,

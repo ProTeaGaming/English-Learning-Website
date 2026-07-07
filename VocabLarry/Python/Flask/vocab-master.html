@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LexiLoop — IELTS Vocabulary</title>
+<title>VocabLarry — IELTS Vocabulary</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%237C3AED'/%3E%3Cg fill='none' stroke='%23fff' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round' transform='translate(12 12) scale(.76) translate(-12 -12)'%3E%3Cpath d='M3.4 18H12a8 8 0 0 0 8-8V7a4 4 0 0 0-7.28-2.3L2 20'/%3E%3Cpath d='M20 7c1.5.3 2.1 1.9 1.1 3-.6.7-1.5 1-2.4.9'/%3E%3Cpath d='M16 7h.01'/%3E%3Cpath d='M10 18v3'/%3E%3Cpath d='M14 17.75V21'/%3E%3Cpath d='M7 18a6 6 0 0 0 3.84-10.61'/%3E%3C/g%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;700&family=Fraunces:ital,opsz,wght@1,9..144,400..600&display=swap" rel="stylesheet">
@@ -1162,7 +1163,7 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
 
 <!-- ── Icon sprite: 24×24 stroke icons, styled via .ico (currentColor) ── -->
 <svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
-  <symbol id="i-mark" viewBox="0 0 24 24"><path d="M7.5 4.5V12a5 5 0 0 0 5 5h7"/><path d="m17 14.5 2.5 2.5-2.5 2.5"/><path d="M16.5 19.5V12a5 5 0 0 0-5-5h-7"/><path d="M7 9.5 4.5 7 7 4.5"/></symbol>
+  <symbol id="i-mark" viewBox="0 0 24 24"><path d="M3.4 18H12a8 8 0 0 0 8-8V7a4 4 0 0 0-7.28-2.3L2 20"/><path d="M20 7c1.5.3 2.1 1.9 1.1 3-.6.7-1.5 1-2.4.9"/><path d="M16 7h.01"/><path d="M10 18v3"/><path d="M14 17.75V21"/><path d="M7 18a6 6 0 0 0 3.84-10.61"/></symbol>
   <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></symbol>
   <symbol id="i-book-open" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></symbol>
   <symbol id="i-pen" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></symbol>
@@ -1291,7 +1292,7 @@ function iconSvg(emoji, cls){
 <header class="topbar">
   <div class="topbar-inner">
     <div class="topbar-left">
-      <div class="brand"><svg class="ico ico-mark" aria-hidden="true"><use href="#i-mark"/></svg><span class="brand-name">Lexi<b>Loop</b></span></div>
+      <div class="brand"><svg class="ico ico-mark" aria-hidden="true"><use href="#i-mark"/></svg><span class="brand-name">Vocab<b>Larry</b></span></div>
       <nav class="tabs">
         <div class="nav-group" data-section="home">
           <button class="tab active" data-section-btn="home">Home</button>
@@ -1933,7 +1934,7 @@ function iconSvg(emoji, cls){
     <div class="footer-top">
 
       <div>
-        <div class="footer-logo"><svg class="ico ico-mark" aria-hidden="true"><use href="#i-mark"/></svg><span class="brand-name">Lexi<b>Loop</b></span></div>
+        <div class="footer-logo"><svg class="ico ico-mark" aria-hidden="true"><use href="#i-mark"/></svg><span class="brand-name">Vocab<b>Larry</b></span></div>
         <p class="footer-sub">Track your progress across 5,000 IELTS words across every CEFR level.</p>
       </div>
 
@@ -1982,7 +1983,7 @@ function iconSvg(emoji, cls){
     </div>
 
     <div class="footer-bottom">
-      <span class="footer-copy">© 2025 LexiLoop · All rights reserved</span>
+      <span class="footer-copy">© 2025 VocabLarry · All rights reserved</span>
       <div class="footer-bottom-right">
         <span class="footer-tag">Built for IELTS learners</span>
       </div>
@@ -10463,7 +10464,7 @@ initStreak();
 // Footer share button
 document.getElementById("footerShareBtn")?.addEventListener("click", function(){
   const learned = Object.values(state.learnMap).filter(v=>v==="learned").length;
-  const text = `I've learned ${learned} IELTS words on LexiLoop! 🎓`;
+  const text = `I've learned ${learned} IELTS words on VocabLarry! 🎓`;
   navigator.clipboard?.writeText(text).then(() => {
     this.textContent = "Copied ✓";
     setTimeout(() => { this.textContent = "Copy"; }, 2000);

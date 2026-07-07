@@ -100,7 +100,7 @@ EMAIL_HOST_USER = os.environ.get('SMTP_USER', '')
 EMAIL_HOST_PASSWORD = os.environ.get('SMTP_PASS', '')
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = (
-    f"{os.environ.get('FROM_NAME', 'LexiLoop')} "
+    f"{os.environ.get('FROM_NAME', 'VocabLarry')} "
     f"<{os.environ.get('FROM_EMAIL', '')}>"
 )
 

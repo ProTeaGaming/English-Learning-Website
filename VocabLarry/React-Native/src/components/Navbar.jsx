@@ -36,7 +36,7 @@ export default function Navbar({ page, setPage, learnedCount, total, theme, togg
         <div className="flex items-center gap-6 flex-wrap">
           <div className="font-sora font-extrabold text-[1.35rem] tracking-tight flex items-center gap-[7px]">
             <Icon name="mark" className="ico-mark" />
-            <span>Lexi<b className="font-extrabold text-accent">Loop</b></span>
+            <span>Vocab<b className="font-extrabold text-accent">Larry</b></span>
           </div>
           <nav className="flex gap-1.5 flex-wrap" ref={navRef}>
             {SECTIONS.map((section) => {

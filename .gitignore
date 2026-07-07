@@ -31,9 +31,9 @@ lerna-debug.log*
 .claude/settings.local.json
 
 # Local auth/db state (not shared)
-ielts-vocab-master/site/data/*.sqlite
-ielts-vocab-master/site/auth/uploads/
-ielts-vocab-master/site/auth/config.local.php
+VocabLarry/site/data/*.sqlite
+VocabLarry/site/auth/uploads/
+VocabLarry/site/auth/config.local.php
 
 # Python / Django
 __pycache__/
