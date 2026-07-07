@@ -3131,6 +3131,7 @@ const GRAMMAR_STAGE_RANK = { beginner: 0, independent: 1, expert: 2 };
 const GRAMMAR_CEFR_KEY  = { 'A1': 'basic', 'B1': 'inter', 'C1': 'adv' };
 
 function cefrRangePillHtml(label){
+  if (CEFR_COLORS[label]) return cefrPillHtml(label);   // exact level → vocab pill colours
   const key = GRAMMAR_CEFR_KEY[String(label).split('–')[0]];
   return `<span class="cat-cefr-pill gram-chip${key ? ` gram-s-${key}` : ''}">${label}</span>`;
 }

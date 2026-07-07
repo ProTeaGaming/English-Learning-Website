@@ -4,7 +4,7 @@
     "stage": "beginner",
     "title": "Present Simple & Continuous",
     "tag": "Tenses",
-    "cefr": "A1–A2",
+    "cefr": "A1",
     "blurb": "Know when to use the simple present and when to use the present continuous.",
     "lesson": [
       {
@@ -211,7 +211,7 @@
     "stage": "beginner",
     "title": "Past Simple & Continuous",
     "tag": "Tenses",
-    "cefr": "A1–A2",
+    "cefr": "A1",
     "blurb": "Narrate finished actions and describe interrupted or background actions in the past.",
     "lesson": [
       {
@@ -414,7 +414,7 @@
     "stage": "beginner",
     "title": "Future Forms (will / going to)",
     "tag": "Tenses",
-    "cefr": "A1–A2",
+    "cefr": "A1+",
     "blurb": "Choose between will, going to and the present continuous for future plans and predictions.",
     "lesson": [
       {
@@ -616,7 +616,7 @@
     "stage": "beginner",
     "title": "Question Forms & Short Answers",
     "tag": "Sentence",
-    "cefr": "A1–A2",
+    "cefr": "A1",
     "blurb": "Form yes/no and wh- questions correctly, give short answers, and use imperatives for instructions.",
     "lesson": [
       {
@@ -823,7 +823,7 @@
     "stage": "beginner",
     "title": "Word Forms (noun/verb/adj/adv)",
     "tag": "Word Building",
-    "cefr": "A1–A2",
+    "cefr": "A2+",
     "blurb": "Recognise and build noun, verb, adjective and adverb forms of the same word family.",
     "lesson": [
       {
@@ -1017,7 +1017,7 @@
     "stage": "beginner",
     "title": "Articles (a/an/the)",
     "tag": "Determiners",
-    "cefr": "A1–A2",
+    "cefr": "A1",
     "blurb": "Choose between a, an, the — or no article at all.",
     "lesson": [
       {
@@ -1225,7 +1225,7 @@
     "stage": "beginner",
     "title": "Nouns, Plurals & Countability",
     "tag": "Nouns",
-    "cefr": "A1–A2",
+    "cefr": "A1",
     "blurb": "Form regular and irregular plurals, and distinguish countable from uncountable nouns.",
     "lesson": [
       {
@@ -1430,7 +1430,7 @@
     "stage": "beginner",
     "title": "Quantifiers & There is/are",
     "tag": "Determiners",
-    "cefr": "A1–A2",
+    "cefr": "A1+",
     "blurb": "Use much, many, a lot of, few and there is/are accurately with countable and uncountable nouns.",
     "lesson": [
       {
@@ -1639,7 +1639,7 @@
     "stage": "beginner",
     "title": "Pronouns & Possessives",
     "tag": "Pronouns",
-    "cefr": "A1–A2",
+    "cefr": "A1",
     "blurb": "Use subject, object, possessive and reflexive pronouns accurately.",
     "lesson": [
       {
@@ -1850,7 +1850,7 @@
     "stage": "beginner",
     "title": "Comparatives & Superlatives",
     "tag": "Adjectives",
-    "cefr": "A1–A2",
+    "cefr": "A2",
     "blurb": "Form and use comparative and superlative adjectives accurately, including irregular forms.",
     "lesson": [
       {
@@ -2053,7 +2053,7 @@
     "stage": "beginner",
     "title": "Prepositions of Time & Place",
     "tag": "Prepositions",
-    "cefr": "A1–A2",
+    "cefr": "A1+",
     "blurb": "Use in, on, at and other common prepositions correctly for time and place.",
     "lesson": [
       {
@@ -2256,7 +2256,7 @@
     "stage": "beginner",
     "title": "Adverbs & Word Order",
     "tag": "Sentence",
-    "cefr": "A1–A2",
+    "cefr": "A2",
     "blurb": "Place adverbs of frequency, manner and degree correctly within a sentence.",
     "lesson": [
       {
@@ -2459,7 +2459,7 @@
     "stage": "independent",
     "title": "Perfect Tenses",
     "tag": "Tenses",
-    "cefr": "B1–B2",
+    "cefr": "B1",
     "blurb": "Link past, present and future with have/has/had + past participle — and their continuous forms.",
     "lesson": [
       {
@@ -2663,7 +2663,7 @@
     "stage": "independent",
     "title": "Passive & Active Voice",
     "tag": "Voice",
-    "cefr": "B1–B2",
+    "cefr": "B1+",
     "blurb": "Shift the focus from the doer to the action with be + past participle.",
     "lesson": [
       {
@@ -2864,7 +2864,7 @@
     "stage": "independent",
     "title": "Reported Speech",
     "tag": "Sentence",
-    "cefr": "B1–B2",
+    "cefr": "B1+",
     "blurb": "Report what people said with tense back-shift, and pronoun and time changes.",
     "lesson": [
       {
@@ -3069,7 +3069,7 @@
     "stage": "independent",
     "title": "Conditionals 0–3",
     "tag": "Conditionals",
-    "cefr": "B1–B2",
+    "cefr": "B2",
     "blurb": "Talk about facts, likely futures, hypotheticals and past regrets with if-clauses.",
     "lesson": [
       {
@@ -3283,7 +3283,7 @@
     "stage": "independent",
     "title": "Relative Clauses",
     "tag": "Clauses",
-    "cefr": "B1–B2",
+    "cefr": "B1+",
     "blurb": "Add detail with who/which/that/whose — and know when commas are required.",
     "lesson": [
       {
@@ -3492,7 +3492,7 @@
     "stage": "independent",
     "title": "Modal Verbs",
     "tag": "Modals",
-    "cefr": "B1–B2",
+    "cefr": "B1",
     "blurb": "Express ability, permission, obligation, advice and deduction with modal verbs.",
     "lesson": [
       {
@@ -3693,7 +3693,7 @@
     "stage": "independent",
     "title": "Gerunds vs Infinitives",
     "tag": "Verb Patterns",
-    "cefr": "B1–B2",
+    "cefr": "B1",
     "blurb": "Choose -ing or to + verb after the right verbs, adjectives and prepositions.",
     "lesson": [
       {
@@ -3894,7 +3894,7 @@
     "stage": "independent",
     "title": "Used to / Would / Be used to",
     "tag": "Verb Patterns",
-    "cefr": "B1–B2",
+    "cefr": "B1",
     "blurb": "Talk about past habits with used to/would, and present adaptation with be/get used to.",
     "lesson": [
       {
@@ -4095,7 +4095,7 @@
     "stage": "independent",
     "title": "Wish & If only",
     "tag": "Unreal Forms",
-    "cefr": "B1–B2",
+    "cefr": "B2",
     "blurb": "Express regrets, unreal wishes and complaints about the present with wish/if only.",
     "lesson": [
       {
@@ -4298,7 +4298,7 @@
     "stage": "independent",
     "title": "Causatives (have/get something done)",
     "tag": "Voice",
-    "cefr": "B1–B2",
+    "cefr": "B2",
     "blurb": "Say that someone else did something for you with have/get + object + past participle.",
     "lesson": [
       {
@@ -4497,7 +4497,7 @@
     "stage": "independent",
     "title": "Question Tags & Indirect Questions",
     "tag": "Sentence",
-    "cefr": "B1–B2",
+    "cefr": "B1+",
     "blurb": "Add tags to check information, and soften direct questions with polite indirect forms.",
     "lesson": [
       {
@@ -4697,7 +4697,7 @@
     "stage": "independent",
     "title": "Linking Words & Cohesion",
     "tag": "Cohesion",
-    "cefr": "B1–B2",
+    "cefr": "B2+",
     "blurb": "Connect ideas clearly with contrast, cause and result linkers — plus so/such/too/enough.",
     "lesson": [
       {
@@ -4905,7 +4905,7 @@
     "stage": "expert",
     "title": "Inversion & Emphasis",
     "tag": "Emphasis",
-    "cefr": "C1–C2",
+    "cefr": "C1+",
     "blurb": "Add emphasis with negative adverbial inversion, conditional inversion and emphatic do.",
     "lesson": [
       {
@@ -5110,7 +5110,7 @@
     "stage": "expert",
     "title": "Cleft Sentences",
     "tag": "Emphasis",
-    "cefr": "C1–C2",
+    "cefr": "C1",
     "blurb": "Highlight the most important part of a sentence with it-clefts and wh-clefts.",
     "lesson": [
       {
@@ -5315,7 +5315,7 @@
     "stage": "expert",
     "title": "Subjunctive & Unreal Past",
     "tag": "Unreal Forms",
-    "cefr": "C1–C2",
+    "cefr": "C1+",
     "blurb": "Use the mandative subjunctive and unreal past forms for formal recommendations, wishes and hypothetical comparisons.",
     "lesson": [
       {
@@ -5523,7 +5523,7 @@
     "stage": "expert",
     "title": "Advanced Modality",
     "tag": "Modals",
-    "cefr": "C1–C2",
+    "cefr": "C1",
     "blurb": "Speculate about the past, express criticism and hedge claims with advanced modal patterns.",
     "lesson": [
       {
@@ -5731,7 +5731,7 @@
     "stage": "expert",
     "title": "Participle Clauses",
     "tag": "Clauses",
-    "cefr": "C1–C2",
+    "cefr": "C1",
     "blurb": "Reduce relative clauses and combine ideas efficiently with participle clauses.",
     "lesson": [
       {
@@ -5932,7 +5932,7 @@
     "stage": "expert",
     "title": "Nominalisation",
     "tag": "Academic Style",
-    "cefr": "C1–C2",
+    "cefr": "C2",
     "blurb": "Convert verbs and adjectives into nouns for a more formal, academic register.",
     "lesson": [
       {
@@ -6140,7 +6140,7 @@
     "stage": "expert",
     "title": "Hedging & Academic Tone",
     "tag": "Academic Style",
-    "cefr": "C1–C2",
+    "cefr": "C2+",
     "blurb": "Soften claims and avoid overgeneralisation with hedging verbs, adverbs and quantifiers.",
     "lesson": [
       {
@@ -6334,7 +6334,7 @@
     "stage": "expert",
     "title": "Mixed Conditionals",
     "tag": "Conditionals",
-    "cefr": "C1–C2",
+    "cefr": "C1",
     "blurb": "Combine different time frames in one conditional sentence for nuanced cause-and-effect.",
     "lesson": [
       {
@@ -6532,7 +6532,7 @@
     "stage": "expert",
     "title": "Ellipsis & Substitution",
     "tag": "Cohesion",
-    "cefr": "C1–C2",
+    "cefr": "C2",
     "blurb": "Avoid repetition with ellipsis and substitution words like one, do so, and so/not.",
     "lesson": [
       {
@@ -6738,7 +6738,7 @@
     "stage": "expert",
     "title": "Dummy Subjects (it/there)",
     "tag": "Sentence",
-    "cefr": "C1–C2",
+    "cefr": "C1",
     "blurb": "Use 'it' and 'there' as dummy subjects, and shift long subject clauses to the end with extraposition.",
     "lesson": [
       {
@@ -6939,7 +6939,7 @@
     "stage": "expert",
     "title": "Fronting & -ever Clauses",
     "tag": "Emphasis",
-    "cefr": "C1–C2",
+    "cefr": "C1+",
     "blurb": "Front elements for emphasis and use -ever clauses to express 'no matter' concessions.",
     "lesson": [
       {
@@ -7142,7 +7142,7 @@
     "stage": "expert",
     "title": "Gradable Adjectives & Intensifiers",
     "tag": "Adjectives",
-    "cefr": "C1–C2",
+    "cefr": "C1",
     "blurb": "Distinguish gradable from extreme adjectives, choose the right intensifier, and use -ed/-ing adjectives correctly.",
     "lesson": [
       {
