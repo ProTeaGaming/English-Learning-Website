@@ -2120,7 +2120,6 @@ function iconSvg(emoji, cls){
         <button class="chip active" data-gramword-ctype="all">All</button>
         <button class="chip" data-gramword-ctype="irregular">Irregular — own word</button>
         <button class="chip" data-gramword-ctype="er">-er / -est</button>
-        <button class="chip" data-gramword-ctype="more">more / most</button>
       </div>
     </div>
     <div id="gramwordContent"></div>
@@ -3853,15 +3852,9 @@ const GRAMWORD_ER_EST = [
   ['weak','weaker','weakest'],['wet','wetter','wettest'],['wide','wider','widest'],
   ['young','younger','youngest'],
 ];
-const GRAMWORD_MORE_MOST = [
-  'accurate','beautiful','comfortable','common','convenient','crowded','dangerous','developed',
-  'difficult','effective','efficient','expensive','important','interesting','likely','modern',
-  'popular','productive','reliable','significant','successful','sustainable','useful','valuable',
-];
 const GRAMWORD_CTYPE_META = {
   irregular: { label: 'irregular', color: '#f59e0b' },
   er:        { label: '-er / -est', color: '#0d9488' },
-  more:      { label: 'more / most', color: '#6366f1' },
 };
 
 function gramwordPatternOf(row){
@@ -3917,7 +3910,6 @@ function renderGramword(){
       let entries = [
         ...irregular.map(r => ({ r, t: 'irregular' })),
         ...GRAMWORD_ER_EST.map(r => ({ r, t: 'er' })),
-        ...GRAMWORD_MORE_MOST.map(b => ({ r: [b, `more ${b}`, `most ${b}`], t: 'more' })),
       ];
       if (gramwordState.ctype !== 'all') entries = entries.filter(e => e.t === gramwordState.ctype);
       if (q) entries = entries.filter(e => e.r.some(c => String(c).toLowerCase().includes(q)));
