@@ -951,32 +951,60 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
   padding-bottom:26px; margin-bottom:6px; border-bottom:1px solid rgba(var(--vio),.18);
 }
 .gram-intro b{color:rgb(var(--vio)); font-weight:600;}
-/* rule rows — open two-column spread, big serif numeral in the margin rail */
+/* rule sticky-stack — webpath-style pinned cards that stack on scroll */
 .gram-ac-0{--gr-ac:var(--tb);} .gram-ac-1{--gr-ac:var(--tc);}
 .gram-ac-2{--gr-ac:var(--tpurp);} .gram-ac-3{--gr-ac:var(--to);}
-.gram-rule{
-  display:grid; grid-template-columns:170px minmax(0,1fr); gap:14px 34px; align-items:start;
-  padding-top:30px; margin-bottom:26px;
-  border-top:1px solid color-mix(in srgb, var(--gr-ac, #7c3aed) 38%, transparent);
+.gram-stack{display:flex; flex-direction:column; gap:26px; margin-bottom:38px;}
+.gram-stage{
+  position:sticky; top:92px; overflow:hidden; border-radius:26px;
+  border:1px solid var(--card-border);
+  background:linear-gradient(135deg, var(--surface), var(--bg));
+  box-shadow:0 24px 70px rgba(0,0,0,.16);
+  display:grid; grid-template-columns:minmax(0,3fr) minmax(0,2fr);
+  min-height:min(56vh, 500px);
+  will-change:transform,filter;
 }
-.gram-rule.gram-flip{grid-template-columns:minmax(0,1fr) 170px;}
-.gram-rule-rail{display:flex; flex-direction:column; gap:8px;}
-.gram-rule.gram-flip .gram-rule-rail{order:2; text-align:right; align-items:flex-end;}
-.gram-rule.gram-flip .gram-rule-body{order:1; justify-self:end;}
-.gram-rule-num{
-  font-family:var(--serif); font-style:italic; font-weight:500; font-size:3.4rem; line-height:.9;
-  color:var(--gr-ac, rgb(var(--vio)));
+.gram-stage-content{padding:32px 40px; display:flex; flex-direction:column; justify-content:space-between; gap:18px;}
+.gram-stage-meta{
+  display:flex; justify-content:space-between; align-items:center; gap:10px;
+  font-family:'JetBrains Mono',monospace; font-size:.64rem; text-transform:uppercase; letter-spacing:.22em; color:var(--muted);
 }
-.gram-rule h3{
-  font-size:.72rem; text-transform:uppercase; letter-spacing:.16em; margin:0;
-  color:var(--gr-ac, rgb(var(--vio))); font-family:'JetBrains Mono',monospace;
+.gram-stage-count{
+  color:var(--gr-ac); letter-spacing:.14em; padding:3px 10px; border-radius:999px;
+  background:color-mix(in srgb, var(--gr-ac) 12%, transparent);
+  border:1px solid color-mix(in srgb, var(--gr-ac) 30%, transparent);
 }
-.gram-rule-body{max-width:640px; font-size:1.02rem;}
-@media (max-width:760px){
-  .gram-rule,.gram-rule.gram-flip{grid-template-columns:1fr; gap:10px; padding-top:22px;}
-  .gram-rule.gram-flip .gram-rule-rail{order:0; text-align:left; align-items:flex-start;}
-  .gram-rule.gram-flip .gram-rule-body{order:1; justify-self:start;}
-  .gram-rule-num{font-size:2.4rem;}
+.gram-stage-ghost{
+  display:block; font-family:'Plus Jakarta Sans','Sora',sans-serif; font-weight:800;
+  font-size:6.2rem; line-height:.8; letter-spacing:-.04em;
+  color:color-mix(in srgb, var(--gr-ac) 15%, transparent);
+}
+.gram-stage-title{
+  font-family:'Plus Jakarta Sans','Sora',sans-serif; font-weight:800; font-size:2.05rem;
+  letter-spacing:-.02em; line-height:1.05; margin-top:-14px;
+}
+.gram-stage-body{font-size:1.03rem; line-height:1.7; max-width:520px;}
+.gram-stage-panel{
+  position:relative; overflow:hidden;
+  background:linear-gradient(160deg, color-mix(in srgb, var(--gr-ac) 24%, transparent), color-mix(in srgb, var(--gr-ac) 5%, transparent));
+  display:flex; align-items:center; justify-content:center;
+}
+.gram-stage-panel .gram-stage-icon{
+  position:absolute; font-size:15rem; transform:rotate(-8deg);
+  color:color-mix(in srgb, var(--gr-ac) 17%, transparent);
+}
+.gram-stage-num{
+  position:relative; font-family:var(--serif); font-style:italic; font-weight:500;
+  font-size:6.5rem; line-height:1; color:var(--gr-ac); opacity:.85;
+}
+@media (max-width:900px){
+  .gram-stage{grid-template-columns:1fr; min-height:0;}
+  .gram-stage-content{padding:24px;}
+  .gram-stage-panel{min-height:140px;}
+  .gram-stage-panel .gram-stage-icon{font-size:9rem;}
+  .gram-stage-num{font-size:4rem;}
+  .gram-stage-ghost{font-size:4rem;}
+  .gram-stage-title{font-size:1.55rem; margin-top:-8px;}
 }
 /* table — carded with zebra rows */
 .gram-table-title{
@@ -2168,6 +2196,7 @@ function iconSvg(emoji, cls){
 
 
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
 <script>
 // ── API config ───────────────────────────────────────────
 const ALLAUTH_BASE    = '/_allauth/browser/v1';
@@ -3271,6 +3300,7 @@ function showGrammarView(view){
 }
 
 function renderGrammarHome(){
+  killGrammarStageTriggers();
   showGrammarView('grammarHome');
   const wrap = document.getElementById('grammarStages');
   wrap.innerHTML = `<p class="sub" style="text-align:center;">Loading grammar…</p>`;
@@ -3394,7 +3424,7 @@ function openGrammarTopic(topic){
       <h1>${topic.title} ${cefrRangePillHtml(topic.cefr)}</h1>
       <p>${topic.blurb}</p>
     </div>
-    <div class="gram-lesson">${grammarLessonHtml(topic.lesson)}</div>
+    <div class="gram-lesson">${grammarLessonHtml(topic.lesson, topic.icon)}</div>
     ${topic.quiz.length
       ? `<div style="text-align:center;margin-top:30px;">
            <button class="btn" id="grammarPracticeBtn">Practice — ${topic.quiz.length} question${topic.quiz.length !== 1 ? 's' : ''}</button>
@@ -3409,29 +3439,76 @@ function openGrammarTopic(topic){
     });
   }, { threshold: .15, rootMargin: '0px 0px -40px' });
   el.querySelectorAll('.gram-reveal').forEach(b => revealIo.observe(b));
+  killGrammarStageTriggers();
+  if (typeof gsap !== 'undefined' && window.ScrollTrigger){
+    gsap.registerPlugin(ScrollTrigger);
+    const cards = Array.from(el.querySelectorAll('.gram-stage'));
+    cards.forEach((card, i) => {
+      if (i === cards.length - 1) return;
+      const tween = gsap.to(card, {
+        scrollTrigger: {
+          trigger: card,
+          start: 'top top+=100',
+          endTrigger: cards[cards.length - 1],
+          end: 'top top+=120',
+          scrub: 1,
+        },
+        scale: 0.93,
+        filter: 'blur(6px) saturate(.75)',
+        opacity: 0.55,
+        ease: 'none',
+      });
+      grammarStageTriggers.push(tween.scrollTrigger);
+    });
+    setTimeout(() => ScrollTrigger.refresh(), 250);
+  }
   document.getElementById('page-grammar').scrollIntoView({behavior: 'smooth', block: 'start'});
   if (typeof gsap !== 'undefined'){
     gsap.fromTo(el, {opacity:0, y:14}, {opacity:1, y:0, duration:.4, ease:'power2.out'});
   }
 }
 
-function grammarLessonHtml(lesson){
-  let rule = 0;
-  return lesson.map(b => grammarBlockHtml(b, b.type === 'rule' ? rule++ : 0)).join('');
+function grammarLessonHtml(lesson, icon){
+  const totalRules = lesson.filter(b => b.type === 'rule').length;
+  const out = [];
+  let stack = [], ruleIdx = 0;
+  const flushStack = () => {
+    if (stack.length){ out.push(`<div class="gram-stack">${stack.join('')}</div>`); stack = []; }
+  };
+  lesson.forEach(b => {
+    if (b.type === 'rule'){
+      stack.push(grammarRuleCardHtml(b, ruleIdx++, totalRules, icon));
+    } else {
+      flushStack();
+      out.push(grammarBlockHtml(b));
+    }
+  });
+  flushStack();
+  return out.join('');
 }
 
-function grammarBlockHtml(block, ruleIdx){
+function grammarRuleCardHtml(block, idx, total, icon){
+  const num = String(idx + 1).padStart(2, '0');
+  return `<article class="gram-stage gram-ac-${idx % 4}">
+    <div class="gram-stage-content">
+      <div class="gram-stage-meta"><span>Rule ${num}</span><span class="gram-stage-count">${num} / ${String(total).padStart(2, '0')}</span></div>
+      <div>
+        <span class="gram-stage-ghost" aria-hidden="true">${num}</span>
+        ${block.title ? `<h3 class="gram-stage-title">${block.title}</h3>` : ''}
+      </div>
+      <div class="gram-stage-body">${block.body}</div>
+    </div>
+    <div class="gram-stage-panel" aria-hidden="true">
+      <svg class="ico gram-stage-icon"><use href="#${icon || 'i-pen'}"/></svg>
+      <span class="gram-stage-num">${num}</span>
+    </div>
+  </article>`;
+}
+
+function grammarBlockHtml(block){
   switch (block.type){
     case 'intro':
       return `<div class="gram-block gram-reveal gram-intro">${block.body}</div>`;
-    case 'rule':
-      return `<div class="gram-block gram-reveal gram-rule gram-ac-${ruleIdx % 4}${ruleIdx % 2 ? ' gram-flip' : ''}">
-        <div class="gram-rule-rail">
-          <span class="gram-rule-num" aria-hidden="true">${String(ruleIdx + 1).padStart(2, '0')}</span>
-          ${block.title ? `<h3>${block.title}</h3>` : ''}
-        </div>
-        <div class="gram-rule-body">${block.body}</div>
-      </div>`;
     case 'table': {
       const head = (block.data.head || []).map(h => `<th>${h}</th>`).join('');
       const rows = (block.data.rows || []).map(r => `<tr>${r.map(c => `<td>${c}</td>`).join('')}</tr>`).join('');
@@ -3454,6 +3531,12 @@ function grammarBlockHtml(block, ruleIdx){
 }
 
 const grammarQuiz = { topic: null, questions: [], idx: 0, score: 0 };
+
+let grammarStageTriggers = [];
+function killGrammarStageTriggers(){
+  grammarStageTriggers.forEach(st => st && st.kill());
+  grammarStageTriggers = [];
+}
 
 /* Strict comparison: capitalisation, spacing and final punctuation all count.
    Only the apostrophe glyph (curly vs straight) is normalised — different
