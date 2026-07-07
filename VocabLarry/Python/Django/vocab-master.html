@@ -964,46 +964,43 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
   min-height:min(56vh, 500px);
   will-change:transform,filter;
 }
-.gram-stage-content{padding:32px 40px; display:flex; flex-direction:column; justify-content:space-between; gap:18px;}
+.gram-stage.gram-stage-flip{grid-template-columns:minmax(0,2fr) minmax(0,3fr);}
+.gram-stage.gram-stage-flip .gram-stage-panel{order:-1;}
+.gram-stage-content{padding:34px 42px; display:flex; flex-direction:column; justify-content:center; gap:14px;}
 .gram-stage-meta{
-  display:flex; justify-content:space-between; align-items:center; gap:10px;
-  font-family:'JetBrains Mono',monospace; font-size:.64rem; text-transform:uppercase; letter-spacing:.22em; color:var(--muted);
-}
-.gram-stage-count{
-  color:var(--gr-ac); letter-spacing:.14em; padding:3px 10px; border-radius:999px;
-  background:color-mix(in srgb, var(--gr-ac) 12%, transparent);
-  border:1px solid color-mix(in srgb, var(--gr-ac) 30%, transparent);
+  font-family:'JetBrains Mono',monospace; font-size:.64rem; text-transform:uppercase;
+  letter-spacing:.22em; color:var(--gr-ac, var(--muted));
 }
 .gram-stage-ghost{
   display:block; font-family:'Plus Jakarta Sans','Sora',sans-serif; font-weight:800;
-  font-size:6.2rem; line-height:.8; letter-spacing:-.04em;
+  font-size:5.6rem; line-height:.8; letter-spacing:-.04em;
   color:color-mix(in srgb, var(--gr-ac) 15%, transparent);
 }
 .gram-stage-title{
   font-family:'Plus Jakarta Sans','Sora',sans-serif; font-weight:800; font-size:2.05rem;
   letter-spacing:-.02em; line-height:1.05; margin-top:-14px;
 }
-.gram-stage-body{font-size:1.03rem; line-height:1.7; max-width:520px;}
-.gram-stage-panel{
-  position:relative; overflow:hidden;
-  background:linear-gradient(160deg, color-mix(in srgb, var(--gr-ac) 24%, transparent), color-mix(in srgb, var(--gr-ac) 5%, transparent));
-  display:flex; align-items:center; justify-content:center;
+.gram-stage-body{font-size:1.03rem; line-height:1.7; max-width:520px; margin-top:4px;}
+.gram-stage-panel{position:relative; overflow:hidden; min-height:100%;}
+.gram-stage-panel img{
+  position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
+  filter:saturate(.8) contrast(1.04);
 }
-.gram-stage-panel .gram-stage-icon{
-  position:absolute; font-size:15rem; transform:rotate(-8deg);
-  color:color-mix(in srgb, var(--gr-ac) 17%, transparent);
+.gram-stage-shade{
+  position:absolute; inset:0;
+  background:linear-gradient(160deg, color-mix(in srgb, var(--gr-ac) 38%, transparent) 0%, rgba(8,8,12,.18) 55%, rgba(8,8,12,.6) 100%);
 }
-.gram-stage-num{
-  position:relative; font-family:var(--serif); font-style:italic; font-weight:500;
-  font-size:6.5rem; line-height:1; color:var(--gr-ac); opacity:.85;
+.gram-stage-chip{
+  position:absolute; left:16px; bottom:14px; width:32px; height:32px; border-radius:10px;
+  display:flex; align-items:center; justify-content:center; color:#fff;
+  background:rgba(10,10,16,.55); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
+  border:1px solid rgba(255,255,255,.18);
 }
 @media (max-width:900px){
-  .gram-stage{grid-template-columns:1fr; min-height:0;}
+  .gram-stage,.gram-stage.gram-stage-flip{grid-template-columns:1fr; min-height:0;}
+  .gram-stage-panel{order:-1; min-height:170px;}
   .gram-stage-content{padding:24px;}
-  .gram-stage-panel{min-height:140px;}
-  .gram-stage-panel .gram-stage-icon{font-size:9rem;}
-  .gram-stage-num{font-size:4rem;}
-  .gram-stage-ghost{font-size:4rem;}
+  .gram-stage-ghost{font-size:3.6rem;}
   .gram-stage-title{font-size:1.55rem; margin-top:-8px;}
 }
 /* table — carded with zebra rows */
@@ -3236,6 +3233,22 @@ const GRAMMAR_SECTION_ICONS = {
 /* Card accents cycle through the vocab category palette (canonical order,
    assigned before stage filtering so a topic keeps its colour). */
 const GRAMMAR_CARD_THEMES = ['t-tb','t-tv','t-tp','t-tr','t-te','t-ta','t-tc','t-tg','t-ti','t-to','t-tro','t-tfg','t-tpurp','t-ts','t-tnavy'];
+/* Lesson stage-card imagery per thematic section (Unsplash ids, verified). */
+const GRAMMAR_SECTION_IMAGES = {
+  'Tenses':                        ['1501139083538-0139583c060f','1456513080510-7bf3a84b82f8'],
+  'Questions & Reported Speech':   ['1543269865-cbf427effbad','1504711434969-e33886168f5c'],
+  'Nouns, Pronouns & Determiners': ['1507842217343-583bb7270b66','1524995997946-a1c2e315a42f'],
+  'Adjectives & Adverbs':          ['1474932430478-367dbb6832c1','1516979187457-637abb4f9353'],
+  'Word Forms & Prepositions':     ['1457369804613-52c61a468e7d','1488190211105-8b0e65b80b4e'],
+  'Verb Patterns & Modals':        ['1455390582262-044cdead277a','1434030216411-0b793f4b4173'],
+  'Voice':                         ['1478737270239-2f02b77fc618','1470229722913-7c0e2dbbafd3'],
+  'Conditionals & Unreal Forms':   ['1529699211952-734e80c4d42b','1522069169874-c58ec4b76be5'],
+  'Clauses':                       ['1433086966358-54859d0ed716','1481627834876-b7833e8f5570'],
+  'Emphasis & Sentence Focus':     ['1470229722913-7c0e2dbbafd3','1450101499163-c8848c66ca85'],
+  'Cohesion & Academic Style':     ['1481627834876-b7833e8f5570','1450101499163-c8848c66ca85'],
+};
+const GRAMMAR_IMG_FALLBACK = ['1456513080510-7bf3a84b82f8','1488190211105-8b0e65b80b4e','1516979187457-637abb4f9353'];
+const grammarImgUrl = id => `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=900&q=80`;
 const GRAMMAR_SECTIONS = {
   'present-simple-continuous': 'Tenses',
   'past-simple-continuous':    'Tenses',
@@ -3425,7 +3438,8 @@ function openGrammarTopic(topic){
       <h1>${topic.title} ${cefrRangePillHtml(topic.cefr)}</h1>
       <p>${topic.blurb}</p>
     </div>
-    <div class="gram-lesson">${grammarLessonHtml(topic.lesson, topic.icon)}</div>
+    <div class="gram-lesson">${grammarLessonHtml(topic.lesson, topic.icon,
+      GRAMMAR_SECTION_IMAGES[GRAMMAR_SECTIONS[topic.slug] || topic.tag] || GRAMMAR_IMG_FALLBACK)}</div>
     ${topic.quiz.length
       ? `<div style="text-align:center;margin-top:30px;">
            <button class="btn" id="grammarPracticeBtn">Practice — ${topic.quiz.length} question${topic.quiz.length !== 1 ? 's' : ''}</button>
@@ -3469,8 +3483,7 @@ function openGrammarTopic(topic){
   }
 }
 
-function grammarLessonHtml(lesson, icon){
-  const totalRules = lesson.filter(b => b.type === 'rule').length;
+function grammarLessonHtml(lesson, icon, imgs){
   const out = [];
   let stack = [], ruleIdx = 0;
   const flushStack = () => {
@@ -3478,7 +3491,7 @@ function grammarLessonHtml(lesson, icon){
   };
   lesson.forEach(b => {
     if (b.type === 'rule'){
-      stack.push(grammarRuleCardHtml(b, ruleIdx++, totalRules, icon));
+      stack.push(grammarRuleCardHtml(b, ruleIdx++, icon, imgs));
     } else {
       flushStack();
       out.push(grammarBlockHtml(b));
@@ -3488,11 +3501,13 @@ function grammarLessonHtml(lesson, icon){
   return out.join('');
 }
 
-function grammarRuleCardHtml(block, idx, total, icon){
+function grammarRuleCardHtml(block, idx, icon, imgs){
   const num = String(idx + 1).padStart(2, '0');
-  return `<article class="gram-stage gram-ac-${idx % 4}">
+  const pool = [...new Set([...(imgs || []), ...GRAMMAR_IMG_FALLBACK])];
+  const img = pool[idx % pool.length];
+  return `<article class="gram-stage gram-ac-${idx % 4}${idx % 2 ? ' gram-stage-flip' : ''}">
     <div class="gram-stage-content">
-      <div class="gram-stage-meta"><span>Rule ${num}</span><span class="gram-stage-count">${num} / ${String(total).padStart(2, '0')}</span></div>
+      <div class="gram-stage-meta"><span>Rule ${num}</span></div>
       <div>
         <span class="gram-stage-ghost" aria-hidden="true">${num}</span>
         ${block.title ? `<h3 class="gram-stage-title">${block.title}</h3>` : ''}
@@ -3500,8 +3515,9 @@ function grammarRuleCardHtml(block, idx, total, icon){
       <div class="gram-stage-body">${block.body}</div>
     </div>
     <div class="gram-stage-panel" aria-hidden="true">
-      <svg class="ico gram-stage-icon"><use href="#${icon || 'i-pen'}"/></svg>
-      <span class="gram-stage-num">${num}</span>
+      <img src="${grammarImgUrl(img)}" alt="" loading="lazy">
+      <div class="gram-stage-shade"></div>
+      <span class="gram-stage-chip"><svg class="ico"><use href="#${icon || 'i-pen'}"/></svg></span>
     </div>
   </article>`;
 }
