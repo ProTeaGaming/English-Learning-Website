@@ -852,18 +852,19 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
 }
 [data-theme="dark"] .browse-bar{background:rgba(20,20,26,0.82);}
 .browse-bar .search-row::before, .setup-filters .search-row::before{opacity:.45;}
-#browseSearch, #catSearchInput, #testCatSearch, #testWordSearch, #grammarSearch{
+#browseSearch, #catSearchInput, #testCatSearch, #testWordSearch, #grammarSearch, #gramwordSearch{
   flex:1; width:100%; background:rgba(var(--vio),.06); border:1px solid rgba(var(--vio),.2);
   color:var(--text); padding:10px 16px 10px 38px; border-radius:12px; font-size:.93rem;
   font-family:'Plus Jakarta Sans','Inter',sans-serif;
   -webkit-appearance:none; appearance:none; transition:border-color .18s ease, box-shadow .18s ease;
 }
-#browseSearch:focus, #catSearchInput:focus, #testCatSearch:focus, #testWordSearch:focus, #grammarSearch:focus{outline:none; border-color:rgba(var(--vio),.6); box-shadow:0 0 0 3px rgba(var(--vio),.12);}
+#browseSearch:focus, #catSearchInput:focus, #testCatSearch:focus, #testWordSearch:focus, #grammarSearch:focus, #gramwordSearch:focus{outline:none; border-color:rgba(var(--vio),.6); box-shadow:0 0 0 3px rgba(var(--vio),.12);}
 #browseSearch::-webkit-search-decoration, #browseSearch::-webkit-search-cancel-button,
 #catSearchInput::-webkit-search-decoration, #catSearchInput::-webkit-search-cancel-button,
 #testCatSearch::-webkit-search-decoration, #testCatSearch::-webkit-search-cancel-button,
 #testWordSearch::-webkit-search-decoration, #testWordSearch::-webkit-search-cancel-button,
-#grammarSearch::-webkit-search-decoration, #grammarSearch::-webkit-search-cancel-button{-webkit-appearance:none;}
+#grammarSearch::-webkit-search-decoration, #grammarSearch::-webkit-search-cancel-button,
+#gramwordSearch::-webkit-search-decoration, #gramwordSearch::-webkit-search-cancel-button{-webkit-appearance:none;}
 
 /* ===== SECTION ACCORDION BLOCK ===== */
 .section-block{
@@ -938,6 +939,7 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
 .headline-btn.active[data-grammar-stage="beginner"]{background:var(--gram-basic);border-color:var(--gram-basic);color:#064e3b;}
 .headline-btn.active[data-grammar-stage="independent"]{background:var(--gram-inter);border-color:var(--gram-inter);color:#fff;}
 .headline-btn.active[data-grammar-stage="expert"]{background:var(--gram-adv);border-color:var(--gram-adv);color:#1c1917;}
+.headline-btn.active[data-gramword-set]{background:var(--accent);border-color:var(--accent);color:#fff;}
 #grammarStages .cat-pfill.gram-done{background:var(--gram-done);}
 /* lesson spread — full container width, aligned with the page headings */
 .gram-lesson{width:100%;}
@@ -1441,6 +1443,10 @@ function iconSvg(emoji, cls){
         </div>
         <div class="nav-group" data-section="grammar">
           <button class="tab" data-section-btn="grammar">Grammar</button>
+          <div class="nav-dropdown">
+            <button class="nav-dropdown-item" data-page="grammar">Category</button>
+            <button class="nav-dropdown-item" data-page="gramword">Word</button>
+          </div>
         </div>
         <div class="nav-group" data-section="reading">
           <button class="tab" data-section-btn="reading">Reading</button>
@@ -2073,6 +2079,34 @@ function iconSvg(emoji, cls){
     <div id="grammarLesson" style="display:none;"></div>
     <div id="grammarQuizView" class="quiz-wrap" style="display:none;"></div>
     <div id="grammarResult" class="result-card" style="display:none;"></div>
+  </section>
+
+  <!-- ===== GRAMMAR WORD PAGE (irregular forms reference) ===== -->
+  <section id="page-gramword" class="page">
+    <div class="page-head">
+      <span class="eyebrow">Section 02 / Grammar</span>
+      <h1>Word</h1>
+      <p>Every irregular form in one place — verb forms V1–V2–V3 and comparison forms, searchable.</p>
+    </div>
+    <div class="headline-bar" id="gramwordSetBar">
+      <button class="headline-btn active" data-gramword-set="verbs"><svg class="ico" aria-hidden="true"><use href="#i-rotate"/></svg> Irregular Verbs</button>
+      <button class="headline-btn" data-gramword-set="comparisons"><svg class="ico" aria-hidden="true"><use href="#i-trend-up"/></svg> Comparisons</button>
+    </div>
+    <div class="browse-bar">
+      <div class="search-row" style="position:relative;">
+        <input type="search" id="gramwordSearch" placeholder="Search forms…">
+        <span class="result-count" id="gramwordCount"></span>
+      </div>
+      <div class="filter-row" id="gramwordPatternRow">
+        <span class="filter-label">Pattern</span>
+        <button class="chip active" data-gramword-pattern="all">All</button>
+        <button class="chip" data-gramword-pattern="AAA">AAA — all the same</button>
+        <button class="chip" data-gramword-pattern="ABA">ABA — V3 returns</button>
+        <button class="chip" data-gramword-pattern="ABB">ABB — V2 = V3</button>
+        <button class="chip" data-gramword-pattern="ABC">ABC — all different</button>
+      </div>
+    </div>
+    <div id="gramwordContent"></div>
   </section>
 
   <!-- ===== READING PAGE ===== -->
@@ -3761,13 +3795,100 @@ document.getElementById('grammarClearFilters').addEventListener('click', () => {
   renderGrammarHome();
 });
 
+/* ── Grammar Word page — irregular forms reference ── */
+const gramwordState = { set: 'verbs', search: '', pattern: 'all' };
+const GRAMWORD_SOURCES = { verbs: 'irregular-verbs', comparisons: 'comparison-structures' };
+const GRAMWORD_PATTERN_COLORS = { AAA: '#0d9488', ABA: '#3b82f6', ABB: '#f59e0b', ABC: '#ec4899' };
+
+function gramwordPatternOf(row){
+  const [a, b, c] = row.map(x => String(x).toLowerCase());
+  if (a === b && b === c) return 'AAA';
+  if (a === c) return 'ABA';
+  if (b === c) return 'ABB';
+  return 'ABC';
+}
+
+function gramwordPatternPill(p){
+  const c = GRAMWORD_PATTERN_COLORS[p] || '#888';
+  return `<span class="cat-cefr-pill" style="background:${c}1c;border:1px solid ${c}55;color:${c}">${p}</span>`;
+}
+
+function renderGramword(){
+  const content = document.getElementById('gramwordContent');
+  content.innerHTML = `<p class="sub" style="text-align:center;">Loading forms…</p>`;
+  loadGrammar().then(stages => {
+    const isVerbs = gramwordState.set === 'verbs';
+    document.querySelectorAll('#gramwordSetBar .headline-btn').forEach(b =>
+      b.classList.toggle('active', b.dataset.gramwordSet === gramwordState.set));
+    document.querySelectorAll('[data-gramword-pattern]').forEach(b =>
+      b.classList.toggle('active', b.dataset.gramwordPattern === gramwordState.pattern));
+    document.getElementById('gramwordPatternRow').style.display = isVerbs ? '' : 'none';
+
+    const topic = stages.flatMap(s => s.topics).find(t => t.slug === GRAMWORD_SOURCES[gramwordState.set]);
+    const block = topic && (topic.lesson || []).find(b => b.type === 'table');
+    if (!block){
+      content.innerHTML = `<p class="sub" style="text-align:center;">No reference table found for this set.</p>`;
+      document.getElementById('gramwordCount').textContent = '';
+      return;
+    }
+    const q = gramwordState.search.toLowerCase();
+    let rows = block.data.rows || [];
+    if (q) rows = rows.filter(r => r.some(c => String(c).toLowerCase().includes(q)));
+    if (isVerbs && gramwordState.pattern !== 'all'){
+      rows = rows.filter(r => gramwordPatternOf(r) === gramwordState.pattern);
+    }
+    const unit = isVerbs ? 'verb' : 'set';
+    document.getElementById('gramwordCount').textContent = `${rows.length} ${unit}${rows.length !== 1 ? 's' : ''}`;
+    if (!rows.length){
+      content.innerHTML = `<p class="sub" style="text-align:center;">No forms match — try a different search.</p>`;
+      return;
+    }
+    const head = (block.data.head || []).map(h => `<th>${h}</th>`).join('') + (isVerbs ? '<th>Pattern</th>' : '');
+    const body = rows.map(r =>
+      `<tr>${r.map((c, i) => `<td>${i === 0 ? `<b>${c}</b>` : c}</td>`).join('')}${isVerbs ? `<td>${gramwordPatternPill(gramwordPatternOf(r))}</td>` : ''}</tr>`
+    ).join('');
+    content.innerHTML = `
+      <div class="gram-table-wrap"><div style="overflow-x:auto;">
+        <table class="gram-table"><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table>
+      </div></div>`;
+    if (typeof gsap !== 'undefined'){
+      gsap.fromTo(content, {opacity:0, y:12}, {opacity:1, y:0, duration:.35, ease:'power2.out'});
+    }
+  }).catch(() => {
+    content.innerHTML = `
+      <div class="setup-card" style="text-align:center;">
+        <p class="sub">Couldn't load the reference tables. Check your connection and try again.</p>
+        <button class="btn" id="gramwordRetryBtn">Retry</button>
+      </div>`;
+    document.getElementById('gramwordRetryBtn').addEventListener('click', renderGramword);
+  });
+}
+
+document.querySelectorAll('#gramwordSetBar .headline-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    gramwordState.set = btn.dataset.gramwordSet;
+    gramwordState.pattern = 'all';
+    renderGramword();
+  });
+});
+document.getElementById('gramwordSearch').addEventListener('input', debounce(e => {
+  gramwordState.search = e.target.value.trim();
+  renderGramword();
+}, 150));
+document.querySelectorAll('[data-gramword-pattern]').forEach(chip => {
+  chip.addEventListener('click', () => {
+    gramwordState.pattern = chip.dataset.gramwordPattern;
+    renderGramword();
+  });
+});
+
 /* ════════════════════════════════════════════════════════
    NAVIGATION
    ════════════════════════════════════════════════════════ */
 const NAV_SECTIONS = {
   home: ["home"],
   vocabulary: ["list", "examples", "test"],
-  grammar: ["grammar"],
+  grammar: ["grammar", "gramword"],
   reading: ["reading"],
   writing: ["writing"],
   listening: ["listening"],
@@ -3799,6 +3920,7 @@ function goToPage(pageId){
   else if (pageId === "examples") renderExamplesFilters();
   else if (pageId === "test") renderTestMode();
   else if (pageId === "grammar") renderGrammarHome();
+  else if (pageId === "gramword") renderGramword();
   if (typeof gsap !== "undefined"){
     gsap.fromTo(page, {opacity:0, y:18}, {opacity:1, y:0, duration:.5, ease:"power3.out"});
   }
