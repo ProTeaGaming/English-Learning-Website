@@ -324,6 +324,15 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
 .chip.active[data-browse-status="completed"]{background:var(--tfg);}
 .chip.active[data-browse-status="inProgress"]{background:var(--c1);}
 .chip.active[data-browse-status="notStarted"]{background:var(--muted);}
+.chip.active[data-grammar-cefr="A1"]{background:var(--a1);} .chip.active[data-grammar-cefr="A1+"]{background:var(--a1p);}
+.chip.active[data-grammar-cefr="A2"]{background:var(--a2);} .chip.active[data-grammar-cefr="A2+"]{background:var(--a2p);}
+.chip.active[data-grammar-cefr="B1"]{background:var(--b1);} .chip.active[data-grammar-cefr="B1+"]{background:var(--b1p);}
+.chip.active[data-grammar-cefr="B2"]{background:var(--b2);} .chip.active[data-grammar-cefr="B2+"]{background:var(--b2p);}
+.chip.active[data-grammar-cefr="C1"]{background:var(--c1);} .chip.active[data-grammar-cefr="C1+"]{background:var(--c1p);}
+.chip.active[data-grammar-cefr="C2"]{background:var(--c2);} .chip.active[data-grammar-cefr="C2+"]{background:var(--c2p);}
+.chip.active[data-grammar-status="completed"]{background:var(--tfg);}
+.chip.active[data-grammar-status="inProgress"]{background:var(--c1);}
+.chip.active[data-grammar-status="notStarted"]{background:var(--muted);}
 .clear-btn{
   font-size:.78rem; color:var(--muted); background:rgba(124,58,237,0.05); border:1px solid rgba(124,58,237,0.18);
   border-radius:999px; padding:6px 14px; cursor:pointer; font-weight:600;
@@ -843,17 +852,18 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
 }
 [data-theme="dark"] .browse-bar{background:rgba(20,20,26,0.82);}
 .browse-bar .search-row::before, .setup-filters .search-row::before{opacity:.45;}
-#browseSearch, #catSearchInput, #testCatSearch, #testWordSearch{
+#browseSearch, #catSearchInput, #testCatSearch, #testWordSearch, #grammarSearch{
   flex:1; width:100%; background:rgba(var(--vio),.06); border:1px solid rgba(var(--vio),.2);
   color:var(--text); padding:10px 16px 10px 38px; border-radius:12px; font-size:.93rem;
   font-family:'Plus Jakarta Sans','Inter',sans-serif;
   -webkit-appearance:none; appearance:none; transition:border-color .18s ease, box-shadow .18s ease;
 }
-#browseSearch:focus, #catSearchInput:focus, #testCatSearch:focus, #testWordSearch:focus{outline:none; border-color:rgba(var(--vio),.6); box-shadow:0 0 0 3px rgba(var(--vio),.12);}
+#browseSearch:focus, #catSearchInput:focus, #testCatSearch:focus, #testWordSearch:focus, #grammarSearch:focus{outline:none; border-color:rgba(var(--vio),.6); box-shadow:0 0 0 3px rgba(var(--vio),.12);}
 #browseSearch::-webkit-search-decoration, #browseSearch::-webkit-search-cancel-button,
 #catSearchInput::-webkit-search-decoration, #catSearchInput::-webkit-search-cancel-button,
 #testCatSearch::-webkit-search-decoration, #testCatSearch::-webkit-search-cancel-button,
-#testWordSearch::-webkit-search-decoration, #testWordSearch::-webkit-search-cancel-button{-webkit-appearance:none;}
+#testWordSearch::-webkit-search-decoration, #testWordSearch::-webkit-search-cancel-button,
+#grammarSearch::-webkit-search-decoration, #grammarSearch::-webkit-search-cancel-button{-webkit-appearance:none;}
 
 /* ===== SECTION ACCORDION BLOCK ===== */
 .section-block{
@@ -1930,6 +1940,38 @@ function iconSvg(emoji, cls){
         <button class="headline-btn" data-grammar-stage="beginner"><svg class="ico" aria-hidden="true"><use href="#i-sprout"/></svg> Basic</button>
         <button class="headline-btn" data-grammar-stage="independent"><svg class="ico" aria-hidden="true"><use href="#i-trend-up"/></svg> Intermediate</button>
         <button class="headline-btn" data-grammar-stage="expert"><svg class="ico" aria-hidden="true"><use href="#i-grad-cap"/></svg> Advanced</button>
+      </div>
+      <div class="browse-bar">
+        <div class="search-row" style="position:relative;">
+          <input type="search" id="grammarSearch" placeholder="Search grammar topics…">
+        </div>
+        <div class="filter-row" id="grammarSectionChips"></div>
+        <div class="filter-row">
+          <span class="filter-label">CEFR Level</span>
+          <button class="chip active" id="grammarCefrAll">All</button>
+          <button class="chip" data-grammar-cefr="A1">A1</button>
+          <button class="chip" data-grammar-cefr="A1+">A1+</button>
+          <button class="chip" data-grammar-cefr="A2">A2</button>
+          <button class="chip" data-grammar-cefr="A2+">A2+</button>
+          <button class="chip" data-grammar-cefr="B1">B1</button>
+          <button class="chip" data-grammar-cefr="B1+">B1+</button>
+          <button class="chip" data-grammar-cefr="B2">B2</button>
+          <button class="chip" data-grammar-cefr="B2+">B2+</button>
+          <button class="chip" data-grammar-cefr="C1">C1</button>
+          <button class="chip" data-grammar-cefr="C1+">C1+</button>
+          <button class="chip" data-grammar-cefr="C2">C2</button>
+          <button class="chip" data-grammar-cefr="C2+">C2+</button>
+        </div>
+        <div class="filter-row">
+          <span class="filter-label">Progress</span>
+          <button class="chip active" id="grammarStatusAll">All</button>
+          <button class="chip" data-grammar-status="completed">Mastered</button>
+          <button class="chip" data-grammar-status="inProgress">In Progress</button>
+          <button class="chip" data-grammar-status="notStarted">Not Started</button>
+        </div>
+        <div class="filter-row" style="justify-content:flex-end;">
+          <button class="clear-btn" id="grammarClearFilters">Clear filters</button>
+        </div>
       </div>
       <div id="grammarStages"></div>
     </div>
@@ -3038,7 +3080,7 @@ function initTopicFilters(prefix, f, getPool, unitLabel){
 const GRAMMAR_PROGRESS_KEY = 'grammarProgress';
 const GRAMMAR_PASS_PCT = 80;
 let GRAMMAR_STAGES_DATA = null;   // fetched once per session
-let grammarStageFilter = 'all';   // 'all' | stage id; resets on reload
+const grammarFilter = { stage:'all', search:'', section:'all', cefr:'all', status:'all' };   // resets on reload
 let grammarLoading = null;        // in-flight fetch promise
 
 function loadGrammarProgress(){
@@ -3051,6 +3093,11 @@ function saveGrammarProgress(p){
 function grammarTopicDone(slug){
   const rec = loadGrammarProgress()[slug];
   return !!(rec && rec.done);
+}
+function grammarTopicStatus(slug){
+  if (grammarTopicDone(slug)) return 'completed';
+  const rec = loadGrammarProgress()[slug];
+  return rec && rec.best > 0 ? 'inProgress' : 'notStarted';
 }
 function recordGrammarScore(slug, pct){
   const p = loadGrammarProgress();
@@ -3169,6 +3216,10 @@ function renderGrammarHome(){
     });
     const names = [...GRAMMAR_SECTION_ORDER.filter(n => grouped.has(n)),
                    ...[...grouped.keys()].filter(n => !GRAMMAR_SECTION_ORDER.includes(n))];
+    renderGrammarSectionChips(names);
+    syncGrammarFilterChips();
+    const f = grammarFilter;
+    const q = f.search.toLowerCase();
     let rendered = 0, themeIdx = 0;
     names.forEach((name, i) => {
       const all = grouped.get(name)
@@ -3177,13 +3228,20 @@ function renderGrammarHome(){
         t.theme = GRAMMAR_CARD_THEMES[themeIdx++ % GRAMMAR_CARD_THEMES.length];
         t.icon = GRAMMAR_SECTION_ICONS[name] || 'i-pen';
       });
-      const inSection = all.filter(t => grammarStageFilter === 'all' || t.stageId === grammarStageFilter);
+      if (f.section !== 'all' && name !== f.section) return;
+      const inSection = all.filter(t =>
+        (f.stage === 'all' || t.stageId === f.stage) &&
+        (f.cefr === 'all' || t.cefr === f.cefr) &&
+        (f.status === 'all' || grammarTopicStatus(t.slug) === f.status) &&
+        (!q || t.title.toLowerCase().includes(q)));
       if (!inSection.length) return;
       wrap.appendChild(renderGrammarSection(name, inSection, i + 1));
       rendered++;
     });
     if (!rendered){
-      wrap.innerHTML = `<p class="sub" style="text-align:center;">No grammar topics yet.</p>`;
+      wrap.innerHTML = topics.length
+        ? `<p class="sub" style="text-align:center;">No topics match these filters — try widening your selection.</p>`
+        : `<p class="sub" style="text-align:center;">No grammar topics yet.</p>`;
     }
     if (typeof gsap !== 'undefined'){
       gsap.fromTo(wrap.querySelectorAll('.cat-card'), {opacity:0, y:16},
@@ -3436,13 +3494,67 @@ function showGrammarResult(){
   document.getElementById('grammarBackHomeBtn').addEventListener('click', renderGrammarHome);
 }
 
+function renderGrammarSectionChips(names){
+  const sc = document.getElementById('grammarSectionChips');
+  const allBtn = document.createElement('button');
+  allBtn.className = 'chip' + (grammarFilter.section === 'all' ? ' active' : '');
+  allBtn.textContent = 'All';
+  allBtn.addEventListener('click', () => { grammarFilter.section = 'all'; renderGrammarHome(); });
+  const btns = names.map(n => {
+    const b = document.createElement('button');
+    b.className = 'chip' + (grammarFilter.section === n ? ' active' : '');
+    b.textContent = n;
+    b.addEventListener('click', () => { grammarFilter.section = n; renderGrammarHome(); });
+    return b;
+  });
+  renderExpandableChips(sc, allBtn, btns);
+}
+
+function syncGrammarFilterChips(){
+  document.querySelectorAll('[data-grammar-cefr]').forEach(c =>
+    c.classList.toggle('active', c.dataset.grammarCefr === grammarFilter.cefr));
+  document.getElementById('grammarCefrAll').classList.toggle('active', grammarFilter.cefr === 'all');
+  document.querySelectorAll('[data-grammar-status]').forEach(c =>
+    c.classList.toggle('active', c.dataset.grammarStatus === grammarFilter.status));
+  document.getElementById('grammarStatusAll').classList.toggle('active', grammarFilter.status === 'all');
+  document.querySelectorAll('#grammarFilterBar .headline-btn').forEach(b =>
+    b.classList.toggle('active', b.dataset.grammarStage === grammarFilter.stage));
+}
+
 document.querySelectorAll('#grammarFilterBar .headline-btn').forEach(btn => {
   btn.addEventListener('click', () => {
-    grammarStageFilter = btn.dataset.grammarStage;
-    document.querySelectorAll('#grammarFilterBar .headline-btn').forEach(b =>
-      b.classList.toggle('active', b === btn));
+    grammarFilter.stage = btn.dataset.grammarStage;
     renderGrammarHome();
   });
+});
+document.getElementById('grammarSearch').addEventListener('input', debounce(e => {
+  grammarFilter.search = e.target.value.trim();
+  renderGrammarHome();
+}, 150));
+document.querySelectorAll('[data-grammar-cefr]').forEach(chip => {
+  chip.addEventListener('click', () => {
+    grammarFilter.cefr = chip.dataset.grammarCefr;
+    renderGrammarHome();
+  });
+});
+document.getElementById('grammarCefrAll').addEventListener('click', () => {
+  grammarFilter.cefr = 'all';
+  renderGrammarHome();
+});
+document.querySelectorAll('[data-grammar-status]').forEach(chip => {
+  chip.addEventListener('click', () => {
+    grammarFilter.status = chip.dataset.grammarStatus;
+    renderGrammarHome();
+  });
+});
+document.getElementById('grammarStatusAll').addEventListener('click', () => {
+  grammarFilter.status = 'all';
+  renderGrammarHome();
+});
+document.getElementById('grammarClearFilters').addEventListener('click', () => {
+  Object.assign(grammarFilter, { stage:'all', search:'', section:'all', cefr:'all', status:'all' });
+  document.getElementById('grammarSearch').value = '';
+  renderGrammarHome();
 });
 
 /* ════════════════════════════════════════════════════════
