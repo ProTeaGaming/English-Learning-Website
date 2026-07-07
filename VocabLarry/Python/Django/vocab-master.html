@@ -939,40 +939,44 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
 .headline-btn.active[data-grammar-stage="independent"]{background:var(--gram-inter);border-color:var(--gram-inter);color:#fff;}
 .headline-btn.active[data-grammar-stage="expert"]{background:var(--gram-adv);border-color:var(--gram-adv);color:#1c1917;}
 #grammarStages .cat-pfill.gram-done{background:var(--gram-done);}
-/* textbook layout — wide canvas, blocks pull to alternating sides */
-.gram-lesson{max-width:1000px;margin:0 auto;}
-.gram-block{margin-bottom:28px;line-height:1.65;}
-.gram-rule,.gram-examples{width:min(720px,100%);}
-.gram-tip{width:min(780px,100%);margin-right:auto;}
-.gram-pull-left{margin-right:auto;}
-.gram-pull-right{margin-left:auto;}
-.gram-examples{margin-left:auto;}
-@media (max-width:900px){
-  .gram-rule,.gram-examples,.gram-tip{width:100%;}
-}
+/* lesson spread — open editorial rows, margin-rail numbers, scroll reveals */
+.gram-lesson{max-width:1060px;margin:0 auto;}
+.gram-block{margin-bottom:38px;line-height:1.65;}
+.gram-reveal{opacity:0;transform:translateY(16px);transition:opacity .55s var(--ease-luxe),transform .55s var(--ease-luxe);}
+.gram-reveal.in-view{opacity:1;transform:none;}
 /* lede — editorial serif intro */
 .gram-intro{
-  max-width:720px;
-  font-family:var(--serif); font-style:italic; font-size:1.16rem; line-height:1.65; color:var(--text);
-  padding-bottom:22px; margin-bottom:28px; border-bottom:1px solid rgba(var(--vio),.18);
+  max-width:780px;
+  font-family:var(--serif); font-style:italic; font-size:1.24rem; line-height:1.7; color:var(--text);
+  padding-bottom:26px; margin-bottom:6px; border-bottom:1px solid rgba(var(--vio),.18);
 }
 .gram-intro b{color:rgb(var(--vio)); font-weight:600;}
-/* rule cards — rotating vocab-palette accents + ghost numeral */
+/* rule rows — open two-column spread, big serif numeral in the margin rail */
 .gram-ac-0{--gr-ac:var(--tb);} .gram-ac-1{--gr-ac:var(--tc);}
 .gram-ac-2{--gr-ac:var(--tpurp);} .gram-ac-3{--gr-ac:var(--to);}
 .gram-rule{
-  position:relative; overflow:hidden; border-radius:16px; padding:18px 56px 18px 25px;
-  border:1px solid color-mix(in srgb, var(--gr-ac, #7c3aed) 32%, transparent);
-  background:color-mix(in srgb, var(--gr-ac, #7c3aed) 7%, transparent);
+  display:grid; grid-template-columns:170px minmax(0,1fr); gap:14px 34px; align-items:start;
+  padding-top:30px; margin-bottom:26px;
+  border-top:1px solid color-mix(in srgb, var(--gr-ac, #7c3aed) 38%, transparent);
 }
-.gram-rule::before{content:''; position:absolute; left:0; top:0; bottom:0; width:3px; background:var(--gr-ac, rgb(var(--vio)));}
+.gram-rule.gram-flip{grid-template-columns:minmax(0,1fr) 170px;}
+.gram-rule-rail{display:flex; flex-direction:column; gap:8px;}
+.gram-rule.gram-flip .gram-rule-rail{order:2; text-align:right; align-items:flex-end;}
+.gram-rule.gram-flip .gram-rule-body{order:1; justify-self:end;}
+.gram-rule-num{
+  font-family:var(--serif); font-style:italic; font-weight:500; font-size:3.4rem; line-height:.9;
+  color:var(--gr-ac, rgb(var(--vio)));
+}
 .gram-rule h3{
-  font-size:.72rem; text-transform:uppercase; letter-spacing:.14em; margin-bottom:9px;
+  font-size:.72rem; text-transform:uppercase; letter-spacing:.16em; margin:0;
   color:var(--gr-ac, rgb(var(--vio))); font-family:'JetBrains Mono',monospace;
 }
-.gram-rule-num{
-  position:absolute; right:16px; top:6px; font-family:var(--serif); font-style:italic; font-weight:500;
-  font-size:2.6rem; line-height:1; color:var(--gr-ac, rgb(var(--vio))); opacity:.16; pointer-events:none;
+.gram-rule-body{max-width:640px; font-size:1.02rem;}
+@media (max-width:760px){
+  .gram-rule,.gram-rule.gram-flip{grid-template-columns:1fr; gap:10px; padding-top:22px;}
+  .gram-rule.gram-flip .gram-rule-rail{order:0; text-align:left; align-items:flex-start;}
+  .gram-rule.gram-flip .gram-rule-body{order:1; justify-self:start;}
+  .gram-rule-num{font-size:2.4rem;}
 }
 /* table — carded with zebra rows */
 .gram-table-title{
@@ -989,8 +993,9 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
 .gram-table tbody tr:nth-child(even){background:rgba(var(--vio),.035);}
 .gram-table tbody tr:last-child td{border-bottom:none;}
 .gram-table td:first-child{font-weight:600;}
-/* examples — quote cards */
-.gram-examples{display:flex;flex-direction:column;gap:10px;}
+/* examples — 2-up specimen grid of quote cards */
+.gram-examples{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:12px;}
+.gram-ex:last-child:nth-child(odd){grid-column:1/-1;}
 .gram-ex{
   position:relative;border:1px solid var(--card-border);border-radius:14px;background:var(--card-bg);
   padding:13px 18px 13px 48px;
@@ -3398,6 +3403,12 @@ function openGrammarTopic(topic){
   document.getElementById('grammarBackBtn').addEventListener('click', renderGrammarHome);
   const practiceBtn = document.getElementById('grammarPracticeBtn');
   if (practiceBtn) practiceBtn.addEventListener('click', () => startGrammarQuiz(topic));
+  const revealIo = new IntersectionObserver(entries => {
+    entries.forEach(en => {
+      if (en.isIntersecting){ en.target.classList.add('in-view'); revealIo.unobserve(en.target); }
+    });
+  }, { threshold: .15, rootMargin: '0px 0px -40px' });
+  el.querySelectorAll('.gram-reveal').forEach(b => revealIo.observe(b));
   document.getElementById('page-grammar').scrollIntoView({behavior: 'smooth', block: 'start'});
   if (typeof gsap !== 'undefined'){
     gsap.fromTo(el, {opacity:0, y:14}, {opacity:1, y:0, duration:.4, ease:'power2.out'});
@@ -3412,25 +3423,29 @@ function grammarLessonHtml(lesson){
 function grammarBlockHtml(block, ruleIdx){
   switch (block.type){
     case 'intro':
-      return `<div class="gram-block gram-intro">${block.body}</div>`;
+      return `<div class="gram-block gram-reveal gram-intro">${block.body}</div>`;
     case 'rule':
-      return `<div class="gram-block gram-rule gram-ac-${ruleIdx % 4} gram-pull-${ruleIdx % 2 ? 'right' : 'left'}">
-        <span class="gram-rule-num" aria-hidden="true">${String(ruleIdx + 1).padStart(2, '0')}</span>
-        ${block.title ? `<h3>${block.title}</h3>` : ''}${block.body}</div>`;
+      return `<div class="gram-block gram-reveal gram-rule gram-ac-${ruleIdx % 4}${ruleIdx % 2 ? ' gram-flip' : ''}">
+        <div class="gram-rule-rail">
+          <span class="gram-rule-num" aria-hidden="true">${String(ruleIdx + 1).padStart(2, '0')}</span>
+          ${block.title ? `<h3>${block.title}</h3>` : ''}
+        </div>
+        <div class="gram-rule-body">${block.body}</div>
+      </div>`;
     case 'table': {
       const head = (block.data.head || []).map(h => `<th>${h}</th>`).join('');
       const rows = (block.data.rows || []).map(r => `<tr>${r.map(c => `<td>${c}</td>`).join('')}</tr>`).join('');
-      return `<div class="gram-block">
+      return `<div class="gram-block gram-reveal">
         ${block.title ? `<h3 class="gram-table-title"><svg class="ico" aria-hidden="true"><use href="#i-clipboard"/></svg>${block.title}</h3>` : ''}
         <div class="gram-table-wrap"><div style="overflow-x:auto;"><table class="gram-table"><thead><tr>${head}</tr></thead><tbody>${rows}</tbody></table></div></div>
       </div>`;
     }
     case 'examples':
-      return `<div class="gram-block gram-examples">${(block.data.items || []).map(it =>
+      return `<div class="gram-block gram-reveal gram-examples">${(block.data.items || []).map(it =>
         `<div class="gram-ex"><div class="gram-ex-en">${it.en}</div>${it.note ? `<div class="gram-ex-note">${it.note}</div>` : ''}</div>`
       ).join('')}</div>`;
     case 'tip':
-      return `<div class="gram-block gram-tip">
+      return `<div class="gram-block gram-reveal gram-tip">
         <span class="gram-tip-icon" aria-hidden="true"><svg class="ico"><use href="#i-lightbulb"/></svg></span>
         <span class="gram-tip-label">IELTS tip</span>${block.body}</div>`;
     default:
