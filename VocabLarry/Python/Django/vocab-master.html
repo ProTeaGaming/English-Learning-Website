@@ -3368,7 +3368,13 @@ function grammarBlockHtml(block){
 const grammarQuiz = { topic: null, questions: [], idx: 0, score: 0 };
 
 function grammarNorm(s){
-  return String(s).trim().replace(/\s+/g, ' ').toLowerCase();
+  return String(s)
+    .replace(/[’‘]/g, "'")   // curly → straight apostrophe
+    .replace(/\s+/g, ' ')
+    .trim()
+    .replace(/[.!?]+$/, '')            // trailing sentence punctuation is optional
+    .trim()
+    .toLowerCase();
 }
 
 function startGrammarQuiz(topic){

@@ -605,7 +605,8 @@
         "prompt": "Rewrite as a prediction based on present evidence: \"Sales figures are falling. They will drop below target.\"",
         "answers": [
           "Sales figures are falling. They are going to drop below target.",
-          "Sales figures are falling. They are going to drop below target"
+          "Sales figures are falling. They are going to drop below target",
+          "Sales figures are falling. They're going to drop below target."
         ],
         "why": "A prediction based on visible current evidence uses \"going to\", not \"will\"."
       }
@@ -3593,7 +3594,8 @@
         "qtype": "gap",
         "prompt": "You ___ (not/have) to attend the meeting if you're busy — it's optional.",
         "answers": [
-          "don't have"
+          "don't have",
+          "do not have"
         ],
         "why": "\"Don't have to\" means there is no obligation, matching \"optional\"."
       },
@@ -3615,7 +3617,8 @@
         "qtype": "gap",
         "prompt": "That ___ (can) be right — the figures don't add up.",
         "answers": [
-          "can't"
+          "can't",
+          "cannot"
         ],
         "why": "\"Can't\" expresses a confident negative deduction."
       },
@@ -5720,7 +5723,8 @@
         "prompt": "Rewrite using \"shouldn't have\": \"It was a mistake for the team to ignore the warning signs.\"",
         "answers": [
           "The team shouldn't have ignored the warning signs.",
-          "The team shouldn't have ignored the warning signs"
+          "The team shouldn't have ignored the warning signs",
+          "The team should not have ignored the warning signs."
         ],
         "why": "“Shouldn't have + V3” criticises the team's past action of ignoring the warnings."
       }
