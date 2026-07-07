@@ -7292,5 +7292,2002 @@
         "why": "“Astonishing” is an extreme adjective; it collocates with “absolutely/utterly/completely”, not the gradable intensifier “very”."
       }
     ]
+  },
+  {
+    "slug": "irregular-verbs",
+    "stage": "beginner",
+    "title": "Irregular Verbs (V1–V2–V3)",
+    "tag": "Tenses",
+    "cefr": "A1+",
+    "blurb": "The past simple and past participle of the verbs every essay, graph and story needs.",
+    "lesson": [
+      {
+        "type": "intro",
+        "body": "<p>Regular verbs add <b>-ed</b> (<em>increase → increased → increased</em>), but many of the most common English verbs are <b>irregular</b>: they have their own <b>past simple (V2)</b> and <b>past participle (V3)</b> forms that simply have to be learned.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "The three forms",
+        "body": "<p>Every verb has a base form <b>V1</b> (<em>go</em>), a past simple <b>V2</b> (<em>went</em>) and a past participle <b>V3</b> (<em>gone</em>). <b>V2</b> is used alone in the past simple: <em>Sales fell in 2019.</em> <b>V3</b> never stands alone — it follows <em>have/has/had</em> in perfect tenses (<em>sales have fallen</em>) and <em>be</em> in passives (<em>the record was broken</em>).</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Four sound patterns",
+        "body": "<p>Irregular verbs cluster into patterns: <b>AAA</b> — all three the same (<em>cut–cut–cut, put, cost, let, set, hit</em>); <b>ABA</b> — V3 returns to V1 (<em>come–came–come, become, run</em>); <b>ABB</b> — V2 and V3 match (<em>buy–bought–bought, teach, find, keep</em>); <b>ABC</b> — all different (<em>go–went–gone, see–saw–seen, write–wrote–written</em>). Learning them in pattern groups is far faster than alphabetically.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "The classic mistake",
+        "body": "<p>Never use V2 after <em>have</em>, and never use V3 alone: <em>I have <b>went</b></em> ✗ → <em>I have <b>gone</b></em> ✓; <em>She <b>done</b> the test</em> ✗ → <em>She <b>did</b> the test</em> ✓. If the verb follows <em>have/has/had</em> or <em>be</em>, it must be V3.</p>"
+      },
+      {
+        "type": "table",
+        "title": "Essential irregular verbs (V1 – V2 – V3)",
+        "data": {
+          "head": [
+            "Base (V1)",
+            "Past simple (V2)",
+            "Past participle (V3)"
+          ],
+          "rows": [
+            [
+              "be",
+              "was/were",
+              "been"
+            ],
+            [
+              "become",
+              "became",
+              "become"
+            ],
+            [
+              "begin",
+              "began",
+              "begun"
+            ],
+            [
+              "break",
+              "broke",
+              "broken"
+            ],
+            [
+              "bring",
+              "brought",
+              "brought"
+            ],
+            [
+              "build",
+              "built",
+              "built"
+            ],
+            [
+              "buy",
+              "bought",
+              "bought"
+            ],
+            [
+              "catch",
+              "caught",
+              "caught"
+            ],
+            [
+              "choose",
+              "chose",
+              "chosen"
+            ],
+            [
+              "come",
+              "came",
+              "come"
+            ],
+            [
+              "cost",
+              "cost",
+              "cost"
+            ],
+            [
+              "cut",
+              "cut",
+              "cut"
+            ],
+            [
+              "do",
+              "did",
+              "done"
+            ],
+            [
+              "draw",
+              "drew",
+              "drawn"
+            ],
+            [
+              "drink",
+              "drank",
+              "drunk"
+            ],
+            [
+              "drive",
+              "drove",
+              "driven"
+            ],
+            [
+              "eat",
+              "ate",
+              "eaten"
+            ],
+            [
+              "fall",
+              "fell",
+              "fallen"
+            ],
+            [
+              "feel",
+              "felt",
+              "felt"
+            ],
+            [
+              "find",
+              "found",
+              "found"
+            ],
+            [
+              "fly",
+              "flew",
+              "flown"
+            ],
+            [
+              "forget",
+              "forgot",
+              "forgotten"
+            ],
+            [
+              "get",
+              "got",
+              "got"
+            ],
+            [
+              "give",
+              "gave",
+              "given"
+            ],
+            [
+              "go",
+              "went",
+              "gone"
+            ],
+            [
+              "grow",
+              "grew",
+              "grown"
+            ],
+            [
+              "have",
+              "had",
+              "had"
+            ],
+            [
+              "hear",
+              "heard",
+              "heard"
+            ],
+            [
+              "hold",
+              "held",
+              "held"
+            ],
+            [
+              "keep",
+              "kept",
+              "kept"
+            ],
+            [
+              "know",
+              "knew",
+              "known"
+            ],
+            [
+              "leave",
+              "left",
+              "left"
+            ],
+            [
+              "lend",
+              "lent",
+              "lent"
+            ],
+            [
+              "let",
+              "let",
+              "let"
+            ],
+            [
+              "lose",
+              "lost",
+              "lost"
+            ],
+            [
+              "make",
+              "made",
+              "made"
+            ],
+            [
+              "mean",
+              "meant",
+              "meant"
+            ],
+            [
+              "meet",
+              "met",
+              "met"
+            ],
+            [
+              "pay",
+              "paid",
+              "paid"
+            ],
+            [
+              "put",
+              "put",
+              "put"
+            ],
+            [
+              "read",
+              "read",
+              "read"
+            ],
+            [
+              "ride",
+              "rode",
+              "ridden"
+            ],
+            [
+              "rise",
+              "rose",
+              "risen"
+            ],
+            [
+              "run",
+              "ran",
+              "run"
+            ],
+            [
+              "say",
+              "said",
+              "said"
+            ],
+            [
+              "see",
+              "saw",
+              "seen"
+            ],
+            [
+              "sell",
+              "sold",
+              "sold"
+            ],
+            [
+              "send",
+              "sent",
+              "sent"
+            ],
+            [
+              "show",
+              "showed",
+              "shown"
+            ],
+            [
+              "sing",
+              "sang",
+              "sung"
+            ],
+            [
+              "sit",
+              "sat",
+              "sat"
+            ],
+            [
+              "sleep",
+              "slept",
+              "slept"
+            ],
+            [
+              "speak",
+              "spoke",
+              "spoken"
+            ],
+            [
+              "spend",
+              "spent",
+              "spent"
+            ],
+            [
+              "stand",
+              "stood",
+              "stood"
+            ],
+            [
+              "take",
+              "took",
+              "taken"
+            ],
+            [
+              "teach",
+              "taught",
+              "taught"
+            ],
+            [
+              "tell",
+              "told",
+              "told"
+            ],
+            [
+              "think",
+              "thought",
+              "thought"
+            ],
+            [
+              "throw",
+              "threw",
+              "thrown"
+            ],
+            [
+              "understand",
+              "understood",
+              "understood"
+            ],
+            [
+              "wear",
+              "wore",
+              "worn"
+            ],
+            [
+              "win",
+              "won",
+              "won"
+            ],
+            [
+              "write",
+              "wrote",
+              "written"
+            ]
+          ]
+        }
+      },
+      {
+        "type": "examples",
+        "data": {
+          "items": [
+            {
+              "en": "The number of applicants rose sharply in 2019.",
+              "note": "rise–rose–risen: V2 for a finished past change on a chart."
+            },
+            {
+              "en": "She has written three essays this week.",
+              "note": "V3 “written” after “has” — present perfect."
+            },
+            {
+              "en": "The report was written by two analysts.",
+              "note": "V3 after “be” — passive voice."
+            },
+            {
+              "en": "Prices fell, then they have fallen even further this year.",
+              "note": "V2 “fell” alone; V3 “fallen” after “have”."
+            }
+          ]
+        }
+      },
+      {
+        "type": "tip",
+        "body": "<p>In Writing Task 1, <em>rise–rose–risen</em>, <em>fall–fell–fallen</em> and <em>grow–grew–grown</em> appear constantly. Drill those three ABC sets until automatic — examiners notice <em>“has rose”</em> immediately.</p>"
+      }
+    ],
+    "quiz": [
+      {
+        "qtype": "gap",
+        "prompt": "Yesterday the price ___ (fall) to its lowest point of the year.",
+        "answers": [
+          "fell"
+        ],
+        "why": "Past simple uses V2: fall–fell–fallen."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "She has already ___ (go) home.",
+        "answers": [
+          "gone"
+        ],
+        "why": "After “has” use V3: go–went–gone."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "I have ___ this article before — I recognise the graph.",
+        "options": [
+          "read",
+          "red",
+          "readed",
+          "reads"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "“Read” is AAA in spelling (read–read–read); after “have” use V3 “read”."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "The window was ___ (break) during the storm.",
+        "answers": [
+          "broken"
+        ],
+        "why": "Passive “be + V3”: break–broke–broken."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "Which sentence is correct?",
+        "options": [
+          "I have went to the library.",
+          "I have gone to the library.",
+          "I have go to the library.",
+          "I gone to the library."
+        ],
+        "answers": [
+          1
+        ],
+        "why": "After “have” the past participle “gone” is required; “went” is past simple only."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "By 2020 the company had ___ (grow) into a market leader.",
+        "answers": [
+          "grown"
+        ],
+        "why": "Past perfect “had + V3”: grow–grew–grown."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "He ___ (teach) mathematics for ten years before changing careers.",
+        "answers": [
+          "taught"
+        ],
+        "why": "Past simple V2 of “teach” is “taught” (ABB pattern)."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "The costs ___ the same for three years — an AAA verb.",
+        "options": [
+          "costed",
+          "cost",
+          "costing",
+          "costen"
+        ],
+        "answers": [
+          1
+        ],
+        "why": "“Cost” is AAA: cost–cost–cost. Past simple is “cost”."
+      },
+      {
+        "qtype": "transform",
+        "prompt": "Rewrite in the present perfect: \"She wrote the report.\"",
+        "answers": [
+          "She has written the report."
+        ],
+        "why": "Present perfect = has + V3; write–wrote–written."
+      },
+      {
+        "qtype": "transform",
+        "prompt": "Rewrite in the passive: \"Someone stole the results.\"",
+        "answers": [
+          "The results were stolen.",
+          "The results were stolen by someone."
+        ],
+        "why": "Passive = be + V3; steal–stole–stolen; plural subject takes “were”."
+      }
+    ]
+  },
+  {
+    "slug": "conjunctions",
+    "stage": "beginner",
+    "title": "Conjunctions: FANBOYS & Friends",
+    "tag": "Clauses",
+    "cefr": "A2+",
+    "blurb": "Coordinating, subordinating and correlative conjunctions — then upgrade them for academic writing.",
+    "lesson": [
+      {
+        "type": "intro",
+        "body": "<p>Conjunctions join words, phrases and clauses. English has three families: <b>coordinating</b> (the FANBOYS), <b>subordinating</b> (<em>because, although…</em>) and <b>correlative</b> pairs (<em>not only… but also</em>). Control all three and your sentences stop sounding like a list.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "FANBOYS — coordinating conjunctions",
+        "body": "<p><b>F</b>or, <b>A</b>nd, <b>N</b>or, <b>B</b>ut, <b>O</b>r, <b>Y</b>et, <b>S</b>o join <b>equal</b> clauses. Put a comma before them when both sides are full clauses: <em>Demand rose, <b>but</b> supply stayed flat.</em> <em>Nor</em> triggers inversion: <em>He didn’t call, <b>nor did</b> he write.</em></p>"
+      },
+      {
+        "type": "rule",
+        "title": "Subordinating conjunctions",
+        "body": "<p><em>because, although, while, since, unless, whereas, until, once, even though</em> make one clause depend on the other. When the subordinate clause comes <b>first</b>, add a comma: <em><b>Although</b> costs fell, profits stayed low.</em> No comma is needed when it comes second: <em>Profits stayed low <b>although</b> costs fell.</em></p>"
+      },
+      {
+        "type": "rule",
+        "title": "Correlative pairs",
+        "body": "<p><em>both… and, either… or, neither… nor, not only… but also</em> come in fixed pairs and must join <b>parallel</b> forms: <em>The scheme is <b>both</b> cheap <b>and</b> effective.</em> With <em>either/neither</em>, the verb agrees with the <b>nearer</b> subject: <em>Neither the manager <b>nor the employees were</b> told.</em> Starting with <em>Not only</em> triggers inversion: <em><b>Not only did</b> sales rise, but they also doubled.</em></p>"
+      },
+      {
+        "type": "table",
+        "title": "Upgrade your linkers",
+        "data": {
+          "head": [
+            "Everyday",
+            "Academic upgrade",
+            "Relationship"
+          ],
+          "rows": [
+            [
+              "and",
+              "moreover / furthermore / in addition",
+              "adding"
+            ],
+            [
+              "but",
+              "however / nevertheless / whereas",
+              "contrast"
+            ],
+            [
+              "so",
+              "therefore / consequently / hence",
+              "result"
+            ],
+            [
+              "because",
+              "since / as / owing to the fact that",
+              "reason"
+            ],
+            [
+              "also",
+              "similarly / likewise",
+              "comparison"
+            ],
+            [
+              "or",
+              "alternatively",
+              "choice"
+            ]
+          ]
+        }
+      },
+      {
+        "type": "examples",
+        "data": {
+          "items": [
+            {
+              "en": "Demand rose sharply, so prices followed.",
+              "note": "FANBOYS “so” with a comma joins two full clauses."
+            },
+            {
+              "en": "Although the sample was small, the results were consistent.",
+              "note": "Fronted subordinate clause + comma."
+            },
+            {
+              "en": "The policy is neither fair nor effective.",
+              "note": "Correlative pair joining two parallel adjectives."
+            },
+            {
+              "en": "Not only did attendance rise, but it also doubled by 2015.",
+              "note": "“Not only” at the start triggers inversion (did attendance rise)."
+            },
+            {
+              "en": "Costs increased; however, quality did not improve.",
+              "note": "“However” is an adverb, not a conjunction — it needs a semicolon or a new sentence."
+            }
+          ]
+        }
+      },
+      {
+        "type": "tip",
+        "body": "<p>Band 7+ cohesion means <b>range without overuse</b>: one linker per sentence, and vary the family — swap a FANBOYS for a subordinator or a fronted <em>Although…</em>. Remember <em>however</em> cannot glue two clauses with just a comma; that’s the classic comma-splice error.</p>"
+      }
+    ],
+    "quiz": [
+      {
+        "qtype": "mcq",
+        "prompt": "Which set lists the FANBOYS?",
+        "options": [
+          "for, and, nor, but, or, yet, so",
+          "because, although, since, while",
+          "both, either, neither, not only",
+          "however, therefore, moreover"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "FANBOYS = the seven coordinating conjunctions."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "He was exhausted, ___ he kept revising until midnight.",
+        "answers": [
+          "yet",
+          "but"
+        ],
+        "why": "A contrast between equal clauses takes “yet” or “but” after the comma."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "Neither the manager nor the employees ___ informed of the change.",
+        "options": [
+          "was",
+          "were",
+          "is",
+          "be"
+        ],
+        "answers": [
+          1
+        ],
+        "why": "With “neither… nor” the verb agrees with the nearer subject — “employees” is plural."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "___ the data was incomplete, the team published the study.",
+        "answers": [
+          "Although",
+          "Even though",
+          "Though"
+        ],
+        "why": "A fronted concession clause needs a subordinating conjunction of contrast."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "Choose the academic upgrade of “so”:",
+        "options": [
+          "consequently",
+          "moreover",
+          "whereas",
+          "alternatively"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "“Consequently” (or therefore/hence) expresses result in formal register."
+      },
+      {
+        "qtype": "transform",
+        "prompt": "Combine with “although”, starting with it: \"Costs fell. Profits stayed low.\"",
+        "answers": [
+          "Although costs fell, profits stayed low."
+        ],
+        "why": "Fronted “Although” clause + comma + main clause."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "Which sentence is punctuated correctly?",
+        "options": [
+          "Sales rose, however profits fell.",
+          "Sales rose; however, profits fell.",
+          "Sales rose however, profits fell.",
+          "Sales rose, however, profits fell so."
+        ],
+        "answers": [
+          1
+        ],
+        "why": "“However” is a linking adverb: it needs a semicolon (or full stop) before it, not just a comma."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "The proposal is not only cheaper ___ also easier to implement.",
+        "answers": [
+          "but"
+        ],
+        "why": "The correlative pair is “not only… but also”."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "“Not only ___ costs rise, but quality also fell.”",
+        "options": [
+          "did",
+          "do",
+          "were",
+          "has"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "Fronted “Not only” triggers inversion with the auxiliary “did” for past simple."
+      },
+      {
+        "qtype": "transform",
+        "prompt": "Join with “both… and”: \"The course improves speaking. The course improves listening.\"",
+        "answers": [
+          "The course improves both speaking and listening."
+        ],
+        "why": "Correlatives join two parallel noun phrases after one verb."
+      }
+    ]
+  },
+  {
+    "slug": "phrasal-verbs",
+    "stage": "independent",
+    "title": "Phrasal Verbs",
+    "tag": "Verbs",
+    "cefr": "B1+",
+    "blurb": "Verb + particle combinations you can't always guess — separable, inseparable and three-part.",
+    "lesson": [
+      {
+        "type": "intro",
+        "body": "<p>A <b>phrasal verb</b> is a verb plus one or two particles whose combined meaning is often idiomatic: <em>find out</em> (discover), <em>put off</em> (postpone), <em>run out of</em> (exhaust). They dominate spoken English — and each one has a formal single-word twin for academic writing.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Separable or inseparable?",
+        "body": "<p>Separable phrasal verbs let the object sit between verb and particle — and a <b>pronoun must</b> go there: <em>turn down the offer / turn the offer down / turn <b>it</b> down</em> (never <em>turn down it</em>). Inseparable ones keep the pair together: <em>look after the children → look after <b>them</b></em>.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Three-part phrasal verbs",
+        "body": "<p>Verb + adverb + preposition units are always inseparable and are followed by a noun or <b>-ing</b>: <em>look forward to, put up with, run out of, get on with, cut down on, catch up with, come up with</em>. <em>I look forward to <b>hearing</b> from you</em> — the final <em>to</em> is a preposition, so the verb takes -ing.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Register: when to avoid them",
+        "body": "<p>In Writing Task 2, prefer the one-word formal equivalent: <em>go up → increase</em>, <em>find out → discover</em>, <em>look into → investigate</em>. In Speaking, the phrasal versions sound natural and score for lexical resource. Same meaning, different rooms.</p>"
+      },
+      {
+        "type": "table",
+        "title": "Common phrasal verbs and their formal twins",
+        "data": {
+          "head": [
+            "Phrasal verb",
+            "Meaning",
+            "Formal equivalent"
+          ],
+          "rows": [
+            [
+              "go up / go down",
+              "increase / decrease",
+              "increase / decrease"
+            ],
+            [
+              "find out",
+              "discover",
+              "discover, determine"
+            ],
+            [
+              "look into",
+              "investigate",
+              "investigate, examine"
+            ],
+            [
+              "carry out",
+              "do, perform",
+              "conduct"
+            ],
+            [
+              "set up",
+              "start, create",
+              "establish"
+            ],
+            [
+              "point out",
+              "mention, show",
+              "indicate, note"
+            ],
+            [
+              "bring about",
+              "cause",
+              "cause, generate"
+            ],
+            [
+              "put off",
+              "delay",
+              "postpone"
+            ],
+            [
+              "rule out",
+              "say something is impossible",
+              "exclude"
+            ],
+            [
+              "come up with",
+              "think of (an idea)",
+              "devise, propose"
+            ]
+          ]
+        }
+      },
+      {
+        "type": "examples",
+        "data": {
+          "items": [
+            {
+              "en": "Researchers carried out a survey of 2,000 households.",
+              "note": "“Carried out” = conducted; common even in semi-formal writing."
+            },
+            {
+              "en": "We ran out of time before the last section.",
+              "note": "Three-part verb, inseparable: run out of + noun."
+            },
+            {
+              "en": "She turned it down because the salary was too low.",
+              "note": "Pronoun object must split a separable phrasal verb."
+            },
+            {
+              "en": "I look forward to hearing your decision.",
+              "note": "Three-part verb ending in preposition “to” → -ing form follows."
+            }
+          ]
+        }
+      },
+      {
+        "type": "tip",
+        "body": "<p>Build pairs, not lists: learn each phrasal verb <b>with</b> its formal twin (<em>put off / postpone</em>). In the exam you can then switch register on demand — phrasal in Speaking, single-word in Writing.</p>"
+      }
+    ],
+    "quiz": [
+      {
+        "qtype": "mcq",
+        "prompt": "The committee decided to ___ the decision until May.",
+        "options": [
+          "put off",
+          "put on",
+          "put out",
+          "put up"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "“Put off” = postpone."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "We’ve run out ___ printer paper again.",
+        "answers": [
+          "of"
+        ],
+        "why": "“Run out of” is a fixed three-part phrasal verb."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "Which is the only correct position for the pronoun?",
+        "options": [
+          "turn down it",
+          "turn it down",
+          "down turn it",
+          "it turn down"
+        ],
+        "answers": [
+          1
+        ],
+        "why": "Separable phrasal verbs force pronoun objects between verb and particle."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "I look forward to ___ (hear) from you soon.",
+        "answers": [
+          "hearing"
+        ],
+        "why": "The “to” in “look forward to” is a preposition, so the verb takes -ing."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "Choose the formal equivalent of “find out”:",
+        "options": [
+          "discover",
+          "postpone",
+          "exclude",
+          "establish"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "“Find out” = discover/determine in formal register."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "The charity was ___ in 1998 by two teachers.",
+        "options": [
+          "set up",
+          "set off",
+          "set out",
+          "set down"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "“Set up” = establish."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "Scientists came up ___ a cheaper method of production.",
+        "answers": [
+          "with"
+        ],
+        "why": "“Come up with” = devise, propose (three-part, inseparable)."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "Best choice for Writing Task 2: “The government should ___ the causes of unemployment.”",
+        "options": [
+          "look into",
+          "investigate",
+          "look up",
+          "check out"
+        ],
+        "answers": [
+          1
+        ],
+        "why": "In formal writing prefer the single-word verb “investigate”."
+      },
+      {
+        "qtype": "transform",
+        "prompt": "Replace the phrasal verb with its formal equivalent: \"The lab carried out three experiments.\"",
+        "answers": [
+          "The lab conducted three experiments."
+        ],
+        "why": "“Carry out” → “conduct” in formal register."
+      },
+      {
+        "qtype": "transform",
+        "prompt": "Rewrite using “put up with”: \"She tolerates the noise.\"",
+        "answers": [
+          "She puts up with the noise."
+        ],
+        "why": "“Put up with” = tolerate; the verb takes third-person -s: “puts up with”."
+      }
+    ]
+  },
+  {
+    "slug": "dependent-prepositions",
+    "stage": "independent",
+    "title": "Prepositions after Verbs & Adjectives",
+    "tag": "Prepositions",
+    "cefr": "B1+",
+    "blurb": "depend on, interested in, look forward to — fixed preposition partners, and why they take -ing.",
+    "lesson": [
+      {
+        "type": "intro",
+        "body": "<p>Many verbs, adjectives and nouns come with a <b>fixed preposition</b>: you <em>depend <b>on</b></em> something, you are <em>interested <b>in</b></em> something. And one golden rule follows: after <b>any</b> preposition, a verb takes the <b>-ing</b> form.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Verb + preposition",
+        "body": "<p><em>depend on, rely on, insist on, apologise for, succeed in, belong to, approve of, benefit from, consist of</em>. Watch the pair <em>result <b>in</b></em> (= cause) vs <em>result <b>from</b></em> (= be caused by): <em>The delay resulted in losses; the losses resulted from the delay.</em></p>"
+      },
+      {
+        "type": "rule",
+        "title": "Adjective + preposition",
+        "body": "<p><em>interested in, good/bad at, afraid of, responsible for, similar to, different from, famous for, capable of, aware of, satisfied with</em>. The preposition belongs to the adjective, not the verb: <em>She is responsible <b>for</b> hiring.</em></p>"
+      },
+      {
+        "type": "rule",
+        "title": "The “to” trap — to as a preposition",
+        "body": "<p>In <em>look forward to, be/get used to, object to, be committed to, in addition to</em>, the word <em>to</em> is a <b>preposition</b>, not part of an infinitive — so -ing follows: <em>I look forward to <b>meeting</b> you.</em> Compare: <em>I <b>used to work</b> nights</em> (past habit, infinitive) vs <em>I’m <b>used to working</b> nights</em> (accustomed, -ing).</p>"
+      },
+      {
+        "type": "table",
+        "title": "Fixed partners at a glance",
+        "data": {
+          "head": [
+            "Pattern",
+            "Example"
+          ],
+          "rows": [
+            [
+              "depend on",
+              "Success depends on careful planning."
+            ],
+            [
+              "succeed in + -ing",
+              "She succeeded in passing the exam."
+            ],
+            [
+              "apologise for + -ing",
+              "He apologised for arriving late."
+            ],
+            [
+              "interested in + -ing",
+              "They are interested in studying abroad."
+            ],
+            [
+              "good at + -ing",
+              "She is good at solving problems."
+            ],
+            [
+              "responsible for + -ing",
+              "The team is responsible for testing."
+            ],
+            [
+              "look forward to + -ing",
+              "We look forward to hearing from you."
+            ],
+            [
+              "be used to + -ing",
+              "He is used to working under pressure."
+            ],
+            [
+              "object to + -ing",
+              "Residents object to building the new road."
+            ]
+          ]
+        }
+      },
+      {
+        "type": "examples",
+        "data": {
+          "items": [
+            {
+              "en": "I look forward to hearing from you.",
+              "note": "“To” is a preposition here — “to hear” would be wrong."
+            },
+            {
+              "en": "The improvement resulted from better training.",
+              "note": "result from = be caused by; result in = cause."
+            },
+            {
+              "en": "She is used to giving presentations in English.",
+              "note": "be used to + -ing = accustomed to."
+            },
+            {
+              "en": "He apologised for missing the deadline.",
+              "note": "Verb + preposition + gerund."
+            }
+          ]
+        }
+      },
+      {
+        "type": "tip",
+        "body": "<p>General Training Task 1 letters should end <em>“I look forward to hearing from you”</em> — never <em>“to hear”</em>. It’s the single most common preposition error examiners see.</p>"
+      }
+    ],
+    "quiz": [
+      {
+        "qtype": "gap",
+        "prompt": "I look forward to ___ (meet) the new team next week.",
+        "answers": [
+          "meeting"
+        ],
+        "why": "“To” in “look forward to” is a preposition → -ing."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "She’s used to ___ (work) night shifts now.",
+        "answers": [
+          "working"
+        ],
+        "why": "“Be used to” + -ing = accustomed to."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "Success in IELTS depends ___ consistent practice.",
+        "options": [
+          "on",
+          "of",
+          "from",
+          "in"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "“Depend on” is a fixed pair."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "The flooding resulted ___ weeks of heavy rain.",
+        "options": [
+          "from",
+          "in",
+          "on",
+          "at"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "Result from = be caused by (the rain caused it)."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "He apologised ___ losing the documents.",
+        "answers": [
+          "for"
+        ],
+        "why": "“Apologise for + -ing”."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "Her approach is quite different ___ mine.",
+        "options": [
+          "from",
+          "of",
+          "with",
+          "against"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "“Different from” is the standard pair."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "Local residents object to ___ (build) a motorway through the park.",
+        "answers": [
+          "building"
+        ],
+        "why": "“Object to” takes a gerund — “to” is a preposition."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "Which sentence is correct?",
+        "options": [
+          "I used to living in Hanoi.",
+          "I am used to live in Hanoi.",
+          "I used to live in Hanoi.",
+          "I am use to living in Hanoi."
+        ],
+        "answers": [
+          2
+        ],
+        "why": "Past habit = “used to + infinitive”; accustomed = “be used to + -ing”."
+      },
+      {
+        "qtype": "transform",
+        "prompt": "Rewrite with “succeed in”: \"She passed the exam.\"",
+        "answers": [
+          "She succeeded in passing the exam."
+        ],
+        "why": "“Succeed in” + gerund replaces the simple verb."
+      },
+      {
+        "qtype": "transform",
+        "prompt": "Finish the formal letter correctly: \"I look forward to hear from you.\"",
+        "answers": [
+          "I look forward to hearing from you."
+        ],
+        "why": "After the preposition “to”, use the -ing form."
+      }
+    ]
+  },
+  {
+    "slug": "make-let-verb-patterns",
+    "stage": "independent",
+    "title": "Make, Let & Verb + Object Patterns",
+    "tag": "Verbs",
+    "cefr": "B1",
+    "blurb": "make someone do, let someone do, allow someone to do — which verbs drop the “to”?",
+    "lesson": [
+      {
+        "type": "intro",
+        "body": "<p>After many verbs the pattern is <b>verb + object + to-infinitive</b> (<em>ask her to wait</em>) — but a small, high-frequency group takes the <b>bare infinitive</b> (<em>make her wait</em>). Mixing them up is one of the most visible intermediate errors.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Make & let + bare infinitive",
+        "body": "<p><em>make</em> (= force) and <em>let</em> (= permit) take object + verb <b>without to</b>: <em>The teacher made us <b>rewrite</b> the essay. My parents let me <b>choose</b> my course.</em> In the <b>passive</b>, <em>make</em> regains <em>to</em>: <em>We were made <b>to rewrite</b> the essay.</em> (<em>Let</em> has no common passive — use <em>be allowed to</em>.)</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Verb + object + to-infinitive",
+        "body": "<p><em>want, ask, tell, allow, permit, encourage, enable, force, expect, advise, persuade, remind</em>: <em>The scheme <b>enables students to study</b> abroad. They <b>advised him to apply</b> early.</em> This is the default pattern — when in doubt, keep the <em>to</em>.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Help & the perception verbs",
+        "body": "<p><em>help</em> accepts both: <em>help me (to) carry</em>. Perception verbs <em>see, hear, watch, feel, notice</em> take the bare infinitive for a <b>complete</b> action (<em>I saw him <b>leave</b></em>) or <b>-ing</b> for an action <b>in progress</b> (<em>I saw him <b>leaving</b></em>).</p>"
+      },
+      {
+        "type": "table",
+        "title": "Which pattern after the object?",
+        "data": {
+          "head": [
+            "Verb",
+            "Pattern",
+            "Example"
+          ],
+          "rows": [
+            [
+              "make",
+              "object + bare infinitive",
+              "The rule makes drivers slow down."
+            ],
+            [
+              "let",
+              "object + bare infinitive",
+              "The app lets users compare prices."
+            ],
+            [
+              "allow / permit",
+              "object + to-infinitive",
+              "The visa allows students to work part-time."
+            ],
+            [
+              "force / tell / ask",
+              "object + to-infinitive",
+              "The law forces firms to publish data."
+            ],
+            [
+              "encourage / enable",
+              "object + to-infinitive",
+              "Grants enable schools to buy equipment."
+            ],
+            [
+              "help",
+              "object + (to) infinitive",
+              "Tutors help learners (to) plan essays."
+            ],
+            [
+              "see / hear / watch",
+              "bare infinitive or -ing",
+              "We watched the figures climb / climbing."
+            ]
+          ]
+        }
+      },
+      {
+        "type": "examples",
+        "data": {
+          "items": [
+            {
+              "en": "High rents make young people delay buying homes.",
+              "note": "make + object + bare infinitive."
+            },
+            {
+              "en": "The city lets residents park for free on Sundays.",
+              "note": "let + object + bare infinitive."
+            },
+            {
+              "en": "The programme encourages graduates to stay in the region.",
+              "note": "encourage + object + to-infinitive."
+            },
+            {
+              "en": "Employees were made to attend the training.",
+              "note": "Passive of “make” restores “to”."
+            }
+          ]
+        }
+      },
+      {
+        "type": "tip",
+        "body": "<p>In Task 2, alternate the patterns to vary your sentences: <em>“The policy would <b>let</b> parents choose”</em> ↔ <em>“The policy would <b>allow</b> parents <b>to</b> choose”</em>. Same idea, two grammatical shapes — that range is rewarded.</p>"
+      }
+    ],
+    "quiz": [
+      {
+        "qtype": "mcq",
+        "prompt": "The new law makes companies ___ their emissions data.",
+        "options": [
+          "publish",
+          "to publish",
+          "publishing",
+          "published"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "“Make” + object + bare infinitive."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "The scholarship allows students ___ abroad for a year.",
+        "options": [
+          "study",
+          "to study",
+          "studying",
+          "studied"
+        ],
+        "answers": [
+          1
+        ],
+        "why": "“Allow” + object + to-infinitive."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "My parents let me ___ (choose) my own university.",
+        "answers": [
+          "choose"
+        ],
+        "why": "“Let” takes the bare infinitive."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "We were made ___ (wait) outside for an hour.",
+        "answers": [
+          "to wait"
+        ],
+        "why": "In the passive, “make” takes the to-infinitive."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "Which sentence is wrong?",
+        "options": [
+          "She helped me to revise.",
+          "She helped me revise.",
+          "She let me to revise.",
+          "She asked me to revise."
+        ],
+        "answers": [
+          2
+        ],
+        "why": "“Let” never takes “to”: “let me revise”."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "The manager told the team ___ (finish) the report by Friday.",
+        "answers": [
+          "to finish"
+        ],
+        "why": "“Tell” + object + to-infinitive."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "I heard the crowd ___ when the results appeared.",
+        "options": [
+          "cheer",
+          "to cheer",
+          "cheered",
+          "to cheering"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "Perception verb + bare infinitive for the complete action."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "Online banking enables customers ___ accounts instantly.",
+        "options": [
+          "open",
+          "to open",
+          "opening",
+          "opened"
+        ],
+        "answers": [
+          1
+        ],
+        "why": "“Enable” + object + to-infinitive."
+      },
+      {
+        "qtype": "transform",
+        "prompt": "Rewrite with “make”: \"The teacher forced us to repeat the exercise.\"",
+        "answers": [
+          "The teacher made us repeat the exercise."
+        ],
+        "why": "“Make” replaces “force” and drops “to”."
+      },
+      {
+        "qtype": "transform",
+        "prompt": "Rewrite with “allow”: \"The pass lets visitors enter all museums.\"",
+        "answers": [
+          "The pass allows visitors to enter all museums."
+        ],
+        "why": "“Allow” needs the to-infinitive after the object."
+      }
+    ]
+  },
+  {
+    "slug": "comparison-structures",
+    "stage": "independent",
+    "title": "Comparison Structures",
+    "tag": "Comparison",
+    "cefr": "B1+",
+    "blurb": "as…as, twice as high as, the more… the more, less and least — comparison beyond -er and -est.",
+    "lesson": [
+      {
+        "type": "intro",
+        "body": "<p>You already know <em>-er/-est</em> and <em>more/most</em>. Band 7 comparison means the structures <b>around</b> them: equality with <em>as… as</em>, multipliers like <em>twice as high as</em>, proportional <em>the more… the more</em>, and downward comparison with <em>less</em> and <em>fewer</em>.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Equality and multipliers: (not) as … as",
+        "body": "<p><em>as + adjective + as</em> says two things are equal: <em>Rail travel is <b>as fast as</b> flying on this route.</em> Negative: <em>not as/so high as</em>. Multipliers go in front: <em><b>twice / three times as</b> large <b>as</b></em>, or <em>half as much as</em>. Also: <em>the same as</em>, <em>similar to</em>.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "The more…, the more…",
+        "body": "<p>Paired comparatives show that two changes move together: <em><b>The more</b> you practise, <b>the better</b> you write. <b>The higher</b> the price, <b>the lower</b> the demand.</em> Both halves start with <em>the</em> + comparative; the verb can even be dropped in short forms (<em>the sooner, the better</em>).</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Downward comparison & the irregulars",
+        "body": "<p>Going down: <em><b>less</b> + adjective/uncountable noun</em> (<em>less expensive, less fuel</em>) and <em><b>fewer</b> + plural countable</em> (<em>fewer cars</em>); superlatives <em>least/fewest</em>. A handful of adjectives have their <b>own forms</b> — see the table. Never stack them: <em>more better</em> ✗.</p>"
+      },
+      {
+        "type": "table",
+        "title": "Irregular comparisons — their own versions",
+        "data": {
+          "head": [
+            "Base",
+            "Comparative",
+            "Superlative"
+          ],
+          "rows": [
+            [
+              "good / well",
+              "better",
+              "best"
+            ],
+            [
+              "bad / badly",
+              "worse",
+              "worst"
+            ],
+            [
+              "far",
+              "further / farther",
+              "furthest / farthest"
+            ],
+            [
+              "little",
+              "less",
+              "least"
+            ],
+            [
+              "much / many",
+              "more",
+              "most"
+            ],
+            [
+              "old (family)",
+              "elder / older",
+              "eldest / oldest"
+            ]
+          ]
+        }
+      },
+      {
+        "type": "examples",
+        "data": {
+          "items": [
+            {
+              "en": "House prices in the north are not as high as those in the capital.",
+              "note": "Negative equality: not as + adjective + as."
+            },
+            {
+              "en": "By 2015, output was twice as high as in 2005.",
+              "note": "Multiplier + as … as — classic Task 1 sentence."
+            },
+            {
+              "en": "The more data you include, the clearer the trend becomes.",
+              "note": "Paired comparatives: the + comparative, twice."
+            },
+            {
+              "en": "Fewer people commuted by car, so less fuel was consumed.",
+              "note": "fewer + countable plural; less + uncountable."
+            },
+            {
+              "en": "The situation is far worse than analysts predicted.",
+              "note": "Irregular: bad → worse; “far” intensifies it."
+            }
+          ]
+        }
+      },
+      {
+        "type": "tip",
+        "body": "<p>Task 1 gold: <em>“Sales in 2020 were <b>three times as high as</b> in 2000, while costs were <b>half as high</b>.”</em> Multipliers + one irregular comparative show range in a single sentence — and never write <em>“more better”</em> or <em>“more worse”</em>.</p>"
+      }
+    ],
+    "quiz": [
+      {
+        "qtype": "gap",
+        "prompt": "The new model is twice ___ efficient as the old one.",
+        "answers": [
+          "as"
+        ],
+        "why": "Multiplier + as + adjective + as."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "The ___ (much) you revise, the more confident you become.",
+        "answers": [
+          "more"
+        ],
+        "why": "Paired comparatives: the more…, the more…"
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "___ people cycled to work in 2020 than in 2010.",
+        "options": [
+          "Fewer",
+          "Less",
+          "Least",
+          "Lesser"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "“People” is countable plural → fewer."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "The results were even ___ than we had feared.",
+        "options": [
+          "worse",
+          "worst",
+          "more bad",
+          "badder"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "Irregular comparative of “bad” is “worse”."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "This route is not as busy ___ the motorway.",
+        "answers": [
+          "as"
+        ],
+        "why": "Negative equality uses “not as … as”."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "Which is correct?",
+        "options": [
+          "The result was more better than expected.",
+          "The result was better than expected.",
+          "The result was more good than expected.",
+          "The result was betterer than expected."
+        ],
+        "answers": [
+          1
+        ],
+        "why": "“Good” has its own comparative “better” — never “more better”."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "The higher the demand, the ___ (high) the price.",
+        "answers": [
+          "higher"
+        ],
+        "why": "Both halves of the pattern take “the + comparative”."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "We consumed ___ energy this year thanks to insulation.",
+        "options": [
+          "less",
+          "fewer",
+          "least",
+          "little"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "“Energy” is uncountable → less."
+      },
+      {
+        "qtype": "transform",
+        "prompt": "Rewrite with “as … as”: \"Flying and rail travel take the same time on this route.\"",
+        "answers": [
+          "Flying takes as long as rail travel on this route.",
+          "Rail travel takes as long as flying on this route."
+        ],
+        "why": "Equality is expressed with “as + adjective/adverb + as”."
+      },
+      {
+        "qtype": "transform",
+        "prompt": "Rewrite using a multiplier: \"Output was 200% of the 2005 level in 2015.\"",
+        "answers": [
+          "Output in 2015 was twice as high as in 2005.",
+          "In 2015, output was twice as high as in 2005."
+        ],
+        "why": "200% of a level = twice as high as."
+      }
+    ]
+  },
+  {
+    "slug": "impersonal-passive",
+    "stage": "expert",
+    "title": "Impersonal & Reporting Passive",
+    "tag": "Voice",
+    "cefr": "C1",
+    "blurb": "It is said that… / X is thought to… — report claims without naming a source, the academic way.",
+    "lesson": [
+      {
+        "type": "intro",
+        "body": "<p>Academic writing constantly reports what “people” claim without naming them. English does this with the <b>impersonal passive</b>: <em><b>It is said that</b> remote work boosts productivity</em>, or the sleeker <em>Remote work <b>is said to</b> boost productivity</em>.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "It + passive reporting verb + that-clause",
+        "body": "<p><em>It is said / believed / estimated / argued / claimed / reported that…</em> The dummy subject <em>it</em> carries the clause: <em><b>It is estimated that</b> a third of food is wasted.</em> Choose the verb by function: <em>estimated</em> for numbers, <em>argued</em> for opinions, <em>alleged</em> for accusations.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Subject + be + reported + to-infinitive",
+        "body": "<p>Move the real subject forward: <em>The scheme <b>is thought to cost</b> millions.</em> For earlier time, use the <b>perfect infinitive</b>: <em>The fire <b>is believed to have started</b> in the basement.</em> This pattern is tighter and very common in journalism and academic prose.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "There + be + said to be",
+        "body": "<p>With existence claims: <em><b>There are said to be</b> over a million speakers of the dialect. <b>There is thought to be</b> a link between the two.</em> Useful when the subject is indefinite.</p>"
+      },
+      {
+        "type": "table",
+        "title": "One claim, three academic shapes",
+        "data": {
+          "head": [
+            "Shape",
+            "Example"
+          ],
+          "rows": [
+            [
+              "It is claimed that…",
+              "It is claimed that the drug reduces risk."
+            ],
+            [
+              "Subject is claimed to…",
+              "The drug is claimed to reduce risk."
+            ],
+            [
+              "Perfect infinitive (past)",
+              "The drug is claimed to have reduced risk."
+            ],
+            [
+              "There is/are said to be…",
+              "There is said to be little evidence for this."
+            ]
+          ]
+        }
+      },
+      {
+        "type": "examples",
+        "data": {
+          "items": [
+            {
+              "en": "It is widely believed that class sizes affect outcomes.",
+              "note": "Impersonal it + passive + that-clause; “widely” hedges further."
+            },
+            {
+              "en": "The company is reported to have hidden the losses.",
+              "note": "Perfect infinitive places the hiding before the reporting."
+            },
+            {
+              "en": "There are estimated to be 400 species in the reserve.",
+              "note": "There-pattern with a number → “estimated”."
+            },
+            {
+              "en": "The minister is alleged to have ignored the warnings.",
+              "note": "“Alleged” for unproven accusations."
+            }
+          ]
+        }
+      },
+      {
+        "type": "tip",
+        "body": "<p>Task 2 introductions love this register: <em>“<b>It is often argued that</b> technology isolates people.”</em> It states the popular view without you owning it — then your essay agrees or attacks. Pair it with hedging (<em>widely, often, generally</em>) for full academic tone.</p>"
+      }
+    ],
+    "quiz": [
+      {
+        "qtype": "mcq",
+        "prompt": "___ that global temperatures will rise by two degrees.",
+        "options": [
+          "It is predicted",
+          "It predicts",
+          "They are predicted",
+          "It is predicting"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "Impersonal passive: It + is + past participle + that-clause."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "The bridge is thought ___ (cost) over a billion dollars.",
+        "answers": [
+          "to cost"
+        ],
+        "why": "Subject + be + thought + to-infinitive."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "The fire is believed to ___ (start) in the kitchen last night.",
+        "answers": [
+          "have started"
+        ],
+        "why": "Past reference needs the perfect infinitive: to have + V3."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "Best verb for a statistic: “It is ___ that 40% of food is wasted.”",
+        "options": [
+          "estimated",
+          "alleged",
+          "objected",
+          "insisted"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "“Estimated” reports numbers."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "Which is the correct there-pattern?",
+        "options": [
+          "There is said to be a link between diet and mood.",
+          "There said to be a link between diet and mood.",
+          "It is said to be there a link.",
+          "There is saying to be a link."
+        ],
+        "answers": [
+          0
+        ],
+        "why": "There + be + said to be + noun."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "The CEO is reported ___ (resign) yesterday.",
+        "answers": [
+          "to have resigned"
+        ],
+        "why": "The resignation happened before the report → perfect infinitive."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "Choose the tightest academic rewrite of “People claim the app protects privacy”:",
+        "options": [
+          "The app is claimed to protect privacy.",
+          "The app claims to protect privacy.",
+          "People are claimed to protect privacy.",
+          "It claims that the app protects privacy."
+        ],
+        "answers": [
+          0
+        ],
+        "why": "Subject + be + claimed + to-infinitive keeps the claim impersonal."
+      },
+      {
+        "qtype": "transform",
+        "prompt": "Rewrite impersonally with “It…”: \"People say that remote work improves productivity.\"",
+        "answers": [
+          "It is said that remote work improves productivity."
+        ],
+        "why": "It + passive reporting verb + that-clause."
+      },
+      {
+        "qtype": "transform",
+        "prompt": "Rewrite starting with “Remote work…”: \"People say that remote work improves productivity.\"",
+        "answers": [
+          "Remote work is said to improve productivity."
+        ],
+        "why": "Subject + be + said + to-infinitive."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "“The minister is ___ to have accepted bribes” — unproven accusation.",
+        "options": [
+          "alleged",
+          "estimated",
+          "enabled",
+          "hoped"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "“Alleged” marks an unproven accusation."
+      }
+    ]
+  },
+  {
+    "slug": "subject-verb-agreement",
+    "stage": "independent",
+    "title": "Subject–Verb Agreement",
+    "tag": "Nouns",
+    "cefr": "B2+",
+    "blurb": "The number of cars is rising, a number of cars are old — make the verb agree when the subject gets complicated.",
+    "lesson": [
+      {
+        "type": "intro",
+        "body": "<p>Agreement is easy until the subject grows a phrase: <em>The number of visitors <b>was</b>…? <b>were</b>…?</em> Task 1 sentences are full of exactly these traps, and examiners flag every miss.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Quantity phrases",
+        "body": "<p><em><b>The number of</b> + plural noun</em> takes a <b>singular</b> verb (the number itself is one thing): <em>The number of visitors <b>is</b> rising.</em> <em><b>A number of</b></em> (= several) takes a <b>plural</b> verb: <em>A number of visitors <b>are</b> lost.</em> Percentages and fractions agree with the noun after <em>of</em>: <em>60% of the population <b>is</b> urban; 60% of respondents <b>are</b> students.</em> And <em><b>one of</b> + plural noun</em> still takes a singular verb: <em>One of the reasons <b>is</b> cost.</em></p>"
+      },
+      {
+        "type": "rule",
+        "title": "Tricky singulars and plurals",
+        "body": "<p>Always singular: <em>everyone, each, either, neither (alone), news, economics, mathematics</em>. Always plural: <em>people, police</em>. <em>Data</em> is formally plural (<em>the data show…</em>) but singular use is now widely accepted — just be consistent.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Nearest-subject rules",
+        "body": "<p>With <em>either… or / neither… nor</em>, the verb agrees with the <b>nearer</b> subject: <em>Neither the teacher nor the students <b>were</b> ready.</em> Interruptions like <em>as well as, along with, together with</em> do <b>not</b> change the subject: <em>The manager, as well as the staff, <b>was</b> informed.</em></p>"
+      },
+      {
+        "type": "table",
+        "title": "Agreement quick reference",
+        "data": {
+          "head": [
+            "Subject",
+            "Verb",
+            "Example"
+          ],
+          "rows": [
+            [
+              "the number of + plural",
+              "singular",
+              "The number of cars is growing."
+            ],
+            [
+              "a number of + plural",
+              "plural",
+              "A number of cars are electric."
+            ],
+            [
+              "% / fraction of + noun",
+              "agrees with the noun",
+              "Half of the budget goes on wages."
+            ],
+            [
+              "one of + plural",
+              "singular",
+              "One of the charts shows exports."
+            ],
+            [
+              "either… or / neither… nor",
+              "nearer subject",
+              "Neither cost nor delays were mentioned."
+            ],
+            [
+              "X, as well as Y",
+              "agrees with X",
+              "The CEO, as well as the board, approves."
+            ],
+            [
+              "news / economics",
+              "singular",
+              "The news was worse than expected."
+            ],
+            [
+              "people / police",
+              "plural",
+              "The police were called twice."
+            ]
+          ]
+        }
+      },
+      {
+        "type": "examples",
+        "data": {
+          "items": [
+            {
+              "en": "The number of overseas students has doubled since 2010.",
+              "note": "“The number of” → singular “has”."
+            },
+            {
+              "en": "A number of factors were responsible for the decline.",
+              "note": "“A number of” = several → plural."
+            },
+            {
+              "en": "Seventy per cent of the land is used for farming.",
+              "note": "The verb agrees with uncountable “land”."
+            },
+            {
+              "en": "Neither the manager nor the employees were consulted.",
+              "note": "Verb agrees with the nearer subject “employees”."
+            },
+            {
+              "en": "The report, together with its appendices, was published in May.",
+              "note": "“Together with…” doesn’t change the singular subject."
+            }
+          ]
+        }
+      },
+      {
+        "type": "tip",
+        "body": "<p>The single most common Task 1 agreement error: <em>“The number of visitors <b>were</b>…”</em> ✗. Scan every draft for <em>the number of / one of / % of</em> and check the verb before you move on.</p>"
+      }
+    ],
+    "quiz": [
+      {
+        "qtype": "mcq",
+        "prompt": "The number of road accidents ___ fallen since 2015.",
+        "options": [
+          "has",
+          "have",
+          "are",
+          "were"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "“The number of” takes a singular verb."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "A number of participants ___ to withdraw from the study.",
+        "options": [
+          "was decided",
+          "decides",
+          "have decided",
+          "has decided"
+        ],
+        "answers": [
+          2
+        ],
+        "why": "“A number of” = several → plural verb."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "Sixty per cent of the population ___ (live) in cities.",
+        "answers": [
+          "lives"
+        ],
+        "why": "The verb agrees with singular “population”."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "One of the main reasons ___ (be) the cost of housing.",
+        "answers": [
+          "is"
+        ],
+        "why": "“One of + plural noun” still takes a singular verb."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "Neither the supervisor nor the interns ___ aware of the change.",
+        "options": [
+          "was",
+          "were",
+          "is",
+          "be"
+        ],
+        "answers": [
+          1
+        ],
+        "why": "The verb agrees with the nearer subject, plural “interns”."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "The manager, as well as the staff, ___ invited to the review.",
+        "options": [
+          "was",
+          "were",
+          "are",
+          "have been"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "“As well as” does not change the singular subject."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "The news ___ (be) far better than analysts expected last year.",
+        "answers": [
+          "was"
+        ],
+        "why": "“News” is singular despite the -s."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "The police ___ investigating the incident.",
+        "options": [
+          "is",
+          "are",
+          "was",
+          "be"
+        ],
+        "answers": [
+          1
+        ],
+        "why": "“Police” is always plural."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "Economics ___ (be) one of the most popular degree choices today.",
+        "answers": [
+          "is"
+        ],
+        "why": "Subject names of disciplines (economics, mathematics) are singular."
+      },
+      {
+        "qtype": "transform",
+        "prompt": "Correct the agreement error: \"The number of complaints were rising.\"",
+        "answers": [
+          "The number of complaints was rising."
+        ],
+        "why": "“The number of” requires the singular “was”."
+      }
+    ]
   }
 ]
