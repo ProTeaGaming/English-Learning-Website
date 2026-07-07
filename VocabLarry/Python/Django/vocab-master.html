@@ -928,11 +928,7 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
 .headline-btn.active[data-grammar-stage="beginner"]{background:var(--gram-basic);border-color:var(--gram-basic);color:#064e3b;}
 .headline-btn.active[data-grammar-stage="independent"]{background:var(--gram-inter);border-color:var(--gram-inter);color:#fff;}
 .headline-btn.active[data-grammar-stage="expert"]{background:var(--gram-adv);border-color:var(--gram-adv);color:#1c1917;}
-#grammarStages .cat-pfill.gram-s-basic{background:var(--gram-basic);}
-#grammarStages .cat-pfill.gram-s-inter{background:var(--gram-inter);}
-#grammarStages .cat-pfill.gram-s-adv{background:var(--gram-adv);}
 #grammarStages .cat-pfill.gram-done{background:var(--gram-done);}
-.gram-card-blurb{font-size:.85rem;color:var(--muted);margin-top:4px;line-height:1.45;}
 .gram-lesson{max-width:760px;margin:0 auto;}
 .gram-block{margin-bottom:22px;line-height:1.65;}
 .gram-intro{font-size:1.04rem;color:var(--muted);}
@@ -3077,6 +3073,22 @@ const GRAMMAR_SECTION_ORDER = [
   'Emphasis & Sentence Focus',
   'Cohesion & Academic Style',
 ];
+const GRAMMAR_SECTION_ICONS = {
+  'Tenses':                        'i-clock',
+  'Questions & Reported Speech':   'i-message',
+  'Nouns, Pronouns & Determiners': 'i-type',
+  'Adjectives & Adverbs':          'i-palette',
+  'Word Forms & Prepositions':     'i-puzzle',
+  'Verb Patterns & Modals':        'i-activity',
+  'Voice':                         'i-megaphone',
+  'Conditionals & Unreal Forms':   'i-dice',
+  'Clauses':                       'i-link',
+  'Emphasis & Sentence Focus':     'i-target',
+  'Cohesion & Academic Style':     'i-scroll',
+};
+/* Card accents cycle through the vocab category palette (canonical order,
+   assigned before stage filtering so a topic keeps its colour). */
+const GRAMMAR_CARD_THEMES = ['t-tb','t-tv','t-tp','t-tr','t-te','t-ta','t-tc','t-tg','t-ti','t-to','t-tro','t-tfg','t-tpurp','t-ts','t-tnavy'];
 const GRAMMAR_SECTIONS = {
   'present-simple-continuous': 'Tenses',
   'past-simple-continuous':    'Tenses',
@@ -3116,7 +3128,6 @@ const GRAMMAR_SECTIONS = {
   'hedging-academic-tone':     'Cohesion & Academic Style',
 };
 const GRAMMAR_STAGE_RANK = { beginner: 0, independent: 1, expert: 2 };
-const GRAMMAR_STAGE_KEY = { beginner: 'basic', independent: 'inter', expert: 'adv' };
 const GRAMMAR_CEFR_KEY  = { 'A1': 'basic', 'B1': 'inter', 'C1': 'adv' };
 
 function cefrRangePillHtml(label){
@@ -3157,11 +3168,15 @@ function renderGrammarHome(){
     });
     const names = [...GRAMMAR_SECTION_ORDER.filter(n => grouped.has(n)),
                    ...[...grouped.keys()].filter(n => !GRAMMAR_SECTION_ORDER.includes(n))];
-    let rendered = 0;
+    let rendered = 0, themeIdx = 0;
     names.forEach((name, i) => {
-      const inSection = grouped.get(name)
-        .filter(t => grammarStageFilter === 'all' || t.stageId === grammarStageFilter)
+      const all = grouped.get(name)
         .sort((a, b) => (GRAMMAR_STAGE_RANK[a.stageId] ?? 3) - (GRAMMAR_STAGE_RANK[b.stageId] ?? 3));
+      all.forEach(t => {
+        t.theme = GRAMMAR_CARD_THEMES[themeIdx++ % GRAMMAR_CARD_THEMES.length];
+        t.icon = GRAMMAR_SECTION_ICONS[name] || 'i-pen';
+      });
+      const inSection = all.filter(t => grammarStageFilter === 'all' || t.stageId === grammarStageFilter);
       if (!inSection.length) return;
       wrap.appendChild(renderGrammarSection(name, inSection, i + 1));
       rendered++;
@@ -3218,21 +3233,20 @@ function renderGrammarSection(name, topics, num){
   });
   const grid = wrap.querySelector('.cat-grid');
   topics.forEach(t => {
-    const stageKey = GRAMMAR_STAGE_KEY[t.stageId] || '';
     const done = grammarTopicDone(t.slug);
     const best = (progress[t.slug] || {}).best || 0;
+    const qn = (t.quiz || []).length;
     const card = document.createElement('div');
-    card.className = 'cat-card t-tv';
+    card.className = `cat-card ${t.theme || 't-tv'}`;
     card.innerHTML = `
       <div class="cat-card-top">
-        <span class="cat-tag">${t.tag}</span>
+        <span class="cat-tag"><svg class="ico" aria-hidden="true"><use href="#${t.icon || 'i-pen'}"/></svg> ${qn} question${qn !== 1 ? 's' : ''}</span>
         ${cefrRangePillHtml(t.cefr)}
         <svg class="ico cat-arrow" aria-hidden="true"><use href="#i-arrow-up-right"/></svg>
       </div>
       <div class="cat-name">${t.title}</div>
-      <div class="gram-card-blurb">${t.blurb}</div>
       <div class="cat-pbar-row">
-        <div class="cat-pbar"><div class="cat-pfill ${done ? 'gram-done' : `gram-s-${stageKey}`}" style="width:${best}%"></div></div>
+        <div class="cat-pbar"><div class="cat-pfill${done ? ' gram-done' : ''}" style="width:${best}%"></div></div>
         ${done
           ? '<svg class="ico cat-medal" aria-label="Mastered"><use href="#i-medal"/></svg>'
           : `<span class="cat-plabel">${best ? `best ${best}%` : 'not started'}</span>`}
