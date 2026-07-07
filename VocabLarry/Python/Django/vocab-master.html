@@ -2144,6 +2144,7 @@ function iconSvg(emoji, cls){
         <button class="chip" data-gramword-ltype="sub">Subordinating</button>
         <button class="chip" data-gramword-ltype="corr">Correlative</button>
         <button class="chip" data-gramword-ltype="adv">Advanced transitions</button>
+        <button class="chip" data-gramword-ltype="formal">Formal phrases</button>
       </div>
     </div>
     <div id="gramwordContent"></div>
@@ -3884,6 +3885,7 @@ const GRAMWORD_LTYPE_META = {
   sub:     { label: 'subordinating', color: '#0d9488' },
   corr:    { label: 'correlative',   color: '#a855f7' },
   adv:     { label: 'advanced',      color: '#f43f5e' },
+  formal:  { label: 'formal',        color: '#f59e0b' },
 };
 const GRAMWORD_LINKERS = [
   ['for', 'reason (formal)', 'He stayed indoors, for the storm was close.', 'fanboys'],
@@ -3939,6 +3941,66 @@ const GRAMWORD_LINKERS = [
   ['for example', 'example', 'For example, Japan ages fastest.', 'adv'],
   ['in conclusion', 'summary', 'In conclusion, both views have merit.', 'adv'],
   ['overall', 'summary', 'Overall, the trend is upward.', 'adv'],
+  ['a priori', 'assumed in advance', 'There is no a priori reason to expect growth.', 'formal'],
+  ['ad hoc', 'improvised / one-off', 'An ad hoc committee reviewed the case.', 'formal'],
+  ['akin to', 'similar to', 'The effect is akin to compound interest.', 'formal'],
+  ['albeit', 'although (compressed)', 'The plan succeeded, albeit slowly.', 'formal'],
+  ['amid', 'during / surrounded by', 'Prices rose amid supply concerns.', 'formal'],
+  ['as opposed to', 'in contrast to', 'Renting, as opposed to buying, suits frequent movers.', 'formal'],
+  ['as per', 'in accordance with', 'As per the guidelines, every source is cited.', 'formal'],
+  ['at the expense of', 'sacrificing', 'Speed was achieved at the expense of accuracy.', 'formal'],
+  ['barring', 'except in the case of', 'Barring delays, the line opens in May.', 'formal'],
+  ['by means of', 'using', 'The gas is stored by means of compression.', 'formal'],
+  ['by virtue of', 'because of / by means of', 'She qualified by virtue of her experience.', 'formal'],
+  ['cf.', 'compare', 'Urban rates fell faster (cf. Figure 2).', 'formal'],
+  ['circa', 'approximately (dates, figures)', 'The bridge dates from circa 1900.', 'formal'],
+  ['de facto', 'in practice', 'English is the de facto language of science.', 'formal'],
+  ['de jure', 'by law', 'The territory remains de jure part of the state.', 'formal'],
+  ['e.g.', 'for example', 'Staple crops, e.g. rice and wheat, dominate exports.', 'formal'],
+  ['en masse', 'all together', 'Customers cancelled their subscriptions en masse.', 'formal'],
+  ['ergo', 'therefore (emphatic)', 'The deadline passed; ergo, the penalty applies.', 'formal'],
+  ['et al.', 'and others (citations)', 'Chen et al. (2019) report similar findings.', 'formal'],
+  ['etc.', 'and so on', 'Utilities — water, gas, electricity, etc. — rose in price.', 'formal'],
+  ['for the sake of', 'for the purpose of', 'For the sake of clarity, key terms are defined below.', 'formal'],
+  ['henceforth', 'from now on', 'Henceforth, all submissions must be digital.', 'formal'],
+  ['hitherto', 'until now', 'The study revealed a hitherto unknown effect.', 'formal'],
+  ['i.e.', 'that is', 'The fee is annual, i.e. paid once a year.', 'formal'],
+  ['in accordance with', 'following (rules)', 'The trial was run in accordance with ISO standards.', 'formal'],
+  ['in conjunction with', 'together with', 'The app works in conjunction with a wearable sensor.', 'formal'],
+  ['in light of', 'considering', 'In light of new evidence, the policy was revised.', 'formal'],
+  ['in lieu of', 'instead of', 'Candidates may submit a portfolio in lieu of an interview.', 'formal'],
+  ['in tandem with', 'together / at the same pace as', 'Wages rose in tandem with productivity.', 'formal'],
+  ['in terms of', 'measured by / regarding', 'In terms of cost, rail outperforms air travel.', 'formal'],
+  ['in the event of', 'if (something) happens', 'In the event of a tie, a second vote is held.', 'formal'],
+  ['in the face of', 'despite / confronted with', 'Exports grew in the face of new tariffs.', 'formal'],
+  ['in the midst of', 'in the middle of', 'The reform arrived in the midst of a recession.', 'formal'],
+  ['in the wake of', 'following (an event)', 'In the wake of the crisis, lending collapsed.', 'formal'],
+  ['in view of', 'considering', 'In view of the risks, the trial was halted.', 'formal'],
+  ['insofar as', 'to the extent that', 'The claim holds insofar as the data allows.', 'formal'],
+  ['inter alia', 'among other things', 'The report covers, inter alia, wages and rents.', 'formal'],
+  ['irrespective of', 'regardless of', 'The rule applies irrespective of age.', 'formal'],
+  ['namely', 'specifically', 'Two sectors grew, namely tourism and IT.', 'formal'],
+  ['notwithstanding', 'despite', 'Notwithstanding the delays, the project finished on budget.', 'formal'],
+  ['on behalf of', 'representing', 'She accepted the award on behalf of the team.', 'formal'],
+  ['on the grounds of', 'because of', 'The plan was rejected on the grounds of cost.', 'formal'],
+  ['owing to', 'because of', 'Owing to rising costs, the scheme was scaled back.', 'formal'],
+  ['per annum', 'per year', 'Tuition fees rise by 3% per annum.', 'formal'],
+  ['per capita', 'per person', 'Income per capita doubled within a decade.', 'formal'],
+  ['per se', 'in itself', 'Wealth per se does not guarantee wellbeing.', 'formal'],
+  ['pertaining to', 'relating to', 'Laws pertaining to data privacy are strict.', 'formal'],
+  ['prior to', 'before', 'Prior to 2010, growth was almost flat.', 'formal'],
+  ['pro rata', 'proportionally', 'Part-time staff are paid pro rata.', 'formal'],
+  ['regardless of', 'without considering', 'Entry is free regardless of nationality.', 'formal'],
+  ['save for', 'except for', 'Results were uniform, save for one region.', 'formal'],
+  ['status quo', 'the existing state', 'The reform openly challenges the status quo.', 'formal'],
+  ['subsequent to', 'after', 'Subsequent to the merger, profits doubled.', 'formal'],
+  ['thereby', 'by that means', 'Prices fell, thereby boosting demand.', 'formal'],
+  ['versus', 'against / compared with', 'The chart plots exports versus imports.', 'formal'],
+  ['via', 'by way of', 'Data was collected via online surveys.', 'formal'],
+  ['vice versa', 'the other way round', 'Theory informs practice, and vice versa.', 'formal'],
+  ['vis-à-vis', 'in relation to / compared with', 'The report examines wages vis-à-vis productivity.', 'formal'],
+  ['whereby', 'by which', 'A scheme whereby students earn credits abroad.', 'formal'],
+  ['with regard to', 'concerning', 'With regard to funding, the report says little.', 'formal'],
 ];
 const GRAMWORD_PATTERN_COLORS = { AAA: '#0d9488', ABA: '#3b82f6', ABB: '#f59e0b', ABC: '#ec4899' };
 /* Regular comparison families (rule-derived, so kept client-side).
@@ -4044,7 +4106,8 @@ function renderGramword(){
     } else {
       let entries = GRAMWORD_LINKERS;
       if (gramwordState.ltype !== 'all') entries = entries.filter(e => e[3] === gramwordState.ltype);
-      if (q) entries = entries.filter(e => e.slice(0, 3).some(c => String(c).toLowerCase().includes(q)));
+      const fold = t => String(t).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[-–]/g, ' ');
+      if (q) entries = entries.filter(e => e.slice(0, 3).some(c => fold(c).includes(fold(q))));
       count = entries.length; unit = 'linker';
       const totalPages = Math.max(1, Math.ceil(count / GRAMWORD_PER_PAGE));
       if (gramwordState.page > totalPages) gramwordState.page = totalPages;
