@@ -939,7 +939,17 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
 .headline-btn.active[data-grammar-stage="beginner"]{background:var(--gram-basic);border-color:var(--gram-basic);color:#064e3b;}
 .headline-btn.active[data-grammar-stage="independent"]{background:var(--gram-inter);border-color:var(--gram-inter);color:#fff;}
 .headline-btn.active[data-grammar-stage="expert"]{background:var(--gram-adv);border-color:var(--gram-adv);color:#1c1917;}
-.headline-btn.active[data-gramword-set]{background:var(--accent);border-color:var(--accent);color:#fff;}
+.headline-btn.active[data-gramword-set="verbs"]{background:var(--a2);border-color:var(--a2);color:#083344;}
+.headline-btn.active[data-gramword-set="comparisons"]{background:var(--c1);border-color:var(--c1);color:#1c1917;}
+.gramword-link{
+  display:inline-flex;align-items:center;gap:7px;margin-top:12px;
+  font-family:'JetBrains Mono',monospace;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.14em;
+  color:rgb(var(--vio));background:rgba(var(--vio),.08);border:1px solid rgba(var(--vio),.3);
+  padding:8px 14px;border-radius:999px;cursor:pointer;
+  transition:background .15s ease,border-color .15s ease,transform .2s cubic-bezier(.25,.46,.45,.94);
+}
+.gramword-link:hover{background:rgba(var(--vio),.15);border-color:rgba(var(--vio),.55);transform:translateY(-1px);}
+.gramword-link .ico{font-size:.85rem;}
 #grammarStages .cat-pfill.gram-done{background:var(--gram-done);}
 /* lesson spread — full container width, aligned with the page headings */
 .gram-lesson{width:100%;}
@@ -3496,6 +3506,21 @@ function openGrammarTopic(topic){
   document.getElementById('grammarBackBtn').addEventListener('click', renderGrammarHome);
   const practiceBtn = document.getElementById('grammarPracticeBtn');
   if (practiceBtn) practiceBtn.addEventListener('click', () => startGrammarQuiz(topic));
+  const gramwordSet = Object.keys(GRAMWORD_SOURCES).find(k => GRAMWORD_SOURCES[k] === topic.slug);
+  const tableWrap = el.querySelector('.gram-table-wrap');
+  if (gramwordSet && tableWrap){
+    const link = document.createElement('button');
+    link.className = 'gramword-link';
+    link.innerHTML = `Browse all forms in Word <svg class="ico" aria-hidden="true"><use href="#i-arrow-up-right"/></svg>`;
+    link.addEventListener('click', () => {
+      gramwordState.set = gramwordSet;
+      gramwordState.search = '';
+      gramwordState.pattern = 'all';
+      document.getElementById('gramwordSearch').value = '';
+      goToPage('gramword');
+    });
+    tableWrap.insertAdjacentElement('afterend', link);
+  }
   const revealIo = new IntersectionObserver(entries => {
     entries.forEach(en => {
       if (en.isIntersecting){ en.target.classList.add('in-view'); revealIo.unobserve(en.target); }
