@@ -2025,12 +2025,12 @@ function iconSvg(emoji, cls){
 
   <!-- ===== GRAMMAR PAGE ===== -->
   <section id="page-grammar" class="page">
+    <div class="page-head">
+      <span class="eyebrow">Section 02 / Grammar</span>
+      <h1>Grammar</h1>
+      <p>From first tenses to advanced structures — a lesson and a practice set for every stage.</p>
+    </div>
     <div id="grammarHome">
-      <div class="page-head">
-        <span class="eyebrow">Section 02 / Grammar</span>
-        <h1>Grammar</h1>
-        <p>From first tenses to advanced structures — a lesson and a practice set for every stage.</p>
-      </div>
       <div class="headline-bar" id="grammarFilterBar">
         <button class="headline-btn active" data-grammar-stage="all">All</button>
         <button class="headline-btn" data-grammar-stage="beginner"><svg class="ico" aria-hidden="true"><use href="#i-sprout"/></svg> Basic</button>
@@ -3432,14 +3432,21 @@ function renderGrammarSection(name, topics, num){
 function openGrammarTopic(topic){
   showGrammarView('grammarLesson');
   const el = document.getElementById('grammarLesson');
+  const section = GRAMMAR_SECTIONS[topic.slug] || topic.tag;
   el.innerHTML = `
     <button class="back-btn" id="grammarBackBtn">← All grammar</button>
-    <div class="page-head" style="margin-bottom:26px;">
-      <h1>${topic.title} ${cefrRangePillHtml(topic.cefr)}</h1>
-      <p>${topic.blurb}</p>
+    <div class="cat-view-title-row" style="margin-bottom:26px;">
+      <div class="cat-view-icon ${topic.theme || 't-tv'}"><svg class="ico" aria-hidden="true"><use href="#${topic.icon || 'i-pen'}"/></svg></div>
+      <div>
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+          <h2 class="cat-view-name ${topic.theme || 't-tv'}">${topic.title}</h2>
+          ${cefrRangePillHtml(topic.cefr)}
+        </div>
+        <p class="cat-view-sub">${topic.quiz.length} question${topic.quiz.length !== 1 ? 's' : ''} · ${section}</p>
+      </div>
     </div>
     <div class="gram-lesson">${grammarLessonHtml(topic.lesson, topic.icon,
-      GRAMMAR_SECTION_IMAGES[GRAMMAR_SECTIONS[topic.slug] || topic.tag] || GRAMMAR_IMG_FALLBACK)}</div>
+      GRAMMAR_SECTION_IMAGES[section] || GRAMMAR_IMG_FALLBACK)}</div>
     ${topic.quiz.length
       ? `<div style="text-align:center;margin-top:30px;">
            <button class="btn" id="grammarPracticeBtn">Practice — ${topic.quiz.length} question${topic.quiz.length !== 1 ? 's' : ''}</button>
