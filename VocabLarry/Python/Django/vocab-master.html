@@ -1021,9 +1021,10 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
 .gram-table tbody tr:nth-child(even){background:rgba(var(--vio),.035);}
 .gram-table tbody tr:last-child td{border-bottom:none;}
 .gram-table td:first-child{font-weight:600;}
-/* examples — 2-up specimen grid of quote cards */
-.gram-examples{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:12px;}
+/* examples — strict 2-up specimen grid; a lone final quote spans the row */
+.gram-examples{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;}
 .gram-ex:last-child:nth-child(odd){grid-column:1/-1;}
+@media (max-width:700px){.gram-examples{grid-template-columns:1fr;}}
 .gram-ex{
   position:relative;border:1px solid var(--card-border);border-radius:14px;background:var(--card-bg);
   padding:13px 18px 13px 48px;
