@@ -944,11 +944,16 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
 .gramword-link{
   display:inline-flex;align-items:center;gap:7px;margin-top:12px;
   font-family:'JetBrains Mono',monospace;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.14em;
-  color:rgb(var(--vio));background:rgba(var(--vio),.08);border:1px solid rgba(var(--vio),.3);
+  color:var(--gold);background:color-mix(in srgb, var(--gold) 10%, transparent);
+  border:1px solid color-mix(in srgb, var(--gold) 42%, transparent);
   padding:8px 14px;border-radius:999px;cursor:pointer;
   transition:background .15s ease,border-color .15s ease,transform .2s cubic-bezier(.25,.46,.45,.94);
 }
-.gramword-link:hover{background:rgba(var(--vio),.15);border-color:rgba(var(--vio),.55);transform:translateY(-1px);}
+.gramword-link:hover{
+  background:color-mix(in srgb, var(--gold) 18%, transparent);
+  border-color:color-mix(in srgb, var(--gold) 65%, transparent);
+  transform:translateY(-1px);
+}
 .gramword-link .ico{font-size:.85rem;}
 #grammarStages .cat-pfill.gram-done{background:var(--gram-done);}
 /* lesson spread — full container width, aligned with the page headings */
@@ -3487,10 +3492,27 @@ function renderGrammarSection(name, topics, num){
   return wrap;
 }
 
+const GRAM_LESSON_TABLE_PREVIEW = 10;
+
 function openGrammarTopic(topic){
   showGrammarView('grammarLesson');
   const el = document.getElementById('grammarLesson');
   const section = GRAMMAR_SECTIONS[topic.slug] || topic.tag;
+  // Word-page source topics preview only the first rows of their reference
+  // table; the deep-link button below the table opens the full list.
+  const gramwordSet = Object.keys(GRAMWORD_SOURCES).find(k => GRAMWORD_SOURCES[k] === topic.slug);
+  let lesson = topic.lesson, gramwordLabel = '';
+  if (gramwordSet){
+    const tbl = topic.lesson.find(b => b.type === 'table');
+    const tableTotal = tbl ? (tbl.data.rows || []).length : 0;
+    const wordTotal = gramwordSet === 'comparisons' ? tableTotal + GRAMWORD_ER_EST.length : tableTotal;
+    gramwordLabel = `View all ${wordTotal} forms in Word`;
+    lesson = topic.lesson.map(b =>
+      (b.type === 'table' && (b.data.rows || []).length > GRAM_LESSON_TABLE_PREVIEW)
+        ? { ...b, data: { ...b.data, rows: b.data.rows.slice(0, GRAM_LESSON_TABLE_PREVIEW) },
+            title: b.title ? `${b.title} — first ${GRAM_LESSON_TABLE_PREVIEW}` : b.title }
+        : b);
+  }
   el.innerHTML = `
     <button class="back-btn" id="grammarBackBtn">← All grammar</button>
     <div class="cat-view-title-row" style="margin-bottom:26px;">
@@ -3503,7 +3525,7 @@ function openGrammarTopic(topic){
         <p class="cat-view-sub">${topic.quiz.length} question${topic.quiz.length !== 1 ? 's' : ''} · ${section}</p>
       </div>
     </div>
-    <div class="gram-lesson">${grammarLessonHtml(topic.lesson, topic.icon,
+    <div class="gram-lesson">${grammarLessonHtml(lesson, topic.icon,
       GRAMMAR_SECTION_IMAGES[section] || GRAMMAR_IMG_FALLBACK)}</div>
     ${topic.quiz.length
       ? `<div style="text-align:center;margin-top:30px;">
@@ -3513,12 +3535,11 @@ function openGrammarTopic(topic){
   document.getElementById('grammarBackBtn').addEventListener('click', renderGrammarHome);
   const practiceBtn = document.getElementById('grammarPracticeBtn');
   if (practiceBtn) practiceBtn.addEventListener('click', () => startGrammarQuiz(topic));
-  const gramwordSet = Object.keys(GRAMWORD_SOURCES).find(k => GRAMWORD_SOURCES[k] === topic.slug);
   const tableWrap = el.querySelector('.gram-table-wrap');
   if (gramwordSet && tableWrap){
     const link = document.createElement('button');
     link.className = 'gramword-link';
-    link.innerHTML = `Browse all forms in Word <svg class="ico" aria-hidden="true"><use href="#i-arrow-up-right"/></svg>`;
+    link.innerHTML = `${gramwordLabel} <svg class="ico" aria-hidden="true"><use href="#i-arrow-up-right"/></svg>`;
     link.addEventListener('click', () => {
       gramwordState.set = gramwordSet;
       gramwordState.search = '';
