@@ -3262,7 +3262,7 @@ function renderGrammarSection(name, topics, num){
   const doneCnt = topics.filter(t => grammarTopicDone(t.slug)).length;
   const pct = topics.length ? Math.round(doneCnt / topics.length * 100) : 0;
   const wrap = document.createElement('div');
-  wrap.className = 'section-block open';
+  wrap.className = 'section-block';
   wrap.innerHTML = `
     <div class="section-block-header">
       <div class="section-block-num">${String(num).padStart(2, '0')}</div>
@@ -3284,7 +3284,6 @@ function renderGrammarSection(name, topics, num){
     </div>`;
   const header = wrap.querySelector('.section-block-header');
   const body = wrap.querySelector('.section-block-body');
-  body.style.maxHeight = 'none';
   header.addEventListener('click', () => {
     const opening = !wrap.classList.contains('open');
     wrap.classList.toggle('open', opening);
