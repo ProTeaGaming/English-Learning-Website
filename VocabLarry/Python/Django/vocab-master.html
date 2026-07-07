@@ -939,10 +939,20 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
 .headline-btn.active[data-grammar-stage="independent"]{background:var(--gram-inter);border-color:var(--gram-inter);color:#fff;}
 .headline-btn.active[data-grammar-stage="expert"]{background:var(--gram-adv);border-color:var(--gram-adv);color:#1c1917;}
 #grammarStages .cat-pfill.gram-done{background:var(--gram-done);}
-.gram-lesson{max-width:760px;margin:0 auto;}
-.gram-block{margin-bottom:26px;line-height:1.65;}
+/* textbook layout — wide canvas, blocks pull to alternating sides */
+.gram-lesson{max-width:1000px;margin:0 auto;}
+.gram-block{margin-bottom:28px;line-height:1.65;}
+.gram-rule,.gram-examples{width:min(720px,100%);}
+.gram-tip{width:min(780px,100%);margin-right:auto;}
+.gram-pull-left{margin-right:auto;}
+.gram-pull-right{margin-left:auto;}
+.gram-examples{margin-left:auto;}
+@media (max-width:900px){
+  .gram-rule,.gram-examples,.gram-tip{width:100%;}
+}
 /* lede — editorial serif intro */
 .gram-intro{
+  max-width:720px;
   font-family:var(--serif); font-style:italic; font-size:1.16rem; line-height:1.65; color:var(--text);
   padding-bottom:22px; margin-bottom:28px; border-bottom:1px solid rgba(var(--vio),.18);
 }
@@ -3404,7 +3414,7 @@ function grammarBlockHtml(block, ruleIdx){
     case 'intro':
       return `<div class="gram-block gram-intro">${block.body}</div>`;
     case 'rule':
-      return `<div class="gram-block gram-rule gram-ac-${ruleIdx % 4}">
+      return `<div class="gram-block gram-rule gram-ac-${ruleIdx % 4} gram-pull-${ruleIdx % 2 ? 'right' : 'left'}">
         <span class="gram-rule-num" aria-hidden="true">${String(ruleIdx + 1).padStart(2, '0')}</span>
         ${block.title ? `<h3>${block.title}</h3>` : ''}${block.body}</div>`;
     case 'table': {
