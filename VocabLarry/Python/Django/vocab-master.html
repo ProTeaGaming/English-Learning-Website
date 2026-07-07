@@ -941,6 +941,7 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
 .headline-btn.active[data-grammar-stage="expert"]{background:var(--gram-adv);border-color:var(--gram-adv);color:#1c1917;}
 .headline-btn.active[data-gramword-set="verbs"]{background:var(--a2);border-color:var(--a2);color:#083344;}
 .headline-btn.active[data-gramword-set="comparisons"]{background:var(--c1);border-color:var(--c1);color:#1c1917;}
+.headline-btn.active[data-gramword-set="linkers"]{background:var(--b2);border-color:var(--b2);color:#fff;}
 .gramword-link{
   display:inline-flex;align-items:center;gap:7px;margin-top:12px;
   font-family:'JetBrains Mono',monospace;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.14em;
@@ -2110,11 +2111,12 @@ function iconSvg(emoji, cls){
     <div class="page-head">
       <span class="eyebrow">Section 02 / Grammar</span>
       <h1>Word</h1>
-      <p>Every irregular form in one place — verb forms V1–V2–V3 and comparison forms, searchable.</p>
+      <p>The reference shelf — irregular verb forms, comparison forms and linking words, searchable.</p>
     </div>
     <div class="headline-bar" id="gramwordSetBar">
       <button class="headline-btn active" data-gramword-set="verbs"><svg class="ico" aria-hidden="true"><use href="#i-rotate"/></svg> Irregular Verbs</button>
       <button class="headline-btn" data-gramword-set="comparisons"><svg class="ico" aria-hidden="true"><use href="#i-trend-up"/></svg> Comparisons</button>
+      <button class="headline-btn" data-gramword-set="linkers"><svg class="ico" aria-hidden="true"><use href="#i-link"/></svg> Linking Words</button>
     </div>
     <div class="browse-bar">
       <div class="search-row" style="position:relative;">
@@ -2134,6 +2136,14 @@ function iconSvg(emoji, cls){
         <button class="chip active" data-gramword-ctype="all">All</button>
         <button class="chip" data-gramword-ctype="irregular">Irregular — own word</button>
         <button class="chip" data-gramword-ctype="er">-er / -est</button>
+      </div>
+      <div class="filter-row" id="gramwordLtypeRow" style="display:none;">
+        <span class="filter-label">Family</span>
+        <button class="chip active" data-gramword-ltype="all">All</button>
+        <button class="chip" data-gramword-ltype="fanboys">FANBOYS</button>
+        <button class="chip" data-gramword-ltype="sub">Subordinating</button>
+        <button class="chip" data-gramword-ltype="corr">Correlative</button>
+        <button class="chip" data-gramword-ltype="adv">Advanced transitions</button>
       </div>
     </div>
     <div id="gramwordContent"></div>
@@ -3514,8 +3524,9 @@ function openGrammarTopic(topic){
   if (gramwordSet){
     const tbl = topic.lesson.find(b => b.type === 'table');
     const tableTotal = tbl ? (tbl.data.rows || []).length : 0;
-    const wordTotal = gramwordSet === 'comparisons' ? tableTotal + GRAMWORD_ER_EST.length : tableTotal;
-    gramwordLabel = `View all ${wordTotal} forms in Word`;
+    const wordTotal = gramwordSet === 'comparisons' ? tableTotal + GRAMWORD_ER_EST.length
+      : gramwordSet === 'linkers' ? GRAMWORD_LINKERS.length : tableTotal;
+    gramwordLabel = `View all ${wordTotal} ${gramwordSet === 'linkers' ? 'linking words' : 'forms'} in Word`;
     lesson = topic.lesson.map(b =>
       (b.type === 'table' && (b.data.rows || []).length > GRAM_LESSON_TABLE_PREVIEW)
         ? { ...b, data: { ...b.data, rows: b.data.rows.slice(0, GRAM_LESSON_TABLE_PREVIEW) },
@@ -3556,6 +3567,7 @@ function openGrammarTopic(topic){
       gramwordState.search = '';
       gramwordState.pattern = 'all';
       gramwordState.ctype = 'all';
+      gramwordState.ltype = 'all';
       gramwordState.page = 1;
       document.getElementById('gramwordSearch').value = '';
       goToPage('gramword');
@@ -3862,9 +3874,72 @@ document.getElementById('grammarClearFilters').addEventListener('click', () => {
 });
 
 /* ── Grammar Word page — irregular forms reference ── */
-const gramwordState = { set: 'verbs', search: '', pattern: 'all', ctype: 'all', page: 1 };
+const gramwordState = { set: 'verbs', search: '', pattern: 'all', ctype: 'all', ltype: 'all', page: 1 };
 const GRAMWORD_PER_PAGE = 25;
-const GRAMWORD_SOURCES = { verbs: 'irregular-verbs', comparisons: 'comparison-structures' };
+const GRAMWORD_SOURCES = { verbs: 'irregular-verbs', comparisons: 'comparison-structures', linkers: 'conjunctions' };
+/* Linking words — coordinating (FANBOYS), subordinating, correlative pairs
+   and advanced academic transitions. [word, function, example, type] */
+const GRAMWORD_LTYPE_META = {
+  fanboys: { label: 'FANBOYS',       color: '#3b82f6' },
+  sub:     { label: 'subordinating', color: '#0d9488' },
+  corr:    { label: 'correlative',   color: '#a855f7' },
+  adv:     { label: 'advanced',      color: '#f43f5e' },
+};
+const GRAMWORD_LINKERS = [
+  ['for', 'reason (formal)', 'He stayed indoors, for the storm was close.', 'fanboys'],
+  ['and', 'addition', 'Demand rose, and prices followed.', 'fanboys'],
+  ['nor', 'negative addition (+ inversion)', 'He didn’t call, nor did he write.', 'fanboys'],
+  ['but', 'contrast', 'The plan is cheap, but it is slow.', 'fanboys'],
+  ['or', 'alternative', 'We can email them, or we can call.', 'fanboys'],
+  ['yet', 'unexpected contrast', 'She was tired, yet she kept working.', 'fanboys'],
+  ['so', 'result', 'Costs fell, so profits improved.', 'fanboys'],
+  ['because', 'reason', 'Sales fell because the price rose.', 'sub'],
+  ['since', 'reason / time', 'Since the data was incomplete, we paused.', 'sub'],
+  ['as', 'reason / time', 'As demand grew, queues lengthened.', 'sub'],
+  ['although', 'concession', 'Although costs fell, profits stayed low.', 'sub'],
+  ['even though', 'strong concession', 'Even though it rained, the event went ahead.', 'sub'],
+  ['though', 'concession (informal)', 'The results, though limited, are promising.', 'sub'],
+  ['whereas', 'contrast between facts', 'Exports rose, whereas imports fell.', 'sub'],
+  ['while', 'contrast / time', 'While some agree, many object.', 'sub'],
+  ['if', 'condition', 'If demand doubles, prices will rise.', 'sub'],
+  ['unless', 'negative condition', 'We will fail unless we act now.', 'sub'],
+  ['in case', 'precaution', 'Take notes in case they ask questions.', 'sub'],
+  ['provided that', 'strict condition', 'You may enter provided that you register.', 'sub'],
+  ['when', 'time', 'Call me when the report is ready.', 'sub'],
+  ['until', 'time limit', 'Wait until the results are published.', 'sub'],
+  ['once', 'time (after)', 'Once approved, the plan starts.', 'sub'],
+  ['as soon as', 'immediate time', 'We left as soon as the talk ended.', 'sub'],
+  ['before', 'time', 'Check the data before you submit.', 'sub'],
+  ['after', 'time', 'Numbers improved after the policy changed.', 'sub'],
+  ['so that', 'purpose', 'They saved money so that they could travel.', 'sub'],
+  ['both … and', 'paired addition', 'The scheme is both cheap and effective.', 'corr'],
+  ['either … or', 'paired alternative', 'Either the state pays, or users do.', 'corr'],
+  ['neither … nor', 'paired negatives', 'The plan is neither fair nor practical.', 'corr'],
+  ['not only … but also', 'emphatic addition (+ inversion)', 'Not only did sales rise, but they also doubled.', 'corr'],
+  ['whether … or', 'paired options', 'Whether by bus or by train, the trip is slow.', 'corr'],
+  ['the … the', 'proportional pair', 'The more you practise, the better you write.', 'corr'],
+  ['however', 'contrast', 'Costs rose; however, quality did not.', 'adv'],
+  ['nevertheless', 'strong contrast', 'The sample was small; nevertheless, the trend is clear.', 'adv'],
+  ['nonetheless', 'strong contrast', 'The task is hard; nonetheless, it is possible.', 'adv'],
+  ['moreover', 'addition', 'The plan is cheap; moreover, it is quick.', 'adv'],
+  ['furthermore', 'addition', 'Furthermore, the data supports this view.', 'adv'],
+  ['in addition', 'addition', 'In addition, exports grew by 8%.', 'adv'],
+  ['therefore', 'result', 'Demand fell; therefore, output was cut.', 'adv'],
+  ['consequently', 'result', 'Rain flooded the site; consequently, work stopped.', 'adv'],
+  ['hence', 'result (formal)', 'The route is short, hence its popularity.', 'adv'],
+  ['thus', 'result (formal)', 'Prices doubled, thus reducing demand.', 'adv'],
+  ['similarly', 'comparison', 'Similarly, rural areas saw a decline.', 'adv'],
+  ['likewise', 'comparison', 'Likewise, exports followed the same trend.', 'adv'],
+  ['conversely', 'opposition', 'Conversely, city centres grew rapidly.', 'adv'],
+  ['in contrast', 'opposition', 'In contrast, the 2010 figures were flat.', 'adv'],
+  ['on the other hand', 'opposing view', 'On the other hand, costs may fall.', 'adv'],
+  ['meanwhile', 'parallel time', 'Meanwhile, competitors cut their prices.', 'adv'],
+  ['subsequently', 'later time', 'The law passed and was subsequently amended.', 'adv'],
+  ['for instance', 'example', 'Some sectors, for instance tourism, suffered.', 'adv'],
+  ['for example', 'example', 'For example, Japan ages fastest.', 'adv'],
+  ['in conclusion', 'summary', 'In conclusion, both views have merit.', 'adv'],
+  ['overall', 'summary', 'Overall, the trend is upward.', 'adv'],
+];
 const GRAMWORD_PATTERN_COLORS = { AAA: '#0d9488', ABA: '#3b82f6', ABB: '#f59e0b', ABC: '#ec4899' };
 /* Regular comparison families (rule-derived, so kept client-side).
    -er/-est includes the spelling sub-patterns: doubling (big→bigger),
@@ -3916,8 +3991,11 @@ function renderGramword(){
       b.classList.toggle('active', b.dataset.gramwordPattern === gramwordState.pattern));
     document.querySelectorAll('[data-gramword-ctype]').forEach(b =>
       b.classList.toggle('active', b.dataset.gramwordCtype === gramwordState.ctype));
+    document.querySelectorAll('[data-gramword-ltype]').forEach(b =>
+      b.classList.toggle('active', b.dataset.gramwordLtype === gramwordState.ltype));
     document.getElementById('gramwordPatternRow').style.display = isVerbs ? '' : 'none';
-    document.getElementById('gramwordTypeRow').style.display = isVerbs ? 'none' : '';
+    document.getElementById('gramwordTypeRow').style.display = gramwordState.set === 'comparisons' ? '' : 'none';
+    document.getElementById('gramwordLtypeRow').style.display = gramwordState.set === 'linkers' ? '' : 'none';
 
     const topic = stages.flatMap(s => s.topics).find(t => t.slug === GRAMWORD_SOURCES[gramwordState.set]);
     const block = topic && (topic.lesson || []).find(b => b.type === 'table');
@@ -3945,7 +4023,7 @@ function renderGramword(){
       body = pageRows.map(r =>
         `<tr>${r.map((c, i) => `<td>${i === 0 ? `<b>${c}</b>` : c}</td>`).join('')}<td>${gramwordPatternPill(gramwordPatternOf(r))}</td></tr>`
       ).join('');
-    } else {
+    } else if (gramwordState.set === 'comparisons'){
       const irregular = block ? (block.data.rows || []) : [];
       let entries = [
         ...irregular.map(r => ({ r, t: 'irregular' })),
@@ -3962,6 +4040,20 @@ function renderGramword(){
         const meta = GRAMWORD_CTYPE_META[e.t];
         const pill = `<span class="cat-cefr-pill" style="background:${meta.color}1c;border:1px solid ${meta.color}55;color:${meta.color}">${meta.label}</span>`;
         return `<tr>${e.r.map((c, i) => `<td>${i === 0 ? `<b>${c}</b>` : c}</td>`).join('')}<td>${pill}</td></tr>`;
+      }).join('');
+    } else {
+      let entries = GRAMWORD_LINKERS;
+      if (gramwordState.ltype !== 'all') entries = entries.filter(e => e[3] === gramwordState.ltype);
+      if (q) entries = entries.filter(e => e.slice(0, 3).some(c => String(c).toLowerCase().includes(q)));
+      count = entries.length; unit = 'linker';
+      const totalPages = Math.max(1, Math.ceil(count / GRAMWORD_PER_PAGE));
+      if (gramwordState.page > totalPages) gramwordState.page = totalPages;
+      const pageEntries = entries.slice((gramwordState.page - 1) * GRAMWORD_PER_PAGE, gramwordState.page * GRAMWORD_PER_PAGE);
+      head = '<th>Linker</th><th>Function</th><th>Example</th><th>Family</th>';
+      body = pageEntries.map(e => {
+        const meta = GRAMWORD_LTYPE_META[e[3]];
+        const pill = `<span class="cat-cefr-pill" style="background:${meta.color}1c;border:1px solid ${meta.color}55;color:${meta.color}">${meta.label}</span>`;
+        return `<tr><td><b>${e[0]}</b></td><td>${e[1]}</td><td><em>${e[2]}</em></td><td>${pill}</td></tr>`;
       }).join('');
     }
     document.getElementById('gramwordCount').textContent = `${count} ${unit}${count !== 1 ? 's' : ''}`;
@@ -3997,6 +4089,14 @@ document.querySelectorAll('#gramwordSetBar .headline-btn').forEach(btn => {
     gramwordState.set = btn.dataset.gramwordSet;
     gramwordState.pattern = 'all';
     gramwordState.ctype = 'all';
+    gramwordState.ltype = 'all';
+    gramwordState.page = 1;
+    renderGramword();
+  });
+});
+document.querySelectorAll('[data-gramword-ltype]').forEach(chip => {
+  chip.addEventListener('click', () => {
+    gramwordState.ltype = chip.dataset.gramwordLtype;
     gramwordState.page = 1;
     renderGramword();
   });
