@@ -3536,12 +3536,14 @@ function openGrammarTopic(topic){
     </div>
     <div class="gram-lesson">${grammarLessonHtml(lesson, topic.icon,
       GRAMMAR_SECTION_IMAGES[section] || GRAMMAR_IMG_FALLBACK)}</div>
-    ${topic.quiz.length
-      ? `<div style="text-align:center;margin-top:30px;">
-           <button class="btn" id="grammarPracticeBtn">Practice — ${topic.quiz.length} question${topic.quiz.length !== 1 ? 's' : ''}</button>
-         </div>`
-      : ''}`;
+    <div class="cat-bulk-actions">
+      ${topic.quiz.length
+        ? `<button class="btn" id="grammarPracticeBtn">Practice — ${topic.quiz.length} question${topic.quiz.length !== 1 ? 's' : ''}</button>`
+        : ''}
+      <button class="cat-bulk-btn cat-bulk-btn-secondary" id="grammarBackBottom">← All grammar</button>
+    </div>`;
   document.getElementById('grammarBackBtn').addEventListener('click', renderGrammarHome);
+  document.getElementById('grammarBackBottom').addEventListener('click', renderGrammarHome);
   const practiceBtn = document.getElementById('grammarPracticeBtn');
   if (practiceBtn) practiceBtn.addEventListener('click', () => startGrammarQuiz(topic));
   const tableWrap = el.querySelector('.gram-table-wrap');
