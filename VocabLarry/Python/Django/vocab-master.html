@@ -3484,7 +3484,6 @@ function openGrammarTopic(topic){
     });
     setTimeout(() => ScrollTrigger.refresh(), 250);
   }
-  document.getElementById('page-grammar').scrollIntoView({behavior: 'smooth', block: 'start'});
   if (typeof gsap !== 'undefined'){
     gsap.fromTo(el, {opacity:0, y:14}, {opacity:1, y:0, duration:.4, ease:'power2.out'});
   }
