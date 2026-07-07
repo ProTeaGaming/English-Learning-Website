@@ -3365,7 +3365,7 @@ function grammarBlockHtml(block){
   }
 }
 
-const grammarQuiz = { topic: null, idx: 0, score: 0 };
+const grammarQuiz = { topic: null, questions: [], idx: 0, score: 0 };
 
 function grammarNorm(s){
   return String(s).trim().replace(/\s+/g, ' ').toLowerCase();
@@ -3373,6 +3373,7 @@ function grammarNorm(s){
 
 function startGrammarQuiz(topic){
   grammarQuiz.topic = topic;
+  grammarQuiz.questions = shuffle(topic.quiz);
   grammarQuiz.idx = 0;
   grammarQuiz.score = 0;
   showGrammarView('grammarQuizView');
@@ -3381,8 +3382,8 @@ function startGrammarQuiz(topic){
 
 function renderGrammarQuestion(){
   const t = grammarQuiz.topic;
-  const q = t.quiz[grammarQuiz.idx];
-  const total = t.quiz.length;
+  const q = grammarQuiz.questions[grammarQuiz.idx];
+  const total = grammarQuiz.questions.length;
   const view = document.getElementById('grammarQuizView');
   const pct = Math.round(((grammarQuiz.idx + 1) / total) * 100);
   const isTyped = q.qtype !== 'mcq';
@@ -3400,7 +3401,7 @@ function renderGrammarQuestion(){
              <input class="gram-gap-input" id="grammarGapInput" type="text" autocomplete="off" spellcheck="false" aria-label="Your answer">
              <button class="btn" id="grammarCheckBtn">Check</button>
            </div>`
-        : `<div class="q-options">${q.options.map((opt, i) => `<button class="q-opt" data-i="${i}">${opt}</button>`).join('')}</div>`}
+        : `<div class="q-options">${shuffle(q.options.map((_, i) => i)).map(i => `<button class="q-opt" data-i="${i}">${q.options[i]}</button>`).join('')}</div>`}
       <div class="q-feedback"></div>
       <div class="q-next" style="display:none;"><button class="btn" id="grammarNextBtn">${grammarQuiz.idx + 1 === total ? 'See Results' : 'Next Question'}</button></div>
     </div>`;
@@ -3428,7 +3429,7 @@ function grammarShowFeedback(isCorrect, feedbackHtml){
   view.querySelector('.q-next').style.display = 'flex';
   document.getElementById('grammarNextBtn').addEventListener('click', () => {
     grammarQuiz.idx++;
-    if (grammarQuiz.idx < grammarQuiz.topic.quiz.length) renderGrammarQuestion();
+    if (grammarQuiz.idx < grammarQuiz.questions.length) renderGrammarQuestion();
     else showGrammarResult();
   });
 }
