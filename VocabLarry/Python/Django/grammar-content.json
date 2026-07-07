@@ -9289,5 +9289,737 @@
         "why": "“The number of” requires the singular “was”."
       }
     ]
+  },
+  {
+    "slug": "everyday-idioms",
+    "stage": "beginner",
+    "title": "Everyday Idioms",
+    "tag": "Idioms",
+    "cefr": "A2+",
+    "blurb": "High-frequency idioms for daily situations — what they mean, and when it is safe to use them.",
+    "lesson": [
+      {
+        "type": "intro",
+        "body": "<p>An <b>idiom</b> is a fixed expression whose meaning is not the sum of its words: a <em>piece of cake</em> is not dessert — it is <b>something very easy</b>. Examiners explicitly reward <b>natural idiomatic language</b> in Speaking from Band 7 up, so a small, well-used set pays real marks.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Meaning ≠ words",
+        "body": "<p>Idioms are learned as whole chunks. <em>Out of the blue</em> = unexpectedly; <em>under the weather</em> = slightly ill. Guessing word-by-word fails — and translating idioms from your own language into English almost never works.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "The wording is fixed",
+        "body": "<p>You cannot swap or reorder the words: it is a <em>piece of cake</em>, never a <em>slice of cake</em>; you <em>call it a day</em>, not <em>call it one day</em>. If you half-remember an idiom, use plain English instead — a broken idiom costs more than no idiom.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Where idioms belong",
+        "body": "<p><b>Speaking and informal letters: yes.</b> <em>Learning grammar is a piece of cake once you practise daily.</em> <b>Academic Task 1/2: mostly no</b> — figurative chat idioms look out of register in formal analysis. (The formal, allusion-based idioms in the Advanced topic are the exception.)</p>"
+      },
+      {
+        "type": "table",
+        "title": "Starter set",
+        "data": {
+          "head": [
+            "Idiom",
+            "Meaning"
+          ],
+          "rows": [
+            [
+              "a piece of cake",
+              "very easy"
+            ],
+            [
+              "break the ice",
+              "start a conversation in an awkward situation"
+            ],
+            [
+              "hit the books",
+              "study hard"
+            ],
+            [
+              "under the weather",
+              "slightly ill"
+            ],
+            [
+              "once in a blue moon",
+              "very rarely"
+            ],
+            [
+              "cost an arm and a leg",
+              "be very expensive"
+            ],
+            [
+              "in hot water",
+              "in trouble"
+            ],
+            [
+              "call it a day",
+              "stop working for the day"
+            ],
+            [
+              "on the same page",
+              "in agreement"
+            ],
+            [
+              "out of the blue",
+              "unexpectedly"
+            ],
+            [
+              "in a nutshell",
+              "summarised briefly"
+            ],
+            [
+              "the icing on the cake",
+              "an extra good thing on top"
+            ]
+          ]
+        }
+      },
+      {
+        "type": "examples",
+        "data": {
+          "items": [
+            {
+              "en": "The listening section was a piece of cake this time.",
+              "note": "= very easy; natural in Speaking."
+            },
+            {
+              "en": "Sorry I'm quiet today — I'm feeling a bit under the weather.",
+              "note": "= slightly ill; softens the complaint."
+            },
+            {
+              "en": "We only eat out once in a blue moon.",
+              "note": "= very rarely; a frequency idiom examiners love in Part 1."
+            },
+            {
+              "en": "Their new flat cost an arm and a leg.",
+              "note": "= extremely expensive."
+            }
+          ]
+        }
+      },
+      {
+        "type": "tip",
+        "body": "<p>In Speaking, one natural idiom per answer beats five forced ones. <em>“To be honest, cooking is not my thing — but ordering food? Piece of cake.”</em> sounds native; a list of idioms sounds rehearsed.</p>"
+      }
+    ],
+    "quiz": [
+      {
+        "qtype": "mcq",
+        "prompt": "“The test was a piece of cake” means the test was…",
+        "options": [
+          "very easy",
+          "delicious",
+          "very long",
+          "expensive"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "A piece of cake = very easy."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "I only see my cousins once in a ___ moon.",
+        "answers": [
+          "blue"
+        ],
+        "why": "Once in a blue moon = very rarely."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "Someone who is “under the weather” is…",
+        "options": [
+          "slightly ill",
+          "outside in the rain",
+          "sad about the news",
+          "late for work"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "Under the weather = slightly unwell."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "The repairs cost an arm and a ___.",
+        "answers": [
+          "leg"
+        ],
+        "why": "Cost an arm and a leg = be very expensive."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "“Let's call it a day” means…",
+        "options": [
+          "let's stop working for now",
+          "let's name the day",
+          "let's check the calendar",
+          "let's start early"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "Call it a day = stop working."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "Her phone call came completely out of the ___.",
+        "answers": [
+          "blue"
+        ],
+        "why": "Out of the blue = unexpectedly."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "To “break the ice” at a party is to…",
+        "options": [
+          "start conversation and ease the tension",
+          "bring cold drinks",
+          "arrive first",
+          "leave early"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "Break the ice = ease the initial awkwardness."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "We're all on the same ___ about the schedule.",
+        "answers": [
+          "page"
+        ],
+        "why": "On the same page = in agreement."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "“In a nutshell” introduces…",
+        "options": [
+          "a brief summary",
+          "a difficult problem",
+          "a funny story",
+          "a secret"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "In a nutshell = summarised briefly."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "Where do everyday idioms like these belong in IELTS?",
+        "options": [
+          "Speaking and informal letters",
+          "Academic Task 1 reports",
+          "Academic Task 2 essays",
+          "Nowhere"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "They are rewarded in Speaking; they look out of register in academic writing."
+      }
+    ]
+  },
+  {
+    "slug": "conversational-idioms",
+    "stage": "independent",
+    "title": "Conversational Idioms",
+    "tag": "Idioms",
+    "cefr": "B2",
+    "blurb": "Spill the beans, bite the bullet — the conversational idioms that lift Speaking scores.",
+    "lesson": [
+      {
+        "type": "intro",
+        "body": "<p>Beyond the starter set live the idioms native speakers actually reach for in conversation: <em>spill the beans</em>, <em>bite the bullet</em>, <em>sit on the fence</em>. Used precisely, they are exactly what the Band 7–8 Speaking descriptors mean by <b>“uses idiomatic vocabulary naturally”</b>.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Secrets and truth",
+        "body": "<p><em><b>Spill the beans</b></em> and <em><b>let the cat out of the bag</b></em> both mean <b>reveal a secret</b> (usually by accident). <em><b>Read between the lines</b></em> = understand what is implied but not said; <em><b>hit the nail on the head</b></em> = describe a situation exactly right.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Effort, courage and giving up",
+        "body": "<p><em><b>Bite the bullet</b></em> = force yourself to do something unpleasant; <em><b>burn the midnight oil</b></em> = work late; <em><b>go the extra mile</b></em> = do more than expected; <em><b>throw in the towel</b></em> = give up; <em><b>get cold feet</b></em> = lose your nerve before a commitment.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Decisions and cliché alert",
+        "body": "<p><em><b>Sit on the fence</b></em> = avoid choosing a side; <em><b>the ball is in your court</b></em> = it is your turn to act; <em><b>play it by ear</b></em> = decide as you go. ⚠ Some famous idioms are so worn they sound like textbook English — <em>raining cats and dogs</em> chief among them. Prefer the quieter, current alternative: <em>it is pouring down</em>, <em>I am snowed under</em>.</p>"
+      },
+      {
+        "type": "table",
+        "title": "Conversation set",
+        "data": {
+          "head": [
+            "Idiom",
+            "Meaning"
+          ],
+          "rows": [
+            [
+              "spill the beans",
+              "reveal a secret"
+            ],
+            [
+              "let the cat out of the bag",
+              "reveal a secret (accidentally)"
+            ],
+            [
+              "bite the bullet",
+              "force yourself to do something unpleasant"
+            ],
+            [
+              "hit the nail on the head",
+              "describe it exactly right"
+            ],
+            [
+              "the ball is in your court",
+              "it is your turn to act"
+            ],
+            [
+              "burn the midnight oil",
+              "work late into the night"
+            ],
+            [
+              "get cold feet",
+              "lose your nerve before a commitment"
+            ],
+            [
+              "sit on the fence",
+              "avoid taking sides"
+            ],
+            [
+              "throw in the towel",
+              "give up"
+            ],
+            [
+              "cut corners",
+              "do something cheaply and badly"
+            ],
+            [
+              "the last straw",
+              "the final problem that makes you act"
+            ],
+            [
+              "a blessing in disguise",
+              "bad luck that turns out well"
+            ],
+            [
+              "barking up the wrong tree",
+              "blaming or pursuing the wrong thing"
+            ],
+            [
+              "jump on the bandwagon",
+              "join something because it is popular"
+            ],
+            [
+              "play it by ear",
+              "decide as the situation develops"
+            ],
+            [
+              "go the extra mile",
+              "do more than is expected"
+            ]
+          ]
+        }
+      },
+      {
+        "type": "examples",
+        "data": {
+          "items": [
+            {
+              "en": "Someone spilled the beans about the surprise party.",
+              "note": "= revealed the secret."
+            },
+            {
+              "en": "I hate dentists, but I'll bite the bullet and book the appointment.",
+              "note": "= do the unpleasant thing anyway."
+            },
+            {
+              "en": "Losing that job was a blessing in disguise — it pushed me to start my own business.",
+              "note": "= misfortune with a good outcome; excellent for Speaking Part 2 stories."
+            },
+            {
+              "en": "The builders cut corners, and the roof leaked within a year.",
+              "note": "= sacrificed quality to save time or money."
+            },
+            {
+              "en": "I haven't decided about the weekend — let's play it by ear.",
+              "note": "= decide as we go."
+            }
+          ]
+        }
+      },
+      {
+        "type": "tip",
+        "body": "<p>Speaking Part 2 stories are the perfect stage: one idiom in the setup (<em>out of the blue</em>), one in the outcome (<em>a blessing in disguise</em>). Two well-placed idioms in two minutes reads as natural range — exactly what the descriptor asks for.</p>"
+      }
+    ],
+    "quiz": [
+      {
+        "qtype": "mcq",
+        "prompt": "“She spilled the beans” means she…",
+        "options": [
+          "revealed a secret",
+          "made a mess",
+          "cooked dinner",
+          "wasted money"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "Spill the beans = reveal a secret."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "I finally bit the ___ and asked for a pay rise.",
+        "answers": [
+          "bullet"
+        ],
+        "why": "Bite the bullet = force yourself to do something unpleasant."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "If you “hit the nail on the head”, you…",
+        "options": [
+          "describe the situation exactly right",
+          "hurt yourself",
+          "fix the furniture",
+          "make a mistake"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "Hit the nail on the head = be exactly right."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "Stop sitting on the ___ — which option do you support?",
+        "answers": [
+          "fence"
+        ],
+        "why": "Sit on the fence = avoid taking sides."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "“The ball is in your court” means…",
+        "options": [
+          "it is your turn to act",
+          "you won the game",
+          "you are being watched",
+          "you should relax"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "The next move belongs to you."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "She worked till 2 a.m. — really burning the midnight ___.",
+        "answers": [
+          "oil"
+        ],
+        "why": "Burn the midnight oil = work late."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "To “get cold feet” before a wedding is to…",
+        "options": [
+          "lose your nerve",
+          "feel physically cold",
+          "dance badly",
+          "arrive late"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "Get cold feet = lose courage before a commitment."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "“A blessing in disguise” is…",
+        "options": [
+          "bad luck that turns out well",
+          "a hidden gift",
+          "a religious ceremony",
+          "a clever costume"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "Misfortune with a fortunate outcome."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "Complaining to him is barking up the wrong ___ — he can't change the policy.",
+        "answers": [
+          "tree"
+        ],
+        "why": "Barking up the wrong tree = pursuing the wrong target."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "Which idiom is so overused it can sound rehearsed in IELTS Speaking?",
+        "options": [
+          "raining cats and dogs",
+          "snowed under",
+          "a blessing in disguise",
+          "cut corners"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "“Raining cats and dogs” is the classic textbook cliché; prefer fresher alternatives."
+      }
+    ]
+  },
+  {
+    "slug": "advanced-formal-idioms",
+    "stage": "expert",
+    "title": "Advanced & Formal Idioms",
+    "tag": "Idioms",
+    "cefr": "C1+",
+    "blurb": "Trojan horses, Pyrrhic victories and slippery slopes — allusive idioms polished enough for essays.",
+    "lesson": [
+      {
+        "type": "intro",
+        "body": "<p>A separate family of idioms comes from <b>classical history and literature</b> — the <em>Trojan horse</em>, an <em>Achilles heel</em>, <em>opening Pandora's box</em>. Unlike chat idioms, these are at home in <b>serious writing</b>: journalism, academic prose, and a well-aimed IELTS Task 2 paragraph.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Classical allusions",
+        "body": "<p><em><b>A Trojan horse</b></em> = something welcomed in that hides a threat; <em><b>an Achilles heel</b></em> = the one fatal weakness; <em><b>opening Pandora's box</b></em> = starting something that unleashes uncontrollable problems; <em><b>a Pyrrhic victory</b></em> = a win that costs more than it gains; <em><b>crossing the Rubicon</b></em> = passing a point of no return.</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Essay-safe metaphors",
+        "body": "<p>Some figurative phrases are standard in analytical writing: <em><b>a double-edged sword</b></em> (benefits and harms together), <em><b>the tip of the iceberg</b></em> (the visible fraction of a larger problem), <em><b>a slippery slope</b></em> (one step leading to worse), <em><b>the elephant in the room</b></em> (the obvious issue no one mentions), <em><b>a level playing field</b></em> (fair conditions).</p>"
+      },
+      {
+        "type": "rule",
+        "title": "Money, waste and false hopes",
+        "body": "<p><em><b>Robbing Peter to pay Paul</b></em> = solving one debt by creating another; <em><b>a white elephant</b></em> = an expensive, useless project; <em><b>a cash cow</b></em> = a reliable source of profit; <em><b>a silver bullet</b></em> = a single magical solution (almost always used to deny one exists: <em>there is no silver bullet</em>); <em><b>a red herring</b></em> = a misleading distraction.</p>"
+      },
+      {
+        "type": "table",
+        "title": "Essay set",
+        "data": {
+          "head": [
+            "Idiom",
+            "Meaning"
+          ],
+          "rows": [
+            [
+              "a Trojan horse",
+              "a hidden threat inside something welcome"
+            ],
+            [
+              "an Achilles heel",
+              "the single fatal weakness"
+            ],
+            [
+              "opening Pandora's box",
+              "unleashing uncontrollable problems"
+            ],
+            [
+              "a Pyrrhic victory",
+              "a win that costs more than it gains"
+            ],
+            [
+              "crossing the Rubicon",
+              "passing the point of no return"
+            ],
+            [
+              "a double-edged sword",
+              "something with equal benefits and harms"
+            ],
+            [
+              "the tip of the iceberg",
+              "the small visible part of a large problem"
+            ],
+            [
+              "a slippery slope",
+              "a small step that leads to worse"
+            ],
+            [
+              "the elephant in the room",
+              "the obvious issue nobody mentions"
+            ],
+            [
+              "robbing Peter to pay Paul",
+              "fixing one debt by creating another"
+            ],
+            [
+              "a white elephant",
+              "an expensive but useless project"
+            ],
+            [
+              "a silver bullet",
+              "a single, magical solution"
+            ]
+          ]
+        }
+      },
+      {
+        "type": "examples",
+        "data": {
+          "items": [
+            {
+              "en": "Free apps are often a Trojan horse for data collection.",
+              "note": "The welcome gift hides the threat — perfect Task 2 register."
+            },
+            {
+              "en": "Reported cases are only the tip of the iceberg.",
+              "note": "Standard in analytical writing for under-measured problems."
+            },
+            {
+              "en": "Cutting school budgets to fund hospitals is simply robbing Peter to pay Paul.",
+              "note": "= shifting a problem, not solving it."
+            },
+            {
+              "en": "Remote work is a double-edged sword: flexible, yet isolating.",
+              "note": "One idiom, both sides of a discussion essay."
+            },
+            {
+              "en": "There is no silver bullet for climate change.",
+              "note": "The set phrase almost always appears in the negative."
+            }
+          ]
+        }
+      },
+      {
+        "type": "tip",
+        "body": "<p>In Task 2, one allusive idiom per essay, placed where it does argumentative work — usually the thesis or a topic sentence: <em>“Technology in classrooms is a double-edged sword.”</em> Two or more starts to look decorative rather than precise.</p>"
+      }
+    ],
+    "quiz": [
+      {
+        "qtype": "mcq",
+        "prompt": "“A Trojan horse” is…",
+        "options": [
+          "a hidden threat inside something welcome",
+          "a strong work ethic",
+          "an old-fashioned method",
+          "an obvious danger"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "From the Greek siege of Troy: the welcomed gift concealed the attackers."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "Constant injuries were the champion's Achilles ___.",
+        "answers": [
+          "heel"
+        ],
+        "why": "An Achilles heel = the one fatal weakness."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "“A Pyrrhic victory” is a win that…",
+        "options": [
+          "costs more than it gains",
+          "is achieved by cheating",
+          "comes after a long wait",
+          "nobody notices"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "After King Pyrrhus, whose victories destroyed his own army."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "Borrowing to repay the older loan is just robbing Peter to pay ___.",
+        "answers": [
+          "Paul"
+        ],
+        "why": "Robbing Peter to pay Paul = shifting a debt, not solving it."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "Calling reported cases “the tip of the iceberg” implies…",
+        "options": [
+          "the true problem is far larger",
+          "the problem is nearly solved",
+          "the data is frozen",
+          "the cases are minor"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "Most of an iceberg is hidden under water."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "“A double-edged sword” is ideal in a discussion essay because it…",
+        "options": [
+          "signals benefits and harms together",
+          "sounds aggressive",
+          "avoids taking any position",
+          "replaces evidence"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "It frames a balanced evaluation in one phrase."
+      },
+      {
+        "qtype": "gap",
+        "prompt": "Nobody mentioned the budget cuts — the elephant in the ___.",
+        "answers": [
+          "room"
+        ],
+        "why": "The obvious issue everyone avoids."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "“Opening Pandora's box” means…",
+        "options": [
+          "unleashing problems that cannot be controlled",
+          "discovering treasure",
+          "solving an old mystery",
+          "starting a business"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "From the Greek myth: opening the box released the world's evils."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "“There is no silver ___ for unemployment.”",
+        "options": [
+          "bullet",
+          "spoon",
+          "lining",
+          "medal"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "A silver bullet = a single magical fix; the phrase usually appears in the negative."
+      },
+      {
+        "qtype": "mcq",
+        "prompt": "A stadium that cost billions and now stands empty is…",
+        "options": [
+          "a white elephant",
+          "a cash cow",
+          "a red herring",
+          "a level playing field"
+        ],
+        "answers": [
+          0
+        ],
+        "why": "A white elephant = an expensive, useless possession or project."
+      }
+    ]
   }
 ]

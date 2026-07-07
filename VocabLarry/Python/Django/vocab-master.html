@@ -942,6 +942,7 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
 .headline-btn.active[data-gramword-set="verbs"]{background:var(--a2);border-color:var(--a2);color:#083344;}
 .headline-btn.active[data-gramword-set="comparisons"]{background:var(--c1);border-color:var(--c1);color:#1c1917;}
 .headline-btn.active[data-gramword-set="linkers"]{background:var(--b2);border-color:var(--b2);color:#fff;}
+.headline-btn.active[data-gramword-set="idioms"]{background:var(--tro);border-color:var(--tro);color:#fff;}
 .gramword-link{
   display:inline-flex;align-items:center;gap:7px;margin-top:12px;
   font-family:'JetBrains Mono',monospace;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.14em;
@@ -2111,12 +2112,13 @@ function iconSvg(emoji, cls){
     <div class="page-head">
       <span class="eyebrow">Section 02 / Grammar</span>
       <h1>Word</h1>
-      <p>The reference shelf — irregular verb forms, comparison forms and linking words, searchable.</p>
+      <p>The reference shelf — irregular verb forms, comparison forms, linking words and idioms, searchable.</p>
     </div>
     <div class="headline-bar" id="gramwordSetBar">
       <button class="headline-btn active" data-gramword-set="verbs"><svg class="ico" aria-hidden="true"><use href="#i-rotate"/></svg> Irregular Verbs</button>
       <button class="headline-btn" data-gramword-set="comparisons"><svg class="ico" aria-hidden="true"><use href="#i-trend-up"/></svg> Comparisons</button>
       <button class="headline-btn" data-gramword-set="linkers"><svg class="ico" aria-hidden="true"><use href="#i-link"/></svg> Linking Words</button>
+      <button class="headline-btn" data-gramword-set="idioms"><svg class="ico" aria-hidden="true"><use href="#i-masks"/></svg> Idioms</button>
     </div>
     <div class="browse-bar">
       <div class="search-row" style="position:relative;">
@@ -2145,6 +2147,16 @@ function iconSvg(emoji, cls){
         <button class="chip" data-gramword-ltype="corr">Correlative</button>
         <button class="chip" data-gramword-ltype="adv">Advanced transitions</button>
         <button class="chip" data-gramword-ltype="formal">Formal phrases</button>
+      </div>
+      <div class="filter-row" id="gramwordItypeRow" style="display:none;">
+        <span class="filter-label">Level</span>
+        <button class="chip active" data-gramword-itype="all">All</button>
+        <button class="chip" data-gramword-itype="basic">Basic</button>
+        <button class="chip" data-gramword-itype="inter">Intermediate</button>
+        <button class="chip" data-gramword-itype="adv">Advanced</button>
+        <button class="chip" data-gramword-itype="classic">Classic</button>
+        <button class="chip" data-gramword-itype="formal">Formal</button>
+        <button class="chip" data-gramword-itype="brit">British</button>
       </div>
     </div>
     <div id="gramwordContent"></div>
@@ -3291,6 +3303,7 @@ const GRAMMAR_SECTION_ORDER = [
   'Clauses',
   'Emphasis & Sentence Focus',
   'Cohesion & Academic Style',
+  'Idioms',
 ];
 const GRAMMAR_SECTION_ICONS = {
   'Tenses':                        'i-clock',
@@ -3304,6 +3317,7 @@ const GRAMMAR_SECTION_ICONS = {
   'Clauses':                       'i-link',
   'Emphasis & Sentence Focus':     'i-target',
   'Cohesion & Academic Style':     'i-scroll',
+  'Idioms':                        'i-masks',
 };
 /* Card accents cycle through the vocab category palette (canonical order,
    assigned before stage filtering so a topic keeps its colour). */
@@ -3321,6 +3335,7 @@ const GRAMMAR_SECTION_IMAGES = {
   'Clauses':                       ['1433086966358-54859d0ed716','1481627834876-b7833e8f5570'],
   'Emphasis & Sentence Focus':     ['1470229722913-7c0e2dbbafd3','1450101499163-c8848c66ca85'],
   'Cohesion & Academic Style':     ['1481627834876-b7833e8f5570','1450101499163-c8848c66ca85'],
+  'Idioms':                        ['1474932430478-367dbb6832c1','1456513080510-7bf3a84b82f8'],
 };
 const GRAMMAR_IMG_FALLBACK = ['1456513080510-7bf3a84b82f8','1488190211105-8b0e65b80b4e','1516979187457-637abb4f9353'];
 const grammarImgUrl = id => `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=900&q=80`;
@@ -3369,6 +3384,9 @@ const GRAMMAR_SECTIONS = {
   'comparison-structures':     'Adjectives & Adverbs',
   'impersonal-passive':        'Voice',
   'subject-verb-agreement':    'Nouns, Pronouns & Determiners',
+  'everyday-idioms':           'Idioms',
+  'conversational-idioms':     'Idioms',
+  'advanced-formal-idioms':    'Idioms',
 };
 const GRAMMAR_STAGE_RANK = { beginner: 0, independent: 1, expert: 2 };
 const GRAMMAR_CEFR_KEY  = { 'A1': 'basic', 'B1': 'inter', 'C1': 'adv' };
@@ -3520,14 +3538,15 @@ function openGrammarTopic(topic){
   const section = GRAMMAR_SECTIONS[topic.slug] || topic.tag;
   // Word-page source topics preview only the first rows of their reference
   // table; the deep-link button below the table opens the full list.
-  const gramwordSet = Object.keys(GRAMWORD_SOURCES).find(k => GRAMWORD_SOURCES[k] === topic.slug);
+  const gramwordSet = GRAMWORD_TOPIC_SETS[topic.slug];
   let lesson = topic.lesson, gramwordLabel = '';
   if (gramwordSet){
     const tbl = topic.lesson.find(b => b.type === 'table');
     const tableTotal = tbl ? (tbl.data.rows || []).length : 0;
     const wordTotal = gramwordSet === 'comparisons' ? tableTotal + GRAMWORD_ER_EST.length
-      : gramwordSet === 'linkers' ? GRAMWORD_LINKERS.length : tableTotal;
-    gramwordLabel = `View all ${wordTotal} ${gramwordSet === 'linkers' ? 'linking words' : 'forms'} in Word`;
+      : gramwordSet === 'linkers' ? GRAMWORD_LINKERS.length
+      : gramwordSet === 'idioms' ? GRAMWORD_IDIOMS.length : tableTotal;
+    gramwordLabel = `View all ${wordTotal} ${gramwordSet === 'linkers' ? 'linking words' : gramwordSet === 'idioms' ? 'idioms' : 'forms'} in Word`;
     lesson = topic.lesson.map(b =>
       (b.type === 'table' && (b.data.rows || []).length > GRAM_LESSON_TABLE_PREVIEW)
         ? { ...b, data: { ...b.data, rows: b.data.rows.slice(0, GRAM_LESSON_TABLE_PREVIEW) },
@@ -3569,6 +3588,7 @@ function openGrammarTopic(topic){
       gramwordState.pattern = 'all';
       gramwordState.ctype = 'all';
       gramwordState.ltype = 'all';
+      gramwordState.itype = 'all';
       gramwordState.page = 1;
       document.getElementById('gramwordSearch').value = '';
       goToPage('gramword');
@@ -3875,9 +3895,13 @@ document.getElementById('grammarClearFilters').addEventListener('click', () => {
 });
 
 /* ── Grammar Word page — irregular forms reference ── */
-const gramwordState = { set: 'verbs', search: '', pattern: 'all', ctype: 'all', ltype: 'all', page: 1 };
+const gramwordState = { set: 'verbs', search: '', pattern: 'all', ctype: 'all', ltype: 'all', itype: 'all', page: 1 };
 const GRAMWORD_PER_PAGE = 25;
 const GRAMWORD_SOURCES = { verbs: 'irregular-verbs', comparisons: 'comparison-structures', linkers: 'conjunctions' };
+const GRAMWORD_TOPIC_SETS = {
+  'irregular-verbs': 'verbs', 'comparison-structures': 'comparisons', 'conjunctions': 'linkers',
+  'everyday-idioms': 'idioms', 'conversational-idioms': 'idioms', 'advanced-formal-idioms': 'idioms',
+};
 /* Linking words — coordinating (FANBOYS), subordinating, correlative pairs
    and advanced academic transitions. [word, function, example, type] */
 const GRAMWORD_LTYPE_META = {
@@ -3887,6 +3911,105 @@ const GRAMWORD_LTYPE_META = {
   adv:     { label: 'advanced',      color: '#f43f5e' },
   formal:  { label: 'formal',        color: '#f59e0b' },
 };
+/* Idioms — six levels incl. classic proverbs, formal allusions and British colour. */
+const GRAMWORD_ITYPE_META = {
+  basic:   { label: 'basic',        color: '#10b981' },
+  inter:   { label: 'intermediate', color: '#3b82f6' },
+  adv:     { label: 'advanced',     color: '#a855f7' },
+  classic: { label: 'classic',      color: '#f59e0b' },
+  formal:  { label: 'formal',       color: '#f43f5e' },
+  brit:    { label: 'British',      color: '#06b6d4' },
+};
+const GRAMWORD_IDIOMS = [
+  ["a piece of cake", "very easy", "The quiz was a piece of cake.", "basic"],
+  ["break the ice", "ease the first awkward moments", "A joke broke the ice at the meeting.", "basic"],
+  ["hit the books", "study hard", "Exams start Monday, so I'm hitting the books.", "basic"],
+  ["under the weather", "slightly ill", "He stayed home, feeling under the weather.", "basic"],
+  ["once in a blue moon", "very rarely", "We eat out once in a blue moon.", "basic"],
+  ["cost an arm and a leg", "be very expensive", "The tickets cost an arm and a leg.", "basic"],
+  ["in hot water", "in trouble", "She's in hot water over the missed deadline.", "basic"],
+  ["call it a day", "stop working for the day", "It's late — let's call it a day.", "basic"],
+  ["on the same page", "in agreement", "Let's make sure we're on the same page.", "basic"],
+  ["out of the blue", "unexpectedly", "The offer came out of the blue.", "basic"],
+  ["in a nutshell", "summarised briefly", "In a nutshell, we need more time.", "basic"],
+  ["the icing on the cake", "an extra good thing on top", "The bonus was the icing on the cake.", "basic"],
+  ["keep an eye on", "watch carefully", "Keep an eye on the oven, please.", "basic"],
+  ["run out of steam", "lose energy or momentum", "The project ran out of steam by June.", "basic"],
+  ["a no-brainer", "an obvious, easy decision", "Taking the scholarship was a no-brainer.", "basic"],
+  ["easier said than done", "harder in practice than in theory", "Saving money is easier said than done.", "basic"],
+  ["better late than never", "late is still better than not at all", "He finally apologised — better late than never.", "basic"],
+  ["have second thoughts", "start doubting a decision", "She's having second thoughts about moving.", "basic"],
+  ["spill the beans", "reveal a secret", "Who spilled the beans about the party?", "inter"],
+  ["let the cat out of the bag", "reveal a secret accidentally", "He let the cat out of the bag at dinner.", "inter"],
+  ["bite the bullet", "force yourself to do something unpleasant", "I bit the bullet and booked the dentist.", "inter"],
+  ["hit the nail on the head", "describe it exactly right", "Your summary hit the nail on the head.", "inter"],
+  ["the ball is in your court", "it is your turn to act", "We've made our offer — the ball is in your court.", "inter"],
+  ["burn the midnight oil", "work late into the night", "She burned the midnight oil before the deadline.", "inter"],
+  ["get cold feet", "lose your nerve before a commitment", "He got cold feet before signing.", "inter"],
+  ["sit on the fence", "avoid taking sides", "Stop sitting on the fence and vote.", "inter"],
+  ["throw in the towel", "give up", "After ten attempts, they threw in the towel.", "inter"],
+  ["cut corners", "do something cheaply and badly", "The builder cut corners on the wiring.", "inter"],
+  ["the last straw", "the final problem that makes you act", "The third delay was the last straw.", "inter"],
+  ["a blessing in disguise", "bad luck that turns out well", "Missing that flight was a blessing in disguise.", "inter"],
+  ["barking up the wrong tree", "pursuing the wrong target", "If you suspect me, you're barking up the wrong tree.", "inter"],
+  ["jump on the bandwagon", "join something because it is popular", "Brands jumped on the eco bandwagon.", "inter"],
+  ["play it by ear", "decide as the situation develops", "No fixed plan — we'll play it by ear.", "inter"],
+  ["go the extra mile", "do more than is expected", "She always goes the extra mile for clients.", "inter"],
+  ["read between the lines", "understand what is implied", "Read between the lines — he wants to resign.", "inter"],
+  ["up in the air", "still undecided", "Our travel plans are still up in the air.", "inter"],
+  ["the elephant in the room", "the obvious issue nobody mentions", "Nobody mentioned the elephant in the room: funding.", "adv"],
+  ["the tip of the iceberg", "the visible fraction of a bigger problem", "Reported cases are the tip of the iceberg.", "adv"],
+  ["a slippery slope", "a small step that leads to worse", "Banning books is a slippery slope.", "adv"],
+  ["a double-edged sword", "equal benefits and harms", "Remote work is a double-edged sword.", "adv"],
+  ["play devil's advocate", "argue the opposite to test an idea", "Let me play devil's advocate for a moment.", "adv"],
+  ["a red herring", "a misleading distraction", "The cost argument is a red herring.", "adv"],
+  ["a silver bullet", "a single magical solution", "There is no silver bullet for inflation.", "adv"],
+  ["a white elephant", "an expensive, useless project", "The stadium became a white elephant.", "adv"],
+  ["a cash cow", "a reliable source of profit", "The app is the firm's cash cow.", "adv"],
+  ["moving the goalposts", "changing the rules mid-game", "Regulators keep moving the goalposts.", "adv"],
+  ["a level playing field", "fair, equal conditions", "Small firms want a level playing field.", "adv"],
+  ["the lion's share", "the largest portion", "Marketing takes the lion's share of the budget.", "adv"],
+  ["raining cats and dogs", "raining heavily (dated)", "It was raining cats and dogs all night.", "classic"],
+  ["a stitch in time saves nine", "fix it early, save work later", "Service the car now — a stitch in time saves nine.", "classic"],
+  ["the early bird catches the worm", "the earliest gets the advantage", "She applies first — the early bird catches the worm.", "classic"],
+  ["don't count your chickens before they hatch", "don't assume success too early", "No celebrating yet — don't count your chickens before they hatch.", "classic"],
+  ["every cloud has a silver lining", "every misfortune has some good", "Every cloud has a silver lining — I found a better job.", "classic"],
+  ["actions speak louder than words", "deeds matter more than promises", "Show us — actions speak louder than words.", "classic"],
+  ["the pot calling the kettle black", "criticising a fault you share", "Him calling me lazy is the pot calling the kettle black.", "classic"],
+  ["burn the candle at both ends", "exhaust yourself working day and night", "She's burning the candle at both ends this term.", "classic"],
+  ["a penny for your thoughts", "tell me what you're thinking", "You're quiet — a penny for your thoughts?", "classic"],
+  ["break a leg", "good luck (before a performance)", "Break a leg at the audition tonight!", "classic"],
+  ["when in Rome, do as the Romans do", "follow local customs", "I tried the local diet — when in Rome, do as the Romans do.", "classic"],
+  ["the grass is always greener on the other side", "other situations always look better", "He envies freelancers, but the grass is always greener on the other side.", "classic"],
+  ["too many cooks spoil the broth", "too many people ruin the work", "Five editors, one paragraph — too many cooks spoil the broth.", "classic"],
+  ["kill two birds with one stone", "achieve two things with one action", "Cycling to work kills two birds with one stone.", "classic"],
+  ["a Trojan horse", "a hidden threat inside something welcome", "Free apps can be a Trojan horse for data collection.", "formal"],
+  ["an Achilles heel", "the single fatal weakness", "Distribution is the company's Achilles heel.", "formal"],
+  ["robbing Peter to pay Paul", "fixing one debt by creating another", "Cutting schools to fund clinics is robbing Peter to pay Paul.", "formal"],
+  ["a Pyrrhic victory", "a win that costs more than it gains", "The lawsuit was a Pyrrhic victory.", "formal"],
+  ["crossing the Rubicon", "passing the point of no return", "Signing the treaty meant crossing the Rubicon.", "formal"],
+  ["opening Pandora's box", "unleashing uncontrollable problems", "Editing genes may open Pandora's box.", "formal"],
+  ["a sword of Damocles", "a constant looming threat", "The audit hangs over them like a sword of Damocles.", "formal"],
+  ["cutting the Gordian knot", "solving an impossible problem boldly", "The reform cut the Gordian knot of red tape.", "formal"],
+  ["a paper tiger", "something that looks strong but is weak", "The regulator proved a paper tiger.", "formal"],
+  ["a Sisyphean task", "endless, futile work", "Moderating spam is a Sisyphean task.", "formal"],
+  ["the Midas touch", "success in everything one starts", "Investors say she has the Midas touch.", "formal"],
+  ["a Faustian bargain", "gaining now at a terrible later cost", "Cheap coal is a Faustian bargain.", "formal"],
+  ["not my cup of tea", "not to my taste", "Opera is not my cup of tea.", "brit"],
+  ["over the moon", "extremely pleased", "She was over the moon about the results.", "brit"],
+  ["chuffed to bits", "very pleased (informal)", "I'm chuffed to bits with my new bike.", "brit"],
+  ["gutted", "deeply disappointed (informal)", "He was gutted to miss the final.", "brit"],
+  ["a storm in a teacup", "big fuss about a small matter", "The scandal was a storm in a teacup.", "brit"],
+  ["throw a spanner in the works", "disrupt a plan", "The strike threw a spanner in the works.", "brit"],
+  ["go pear-shaped", "go wrong", "The picnic went pear-shaped when it rained.", "brit"],
+  ["Bob's your uncle", "and there you have it — done", "Add hot water, stir, and Bob's your uncle.", "brit"],
+  ["donkey's years", "a very long time", "We haven't met for donkey's years.", "brit"],
+  ["cheap as chips", "very inexpensive", "The market stalls are cheap as chips.", "brit"],
+  ["at a loose end", "with nothing to do", "Call me if you're at a loose end this weekend.", "brit"],
+  ["full of beans", "lively and energetic", "The kids are full of beans this morning.", "brit"],
+  ["lose the plot", "stop behaving sensibly", "He lost the plot during the negotiation.", "brit"],
+  ["take the mickey", "tease or mock (informal)", "They took the mickey out of my accent.", "brit"],
+];
 const GRAMWORD_LINKERS = [
   ['for', 'reason (formal)', 'He stayed indoors, for the storm was close.', 'fanboys'],
   ['and', 'addition', 'Demand rose, and prices followed.', 'fanboys'],
@@ -4055,9 +4178,12 @@ function renderGramword(){
       b.classList.toggle('active', b.dataset.gramwordCtype === gramwordState.ctype));
     document.querySelectorAll('[data-gramword-ltype]').forEach(b =>
       b.classList.toggle('active', b.dataset.gramwordLtype === gramwordState.ltype));
+    document.querySelectorAll('[data-gramword-itype]').forEach(b =>
+      b.classList.toggle('active', b.dataset.gramwordItype === gramwordState.itype));
     document.getElementById('gramwordPatternRow').style.display = isVerbs ? '' : 'none';
     document.getElementById('gramwordTypeRow').style.display = gramwordState.set === 'comparisons' ? '' : 'none';
     document.getElementById('gramwordLtypeRow').style.display = gramwordState.set === 'linkers' ? '' : 'none';
+    document.getElementById('gramwordItypeRow').style.display = gramwordState.set === 'idioms' ? '' : 'none';
 
     const topic = stages.flatMap(s => s.topics).find(t => t.slug === GRAMWORD_SOURCES[gramwordState.set]);
     const block = topic && (topic.lesson || []).find(b => b.type === 'table');
@@ -4103,7 +4229,7 @@ function renderGramword(){
         const pill = `<span class="cat-cefr-pill" style="background:${meta.color}1c;border:1px solid ${meta.color}55;color:${meta.color}">${meta.label}</span>`;
         return `<tr>${e.r.map((c, i) => `<td>${i === 0 ? `<b>${c}</b>` : c}</td>`).join('')}<td>${pill}</td></tr>`;
       }).join('');
-    } else {
+    } else if (gramwordState.set === 'linkers'){
       let entries = GRAMWORD_LINKERS;
       if (gramwordState.ltype !== 'all') entries = entries.filter(e => e[3] === gramwordState.ltype);
       const fold = t => String(t).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[-–]/g, ' ');
@@ -4115,6 +4241,20 @@ function renderGramword(){
       head = '<th>Linker</th><th>Function</th><th>Example</th><th>Family</th>';
       body = pageEntries.map(e => {
         const meta = GRAMWORD_LTYPE_META[e[3]];
+        const pill = `<span class="cat-cefr-pill" style="background:${meta.color}1c;border:1px solid ${meta.color}55;color:${meta.color}">${meta.label}</span>`;
+        return `<tr><td><b>${e[0]}</b></td><td>${e[1]}</td><td><em>${e[2]}</em></td><td>${pill}</td></tr>`;
+      }).join('');
+    } else {
+      let entries = GRAMWORD_IDIOMS;
+      if (gramwordState.itype !== 'all') entries = entries.filter(e => e[3] === gramwordState.itype);
+      if (q) entries = entries.filter(e => e.slice(0, 3).some(c => String(c).toLowerCase().includes(q)));
+      count = entries.length; unit = 'idiom';
+      const totalPages = Math.max(1, Math.ceil(count / GRAMWORD_PER_PAGE));
+      if (gramwordState.page > totalPages) gramwordState.page = totalPages;
+      const pageEntries = entries.slice((gramwordState.page - 1) * GRAMWORD_PER_PAGE, gramwordState.page * GRAMWORD_PER_PAGE);
+      head = '<th>Idiom</th><th>Meaning</th><th>Example</th><th>Level</th>';
+      body = pageEntries.map(e => {
+        const meta = GRAMWORD_ITYPE_META[e[3]];
         const pill = `<span class="cat-cefr-pill" style="background:${meta.color}1c;border:1px solid ${meta.color}55;color:${meta.color}">${meta.label}</span>`;
         return `<tr><td><b>${e[0]}</b></td><td>${e[1]}</td><td><em>${e[2]}</em></td><td>${pill}</td></tr>`;
       }).join('');
@@ -4153,6 +4293,14 @@ document.querySelectorAll('#gramwordSetBar .headline-btn').forEach(btn => {
     gramwordState.pattern = 'all';
     gramwordState.ctype = 'all';
     gramwordState.ltype = 'all';
+    gramwordState.itype = 'all';
+    gramwordState.page = 1;
+    renderGramword();
+  });
+});
+document.querySelectorAll('[data-gramword-itype]').forEach(chip => {
+  chip.addEventListener('click', () => {
+    gramwordState.itype = chip.dataset.gramwordItype;
     gramwordState.page = 1;
     renderGramword();
   });
