@@ -3367,14 +3367,11 @@ function grammarBlockHtml(block){
 
 const grammarQuiz = { topic: null, questions: [], idx: 0, score: 0 };
 
+/* Strict comparison: capitalisation, spacing and final punctuation all count.
+   Only the apostrophe glyph (curly vs straight) is normalised — different
+   correct interpretations belong in the question's answers list instead. */
 function grammarNorm(s){
-  return String(s)
-    .replace(/[’‘]/g, "'")   // curly → straight apostrophe
-    .replace(/\s+/g, ' ')
-    .trim()
-    .replace(/[.!?]+$/, '')            // trailing sentence punctuation is optional
-    .trim()
-    .toLowerCase();
+  return String(s).replace(/[’‘]/g, "'").trim();
 }
 
 function startGrammarQuiz(topic){

@@ -199,8 +199,7 @@
         "qtype": "transform",
         "prompt": "Rewrite in the present continuous to describe a trend visible right now on the graph: \"The population increases every year.\"",
         "answers": [
-          "The population is increasing every year.",
-          "The population is increasing every year"
+          "The population is increasing every year."
         ],
         "why": "A trend described as currently happening takes the present continuous."
       }
@@ -402,8 +401,7 @@
         "qtype": "transform",
         "prompt": "Rewrite using the past continuous and past simple together, showing one action interrupting the other: \"The team analysed the results. At the same time, a new report was published.\"",
         "answers": [
-          "While the team was analysing the results, a new report was published.",
-          "While the team was analysing the results, a new report was published"
+          "While the team was analysing the results, a new report was published."
         ],
         "why": "The longer background action takes the past continuous; the shorter completed action takes the past simple."
       }
@@ -605,7 +603,6 @@
         "prompt": "Rewrite as a prediction based on present evidence: \"Sales figures are falling. They will drop below target.\"",
         "answers": [
           "Sales figures are falling. They are going to drop below target.",
-          "Sales figures are falling. They are going to drop below target",
           "Sales figures are falling. They're going to drop below target."
         ],
         "why": "A prediction based on visible current evidence uses \"going to\", not \"will\"."
@@ -1006,8 +1003,7 @@
         "qtype": "transform",
         "prompt": "Rewrite with the correct word forms: \"The company announced a significant expand, and sales grew successful.\"",
         "answers": [
-          "The company announced a significant expansion, and sales grew successfully.",
-          "The company announced a significant expansion, and sales grew successfully"
+          "The company announced a significant expansion, and sales grew successfully."
         ],
         "why": "\"Expand\" (verb) should be the noun \"expansion\"; \"successful\" (adjective) should be the adverb \"successfully\" to modify \"grew\"."
       }
@@ -1214,8 +1210,7 @@
         "qtype": "transform",
         "prompt": "Rewrite with the correct articles: \"Graph shows increase in number of tourists.\"",
         "answers": [
-          "The graph shows an increase in the number of tourists.",
-          "The graph shows an increase in the number of tourists"
+          "The graph shows an increase in the number of tourists."
         ],
         "why": "The known visual takes \"the\"; a first-mention rise takes \"an\"; \"the number of\" is fixed."
       }
@@ -1416,11 +1411,8 @@
         "prompt": "Rewrite correcting the noun forms: \"The childs gave many informations about their familys.\"",
         "answers": [
           "The children gave a lot of information about their families.",
-          "The children gave a lot of information about their families",
           "The children gave lots of information about their families.",
-          "The children gave lots of information about their families",
-          "The children gave much information about their families.",
-          "The children gave much information about their families"
+          "The children gave much information about their families."
         ],
         "why": "\"Child\" becomes \"children\"; \"information\" is uncountable so it takes no plural; \"family\" becomes \"families\"."
       }
@@ -1627,9 +1619,7 @@
         "prompt": "Rewrite correcting the quantifiers: \"There is many reason for the delay, and we don't have much problems left to solve.\"",
         "answers": [
           "There are many reasons for the delay, and we don't have many problems left to solve.",
-          "There are many reasons for the delay, and we don't have many problems left to solve",
-          "There are many reasons for the delay, and we do not have many problems left to solve.",
-          "There are many reasons for the delay, and we do not have many problems left to solve"
+          "There are many reasons for the delay, and we do not have many problems left to solve."
         ],
         "why": "\"Reasons\" and \"problems\" are countable plural nouns, so they need \"there are\" and \"many\", not \"there is\" and \"much\"."
       }
@@ -1838,9 +1828,7 @@
         "prompt": "Rewrite correcting the pronouns: \"Me and him submitted our report, and the results surprised we.\"",
         "answers": [
           "He and I submitted our report, and the results surprised us.",
-          "He and I submitted our report, and the results surprised us",
-          "He and I submitted our report and the results surprised us.",
-          "He and I submitted our report and the results surprised us"
+          "He and I submitted our report and the results surprised us."
         ],
         "why": "Subject pronouns (\"he\", \"I\") are needed before the verb, and the object pronoun \"us\" is needed after \"surprised\"."
       }
@@ -2041,9 +2029,7 @@
         "prompt": "Rewrite as one comparative sentence: \"Country A's economy grew fast. Country B's economy grew faster than that.\"",
         "answers": [
           "Country B's economy grew faster than Country A's.",
-          "Country B's economy grew faster than Country A's",
-          "Country B's economy grew faster than Country A's economy.",
-          "Country B's economy grew faster than Country A's economy"
+          "Country B's economy grew faster than Country A's economy."
         ],
         "why": "A comparative adjective + \"than\" combines the two ideas into a single comparison."
       }
@@ -2244,9 +2230,7 @@
         "prompt": "Rewrite correcting the prepositions: \"The study was conducted on 2019, and the results were published at March.\"",
         "answers": [
           "The study was conducted in 2019, and the results were published in March.",
-          "The study was conducted in 2019, and the results were published in March",
-          "The study was conducted in 2019 and the results were published in March.",
-          "The study was conducted in 2019 and the results were published in March"
+          "The study was conducted in 2019 and the results were published in March."
         ],
         "why": "Years and months take \"in\", not \"on\" or \"at\"."
       }
@@ -2447,9 +2431,7 @@
         "prompt": "Rewrite with the adverb in the correct position: \"She reviewed careful the report before the meeting.\"",
         "answers": [
           "She carefully reviewed the report before the meeting.",
-          "She carefully reviewed the report before the meeting",
-          "She reviewed the report carefully before the meeting.",
-          "She reviewed the report carefully before the meeting"
+          "She reviewed the report carefully before the meeting."
         ],
         "why": "The adverb of manner \"carefully\" should either precede the verb or follow the object, not interrupt the verb and its object."
       }
@@ -2651,9 +2633,7 @@
         "prompt": "Rewrite using the present perfect: \"The last time I saw her was three years ago.\"",
         "answers": [
           "I haven't seen her for three years.",
-          "I have not seen her for three years.",
-          "I haven't seen her for three years",
-          "I have not seen her for three years"
+          "I have not seen her for three years."
         ],
         "why": "The negative present perfect with \"for\" expresses time since a past action up to now."
       }
@@ -2822,8 +2802,7 @@
         "qtype": "transform",
         "prompt": "Rewrite in the passive: \"Someone stole my laptop last night.\"",
         "answers": [
-          "My laptop was stolen last night.",
-          "My laptop was stolen last night"
+          "My laptop was stolen last night."
         ],
         "why": "The unknown agent (\"someone\") is dropped and the focus shifts to the laptop, the receiver of the action."
       },
@@ -2853,8 +2832,7 @@
         "qtype": "transform",
         "prompt": "Rewrite in the passive: \"The company will launch the product next month.\"",
         "answers": [
-          "The product will be launched next month.",
-          "The product will be launched next month"
+          "The product will be launched next month."
         ],
         "why": "The future passive (will be + past participle) shifts focus from the company to the product."
       }
@@ -3056,10 +3034,7 @@
         "answers": [
           "She said (that) she had lost her keys.",
           "She said she had lost her keys.",
-          "She said that she had lost her keys.",
-          "She said (that) she had lost her keys",
-          "She said she had lost her keys",
-          "She said that she had lost her keys"
+          "She said that she had lost her keys."
         ],
         "why": "Present perfect back-shifts to past perfect, and \"my\" shifts to \"her\"."
       }
@@ -3271,9 +3246,7 @@
         "prompt": "Rewrite as a third conditional: \"She didn't warn us, so we made a mistake.\"",
         "answers": [
           "If she had warned us, we wouldn't have made a mistake.",
-          "If she had warned us, we would not have made a mistake.",
-          "If she had warned us, we wouldn't have made a mistake",
-          "If she had warned us, we would not have made a mistake"
+          "If she had warned us, we would not have made a mistake."
         ],
         "why": "The unreal past cause and result both take third conditional forms: had warned / would (not) have made."
       }
@@ -3480,9 +3453,7 @@
         "prompt": "Combine using a relative clause: \"The professor won an award. She teaches linguistics.\"",
         "answers": [
           "The professor who teaches linguistics won an award.",
-          "The professor, who teaches linguistics, won an award.",
-          "The professor who teaches linguistics won an award",
-          "The professor, who teaches linguistics, won an award"
+          "The professor, who teaches linguistics, won an award."
         ],
         "why": "\"Who\" introduces a clause identifying or adding information about the professor."
       }
@@ -3684,8 +3655,7 @@
         "qtype": "transform",
         "prompt": "Rewrite using \"must\" for logical deduction: \"I'm sure he is the manager because he has the office keys.\"",
         "answers": [
-          "He must be the manager.",
-          "He must be the manager"
+          "He must be the manager."
         ],
         "why": "\"Must\" expresses a confident deduction based on evidence."
       }
@@ -3885,8 +3855,7 @@
         "qtype": "transform",
         "prompt": "Rewrite so the sentence uses \"to + infinitive\": \"She managed finishing the project on time.\"",
         "answers": [
-          "She managed to finish the project on time.",
-          "She managed to finish the project on time"
+          "She managed to finish the project on time."
         ],
         "why": "\"Manage\" takes a to-infinitive, not a gerund."
       }
@@ -4086,8 +4055,7 @@
         "qtype": "transform",
         "prompt": "Rewrite using \"used to\": \"She smoked when she was younger, but she doesn't anymore.\"",
         "answers": [
-          "She used to smoke when she was younger.",
-          "She used to smoke when she was younger"
+          "She used to smoke when she was younger."
         ],
         "why": "\"Used to\" describes a past habit that is no longer true."
       }
@@ -4289,8 +4257,7 @@
         "qtype": "transform",
         "prompt": "Rewrite using \"wish\": \"I regret not buying that house.\"",
         "answers": [
-          "I wish I had bought that house.",
-          "I wish I had bought that house"
+          "I wish I had bought that house."
         ],
         "why": "A regret about a past action takes \"wish + past perfect\"."
       }
@@ -4487,9 +4454,7 @@
         "prompt": "Rewrite using a causative structure: \"A mechanic services her car every year.\"",
         "answers": [
           "She has her car serviced every year.",
-          "She gets her car serviced every year.",
-          "She has her car serviced every year",
-          "She gets her car serviced every year"
+          "She gets her car serviced every year."
         ],
         "why": "The causative shifts focus from the mechanic (agent) to the person arranging the service."
       }
@@ -4687,9 +4652,7 @@
         "prompt": "Rewrite as an indirect question: \"What time does the museum close?\"",
         "answers": [
           "Could you tell me what time the museum closes?",
-          "Do you know what time the museum closes?",
-          "Could you tell me what time the museum closes",
-          "Do you know what time the museum closes"
+          "Do you know what time the museum closes?"
         ],
         "why": "A polite frame plus statement word order (the museum closes) forms the indirect question."
       }
@@ -4895,9 +4858,7 @@
         "prompt": "Combine using \"so...that\": \"The music was very loud. We couldn't hear each other.\"",
         "answers": [
           "The music was so loud that we couldn't hear each other.",
-          "The music was so loud that we could not hear each other.",
-          "The music was so loud that we couldn't hear each other",
-          "The music was so loud that we could not hear each other"
+          "The music was so loud that we could not hear each other."
         ],
         "why": "\"So\" + adjective + \"that\" links the cause (loud music) to the result (couldn't hear)."
       }
@@ -5101,8 +5062,7 @@
         "qtype": "transform",
         "prompt": "Rewrite using inversion: \"If the company had known about the defect, it would have issued a recall.\"",
         "answers": [
-          "Had the company known about the defect, it would have issued a recall.",
-          "Had the company known about the defect, it would have issued a recall"
+          "Had the company known about the defect, it would have issued a recall."
         ],
         "why": "“Had”-inversion replaces “If the company had known…” in formal style."
       }
@@ -5305,9 +5265,7 @@
         "prompt": "Rewrite as an it-cleft to focus on \"the new manager\": \"The new manager introduced these changes.\"",
         "answers": [
           "It was the new manager who introduced these changes.",
-          "It was the new manager who introduced these changes",
-          "It was the new manager that introduced these changes.",
-          "It was the new manager that introduced these changes"
+          "It was the new manager that introduced these changes."
         ],
         "why": "It-cleft “It was X who/that…” shifts focus onto “the new manager”."
       }
@@ -5514,8 +5472,7 @@
         "qtype": "transform",
         "prompt": "Rewrite using a mandative subjunctive: \"The dean insists that all staff must attend the meeting.\"",
         "answers": [
-          "The dean insists that all staff attend the meeting.",
-          "The dean insists that all staff attend the meeting"
+          "The dean insists that all staff attend the meeting."
         ],
         "why": "Mandative subjunctive drops the modal “must” and uses the bare base form “attend” after “insists that”."
       }
@@ -5723,7 +5680,6 @@
         "prompt": "Rewrite using \"shouldn't have\": \"It was a mistake for the team to ignore the warning signs.\"",
         "answers": [
           "The team shouldn't have ignored the warning signs.",
-          "The team shouldn't have ignored the warning signs",
           "The team should not have ignored the warning signs."
         ],
         "why": "“Shouldn't have + V3” criticises the team's past action of ignoring the warnings."
@@ -5924,8 +5880,7 @@
         "qtype": "transform",
         "prompt": "Combine into one sentence using a participle clause: \"She had reviewed all the applications. Then she shortlisted five candidates.\"",
         "answers": [
-          "Having reviewed all the applications, she shortlisted five candidates.",
-          "Having reviewed all the applications, she shortlisted five candidates"
+          "Having reviewed all the applications, she shortlisted five candidates."
         ],
         "why": "“Having reviewed + V3” shows the review was completed before the shortlisting."
       }
@@ -6131,9 +6086,7 @@
         "prompt": "Rewrite using a nominalised form of \"increase\": \"Prices increased sharply after the storm.\"",
         "answers": [
           "There was a sharp increase in prices after the storm.",
-          "There was a sharp increase in prices after the storm",
-          "A sharp increase in prices followed the storm.",
-          "A sharp increase in prices followed the storm"
+          "A sharp increase in prices followed the storm."
         ],
         "why": "“Increase” as a noun packages the verb clause into a noun phrase, typical of formal academic style."
       }
@@ -6325,9 +6278,7 @@
         "prompt": "Rewrite to hedge this overstated claim: \"This proves that social media causes anxiety in teenagers.\"",
         "answers": [
           "This suggests that social media may cause anxiety in teenagers.",
-          "This suggests that social media may cause anxiety in teenagers",
-          "This suggests that social media could cause anxiety in teenagers.",
-          "This suggests that social media could cause anxiety in teenagers"
+          "This suggests that social media could cause anxiety in teenagers."
         ],
         "why": "“Suggests” and “may/could” replace the absolute claim “proves” with a cautious, evidence-based one."
       }
@@ -6524,8 +6475,7 @@
         "qtype": "transform",
         "prompt": "Combine into a mixed conditional (past cause, present result): \"She didn't take the internship. She isn't working in finance now.\"",
         "answers": [
-          "If she had taken the internship, she would be working in finance now.",
-          "If she had taken the internship, she would be working in finance now"
+          "If she had taken the internship, she would be working in finance now."
         ],
         "why": "A past unreal cause (didn't take the internship) plus a present unreal result (isn't working in finance) needs “if + past perfect, would + base”."
       }
@@ -6730,8 +6680,7 @@
         "qtype": "transform",
         "prompt": "Rewrite using ellipsis to avoid repeating the verb phrase: \"My sister can drive a car, and my brother can drive a car too.\"",
         "answers": [
-          "My sister can drive a car, and my brother can too.",
-          "My sister can drive a car, and my brother can too"
+          "My sister can drive a car, and my brother can too."
         ],
         "why": "Ellipsis omits the repeated verb phrase “drive a car” after the auxiliary “can”."
       }
@@ -6931,8 +6880,7 @@
         "qtype": "transform",
         "prompt": "Rewrite using extraposition with 'it': \"That the experiment failed twice was disappointing.\"",
         "answers": [
-          "It was disappointing that the experiment failed twice.",
-          "It was disappointing that the experiment failed twice"
+          "It was disappointing that the experiment failed twice."
         ],
         "why": "Extraposition moves the heavy clausal subject after “it was disappointing”."
       }
@@ -7133,9 +7081,7 @@
         "prompt": "Rewrite fronting the object for emphasis: \"Few researchers would dispute this finding.\"",
         "answers": [
           "This finding, few researchers would dispute.",
-          "This finding, few researchers would dispute",
-          "This finding few researchers would dispute.",
-          "This finding few researchers would dispute"
+          "This finding few researchers would dispute."
         ],
         "why": "Fronting the object “this finding” places emphasis on it and links back to earlier discussion."
       }
@@ -7340,11 +7286,8 @@
         "prompt": "Rewrite replacing 'very' with a more natural intensifier for this extreme adjective: \"The results were very astonishing.\"",
         "answers": [
           "The results were absolutely astonishing.",
-          "The results were absolutely astonishing",
           "The results were utterly astonishing.",
-          "The results were utterly astonishing",
-          "The results were completely astonishing.",
-          "The results were completely astonishing"
+          "The results were completely astonishing."
         ],
         "why": "“Astonishing” is an extreme adjective; it collocates with “absolutely/utterly/completely”, not the gradable intensifier “very”."
       }
