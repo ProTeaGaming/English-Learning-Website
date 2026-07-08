@@ -1887,6 +1887,9 @@ function iconSvg(emoji, cls){
         <div class="search-row" style="position:relative;">
           <input type="search" id="catSearchInput" placeholder="Search words, definitions, synonyms…">
           <span class="result-count" id="listCount"></span>
+          <span class="dbg-ctl">
+            <button type="button" id="dbgAddWordBtn">+ Add word</button>
+          </span>
         </div>
         <div class="filter-row">
           <span class="filter-label">CEFR</span>
@@ -2456,6 +2459,7 @@ const HEX_TO_THEME = {
 let CATEGORIES  = [];
 let VOCAB_DATA  = [];
 let CAT_MAP     = {};
+let CEFR_LEVELS_RAW = [];
 const SECTIONS = {
   "neg-intensity": "Negative Qualities & Criticism",
   "deception-falsehood": "Negative Qualities & Criticism",
@@ -5160,12 +5164,14 @@ handleAuthDeepLinks();
    ════════════════════════════════════════════════════════ */
 async function loadVocab() {
   try {
-    const [catRes, wordRes] = await Promise.all([
+    const [catRes, wordRes, cefrRes] = await Promise.all([
       fetch(`${API_BASE}/categories/`),
       fetch(`${API_BASE}/words/`),
+      fetch(`${API_BASE}/cefr-levels/`),
     ]);
     const apiCats  = await catRes.json();
     const apiWords = await wordRes.json();
+    CEFR_LEVELS_RAW = await cefrRes.json();
 
     CATEGORIES = apiCats.map(c => ({
       id:      c.slug,
@@ -5173,6 +5179,12 @@ async function loadVocab() {
       icon:    c.icon,
       theme:   HEX_TO_THEME[c.bg_hex] || 'tb',
       section: SECTIONS[c.slug] || 'Other',
+      pk:            c.id,
+      slug:          c.slug,
+      order:         c.order,
+      cefr_level_id: c.cefr_level_id,
+      color_id:      c.color_id,
+      bg_hex:        c.bg_hex,
     }));
 
     const catIdToSlug = Object.fromEntries(apiCats.map(c => [c.id, c.slug]));
@@ -5187,6 +5199,9 @@ async function loadVocab() {
       gap:  w.gap,
       cefr: w.cefr_code,
       cat:  catIdToSlug[w.category_id],
+      pk:          w.id,
+      category_id: w.category_id,
+      order:       w.order,
     }));
 
     CAT_MAP       = Object.fromEntries(CATEGORIES.map(c => [c.id, c]));
@@ -5207,6 +5222,102 @@ async function loadVocab() {
 }
 
 loadVocab();
+
+/* ---------- Debug mode: vocab (categories + words) ---------- */
+function debugColorOptions(){
+  const seen = new Map();
+  CATEGORIES.forEach(c => { if (c.color_id != null && !seen.has(c.color_id)) seen.set(c.color_id, c.bg_hex || '#888'); });
+  return [...seen.entries()].map(([value, hex]) => ({ value, label: hex }));
+}
+
+const DEBUG_FORMS = {
+  word: [
+    { name: 'word',       label: 'Word',        type: 'text' },
+    { name: 'pos',        label: 'Part of speech', type: 'text' },
+    { name: 'definition', label: 'Definition',  type: 'textarea' },
+    { name: 'example',    label: 'Example',     type: 'textarea' },
+    { name: 'gap',        label: 'Gap sentence', type: 'textarea' },
+    { name: 'synonyms',   label: 'Synonyms (comma-separated)', type: 'csv' },
+    { name: 'antonyms',   label: 'Antonyms (comma-separated)', type: 'csv' },
+    { name: 'category',   label: 'Category',    type: 'select', options: () => CATEGORIES.map(c => ({ value: c.pk, label: c.name })) },
+    { name: 'cefr_level', label: 'CEFR level',  type: 'select', options: () => CEFR_LEVELS_RAW.map(l => ({ value: l.id, label: l.code })) },
+    { name: 'order',      label: 'Order',       type: 'number' },
+  ],
+  category: [
+    { name: 'slug',       label: 'Slug',  type: 'text' },
+    { name: 'name',       label: 'Name',  type: 'text' },
+    { name: 'icon',       label: 'Icon (emoji)', type: 'text' },
+    { name: 'cefr_level', label: 'CEFR level', type: 'select', options: () => CEFR_LEVELS_RAW.map(l => ({ value: l.id, label: l.code })) },
+    { name: 'color',      label: 'Color', type: 'select', options: () => debugColorOptions() },
+    { name: 'order',      label: 'Order', type: 'number' },
+  ],
+};
+
+async function debugRefreshVocab(){
+  await loadVocab();
+  if (catState.cat){
+    const cat = CATEGORIES.find(c => c.id === catState.cat);
+    if (cat){
+      document.getElementById("catViewIcon").innerHTML = iconSvg(cat.icon);
+      document.getElementById("catViewName").textContent = cat.name;
+      document.getElementById("catViewSub").textContent = `${(CAT_WORDS[cat.id]||[]).length} words · ${cat.section||""}`;
+    } else if (!CEFR_CATEGORIES.some(c => c.id === catState.cat)){
+      // the category being viewed was a real (non-CEFR-pseudo) category and it's gone — bail out
+      exitCatView();
+    }
+  }
+  if (currentModalWord){
+    const w = VOCAB_DATA.find(v => v.pk === currentModalWord.pk);
+    if (w) openWordModal(w); else closeWordModal();
+  }
+}
+
+function debugSaveWord(existing){
+  openDebugModal({
+    title: existing ? `Edit word: ${existing.w}` : 'Add word',
+    fields: DEBUG_FORMS.word,
+    initial: existing ? {
+      word: existing.w, pos: existing.pos, definition: existing.def,
+      example: existing.ex, gap: existing.gap, synonyms: existing.syn || [],
+      antonyms: existing.ant || [], category: existing.category_id,
+      cefr_level: (CEFR_LEVELS_RAW.find(l => l.code === existing.cefr) || {}).id,
+      order: existing.order,
+    } : { synonyms: [], antonyms: [], order: 0 },
+    onSave: async payload => {
+      if (existing) await debugFetch(`/api/words/${existing.pk}/`, 'PATCH', payload);
+      else          await debugFetch('/api/words/', 'POST', payload);
+      await debugRefreshVocab();
+    },
+  });
+}
+
+async function debugDeleteWord(word){
+  if (!await debugConfirm(`Delete "${word.w}"? This cannot be undone.`)) return;
+  await debugFetch(`/api/words/${word.pk}/`, 'DELETE');
+  await debugRefreshVocab();
+}
+
+function debugSaveCategory(existing){
+  openDebugModal({
+    title: existing ? `Edit category: ${existing.name}` : 'Add category',
+    fields: DEBUG_FORMS.category,
+    initial: existing ? {
+      slug: existing.slug, name: existing.name, icon: existing.icon,
+      cefr_level: existing.cefr_level_id, color: existing.color_id, order: existing.order,
+    } : { order: CATEGORIES.length },
+    onSave: async payload => {
+      if (existing) await debugFetch(`/api/categories/${existing.pk}/`, 'PATCH', payload);
+      else          await debugFetch('/api/categories/', 'POST', payload);
+      await debugRefreshVocab();
+    },
+  });
+}
+
+async function debugDeleteCategory(cat){
+  if (!await debugConfirm(`Delete category "${cat.name}" and ALL its words? This cannot be undone.`)) return;
+  await debugFetch(`/api/categories/${cat.pk}/`, 'DELETE');
+  await debugRefreshVocab();
+}
 
 /* ════════════════════════════════════════════════════════
    WORD LIST PAGE — section/category browser
@@ -5305,6 +5416,10 @@ function renderBrowseSection(sectionName, cats, num){
       <div class="cat-card-top">
         <span class="cat-tag">${iconSvg(cat.icon)} ${cefrCount !== null ? `${cefrCount} ${browseState.cefr} word${cefrCount!==1?"s":""}` : `${words.length} words`}</span>
         ${pillLevel ? cefrPillHtml(pillLevel) : ""}
+        ${cat.pk ? `<span class="dbg-ctl" data-dbg-cat-ctl>
+          <button type="button" class="dbg-edit-cat">✎</button>
+          <button type="button" class="dbg-delete-cat">✕</button>
+        </span>` : ""}
         <svg class="ico cat-arrow" aria-hidden="true"><use href="#i-arrow-up-right"/></svg>
       </div>
       <div class="cat-name">${cat.name}</div>
@@ -5318,8 +5433,21 @@ function renderBrowseSection(sectionName, cats, num){
           : `<span class="cat-plabel">${learnedCnt}/${words.length}${littleCnt>0?` · ${littleCnt}~`:""}</span>`}
       </div>`;
     card.addEventListener("click", () => enterCatView(cat));
+    const dbgCatCtl = card.querySelector("[data-dbg-cat-ctl]");
+    if (dbgCatCtl){
+      dbgCatCtl.addEventListener("click", e => e.stopPropagation());
+      dbgCatCtl.querySelector(".dbg-edit-cat").addEventListener("click", () => debugSaveCategory(cat));
+      dbgCatCtl.querySelector(".dbg-delete-cat").addEventListener("click", () => debugDeleteCategory(cat));
+    }
     grid.appendChild(card);
   });
+  if (debugOn()){
+    const addCard = document.createElement("div");
+    addCard.className = "dbg-add-card";
+    addCard.textContent = "+ Add category";
+    addCard.addEventListener("click", () => debugSaveCategory());
+    grid.appendChild(addCard);
+  }
   return wrap;
 }
 
@@ -5431,6 +5559,10 @@ function renderWordGrid(){
         <span class="cefr-badge ${word.cefr}">${word.cefr}</span>
       </div>
       <div class="reveal">
+        <span class="dbg-ctl" data-dbg-word-ctl>
+          <button type="button" class="dbg-edit-word">✎</button>
+          <button type="button" class="dbg-delete-word">✕</button>
+        </span>
         <div class="rdef">${word.def}</div>
         ${word.syn && word.syn.length ? `<div class="rrow"><b>Synonyms:</b> ${word.syn.join(", ")}</div>` : ""}
         ${word.ant && word.ant.length ? `<div class="rrow"><b>Antonyms:</b> ${word.ant.join(", ")}</div>` : ""}
@@ -5441,7 +5573,7 @@ function renderWordGrid(){
         </div>
       </div>`;
     card.addEventListener("click", (e) => {
-      if (e.target.closest(".learn-state-btn")) return;
+      if (e.target.closest(".learn-state-btn") || e.target.closest("[data-dbg-word-ctl]")) return;
       openWordModal(word);
     });
     const stateBtn = card.querySelector(".learn-state-btn");
@@ -5458,6 +5590,10 @@ function renderWordGrid(){
       saveLearned();
       if (catState.learned !== "all") renderWordGrid();
     });
+    const dbgWordCtl = card.querySelector("[data-dbg-word-ctl]");
+    dbgWordCtl.addEventListener("click", e => e.stopPropagation());
+    dbgWordCtl.querySelector(".dbg-edit-word").addEventListener("click", () => debugSaveWord(word));
+    dbgWordCtl.querySelector(".dbg-delete-word").addEventListener("click", () => debugDeleteWord(word));
     grid.appendChild(card);
   });
   if (typeof gsap !== "undefined"){
@@ -5559,6 +5695,7 @@ document.getElementById("catSearchInput").addEventListener("input", debounce(e =
   catState.search = e.target.value.trim();
   renderWordGrid();
 }, 150));
+document.getElementById("dbgAddWordBtn").addEventListener("click", () => debugSaveWord());
 document.querySelectorAll("[data-cat-cefr]").forEach(chip => {
   chip.addEventListener("click", () => {
     catState.cefr = chip.dataset.catCefr;
@@ -6345,7 +6482,9 @@ function showTestResult(){
 /* ════════════════════════════════════════════════════════
    WORD DETAIL MODAL
    ════════════════════════════════════════════════════════ */
+let currentModalWord = null;
 function openWordModal(word){
+  currentModalWord = word;
   const cat = CAT_MAP[word.cat];
   document.getElementById("word-modal-card").className = `modal-card t-${CEFR_THEME[word.cefr]||"tb"}`;
   document.getElementById("modal-word").textContent = word.w;
@@ -6368,6 +6507,7 @@ function openWordModal(word){
   document.body.style.overflow = "hidden";
 }
 function closeWordModal(){
+  currentModalWord = null;
   document.getElementById("word-modal").style.display = "none";
   document.body.style.overflow = "";
 }
@@ -6392,6 +6532,8 @@ document.addEventListener("click", e => {
   if (e.target.id === "word-modal") closeWordModal();
 });
 document.addEventListener("keydown", e => { if (e.key === "Escape") closeWordModal(); });
+document.getElementById("modalEditWordBtn").addEventListener("click", () => { if (currentModalWord) debugSaveWord(currentModalWord); });
+document.getElementById("modalDeleteWordBtn").addEventListener("click", () => { if (currentModalWord) debugDeleteWord(currentModalWord); });
 
 /* ════════════════════════════════════════════════════════
    INIT
@@ -6521,6 +6663,10 @@ document.getElementById("footerShareBtn")?.addEventListener("click", function(){
       <div class="modal-ex" id="modal-ex"></div>
       <div class="modal-cat" id="modal-cat"></div>
       <div id="modal-progress"></div>
+      <span class="dbg-ctl">
+        <button type="button" id="modalEditWordBtn">✎ Edit</button>
+        <button type="button" id="modalDeleteWordBtn">✕ Delete</button>
+      </span>
     </div>
   </div>
 </div>

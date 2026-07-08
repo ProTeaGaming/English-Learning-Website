@@ -41,6 +41,8 @@ def test_categories_endpoint_returns_list(sample_data):
     assert len(data) == 1
     assert data[0]['slug'] == 'strength'
     assert data[0]['bg_hex'] == '#3b82f6'
+    assert data[0]['cefr_level_id'] == sample_data['level'].id
+    assert data[0]['color_id'] == sample_data['color'].id
 
 
 @pytest.mark.django_db

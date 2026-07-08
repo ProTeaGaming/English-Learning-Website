@@ -40,7 +40,9 @@ def categories(request):
             'name':     c.name,
             'icon':     c.icon,
             'cefr_code': c.cefr_level.code if c.cefr_level else None,
+            'cefr_level_id': c.cefr_level_id,
             'bg_hex':   c.color.bg_hex if c.color else None,
+            'color_id': c.color_id,
             'text_hex': c.color.text_hex if c.color else None,
             'order':    c.order,
         }
