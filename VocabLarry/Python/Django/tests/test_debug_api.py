@@ -270,6 +270,16 @@ def test_staff_can_create_question_and_bad_mcq_rejected(logged_in, staff_user, t
 
 
 @pytest.mark.django_db
+def test_gap_question_with_empty_options_saves_cleanly(logged_in, staff_user, topic):
+    r = logged_in(staff_user).post('/api/grammar/questions/', {
+        'topic': topic.pk, 'qtype': 'gap', 'prompt': 'She ___ (go) home.',
+        'options': [], 'answers': ['went'], 'why': 'Past simple.', 'order': 3,
+    }, content_type='application/json')
+    assert r.status_code == 200
+    assert r.json()['options'] == []
+
+
+@pytest.mark.django_db
 def test_block_and_question_writes_reject_non_staff(logged_in, regular_user, topic):
     c = logged_in(regular_user)
     block = topic.blocks.first()

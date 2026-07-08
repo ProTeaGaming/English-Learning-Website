@@ -148,16 +148,25 @@ def _question_json(q):
             'options': q.options, 'answers': q.answers, 'why': q.why, 'order': q.order}
 
 
+_JSON_FIELDS = ('data', 'options', 'answers')
+
+
+def _jsonfield_safe(payload):
+    # forms.JSONField treats {} and [] as empty_values (coerced to None);
+    # pass JSON values as strings so empty dicts/lists survive validation.
+    safe = dict(payload)
+    for key in _JSON_FIELDS:
+        if key in safe and not isinstance(safe[key], str):
+            safe[key] = json.dumps(safe[key])
+    return safe
+
+
 def _child_create(request, form_cls, to_json):
     payload, err = _json_body(request)
     if err:
         return err
     topic = get_object_or_404(GrammarTopic, pk=payload.get('topic'))
-    # Convert JSONField dicts to JSON strings for form processing
-    form_data = dict(payload)
-    if 'data' in form_data and isinstance(form_data['data'], dict):
-        form_data['data'] = json.dumps(form_data['data'])
-    form = form_cls(form_data)
+    form = form_cls(_jsonfield_safe(payload))
     if not form.is_valid():
         return JsonResponse({'errors': form.errors}, status=400)
     obj = form.save(commit=False)
@@ -173,11 +182,7 @@ def _child_detail(request, obj, form_cls, to_json):
     payload, err = _json_body(request)
     if err:
         return err
-    # Convert JSONField dicts to JSON strings for form processing
-    form_data = dict(payload)
-    if 'data' in form_data and isinstance(form_data['data'], dict):
-        form_data['data'] = json.dumps(form_data['data'])
-    form = form_cls(form_data, instance=obj)
+    form = form_cls(_jsonfield_safe(payload), instance=obj)
     if not form.is_valid():
         return JsonResponse({'errors': form.errors}, status=400)
     return JsonResponse(to_json(form.save()))
