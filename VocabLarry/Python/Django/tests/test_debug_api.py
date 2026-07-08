@@ -288,3 +288,31 @@ def test_block_and_question_writes_reject_non_staff(logged_in, regular_user, top
     assert c.delete(f'/api/grammar/blocks/{block.pk}/').status_code == 403
     assert c.post('/api/grammar/questions/', {}, content_type='application/json').status_code == 403
     assert c.delete(f'/api/grammar/questions/{q.pk}/').status_code == 403
+
+
+@pytest.mark.django_db
+def test_word_detail_nonexistent_pk_returns_404(logged_in, staff_user):
+    c = logged_in(staff_user)
+    assert c.patch('/api/words/99999/', {}, content_type='application/json').status_code == 404
+    assert c.delete('/api/words/99999/').status_code == 404
+
+
+@pytest.mark.django_db
+def test_block_patch_cannot_move_to_another_topic(logged_in, staff_user, topic):
+    other = GrammarTopic.objects.create(
+        slug='other-topic', title='Other', tag='Voice',
+        cefr_label='B1', blurb='x', stage='independent', order=9)
+    block = topic.blocks.first()
+    r = logged_in(staff_user).patch(f'/api/grammar/blocks/{block.pk}/', {
+        'topic': other.pk, 'type': block.type, 'title': block.title,
+        'body': block.body, 'data': block.data, 'order': block.order,
+    }, content_type='application/json')
+    assert r.status_code == 200
+    block.refresh_from_db()
+    assert block.topic_id == topic.pk
+
+
+@pytest.mark.django_db
+def test_word_create_non_dict_json_returns_400(logged_in, staff_user):
+    r = logged_in(staff_user).post('/api/words/', '[1, 2]', content_type='application/json')
+    assert r.status_code == 400

@@ -2362,6 +2362,7 @@ function applyDebugMode(){
 async function debugFetch(url, method, payload){
   const res = await fetch(url, {
     method,
+    credentials: 'same-origin',
     headers: { 'Content-Type': 'application/json', 'X-CSRFToken': getCsrf() },
     body: payload === undefined ? undefined : JSON.stringify(payload),
   });
@@ -5375,8 +5376,10 @@ function debugSaveWord(existing){
 
 async function debugDeleteWord(word){
   if (!await debugConfirm(`Delete "${word.w}"? This cannot be undone.`)) return;
-  await debugFetch(`/api/words/${word.pk}/`, 'DELETE');
-  await debugRefreshVocab();
+  try {
+    await debugFetch(`/api/words/${word.pk}/`, 'DELETE');
+    await debugRefreshVocab();
+  } catch (e) { alert('Delete failed' + (e && e.error ? ': ' + e.error : '')); }
 }
 
 function debugSaveCategory(existing){
@@ -5397,8 +5400,10 @@ function debugSaveCategory(existing){
 
 async function debugDeleteCategory(cat){
   if (!await debugConfirm(`Delete category "${cat.name}" and ALL its words? This cannot be undone.`)) return;
-  await debugFetch(`/api/categories/${cat.pk}/`, 'DELETE');
-  await debugRefreshVocab();
+  try {
+    await debugFetch(`/api/categories/${cat.pk}/`, 'DELETE');
+    await debugRefreshVocab();
+  } catch (e) { alert('Delete failed' + (e && e.error ? ': ' + e.error : '')); }
 }
 
 /* ---------- Grammar debug forms + actions ---------- */
@@ -5467,8 +5472,10 @@ function debugSaveTopic(existing){
 async function debugDeleteTopic(topic){
   if (!await debugConfirm(
     `Delete topic "${topic.title}"? Its lesson blocks and questions are deleted too. This cannot be undone.`)) return;
-  await debugFetch(`/api/grammar/topics/${topic.id}/`, 'DELETE');
-  await debugRefreshGrammar();
+  try {
+    await debugFetch(`/api/grammar/topics/${topic.id}/`, 'DELETE');
+    await debugRefreshGrammar();
+  } catch (e) { alert('Delete failed' + (e && e.error ? ': ' + e.error : '')); }
 }
 
 function debugSaveBlock(topicId, existing){
@@ -5489,8 +5496,10 @@ function debugSaveBlock(topicId, existing){
 
 async function debugDeleteBlock(topicId, block){
   if (!await debugConfirm('Delete this lesson block? This cannot be undone.')) return;
-  await debugFetch(`/api/grammar/blocks/${block.id}/`, 'DELETE');
-  await debugRefreshGrammar(topicId);
+  try {
+    await debugFetch(`/api/grammar/blocks/${block.id}/`, 'DELETE');
+    await debugRefreshGrammar(topicId);
+  } catch (e) { alert('Delete failed' + (e && e.error ? ': ' + e.error : '')); }
 }
 
 function debugSaveQuestion(topicId, existing){
@@ -5511,8 +5520,10 @@ function debugSaveQuestion(topicId, existing){
 
 async function debugDeleteQuestion(topicId, q){
   if (!await debugConfirm('Delete this question? This cannot be undone.')) return;
-  await debugFetch(`/api/grammar/questions/${q.id}/`, 'DELETE');
-  await debugRefreshGrammar(topicId);
+  try {
+    await debugFetch(`/api/grammar/questions/${q.id}/`, 'DELETE');
+    await debugRefreshGrammar(topicId);
+  } catch (e) { alert('Delete failed' + (e && e.error ? ': ' + e.error : '')); }
 }
 
 /* ════════════════════════════════════════════════════════
@@ -6727,7 +6738,10 @@ function renderModalProgress(word){
 document.addEventListener("click", e => {
   if (e.target.id === "word-modal") closeWordModal();
 });
-document.addEventListener("keydown", e => { if (e.key === "Escape") closeWordModal(); });
+document.addEventListener("keydown", e => {
+  if (document.querySelector('.dbg-overlay')) return;
+  if (e.key === "Escape") closeWordModal();
+});
 document.getElementById("modalEditWordBtn").addEventListener("click", () => { if (currentModalWord) debugSaveWord(currentModalWord); });
 document.getElementById("modalDeleteWordBtn").addEventListener("click", () => { if (currentModalWord) debugDeleteWord(currentModalWord); });
 

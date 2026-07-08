@@ -19,9 +19,12 @@ def staff_required(view_func):
 
 def _json_body(request):
     try:
-        return json.loads(request.body or b'{}'), None
+        data = json.loads(request.body or b'{}')
     except (json.JSONDecodeError, UnicodeDecodeError):
         return None, JsonResponse({'errors': {'__all__': ['Invalid JSON body.']}}, status=400)
+    if not isinstance(data, dict):
+        return None, JsonResponse({'errors': {'__all__': ['Invalid JSON body.']}}, status=400)
+    return data, None
 
 
 def _word_json(w):
@@ -74,6 +77,7 @@ def _category_json(c):
         'cefr_code': c.cefr_level.code if c.cefr_level else None,
         'bg_hex': c.color.bg_hex if c.color else None,
         'text_hex': c.color.text_hex if c.color else None, 'order': c.order,
+        'cefr_level_id': c.cefr_level_id, 'color_id': c.color_id,
     }
 
 
