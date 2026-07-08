@@ -1309,6 +1309,35 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
   .home-cefr{padding:4px 18px;}
   .home-cefr-row{grid-template-columns:52px 1fr 56px;gap:12px;}
 }
+
+/* ---------- Debug mode ---------- */
+#debugRibbon{position:fixed;top:10px;right:10px;z-index:9999;background:#f59e0b;color:#1c1400;
+  font:700 11px/1 var(--mono,monospace);letter-spacing:.12em;padding:6px 10px;border-radius:6px;
+  pointer-events:none;}
+.dbg-overlay{position:fixed;inset:0;z-index:9998;background:rgba(10,8,18,.55);backdrop-filter:blur(6px);
+  display:flex;align-items:center;justify-content:center;padding:20px;}
+.dbg-modal{background:var(--card,#17141f);color:inherit;border:1px solid #f59e0b55;border-radius:14px;
+  padding:22px;width:min(560px,100%);max-height:85vh;overflow-y:auto;}
+.dbg-modal h3{margin:0 0 14px;font-size:1.05rem;}
+.dbg-field{display:block;margin-bottom:10px;font-size:.85rem;}
+.dbg-field span{display:block;margin-bottom:4px;opacity:.75;}
+.dbg-field input,.dbg-field textarea,.dbg-field select{width:100%;box-sizing:border-box;
+  background:rgba(127,127,127,.08);color:inherit;border:1px solid rgba(127,127,127,.25);
+  border-radius:8px;padding:8px 10px;font:inherit;}
+.dbg-err,.dbg-form-err{color:#f87171;font-style:normal;font-size:.78rem;display:block;margin-top:3px;}
+.dbg-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:16px;}
+.dbg-actions button{padding:8px 16px;border-radius:8px;border:1px solid rgba(127,127,127,.3);
+  background:transparent;color:inherit;cursor:pointer;font:inherit;}
+.dbg-actions .dbg-save{background:#f59e0b;border-color:#f59e0b;color:#1c1400;font-weight:700;}
+.dbg-ctl{display:none;}
+body.debug-on .dbg-ctl{display:inline-flex;align-items:center;gap:4px;}
+.dbg-ctl button{border:1px solid #f59e0b66;background:#f59e0b18;color:#f59e0b;border-radius:6px;
+  padding:2px 7px;font-size:.72rem;cursor:pointer;line-height:1.4;}
+.dbg-ctl button:hover{background:#f59e0b33;}
+body.debug-on .dbg-add-card{display:flex;align-items:center;justify-content:center;
+  border:2px dashed #f59e0b66;border-radius:14px;color:#f59e0b;cursor:pointer;
+  font-weight:700;min-height:120px;}
+.dbg-add-card{display:none;}
 </style>
 <script>
 (function(){
@@ -1505,6 +1534,7 @@ function iconSvg(emoji, cls){
             <span class="user-menu-username" id="userMenuUsername"></span>
             <span class="user-menu-email" id="userEmail"></span>
             <button id="editProfileBtn">Edit profile</button>
+            <button id="debugToggle" style="display:none;" type="button">Debug mode: Off</button>
             <button id="signOutBtn">Sign out</button>
             <button id="deleteAccountBtn" class="delete-account-link">Delete account</button>
           </div>
@@ -2294,6 +2324,114 @@ function getCsrf() {
     .find(c => c.startsWith('csrftoken='))?.split('=')[1] ?? '';
 }
 
+/* ---------- Debug mode (staff-only inline editing) ---------- */
+function debugOn(){ return !!(state.auth.isStaff && sessionStorage.getItem('debugMode') === '1'); }
+
+function applyDebugMode(){
+  document.body.classList.toggle('debug-on', debugOn());
+  let ribbon = document.getElementById('debugRibbon');
+  if (debugOn() && !ribbon){
+    ribbon = document.createElement('div');
+    ribbon.id = 'debugRibbon';
+    ribbon.textContent = 'DEBUG';
+    document.body.appendChild(ribbon);
+  } else if (!debugOn() && ribbon){
+    ribbon.remove();
+  }
+}
+
+async function debugFetch(url, method, payload){
+  const res = await fetch(url, {
+    method,
+    headers: { 'Content-Type': 'application/json', 'X-CSRFToken': getCsrf() },
+    body: payload === undefined ? undefined : JSON.stringify(payload),
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw data;
+  return data;
+}
+
+function debugConfirm(message){ return Promise.resolve(window.confirm(message)); }
+
+function openDebugModal({ title, fields, initial = {}, onSave }){
+  const overlay = document.createElement('div');
+  overlay.className = 'dbg-overlay';
+  const inputHtml = f => {
+    const val = initial[f.name];
+    if (f.type === 'select'){
+      const opts = f.options().map(o =>
+        `<option value="${o.value}" ${String(val) === String(o.value) ? 'selected' : ''}>${o.label}</option>`
+      ).join('');
+      return `<select name="${f.name}">${opts}</select>`;
+    }
+    if (f.type === 'textarea' || f.type === 'json'){
+      const text = f.type === 'json'
+        ? (val === undefined ? '' : JSON.stringify(val))
+        : (val ?? '');
+      return `<textarea name="${f.name}" rows="3">${text.replace(/</g, '&lt;')}</textarea>`;
+    }
+    const text = f.type === 'csv' ? (val || []).join(', ') : (val ?? '');
+    const type = f.type === 'number' ? 'number' : 'text';
+    return `<input type="${type}" name="${f.name}" value="${String(text).replace(/"/g, '&quot;')}">`;
+  };
+  overlay.innerHTML = `
+    <div class="dbg-modal" role="dialog" aria-modal="true">
+      <h3>${title}</h3>
+      <form>
+        ${fields.map(f => `
+          <label class="dbg-field" data-field="${f.name}">
+            <span>${f.label}</span>
+            ${inputHtml(f)}
+            <em class="dbg-err" hidden></em>
+          </label>`).join('')}
+        <div class="dbg-form-err" hidden></div>
+        <div class="dbg-actions">
+          <button type="button" class="dbg-cancel">Cancel</button>
+          <button type="submit" class="dbg-save">Save</button>
+        </div>
+      </form>
+    </div>`;
+  const close = () => { overlay.remove(); document.removeEventListener('keydown', esc); };
+  const esc = e => { if (e.key === 'Escape') close(); };
+  document.addEventListener('keydown', esc);
+  overlay.addEventListener('click', e => { if (e.target === overlay) close(); });
+  overlay.querySelector('.dbg-cancel').addEventListener('click', close);
+  overlay.querySelector('form').addEventListener('submit', async e => {
+    e.preventDefault();
+    const payload = {};
+    let parseError = false;
+    fields.forEach(f => {
+      const el = overlay.querySelector(`[name="${f.name}"]`);
+      const fieldBox = overlay.querySelector(`.dbg-field[data-field="${f.name}"] .dbg-err`);
+      fieldBox.hidden = true;
+      if (f.type === 'csv'){
+        payload[f.name] = el.value.split(',').map(s => s.trim()).filter(Boolean);
+      } else if (f.type === 'json'){
+        try { payload[f.name] = el.value.trim() ? JSON.parse(el.value) : (f.emptyValue ?? {}); }
+        catch { fieldBox.textContent = 'Invalid JSON.'; fieldBox.hidden = false; parseError = true; }
+      } else if (f.type === 'number'){
+        payload[f.name] = el.value === '' ? null : Number(el.value);
+      } else {
+        payload[f.name] = el.value;
+      }
+    });
+    if (parseError) return;
+    try {
+      await onSave(payload);
+      close();
+    } catch (err) {
+      const errors = err && err.errors ? err.errors : { __all__: ['Save failed.'] };
+      Object.entries(errors).forEach(([field, msgs]) => {
+        const box = overlay.querySelector(`.dbg-field[data-field="${field}"] .dbg-err`)
+                 || overlay.querySelector('.dbg-form-err');
+        box.textContent = Array.isArray(msgs) ? msgs.join(' ') : String(msgs);
+        box.hidden = false;
+      });
+    }
+  });
+  document.body.appendChild(overlay);
+}
+
 function authFetch(url, opts = {}) {
   return fetch(url, {
     credentials: 'same-origin',
@@ -2745,7 +2883,7 @@ const state = {
   learnMap: loadCachedLearnMap(),   /* { "word": "little"|"learned" } — only persisted for signed-in accounts */
   list: { search:"", section:"all", cat:"all", cefr:"all", learned:"all" },
   examples: { search:"", section:"all", cat:"all", cefr:"all", learned:"all", headline:"all", page:1 },
-  auth: { loggedIn:false, id:null, name:"", email:"", picture:"" },
+  auth: { loggedIn:false, id:null, name:"", email:"", picture:"", isStaff:false },
 };
 
 function learnedState(word){ return state.learnMap[word] || null; }
@@ -2935,10 +3073,14 @@ function renderAuthUI(){
     document.getElementById("userMenuName").textContent = state.auth.name || "";
     document.getElementById("userMenuUsername").textContent = state.auth.username ? "@" + state.auth.username : "";
     document.getElementById("userEmail").textContent = state.auth.email;
+    const dbgBtn = document.getElementById("debugToggle");
+    if (dbgBtn) dbgBtn.style.display = state.auth.isStaff ? "" : "none";
   } else {
     signInBtn.style.display = "";
     userChip.style.display = "none";
     userChip.classList.remove("open");
+    const dbgBtn = document.getElementById("debugToggle");
+    if (dbgBtn) dbgBtn.style.display = "none";
   }
 }
 
@@ -2956,15 +3098,16 @@ async function initAuth(){
       const profileRes = await fetch(`${AUTH_BASE}/session/`, { credentials: 'same-origin' });
       const profile = await profileRes.json();
       state.auth = profile.loggedIn
-        ? { loggedIn:true, id:profile.id, name:profile.name||"", username:profile.username||"", email:profile.email, picture:profile.picture||"" }
-        : { loggedIn:false, id:null, name:"", username:"", email:"", picture:"" };
+        ? { loggedIn:true, id:profile.id, name:profile.name||"", username:profile.username||"", email:profile.email, picture:profile.picture||"", isStaff:!!profile.isStaff }
+        : { loggedIn:false, id:null, name:"", username:"", email:"", picture:"", isStaff:false };
     } catch(e){
-      state.auth = { loggedIn:true, id:user.id, name:user.display||"", username:user.username||"", email:user.email, picture:"" };
+      state.auth = { loggedIn:true, id:user.id, name:user.display||"", username:user.username||"", email:user.email, picture:"", isStaff:false };
     }
   } else {
-    state.auth = { loggedIn:false, id:null, name:"", username:"", email:"", picture:"" };
+    state.auth = { loggedIn:false, id:null, name:"", username:"", email:"", picture:"", isStaff:false };
   }
   renderAuthUI();
+  applyDebugMode();
 
   if (!state.auth.loggedIn) return;
 
@@ -4448,6 +4591,19 @@ document.getElementById("userChip").addEventListener("click", (e) => {
   e.stopPropagation();
   document.getElementById("userChip").classList.toggle("open");
 });
+
+{
+  const dbgBtn = document.getElementById('debugToggle');
+  if (dbgBtn){
+    const label = () => `Debug mode: ${debugOn() ? 'On' : 'Off'}`;
+    dbgBtn.textContent = label();
+    dbgBtn.addEventListener('click', () => {
+      sessionStorage.setItem('debugMode', debugOn() ? '0' : '1');
+      dbgBtn.textContent = label();
+      applyDebugMode();
+    });
+  }
+}
 
 document.getElementById("signOutBtn").addEventListener("click", async () => {
   // Wait for the page's own initial server-merge to finish before flushing -
