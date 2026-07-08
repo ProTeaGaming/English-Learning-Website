@@ -1277,6 +1277,18 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
 [data-theme="light"] .home-sec-pill.live{background:rgba(22,163,74,.1);color:#15803d;border-color:rgba(22,163,74,.35);}
 [data-theme="light"] .cat-cefr-pill{filter:saturate(1.15) brightness(.78);}
 [data-theme="light"] .cat-medal{color:#ca8a04;filter:none;}
+/* ---------- Mode-picker popup (home hero) ---------- */
+.mode-picker-list{display:flex;flex-direction:column;gap:8px;margin-top:4px;}
+.mode-picker-row{
+  display:flex;align-items:center;gap:12px;width:100%;box-sizing:border-box;
+  padding:12px 14px;border-radius:12px;border:1px solid rgba(var(--vio),.18);
+  background:rgba(var(--vio),.06);color:var(--text);font:inherit;font-size:.95rem;font-weight:600;
+  text-align:left;cursor:pointer;transition:background .15s ease,border-color .15s ease,transform .15s ease;
+}
+.mode-picker-row .ico{width:20px;height:20px;flex-shrink:0;}
+.mode-picker-name{flex:1;}
+button.mode-picker-row:hover{border-color:rgba(var(--vio),.5);background:rgba(var(--vio),.12);transform:translateY(-1px);}
+.mode-picker-row-disabled{opacity:.5;cursor:default;}
 /* CEFR bars */
 .home-cefr{
   display:flex;flex-direction:column;
@@ -1687,6 +1699,43 @@ function iconSvg(emoji, cls){
   </div>
 </div>
 
+<div class="auth-modal-overlay" id="modePickerOverlay">
+  <div class="auth-modal" style="max-width:340px;">
+    <button class="auth-modal-close" id="modePickerClose" aria-label="Close">&times;</button>
+    <h2 class="auth-modal-title" id="modePickerTitle">Choose what to learn</h2>
+    <div class="mode-picker-list">
+      <button class="mode-picker-row" id="modePickerVocab" type="button">
+        <svg class="ico" aria-hidden="true"><use href="#i-book"/></svg>
+        <span class="mode-picker-name">Vocabulary</span>
+      </button>
+      <button class="mode-picker-row" id="modePickerGrammar" type="button">
+        <svg class="ico" aria-hidden="true"><use href="#i-pen"/></svg>
+        <span class="mode-picker-name">Grammar</span>
+      </button>
+      <div class="mode-picker-row mode-picker-row-disabled">
+        <svg class="ico" aria-hidden="true"><use href="#i-book-open"/></svg>
+        <span class="mode-picker-name">Reading</span>
+        <span class="home-sec-pill soon">Soon</span>
+      </div>
+      <div class="mode-picker-row mode-picker-row-disabled">
+        <svg class="ico" aria-hidden="true"><use href="#i-file-text"/></svg>
+        <span class="mode-picker-name">Writing</span>
+        <span class="home-sec-pill soon">Soon</span>
+      </div>
+      <div class="mode-picker-row mode-picker-row-disabled">
+        <svg class="ico" aria-hidden="true"><use href="#i-headphones"/></svg>
+        <span class="mode-picker-name">Listening</span>
+        <span class="home-sec-pill soon">Soon</span>
+      </div>
+      <div class="mode-picker-row mode-picker-row-disabled">
+        <svg class="ico" aria-hidden="true"><use href="#i-mic"/></svg>
+        <span class="mode-picker-name">Speaking</span>
+        <span class="home-sec-pill soon">Soon</span>
+      </div>
+    </div>
+  </div>
+</div>
+
 <main>
 
   <!-- ===== HOME PAGE ===== -->
@@ -1699,8 +1748,8 @@ function iconSvg(emoji, cls){
       <h1 class="home-title">Master every word,<br><span class="home-grad">say it till it stays.</span></h1>
       <p class="home-sub">Five thousand essential IELTS words — levelled, sectioned, and returned to you until they’re yours.</p>
       <div class="home-hero-actions">
-        <button class="btn" onclick="goToPage('list')">Start Learning →</button>
-        <button class="home-btn-outline" onclick="goToPage('test')">Quick Test</button>
+        <button class="btn" onclick="openModePicker('learn')">Start Learning →</button>
+        <button class="home-btn-outline" onclick="openModePicker('test')">Quick Test</button>
       </div>
     </div>
 
@@ -4902,6 +4951,31 @@ document.getElementById("signInBtn").addEventListener("click", openAuthModal);
 document.getElementById("authClose").addEventListener("click", closeAuthModal);
 document.getElementById("authOverlay").addEventListener("click", (e) => {
   if (e.target.id === "authOverlay") closeAuthModal();
+});
+function openModePicker(intent){
+  document.getElementById("modePickerTitle").textContent =
+    intent === "test" ? "Choose what to test" : "Choose what to learn";
+  document.getElementById("modePickerVocab").onclick = () => {
+    closeModePicker();
+    goToPage(intent === "test" ? "test" : "list");
+  };
+  document.getElementById("modePickerGrammar").onclick = () => {
+    closeModePicker();
+    goToPage("grammar");
+  };
+  document.getElementById("modePickerOverlay").classList.add("open");
+}
+function closeModePicker(){
+  document.getElementById("modePickerOverlay").classList.remove("open");
+}
+document.getElementById("modePickerClose").addEventListener("click", closeModePicker);
+document.getElementById("modePickerOverlay").addEventListener("click", (e) => {
+  if (e.target.id === "modePickerOverlay") closeModePicker();
+});
+document.addEventListener("keydown", e => {
+  if (e.key !== "Escape") return;
+  if (document.querySelector(".dbg-overlay")) return;
+  if (document.getElementById("modePickerOverlay").classList.contains("open")) closeModePicker();
 });
 
 document.getElementById("authSwitch").addEventListener("click", (e) => {
