@@ -69,18 +69,21 @@ def grammar(request):
     by_stage = {}
     for t in topics:
         by_stage.setdefault(t.stage, []).append({
+            'id':    t.id,
+            'order': t.order,
             'slug':  t.slug,
             'title': t.title,
             'tag':   t.tag,
             'cefr':  t.cefr_label,
             'blurb': t.blurb,
             'lesson': [
-                {'type': b.type, 'title': b.title, 'body': b.body, 'data': b.data}
+                {'id': b.id, 'order': b.order, 'type': b.type, 'title': b.title,
+                 'body': b.body, 'data': b.data}
                 for b in t.blocks.all()
             ],
             'quiz': [
-                {'qtype': q.qtype, 'prompt': q.prompt, 'options': q.options,
-                 'answers': q.answers, 'why': q.why}
+                {'id': q.id, 'order': q.order, 'qtype': q.qtype, 'prompt': q.prompt,
+                 'options': q.options, 'answers': q.answers, 'why': q.why}
                 for q in t.questions.all()
             ],
         })

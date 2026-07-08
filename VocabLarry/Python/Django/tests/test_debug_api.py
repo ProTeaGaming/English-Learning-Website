@@ -158,3 +158,28 @@ def test_category_create_duplicate_slug_returns_400(logged_in, staff_user, categ
                'cefr_level': cefr_b1.pk, 'color': category.color.pk, 'order': 9}
     r = logged_in(staff_user).post('/api/categories/', payload, content_type='application/json')
     assert r.status_code == 400 and 'slug' in r.json()['errors']
+
+
+from vocab.models import GrammarTopic, GrammarLessonBlock, GrammarQuestion
+
+
+@pytest.fixture
+def topic(db):
+    t = GrammarTopic.objects.create(
+        slug='articles', title='Articles', tag='Determiners',
+        cefr_label='A1', blurb='a/an/the', stage='beginner', order=0)
+    GrammarLessonBlock.objects.create(topic=t, type='intro', body='Intro text.', order=0)
+    GrammarQuestion.objects.create(
+        topic=t, qtype='mcq', prompt='She is ___ engineer.',
+        options=['a', 'an', 'the', '(none)'], answers=[1], why='Vowel sound.', order=0)
+    return t
+
+
+@pytest.mark.django_db
+def test_grammar_api_includes_ids_and_order(topic):
+    r = Client().get('/api/grammar/')
+    beginner = next(s for s in r.json() if s['id'] == 'beginner')
+    t = beginner['topics'][0]
+    assert t['id'] == topic.pk and t['order'] == 0
+    assert t['lesson'][0]['id'] and t['lesson'][0]['order'] == 0
+    assert t['quiz'][0]['id'] and t['quiz'][0]['order'] == 0
