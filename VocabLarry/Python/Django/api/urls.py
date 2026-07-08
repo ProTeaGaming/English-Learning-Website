@@ -8,4 +8,6 @@ urlpatterns = [
     path('categories/<int:pk>/', write_views.category_detail, name='api_category_detail'),
     path('cefr-levels/', views.cefr_levels, name='api_cefr_levels'),
     path('grammar/', views.grammar, name='api_grammar'),
+    path('grammar/topics/', write_views.grammar_topic_create, name='api_grammar_topic_create'),
+    path('grammar/topics/<int:pk>/', write_views.grammar_topic_detail, name='api_grammar_topic_detail'),
 ]

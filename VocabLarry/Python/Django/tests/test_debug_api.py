@@ -183,3 +183,46 @@ def test_grammar_api_includes_ids_and_order(topic):
     assert t['id'] == topic.pk and t['order'] == 0
     assert t['lesson'][0]['id'] and t['lesson'][0]['order'] == 0
     assert t['quiz'][0]['id'] and t['quiz'][0]['order'] == 0
+
+
+def topic_payload(**over):
+    p = {'slug': 'passive-voice', 'title': 'Passive Voice', 'tag': 'Voice',
+         'cefr_label': 'B1', 'blurb': 'Focus on the action.',
+         'stage': 'independent', 'order': 13}
+    p.update(over)
+    return p
+
+
+@pytest.mark.django_db
+def test_grammar_topic_writes_reject_non_staff(logged_in, regular_user, topic):
+    c = logged_in(regular_user)
+    assert c.post('/api/grammar/topics/', topic_payload(), content_type='application/json').status_code == 403
+    assert c.patch(f'/api/grammar/topics/{topic.pk}/', {}, content_type='application/json').status_code == 403
+    assert c.delete(f'/api/grammar/topics/{topic.pk}/').status_code == 403
+
+
+@pytest.mark.django_db
+def test_staff_can_create_update_topic(logged_in, staff_user):
+    c = logged_in(staff_user)
+    r = c.post('/api/grammar/topics/', topic_payload(), content_type='application/json')
+    assert r.status_code == 200 and r.json()['slug'] == 'passive-voice'
+    pk = r.json()['id']
+    r = c.patch(f'/api/grammar/topics/{pk}/',
+                topic_payload(title='Passive & Active Voice'), content_type='application/json')
+    assert r.status_code == 200 and r.json()['title'] == 'Passive & Active Voice'
+
+
+@pytest.mark.django_db
+def test_topic_delete_cascades_blocks_and_questions(logged_in, staff_user, topic):
+    r = logged_in(staff_user).delete(f'/api/grammar/topics/{topic.pk}/')
+    assert r.status_code == 200
+    assert not GrammarTopic.objects.filter(pk=topic.pk).exists()
+    assert GrammarLessonBlock.objects.count() == 0
+    assert GrammarQuestion.objects.count() == 0
+
+
+@pytest.mark.django_db
+def test_topic_create_invalid_stage_returns_400(logged_in, staff_user):
+    r = logged_in(staff_user).post('/api/grammar/topics/',
+                                   topic_payload(stage='wizard'), content_type='application/json')
+    assert r.status_code == 400 and 'stage' in r.json()['errors']

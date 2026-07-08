@@ -4,8 +4,8 @@ from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from django.views.decorators.http import require_http_methods
 from accounts.decorators import is_staff_user
-from dashboard.forms import WordForm, CategoryForm
-from vocab.models import Word, Category
+from dashboard.forms import WordForm, CategoryForm, GrammarTopicForm
+from vocab.models import Word, Category, GrammarTopic
 
 
 def staff_required(view_func):
@@ -102,3 +102,37 @@ def category_detail(request, pk):
     if not form.is_valid():
         return JsonResponse({'errors': form.errors}, status=400)
     return JsonResponse(_category_json(form.save()))
+
+
+def _topic_json(t):
+    return {'id': t.id, 'slug': t.slug, 'title': t.title, 'tag': t.tag,
+            'cefr_label': t.cefr_label, 'blurb': t.blurb, 'stage': t.stage,
+            'order': t.order}
+
+
+@staff_required
+@require_http_methods(['POST'])
+def grammar_topic_create(request):
+    payload, err = _json_body(request)
+    if err:
+        return err
+    form = GrammarTopicForm(payload)
+    if not form.is_valid():
+        return JsonResponse({'errors': form.errors}, status=400)
+    return JsonResponse(_topic_json(form.save()))
+
+
+@staff_required
+@require_http_methods(['PATCH', 'DELETE'])
+def grammar_topic_detail(request, pk):
+    topic = get_object_or_404(GrammarTopic, pk=pk)
+    if request.method == 'DELETE':
+        topic.delete()
+        return JsonResponse({'ok': True})
+    payload, err = _json_body(request)
+    if err:
+        return err
+    form = GrammarTopicForm(payload, instance=topic)
+    if not form.is_valid():
+        return JsonResponse({'errors': form.errors}, status=400)
+    return JsonResponse(_topic_json(form.save()))
