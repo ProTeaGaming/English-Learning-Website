@@ -5256,13 +5256,17 @@ const DEBUG_FORMS = {
 async function debugRefreshVocab(){
   await loadVocab();
   if (catState.cat){
-    const cat = CATEGORIES.find(c => c.id === catState.cat);
+    const cat = CATEGORIES.find(c => c.id === catState.cat)
+             || CEFR_CATEGORIES.find(c => c.id === catState.cat);
     if (cat){
-      document.getElementById("catViewIcon").innerHTML = iconSvg(cat.icon);
+      const iconEl = document.getElementById("catViewIcon");
+      iconEl.innerHTML = iconSvg(cat.icon);
+      iconEl.className = `cat-view-icon t-${cat.theme}`;
       document.getElementById("catViewName").textContent = cat.name;
+      document.getElementById("catViewName").className = `cat-view-name t-${cat.theme}`;
       document.getElementById("catViewSub").textContent = `${(CAT_WORDS[cat.id]||[]).length} words · ${cat.section||""}`;
-    } else if (!CEFR_CATEGORIES.some(c => c.id === catState.cat)){
-      // the category being viewed was a real (non-CEFR-pseudo) category and it's gone — bail out
+    } else {
+      // the category being viewed is gone (deleted) — bail out
       exitCatView();
     }
   }
@@ -5441,13 +5445,13 @@ function renderBrowseSection(sectionName, cats, num){
     }
     grid.appendChild(card);
   });
-  if (debugOn()){
-    const addCard = document.createElement("div");
-    addCard.className = "dbg-add-card";
-    addCard.textContent = "+ Add category";
-    addCard.addEventListener("click", () => debugSaveCategory());
-    grid.appendChild(addCard);
-  }
+  // Always in the DOM; CSS-gated by body.debug-on (same pattern as .dbg-ctl),
+  // so toggling Debug on mid-page reveals it without a re-render.
+  const addCard = document.createElement("div");
+  addCard.className = "dbg-add-card";
+  addCard.textContent = "+ Add category";
+  addCard.addEventListener("click", () => debugSaveCategory());
+  grid.appendChild(addCard);
   return wrap;
 }
 
