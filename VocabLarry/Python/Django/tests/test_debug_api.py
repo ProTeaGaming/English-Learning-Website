@@ -226,3 +226,55 @@ def test_topic_create_invalid_stage_returns_400(logged_in, staff_user):
     r = logged_in(staff_user).post('/api/grammar/topics/',
                                    topic_payload(stage='wizard'), content_type='application/json')
     assert r.status_code == 400 and 'stage' in r.json()['errors']
+
+
+@pytest.mark.django_db
+def test_staff_can_create_update_delete_block(logged_in, staff_user, topic):
+    c = logged_in(staff_user)
+    r = c.post('/api/grammar/blocks/', {
+        'topic': topic.pk, 'type': 'rule', 'title': 'Use "an" before vowels',
+        'body': 'Use an before vowel sounds.', 'data': {}, 'order': 1,
+    }, content_type='application/json')
+    assert r.status_code == 200
+    pk = r.json()['id']
+    r = c.patch(f'/api/grammar/blocks/{pk}/', {
+        'type': 'rule', 'title': 'Use "an" before vowel SOUNDS',
+        'body': 'an hour, an MP.', 'data': {}, 'order': 1,
+    }, content_type='application/json')
+    assert r.status_code == 200 and 'SOUNDS' in r.json()['title']
+    assert c.delete(f'/api/grammar/blocks/{pk}/').status_code == 200
+
+
+@pytest.mark.django_db
+def test_block_create_table_without_head_returns_400(logged_in, staff_user, topic):
+    r = logged_in(staff_user).post('/api/grammar/blocks/', {
+        'topic': topic.pk, 'type': 'table', 'title': 'T', 'body': '',
+        'data': {'rows': [['a']]}, 'order': 2,
+    }, content_type='application/json')
+    assert r.status_code == 400
+
+
+@pytest.mark.django_db
+def test_staff_can_create_question_and_bad_mcq_rejected(logged_in, staff_user, topic):
+    c = logged_in(staff_user)
+    r = c.post('/api/grammar/questions/', {
+        'topic': topic.pk, 'qtype': 'mcq', 'prompt': 'He bought ___ umbrella.',
+        'options': ['a', 'an', 'the', '(none)'], 'answers': [1], 'why': 'Vowel.', 'order': 1,
+    }, content_type='application/json')
+    assert r.status_code == 200
+    r = c.post('/api/grammar/questions/', {
+        'topic': topic.pk, 'qtype': 'mcq', 'prompt': 'x',
+        'options': ['a', 'b', 'c'], 'answers': [0], 'why': 'x', 'order': 2,
+    }, content_type='application/json')
+    assert r.status_code == 400 and 'options' in r.json()['errors']
+
+
+@pytest.mark.django_db
+def test_block_and_question_writes_reject_non_staff(logged_in, regular_user, topic):
+    c = logged_in(regular_user)
+    block = topic.blocks.first()
+    q = topic.questions.first()
+    assert c.post('/api/grammar/blocks/', {}, content_type='application/json').status_code == 403
+    assert c.delete(f'/api/grammar/blocks/{block.pk}/').status_code == 403
+    assert c.post('/api/grammar/questions/', {}, content_type='application/json').status_code == 403
+    assert c.delete(f'/api/grammar/questions/{q.pk}/').status_code == 403

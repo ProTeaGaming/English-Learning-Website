@@ -10,4 +10,8 @@ urlpatterns = [
     path('grammar/', views.grammar, name='api_grammar'),
     path('grammar/topics/', write_views.grammar_topic_create, name='api_grammar_topic_create'),
     path('grammar/topics/<int:pk>/', write_views.grammar_topic_detail, name='api_grammar_topic_detail'),
+    path('grammar/blocks/', write_views.grammar_block_create, name='api_grammar_block_create'),
+    path('grammar/blocks/<int:pk>/', write_views.grammar_block_detail, name='api_grammar_block_detail'),
+    path('grammar/questions/', write_views.grammar_question_create, name='api_grammar_question_create'),
+    path('grammar/questions/<int:pk>/', write_views.grammar_question_detail, name='api_grammar_question_detail'),
 ]

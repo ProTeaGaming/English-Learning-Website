@@ -4,8 +4,8 @@ from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from django.views.decorators.http import require_http_methods
 from accounts.decorators import is_staff_user
-from dashboard.forms import WordForm, CategoryForm, GrammarTopicForm
-from vocab.models import Word, Category, GrammarTopic
+from dashboard.forms import WordForm, CategoryForm, GrammarTopicForm, GrammarLessonBlockForm, GrammarQuestionForm
+from vocab.models import Word, Category, GrammarTopic, GrammarLessonBlock, GrammarQuestion
 
 
 def staff_required(view_func):
@@ -136,3 +136,74 @@ def grammar_topic_detail(request, pk):
     if not form.is_valid():
         return JsonResponse({'errors': form.errors}, status=400)
     return JsonResponse(_topic_json(form.save()))
+
+
+def _block_json(b):
+    return {'id': b.id, 'topic': b.topic_id, 'type': b.type, 'title': b.title,
+            'body': b.body, 'data': b.data, 'order': b.order}
+
+
+def _question_json(q):
+    return {'id': q.id, 'topic': q.topic_id, 'qtype': q.qtype, 'prompt': q.prompt,
+            'options': q.options, 'answers': q.answers, 'why': q.why, 'order': q.order}
+
+
+def _child_create(request, form_cls, to_json):
+    payload, err = _json_body(request)
+    if err:
+        return err
+    topic = get_object_or_404(GrammarTopic, pk=payload.get('topic'))
+    # Convert JSONField dicts to JSON strings for form processing
+    form_data = dict(payload)
+    if 'data' in form_data and isinstance(form_data['data'], dict):
+        form_data['data'] = json.dumps(form_data['data'])
+    form = form_cls(form_data)
+    if not form.is_valid():
+        return JsonResponse({'errors': form.errors}, status=400)
+    obj = form.save(commit=False)
+    obj.topic = topic
+    obj.save()
+    return JsonResponse(to_json(obj))
+
+
+def _child_detail(request, obj, form_cls, to_json):
+    if request.method == 'DELETE':
+        obj.delete()
+        return JsonResponse({'ok': True})
+    payload, err = _json_body(request)
+    if err:
+        return err
+    # Convert JSONField dicts to JSON strings for form processing
+    form_data = dict(payload)
+    if 'data' in form_data and isinstance(form_data['data'], dict):
+        form_data['data'] = json.dumps(form_data['data'])
+    form = form_cls(form_data, instance=obj)
+    if not form.is_valid():
+        return JsonResponse({'errors': form.errors}, status=400)
+    return JsonResponse(to_json(form.save()))
+
+
+@staff_required
+@require_http_methods(['POST'])
+def grammar_block_create(request):
+    return _child_create(request, GrammarLessonBlockForm, _block_json)
+
+
+@staff_required
+@require_http_methods(['PATCH', 'DELETE'])
+def grammar_block_detail(request, pk):
+    return _child_detail(request, get_object_or_404(GrammarLessonBlock, pk=pk),
+                         GrammarLessonBlockForm, _block_json)
+
+
+@staff_required
+@require_http_methods(['POST'])
+def grammar_question_create(request):
+    return _child_create(request, GrammarQuestionForm, _question_json)
+
+
+@staff_required
+@require_http_methods(['PATCH', 'DELETE'])
+def grammar_question_detail(request, pk):
+    return _child_detail(request, get_object_or_404(GrammarQuestion, pk=pk),
+                         GrammarQuestionForm, _question_json)
