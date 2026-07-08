@@ -28,8 +28,10 @@ def words(request):
     return JsonResponse(data, safe=False)
 
 
-@require_GET
+@require_http_methods(['GET', 'POST'])
 def categories(request):
+    if request.method == 'POST':
+        return write_views.category_create(request)
     qs = Category.objects.select_related('cefr_level', 'color').order_by('order')
     data = [
         {

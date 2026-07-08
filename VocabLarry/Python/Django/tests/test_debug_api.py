@@ -124,3 +124,37 @@ def test_word_create_missing_field_returns_400_with_errors(logged_in, staff_user
 def test_word_create_bad_json_returns_400(logged_in, staff_user):
     r = logged_in(staff_user).post('/api/words/', 'not json', content_type='application/json')
     assert r.status_code == 400
+
+
+@pytest.mark.django_db
+def test_category_write_endpoints_reject_non_staff(logged_in, regular_user, category):
+    c = logged_in(regular_user)
+    assert c.post('/api/categories/', {}, content_type='application/json').status_code == 403
+    assert c.patch(f'/api/categories/{category.pk}/', {}, content_type='application/json').status_code == 403
+    assert c.delete(f'/api/categories/{category.pk}/').status_code == 403
+
+
+@pytest.mark.django_db
+def test_staff_can_create_update_delete_category(logged_in, staff_user, category, cefr_b1):
+    c = logged_in(staff_user)
+    payload = {'slug': 'work', 'name': 'Work', 'icon': '💼',
+               'cefr_level': cefr_b1.pk, 'color': category.color.pk, 'order': 5}
+    r = c.post('/api/categories/', payload, content_type='application/json')
+    assert r.status_code == 200 and r.json()['slug'] == 'work'
+    new_pk = r.json()['id']
+
+    payload['name'] = 'Work & Career'
+    r = c.patch(f'/api/categories/{new_pk}/', payload, content_type='application/json')
+    assert r.status_code == 200 and r.json()['name'] == 'Work & Career'
+
+    r = c.delete(f'/api/categories/{new_pk}/')
+    assert r.status_code == 200
+    assert not Category.objects.filter(pk=new_pk).exists()
+
+
+@pytest.mark.django_db
+def test_category_create_duplicate_slug_returns_400(logged_in, staff_user, category, cefr_b1):
+    payload = {'slug': 'travel', 'name': 'Travel 2', 'icon': 'x',
+               'cefr_level': cefr_b1.pk, 'color': category.color.pk, 'order': 9}
+    r = logged_in(staff_user).post('/api/categories/', payload, content_type='application/json')
+    assert r.status_code == 400 and 'slug' in r.json()['errors']
