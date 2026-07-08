@@ -1338,6 +1338,17 @@ body.debug-on .dbg-add-card{display:flex;align-items:center;justify-content:cent
   border:2px dashed #f59e0b66;border-radius:14px;color:#f59e0b;cursor:pointer;
   font-weight:700;min-height:120px;}
 .dbg-add-card{display:none;}
+.gram-block{position:relative;}
+.dbg-block-ctl{position:absolute;top:10px;right:10px;z-index:5;}
+.dbg-question-mgr{display:none;margin-top:26px;padding:18px 20px;border:1px dashed #f59e0b66;border-radius:14px;}
+body.debug-on .dbg-question-mgr{display:block;}
+.dbg-question-mgr h4{margin:0 0 10px;font-size:.78rem;text-transform:uppercase;letter-spacing:.1em;color:#f59e0b;}
+.dbg-q-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:7px 0;
+  border-bottom:1px solid rgba(127,127,127,.15);}
+.dbg-q-row:last-child{border-bottom:none;}
+.dbg-q-prompt{font-size:.85rem;opacity:.85;flex:1;}
+.dbg-add-question{margin-top:10px;border:1px dashed #f59e0b66;background:transparent;color:#f59e0b;
+  border-radius:8px;padding:6px 14px;font-size:.8rem;font-weight:700;cursor:pointer;font-family:inherit;}
 </style>
 <script>
 (function(){
@@ -3668,6 +3679,10 @@ function renderGrammarSection(name, topics, num){
       <div class="cat-card-top">
         <span class="cat-tag"><svg class="ico" aria-hidden="true"><use href="#${t.icon || 'i-pen'}"/></svg> ${qn} question${qn !== 1 ? 's' : ''}</span>
         ${cefrRangePillHtml(t.cefr)}
+        <span class="dbg-ctl" data-dbg-topic-ctl>
+          <button type="button" class="dbg-edit-topic">✎</button>
+          <button type="button" class="dbg-delete-topic">✕</button>
+        </span>
         <svg class="ico cat-arrow" aria-hidden="true"><use href="#i-arrow-up-right"/></svg>
       </div>
       <div class="cat-name">${t.title}</div>
@@ -3678,8 +3693,19 @@ function renderGrammarSection(name, topics, num){
           : `<span class="cat-plabel">${best ? `best ${best}%` : 'not started'}</span>`}
       </div>`;
     card.addEventListener('click', () => openGrammarTopic(t));
+    const dbgTopicCtl = card.querySelector('[data-dbg-topic-ctl]');
+    dbgTopicCtl.addEventListener('click', e => e.stopPropagation());
+    dbgTopicCtl.querySelector('.dbg-edit-topic').addEventListener('click', () => debugSaveTopic({ ...t, stage: t.stageId }));
+    dbgTopicCtl.querySelector('.dbg-delete-topic').addEventListener('click', () => debugDeleteTopic(t));
     grid.appendChild(card);
   });
+  // Always in the DOM; CSS-gated by body.debug-on (same pattern as .dbg-ctl),
+  // so toggling Debug on mid-page reveals it without a re-render.
+  const addTopicCard = document.createElement('div');
+  addTopicCard.className = 'dbg-add-card';
+  addTopicCard.textContent = '+ Add topic';
+  addTopicCard.addEventListener('click', () => debugSaveTopic());
+  grid.appendChild(addTopicCard);
   return wrap;
 }
 
@@ -3720,6 +3746,7 @@ function openGrammarTopic(topic){
     </div>
     <div class="gram-lesson">${grammarLessonHtml(lesson, topic.icon,
       GRAMMAR_SECTION_IMAGES[section] || GRAMMAR_IMG_FALLBACK)}</div>
+    ${grammarQuestionMgrHtml(topic)}
     <div class="cat-bulk-actions">
       ${topic.quiz.length
         ? `<button class="btn" id="grammarPracticeBtn">Practice — ${topic.quiz.length} question${topic.quiz.length !== 1 ? 's' : ''}</button>`
@@ -3730,6 +3757,37 @@ function openGrammarTopic(topic){
   document.getElementById('grammarBackBottom').addEventListener('click', renderGrammarHome);
   const practiceBtn = document.getElementById('grammarPracticeBtn');
   if (practiceBtn) practiceBtn.addEventListener('click', () => startGrammarQuiz(topic));
+  // Debug controls: per-block ✎/✕ + "+ Add block" at the end of the lesson.
+  el.querySelectorAll('[data-block-id]').forEach(blockEl => {
+    const bid = Number(blockEl.dataset.blockId);
+    const block = topic.lesson.find(b => b.id === bid);
+    if (!block) return;
+    const ctl = document.createElement('span');
+    ctl.className = 'dbg-ctl dbg-block-ctl';
+    ctl.innerHTML = `<button type="button" class="dbg-edit-block">✎</button><button type="button" class="dbg-delete-block">✕</button>`;
+    ctl.addEventListener('click', e => e.stopPropagation());
+    ctl.querySelector('.dbg-edit-block').addEventListener('click', () => debugSaveBlock(topic.id, block));
+    ctl.querySelector('.dbg-delete-block').addEventListener('click', () => debugDeleteBlock(topic.id, block));
+    blockEl.appendChild(ctl);
+  });
+  const lessonWrap = el.querySelector('.gram-lesson');
+  if (lessonWrap){
+    const addBlockCard = document.createElement('div');
+    addBlockCard.className = 'dbg-add-card';
+    addBlockCard.textContent = '+ Add block';
+    addBlockCard.addEventListener('click', () => debugSaveBlock(topic.id));
+    lessonWrap.appendChild(addBlockCard);
+  }
+  // Debug controls: "Manage questions" list rows + "+ Add question".
+  el.querySelectorAll('.dbg-q-row').forEach(row => {
+    const qid = Number(row.dataset.qId);
+    const q = topic.quiz.find(x => x.id === qid);
+    if (!q) return;
+    row.querySelector('.dbg-edit-q').addEventListener('click', () => debugSaveQuestion(topic.id, q));
+    row.querySelector('.dbg-delete-q').addEventListener('click', () => debugDeleteQuestion(topic.id, q));
+  });
+  const addQuestionBtn = el.querySelector('.dbg-add-question');
+  if (addQuestionBtn) addQuestionBtn.addEventListener('click', () => debugSaveQuestion(topic.id));
   const tableWrap = el.querySelector('.gram-table-wrap');
   if (gramwordSet && tableWrap){
     const link = document.createElement('button');
@@ -3804,7 +3862,7 @@ function grammarRuleCardHtml(block, idx, icon, imgs){
   const num = String(idx + 1).padStart(2, '0');
   const pool = [...new Set([...(imgs || []), ...GRAMMAR_IMG_FALLBACK])];
   const img = pool[idx % pool.length];
-  return `<article class="gram-stage gram-ac-${idx % 4}${idx % 2 ? ' gram-stage-flip' : ''}">
+  return `<article class="gram-stage gram-ac-${idx % 4}${idx % 2 ? ' gram-stage-flip' : ''}" data-block-id="${block.id}">
     <div class="gram-stage-content">
       <div class="gram-stage-meta"><span>Rule ${num}</span></div>
       <div>
@@ -3824,26 +3882,46 @@ function grammarRuleCardHtml(block, idx, icon, imgs){
 function grammarBlockHtml(block){
   switch (block.type){
     case 'intro':
-      return `<div class="gram-block gram-reveal gram-intro">${block.body}</div>`;
+      return `<div class="gram-block gram-reveal gram-intro" data-block-id="${block.id}">${block.body}</div>`;
     case 'table': {
       const head = (block.data.head || []).map(h => `<th>${h}</th>`).join('');
       const rows = (block.data.rows || []).map(r => `<tr>${r.map(c => `<td>${c}</td>`).join('')}</tr>`).join('');
-      return `<div class="gram-block gram-reveal">
+      return `<div class="gram-block gram-reveal" data-block-id="${block.id}">
         ${block.title ? `<h3 class="gram-table-title"><svg class="ico" aria-hidden="true"><use href="#i-clipboard"/></svg>${block.title}</h3>` : ''}
         <div class="gram-table-wrap"><div style="overflow-x:auto;"><table class="gram-table"><thead><tr>${head}</tr></thead><tbody>${rows}</tbody></table></div></div>
       </div>`;
     }
     case 'examples':
-      return `<div class="gram-block gram-reveal gram-examples">${(block.data.items || []).map(it =>
+      return `<div class="gram-block gram-reveal gram-examples" data-block-id="${block.id}">${(block.data.items || []).map(it =>
         `<div class="gram-ex"><div class="gram-ex-en">${it.en}</div>${it.note ? `<div class="gram-ex-note">${it.note}</div>` : ''}</div>`
       ).join('')}</div>`;
     case 'tip':
-      return `<div class="gram-block gram-reveal gram-tip">
+      return `<div class="gram-block gram-reveal gram-tip" data-block-id="${block.id}">
         <span class="gram-tip-icon" aria-hidden="true"><svg class="ico"><use href="#i-lightbulb"/></svg></span>
         <span class="gram-tip-label">IELTS tip</span>${block.body}</div>`;
     default:
       return '';
   }
+}
+
+// Always in the DOM (CSS-gated by body.debug-on via .dbg-question-mgr/.dbg-ctl)
+// so it appears immediately when Debug is toggled on mid-page.
+function grammarQuestionMgrHtml(topic){
+  const rows = (topic.quiz || []).map(q => {
+    const short = q.prompt.length > 60 ? `${q.prompt.slice(0, 60)}…` : q.prompt;
+    return `<div class="dbg-q-row" data-q-id="${q.id}">
+        <span class="dbg-q-prompt">${short}</span>
+        <span class="dbg-ctl">
+          <button type="button" class="dbg-edit-q">✎</button>
+          <button type="button" class="dbg-delete-q">✕</button>
+        </span>
+      </div>`;
+  }).join('');
+  return `<div class="dbg-question-mgr">
+    <h4>Manage questions</h4>
+    <div class="dbg-q-list">${rows}</div>
+    <button type="button" class="dbg-add-question">+ Add question</button>
+  </div>`;
 }
 
 const grammarQuiz = { topic: null, questions: [], idx: 0, score: 0 };
@@ -5321,6 +5399,120 @@ async function debugDeleteCategory(cat){
   if (!await debugConfirm(`Delete category "${cat.name}" and ALL its words? This cannot be undone.`)) return;
   await debugFetch(`/api/categories/${cat.pk}/`, 'DELETE');
   await debugRefreshVocab();
+}
+
+/* ---------- Grammar debug forms + actions ---------- */
+DEBUG_FORMS.topic = [
+  { name: 'slug',       label: 'Slug', type: 'text' },
+  { name: 'title',      label: 'Title', type: 'text' },
+  { name: 'tag',        label: 'Tag (section)', type: 'text' },
+  { name: 'cefr_label', label: 'CEFR label (e.g. B1+)', type: 'text' },
+  { name: 'blurb',      label: 'Blurb', type: 'textarea' },
+  { name: 'stage',      label: 'Stage', type: 'select', options: () => [
+      { value: 'beginner', label: 'Basic' },
+      { value: 'independent', label: 'Intermediate' },
+      { value: 'expert', label: 'Advanced' }] },
+  { name: 'order',      label: 'Order', type: 'number' },
+];
+DEBUG_FORMS.block = [
+  { name: 'type',  label: 'Type', type: 'select', options: () => [
+      'intro', 'rule', 'table', 'examples', 'tip'].map(v => ({ value: v, label: v })) },
+  { name: 'title', label: 'Title', type: 'text' },
+  { name: 'body',  label: 'Body', type: 'textarea' },
+  { name: 'data',  label: 'Data (JSON — table: {"head":[],"rows":[]}; examples: {"items":[{"en":"","note":""}]})', type: 'json', emptyValue: {} },
+  { name: 'order', label: 'Order', type: 'number' },
+];
+DEBUG_FORMS.question = [
+  { name: 'qtype',   label: 'Type', type: 'select', options: () => [
+      { value: 'mcq', label: 'Multiple choice' },
+      { value: 'gap', label: 'Fill the gap' },
+      { value: 'transform', label: 'Transformation' }] },
+  { name: 'prompt',  label: 'Prompt', type: 'textarea' },
+  { name: 'options', label: 'Options (JSON list, mcq only)', type: 'json', emptyValue: [] },
+  { name: 'answers', label: 'Answers (mcq: [index] — gap/transform: ["accepted"])', type: 'json', emptyValue: [] },
+  { name: 'why',     label: 'Why (explanation)', type: 'textarea' },
+  { name: 'order',   label: 'Order', type: 'number' },
+];
+
+async function debugRefreshGrammar(topicId){
+  // loadGrammar() caches on GRAMMAR_STAGES_DATA — clear both it and the
+  // in-flight promise so the next call actually re-fetches from the API.
+  GRAMMAR_STAGES_DATA = null;
+  grammarLoading = null;
+  const stages = await loadGrammar();
+  if (topicId != null){
+    const topic = stages.flatMap(s => s.topics).find(t => t.id === topicId);
+    if (topic){ openGrammarTopic(topic); return; }
+  }
+  renderGrammarHome();
+}
+
+function debugSaveTopic(existing){
+  openDebugModal({
+    title: existing ? `Edit topic: ${existing.title}` : 'Add grammar topic',
+    fields: DEBUG_FORMS.topic,
+    initial: existing ? {
+      slug: existing.slug, title: existing.title, tag: existing.tag,
+      cefr_label: existing.cefr, blurb: existing.blurb,
+      stage: existing.stage, order: existing.order,
+    } : { order: 0 },
+    onSave: async payload => {
+      if (existing) await debugFetch(`/api/grammar/topics/${existing.id}/`, 'PATCH', payload);
+      else          await debugFetch('/api/grammar/topics/', 'POST', payload);
+      await debugRefreshGrammar();
+    },
+  });
+}
+
+async function debugDeleteTopic(topic){
+  if (!await debugConfirm(
+    `Delete topic "${topic.title}"? Its lesson blocks and questions are deleted too. This cannot be undone.`)) return;
+  await debugFetch(`/api/grammar/topics/${topic.id}/`, 'DELETE');
+  await debugRefreshGrammar();
+}
+
+function debugSaveBlock(topicId, existing){
+  openDebugModal({
+    title: existing ? 'Edit lesson block' : 'Add lesson block',
+    fields: DEBUG_FORMS.block,
+    initial: existing ? {
+      type: existing.type, title: existing.title, body: existing.body,
+      data: existing.data, order: existing.order,
+    } : { data: {}, order: 0 },
+    onSave: async payload => {
+      if (existing) await debugFetch(`/api/grammar/blocks/${existing.id}/`, 'PATCH', payload);
+      else          await debugFetch('/api/grammar/blocks/', 'POST', { ...payload, topic: topicId });
+      await debugRefreshGrammar(topicId);
+    },
+  });
+}
+
+async function debugDeleteBlock(topicId, block){
+  if (!await debugConfirm('Delete this lesson block? This cannot be undone.')) return;
+  await debugFetch(`/api/grammar/blocks/${block.id}/`, 'DELETE');
+  await debugRefreshGrammar(topicId);
+}
+
+function debugSaveQuestion(topicId, existing){
+  openDebugModal({
+    title: existing ? 'Edit question' : 'Add question',
+    fields: DEBUG_FORMS.question,
+    initial: existing ? {
+      qtype: existing.qtype, prompt: existing.prompt, options: existing.options,
+      answers: existing.answers, why: existing.why, order: existing.order,
+    } : { options: [], answers: [], order: 0 },
+    onSave: async payload => {
+      if (existing) await debugFetch(`/api/grammar/questions/${existing.id}/`, 'PATCH', payload);
+      else          await debugFetch('/api/grammar/questions/', 'POST', { ...payload, topic: topicId });
+      await debugRefreshGrammar(topicId);
+    },
+  });
+}
+
+async function debugDeleteQuestion(topicId, q){
+  if (!await debugConfirm('Delete this question? This cannot be undone.')) return;
+  await debugFetch(`/api/grammar/questions/${q.id}/`, 'DELETE');
+  await debugRefreshGrammar(topicId);
 }
 
 /* ════════════════════════════════════════════════════════
