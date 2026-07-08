@@ -2933,7 +2933,7 @@ function postLearnMapNow(useKeepalive){
     // set it.
     return authFetch(`${AUTH_BASE}/sync/`, {
       method: 'POST',
-      body: JSON.stringify({ learn_map: state.learnMap }),
+      body: JSON.stringify({ learn_map: state.learnMap, grammar_map: loadGrammarProgress() }),
       keepalive: !!useKeepalive,
     }).catch(()=>{});
   });
@@ -3142,9 +3142,22 @@ async function initAuth(){
     // so local-only entries must survive being combined with the server's copy.
     state.learnMap = { ...state.learnMap, ...serverMap };
     saveLearned();
+    // Grammar progress: same merge idea, but per-topic — keep the better of
+    // the local and server records so neither device's attempt is lost.
+    const serverGrammar = syncData.grammar_map || {};
+    const localGrammar = loadGrammarProgress();
+    const mergedGrammar = { ...localGrammar };
+    Object.entries(serverGrammar).forEach(([slug, rec]) => {
+      const loc = mergedGrammar[slug];
+      mergedGrammar[slug] = loc
+        ? { best: Math.max(loc.best || 0, rec.best || 0), done: !!(loc.done || rec.done) }
+        : rec;
+    });
+    saveGrammarProgress(mergedGrammar);
     if (typeof renderBrowse === "function") renderBrowse();
     if (typeof renderExamples === "function") renderExamples();
     if (typeof renderWordGrid === "function") renderWordGrid();
+    if (GRAMMAR_STAGES_DATA && typeof renderGrammarHome === "function") renderGrammarHome();
   } catch(e){}
 }
 
@@ -3454,6 +3467,7 @@ function recordGrammarScore(slug, pct){
   const best = Math.max(prev.best, pct);
   p[slug] = { best, done: prev.done || best >= GRAMMAR_PASS_PCT };
   saveGrammarProgress(p);
+  syncLearnMapToServer();   // debounced account flush (carries grammar_map too)
 }
 
 const GRAMMAR_SECTION_ORDER = [
@@ -4705,6 +4719,7 @@ document.getElementById("signOutBtn").addEventListener("click", async () => {
   try {
     localStorage.removeItem(LEARN_STATE_KEY);
     localStorage.removeItem("ivm_learned_words");
+    localStorage.removeItem(GRAMMAR_PROGRESS_KEY);
   } catch(e) {}
   location.reload();
 });

@@ -14,6 +14,7 @@ class CustomUser(AbstractUser):
     picture  = models.ImageField(upload_to='avatars/', blank=True)
     role     = models.CharField(max_length=20, choices=Role.choices, default=Role.USER)
     learn_map = models.JSONField(default=dict)
+    grammar_map = models.JSONField(default=dict)
 
     USERNAME_FIELD  = 'email'
     REQUIRED_FIELDS = ['username']

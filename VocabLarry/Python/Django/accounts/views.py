@@ -43,13 +43,20 @@ def sync(request):
     if err:
         return err
     if request.method == 'GET':
-        return JsonResponse({'learn_map': request.user.learn_map})
+        return JsonResponse({'learn_map': request.user.learn_map,
+                             'grammar_map': request.user.grammar_map})
     try:
         body = json.loads(request.body or '{}')
     except (json.JSONDecodeError, ValueError):
         return JsonResponse({'error': 'Invalid JSON'}, status=400)
     request.user.learn_map = body.get('learn_map', {})
-    request.user.save(update_fields=['learn_map'])
+    fields = ['learn_map']
+    # Absent key leaves grammar_map untouched so a stale tab still posting the
+    # old learn_map-only payload can't wipe the account's grammar progress.
+    if 'grammar_map' in body:
+        request.user.grammar_map = body['grammar_map']
+        fields.append('grammar_map')
+    request.user.save(update_fields=fields)
     return JsonResponse({'ok': True})
 
 
