@@ -1325,6 +1325,10 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
 .dbg-field input,.dbg-field textarea,.dbg-field select{width:100%;box-sizing:border-box;
   background:rgba(127,127,127,.08);color:inherit;border:1px solid rgba(127,127,127,.25);
   border-radius:8px;padding:8px 10px;font:inherit;}
+/* native <option> popups render on their own OS surface, not ours - color:inherit
+   alone leaves dark-theme's light text on the browser's default light popup bg */
+.dbg-field select option{background:#161a24;color:#eceef4;}
+[data-theme="light"] .dbg-field select option{background:#ffffff;color:#16181d;}
 .dbg-err,.dbg-form-err{color:#f87171;font-style:normal;font-size:.78rem;display:block;margin-top:3px;}
 .dbg-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:16px;}
 .dbg-actions button{padding:8px 16px;border-radius:8px;border:1px solid rgba(127,127,127,.3);
