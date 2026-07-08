@@ -1,10 +1,13 @@
 from django.http import JsonResponse
-from django.views.decorators.http import require_GET
+from django.views.decorators.http import require_GET, require_http_methods
 from vocab.models import CEFRLevel, Category, Word, GrammarTopic
+from . import write_views
 
 
-@require_GET
+@require_http_methods(['GET', 'POST'])
 def words(request):
+    if request.method == 'POST':
+        return write_views.word_create(request)
     qs = Word.objects.select_related('cefr_level', 'category').order_by('category__order', 'order')
     data = [
         {
