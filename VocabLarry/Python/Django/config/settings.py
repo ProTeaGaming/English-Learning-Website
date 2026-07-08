@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.microsoft',
     'accounts',
     'vocab',
+    'grammar',
     'api',
     'dashboard',
 ]
