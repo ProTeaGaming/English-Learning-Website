@@ -2327,6 +2327,11 @@ function getCsrf() {
 /* ---------- Debug mode (staff-only inline editing) ---------- */
 function debugOn(){ return !!(state.auth.isStaff && sessionStorage.getItem('debugMode') === '1'); }
 
+function updateDebugToggleLabel(){
+  const dbgBtn = document.getElementById('debugToggle');
+  if (dbgBtn) dbgBtn.textContent = `Debug mode: ${debugOn() ? 'On' : 'Off'}`;
+}
+
 function applyDebugMode(){
   document.body.classList.toggle('debug-on', debugOn());
   let ribbon = document.getElementById('debugRibbon');
@@ -2360,7 +2365,7 @@ function openDebugModal({ title, fields, initial = {}, onSave }){
     const val = initial[f.name];
     if (f.type === 'select'){
       const opts = f.options().map(o =>
-        `<option value="${o.value}" ${String(val) === String(o.value) ? 'selected' : ''}>${o.label}</option>`
+        `<option value="${String(o.value).replace(/"/g, '&quot;')}" ${String(val) === String(o.value) ? 'selected' : ''}>${String(o.label).replace(/</g, '&lt;')}</option>`
       ).join('');
       return `<select name="${f.name}">${opts}</select>`;
     }
@@ -2376,11 +2381,11 @@ function openDebugModal({ title, fields, initial = {}, onSave }){
   };
   overlay.innerHTML = `
     <div class="dbg-modal" role="dialog" aria-modal="true">
-      <h3>${title}</h3>
+      <h3>${String(title).replace(/</g, '&lt;')}</h3>
       <form>
         ${fields.map(f => `
           <label class="dbg-field" data-field="${f.name}">
-            <span>${f.label}</span>
+            <span>${String(f.label).replace(/</g, '&lt;')}</span>
             ${inputHtml(f)}
             <em class="dbg-err" hidden></em>
           </label>`).join('')}
@@ -3075,6 +3080,7 @@ function renderAuthUI(){
     document.getElementById("userEmail").textContent = state.auth.email;
     const dbgBtn = document.getElementById("debugToggle");
     if (dbgBtn) dbgBtn.style.display = state.auth.isStaff ? "" : "none";
+    updateDebugToggleLabel();
   } else {
     signInBtn.style.display = "";
     userChip.style.display = "none";
@@ -4595,11 +4601,10 @@ document.getElementById("userChip").addEventListener("click", (e) => {
 {
   const dbgBtn = document.getElementById('debugToggle');
   if (dbgBtn){
-    const label = () => `Debug mode: ${debugOn() ? 'On' : 'Off'}`;
-    dbgBtn.textContent = label();
+    updateDebugToggleLabel();
     dbgBtn.addEventListener('click', () => {
       sessionStorage.setItem('debugMode', debugOn() ? '0' : '1');
-      dbgBtn.textContent = label();
+      updateDebugToggleLabel();
       applyDebugMode();
     });
   }
