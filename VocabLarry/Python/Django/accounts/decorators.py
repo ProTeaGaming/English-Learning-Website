@@ -5,6 +5,12 @@ from django.http import HttpResponseForbidden
 _ROLE_ORDER = {'user': 0, 'staff': 1, 'admin': 2}
 
 
+def is_staff_user(user) -> bool:
+    if not getattr(user, 'is_authenticated', False):
+        return False
+    return user.is_staff or _ROLE_ORDER.get(getattr(user, 'role', 'user'), 0) >= 1
+
+
 def role_required(min_role: str):
     def decorator(view_func):
         @wraps(view_func)

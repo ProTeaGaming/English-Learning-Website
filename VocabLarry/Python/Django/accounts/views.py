@@ -4,6 +4,8 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 
+from .decorators import is_staff_user
+
 User = get_user_model()
 
 
@@ -31,6 +33,7 @@ def session(request):
         'username': u.username,
         'email': u.email,
         'picture': _picture_url(request, u),
+        'isStaff': is_staff_user(u),
     })
 
 
