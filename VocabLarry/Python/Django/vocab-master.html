@@ -1771,31 +1771,31 @@ function iconSvg(emoji, cls){
     <div class="mode-picker-list">
       <button class="mode-picker-row" id="modePickerVocab" type="button">
         <svg class="ico" aria-hidden="true"><use href="#i-book"/></svg>
-        <span class="mode-picker-name">Vocabulary</span>
+        <span class="mode-picker-name" data-i18n="nav.vocabulary">Vocabulary</span>
       </button>
       <button class="mode-picker-row" id="modePickerGrammar" type="button">
         <svg class="ico" aria-hidden="true"><use href="#i-pen"/></svg>
-        <span class="mode-picker-name">Grammar</span>
+        <span class="mode-picker-name" data-i18n="nav.grammar">Grammar</span>
       </button>
       <div class="mode-picker-row mode-picker-row-disabled">
         <svg class="ico" aria-hidden="true"><use href="#i-book-open"/></svg>
-        <span class="mode-picker-name">Reading</span>
-        <span class="home-sec-pill soon">Soon</span>
+        <span class="mode-picker-name" data-i18n="nav.reading">Reading</span>
+        <span class="home-sec-pill soon" data-i18n="common.soon">Soon</span>
       </div>
       <div class="mode-picker-row mode-picker-row-disabled">
         <svg class="ico" aria-hidden="true"><use href="#i-file-text"/></svg>
-        <span class="mode-picker-name">Writing</span>
-        <span class="home-sec-pill soon">Soon</span>
+        <span class="mode-picker-name" data-i18n="nav.writing">Writing</span>
+        <span class="home-sec-pill soon" data-i18n="common.soon">Soon</span>
       </div>
       <div class="mode-picker-row mode-picker-row-disabled">
         <svg class="ico" aria-hidden="true"><use href="#i-headphones"/></svg>
-        <span class="mode-picker-name">Listening</span>
-        <span class="home-sec-pill soon">Soon</span>
+        <span class="mode-picker-name" data-i18n="nav.listening">Listening</span>
+        <span class="home-sec-pill soon" data-i18n="common.soon">Soon</span>
       </div>
       <div class="mode-picker-row mode-picker-row-disabled">
         <svg class="ico" aria-hidden="true"><use href="#i-mic"/></svg>
-        <span class="mode-picker-name">Speaking</span>
-        <span class="home-sec-pill soon">Soon</span>
+        <span class="mode-picker-name" data-i18n="nav.speaking">Speaking</span>
+        <span class="home-sec-pill soon" data-i18n="common.soon">Soon</span>
       </div>
     </div>
   </div>
@@ -3071,6 +3071,8 @@ const UI_STRINGS = {
     "home.descSpeaking": "Part 1, 2, and 3 topic vocabulary banks with pronunciation guides and example answers.",
     "home.comingSoon": "Coming soon",
     "home.cefrBreakdown": "CEFR Breakdown",
+    "home.chooseLearn": "Choose what to learn",
+    "home.chooseTest": "Choose what to test",
   },
   vi: {
     "nav.home": "Trang chủ",
@@ -3106,6 +3108,8 @@ const UI_STRINGS = {
     "home.descSpeaking": "Ngân hàng từ vựng theo chủ đề cho Part 1, 2 và 3 kèm hướng dẫn phát âm và câu trả lời mẫu.",
     "home.comingSoon": "Sắp ra mắt",
     "home.cefrBreakdown": "Phân tích CEFR",
+    "home.chooseLearn": "Chọn nội dung muốn học",
+    "home.chooseTest": "Chọn nội dung muốn kiểm tra",
   },
 };
 
@@ -5278,8 +5282,9 @@ document.getElementById("authOverlay").addEventListener("click", (e) => {
   if (e.target.id === "authOverlay") closeAuthModal();
 });
 function openModePicker(intent){
+  const dict = UI_STRINGS[state.lang] || UI_STRINGS.en;
   document.getElementById("modePickerTitle").textContent =
-    intent === "test" ? "Choose what to test" : "Choose what to learn";
+    intent === "test" ? dict["home.chooseTest"] : dict["home.chooseLearn"];
   document.getElementById("modePickerVocab").onclick = () => {
     closeModePicker();
     goToPage(intent === "test" ? "test" : "list");
