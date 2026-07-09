@@ -3027,6 +3027,111 @@ const ALL_SECTION_ORDER = [...BASIC_SECTIONS, ...INTERMEDIATE_SECTIONS, ...SECTI
 let ALL_CATEGORIES  = [];
 const CEFR_CAT_LEVEL = Object.fromEntries(CEFR_CATEGORIES.map(c => [c.id, c.cefrLevel]));
 
+/* Vietnamese names for every vocab section (BASIC_SECTIONS/INTERMEDIATE_SECTIONS/
+   SECTION_ORDER/CEFR_SECTIONS above) — keyed by the exact English section name,
+   which stays the canonical value used for filtering/matching everywhere; only
+   the display text changes. Category names (250+, e.g. "Negative Intensity")
+   are a separate, larger translation task and are not covered here — they
+   still render in English regardless of language. */
+const SECTION_NAME_VI = {
+  "Essential Verbs": "Động từ thiết yếu",
+  "People & Relationships": "Con người & Các mối quan hệ",
+  "Mind & Feelings": "Tâm trí & Cảm xúc",
+  "Home & Daily Life": "Nhà cửa & Đời sống hằng ngày",
+  "The Natural World": "Thế giới tự nhiên",
+  "Body & Health": "Cơ thể & Sức khỏe",
+  "Out & About": "Ra ngoài & Di chuyển",
+  "Time & Description": "Thời gian & Miêu tả",
+  "Numbers & Learning": "Số đếm & Học tập",
+  "Sports & Hobbies": "Thể thao & Sở thích",
+
+  "Emotions in Depth": "Cảm xúc chuyên sâu",
+  "Personality & Character": "Tính cách & Phẩm chất",
+  "Mind, Behaviour & Psychology": "Tâm trí, Hành vi & Tâm lý học",
+  "Society & Social Issues": "Xã hội & Các vấn đề xã hội",
+  "Work & Career": "Công việc & Sự nghiệp",
+  "Education & Society": "Giáo dục & Xã hội",
+  "Economics & Finance": "Kinh tế & Tài chính",
+  "Politics & Global Affairs": "Chính trị & Các vấn đề toàn cầu",
+  "Environment & Climate": "Môi trường & Khí hậu",
+  "Health & Medicine": "Sức khỏe & Y học",
+  "Science & Innovation": "Khoa học & Đổi mới sáng tạo",
+  "Technology & Media": "Công nghệ & Truyền thông",
+  "Media & Journalism": "Truyền thông & Báo chí",
+  "Cities & Urban Life": "Thành phố & Đời sống đô thị",
+  "Travel, Culture & Society": "Du lịch, Văn hóa & Xã hội",
+  "Food, Nutrition & Culture": "Ẩm thực, Dinh dưỡng & Văn hóa",
+  "Arts, Media & Culture": "Nghệ thuật, Truyền thông & Văn hóa",
+  "Language & Communication": "Ngôn ngữ & Giao tiếp",
+  "Action & Process Verbs": "Động từ hành động & Quy trình",
+  "Quality & Degree Adjectives": "Tính từ chỉ chất lượng & Mức độ",
+  "Idioms & Collocations": "Thành ngữ & Cụm từ cố định",
+  "Connectors & Discourse Markers": "Từ nối & Dấu hiệu diễn ngôn",
+  "Academic Language & Writing": "Ngôn ngữ học thuật & Viết luận",
+  "Verbs for Writing & Analysis": "Động từ cho viết luận & Phân tích",
+  "Precision & Control Vocabulary": "Từ vựng về sự chính xác & Kiểm soát",
+  "B2 Noun Bank": "Kho danh từ B2",
+  "B2 Milestone Sets": "Bộ từ vựng cột mốc B2",
+
+  "Negative Qualities & Criticism": "Đặc điểm tiêu cực & Phê bình",
+  "Positive Qualities & Strength": "Đặc điểm tích cực & Sức mạnh",
+  "Mind, Emotion & Description": "Tâm trí, Cảm xúc & Miêu tả",
+  "Scale, Change & Society": "Quy mô, Thay đổi & Xã hội",
+  "Academic Writing Toolkit": "Bộ công cụ viết học thuật",
+  "Formal English & Fixed Expressions": "Tiếng Anh trang trọng & Cụm từ cố định",
+  "IELTS Writing Themes I": "Chủ đề Viết IELTS I",
+  "IELTS Writing Themes II": "Chủ đề Viết IELTS II",
+  "Academic Writing Toolkit II": "Bộ công cụ viết học thuật II",
+  "Vivid Description & Communication": "Miêu tả sinh động & Giao tiếp",
+  "Cognition, Logic & Research": "Nhận thức, Logic & Nghiên cứu",
+  "Academic Connectors III": "Từ nối học thuật III",
+  "Career, Business & Leadership": "Sự nghiệp, Kinh doanh & Lãnh đạo",
+  "Workplace Tasks & Formal Language": "Công việc & Ngôn ngữ trang trọng",
+  "Governance, Economy & Society": "Quản trị, Kinh tế & Xã hội",
+  "Personality, Relationships & Conflict": "Tính cách, Mối quan hệ & Xung đột",
+  "Everyday Life, Money & Idioms": "Đời sống, Tiền bạc & Thành ngữ",
+  "Science, Tech & Innovation": "Khoa học, Công nghệ & Đổi mới",
+  "Nature, Climate & Energy": "Tự nhiên, Khí hậu & Năng lượng",
+  "Travel, Culture & Urban Life": "Du lịch, Văn hóa & Đời sống đô thị",
+  "Lifestyle, Leisure & Wellbeing": "Lối sống, Giải trí & Sức khỏe tinh thần",
+  "Storytelling, Humour & Persuasion": "Kể chuyện, Hài hước & Thuyết phục",
+  "Description: Size, Sound & Movement": "Miêu tả: Kích thước, Âm thanh & Chuyển động",
+  "Habits, Comparison & Politeness": "Thói quen, So sánh & Phép lịch sự",
+  "Mind & Abstract Thought": "Tâm trí & Tư duy trừu tượng",
+  "Society, Rights & Change": "Xã hội, Quyền lợi & Thay đổi",
+  "Global Power & Economy": "Quyền lực toàn cầu & Kinh tế",
+  "Philosophy & Critical Thought": "Triết học & Tư duy phản biện",
+  "Arts, History & Culture": "Nghệ thuật, Lịch sử & Văn hóa",
+  "Science, Research & Medicine": "Khoa học, Nghiên cứu & Y học",
+  "Academic Register & Style": "Văn phong & Sắc thái học thuật",
+  "Precision & Literary Language": "Ngôn ngữ chính xác & Văn chương",
+  "Advanced Adjectives": "Tính từ nâng cao",
+  "Advanced Verbs & Nouns": "Động từ & Danh từ nâng cao",
+  "Formal Nouns & Qualifiers": "Danh từ trang trọng & Từ hạn định",
+  "IELTS Essay Mastery": "Thành thạo viết luận IELTS",
+  "Advanced Lexical Expansion": "Mở rộng vốn từ nâng cao",
+  "C2 Finishing Sets": "Bộ từ vựng hoàn thiện C2",
+
+  "Beginner": "Sơ cấp",
+  "Independent": "Trung cấp",
+  "Expert": "Thành thạo",
+};
+/* Returns the Vietnamese section name when available and Vietnamese is
+   active, else the original English name unchanged (the canonical value
+   used for filtering — only display text is swapped). */
+function sectionLabel(name){
+  return (state.lang === "vi" && SECTION_NAME_VI[name]) || name;
+}
+/* Generic UI_STRINGS lookup for dynamically-rendered JS text (chip labels,
+   filter-row headers, etc.) that data-i18n/applyI18n() can't reach because
+   the element doesn't exist as static HTML — it's built by a render
+   function. Falls back to English if the key is missing for the current
+   language. */
+function t(key){
+  const dict = UI_STRINGS[state.lang] || UI_STRINGS.en;
+  return dict[key] || UI_STRINGS.en[key] || key;
+}
+
 /* Pre-compute words per category (including CEFR virtual cats) */
 let CAT_WORDS = {};
 
@@ -3113,6 +3218,8 @@ const UI_STRINGS = {
     "vocab.selectWords": "Select Words",
     "vocab.selectAllResults": "Select all results",
     "vocab.clearSelection": "Clear selection",
+    "vocab.sectionLabel": "Section",
+    "vocab.allSectionsChip": "All Sections",
   },
   vi: {
     "nav.home": "Trang chủ",
@@ -3181,6 +3288,8 @@ const UI_STRINGS = {
     "vocab.selectWords": "Chọn từ",
     "vocab.selectAllResults": "Chọn tất cả kết quả",
     "vocab.clearSelection": "Bỏ chọn",
+    "vocab.sectionLabel": "Phần",
+    "vocab.allSectionsChip": "Tất cả các phần",
   },
 };
 
@@ -3585,7 +3694,7 @@ function buildSectionChips(container, f, onChange){
   const allChip = document.createElement("button");
   allChip.className = "chip" + (f.section==="all" ? " active" : "");
   allChip.dataset.section = "all";
-  allChip.textContent = "All Sections";
+  allChip.textContent = t("vocab.allSectionsChip");
 
   const sections = hl === undefined
     ? SECTION_ORDER
@@ -3597,7 +3706,7 @@ function buildSectionChips(container, f, onChange){
     const chip = document.createElement("button");
     chip.className = "chip" + (f.section===sec ? " active" : "");
     chip.dataset.section = sec;
-    chip.textContent = sec;
+    chip.textContent = sectionLabel(sec);
     return chip;
   });
 
@@ -5119,6 +5228,16 @@ document.querySelectorAll("#langMenu [data-lang]").forEach(row => {
     try { localStorage.setItem("ivm_lang", state.lang); } catch(e) {}
     updateLangActiveRow();
     applyI18n();
+    // Section names (and anything else built by these render functions) are
+    // set from JS, not static HTML, so applyI18n()'s [data-i18n] sweep can't
+    // reach them — re-run their render functions so a language switch updates
+    // an already-open page immediately, not just on next navigation. Safe
+    // here (unlike inside applyI18n() itself, which also runs once very
+    // early at page load before this state exists) because a click can only
+    // happen after the page has fully loaded.
+    if (typeof renderBrowse === "function") renderBrowse();
+    if (typeof renderExamplesFilters === "function") renderExamplesFilters();
+    if (typeof renderTestFiltersSection === "function") renderTestFiltersSection();
     document.getElementById("langChip").classList.remove("open");
   });
 });
@@ -5845,7 +5964,7 @@ async function debugRefreshVocab(){
       iconEl.className = `cat-view-icon t-${cat.theme}`;
       document.getElementById("catViewName").textContent = cat.name;
       document.getElementById("catViewName").className = `cat-view-name t-${cat.theme}`;
-      document.getElementById("catViewSub").textContent = `${(CAT_WORDS[cat.id]||[]).length} words · ${cat.section||""}`;
+      document.getElementById("catViewSub").textContent = `${(CAT_WORDS[cat.id]||[]).length} words · ${sectionLabel(cat.section||"")}`;
     } else {
       // the category being viewed is gone (deleted) — bail out
       exitCatView();
@@ -6084,7 +6203,7 @@ function renderBrowseSection(sectionName, cats, num){
     <div class="section-block-header">
       <div class="section-block-num">${String(num).padStart(2, "0")}</div>
       <div class="section-block-info">
-        <div class="section-block-name">${sectionName}</div>
+        <div class="section-block-name">${sectionLabel(sectionName)}</div>
         <div class="section-block-meta">${cats.length} categor${cats.length!==1?"ies":"y"} · ${totalWords} words</div>
       </div>
       <div class="section-block-right">
@@ -6171,10 +6290,10 @@ function renderBrowse(){
 
   // Section chips, filtered to the active headline (CEFR shows its three stages)
   sc.style.display = "";
-  sc.innerHTML = `<span class="filter-label">Section</span>`;
+  sc.innerHTML = `<span class="filter-label">${t("vocab.sectionLabel")}</span>`;
   const allBtn = document.createElement("button");
   allBtn.className = "chip" + (browseState.section==="all"?" active":"");
-  allBtn.textContent = "All";
+  allBtn.textContent = t("common.all");
   allBtn.addEventListener("click", () => { browseState.section="all"; browseState.page=1; renderBrowse(); });
   const sectionsForChips = hl === "all"
     ? ALL_SECTION_ORDER.filter(s => SECTION_HEADLINES[s] !== "cefr")
@@ -6182,7 +6301,7 @@ function renderBrowse(){
   const sectionBtns = sectionsForChips.map(sName => {
     const btn = document.createElement("button");
     btn.className = "chip" + (browseState.section===sName?" active":"");
-    btn.textContent = sName;
+    btn.textContent = sectionLabel(sName);
     btn.addEventListener("click", () => { browseState.section=sName; browseState.page=1; renderBrowse(); });
     return btn;
   });
@@ -6335,7 +6454,7 @@ function enterCatView(cat){
   document.getElementById("catViewIcon").className = `cat-view-icon t-${cat.theme}`;
   document.getElementById("catViewName").textContent = cat.name;
   document.getElementById("catViewName").className = `cat-view-name t-${cat.theme}`;
-  document.getElementById("catViewSub").textContent = `${CAT_WORDS[cat.id].length} words · ${cat.section||""}`;
+  document.getElementById("catViewSub").textContent = `${CAT_WORDS[cat.id].length} words · ${sectionLabel(cat.section||"")}`;
   document.querySelectorAll("[data-cat-cefr]").forEach(c => c.classList.toggle("active", c.dataset.catCefr==="all"));
   document.querySelectorAll("[data-cat-learned]").forEach(c => c.classList.toggle("active", c.dataset.catLearned==="all"));
   document.getElementById("listBrowse").style.display = "none";
