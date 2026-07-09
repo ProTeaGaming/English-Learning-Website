@@ -48,6 +48,8 @@ Target ~55–60 entries total, similar scale to the existing Comparisons
 1. New button in `#gramwordSetBar`: `Irregular Plurals`, icon `#i-users`,
    placed right after `Irregular Verbs` (both are "irregular forms of a
    word class" — grouped together ahead of Comparisons/Linking/Idioms).
+   Full button order becomes: **Irregular Verbs, Irregular Plurals,
+   Comparisons, Linking Words, Idioms.**
 2. New filter row `#gramwordPtypeRow` (chips: All / Vowel change / -en /
    f→ves / Unchanged / Foreign / Other), shown only when
    `gramwordState.set === 'plurals'` — same pattern as
