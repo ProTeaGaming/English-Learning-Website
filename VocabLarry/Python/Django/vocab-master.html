@@ -96,8 +96,12 @@ h1,h2,h3,.brand,.tab,.btn,.modeCard h3,.mode-toggle-label{font-family:'Plus Jaka
 /* Vietnamese labels sit a little tighter in the same padding than
    English ones — nudge just this language's tabs, not every language. */
 html[lang="vi"] .tab{padding:10px 14px;}
-/* "Từ vựng" specifically needs a bit more width than the shared rule above. */
-html[lang="vi"] .nav-group[data-section="vocabulary"] .tab{padding-left:17px; padding-right:17px;}
+/* The Vocabulary dropdown's longest Vietnamese items ("Danh mục",
+   "Kiểm tra") need ~88px of content width to avoid wrapping; matching
+   the tab's width to its dropdown (see .nav-dropdown below) keeps the
+   two flush instead of the dropdown overhanging a narrower button. */
+html[lang="vi"] .nav-group[data-section="vocabulary"] .tab{min-width:96px; text-align:center;}
+html[lang="vi"] .nav-group[data-section="vocabulary"] .nav-dropdown{min-width:96px;}
 .tab:hover{color:var(--text); background:rgba(var(--vio),.1); border-color:rgba(var(--vio),.2); transform:translateY(-1px);}
 .tab.active{color:#fff; background:rgb(var(--vio)); box-shadow:0 4px 14px rgba(var(--vio),.4);}
 /* ===== NAV DROPDOWNS ===== */
