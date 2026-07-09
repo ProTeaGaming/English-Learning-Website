@@ -2132,31 +2132,31 @@ function iconSvg(emoji, cls){
       </div>
       <div class="browse-bar" style="margin-bottom:12px;">
         <div class="filter-row">
-          <span class="filter-label">Source</span>
-          <button class="chip active" id="testSourceCategory">By Category</button>
-          <button class="chip" id="testSourceWords">By Words</button>
+          <span class="filter-label" data-i18n="vocab.source">Source</span>
+          <button class="chip active" id="testSourceCategory" data-i18n="vocab.byCategory">By Category</button>
+          <button class="chip" id="testSourceWords" data-i18n="vocab.byWords">By Words</button>
         </div>
       </div>
       <div id="testCategoryFilter">
         <div class="headline-bar" id="testHeadlineFilters">
-          <button class="headline-btn active" data-headline="all">All</button>
-          <button class="headline-btn" data-headline="basic"><svg class="ico" aria-hidden="true"><use href="#i-sprout"/></svg> Basic</button>
-          <button class="headline-btn" data-headline="intermediate"><svg class="ico" aria-hidden="true"><use href="#i-trend-up"/></svg> Intermediate</button>
-          <button class="headline-btn" data-headline="advanced"><svg class="ico" aria-hidden="true"><use href="#i-grad-cap"/></svg> Advanced</button>
+          <button class="headline-btn active" data-headline="all" data-i18n="common.all">All</button>
+          <button class="headline-btn" data-headline="basic"><svg class="ico" aria-hidden="true"><use href="#i-sprout"/></svg> <span data-i18n="common.basic">Basic</span></button>
+          <button class="headline-btn" data-headline="intermediate"><svg class="ico" aria-hidden="true"><use href="#i-trend-up"/></svg> <span data-i18n="common.intermediate">Intermediate</span></button>
+          <button class="headline-btn" data-headline="advanced"><svg class="ico" aria-hidden="true"><use href="#i-grad-cap"/></svg> <span data-i18n="common.advanced">Advanced</span></button>
         </div>
         <div class="browse-bar">
           <div class="filter-head">
-            <span class="filter-label">Topic &amp; Level</span>
+            <span class="filter-label" data-i18n="vocab.topicLevel">Topic &amp; Level</span>
             <span class="result-count" id="testFilterCount"></span>
           </div>
           <div class="search-row" style="position:relative;">
-            <input type="search" id="testCatSearch" placeholder="Search categories…">
+            <input type="search" id="testCatSearch" placeholder="Search categories…" data-i18n-placeholder="vocab.searchCategories">
           </div>
           <div class="filter-row" id="testSectionFilters"></div>
           <div class="filter-row" id="testCategoryFilters"></div>
           <div class="filter-row" id="testCefrFilters">
-            <span class="filter-label">CEFR Level</span>
-            <button class="chip active" data-cefr="all">All</button>
+            <span class="filter-label" data-i18n="common.cefrLevel">CEFR Level</span>
+            <button class="chip active" data-cefr="all" data-i18n="common.all">All</button>
             <button class="chip" data-cefr="A1">A1</button><button class="chip" data-cefr="A1+">A1+</button>
             <button class="chip" data-cefr="A2">A2</button><button class="chip" data-cefr="A2+">A2+</button>
             <button class="chip" data-cefr="B1">B1</button><button class="chip" data-cefr="B1+">B1+</button>
@@ -2165,36 +2165,36 @@ function iconSvg(emoji, cls){
             <button class="chip" data-cefr="C2">C2</button><button class="chip" data-cefr="C2+">C2+</button>
           </div>
           <div class="filter-row" id="testLearnedFilters">
-            <span class="filter-label">Progress</span>
-            <button class="chip active" data-learned="all">All</button>
-            <button class="chip" data-learned="learned">Learned</button>
-            <button class="chip" data-learned="unlearned">Not Learned</button>
+            <span class="filter-label" data-i18n="common.progress">Progress</span>
+            <button class="chip active" data-learned="all" data-i18n="common.all">All</button>
+            <button class="chip" data-learned="learned" data-i18n="common.learned">Learned</button>
+            <button class="chip" data-learned="unlearned" data-i18n="common.notLearned">Not Learned</button>
           </div>
           <div class="filter-row" style="justify-content:flex-end;">
-            <button class="clear-btn" id="testClearFilters">Clear filters</button>
+            <button class="clear-btn" id="testClearFilters" data-i18n="common.clearFilters">Clear filters</button>
           </div>
         </div>
       </div>
       <div id="testWordPicker" style="display:none;">
         <div class="headline-bar" id="testWordHeadlineBar">
-          <button class="headline-btn active" data-word-headline="all">All</button>
-          <button class="headline-btn" data-word-headline="basic"><svg class="ico" aria-hidden="true"><use href="#i-sprout"/></svg> Basic</button>
-          <button class="headline-btn" data-word-headline="intermediate"><svg class="ico" aria-hidden="true"><use href="#i-trend-up"/></svg> Intermediate</button>
-          <button class="headline-btn" data-word-headline="advanced"><svg class="ico" aria-hidden="true"><use href="#i-grad-cap"/></svg> Advanced</button>
+          <button class="headline-btn active" data-word-headline="all" data-i18n="common.all">All</button>
+          <button class="headline-btn" data-word-headline="basic"><svg class="ico" aria-hidden="true"><use href="#i-sprout"/></svg> <span data-i18n="common.basic">Basic</span></button>
+          <button class="headline-btn" data-word-headline="intermediate"><svg class="ico" aria-hidden="true"><use href="#i-trend-up"/></svg> <span data-i18n="common.intermediate">Intermediate</span></button>
+          <button class="headline-btn" data-word-headline="advanced"><svg class="ico" aria-hidden="true"><use href="#i-grad-cap"/></svg> <span data-i18n="common.advanced">Advanced</span></button>
         </div>
         <div class="browse-bar">
           <div class="filter-head">
-            <span class="filter-label">Select Words</span>
+            <span class="filter-label" data-i18n="vocab.selectWords">Select Words</span>
             <span class="result-count" id="testWordMatchCount">0 words selected</span>
           </div>
           <div class="search-row" style="position:relative;">
-            <input type="search" id="testWordSearch" placeholder="Search words, definitions, synonyms…">
+            <input type="search" id="testWordSearch" placeholder="Search words, definitions, synonyms…" data-i18n-placeholder="common.searchWords">
           </div>
           <div class="filter-row" id="testWordSectionFilters"></div>
           <div class="filter-row" id="testWordCategoryFilters"></div>
           <div class="filter-row" id="testWordCefrFilters">
-            <span class="filter-label">CEFR Level</span>
-            <button class="chip active" data-cefr="all">All</button>
+            <span class="filter-label" data-i18n="common.cefrLevel">CEFR Level</span>
+            <button class="chip active" data-cefr="all" data-i18n="common.all">All</button>
             <button class="chip" data-cefr="A1">A1</button><button class="chip" data-cefr="A1+">A1+</button>
             <button class="chip" data-cefr="A2">A2</button><button class="chip" data-cefr="A2+">A2+</button>
             <button class="chip" data-cefr="B1">B1</button><button class="chip" data-cefr="B1+">B1+</button>
@@ -2203,14 +2203,14 @@ function iconSvg(emoji, cls){
             <button class="chip" data-cefr="C2">C2</button><button class="chip" data-cefr="C2+">C2+</button>
           </div>
           <div class="filter-row" id="testWordLearnedFilters">
-            <span class="filter-label">Progress</span>
-            <button class="chip active" data-word-learned="all">All</button>
-            <button class="chip" data-word-learned="learned">Learned</button>
-            <button class="chip" data-word-learned="unlearned">Not Learned</button>
+            <span class="filter-label" data-i18n="common.progress">Progress</span>
+            <button class="chip active" data-word-learned="all" data-i18n="common.all">All</button>
+            <button class="chip" data-word-learned="learned" data-i18n="common.learned">Learned</button>
+            <button class="chip" data-word-learned="unlearned" data-i18n="common.notLearned">Not Learned</button>
           </div>
           <div class="filter-row">
-            <button class="chip" id="testSelectAllWords">Select all results</button>
-            <button class="clear-btn" id="testClearWordSel" style="display:none;">Clear selection</button>
+            <button class="chip" id="testSelectAllWords" data-i18n="vocab.selectAllResults">Select all results</button>
+            <button class="clear-btn" id="testClearWordSel" style="display:none;" data-i18n="vocab.clearSelection">Clear selection</button>
           </div>
           <div class="filter-row" id="testWordGrid" style="flex-wrap:wrap; gap:6px; row-gap:6px;"></div>
           <div class="pagination" id="testWordPagination"></div>
@@ -3106,6 +3106,13 @@ const UI_STRINGS = {
     "vocab.markAllCompleted": "✓ Mark All Completed",
     "vocab.resetAll": "↺ Reset All",
     "vocab.wordPageDesc": "Every word, used correctly in a full sentence.",
+    "vocab.source": "Source",
+    "vocab.byCategory": "By Category",
+    "vocab.byWords": "By Words",
+    "vocab.topicLevel": "Topic & Level",
+    "vocab.selectWords": "Select Words",
+    "vocab.selectAllResults": "Select all results",
+    "vocab.clearSelection": "Clear selection",
   },
   vi: {
     "nav.home": "Trang chủ",
@@ -3167,6 +3174,13 @@ const UI_STRINGS = {
     "vocab.markAllCompleted": "✓ Đánh dấu tất cả đã hoàn thành",
     "vocab.resetAll": "↺ Đặt lại tất cả",
     "vocab.wordPageDesc": "Mỗi từ, được dùng đúng trong một câu hoàn chỉnh.",
+    "vocab.source": "Nguồn",
+    "vocab.byCategory": "Theo danh mục",
+    "vocab.byWords": "Theo từ",
+    "vocab.topicLevel": "Chủ đề & Cấp độ",
+    "vocab.selectWords": "Chọn từ",
+    "vocab.selectAllResults": "Chọn tất cả kết quả",
+    "vocab.clearSelection": "Bỏ chọn",
   },
 };
 
