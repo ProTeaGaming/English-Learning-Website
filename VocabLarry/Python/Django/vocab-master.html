@@ -392,6 +392,8 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
 .reveal .rdef{font-weight:600; line-height:1.4;}
 .reveal .rrow{color:var(--muted); line-height:1.4;}
 .reveal .rrow b{color:var(--text); font-weight:600;}
+.word-xref{color:rgb(var(--vio)); font-weight:700; cursor:pointer; text-decoration:underline; text-decoration-style:dotted; text-underline-offset:2px;}
+.word-xref:hover{text-decoration-style:solid;}
 .reveal .rex{color:var(--muted); font-style:italic; line-height:1.4; margin-top:auto; padding-top:6px; border-top:1px solid var(--border);}
 .reveal .rex em{color:var(--accent-c,var(--accent)); font-style:normal; font-weight:700;}
 .word-card .top-line{display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;}
@@ -2535,6 +2537,7 @@ const HEX_TO_THEME = {
 
 let CATEGORIES  = [];
 let VOCAB_DATA  = [];
+let VOCAB_BY_WORD = new Map();
 let CAT_MAP     = {};
 let CEFR_LEVELS_RAW = [];
 const SECTIONS = {
@@ -5517,6 +5520,7 @@ async function loadVocab() {
 
     CAT_MAP       = Object.fromEntries(CATEGORIES.map(c => [c.id, c]));
     ALL_CATEGORIES = [...CATEGORIES, ...CEFR_CATEGORIES];
+    VOCAB_BY_WORD = new Map(VOCAB_DATA.map(w => [w.w.toLowerCase(), w]));
 
     CAT_WORDS = {};
     CATEGORIES.forEach(cat      => { CAT_WORDS[cat.id] = VOCAB_DATA.filter(w => w.cat === cat.id); });
@@ -6003,16 +6007,17 @@ function renderWordGrid(){
           <button type="button" class="dbg-delete-word">✕</button>
         </span>
         <div class="rdef">${word.def}</div>
-        ${word.syn && word.syn.length ? `<div class="rrow"><b>Synonyms:</b> ${word.syn.join(", ")}</div>` : ""}
-        ${word.ant && word.ant.length ? `<div class="rrow"><b>Antonyms:</b> ${word.ant.join(", ")}</div>` : ""}
+        ${word.syn && word.syn.length ? `<div class="rrow"><b>Synonyms:</b> ${linkedWordsHtml(word.syn)}</div>` : ""}
+        ${word.ant && word.ant.length ? `<div class="rrow"><b>Antonyms:</b> ${linkedWordsHtml(word.ant)}</div>` : ""}
         <div class="rex">${word.ex}</div>
         <div class="learn-state-row">
           <span class="learn-state-label">Progress:</span>
           <button class="learn-state-btn" data-state="${ws===null?"none":ws}">${ws==="learned"?"Learned":ws==="little"?"Little Bit":"Not Learned"}</button>
         </div>
       </div>`;
+    wireWordXrefs(card);
     card.addEventListener("click", (e) => {
-      if (e.target.closest(".learn-state-btn") || e.target.closest("[data-dbg-word-ctl]")) return;
+      if (e.target.closest(".learn-state-btn") || e.target.closest("[data-dbg-word-ctl]") || e.target.closest(".word-xref")) return;
       openWordModal(word);
     });
     const stateBtn = card.querySelector(".learn-state-btn");
@@ -6247,10 +6252,14 @@ function renderExamples(){
     item.classList.add("interactive");
     item.insertAdjacentHTML("beforeend", `<div class="ex-reveal">
       <div class="rdef">${word.def}</div>
-      ${word.syn && word.syn.length ? `<div class="rrow"><b>Synonyms:</b> ${word.syn.join(", ")}</div>` : ""}
-      ${word.ant && word.ant.length ? `<div class="rrow"><b>Antonyms:</b> ${word.ant.join(", ")}</div>` : ""}
+      ${word.syn && word.syn.length ? `<div class="rrow"><b>Synonyms:</b> ${linkedWordsHtml(word.syn)}</div>` : ""}
+      ${word.ant && word.ant.length ? `<div class="rrow"><b>Antonyms:</b> ${linkedWordsHtml(word.ant)}</div>` : ""}
     </div>`);
-    item.addEventListener("click", () => openWordModal(word));
+    wireWordXrefs(item);
+    item.addEventListener("click", (e) => {
+      if (e.target.closest(".word-xref")) return;
+      openWordModal(word);
+    });
     list.appendChild(item);
   });
   buildPagination(document.getElementById("exPagination"), total, EX_PER_PAGE, page, p => {
@@ -6922,6 +6931,24 @@ function showTestResult(){
    WORD DETAIL MODAL
    ════════════════════════════════════════════════════════ */
 let currentModalWord = null;
+/* Synonyms/antonyms that also exist as their own vocab entry become
+   clickable — they open that word's own modal in place, they never
+   navigate to a different page or category. */
+function linkedWordsHtml(words){
+  return (words || []).map(w => {
+    const match = VOCAB_BY_WORD.get(w.toLowerCase());
+    return match ? `<span class="word-xref" data-word="${w.toLowerCase()}">${w}</span>` : w;
+  }).join(", ");
+}
+function wireWordXrefs(root){
+  root.querySelectorAll(".word-xref").forEach(el => {
+    el.addEventListener("click", e => {
+      e.stopPropagation();
+      const match = VOCAB_BY_WORD.get(el.dataset.word);
+      if (match) openWordModal(match);
+    });
+  });
+}
 function openWordModal(word){
   currentModalWord = word;
   const cat = CAT_MAP[word.cat];
@@ -6932,11 +6959,13 @@ function openWordModal(word){
   cefrEl.textContent = word.cefr; cefrEl.className = `cefr-badge ${word.cefr}`;
   document.getElementById("modal-def").textContent = word.def;
   const synEl = document.getElementById("modal-syn");
-  synEl.innerHTML = word.syn && word.syn.length ? `<b>Synonyms:</b> ${word.syn.join(", ")}` : "";
+  synEl.innerHTML = word.syn && word.syn.length ? `<b>Synonyms:</b> ${linkedWordsHtml(word.syn)}` : "";
   synEl.style.display = word.syn && word.syn.length ? "" : "none";
+  wireWordXrefs(synEl);
   const antEl = document.getElementById("modal-ant");
-  antEl.innerHTML = word.ant && word.ant.length ? `<b>Antonyms:</b> ${word.ant.join(", ")}` : "";
+  antEl.innerHTML = word.ant && word.ant.length ? `<b>Antonyms:</b> ${linkedWordsHtml(word.ant)}` : "";
   antEl.style.display = word.ant && word.ant.length ? "" : "none";
+  wireWordXrefs(antEl);
   document.getElementById("modal-ex").innerHTML = word.ex;
   const catEl = document.getElementById("modal-cat");
   if (cat){ catEl.innerHTML = `<b>Category:</b> ${cat.name}`; catEl.style.display = ""; }
