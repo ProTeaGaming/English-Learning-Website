@@ -4977,12 +4977,19 @@ function updateLangActiveRow(){
   });
 }
 updateLangActiveRow();
+// Runs applyI18n() here, not in the later INIT block: an unrelated
+// pre-existing null-element error further down this same <script> halts
+// synchronous execution before reaching INIT, which would otherwise
+// silently skip translating the page on load (e.g. after a reload with
+// a saved non-English language).
+applyI18n();
 document.getElementById("langChip").addEventListener("click", (e) => {
   e.stopPropagation();
   document.getElementById("langChip").classList.toggle("open");
 });
 document.querySelectorAll("#langMenu [data-lang]").forEach(row => {
-  row.addEventListener("click", () => {
+  row.addEventListener("click", (e) => {
+    e.stopPropagation();
     state.lang = row.dataset.lang;
     try { localStorage.setItem("ivm_lang", state.lang); } catch(e) {}
     updateLangActiveRow();
@@ -7142,7 +7149,6 @@ document.getElementById("modalDeleteWordBtn").addEventListener("click", () => { 
 /* ════════════════════════════════════════════════════════
    INIT
    ════════════════════════════════════════════════════════ */
-applyI18n();
 renderBrowse();
 renderExamplesFilters();
 renderExamples();
