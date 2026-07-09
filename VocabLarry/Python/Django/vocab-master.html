@@ -3132,6 +3132,270 @@ function t(key){
   return dict[key] || UI_STRINGS.en[key] || key;
 }
 
+/* Vietnamese names for all 250 vocab categories, keyed by category slug
+   (the canonical id used for filtering/matching everywhere — only display
+   text changes). Generated from the live category list; category names
+   NOT present here (e.g. CEFR pseudo-categories like "A1") are left
+   untranslated by catName()'s fallback, which is exactly the desired
+   behavior for CEFR codes. */
+const CATEGORY_NAME_VI = {
+  "neg-intensity": "Cường độ tiêu cực",
+  "approval-excellence": "Sự tán thành & Xuất sắc",
+  "deception-falsehood": "Lừa dối & Giả dối",
+  "emotions-psych": "Cảm xúc & Trạng thái tâm lý",
+  "strength-persistence": "Sức mạnh & Sự kiên trì",
+  "weakness-deterioration": "Điểm yếu & Sự suy giảm",
+  "scope-scale": "Phạm vi & Quy mô",
+  "clarity-certainty": "Sự rõ ràng & Chắc chắn",
+  "change-transformation": "Thay đổi & Biến đổi",
+  "judgment-criticism": "Đánh giá & Phê bình",
+  "support-agreement": "Ủng hộ & Đồng ý",
+  "magnitude-impact": "Mức độ & Tác động",
+  "appearance-character": "Miêu tả — Ngoại hình & Tính cách",
+  "thinking-intelligence": "Tư duy & Trí tuệ",
+  "society-politics": "Xã hội, Quyền lực & Chính trị",
+  "ethics-morality": "Đạo đức & Luân lý",
+  "academic-stance": "Lập trường học thuật & Cách nói giảm nhẹ",
+  "connectors-transitions": "Từ nối & Chuyển ý",
+  "tone-atmosphere": "Miêu tả — Giọng điệu & Không khí",
+  "professional-register": "Văn phong chuyên nghiệp & Trang trọng",
+  "abstract-nouns": "Danh từ trừu tượng cho bài luận",
+  "phrasal-verbs": "Cụm động từ cho sự trôi chảy",
+  "collocations": "Cụm từ cố định & Kết hợp từ",
+  "linking-words": "Từ nối & Dấu hiệu diễn ngôn",
+  "trends-data": "Miêu tả xu hướng & Dữ liệu",
+  "opinion-argument": "Quan điểm, Lập luận & Thuyết phục",
+  "education-learning": "Giáo dục & Học tập",
+  "work-career": "Công việc & Sự nghiệp",
+  "environment-sustainability": "Môi trường & Phát triển bền vững",
+  "technology-modern-life": "Công nghệ & Đời sống hiện đại",
+  "travel-society-culture": "Du lịch, Xã hội & Văn hóa",
+  "health-lifestyle": "Sức khỏe & Lối sống",
+  "precision-upgrades": "Độ chính xác & Nâng cấp từ vựng hằng ngày",
+  "essay-power-words": "Từ vựng mạnh cho bài luận",
+  "society-mind-rhetoric": "Xã hội, Tâm trí & Hùng biện",
+  "hedging-likelihood": "Khả năng xảy ra & Cách nói giảm nhẹ",
+  "cause-consequence": "Nguyên nhân, Kết quả & Hệ quả",
+  "connectors-time-sequence": "Thời gian, Trình tự & Tính liên tục",
+  "difficulty-risk": "Khó khăn, Rủi ro & Gian khổ",
+  "proactive-action": "Hành động chủ động & Cải thiện",
+  "quantity-degree": "Số lượng & Mức độ",
+  "vivid-everyday": "Miêu tả sinh động đời thường",
+  "communication-disclosure": "Giao tiếp & Tiết lộ",
+  "cognitive-verbs": "Động từ hiểu biết & Tư duy",
+  "research-inquiry": "Nghiên cứu & Điều tra",
+  "critical-reasoning": "Lập luận phản biện & Logic",
+  "academic-connectors-iii": "Từ nối học thuật III",
+  "business-finance": "Kinh doanh & Tài chính",
+  "workplace-communication": "Giao tiếp nơi làm việc",
+  "leadership-management": "Lãnh đạo & Quản lý",
+  "career-growth": "Phát triển sự nghiệp",
+  "growth-expansion": "Tăng trưởng, Lan rộng & Mở rộng",
+  "social-justice": "Vấn đề xã hội & Công lý",
+  "governance-law": "Quản trị & Pháp luật",
+  "economy-trade": "Kinh tế & Thương mại",
+  "decision-making": "Quyết định, Do dự & Cân nhắc",
+  "personality-traits-ii": "Đặc điểm tính cách II",
+  "interpersonal-relationships": "Mối quan hệ giữa các cá nhân",
+  "conflict-resolution": "Xung đột & Giải quyết",
+  "everyday-idioms": "Thành ngữ & Cách diễn đạt hằng ngày",
+  "money-shopping": "Tiền bạc, Mua sắm & Giá trị",
+  "food-health": "Thực phẩm, Sức khỏe & Cơ thể",
+  "tech-digital-life": "Công nghệ & Đời sống số II",
+  "climate-weather": "Khí hậu & Thời tiết",
+  "science-innovation": "Khoa học & Đổi mới",
+  "nature-wildlife": "Thiên nhiên & Động vật hoang dã",
+  "energy-resources-ii": "Năng lượng & Tài nguyên II",
+  "travel-experiences": "Trải nghiệm du lịch",
+  "cultural-diversity": "Đa dạng văn hóa & Bản sắc",
+  "lifestyle-habits": "Lối sống & Thói quen",
+  "leisure-hobbies": "Giải trí & Sở thích",
+  "persuasion-rhetoric-ii": "Thuyết phục & Hùng biện II",
+  "storytelling-narrative": "Kể chuyện & Tường thuật",
+  "politeness-formality": "Phép lịch sự & Sự trang trọng",
+  "humor-wit": "Hài hước, Dí dỏm & Mỉa mai",
+  "comparison-contrast": "So sánh & Đối lập",
+  "size-shape": "Kích thước, Hình dạng & Kết cấu",
+  "sound-light": "Âm thanh, Ánh sáng & Cảm giác",
+  "movement-action": "Động từ chuyển động & Hành động",
+  "motivation-ambition": "Động lực & Tham vọng",
+  "habits-routines": "Thói quen, Nếp sinh hoạt & Thay đổi",
+  "memory-perception": "Trí nhớ & Nhận thức",
+  "risk-caution": "Rủi ro, Thận trọng & An toàn",
+  "digital-communication": "Giao tiếp số & Truyền thông",
+  "ai-automation": "AI, Tự động hóa & Tương lai",
+  "health-wellbeing-ii": "Sức khỏe & Hạnh phúc II",
+  "urban-development": "Phát triển đô thị & Cơ sở hạ tầng",
+  "formal-register-ii": "Văn phong trang trọng II",
+  "emphasis-contrast": "Từ nối nhấn mạnh & Đối lập",
+  "cause-purpose": "Cách diễn đạt nguyên nhân & Mục đích",
+  "summary-conclusion": "Ngôn ngữ tóm tắt & Kết luận",
+  "work-tasks": "Nhiệm vụ, Bổn phận & Trách nhiệm",
+  "general-useful-verbs": "Động từ thông dụng",
+  "core-action-verbs": "Động từ hành động cốt lõi",
+  "everyday-verbs-ii": "Động từ hằng ngày",
+  "movement-position-verbs": "Động từ chuyển động & Vị trí",
+  "communication-basic": "Giao tiếp cơ bản",
+  "family-people": "Gia đình & Con người",
+  "describing-people-basic": "Miêu tả con người",
+  "feelings-emotions-basic": "Cảm giác & Cảm xúc",
+  "home-household": "Nhà cửa & Gia đình",
+  "food-drink-basic": "Đồ ăn & Thức uống",
+  "time-calendar": "Thời gian & Lịch",
+  "weather-nature-basic": "Thời tiết & Thiên nhiên",
+  "body-health-basic": "Cơ thể & Sức khỏe",
+  "places-transport-basic": "Địa điểm & Di chuyển",
+  "numbers-school-basic": "Số đếm, Trường học & Học tập",
+  "colours-shapes-basic": "Màu sắc, Hình dạng & Kích thước",
+  "sports-hobbies-basic": "Thể thao, Sở thích & Thời gian rảnh",
+  "complex-emotions": "Cảm xúc phức tạp",
+  "personality-character-inter": "Tính cách & Phẩm chất",
+  "social-issues-inter": "Xã hội & Các vấn đề xã hội",
+  "work-career-inter": "Công việc & Sự nghiệp",
+  "environment-inter": "Môi trường & Khí hậu",
+  "health-medicine-inter": "Sức khỏe & Y học",
+  "technology-media-inter": "Công nghệ & Truyền thông",
+  "academic-language-inter": "Ngôn ngữ học thuật & Viết luận",
+  "food-culture-inter": "Ẩm thực, Dinh dưỡng & Văn hóa",
+  "travel-culture-inter": "Du lịch, Văn hóa & Xã hội",
+  "education-society-inter": "Giáo dục & Xã hội",
+  "law-justice-inter": "Pháp luật, Tội phạm & Công lý",
+  "psychology-behaviour-inter": "Tâm trí, Hành vi & Tâm lý học",
+  "communication-language-inter": "Giao tiếp & Ngôn ngữ",
+  "economics-finance-inter": "Kinh tế & Tài chính",
+  "global-issues-inter": "Thách thức toàn cầu & Chính trị",
+  "arts-culture-inter": "Nghệ thuật, Văn học & Văn hóa",
+  "science-discovery-inter": "Khoa học & Khám phá",
+  "urban-architecture-inter": "Thành phố, Kiến trúc & Đời sống đô thị",
+  "ethics-philosophy-inter": "Đạo đức & Triết học",
+  "relationships-society-inter": "Mối quan hệ & Đời sống xã hội",
+  "media-journalism-inter": "Truyền thông & Báo chí",
+  "health-lifestyle-inter": "Lối sống & Sức khỏe tinh thần",
+  "abstract-thought-c1": "Tư duy trừu tượng & Ý tưởng",
+  "rhetoric-persuasion-c1": "Hùng biện, Lập luận & Thuyết phục",
+  "advanced-vocab-c1": "Sự chính xác & Biểu đạt",
+  "social-change-c1": "Thay đổi xã hội & Tiến bộ",
+  "human-nature-c1": "Bản chất con người & Xã hội",
+  "academic-c1-advanced": "Từ vựng học thuật",
+  "environment-c1": "Môi trường & Sinh thái học",
+  "globalisation-c1": "Toàn cầu hóa & Kinh tế thế giới",
+  "power-politics-c1": "Quyền lực, Chính trị & Quản trị",
+  "cognition-mind-c1": "Nhận thức, Trí nhớ & Trí tuệ",
+  "language-linguistics-c1": "Ngôn ngữ, Ngôn ngữ học & Giao tiếp",
+  "medicine-biology-c1": "Y học, Sinh học & Cơ thể",
+  "technology-future-c1": "Công nghệ, AI & Tương lai",
+  "history-civilisation-c1": "Lịch sử, Văn minh & Văn hóa",
+  "arts-expression-c1": "Nghệ thuật, Sáng tạo & Biểu đạt",
+  "philosophy-thought-c2": "Triết học & Tư duy phản biện",
+  "advanced-adjectives-c2": "Tính từ nâng cao",
+  "advanced-verbs-c2": "Động từ nâng cao",
+  "advanced-nouns-c2": "Danh từ nâng cao",
+  "c2-expressions": "Cách diễn đạt & Cụm từ C2",
+  "emotions-b-extended": "Cảm xúc & Trạng thái tâm trí",
+  "describing-actions-b": "Miêu tả hành động & Chuyển động",
+  "academic-style-c1b": "Văn phong & Sắc thái học thuật",
+  "work-society-b2-extended": "Công việc, Xã hội & Bất bình đẳng",
+  "ielts-writing-c1-ext": "Viết IELTS & Lập luận phản biện",
+  "nature-landscape-b2": "Thiên nhiên, Cảnh quan & Thế giới vật chất",
+  "science-tech-b2-ext": "Khoa học, Công nghệ & Đổi mới",
+  "health-body-b2-ext": "Sức khỏe, Cơ thể & Y học",
+  "language-communication-b2": "Ngôn ngữ & Giao tiếp",
+  "politics-governance-b2": "Chính trị, Quản trị & Quyền lực",
+  "descriptive-adjectives-c1": "Tính từ miêu tả",
+  "idioms-phrases-b2": "Thành ngữ & Cụm từ cố định",
+  "environment-sustainability-c1": "Môi trường & Phát triển bền vững",
+  "academic-verbs-c1": "Động từ học thuật & Trang trọng",
+  "literary-descriptive-c2": "Ngôn ngữ văn chương & Miêu tả",
+  "formal-nouns-c1b": "Danh từ trang trọng & Trừu tượng",
+  "arts-media-b2": "Nghệ thuật, Truyền thông & Biểu đạt sáng tạo",
+  "philosophy-ethics-c1-ext": "Triết học, Đạo đức & Luân lý",
+  "geography-demography-b2": "Địa lý & Nhân khẩu học",
+  "business-economics-c1": "Kinh doanh, Kinh tế & Tài chính",
+  "social-human-rights-c1": "Vấn đề xã hội & Nhân quyền",
+  "verbs-precise-b2": "Động từ hành động & Quy trình chính xác",
+  "cognition-learning-c1": "Nhận thức, Học tập & Trí tuệ",
+  "idioms-c1-complex": "Thành ngữ & Cụm từ phức tạp",
+  "c2-precision-words": "Sự chính xác & Sắc thái ngôn ngữ",
+  "crime-justice-c1": "Tội phạm, Pháp luật & Công lý",
+  "personality-adjectives-c1": "Tính từ tính cách & Phẩm chất",
+  "academic-nouns-b2": "Danh từ chủ đề học thuật",
+  "verbs-b2-advanced": "Động từ cho viết luận & Phân tích",
+  "complex-sentence-connectors": "Từ nối câu phức",
+  "collocations-formal-c1": "Cụm từ & Kết hợp từ học thuật",
+  "global-issues-c1b": "Vấn đề toàn cầu & Quan hệ quốc tế",
+  "word-formation-b2": "Cấu tạo từ & Từ phái sinh",
+  "common-adjectives-b1b": "Tính từ miêu tả thông dụng",
+  "mind-emotion-c1-ext": "Tâm trí, Cảm xúc & Động lực",
+  "education-learning-b2": "Giáo dục, Học tập & Trường học",
+  "housing-urban-b2": "Nhà ở, Thành phố & Vấn đề đô thị",
+  "c2-final-vocab": "Bộ từ vựng C2 cuối cùng",
+  "technology-digital-b2": "Công nghệ số & Internet",
+  "food-culture-ext": "Ẩm thực, Dinh dưỡng & Văn hóa ẩm thực",
+  "travel-tourism-b2": "Du lịch, Lữ hành & Phiêu lưu",
+  "advanced-connectors-c1-final": "Từ nối & Chuyển ý nâng cao",
+  "social-media-comm-b2": "Mạng xã hội & Văn hóa số",
+  "science-research-c1": "Khoa học, Nghiên cứu & Khám phá",
+  "abstract-concepts-c1-final": "Khái niệm trừu tượng & Ngôn ngữ phản biện",
+  "common-verbs-b1-ext": "Động từ & Hành động thiết yếu",
+  "formal-adverbs-c1-ext": "Trạng từ & Từ hạn định trang trọng",
+  "complex-nouns-b2-final": "Danh từ phức tạp & Khái niệm then chốt",
+  "adjectives-b2-quality": "Tính từ chỉ chất lượng & Mức độ",
+  "final-nouns-c1": "Danh từ then chốt cho viết luận",
+  "core-ielts-vocab-final": "Từ vựng IELTS cốt lõi",
+  "final-advanced-b2": "Từ vựng thiết yếu nâng cao B2",
+  "key-transitions-b2-final": "Từ chuyển ý & Dấu hiệu diễn ngôn then chốt",
+  "additional-b2-vocab": "Bộ từ vựng B2 bổ sung",
+  "ielts-essay-vocab": "Từ vựng bài luận IELTS",
+  "b2-nouns-final-set": "Danh từ then chốt B2",
+  "c1-writing-toolkit": "Bộ công cụ viết học thuật C1",
+  "final-20-words": "20 từ thiết yếu",
+  "a1plus-body-health": "Cơ thể & Sức khỏe II",
+  "a1plus-food-drink": "Đồ ăn & Thức uống II",
+  "a1plus-home-objects": "Nhà cửa & Đồ vật",
+  "a1plus-adjectives-basic": "Tính từ miêu tả cơ bản",
+  "a1plus-everyday-verbs": "Động từ hằng ngày II",
+  "a1plus-clothes-appearance": "Quần áo & Ngoại hình",
+  "a1plus-places-transport": "Địa điểm & Di chuyển II",
+  "a2plus-feelings-opinions": "Cảm xúc & Quan điểm",
+  "a2plus-descriptive-adjectives": "Tính từ miêu tả cơ bản II",
+  "a2plus-everyday-verbs": "Động từ hằng ngày III",
+  "a2plus-travel-places": "Du lịch, Văn hóa & Xã hội II",
+  "a1plus-school-classroom": "Số đếm, Trường học & Học tập II",
+  "a1plus-weather-nature": "Thời tiết & Thiên nhiên II",
+  "a1plus-shopping-money": "Mua sắm & Tiền bạc",
+  "a1plus-time-routines": "Thời gian & Lịch II",
+  "a2plus-work-education": "Công việc & Sự nghiệp II",
+  "a2plus-entertainment": "Thể thao, Sở thích & Thời gian rảnh II",
+  "b1plus-education-study": "Giáo dục & Xã hội II",
+  "b1plus-economy-work": "Kinh tế & Tài chính II",
+  "c1plus-academic-discourse": "Diễn ngôn học thuật",
+  "b2plus-analysis-verbs": "Động từ cho viết luận & Phân tích II",
+  "b2plus-nuanced-adjectives": "Tính từ miêu tả tinh tế",
+  "b1plus-opinion-discussion": "Quan điểm & Thảo luận",
+  "b1plus-society-community": "Xã hội & Các vấn đề xã hội II",
+  "b1plus-environment": "Môi trường & Khí hậu II",
+  "b1plus-health-lifestyle": "Sức khỏe & Y học II",
+  "b1plus-personality": "Tính cách & Phẩm chất II",
+  "b1plus-technology-media": "Công nghệ & Truyền thông II",
+  "c1plus-formal-verbs": "Động từ trang trọng nâng cao",
+  "c1plus-adjectives-advanced": "Tính từ nâng cao",
+  "c1plus-abstract-nouns": "Danh từ trừu tượng cho bài luận II",
+  "c1plus-literary-expressive": "Từ vựng văn chương & Biểu cảm",
+  "c2plus-rare-adjectives": "Tính từ hiếm & Tinh tế",
+  "c2plus-elevated-verbs": "Động từ trang nhã & Chính xác",
+  "c2plus-abstract-nouns-ii": "Danh từ trừu tượng & Triết học",
+  "c2plus-idioms-collocations": "Thành ngữ & Cụm từ tinh vi",
+  "b2plus-precision-adjectives": "Tính từ chính xác",
+  "b2plus-control-verbs": "Động từ kiểm soát, Chiếm giữ & Sửa chữa",
+  "a2-everyday-essentials": "Hành động & Kết cấu hằng ngày",
+  "c1plus-bias-power-hardship": "Thiên kiến, Quyền lực & Gian khổ",
+};
+/* Returns the Vietnamese category name when available and Vietnamese is
+   active, else the original English name unchanged. */
+function catName(cat){
+  return (state.lang === "vi" && CATEGORY_NAME_VI[cat.id]) || cat.name;
+}
+
 /* Pre-compute words per category (including CEFR virtual cats) */
 let CAT_WORDS = {};
 
@@ -3746,7 +4010,7 @@ function buildCategoryChips(container, f, onChange, catSearch = ""){
     const chip = document.createElement("button");
     chip.className = `chip t-${c.theme}` + (multiSelect ? (f.cats.has(c.id) ? " active" : "") : (f.cat===c.id ? " active" : ""));
     chip.dataset.cat = c.id;
-    chip.innerHTML = `${iconSvg(c.icon)} ${c.name}`;
+    chip.innerHTML = `${iconSvg(c.icon)} ${catName(c)}`;
     return chip;
   });
 
@@ -5962,7 +6226,7 @@ async function debugRefreshVocab(){
       const iconEl = document.getElementById("catViewIcon");
       iconEl.innerHTML = iconSvg(cat.icon);
       iconEl.className = `cat-view-icon t-${cat.theme}`;
-      document.getElementById("catViewName").textContent = cat.name;
+      document.getElementById("catViewName").textContent = catName(cat);
       document.getElementById("catViewName").className = `cat-view-name t-${cat.theme}`;
       document.getElementById("catViewSub").textContent = `${(CAT_WORDS[cat.id]||[]).length} words · ${sectionLabel(cat.section||"")}`;
     } else {
@@ -6250,7 +6514,7 @@ function renderBrowseSection(sectionName, cats, num){
         </span>` : ""}
         <svg class="ico cat-arrow" aria-hidden="true"><use href="#i-arrow-up-right"/></svg>
       </div>
-      <div class="cat-name">${cat.name}</div>
+      <div class="cat-name">${catName(cat)}</div>
       <div class="cat-pbar-row">
         <div class="cat-pbar">
           <div class="cat-pfill-little" style="width:${pctLi}%"></div>
@@ -6452,7 +6716,7 @@ function enterCatView(cat){
   document.getElementById("catSearchInput").value = "";
   document.getElementById("catViewIcon").innerHTML = iconSvg(cat.icon);
   document.getElementById("catViewIcon").className = `cat-view-icon t-${cat.theme}`;
-  document.getElementById("catViewName").textContent = cat.name;
+  document.getElementById("catViewName").textContent = catName(cat);
   document.getElementById("catViewName").className = `cat-view-name t-${cat.theme}`;
   document.getElementById("catViewSub").textContent = `${CAT_WORDS[cat.id].length} words · ${sectionLabel(cat.section||"")}`;
   document.querySelectorAll("[data-cat-cefr]").forEach(c => c.classList.toggle("active", c.dataset.catCefr==="all"));
@@ -7353,7 +7617,7 @@ function openWordModal(word){
   wireWordXrefs(antEl);
   document.getElementById("modal-ex").innerHTML = word.ex;
   const catEl = document.getElementById("modal-cat");
-  if (cat){ catEl.innerHTML = `<b>Category:</b> ${cat.name}`; catEl.style.display = ""; }
+  if (cat){ catEl.innerHTML = `<b>${t("nav.category")}:</b> ${catName(cat)}`; catEl.style.display = ""; }
   else catEl.style.display = "none";
   renderModalProgress(word);
   document.getElementById("word-modal").style.display = "flex";
