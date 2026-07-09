@@ -96,6 +96,8 @@ h1,h2,h3,.brand,.tab,.btn,.modeCard h3,.mode-toggle-label{font-family:'Plus Jaka
 /* Vietnamese labels sit a little tighter in the same padding than
    English ones — nudge just this language's tabs, not every language. */
 html[lang="vi"] .tab{padding:10px 14px;}
+/* "Từ vựng" specifically needs 1px more width than the shared rule above. */
+html[lang="vi"] .nav-group[data-section="vocabulary"] .tab{padding-left:14.5px; padding-right:14.5px;}
 .tab:hover{color:var(--text); background:rgba(var(--vio),.1); border-color:rgba(var(--vio),.2); transform:translateY(-1px);}
 .tab.active{color:#fff; background:rgb(var(--vio)); box-shadow:0 4px 14px rgba(var(--vio),.4);}
 /* ===== NAV DROPDOWNS ===== */
