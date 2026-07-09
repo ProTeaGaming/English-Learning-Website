@@ -1811,10 +1811,10 @@ function iconSvg(emoji, cls){
       <div class="home-glow"></div>
       <div class="home-badge"><svg class="ico" aria-hidden="true"><use href="#i-grad-cap"/></svg> <span data-i18n="home.badge">IELTS Preparation · Band 5–9</span></div>
       <h1 class="home-title"><span data-i18n="home.title1">Master every word,</span><br><span class="home-grad" data-i18n="home.title2">say it till it stays.</span></h1>
-      <p class="home-sub" data-i18n="home.subtitle">Vocabulary, grammar, and every core IELTS skill — levelled, sectioned, and returned to you until they’re yours.</p>
+      <p class="home-sub" data-i18n="home.subtitle">Vocabulary, grammar, and every core IELTS skill — levelled, sectioned, and returned to you until they're yours.</p>
       <div class="home-hero-actions">
-        <button class="btn" onclick="openModePicker(‘learn’)" data-i18n="home.startLearning">Start Learning →</button>
-        <button class="home-btn-outline" onclick="openModePicker(‘test’)" data-i18n="home.quickTest">Quick Test</button>
+        <button class="btn" onclick="openModePicker('learn')" data-i18n="home.startLearning">Start Learning →</button>
+        <button class="home-btn-outline" onclick="openModePicker('test')" data-i18n="home.quickTest">Quick Test</button>
       </div>
     </div>
 
@@ -4172,7 +4172,7 @@ function killGrammarStageTriggers(){
    Only the apostrophe glyph (curly vs straight) is normalised — different
    correct interpretations belong in the question's answers list instead. */
 function grammarNorm(s){
-  return String(s).replace(/[’‘]/g, "'").trim();
+  return String(s).replace(/['']/g, "'").trim();
 }
 
 function startGrammarQuiz(topic){
@@ -4580,7 +4580,7 @@ const GRAMWORD_PLURALS = [
 const GRAMWORD_LINKERS = [
   ['for', 'reason (formal)', 'He stayed indoors, for the storm was close.', 'fanboys'],
   ['and', 'addition', 'Demand rose, and prices followed.', 'fanboys'],
-  ['nor', 'negative addition (+ inversion)', 'He didn’t call, nor did he write.', 'fanboys'],
+  ['nor', 'negative addition (+ inversion)', 'He didn't call, nor did he write.', 'fanboys'],
   ['but', 'contrast', 'The plan is cheap, but it is slow.', 'fanboys'],
   ['or', 'alternative', 'We can email them, or we can call.', 'fanboys'],
   ['yet', 'unexpected contrast', 'She was tired, yet she kept working.', 'fanboys'],
