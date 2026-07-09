@@ -3396,6 +3396,23 @@ function catName(cat){
   return (state.lang === "vi" && CATEGORY_NAME_VI[cat.id]) || cat.name;
 }
 
+/* Vietnamese word definitions (Phase 2 — separate, much larger translation
+   pass than the UI chrome/names above), keyed by the word's numeric id
+   (word.pk). Filled in incrementally in large batches; any word.pk not yet
+   present here falls back to the English definition, exactly like every
+   other *_VI lookup in this file — so this can ship immediately and grow
+   over time without ever showing a blank definition.
+   The word itself, synonyms, antonyms, example sentences, and quiz answer
+   values are never translated, in line with the feature's whole design —
+   only the definition text changes. */
+const WORD_DEF_VI = {
+};
+/* Returns the Vietnamese definition when available and Vietnamese is
+   active, else the original English definition unchanged. */
+function wordDef(word){
+  return (state.lang === "vi" && WORD_DEF_VI[word.pk]) || word.def;
+}
+
 /* Pre-compute words per category (including CEFR virtual cats) */
 let CAT_WORDS = {};
 
@@ -3484,6 +3501,8 @@ const UI_STRINGS = {
     "vocab.clearSelection": "Clear selection",
     "vocab.sectionLabel": "Section",
     "vocab.allSectionsChip": "All Sections",
+    "vocab.synonyms": "Synonyms",
+    "vocab.antonyms": "Antonyms",
   },
   vi: {
     "nav.home": "Trang chủ",
@@ -3554,6 +3573,8 @@ const UI_STRINGS = {
     "vocab.clearSelection": "Bỏ chọn",
     "vocab.sectionLabel": "Phần",
     "vocab.allSectionsChip": "Tất cả các phần",
+    "vocab.synonyms": "Từ đồng nghĩa",
+    "vocab.antonyms": "Từ trái nghĩa",
   },
 };
 
@@ -6655,9 +6676,9 @@ function renderWordGrid(){
           <button type="button" class="dbg-edit-word">✎</button>
           <button type="button" class="dbg-delete-word">✕</button>
         </span>
-        <div class="rdef">${word.def}</div>
-        ${word.syn && word.syn.length ? `<div class="rrow"><b>Synonyms:</b> ${linkedWordsHtml(word.syn)}</div>` : ""}
-        ${word.ant && word.ant.length ? `<div class="rrow"><b>Antonyms:</b> ${linkedWordsHtml(word.ant)}</div>` : ""}
+        <div class="rdef">${wordDef(word)}</div>
+        ${word.syn && word.syn.length ? `<div class="rrow"><b>${t("vocab.synonyms")}:</b> ${linkedWordsHtml(word.syn)}</div>` : ""}
+        ${word.ant && word.ant.length ? `<div class="rrow"><b>${t("vocab.antonyms")}:</b> ${linkedWordsHtml(word.ant)}</div>` : ""}
         <div class="rex">${word.ex}</div>
         <div class="learn-state-row">
           <span class="learn-state-label">Progress:</span>
@@ -6900,9 +6921,9 @@ function renderExamples(){
       <div class="ex-sentence">${word.ex}</div>`;
     item.classList.add("interactive");
     item.insertAdjacentHTML("beforeend", `<div class="ex-reveal">
-      <div class="rdef">${word.def}</div>
-      ${word.syn && word.syn.length ? `<div class="rrow"><b>Synonyms:</b> ${linkedWordsHtml(word.syn)}</div>` : ""}
-      ${word.ant && word.ant.length ? `<div class="rrow"><b>Antonyms:</b> ${linkedWordsHtml(word.ant)}</div>` : ""}
+      <div class="rdef">${wordDef(word)}</div>
+      ${word.syn && word.syn.length ? `<div class="rrow"><b>${t("vocab.synonyms")}:</b> ${linkedWordsHtml(word.syn)}</div>` : ""}
+      ${word.ant && word.ant.length ? `<div class="rrow"><b>${t("vocab.antonyms")}:</b> ${linkedWordsHtml(word.ant)}</div>` : ""}
     </div>`);
     wireWordXrefs(item);
     item.addEventListener("click", (e) => {
@@ -7102,7 +7123,7 @@ function buildQuestion(word, mode){
   switch(mode){
     case "word":
       prompt = "Which word matches this definition?";
-      text = word.def;
+      text = wordDef(word);
       correct = word.w;
       options = buildOptions(correct, others, w => w.w);
       break;
@@ -7121,8 +7142,8 @@ function buildQuestion(word, mode){
     default:
       prompt = "Choose the correct definition";
       text = `${word.w} <span class="qpos">(${word.pos})</span>`;
-      correct = word.def;
-      options = buildOptions(correct, others, w => w.def);
+      correct = wordDef(word);
+      options = buildOptions(correct, others, w => wordDef(w));
   }
   return {prompt, text, options, correct, word};
 }
@@ -7500,12 +7521,12 @@ function handleTestAnswer(selectedBtn, q){
   if (q.type === "gap"){
     const fullEx = q.word.ex.replace(/<\/?em>/g, "");
     feedback = isCorrect
-      ? `<b>Correct!</b> ${q.word.w} — ${q.word.def}<br>${fullEx}`
-      : `<b>Not quite.</b> The answer is "${q.correct}" — ${q.word.def}<br>${fullEx}`;
+      ? `<b>Correct!</b> ${q.word.w} — ${wordDef(q.word)}<br>${fullEx}`
+      : `<b>Not quite.</b> The answer is "${q.correct}" — ${wordDef(q.word)}<br>${fullEx}`;
   } else {
     feedback = isCorrect
-      ? `<b>Correct!</b> ${q.word.w} — ${q.word.def}`
-      : `<b>Not quite.</b> ${q.word.w} — ${q.word.def}`;
+      ? `<b>Correct!</b> ${q.word.w} — ${wordDef(q.word)}`
+      : `<b>Not quite.</b> ${q.word.w} — ${wordDef(q.word)}`;
   }
   play.querySelector(".q-feedback").innerHTML = feedback;
   play.querySelector(".q-meta span:last-child").textContent = `Score: ${state.test.score}`;
@@ -7606,13 +7627,13 @@ function openWordModal(word){
   document.getElementById("modal-pos").textContent = word.pos;
   const cefrEl = document.getElementById("modal-cefr");
   cefrEl.textContent = word.cefr; cefrEl.className = `cefr-badge ${word.cefr}`;
-  document.getElementById("modal-def").textContent = word.def;
+  document.getElementById("modal-def").textContent = wordDef(word);
   const synEl = document.getElementById("modal-syn");
-  synEl.innerHTML = word.syn && word.syn.length ? `<b>Synonyms:</b> ${linkedWordsHtml(word.syn)}` : "";
+  synEl.innerHTML = word.syn && word.syn.length ? `<b>${t("vocab.synonyms")}:</b> ${linkedWordsHtml(word.syn)}` : "";
   synEl.style.display = word.syn && word.syn.length ? "" : "none";
   wireWordXrefs(synEl);
   const antEl = document.getElementById("modal-ant");
-  antEl.innerHTML = word.ant && word.ant.length ? `<b>Antonyms:</b> ${linkedWordsHtml(word.ant)}` : "";
+  antEl.innerHTML = word.ant && word.ant.length ? `<b>${t("vocab.antonyms")}:</b> ${linkedWordsHtml(word.ant)}` : "";
   antEl.style.display = word.ant && word.ant.length ? "" : "none";
   wireWordXrefs(antEl);
   document.getElementById("modal-ex").innerHTML = word.ex;
