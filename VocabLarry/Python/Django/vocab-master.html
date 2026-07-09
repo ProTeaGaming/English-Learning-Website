@@ -170,6 +170,17 @@ h1,h2,h3,.brand,.tab,.btn,.modeCard h3,.mode-toggle-label{font-family:'Plus Jaka
 }
 .user-menu button:hover{border-color:rgba(var(--vio),.5); background:rgba(var(--vio),.14); transform:translateY(-1px);}
 
+.lang-chip{position:relative;}
+.lang-menu{
+  display:none; position:absolute; top:calc(100% + 8px); right:0; min-width:220px; max-height:380px; overflow-y:auto;
+  background:rgba(22,26,35,.94); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+  border:1px solid rgba(var(--vio),.22); border-radius:16px;
+  box-shadow:0 16px 48px rgba(0,0,0,.4); padding:12px; z-index:50; flex-direction:column; gap:8px;
+}
+[data-theme="light"] .lang-menu{background:rgba(255,255,255,.94);}
+.lang-chip.open .lang-menu{display:flex;}
+.mode-picker-row.active{border-color:rgb(var(--vio)); background:rgba(var(--vio),.16);}
+
 .auth-hidden{display:none !important;}
 
 .auth-modal-overlay{
@@ -1517,39 +1528,90 @@ function iconSvg(emoji, cls){
       <div class="brand"><svg class="ico ico-mark" aria-hidden="true"><use href="#i-mark"/></svg><span class="brand-name">Vocab<b>Larry</b></span></div>
       <nav class="tabs">
         <div class="nav-group" data-section="home">
-          <button class="tab active" data-section-btn="home">Home</button>
+          <button class="tab active" data-section-btn="home" data-i18n="nav.home">Home</button>
         </div>
         <div class="nav-group" data-section="vocabulary">
-          <button class="tab" data-section-btn="vocabulary">Vocabulary</button>
+          <button class="tab" data-section-btn="vocabulary" data-i18n="nav.vocabulary">Vocabulary</button>
           <div class="nav-dropdown">
-            <button class="nav-dropdown-item active" data-page="list">Category</button>
-            <button class="nav-dropdown-item" data-page="examples">Word</button>
-            <button class="nav-dropdown-item" data-page="test">Test</button>
+            <button class="nav-dropdown-item active" data-page="list" data-i18n="nav.category">Category</button>
+            <button class="nav-dropdown-item" data-page="examples" data-i18n="nav.word">Word</button>
+            <button class="nav-dropdown-item" data-page="test" data-i18n="nav.test">Test</button>
           </div>
         </div>
         <div class="nav-group" data-section="grammar">
-          <button class="tab" data-section-btn="grammar">Grammar</button>
+          <button class="tab" data-section-btn="grammar" data-i18n="nav.grammar">Grammar</button>
           <div class="nav-dropdown">
-            <button class="nav-dropdown-item" data-page="grammar">Category</button>
-            <button class="nav-dropdown-item" data-page="gramword">Word</button>
+            <button class="nav-dropdown-item" data-page="grammar" data-i18n="nav.category">Category</button>
+            <button class="nav-dropdown-item" data-page="gramword" data-i18n="nav.word">Word</button>
           </div>
         </div>
         <div class="nav-group" data-section="reading">
-          <button class="tab" data-section-btn="reading">Reading</button>
+          <button class="tab" data-section-btn="reading" data-i18n="nav.reading">Reading</button>
         </div>
         <div class="nav-group" data-section="writing">
-          <button class="tab" data-section-btn="writing">Writing</button>
+          <button class="tab" data-section-btn="writing" data-i18n="nav.writing">Writing</button>
         </div>
         <div class="nav-group" data-section="listening">
-          <button class="tab" data-section-btn="listening">Listening</button>
+          <button class="tab" data-section-btn="listening" data-i18n="nav.listening">Listening</button>
         </div>
         <div class="nav-group" data-section="speaking">
-          <button class="tab" data-section-btn="speaking">Speaking</button>
+          <button class="tab" data-section-btn="speaking" data-i18n="nav.speaking">Speaking</button>
         </div>
       </nav>
     </div>
     <div class="topbar-right">
       <button class="theme-toggle" id="themeToggle" title="Toggle theme" aria-label="Toggle theme"><svg class="ico" aria-hidden="true"><use href="#i-moon"/></svg></button>
+      <div class="lang-chip" id="langChip">
+        <button class="theme-toggle" id="langToggle" title="Change language" aria-label="Change language" type="button"><svg class="ico" aria-hidden="true"><use href="#i-globe"/></svg></button>
+        <div class="lang-menu" id="langMenu">
+          <button class="mode-picker-row" data-lang="en" type="button">
+            <span class="mode-picker-name">English</span>
+          </button>
+          <button class="mode-picker-row" data-lang="vi" type="button">
+            <span class="mode-picker-name">Tiếng Việt</span>
+          </button>
+          <div class="mode-picker-row mode-picker-row-disabled">
+            <span class="mode-picker-name">中文</span>
+            <span class="home-sec-pill soon" data-i18n="common.soon">Soon</span>
+          </div>
+          <div class="mode-picker-row mode-picker-row-disabled">
+            <span class="mode-picker-name">日本語</span>
+            <span class="home-sec-pill soon" data-i18n="common.soon">Soon</span>
+          </div>
+          <div class="mode-picker-row mode-picker-row-disabled">
+            <span class="mode-picker-name">한국어</span>
+            <span class="home-sec-pill soon" data-i18n="common.soon">Soon</span>
+          </div>
+          <div class="mode-picker-row mode-picker-row-disabled">
+            <span class="mode-picker-name">العربية</span>
+            <span class="home-sec-pill soon" data-i18n="common.soon">Soon</span>
+          </div>
+          <div class="mode-picker-row mode-picker-row-disabled">
+            <span class="mode-picker-name">Français</span>
+            <span class="home-sec-pill soon" data-i18n="common.soon">Soon</span>
+          </div>
+          <div class="mode-picker-row mode-picker-row-disabled">
+            <span class="mode-picker-name">Nederlands</span>
+            <span class="home-sec-pill soon" data-i18n="common.soon">Soon</span>
+          </div>
+          <div class="mode-picker-row mode-picker-row-disabled">
+            <span class="mode-picker-name">Deutsch</span>
+            <span class="home-sec-pill soon" data-i18n="common.soon">Soon</span>
+          </div>
+          <div class="mode-picker-row mode-picker-row-disabled">
+            <span class="mode-picker-name">Español</span>
+            <span class="home-sec-pill soon" data-i18n="common.soon">Soon</span>
+          </div>
+          <div class="mode-picker-row mode-picker-row-disabled">
+            <span class="mode-picker-name">Português</span>
+            <span class="home-sec-pill soon" data-i18n="common.soon">Soon</span>
+          </div>
+          <div class="mode-picker-row mode-picker-row-disabled">
+            <span class="mode-picker-name">Русский</span>
+            <span class="home-sec-pill soon" data-i18n="common.soon">Soon</span>
+          </div>
+        </div>
+      </div>
       <div class="stats">
         Learned: <b id="learnedCount">0</b> / <b id="totalCount">5000</b>
         <button class="review-link" id="reviewLittleBtn" title="Review words marked &quot;little bit&quot;" style="display:none;"><span id="littleCount">0</span> to review</button>
@@ -2968,8 +3030,53 @@ function loadCachedLearnMap(){
     return cached ? JSON.parse(cached) : {};
   } catch(e){ return {}; }
 }
+/* UI chrome translations. Only interface copy lives here — words,
+   definitions, examples, and quiz answers are never translated (see
+   docs/superpowers/specs/2026-07-09-language-switcher-design.md). Each
+   later translation task (Home, Vocabulary, Grammar) adds more keys
+   here and more data-i18n="..." attributes in the HTML; applyI18n()
+   itself never needs to change. */
+const UI_STRINGS = {
+  en: {
+    "nav.home": "Home",
+    "nav.vocabulary": "Vocabulary",
+    "nav.grammar": "Grammar",
+    "nav.reading": "Reading",
+    "nav.writing": "Writing",
+    "nav.listening": "Listening",
+    "nav.speaking": "Speaking",
+    "nav.category": "Category",
+    "nav.word": "Word",
+    "nav.test": "Test",
+    "common.soon": "Soon",
+  },
+  vi: {
+    "nav.home": "Trang chủ",
+    "nav.vocabulary": "Từ vựng",
+    "nav.grammar": "Ngữ pháp",
+    "nav.reading": "Đọc",
+    "nav.writing": "Viết",
+    "nav.listening": "Nghe",
+    "nav.speaking": "Nói",
+    "nav.category": "Danh mục",
+    "nav.word": "Từ",
+    "nav.test": "Kiểm tra",
+    "common.soon": "Sắp có",
+  },
+};
+
+function applyI18n(){
+  const dict = UI_STRINGS[state.lang] || UI_STRINGS.en;
+  document.querySelectorAll("[data-i18n]").forEach(el => {
+    const key = el.dataset.i18n;
+    const text = dict[key] || UI_STRINGS.en[key];
+    if (text) el.textContent = text;
+  });
+}
+
 const state = {
   learnMap: loadCachedLearnMap(),   /* { "word": "little"|"learned" } — only persisted for signed-in accounts */
+  lang: (function(){ try { return localStorage.getItem("ivm_lang") || "en"; } catch(e){ return "en"; } })(),
   list: { search:"", section:"all", cat:"all", cefr:"all", learned:"all" },
   examples: { search:"", section:"all", cat:"all", cefr:"all", learned:"all", headline:"all", page:1 },
   auth: { loggedIn:false, id:null, name:"", email:"", picture:"", isStaff:false },
@@ -4859,6 +4966,32 @@ themeToggleBtn.addEventListener("click", () => {
   document.documentElement.setAttribute("data-theme", next);
   try { localStorage.setItem("ivm_theme", next); } catch(e) {}
   updateThemeIcon();
+});
+
+/* ════════════════════════════════════════════════════════
+   LANGUAGE SWITCHER
+   ════════════════════════════════════════════════════════ */
+function updateLangActiveRow(){
+  document.querySelectorAll("#langMenu [data-lang]").forEach(row => {
+    row.classList.toggle("active", row.dataset.lang === state.lang);
+  });
+}
+updateLangActiveRow();
+document.getElementById("langChip").addEventListener("click", (e) => {
+  e.stopPropagation();
+  document.getElementById("langChip").classList.toggle("open");
+});
+document.querySelectorAll("#langMenu [data-lang]").forEach(row => {
+  row.addEventListener("click", () => {
+    state.lang = row.dataset.lang;
+    try { localStorage.setItem("ivm_lang", state.lang); } catch(e) {}
+    updateLangActiveRow();
+    applyI18n();
+    document.getElementById("langChip").classList.remove("open");
+  });
+});
+document.addEventListener("click", (e) => {
+  if (!e.target.closest("#langChip")) document.getElementById("langChip").classList.remove("open");
 });
 
 document.getElementById("resetProgressBtn").addEventListener("click", () => {
@@ -7009,6 +7142,7 @@ document.getElementById("modalDeleteWordBtn").addEventListener("click", () => { 
 /* ════════════════════════════════════════════════════════
    INIT
    ════════════════════════════════════════════════════════ */
+applyI18n();
 renderBrowse();
 renderExamplesFilters();
 renderExamples();
