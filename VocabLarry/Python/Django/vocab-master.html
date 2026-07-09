@@ -1809,12 +1809,12 @@ function iconSvg(emoji, cls){
     <div class="home-hero">
       <div class="home-grid-bg"></div>
       <div class="home-glow"></div>
-      <div class="home-badge"><svg class="ico" aria-hidden="true"><use href="#i-grad-cap"/></svg> IELTS Preparation · Band 5–9</div>
-      <h1 class="home-title">Master every word,<br><span class="home-grad">say it till it stays.</span></h1>
-      <p class="home-sub">Vocabulary, grammar, and every core IELTS skill — levelled, sectioned, and returned to you until they’re yours.</p>
+      <div class="home-badge"><svg class="ico" aria-hidden="true"><use href="#i-grad-cap"/></svg> <span data-i18n="home.badge">IELTS Preparation · Band 5–9</span></div>
+      <h1 class="home-title"><span data-i18n="home.title1">Master every word,</span><br><span class="home-grad" data-i18n="home.title2">say it till it stays.</span></h1>
+      <p class="home-sub" data-i18n="home.subtitle">Vocabulary, grammar, and every core IELTS skill — levelled, sectioned, and returned to you until they’re yours.</p>
       <div class="home-hero-actions">
-        <button class="btn" onclick="openModePicker('learn')">Start Learning →</button>
-        <button class="home-btn-outline" onclick="openModePicker('test')">Quick Test</button>
+        <button class="btn" onclick="openModePicker(‘learn’)" data-i18n="home.startLearning">Start Learning →</button>
+        <button class="home-btn-outline" onclick="openModePicker(‘test’)" data-i18n="home.quickTest">Quick Test</button>
       </div>
     </div>
 
@@ -1822,87 +1822,87 @@ function iconSvg(emoji, cls){
 
       <!-- Live Stats -->
       <div>
-        <div class="home-section-hd">Your Progress</div>
+        <div class="home-section-hd" data-i18n="home.yourProgress">Your Progress</div>
         <div class="home-stats">
           <div class="home-stat">
             <div class="home-stat-ico"><svg class="ico" aria-hidden="true"><use href="#i-check-circle"/></svg></div>
             <div class="home-stat-val" id="hStatLearned">0</div>
-            <div class="home-stat-lbl">Words learned</div>
+            <div class="home-stat-lbl" data-i18n="home.wordsLearned">Words learned</div>
           </div>
           <div class="home-stat">
             <div class="home-stat-ico"><svg class="ico" aria-hidden="true"><use href="#i-folder"/></svg></div>
             <div class="home-stat-val" id="hStatCats">0</div>
-            <div class="home-stat-lbl">Categories started</div>
+            <div class="home-stat-lbl" data-i18n="home.categoriesStarted">Categories started</div>
           </div>
           <div class="home-stat">
             <div class="home-stat-ico"><svg class="ico" aria-hidden="true"><use href="#i-bar-chart"/></svg></div>
             <div class="home-stat-val" id="hStatPct">0%</div>
-            <div class="home-stat-lbl">Complete</div>
+            <div class="home-stat-lbl" data-i18n="home.complete">Complete</div>
           </div>
           <div class="home-stat">
             <div class="home-stat-ico">🔥</div>
             <div class="home-stat-val" id="hStatStreak" style="background:linear-gradient(135deg,#f59e0b,#ef4444);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;">0</div>
-            <div class="home-stat-lbl">Day streak</div>
+            <div class="home-stat-lbl" data-i18n="home.dayStreak">Day streak</div>
           </div>
         </div>
       </div>
 
       <!-- Section Preview Cards -->
       <div>
-        <div class="home-section-hd">Explore Sections</div>
+        <div class="home-section-hd" data-i18n="home.exploreSections">Explore Sections</div>
         <div class="home-secs">
           <div class="home-sec clickable" onclick="goToPage('list')">
             <div class="home-sec-ico"><svg class="ico" aria-hidden="true"><use href="#i-book"/></svg></div>
-            <div class="home-sec-name">Vocabulary</div>
-            <div class="home-sec-desc">5,000 words across 85+ categories, organised by CEFR level and topic. Browse, filter, and mark words as learned.</div>
+            <div class="home-sec-name" data-i18n="nav.vocabulary">Vocabulary</div>
+            <div class="home-sec-desc" data-i18n="home.descVocab">5,000 words across 85+ categories, organised by CEFR level and topic. Browse, filter, and mark words as learned.</div>
             <div class="home-sec-footer">
-              <div class="home-sec-status live">Active</div>
-              <div class="home-sec-pill live">Live</div>
+              <div class="home-sec-status live" data-i18n="common.active">Active</div>
+              <div class="home-sec-pill live" data-i18n="common.live">Live</div>
             </div>
           </div>
           <div class="home-sec clickable" onclick="goToPage('grammar')">
             <div class="home-sec-ico"><svg class="ico" aria-hidden="true"><use href="#i-pen"/></svg></div>
-            <div class="home-sec-name">Grammar</div>
-            <div class="home-sec-desc">Essential IELTS grammar rules covering tense, articles, conditionals, and academic writing structures.</div>
+            <div class="home-sec-name" data-i18n="nav.grammar">Grammar</div>
+            <div class="home-sec-desc" data-i18n="home.descGrammar">Essential IELTS grammar rules covering tense, articles, conditionals, and academic writing structures.</div>
             <div class="home-sec-footer">
-              <div class="home-sec-status live">Active</div>
-              <div class="home-sec-pill live">Live</div>
+              <div class="home-sec-status live" data-i18n="common.active">Active</div>
+              <div class="home-sec-pill live" data-i18n="common.live">Live</div>
             </div>
           </div>
           <div class="home-sec clickable" onclick="goToPage('reading')">
             <div class="home-sec-ico"><svg class="ico" aria-hidden="true"><use href="#i-book-open"/></svg></div>
-            <div class="home-sec-name">Reading</div>
-            <div class="home-sec-desc">Comprehension strategies for academic and general training passages, including skimming, scanning, and inference.</div>
+            <div class="home-sec-name" data-i18n="nav.reading">Reading</div>
+            <div class="home-sec-desc" data-i18n="home.descReading">Comprehension strategies for academic and general training passages, including skimming, scanning, and inference.</div>
             <div class="home-sec-footer">
-              <div class="home-sec-status live">Active</div>
-              <div class="home-sec-pill live">Live</div>
+              <div class="home-sec-status live" data-i18n="common.active">Active</div>
+              <div class="home-sec-pill live" data-i18n="common.live">Live</div>
             </div>
           </div>
           <div class="home-sec clickable" onclick="goToPage('writing')">
             <div class="home-sec-ico"><svg class="ico" aria-hidden="true"><use href="#i-file-text"/></svg></div>
-            <div class="home-sec-name">Writing</div>
-            <div class="home-sec-desc">Task 1 and Task 2 guidance — vocabulary for graphs, linking words, and band-9 essay frameworks.</div>
+            <div class="home-sec-name" data-i18n="nav.writing">Writing</div>
+            <div class="home-sec-desc" data-i18n="home.descWriting">Task 1 and Task 2 guidance — vocabulary for graphs, linking words, and band-9 essay frameworks.</div>
             <div class="home-sec-footer">
-              <div class="home-sec-status live">Active</div>
-              <div class="home-sec-pill live">Live</div>
+              <div class="home-sec-status live" data-i18n="common.active">Active</div>
+              <div class="home-sec-pill live" data-i18n="common.live">Live</div>
             </div>
           </div>
           <div class="home-sec clickable" onclick="goToPage('listening')">
             <div class="home-sec-ico"><svg class="ico" aria-hidden="true"><use href="#i-headphones"/></svg></div>
-            <div class="home-sec-name">Listening</div>
-            <div class="home-sec-desc">Practise dictation, gap-fill, and note-taking with audio-linked vocabulary sets.</div>
+            <div class="home-sec-name" data-i18n="nav.listening">Listening</div>
+            <div class="home-sec-desc" data-i18n="home.descListening">Practise dictation, gap-fill, and note-taking with audio-linked vocabulary sets.</div>
             <div class="home-sec-footer">
-              <div class="home-sec-status soon">Coming soon</div>
-              <div class="home-sec-pill soon">Soon</div>
+              <div class="home-sec-status soon" data-i18n="home.comingSoon">Coming soon</div>
+              <div class="home-sec-pill soon" data-i18n="common.soon">Soon</div>
             </div>
           </div>
           <div class="home-sec clickable" onclick="goToPage('speaking')">
             <div class="home-sec-ico"><svg class="ico" aria-hidden="true"><use href="#i-mic"/></svg></div>
-            <div class="home-sec-name">Speaking</div>
-            <div class="home-sec-desc">Part 1, 2, and 3 topic vocabulary banks with pronunciation guides and example answers.</div>
+            <div class="home-sec-name" data-i18n="nav.speaking">Speaking</div>
+            <div class="home-sec-desc" data-i18n="home.descSpeaking">Part 1, 2, and 3 topic vocabulary banks with pronunciation guides and example answers.</div>
             <div class="home-sec-footer">
-              <div class="home-sec-status soon">Coming soon</div>
-              <div class="home-sec-pill soon">Soon</div>
+              <div class="home-sec-status soon" data-i18n="home.comingSoon">Coming soon</div>
+              <div class="home-sec-pill soon" data-i18n="common.soon">Soon</div>
             </div>
           </div>
         </div>
@@ -1910,7 +1910,7 @@ function iconSvg(emoji, cls){
 
       <!-- CEFR Breakdown -->
       <div>
-        <div class="home-section-hd">CEFR Breakdown</div>
+        <div class="home-section-hd" data-i18n="home.cefrBreakdown">CEFR Breakdown</div>
         <div class="home-cefr">
           <div class="home-cefr-row" style="--lv:var(--a1)">
             <div class="home-cefr-badge">A1</div>
@@ -3049,6 +3049,28 @@ const UI_STRINGS = {
     "nav.word": "Word",
     "nav.test": "Test",
     "common.soon": "Soon",
+    "common.active": "Active",
+    "common.live": "Live",
+    "home.badge": "IELTS Preparation · Band 5–9",
+    "home.title1": "Master every word,",
+    "home.title2": "say it till it stays.",
+    "home.subtitle": "Vocabulary, grammar, and every core IELTS skill — levelled, sectioned, and returned to you until they're yours.",
+    "home.startLearning": "Start Learning →",
+    "home.quickTest": "Quick Test",
+    "home.yourProgress": "Your Progress",
+    "home.wordsLearned": "Words learned",
+    "home.categoriesStarted": "Categories started",
+    "home.complete": "Complete",
+    "home.dayStreak": "Day streak",
+    "home.exploreSections": "Explore Sections",
+    "home.descVocab": "5,000 words across 85+ categories, organised by CEFR level and topic. Browse, filter, and mark words as learned.",
+    "home.descGrammar": "Essential IELTS grammar rules covering tense, articles, conditionals, and academic writing structures.",
+    "home.descReading": "Comprehension strategies for academic and general training passages, including skimming, scanning, and inference.",
+    "home.descWriting": "Task 1 and Task 2 guidance — vocabulary for graphs, linking words, and band-9 essay frameworks.",
+    "home.descListening": "Practise dictation, gap-fill, and note-taking with audio-linked vocabulary sets.",
+    "home.descSpeaking": "Part 1, 2, and 3 topic vocabulary banks with pronunciation guides and example answers.",
+    "home.comingSoon": "Coming soon",
+    "home.cefrBreakdown": "CEFR Breakdown",
   },
   vi: {
     "nav.home": "Trang chủ",
@@ -3062,6 +3084,28 @@ const UI_STRINGS = {
     "nav.word": "Từ",
     "nav.test": "Kiểm tra",
     "common.soon": "Sắp có",
+    "common.active": "Hoạt động",
+    "common.live": "Đã có",
+    "home.badge": "Luyện thi IELTS · Band 5–9",
+    "home.title1": "Học vững từng từ,",
+    "home.title2": "học đến khi thuộc lòng.",
+    "home.subtitle": "Từ vựng, ngữ pháp và mọi kỹ năng cốt lõi của IELTS — được phân cấp, sắp xếp theo chủ đề và luôn được ôn lại cho đến khi bạn thực sự nắm vững.",
+    "home.startLearning": "Bắt đầu học →",
+    "home.quickTest": "Kiểm tra nhanh",
+    "home.yourProgress": "Tiến độ của bạn",
+    "home.wordsLearned": "Từ đã học",
+    "home.categoriesStarted": "Danh mục đã bắt đầu",
+    "home.complete": "Hoàn thành",
+    "home.dayStreak": "Chuỗi ngày học",
+    "home.exploreSections": "Khám phá các phần",
+    "home.descVocab": "5.000 từ vựng trong hơn 85 danh mục, được sắp xếp theo cấp độ CEFR và chủ đề. Duyệt, lọc và đánh dấu từ đã học.",
+    "home.descGrammar": "Các quy tắc ngữ pháp IELTS thiết yếu bao gồm thì, mạo từ, câu điều kiện và cấu trúc văn viết học thuật.",
+    "home.descReading": "Chiến lược đọc hiểu cho các bài đọc học thuật và tổng quát, bao gồm đọc lướt, đọc quét và suy luận.",
+    "home.descWriting": "Hướng dẫn Task 1 và Task 2 — từ vựng cho biểu đồ, từ nối và khung bài luận band 9.",
+    "home.descListening": "Luyện nghe chép chính tả, điền từ và ghi chú với các bộ từ vựng có liên kết âm thanh.",
+    "home.descSpeaking": "Ngân hàng từ vựng theo chủ đề cho Part 1, 2 và 3 kèm hướng dẫn phát âm và câu trả lời mẫu.",
+    "home.comingSoon": "Sắp ra mắt",
+    "home.cefrBreakdown": "Phân tích CEFR",
   },
 };
 
