@@ -95,10 +95,14 @@ h1,h2,h3,.brand,.tab,.btn,.modeCard h3,.mode-toggle-label{font-family:'Plus Jaka
 }
 .tab:hover{color:var(--text); background:rgba(var(--vio),.1); border-color:rgba(var(--vio),.2); transform:translateY(-1px);}
 .tab.active{color:#fff; background:rgb(var(--vio)); box-shadow:0 4px 14px rgba(var(--vio),.4);}
+/* Tabs with a dropdown get the same min-width as their dropdown panel
+   (see .nav-dropdown below), so short labels (e.g. Vietnamese "Từ vựng")
+   don't leave the dropdown overhanging past a narrower button. */
+.nav-group:has(.nav-dropdown) .tab{min-width:130px; text-align:center;}
 /* ===== NAV DROPDOWNS ===== */
 .nav-group{position:relative;}.nav-group::after{content:'';position:absolute;left:0;right:0;bottom:-8px;height:8px;}
 .nav-dropdown{
-  display:none; position:absolute; left:0; top:100%; width:100%; min-width:140px; z-index:60;
+  display:none; position:absolute; left:0; top:100%; width:100%; min-width:130px; z-index:60;
   background:rgba(22,26,35,.94); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
   border:1px solid rgba(var(--vio),.22); border-top:none; border-radius:0 0 14px 14px;
   box-shadow:0 16px 48px rgba(0,0,0,.5); overflow:hidden;
