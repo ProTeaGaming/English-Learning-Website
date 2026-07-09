@@ -2067,26 +2067,26 @@ function iconSvg(emoji, cls){
   <!-- ===== EXAMPLES PAGE ===== -->
   <section id="page-examples" class="page">
     <div class="page-head">
-      <span class="eyebrow">Section 01 / Vocabulary</span>
-      <h1>Word</h1>
-      <p>Every word, used correctly in a full sentence.</p>
+      <span class="eyebrow" data-i18n="vocab.eyebrow">Section 01 / Vocabulary</span>
+      <h1 data-i18n="nav.word">Word</h1>
+      <p data-i18n="vocab.wordPageDesc">Every word, used correctly in a full sentence.</p>
     </div>
     <div class="headline-bar" id="exHeadlineFilters">
-      <button class="headline-btn active" data-headline="all">All</button>
-      <button class="headline-btn" data-headline="basic"><svg class="ico" aria-hidden="true"><use href="#i-sprout"/></svg> Basic</button>
-      <button class="headline-btn" data-headline="intermediate"><svg class="ico" aria-hidden="true"><use href="#i-trend-up"/></svg> Intermediate</button>
-      <button class="headline-btn" data-headline="advanced"><svg class="ico" aria-hidden="true"><use href="#i-grad-cap"/></svg> Advanced</button>
+      <button class="headline-btn active" data-headline="all" data-i18n="common.all">All</button>
+      <button class="headline-btn" data-headline="basic"><svg class="ico" aria-hidden="true"><use href="#i-sprout"/></svg> <span data-i18n="common.basic">Basic</span></button>
+      <button class="headline-btn" data-headline="intermediate"><svg class="ico" aria-hidden="true"><use href="#i-trend-up"/></svg> <span data-i18n="common.intermediate">Intermediate</span></button>
+      <button class="headline-btn" data-headline="advanced"><svg class="ico" aria-hidden="true"><use href="#i-grad-cap"/></svg> <span data-i18n="common.advanced">Advanced</span></button>
     </div>
     <div class="filters">
       <div class="search-row">
-        <input type="search" id="exSearchInput" placeholder="Search words, definitions, synonyms…">
+        <input type="search" id="exSearchInput" placeholder="Search words, definitions, synonyms…" data-i18n-placeholder="common.searchWords">
         <span class="result-count" id="exCount"></span>
       </div>
       <div class="filter-row" id="exSectionFilters"></div>
       <div class="filter-row" id="exCategoryFilters"></div>
       <div class="filter-row" id="exCefrRow">
-        <span class="filter-label">CEFR Level</span>
-        <button class="chip active" data-cefr="all">All</button>
+        <span class="filter-label" data-i18n="common.cefrLevel">CEFR Level</span>
+        <button class="chip active" data-cefr="all" data-i18n="common.all">All</button>
         <button class="chip" data-cefr="A1">A1</button><button class="chip" data-cefr="A1+">A1+</button>
         <button class="chip" data-cefr="A2">A2</button><button class="chip" data-cefr="A2+">A2+</button>
         <button class="chip" data-cefr="B1">B1</button><button class="chip" data-cefr="B1+">B1+</button>
@@ -2095,14 +2095,14 @@ function iconSvg(emoji, cls){
         <button class="chip" data-cefr="C2">C2</button><button class="chip" data-cefr="C2+">C2+</button>
       </div>
       <div class="filter-row">
-        <span class="filter-label">Progress</span>
-        <button class="chip active" data-learned="all">All</button>
-        <button class="chip" data-learned="learned">Learned</button>
-        <button class="chip" data-learned="little">Little Bit</button>
-        <button class="chip" data-learned="unlearned">Not Learned</button>
+        <span class="filter-label" data-i18n="common.progress">Progress</span>
+        <button class="chip active" data-learned="all" data-i18n="common.all">All</button>
+        <button class="chip" data-learned="learned" data-i18n="common.learned">Learned</button>
+        <button class="chip" data-learned="little" data-i18n="common.littleBit">Little Bit</button>
+        <button class="chip" data-learned="unlearned" data-i18n="common.notLearned">Not Learned</button>
       </div>
       <div class="filter-row" style="justify-content:flex-end;">
-        <button class="clear-btn" id="exClearFilters">Clear filters</button>
+        <button class="clear-btn" id="exClearFilters" data-i18n="common.clearFilters">Clear filters</button>
       </div>
     </div>
     <div class="ex-list" id="exList"></div>
@@ -3105,6 +3105,7 @@ const UI_STRINGS = {
     "vocab.searchCategories": "Search categories…",
     "vocab.markAllCompleted": "✓ Mark All Completed",
     "vocab.resetAll": "↺ Reset All",
+    "vocab.wordPageDesc": "Every word, used correctly in a full sentence.",
   },
   vi: {
     "nav.home": "Trang chủ",
@@ -3165,6 +3166,7 @@ const UI_STRINGS = {
     "vocab.searchCategories": "Tìm danh mục…",
     "vocab.markAllCompleted": "✓ Đánh dấu tất cả đã hoàn thành",
     "vocab.resetAll": "↺ Đặt lại tất cả",
+    "vocab.wordPageDesc": "Mỗi từ, được dùng đúng trong một câu hoàn chỉnh.",
   },
 };
 
