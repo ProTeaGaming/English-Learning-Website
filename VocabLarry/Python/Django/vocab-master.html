@@ -4026,6 +4026,10 @@ function renderGrammarQuestion(){
   const isTyped = q.qtype !== 'mcq';
   const promptLabel = q.qtype === 'mcq' ? 'Choose the correct option'
     : q.qtype === 'gap' ? 'Fill the gap' : 'Rewrite the sentence';
+  // If any gap question in this topic can be answered by leaving the blank empty,
+  // hint it on every gap question (not just the one it applies to — showing it only
+  // there would give the answer away before the user even reads the sentence).
+  const gapPlaceholder = q.qtype === 'gap' && grammarTopicOffersBlankGap(t) ? 'Leave blank if no article is needed' : '';
   view.innerHTML = `
     <button class="back-btn" id="grammarQuizLeaveBtn">← Leave</button>
     <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
@@ -4035,7 +4039,7 @@ function renderGrammarQuestion(){
       <div class="q-text">${q.prompt}</div>
       ${isTyped
         ? `<div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
-             <input class="gram-gap-input" id="grammarGapInput" type="text" autocomplete="off" spellcheck="false" aria-label="Your answer">
+             <input class="gram-gap-input" id="grammarGapInput" type="text" autocomplete="off" spellcheck="false" aria-label="Your answer" placeholder="${gapPlaceholder}">
              <button class="btn" id="grammarCheckBtn">Check</button>
            </div>`
         : `<div class="q-options">${shuffle(q.options.map((_, i) => i)).map(i => `<button class="q-opt" data-i="${i}">${q.options[i]}</button>`).join('')}</div>`}
@@ -4083,19 +4087,47 @@ function checkGrammarMcq(q, selectedBtn){
   grammarShowFeedback(isCorrect, `<b>${isCorrect ? 'Correct!' : 'Not quite.'}</b> ${q.why}`);
 }
 
+/* When the blank opens the sentence, the correct answer must be capitalised
+   even though it's stored lowercase in the question data (its dictionary form). */
+function grammarExpectedAnswers(q){
+  if (q.qtype !== 'gap' || !q.prompt.startsWith('___')) return q.answers;
+  return q.answers.map(a => a.charAt(0).toUpperCase() + a.slice(1));
+}
+
+/* Some gap answers mean "nothing goes here" (e.g. "(no article)") — nobody types
+   that phrase into a blank, so an empty submission counts as that answer instead
+   of being rejected as unanswered. */
+function grammarBlankMeansNoAnswer(q){
+  return q.qtype === 'gap' && q.answers.some(a => /^\(?no article\)?$|^-$/i.test(grammarNorm(a)));
+}
+
+/* True once any gap question in the topic can be answered by leaving the blank
+   empty — used to decide whether blank is a real answer choice on every gap
+   question in that topic (see renderGrammarQuestion), not just the one it applies to. */
+function grammarTopicOffersBlankGap(topic){
+  return !!topic && topic.quiz.some(qq => grammarBlankMeansNoAnswer(qq));
+}
+
 function checkGrammarTyped(q, input){
   if (input.disabled) return;
-  if (!grammarNorm(input.value)){
+  const typed = grammarNorm(input.value);
+  const acceptsBlank = grammarBlankMeansNoAnswer(q);
+  // Once the topic offers "leave it blank" as an option, blank is a real answer
+  // choice on every gap question in it — evaluate it (right or wrong) instead of
+  // blocking it, otherwise the "type an answer" message contradicts the hint text.
+  const blankIsAnswerChoice = q.qtype === 'gap' && grammarTopicOffersBlankGap(grammarQuiz.topic);
+  if (!typed && !acceptsBlank && !blankIsAnswerChoice){
     document.querySelector('#grammarQuizView .q-feedback').innerHTML = 'Type an answer first — blank submissions aren\'t counted.';
     return;
   }
-  const isCorrect = q.answers.some(a => grammarNorm(a) === grammarNorm(input.value));
+  const expected = grammarExpectedAnswers(q);
+  const isCorrect = typed ? expected.some(a => grammarNorm(a) === typed) : acceptsBlank;
   input.disabled = true;
   document.getElementById('grammarCheckBtn').disabled = true;
   input.classList.add(isCorrect ? 'correct' : 'wrong');
   const feedback = isCorrect
     ? `<b>Correct!</b> ${q.why}`
-    : `<b>Not quite.</b> The answer is “${q.answers[0]}”. ${q.why}`;
+    : `<b>Not quite.</b> The answer is “${expected[0]}”. ${q.why}`;
   grammarShowFeedback(isCorrect, feedback);
 }
 
