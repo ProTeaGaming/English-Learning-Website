@@ -1960,28 +1960,28 @@ function iconSvg(emoji, cls){
   <!-- ===== WORD LIST PAGE ===== -->
   <section id="page-list" class="page">
     <div class="page-head">
-      <span class="eyebrow">Section 01 / Vocabulary</span>
-      <h1>Category</h1>
-      <p>5,000 essential words, organised by section and category — click one to begin.</p>
+      <span class="eyebrow" data-i18n="vocab.eyebrow">Section 01 / Vocabulary</span>
+      <h1 data-i18n="nav.category">Category</h1>
+      <p data-i18n="vocab.categoryPageDesc">5,000 essential words, organised by section and category — click one to begin.</p>
     </div>
 
     <!-- BROWSE VIEW: section/category grid -->
     <div id="listBrowse">
       <div class="headline-bar">
-        <button class="headline-btn active" data-headline="all">All</button>
-        <button class="headline-btn" data-headline="basic"><svg class="ico" aria-hidden="true"><use href="#i-sprout"/></svg> Basic</button>
-        <button class="headline-btn" data-headline="intermediate"><svg class="ico" aria-hidden="true"><use href="#i-trend-up"/></svg> Intermediate</button>
-        <button class="headline-btn" data-headline="advanced"><svg class="ico" aria-hidden="true"><use href="#i-grad-cap"/></svg> Advanced</button>
-        <button class="headline-btn" data-headline="cefr"><svg class="ico" aria-hidden="true"><use href="#i-bar-chart"/></svg> CEFR Levels</button>
+        <button class="headline-btn active" data-headline="all" data-i18n="common.all">All</button>
+        <button class="headline-btn" data-headline="basic"><svg class="ico" aria-hidden="true"><use href="#i-sprout"/></svg> <span data-i18n="common.basic">Basic</span></button>
+        <button class="headline-btn" data-headline="intermediate"><svg class="ico" aria-hidden="true"><use href="#i-trend-up"/></svg> <span data-i18n="common.intermediate">Intermediate</span></button>
+        <button class="headline-btn" data-headline="advanced"><svg class="ico" aria-hidden="true"><use href="#i-grad-cap"/></svg> <span data-i18n="common.advanced">Advanced</span></button>
+        <button class="headline-btn" data-headline="cefr"><svg class="ico" aria-hidden="true"><use href="#i-bar-chart"/></svg> <span data-i18n="common.cefrLevels">CEFR Levels</span></button>
       </div>
       <div class="browse-bar">
         <div class="search-row" style="position:relative;">
-          <input type="search" id="browseSearch" placeholder="Search categories…">
+          <input type="search" id="browseSearch" placeholder="Search categories…" data-i18n-placeholder="vocab.searchCategories">
         </div>
         <div class="filter-row" id="browseSectionChips"></div>
         <div class="filter-row">
-          <span class="filter-label">CEFR Level</span>
-          <button class="chip active" id="browseCefrAll">All</button>
+          <span class="filter-label" data-i18n="common.cefrLevel">CEFR Level</span>
+          <button class="chip active" id="browseCefrAll" data-i18n="common.all">All</button>
           <button class="chip" data-browse-cefr="A1">A1</button>
           <button class="chip" data-browse-cefr="A1+">A1+</button>
           <button class="chip" data-browse-cefr="A2">A2</button>
@@ -1996,14 +1996,14 @@ function iconSvg(emoji, cls){
           <button class="chip" data-browse-cefr="C2+">C2+</button>
         </div>
         <div class="filter-row">
-          <span class="filter-label">Progress</span>
-          <button class="chip active" id="browseStatusAll">All</button>
-          <button class="chip" data-browse-status="completed">Completed</button>
-          <button class="chip" data-browse-status="inProgress">In Progress</button>
-          <button class="chip" data-browse-status="notStarted">Not Started</button>
+          <span class="filter-label" data-i18n="common.progress">Progress</span>
+          <button class="chip active" id="browseStatusAll" data-i18n="common.all">All</button>
+          <button class="chip" data-browse-status="completed" data-i18n="common.completed">Completed</button>
+          <button class="chip" data-browse-status="inProgress" data-i18n="common.inProgress">In Progress</button>
+          <button class="chip" data-browse-status="notStarted" data-i18n="common.notStarted">Not Started</button>
         </div>
         <div class="filter-row" style="justify-content:flex-end;">
-          <button class="clear-btn" id="browseClearFilters">Clear filters</button>
+          <button class="clear-btn" id="browseClearFilters" data-i18n="common.clearFilters">Clear filters</button>
         </div>
       </div>
       <div id="browseContent"></div>
@@ -2013,7 +2013,7 @@ function iconSvg(emoji, cls){
     <!-- CATEGORY VIEW: word cards for one category -->
     <div id="listCatView" style="display:none;">
       <div class="cat-view-header">
-        <button class="back-btn" id="backToBrowse">← All Sections</button>
+        <button class="back-btn" id="backToBrowse" data-i18n="common.allSections">← All Sections</button>
         <div class="cat-view-title-row">
           <div class="cat-view-icon" id="catViewIcon"></div>
           <div>
@@ -2024,15 +2024,15 @@ function iconSvg(emoji, cls){
       </div>
       <div class="cat-filter-bar">
         <div class="search-row" style="position:relative;">
-          <input type="search" id="catSearchInput" placeholder="Search words, definitions, synonyms…">
+          <input type="search" id="catSearchInput" placeholder="Search words, definitions, synonyms…" data-i18n-placeholder="common.searchWords">
           <span class="result-count" id="listCount"></span>
           <span class="dbg-ctl">
             <button type="button" id="dbgAddWordBtn">+ Add word</button>
           </span>
         </div>
         <div class="filter-row">
-          <span class="filter-label">CEFR</span>
-          <button class="chip active" data-cat-cefr="all">All</button>
+          <span class="filter-label" data-i18n="common.cefr">CEFR</span>
+          <button class="chip active" data-cat-cefr="all" data-i18n="common.all">All</button>
           <button class="chip" data-cat-cefr="A1">A1</button>
           <button class="chip" data-cat-cefr="A1+">A1+</button>
           <button class="chip" data-cat-cefr="A2">A2</button>
@@ -2047,19 +2047,19 @@ function iconSvg(emoji, cls){
           <button class="chip" data-cat-cefr="C2+">C2+</button>
         </div>
         <div class="filter-row">
-          <span class="filter-label">Progress</span>
-          <button class="chip active" data-cat-learned="all">All</button>
-          <button class="chip" data-cat-learned="learned">Learned</button>
-          <button class="chip" data-cat-learned="little">Little Bit</button>
-          <button class="chip" data-cat-learned="unlearned">Not Learned</button>
-          <button class="clear-btn" id="clearCatFilters">Clear</button>
+          <span class="filter-label" data-i18n="common.progress">Progress</span>
+          <button class="chip active" data-cat-learned="all" data-i18n="common.all">All</button>
+          <button class="chip" data-cat-learned="learned" data-i18n="common.learned">Learned</button>
+          <button class="chip" data-cat-learned="little" data-i18n="common.littleBit">Little Bit</button>
+          <button class="chip" data-cat-learned="unlearned" data-i18n="common.notLearned">Not Learned</button>
+          <button class="clear-btn" id="clearCatFilters" data-i18n="common.clear">Clear</button>
         </div>
       </div>
       <div class="card-grid" id="wordGrid"></div>
       <div class="cat-bulk-actions">
-        <button class="cat-bulk-btn" id="catCompleteAllBtn">✓ Mark All Completed</button>
-        <button class="cat-bulk-btn cat-bulk-btn-secondary" id="catResetAllBtn">↺ Reset All</button>
-        <button class="cat-bulk-btn cat-bulk-btn-secondary" id="backToBrowseBottom">← All Sections</button>
+        <button class="cat-bulk-btn" id="catCompleteAllBtn" data-i18n="vocab.markAllCompleted">✓ Mark All Completed</button>
+        <button class="cat-bulk-btn cat-bulk-btn-secondary" id="catResetAllBtn" data-i18n="vocab.resetAll">↺ Reset All</button>
+        <button class="cat-bulk-btn cat-bulk-btn-secondary" id="backToBrowseBottom" data-i18n="common.allSections">← All Sections</button>
       </div>
     </div>
   </section>
@@ -3082,6 +3082,29 @@ const UI_STRINGS = {
     "home.cefrBreakdown": "CEFR Breakdown",
     "home.chooseLearn": "Choose what to learn",
     "home.chooseTest": "Choose what to test",
+    "common.all": "All",
+    "common.basic": "Basic",
+    "common.intermediate": "Intermediate",
+    "common.advanced": "Advanced",
+    "common.cefrLevels": "CEFR Levels",
+    "common.cefrLevel": "CEFR Level",
+    "common.cefr": "CEFR",
+    "common.progress": "Progress",
+    "common.completed": "Completed",
+    "common.inProgress": "In Progress",
+    "common.notStarted": "Not Started",
+    "common.learned": "Learned",
+    "common.littleBit": "Little Bit",
+    "common.notLearned": "Not Learned",
+    "common.clearFilters": "Clear filters",
+    "common.clear": "Clear",
+    "common.allSections": "← All Sections",
+    "common.searchWords": "Search words, definitions, synonyms…",
+    "vocab.eyebrow": "Section 01 / Vocabulary",
+    "vocab.categoryPageDesc": "5,000 essential words, organised by section and category — click one to begin.",
+    "vocab.searchCategories": "Search categories…",
+    "vocab.markAllCompleted": "✓ Mark All Completed",
+    "vocab.resetAll": "↺ Reset All",
   },
   vi: {
     "nav.home": "Trang chủ",
@@ -3119,6 +3142,29 @@ const UI_STRINGS = {
     "home.cefrBreakdown": "Phân tích CEFR",
     "home.chooseLearn": "Chọn nội dung muốn học",
     "home.chooseTest": "Chọn nội dung muốn kiểm tra",
+    "common.all": "Tất cả",
+    "common.basic": "Cơ bản",
+    "common.intermediate": "Trung cấp",
+    "common.advanced": "Nâng cao",
+    "common.cefrLevels": "Cấp độ CEFR",
+    "common.cefrLevel": "Cấp độ CEFR",
+    "common.cefr": "CEFR",
+    "common.progress": "Tiến độ",
+    "common.completed": "Đã hoàn thành",
+    "common.inProgress": "Đang thực hiện",
+    "common.notStarted": "Chưa bắt đầu",
+    "common.learned": "Đã học",
+    "common.littleBit": "Học một ít",
+    "common.notLearned": "Chưa học",
+    "common.clearFilters": "Xóa bộ lọc",
+    "common.clear": "Xóa",
+    "common.allSections": "← Tất cả phần",
+    "common.searchWords": "Tìm từ, định nghĩa, từ đồng nghĩa…",
+    "vocab.eyebrow": "Phần 01 / Từ vựng",
+    "vocab.categoryPageDesc": "5.000 từ vựng thiết yếu, được sắp xếp theo phần và danh mục — nhấn vào một danh mục để bắt đầu.",
+    "vocab.searchCategories": "Tìm danh mục…",
+    "vocab.markAllCompleted": "✓ Đánh dấu tất cả đã hoàn thành",
+    "vocab.resetAll": "↺ Đặt lại tất cả",
   },
 };
 
@@ -3129,6 +3175,11 @@ function applyI18n(){
     const key = el.dataset.i18n;
     const text = dict[key] || UI_STRINGS.en[key];
     if (text) el.textContent = text;
+  });
+  document.querySelectorAll("[data-i18n-placeholder]").forEach(el => {
+    const key = el.dataset.i18nPlaceholder;
+    const text = dict[key] || UI_STRINGS.en[key];
+    if (text) el.placeholder = text;
   });
 }
 
