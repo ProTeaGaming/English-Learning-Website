@@ -12432,6 +12432,15 @@ document.querySelectorAll("#langMenu [data-lang]").forEach(row => {
     if (typeof renderTestModes === "function") renderTestModes();
     if (typeof renderTestCounts === "function") renderTestCounts();
     if (typeof renderTestFiltersSection === "function") renderTestFiltersSection();
+    // The lines above only cover the Test setup screen — an in-progress quiz
+    // (testPlay) or its results screen bake translated text into innerHTML
+    // the same way Grammar's quiz view does (see below), and were left
+    // completely stale (score label included) by a switch mid-session until
+    // this was found during a bug sweep. Re-render whichever is showing.
+    if (document.getElementById("testPlay")?.style.display !== "none"
+      && state.test.questions.length && typeof renderTestQuestion === "function") renderTestQuestion();
+    else if (document.getElementById("testResult")?.style.display !== "none"
+      && state.test.questions.length && typeof showTestResult === "function") showTestResult();
     if (typeof updateFooter === "function") updateFooter();
     // Grammar's 4 sub-views (home/lesson/quiz/result) all bake translated
     // text into innerHTML at render time, same as the Vocabulary category
@@ -14039,7 +14048,7 @@ state.test = {
   wordSection: "all",
   wordCat: "all",
   wordLearned: "all",
-  questions: [], answers: [], idx: 0, score: 0,
+  questions: [], answers: [], idx: 0, score: 0, answered: null,
 };
 
 function randomMixedMode(word){
@@ -14051,33 +14060,38 @@ function randomMixedMode(word){
 
 function buildQuestion(word, mode){
   const others = VOCAB_DATA.filter(w => w.w !== word.w);
-  let prompt, text, correct, options;
+  // promptKey, not the translated text itself, is stored on the question —
+  // all of this test's questions are built once up front at test-start, so
+  // a baked-in string would stay frozen in whatever language was active at
+  // that moment; renderTestQuestion() resolves it fresh via t() every
+  // render, so a mid-quiz language switch actually takes effect.
+  let promptKey, text, correct, options;
   switch(mode){
     case "word":
-      prompt = t("qPrompt.word");
+      promptKey = "qPrompt.word";
       text = wordDef(word);
       correct = word.w;
       options = buildOptions(correct, others, w => w.w);
       break;
     case "synonym":
-      prompt = t("qPrompt.synonym");
+      promptKey = "qPrompt.synonym";
       text = `${word.w} <span class="qpos">(${word.pos})</span>`;
       correct = capitalize(word.syn[Math.floor(Math.random()*word.syn.length)]);
       options = buildOptions(correct, others.filter(w => w.w !== correct), w => w.w);
       break;
     case "antonym":
-      prompt = t("qPrompt.antonym");
+      promptKey = "qPrompt.antonym";
       text = `${word.w} <span class="qpos">(${word.pos})</span>`;
       correct = capitalize(word.ant[Math.floor(Math.random()*word.ant.length)]);
       options = buildOptions(correct, others.filter(w => w.w !== correct), w => w.w);
       break;
     default:
-      prompt = t("qPrompt.definition");
+      promptKey = "qPrompt.definition";
       text = `${word.w} <span class="qpos">(${word.pos})</span>`;
       correct = wordDef(word);
       options = buildOptions(correct, others, w => wordDef(w));
   }
-  return {prompt, text, options, correct, word};
+  return {promptKey, text, options, correct, word};
 }
 
 function buildGapQuestion(word, gapMode = "context"){
@@ -14088,20 +14102,20 @@ function buildGapQuestion(word, gapMode = "context"){
 
   const others = VOCAB_DATA.filter(w => w.w !== word.w);
   const samePos = others.filter(w => w.pos === word.pos);
-  let distractorPool, prompt;
+  let distractorPool, promptKey;
 
   switch (gapMode) {
     case "nuance": {
       const synSet = new Set((word.syn || []).map(s => s.toLowerCase()));
       const synPool = others.filter(w => w.syn && w.syn.some(s => synSet.has(s.toLowerCase())));
       distractorPool = synPool.length >= 3 ? synPool : samePos;
-      prompt = t("qPrompt.gapNuance");
+      promptKey = "qPrompt.gapNuance";
       break;
     }
     case "collocation": {
       const sameCat = others.filter(w => w.cat === word.cat);
       distractorPool = sameCat.length >= 3 ? sameCat : samePos;
-      prompt = t("qPrompt.gapCollocation");
+      promptKey = "qPrompt.gapCollocation";
       break;
     }
     case "connotation": {
@@ -14110,18 +14124,18 @@ function buildGapQuestion(word, gapMode = "context"){
       distractorPool = antPool.length >= 2
         ? [...antPool, ...samePos.filter(w => !antSet.has(w.w.toLowerCase()))]
         : samePos;
-      prompt = t("qPrompt.gapConnotation");
+      promptKey = "qPrompt.gapConnotation";
       break;
     }
     default: {
       distractorPool = samePos.length >= 3 ? samePos : others;
-      prompt = t("qPrompt.gapContext");
+      promptKey = "qPrompt.gapContext";
     }
   }
 
   const options = buildOptions(word.w, distractorPool, w => w.w);
   const text = word.gap.replace("___", `<span class="gapblank">_____</span>`);
-  return {text, options, correct:word.w, word, prompt};
+  return {text, options, correct:word.w, word, promptKey};
 }
 
 function buildHybridQuestion(word){
@@ -14401,6 +14415,7 @@ document.getElementById("testStart").addEventListener("click", () => {
   state.test.answers = [];
   state.test.idx = 0;
   state.test.score = 0;
+  state.test.answered = null;
   document.getElementById("testSetup").style.display = "none";
   document.getElementById("testResult").style.display = "none";
   document.getElementById("testPlay").style.display = "block";
@@ -14412,8 +14427,14 @@ function renderTestQuestion(){
   const total = state.test.questions.length;
   const meta = getTestModeMeta(state.test.mode);
   const play = document.getElementById("testPlay");
-  const prompt = q.prompt;
+  const prompt = t(q.promptKey);
   const pct = Math.round(((state.test.idx + 1) / total) * 100);
+  // A language switch re-renders whichever question is on screen (see the
+  // lang-switch handler) — without replaying the answered state below, this
+  // would silently revert an already-answered, already-scored question back
+  // to a blank unanswered one (same bug class fixed for the Grammar quiz).
+  const isSameQuestionRerender = play.dataset.qidx === String(state.test.idx);
+  play.dataset.qidx = String(state.test.idx);
   const progressText = t("testUi.progressCurrentOfTotal").replace("{noun}", meta.noun).replace("{current}", state.test.idx+1).replace("{total}", total);
   const nextBtnText = state.test.idx+1===total ? t("testUi.seeResults") : t("testUi.nextNoun").replace("{noun}", meta.noun);
   play.innerHTML = `
@@ -14436,12 +14457,16 @@ function renderTestQuestion(){
     document.getElementById("testPlay").style.display = "none";
     document.getElementById("testSetup").style.display = "block";
   });
+  if (isSameQuestionRerender && state.test.answered){
+    const selectedBtn = [...play.querySelectorAll(".q-opt")].find(btn => btn.textContent === state.test.answered.selected);
+    if (selectedBtn) handleTestAnswer(selectedBtn, q, true);
+  }
   if (typeof gsap !== "undefined"){
     gsap.fromTo(play.querySelector(".q-card"), {opacity:0, y:14}, {opacity:1, y:0, duration:.35, ease:"power2.out"});
   }
 }
 
-function handleTestAnswer(selectedBtn, q){
+function handleTestAnswer(selectedBtn, q, isReplay){
   const play = document.getElementById("testPlay");
   const isCorrect = selectedBtn.textContent === q.correct;
   play.querySelectorAll(".q-opt").forEach(btn => {
@@ -14449,8 +14474,11 @@ function handleTestAnswer(selectedBtn, q){
     if (btn.textContent === q.correct) btn.classList.add("correct");
     else if (btn === selectedBtn) btn.classList.add("wrong");
   });
-  if (isCorrect) state.test.score++;
-  state.test.answers.push({ question: q, selected: selectedBtn.textContent, isCorrect });
+  if (!isReplay){
+    if (isCorrect) state.test.score++;
+    state.test.answers.push({ question: q, selected: selectedBtn.textContent, isCorrect });
+    state.test.answered = { selected: selectedBtn.textContent };
+  }
   let feedback;
   if (q.type === "gap"){
     const fullEx = q.word.ex.replace(/<\/?em>/g, "");
@@ -14467,6 +14495,7 @@ function handleTestAnswer(selectedBtn, q){
   play.querySelector(".q-next").style.display = "flex";
   document.getElementById("testNextBtn").addEventListener("click", () => {
     state.test.idx++;
+    state.test.answered = null;
     if (state.test.idx < state.test.questions.length) renderTestQuestion();
     else showTestResult();
   });
