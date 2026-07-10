@@ -11495,7 +11495,7 @@ function grammarQuestionMgrHtml(topic){
   </div>`;
 }
 
-const grammarQuiz = { topic: null, questions: [], idx: 0, score: 0, answered: null };
+const grammarQuiz = { topic: null, questions: [], idx: 0, score: 0, answered: null, optionOrder: null };
 
 let grammarStageTriggers = [];
 function killGrammarStageTriggers(){
@@ -11516,6 +11516,7 @@ function startGrammarQuiz(topic){
   grammarQuiz.idx = 0;
   grammarQuiz.score = 0;
   grammarQuiz.answered = null;
+  grammarQuiz.optionOrder = null;
   showGrammarView('grammarQuizView');
   renderGrammarQuestion();
 }
@@ -11536,6 +11537,13 @@ function renderGrammarQuestion(){
   const existingInput = isTyped ? document.getElementById('grammarGapInput') : null;
   const inProgressValue = (isSameQuestionRerender && existingInput && !existingInput.disabled && !grammarQuiz.answered)
     ? existingInput.value : '';
+  // Keep MCQ options in the same shuffled order across a same-question
+  // re-render — recomputing it would rearrange the buttons out from under
+  // an already-answered question, even though the correct/wrong marks
+  // (tracked by the stable data-i index, not screen position) stay accurate.
+  const optionOrder = (isSameQuestionRerender && grammarQuiz.optionOrder)
+    ? grammarQuiz.optionOrder : shuffle(q.options.map((_, i) => i));
+  if (!isTyped) grammarQuiz.optionOrder = optionOrder;
   view.dataset.qid = String(q.id);
   const promptLabel = q.qtype === 'mcq' ? t("grammar.promptMcq")
     : q.qtype === 'gap' ? t("grammar.promptGap") : t("grammar.promptTransform");
@@ -11556,7 +11564,7 @@ function renderGrammarQuestion(){
              <input class="gram-gap-input" id="grammarGapInput" type="text" autocomplete="off" spellcheck="false" aria-label="${t("grammar.yourAnswer")}" placeholder="${gapPlaceholder}">
              <button class="btn" id="grammarCheckBtn">${t("grammar.checkBtn")}</button>
            </div>`
-        : `<div class="q-options">${shuffle(q.options.map((_, i) => i)).map(i => `<button class="q-opt" data-i="${i}">${q.options[i]}</button>`).join('')}</div>`}
+        : `<div class="q-options">${optionOrder.map(i => `<button class="q-opt" data-i="${i}">${q.options[i]}</button>`).join('')}</div>`}
       <div class="q-feedback"></div>
       <div class="q-next" style="display:none;"><button class="btn" id="grammarNextBtn">${grammarQuiz.idx + 1 === total ? t("testUi.seeResults") : t("grammar.nextQuestion")}</button></div>
     </div>`;
@@ -11598,6 +11606,7 @@ function grammarShowFeedback(isCorrect, feedbackHtml, isReplay){
   document.getElementById('grammarNextBtn').addEventListener('click', () => {
     grammarQuiz.idx++;
     grammarQuiz.answered = null;
+    grammarQuiz.optionOrder = null;
     if (grammarQuiz.idx < grammarQuiz.questions.length) renderGrammarQuestion();
     else showGrammarResult();
   });
