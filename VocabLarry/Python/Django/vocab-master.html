@@ -12646,7 +12646,7 @@ function renderWordPicker(){
   const wcat = state.test.wordCat;
   const wl = state.test.wordLearned;
   const q = state.test.wordSearch.toLowerCase().trim();
-  const wpf = { section: ws, cat: wcat, headline: undefined };
+  const wpf = { section: ws, cat: wcat, headline: hl };
   buildSectionChips(document.getElementById("testWordSectionFilters"), wpf, () => {
     state.test.wordSection = wpf.section; state.test.wordCat = wpf.cat; state.test.wordPage = 1; renderWordPicker();
   });
@@ -13099,6 +13099,8 @@ document.getElementById("testSourceWords").addEventListener("click", () => {
 document.querySelectorAll("#testWordHeadlineBar [data-word-headline]").forEach(btn => {
   btn.addEventListener("click", () => {
     state.test.wordHeadline = btn.dataset.wordHeadline;
+    state.test.wordSection = "all";
+    state.test.wordCat = "all";
     state.test.wordPage = 1;
     renderWordPicker();
   });
