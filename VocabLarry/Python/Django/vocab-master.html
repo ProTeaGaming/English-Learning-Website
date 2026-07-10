@@ -2405,47 +2405,47 @@ function iconSvg(emoji, cls){
 
       <div>
         <div class="footer-logo"><svg class="ico ico-mark" aria-hidden="true"><use href="#i-mark"/></svg><span class="brand-name">Vocab<b>Larry</b></span></div>
-        <p class="footer-sub">Track your progress across 5,000 IELTS words across every CEFR level.</p>
+        <p class="footer-sub" data-i18n="footer.trackProgress">Track your progress across 5,000 IELTS words across every CEFR level.</p>
       </div>
 
       <div class="footer-dash">
 
         <div class="dash-card">
-          <div class="dash-card-label">Total words</div>
+          <div class="dash-card-label" data-i18n="footer.totalWords">Total words</div>
           <div class="dash-card-val">5,000</div>
-          <div class="dash-card-sub">across all levels</div>
+          <div class="dash-card-sub" data-i18n="footer.acrossAllLevels">across all levels</div>
         </div>
 
         <div class="dash-card">
-          <div class="dash-card-label">Learned</div>
+          <div class="dash-card-label" data-i18n="common.learned">Learned</div>
           <div class="dash-card-val" id="footerLearnedVal" style="color:rgb(var(--vio))">0</div>
           <div class="dash-card-sub" id="footerLearnedPct">0% complete</div>
         </div>
 
         <div class="dash-card dash-card-streak">
-          <div class="dash-card-label">Categories</div>
+          <div class="dash-card-label" data-i18n="footer.categoriesLabel">Categories</div>
           <div class="dash-card-val" id="footerCatVal">—</div>
           <div class="dash-card-sub" id="footerCatSub">started</div>
         </div>
 
         <div class="dash-streak">
-          <div class="dash-card-label">Streak</div>
+          <div class="dash-card-label" data-i18n="footer.streakLabel">Streak</div>
           <div class="dash-streak-top">
             <div class="dash-streak-fire">🔥</div>
             <div class="dash-streak-num" id="streakCount">0</div>
             <div class="dash-streak-meta">
-              <div class="dash-streak-lbl">day streak</div>
-              <div class="dash-streak-best">Best: <b id="streakBest">0</b> days</div>
+              <div class="dash-streak-lbl" data-i18n="footer.dayStreak">day streak</div>
+              <div class="dash-streak-best"><span data-i18n="footer.best">Best:</span> <b id="streakBest">0</b> <span data-i18n="footer.daysSuffix">days</span></div>
             </div>
           </div>
           <div class="dash-week" id="streakWeek">
-            <div class="dash-week-day"><div class="dash-week-dot" id="sday-0"></div><div class="dash-week-lbl">Mon</div></div>
-            <div class="dash-week-day"><div class="dash-week-dot" id="sday-1"></div><div class="dash-week-lbl">Tue</div></div>
-            <div class="dash-week-day"><div class="dash-week-dot" id="sday-2"></div><div class="dash-week-lbl">Wed</div></div>
-            <div class="dash-week-day"><div class="dash-week-dot" id="sday-3"></div><div class="dash-week-lbl">Thu</div></div>
-            <div class="dash-week-day"><div class="dash-week-dot" id="sday-4"></div><div class="dash-week-lbl">Fri</div></div>
-            <div class="dash-week-day"><div class="dash-week-dot" id="sday-5"></div><div class="dash-week-lbl">Sat</div></div>
-            <div class="dash-week-day"><div class="dash-week-dot" id="sday-6"></div><div class="dash-week-lbl">Sun</div></div>
+            <div class="dash-week-day"><div class="dash-week-dot" id="sday-0"></div><div class="dash-week-lbl" data-i18n="footer.mon">Mon</div></div>
+            <div class="dash-week-day"><div class="dash-week-dot" id="sday-1"></div><div class="dash-week-lbl" data-i18n="footer.tue">Tue</div></div>
+            <div class="dash-week-day"><div class="dash-week-dot" id="sday-2"></div><div class="dash-week-lbl" data-i18n="footer.wed">Wed</div></div>
+            <div class="dash-week-day"><div class="dash-week-dot" id="sday-3"></div><div class="dash-week-lbl" data-i18n="footer.thu">Thu</div></div>
+            <div class="dash-week-day"><div class="dash-week-dot" id="sday-4"></div><div class="dash-week-lbl" data-i18n="footer.fri">Fri</div></div>
+            <div class="dash-week-day"><div class="dash-week-dot" id="sday-5"></div><div class="dash-week-lbl" data-i18n="footer.sat">Sat</div></div>
+            <div class="dash-week-day"><div class="dash-week-dot" id="sday-6"></div><div class="dash-week-lbl" data-i18n="footer.sun">Sun</div></div>
           </div>
         </div>
 
@@ -2453,9 +2453,9 @@ function iconSvg(emoji, cls){
     </div>
 
     <div class="footer-bottom">
-      <span class="footer-copy">© 2025 VocabLarry · All rights reserved</span>
+      <span class="footer-copy" data-i18n="footer.copyright">© 2025 VocabLarry · All rights reserved</span>
       <div class="footer-bottom-right">
-        <span class="footer-tag">Built for IELTS learners</span>
+        <span class="footer-tag" data-i18n="footer.builtFor">Built for IELTS learners</span>
       </div>
     </div>
   </div>
@@ -3130,6 +3130,16 @@ function sectionLabel(name){
 function t(key){
   const dict = UI_STRINGS[state.lang] || UI_STRINGS.en;
   return dict[key] || UI_STRINGS.en[key] || key;
+}
+/* Vietnamese has no plural forms, so a count-aware "N words"/"N categories"
+   label needs a different string per language rather than one dict value:
+   English keeps its existing singular/plural suffix logic, Vietnamese always
+   uses the same word. */
+function wordsCountLabel(n){
+  return state.lang === "vi" ? `${n} ${t("common.words")}` : `${n} word${n!==1?"s":""}`;
+}
+function categoriesCountLabel(n){
+  return state.lang === "vi" ? `${n} ${t("common.categories")}` : `${n} categor${n!==1?"ies":"y"}`;
 }
 
 /* Vietnamese names for all 250 vocab categories, keyed by category slug
@@ -8503,6 +8513,33 @@ const UI_STRINGS = {
     "vocab.allSectionsChip": "All Sections",
     "vocab.synonyms": "Synonyms",
     "vocab.antonyms": "Antonyms",
+    "common.prev": "← Prev",
+    "common.next": "Next →",
+    "common.page": "Page",
+    "common.goTo": "Go to",
+    "common.word": "word",
+    "common.words": "words",
+    "common.category": "category",
+    "common.categories": "categories",
+    "footer.trackProgress": "Track your progress across 5,000 IELTS words across every CEFR level.",
+    "footer.totalWords": "Total words",
+    "footer.acrossAllLevels": "across all levels",
+    "footer.complete": "complete",
+    "footer.categoriesLabel": "Categories",
+    "footer.of": "of",
+    "footer.streakLabel": "Streak",
+    "footer.dayStreak": "day streak",
+    "footer.best": "Best:",
+    "footer.daysSuffix": "days",
+    "footer.mon": "Mon",
+    "footer.tue": "Tue",
+    "footer.wed": "Wed",
+    "footer.thu": "Thu",
+    "footer.fri": "Fri",
+    "footer.sat": "Sat",
+    "footer.sun": "Sun",
+    "footer.copyright": "© 2025 VocabLarry · All rights reserved",
+    "footer.builtFor": "Built for IELTS learners",
   },
   vi: {
     "nav.home": "Trang chủ",
@@ -8575,6 +8612,33 @@ const UI_STRINGS = {
     "vocab.allSectionsChip": "Tất cả các phần",
     "vocab.synonyms": "Từ đồng nghĩa",
     "vocab.antonyms": "Từ trái nghĩa",
+    "common.prev": "← Trước",
+    "common.next": "Tiếp →",
+    "common.page": "Trang",
+    "common.goTo": "Đi đến",
+    "common.word": "từ",
+    "common.words": "từ",
+    "common.category": "danh mục",
+    "common.categories": "danh mục",
+    "footer.trackProgress": "Theo dõi tiến độ học tập của bạn qua 5.000 từ vựng IELTS ở mọi cấp độ CEFR.",
+    "footer.totalWords": "Tổng số từ",
+    "footer.acrossAllLevels": "ở mọi cấp độ",
+    "footer.complete": "hoàn thành",
+    "footer.categoriesLabel": "Danh mục",
+    "footer.of": "trong số",
+    "footer.streakLabel": "Chuỗi ngày học",
+    "footer.dayStreak": "chuỗi ngày học",
+    "footer.best": "Kỷ lục:",
+    "footer.daysSuffix": "ngày",
+    "footer.mon": "Th 2",
+    "footer.tue": "Th 3",
+    "footer.wed": "Th 4",
+    "footer.thu": "Th 5",
+    "footer.fri": "Th 6",
+    "footer.sat": "Th 7",
+    "footer.sun": "CN",
+    "footer.copyright": "© 2025 VocabLarry · Đã đăng ký bản quyền",
+    "footer.builtFor": "Được xây dựng cho người học IELTS",
   },
 };
 
@@ -8667,7 +8731,7 @@ function updateFooter(){
   const lp = document.getElementById("footerLearnedPct");
   const sc = document.getElementById("footerShareCount");
   if(lv) lv.textContent = learned;
-  if(lp) lp.textContent = pct + "% complete";
+  if(lp) lp.textContent = pct + "% " + t("footer.complete");
   if(sc) sc.textContent = learned;
 
   // categories started
@@ -8675,7 +8739,7 @@ function updateFooter(){
   const cv = document.getElementById("footerCatVal");
   const cs = document.getElementById("footerCatSub");
   if(cv) cv.textContent = catsStarted;
-  if(cs) cs.textContent = "of " + CATEGORIES.length + " categories";
+  if(cs) cs.textContent = t("footer.of") + " " + CATEGORIES.length + " " + t("common.categories");
 
   // CEFR breakdown
   const cefrLevels = ["A1","A2","B1","B2","C1","C2"];
@@ -8944,17 +9008,17 @@ function renderExpandableChips(container, pinnedChip, optionChips, maxRows = 2){
 
   if (totalPages > 1){
     const prev = document.createElement("button");
-    prev.type = "button"; prev.className = "clear-btn"; prev.textContent = "← Prev";
+    prev.type = "button"; prev.className = "clear-btn"; prev.textContent = t("common.prev");
     prev.disabled = page === 0;
     if (page === 0){ prev.style.opacity = "0.35"; prev.style.cursor = "default"; }
     prev.addEventListener("click", () => { container.dataset.chipPage = page - 1; renderExpandableChips(container, pinnedChip, optionChips, maxRows); });
 
     const counter = document.createElement("span");
     counter.style.cssText = "font-size:.78rem;color:var(--muted);font-weight:600;padding:0 4px;white-space:nowrap;";
-    counter.textContent = "Page " + (page + 1) + " / " + totalPages;
+    counter.textContent = t("common.page") + " " + (page + 1) + " / " + totalPages;
 
     const next = document.createElement("button");
-    next.type = "button"; next.className = "clear-btn"; next.textContent = "Next →";
+    next.type = "button"; next.className = "clear-btn"; next.textContent = t("common.next");
     next.disabled = page === totalPages - 1;
     if (page === totalPages - 1){ next.style.opacity = "0.35"; next.style.cursor = "default"; }
     next.addEventListener("click", () => { container.dataset.chipPage = page + 1; renderExpandableChips(container, pinnedChip, optionChips, maxRows); });
@@ -10524,6 +10588,7 @@ document.querySelectorAll("#langMenu [data-lang]").forEach(row => {
     if (typeof renderExamplesFilters === "function") renderExamplesFilters();
     if (typeof renderExamples === "function") renderExamples();
     if (typeof renderTestFiltersSection === "function") renderTestFiltersSection();
+    if (typeof updateFooter === "function") updateFooter();
     // The functions above only rebuild filter bars/headlines, not the word
     // list bodies — those bake wordDef()/catName() text into innerHTML at
     // render time and are otherwise only refreshed by a filter change or
@@ -10532,7 +10597,7 @@ document.querySelectorAll("#langMenu [data-lang]").forEach(row => {
     if (catState.cat && CAT_MAP[catState.cat]){
       const cat = CAT_MAP[catState.cat];
       document.getElementById("catViewName").textContent = catName(cat);
-      document.getElementById("catViewSub").textContent = `${(CAT_WORDS[cat.id]||[]).length} words · ${sectionLabel(cat.section||"")}`;
+      document.getElementById("catViewSub").textContent = `${wordsCountLabel((CAT_WORDS[cat.id]||[]).length)} · ${sectionLabel(cat.section||"")}`;
       if (typeof renderWordGrid === "function") renderWordGrid();
     }
     if (typeof currentModalWord !== "undefined" && currentModalWord) openWordModal(currentModalWord);
@@ -11262,7 +11327,7 @@ async function debugRefreshVocab(){
       iconEl.className = `cat-view-icon t-${cat.theme}`;
       document.getElementById("catViewName").textContent = catName(cat);
       document.getElementById("catViewName").className = `cat-view-name t-${cat.theme}`;
-      document.getElementById("catViewSub").textContent = `${(CAT_WORDS[cat.id]||[]).length} words · ${sectionLabel(cat.section||"")}`;
+      document.getElementById("catViewSub").textContent = `${wordsCountLabel((CAT_WORDS[cat.id]||[]).length)} · ${sectionLabel(cat.section||"")}`;
     } else {
       // the category being viewed is gone (deleted) — bail out
       exitCatView();
@@ -11502,7 +11567,7 @@ function renderBrowseSection(sectionName, cats, num){
       <div class="section-block-num">${String(num).padStart(2, "0")}</div>
       <div class="section-block-info">
         <div class="section-block-name">${sectionLabel(sectionName)}</div>
-        <div class="section-block-meta">${cats.length} categor${cats.length!==1?"ies":"y"} · ${totalWords} words</div>
+        <div class="section-block-meta">${categoriesCountLabel(cats.length)} · ${wordsCountLabel(totalWords)}</div>
       </div>
       <div class="section-block-right">
         <div class="section-block-prog">
@@ -11540,7 +11605,7 @@ function renderBrowseSection(sectionName, cats, num){
     card.className = `cat-card t-${cat.theme}`;
     card.innerHTML = `
       <div class="cat-card-top">
-        <span class="cat-tag">${iconSvg(cat.icon)} ${cefrCount !== null ? `${cefrCount} ${browseState.cefr} word${cefrCount!==1?"s":""}` : `${words.length} words`}</span>
+        <span class="cat-tag">${iconSvg(cat.icon)} ${cefrCount !== null ? (state.lang === "vi" ? `${cefrCount} ${t("common.words")} ${browseState.cefr}` : `${cefrCount} ${browseState.cefr} word${cefrCount!==1?"s":""}`) : wordsCountLabel(words.length)}</span>
         ${pillLevel ? cefrPillHtml(pillLevel) : ""}
         ${cat.pk ? `<span class="dbg-ctl" data-dbg-cat-ctl>
           <button type="button" class="dbg-edit-cat">✎</button>
@@ -11670,7 +11735,7 @@ function renderWordGrid(){
   });
   const words = allWords;
   const grid = document.getElementById("wordGrid");
-  document.getElementById("listCount").textContent = `${allWords.length} word${allWords.length!==1?"s":""}`;
+  document.getElementById("listCount").textContent = wordsCountLabel(allWords.length);
   grid.innerHTML = "";
   words.forEach(word => {
     const ws = learnedState(word.w);
@@ -11752,7 +11817,7 @@ function enterCatView(cat){
   document.getElementById("catViewIcon").className = `cat-view-icon t-${cat.theme}`;
   document.getElementById("catViewName").textContent = catName(cat);
   document.getElementById("catViewName").className = `cat-view-name t-${cat.theme}`;
-  document.getElementById("catViewSub").textContent = `${CAT_WORDS[cat.id].length} words · ${sectionLabel(cat.section||"")}`;
+  document.getElementById("catViewSub").textContent = `${wordsCountLabel(CAT_WORDS[cat.id].length)} · ${sectionLabel(cat.section||"")}`;
   document.querySelectorAll("[data-cat-cefr]").forEach(c => c.classList.toggle("active", c.dataset.catCefr==="all"));
   document.querySelectorAll("[data-cat-learned]").forEach(c => c.classList.toggle("active", c.dataset.catLearned==="all"));
   document.getElementById("listBrowse").style.display = "none";
@@ -11880,7 +11945,7 @@ function buildPagination(container, total, perPage, current, onPageChange){
   const gotoChip = document.createElement("div");
   gotoChip.className = "custom-chip active"; gotoChip.style.marginLeft = "8px";
   const gotoText = document.createElement("span");
-  gotoText.textContent = "Go to";
+  gotoText.textContent = t("common.goTo");
   const gotoInput = document.createElement("input");
   gotoInput.type = "number"; gotoInput.min = 1; gotoInput.max = totalPages;
   gotoInput.className = "custom-count-input"; gotoInput.placeholder = "…";
@@ -11920,7 +11985,7 @@ function renderExamples(){
   const page = f.page || 1;
   const words = allWords.slice((page - 1) * EX_PER_PAGE, page * EX_PER_PAGE);
   const list = document.getElementById("exList");
-  document.getElementById("exCount").textContent = `${total} word${total!==1?"s":""}`;
+  document.getElementById("exCount").textContent = wordsCountLabel(total);
   list.innerHTML = "";
   words.forEach(word => {
     const item = document.createElement("div");
