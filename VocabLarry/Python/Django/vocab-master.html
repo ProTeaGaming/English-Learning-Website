@@ -9839,6 +9839,79 @@ const GRAMMAR_SECTIONS = {
   'advanced-formal-idioms':    'Idioms',
 };
 const GRAMMAR_STAGE_RANK = { beginner: 0, independent: 1, expert: 2 };
+
+/* Vietnamese names for the 12 grammar thematic sections and 47 topic
+   titles, same fallback-to-English pattern as sectionLabel()/catName(). */
+const GRAMMAR_SECTION_NAME_VI = {
+  "Tenses": "Các thì",
+  "Questions & Reported Speech": "Câu hỏi & Câu tường thuật",
+  "Nouns, Pronouns & Determiners": "Danh từ, Đại từ & Từ hạn định",
+  "Adjectives & Adverbs": "Tính từ & Trạng từ",
+  "Word Forms & Prepositions": "Dạng từ & Giới từ",
+  "Verb Patterns & Modals": "Cấu trúc động từ & Động từ khiếm khuyết",
+  "Voice": "Thể (Chủ động/Bị động)",
+  "Conditionals & Unreal Forms": "Câu điều kiện & Dạng không có thật",
+  "Clauses": "Mệnh đề",
+  "Emphasis & Sentence Focus": "Nhấn mạnh & Trọng tâm câu",
+  "Cohesion & Academic Style": "Tính liên kết & Văn phong học thuật",
+  "Idioms": "Thành ngữ",
+};
+const GRAMMAR_TOPIC_TITLE_VI = {
+  "present-simple-continuous": "Hiện tại đơn & Hiện tại tiếp diễn",
+  "past-simple-continuous": "Quá khứ đơn & Quá khứ tiếp diễn",
+  "future-forms": "Các dạng thì tương lai (will / going to)",
+  "question-forms": "Dạng câu hỏi & Câu trả lời ngắn",
+  "word-forms": "Dạng từ (danh từ/động từ/tính từ/trạng từ)",
+  "articles": "Mạo từ (a/an/the)",
+  "nouns-plurals": "Danh từ, Số nhiều & Đếm được/Không đếm được",
+  "quantifiers": "Từ chỉ số lượng & There is/are",
+  "pronouns-possessives": "Đại từ & Sở hữu cách",
+  "comparatives-superlatives": "So sánh hơn & So sánh nhất",
+  "prepositions-time-place": "Giới từ chỉ thời gian & Nơi chốn",
+  "adverbs-word-order": "Trạng từ & Trật tự từ",
+  "perfect-tenses": "Các thì hoàn thành",
+  "passive-voice": "Câu bị động & Câu chủ động",
+  "reported-speech": "Câu tường thuật",
+  "conditionals": "Câu điều kiện loại 0-3",
+  "relative-clauses": "Mệnh đề quan hệ",
+  "modal-verbs": "Động từ khiếm khuyết",
+  "gerunds-infinitives": "Danh động từ và Động từ nguyên mẫu",
+  "used-to": "Used to / Would / Be used to",
+  "wish-if-only": "Wish & If only",
+  "causatives": "Câu sai khiến (have/get something done)",
+  "question-tags-indirect": "Câu hỏi đuôi & Câu hỏi gián tiếp",
+  "linking-words": "Từ nối & Tính liên kết",
+  "inversion-emphasis": "Đảo ngữ & Nhấn mạnh",
+  "cleft-sentences": "Câu chẻ",
+  "subjunctive-unreal-past": "Thức giả định & Quá khứ không có thật",
+  "advanced-modality": "Động từ khiếm khuyết nâng cao",
+  "participle-clauses": "Mệnh đề phân từ",
+  "nominalisation": "Danh từ hóa",
+  "hedging-academic-tone": "Giảm nhẹ khẳng định & Văn phong học thuật",
+  "mixed-conditionals": "Câu điều kiện hỗn hợp",
+  "ellipsis-substitution": "Tỉnh lược & Thay thế",
+  "dummy-subjects": "Chủ ngữ giả (it/there)",
+  "fronting-ever-clauses": "Đảo trạng ngữ lên đầu câu & Mệnh đề -ever",
+  "gradable-adjectives": "Tính từ phân cấp & Từ nhấn mạnh",
+  "irregular-verbs": "Động từ bất quy tắc (V1-V2-V3)",
+  "conjunctions": "Liên từ: FANBOYS và các liên từ khác",
+  "phrasal-verbs": "Cụm động từ",
+  "dependent-prepositions": "Giới từ đi sau động từ & tính từ",
+  "make-let-verb-patterns": "Make, Let & Cấu trúc Động từ + Tân ngữ",
+  "comparison-structures": "Cấu trúc so sánh",
+  "impersonal-passive": "Câu bị động phi nhân xưng & Tường thuật",
+  "subject-verb-agreement": "Sự hòa hợp giữa Chủ ngữ và Động từ",
+  "everyday-idioms": "Thành ngữ hàng ngày",
+  "conversational-idioms": "Thành ngữ giao tiếp",
+  "advanced-formal-idioms": "Thành ngữ nâng cao & Trang trọng",
+};
+function grammarSectionLabel(name){
+  return (state.lang === "vi" && GRAMMAR_SECTION_NAME_VI[name]) || name;
+}
+function grammarTopicTitle(topic){
+  return (state.lang === "vi" && GRAMMAR_TOPIC_TITLE_VI[topic.slug]) || topic.title;
+}
+
 const GRAMMAR_CEFR_KEY  = { 'A1': 'basic', 'B1': 'inter', 'C1': 'adv' };
 
 function cefrRangePillHtml(label){
@@ -9898,7 +9971,7 @@ function renderGrammarHome(){
         (f.stage === 'all' || t.stageId === f.stage) &&
         (f.cefr === 'all' || t.cefr === f.cefr) &&
         (f.status === 'all' || grammarTopicStatus(t.slug) === f.status) &&
-        (!q || t.title.toLowerCase().includes(q)));
+        (!q || t.title.toLowerCase().includes(q) || grammarTopicTitle(t).toLowerCase().includes(q)));
       if (!inSection.length) return;
       wrap.appendChild(renderGrammarSection(name, inSection, i + 1));
       rendered++;
@@ -9932,7 +10005,7 @@ function renderGrammarSection(name, topics, num){
     <div class="section-block-header">
       <div class="section-block-num">${String(num).padStart(2, '0')}</div>
       <div class="section-block-info">
-        <div class="section-block-name">${name}</div>
+        <div class="section-block-name">${grammarSectionLabel(name)}</div>
         <div class="section-block-meta">${grammarTopicCountLabel(topics.length)}</div>
       </div>
       <div class="section-block-right">
@@ -9971,7 +10044,7 @@ function renderGrammarSection(name, topics, num){
         </span>
         <svg class="ico cat-arrow" aria-hidden="true"><use href="#i-arrow-up-right"/></svg>
       </div>
-      <div class="cat-name">${topic.title}</div>
+      <div class="cat-name">${grammarTopicTitle(topic)}</div>
       <div class="cat-pbar-row">
         <div class="cat-pbar"><div class="cat-pfill${done ? ' gram-done' : ''}" style="width:${best}%"></div></div>
         ${done
@@ -10026,10 +10099,10 @@ function openGrammarTopic(topic){
       <div class="cat-view-icon ${topic.theme || 't-tv'}"><svg class="ico" aria-hidden="true"><use href="#${topic.icon || 'i-pen'}"/></svg></div>
       <div>
         <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
-          <h2 class="cat-view-name ${topic.theme || 't-tv'}">${topic.title}</h2>
+          <h2 class="cat-view-name ${topic.theme || 't-tv'}">${grammarTopicTitle(topic)}</h2>
           ${cefrRangePillHtml(topic.cefr)}
         </div>
-        <p class="cat-view-sub">${grammarQuestionCountLabel(topic.quiz.length)} · ${section}</p>
+        <p class="cat-view-sub">${grammarQuestionCountLabel(topic.quiz.length)} · ${grammarSectionLabel(section)}</p>
       </div>
     </div>
     <div class="gram-lesson">${grammarLessonHtml(lesson, topic.icon,
@@ -10362,7 +10435,7 @@ function showGrammarResult(){
   const result = document.getElementById('grammarResult');
   const scoredText = t("testUi.scoredTemplate").replace("{score}", score).replace("{total}", total).replace("{pct}", pct);
   result.innerHTML = `
-    <h2>${topic.title}</h2>
+    <h2>${grammarTopicTitle(topic)}</h2>
     <div class="result-score" id="grammarScoreNum">0</div>
     <div class="result-msg">${scoredText} ${pct >= GRAMMAR_PASS_PCT
       ? t("grammar.topicMastered")
@@ -10394,7 +10467,7 @@ function renderGrammarSectionChips(names){
   const btns = names.map(n => {
     const b = document.createElement('button');
     b.className = 'chip' + (grammarFilter.section === n ? ' active' : '');
-    b.textContent = n;
+    b.textContent = grammarSectionLabel(n);
     b.addEventListener('click', () => { grammarFilter.section = n; renderGrammarHome(); });
     return b;
   });
