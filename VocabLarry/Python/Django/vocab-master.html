@@ -10921,6 +10921,15 @@ document.querySelectorAll("#langMenu [data-lang]").forEach(row => {
     if (typeof renderBrowse === "function") renderBrowse();
     if (typeof renderExamplesFilters === "function") renderExamplesFilters();
     if (typeof renderExamples === "function") renderExamples();
+    // renderTestSetupCopy/renderTestModes/renderTestCounts cover the Test
+    // page's title, mode-selection cards and count chips; renderTestFiltersSection
+    // covers the Source toggle + topic/level filters below them. Both halves
+    // must refresh together or a switch mid-session leaves one half stale in
+    // the old language while the other updates (reported as a "mixed
+    // language" / "filter broken" visual bug).
+    if (typeof renderTestSetupCopy === "function") renderTestSetupCopy();
+    if (typeof renderTestModes === "function") renderTestModes();
+    if (typeof renderTestCounts === "function") renderTestCounts();
     if (typeof renderTestFiltersSection === "function") renderTestFiltersSection();
     if (typeof updateFooter === "function") updateFooter();
     // The functions above only rebuild filter bars/headlines, not the word
@@ -13055,8 +13064,8 @@ document.addEventListener("keydown", e => {
   if (document.querySelector('.dbg-overlay')) return;
   if (e.key === "Escape") closeWordModal();
 });
-document.getElementById("modalEditWordBtn").addEventListener("click", () => { if (currentModalWord) debugSaveWord(currentModalWord); });
-document.getElementById("modalDeleteWordBtn").addEventListener("click", () => { if (currentModalWord) debugDeleteWord(currentModalWord); });
+document.getElementById("modalEditWordBtn")?.addEventListener("click", () => { if (currentModalWord) debugSaveWord(currentModalWord); });
+document.getElementById("modalDeleteWordBtn")?.addEventListener("click", () => { if (currentModalWord) debugDeleteWord(currentModalWord); });
 
 /* ════════════════════════════════════════════════════════
    INIT
