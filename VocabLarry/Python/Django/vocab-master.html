@@ -8756,6 +8756,7 @@ const UI_STRINGS = {
     "grammar.promptTransform": "Rewrite the sentence",
     "grammar.gapPlaceholder": "Leave blank if no article is needed",
     "grammar.checkBtn": "Check",
+    "grammar.yourAnswer": "Your answer",
     "grammar.nextQuestion": "Next Question",
     "grammar.typeAnswerFirst": "Type an answer first — blank submissions aren't counted.",
     "grammar.topicMastered": "Topic mastered — it now counts toward your stage progress.",
@@ -9096,6 +9097,7 @@ const UI_STRINGS = {
     "grammar.promptTransform": "Viết lại câu",
     "grammar.gapPlaceholder": "Để trống nếu không cần mạo từ",
     "grammar.checkBtn": "Kiểm tra",
+    "grammar.yourAnswer": "Câu trả lời của bạn",
     "grammar.nextQuestion": "Câu hỏi tiếp theo",
     "grammar.typeAnswerFirst": "Hãy nhập câu trả lời trước — bài nộp để trống sẽ không được tính.",
     "grammar.topicMastered": "Đã thành thạo chủ đề — giờ đây được tính vào tiến độ cấp độ của bạn.",
@@ -11493,7 +11495,7 @@ function grammarQuestionMgrHtml(topic){
   </div>`;
 }
 
-const grammarQuiz = { topic: null, questions: [], idx: 0, score: 0 };
+const grammarQuiz = { topic: null, questions: [], idx: 0, score: 0, answered: null };
 
 let grammarStageTriggers = [];
 function killGrammarStageTriggers(){
@@ -11513,6 +11515,7 @@ function startGrammarQuiz(topic){
   grammarQuiz.questions = shuffle(topic.quiz);
   grammarQuiz.idx = 0;
   grammarQuiz.score = 0;
+  grammarQuiz.answered = null;
   showGrammarView('grammarQuizView');
   renderGrammarQuestion();
 }
@@ -11524,6 +11527,16 @@ function renderGrammarQuestion(){
   const view = document.getElementById('grammarQuizView');
   const pct = Math.round(((grammarQuiz.idx + 1) / total) * 100);
   const isTyped = q.qtype !== 'mcq';
+  // A language switch re-renders whichever question is on screen (see the
+  // lang-switch handler) — this rebuild would otherwise silently wipe an
+  // in-progress typed answer, or revert an already-answered question back
+  // to a blank unanswered state. Capture what to restore before the
+  // innerHTML rebuild below destroys it.
+  const isSameQuestionRerender = view.dataset.qid === String(q.id);
+  const existingInput = isTyped ? document.getElementById('grammarGapInput') : null;
+  const inProgressValue = (isSameQuestionRerender && existingInput && !existingInput.disabled && !grammarQuiz.answered)
+    ? existingInput.value : '';
+  view.dataset.qid = String(q.id);
   const promptLabel = q.qtype === 'mcq' ? t("grammar.promptMcq")
     : q.qtype === 'gap' ? t("grammar.promptGap") : t("grammar.promptTransform");
   // If any gap question in this topic can be answered by leaving the blank empty,
@@ -11540,7 +11553,7 @@ function renderGrammarQuestion(){
       <div class="q-text">${q.prompt}</div>
       ${isTyped
         ? `<div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
-             <input class="gram-gap-input" id="grammarGapInput" type="text" autocomplete="off" spellcheck="false" aria-label="Your answer" placeholder="${gapPlaceholder}">
+             <input class="gram-gap-input" id="grammarGapInput" type="text" autocomplete="off" spellcheck="false" aria-label="${t("grammar.yourAnswer")}" placeholder="${gapPlaceholder}">
              <button class="btn" id="grammarCheckBtn">${t("grammar.checkBtn")}</button>
            </div>`
         : `<div class="q-options">${shuffle(q.options.map((_, i) => i)).map(i => `<button class="q-opt" data-i="${i}">${q.options[i]}</button>`).join('')}</div>`}
@@ -11552,40 +11565,56 @@ function renderGrammarQuestion(){
     const input = document.getElementById('grammarGapInput');
     document.getElementById('grammarCheckBtn').addEventListener('click', () => checkGrammarTyped(q, input));
     input.addEventListener('keydown', e => { if (e.key === 'Enter') checkGrammarTyped(q, input); });
-    input.focus();
+    if (grammarQuiz.answered){
+      input.value = grammarQuiz.answered.value;
+      checkGrammarTyped(q, input, true);
+    } else {
+      if (inProgressValue) input.value = inProgressValue;
+      input.focus();
+    }
   } else {
     view.querySelectorAll('.q-opt').forEach(btn => {
       btn.addEventListener('click', () => checkGrammarMcq(q, btn));
     });
+    if (grammarQuiz.answered){
+      const selectedBtn = view.querySelector(`.q-opt[data-i="${grammarQuiz.answered.selectedIdx}"]`);
+      if (selectedBtn) checkGrammarMcq(q, selectedBtn, true);
+    }
   }
   if (typeof gsap !== 'undefined'){
     gsap.fromTo(view.querySelector('.q-card'), {opacity:0, y:14}, {opacity:1, y:0, duration:.35, ease:'power2.out'});
   }
 }
 
-function grammarShowFeedback(isCorrect, feedbackHtml){
+function grammarShowFeedback(isCorrect, feedbackHtml, isReplay){
   const view = document.getElementById('grammarQuizView');
-  if (isCorrect) grammarQuiz.score++;
+  // isReplay re-applies the visual state of an already-answered question
+  // after a language-switch re-render (see renderGrammarQuestion) — the
+  // score was already counted the first time, so skip it here.
+  if (isCorrect && !isReplay) grammarQuiz.score++;
   view.querySelector('.q-feedback').innerHTML = feedbackHtml;
   view.querySelector('.q-meta span:last-child').textContent = t("testUi.scoreLabel").replace("{n}", grammarQuiz.score);
   view.querySelector('.q-next').style.display = 'flex';
   document.getElementById('grammarNextBtn').addEventListener('click', () => {
     grammarQuiz.idx++;
+    grammarQuiz.answered = null;
     if (grammarQuiz.idx < grammarQuiz.questions.length) renderGrammarQuestion();
     else showGrammarResult();
   });
 }
 
-function checkGrammarMcq(q, selectedBtn){
+function checkGrammarMcq(q, selectedBtn, isReplay){
   const view = document.getElementById('grammarQuizView');
   const correctIdx = q.answers[0];
-  const isCorrect = Number(selectedBtn.dataset.i) === correctIdx;
+  const selectedIdx = Number(selectedBtn.dataset.i);
+  const isCorrect = selectedIdx === correctIdx;
   view.querySelectorAll('.q-opt').forEach(btn => {
     btn.disabled = true;
     if (Number(btn.dataset.i) === correctIdx) btn.classList.add('correct');
     else if (btn === selectedBtn) btn.classList.add('wrong');
   });
-  grammarShowFeedback(isCorrect, `<b>${isCorrect ? t("testUi.correct") : t("testUi.notQuite")}</b> ${grammarWhy(q)}`);
+  if (!isReplay) grammarQuiz.answered = { selectedIdx, value: null };
+  grammarShowFeedback(isCorrect, `<b>${isCorrect ? t("testUi.correct") : t("testUi.notQuite")}</b> ${grammarWhy(q)}`, isReplay);
 }
 
 /* When the blank opens the sentence, the correct answer must be capitalised
@@ -11609,8 +11638,8 @@ function grammarTopicOffersBlankGap(topic){
   return !!topic && topic.quiz.some(qq => grammarBlankMeansNoAnswer(qq));
 }
 
-function checkGrammarTyped(q, input){
-  if (input.disabled) return;
+function checkGrammarTyped(q, input, isReplay){
+  if (input.disabled && !isReplay) return;
   const typed = grammarNorm(input.value);
   const acceptsBlank = grammarBlankMeansNoAnswer(q);
   // Once the topic offers "leave it blank" as an option, blank is a real answer
@@ -11629,7 +11658,8 @@ function checkGrammarTyped(q, input){
   const feedback = isCorrect
     ? `<b>${t("testUi.correct")}</b> ${grammarWhy(q)}`
     : `<b>${t("testUi.notQuite")}</b> ${t("testUi.theAnswerIs").replace("{answer}", expected[0])} ${grammarWhy(q)}`;
-  grammarShowFeedback(isCorrect, feedback);
+  if (!isReplay) grammarQuiz.answered = { selectedIdx: null, value: input.value };
+  grammarShowFeedback(isCorrect, feedback, isReplay);
 }
 
 function showGrammarResult(){
