@@ -1,5 +1,4 @@
 import os
-from django.contrib import admin
 from django.http import FileResponse
 from django.urls import path, include
 from django.conf import settings
@@ -22,10 +21,8 @@ urlpatterns = [
     # matching headless flow (email verification / password reset).
     path('verify-email/<str:key>/', serve_vocab),
     path('reset-password/<str:key>/', serve_vocab),
-    path('django-admin/', admin.site.urls),
     path('_allauth/', include('allauth.headless.urls')),
     path('accounts/', include('allauth.urls')),
     path('auth/', include('accounts.urls')),
     path('api/', include('api.urls')),
-    path('dashboard/', include('dashboard.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
