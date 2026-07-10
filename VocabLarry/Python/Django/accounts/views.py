@@ -34,6 +34,7 @@ def session(request):
         'email': u.email,
         'picture': _picture_url(request, u),
         'isStaff': is_staff_user(u),
+        'hasPassword': u.has_usable_password(),
     })
 
 
@@ -104,9 +105,14 @@ def delete_account(request):
         body = json.loads(request.body or '{}')
     except (json.JSONDecodeError, ValueError):
         return JsonResponse({'error': 'Invalid JSON'}, status=400)
-    password = body.get('password', '')
-    if not request.user.check_password(password):
-        return JsonResponse({'error': 'Incorrect password.'}, status=401)
+    # Google/social-only accounts have no usable password (allauth sets an
+    # unusable hash) — check_password() would reject every input for them,
+    # permanently blocking self-service deletion, so only require it when
+    # the account actually has a password to verify.
+    if request.user.has_usable_password():
+        password = body.get('password', '')
+        if not request.user.check_password(password):
+            return JsonResponse({'error': 'Incorrect password.'}, status=401)
     if request.user.picture:
         request.user.picture.delete(save=False)
     request.user.delete()

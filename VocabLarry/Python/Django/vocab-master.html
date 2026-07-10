@@ -1736,11 +1736,11 @@ function iconSvg(emoji, cls){
     <button class="auth-modal-close" id="deleteClose" aria-label="Close">&times;</button>
     <h2 class="auth-modal-title" data-i18n="auth.deleteAccountTitle">Delete your account?</h2>
     <p class="auth-modal-error" id="deleteError"></p>
-    <p style="font-size:.85rem;color:var(--muted);margin:0 0 14px;" data-i18n="auth.deleteAccountWarning">This permanently deletes your account and all saved progress. Enter your password to confirm.</p>
+    <p style="font-size:.85rem;color:var(--muted);margin:0 0 14px;" id="deleteWarning">This permanently deletes your account and all saved progress. Enter your password to confirm.</p>
     <form id="deleteForm">
-      <label class="auth-field">
+      <label class="auth-field" id="deletePasswordGroup">
         <span data-i18n="auth.password">Password</span>
-        <input type="password" id="deletePassword" autocomplete="current-password" required>
+        <input type="password" id="deletePassword" autocomplete="current-password">
       </label>
       <button type="submit" class="auth-submit-btn" id="deleteSubmitBtn" style="background:#dc2626;" data-i18n="auth.deleteAccountBtn">Delete my account</button>
     </form>
@@ -8597,6 +8597,7 @@ const UI_STRINGS = {
     "auth.continue": "Continue",
     "auth.deleteAccountTitle": "Delete your account?",
     "auth.deleteAccountWarning": "This permanently deletes your account and all saved progress. Enter your password to confirm.",
+    "auth.deleteAccountWarningNoPassword": "This permanently deletes your account and all saved progress. This action cannot be undone.",
     "auth.deleteAccountBtn": "Delete my account",
     "auth.saveChanges": "Save changes",
     "auth.createAccountTitle": "Create your account",
@@ -8935,6 +8936,7 @@ const UI_STRINGS = {
     "auth.continue": "Tiếp tục",
     "auth.deleteAccountTitle": "Xóa tài khoản của bạn?",
     "auth.deleteAccountWarning": "Thao tác này sẽ xóa vĩnh viễn tài khoản và toàn bộ tiến độ đã lưu của bạn. Nhập mật khẩu để xác nhận.",
+    "auth.deleteAccountWarningNoPassword": "Thao tác này sẽ xóa vĩnh viễn tài khoản và toàn bộ tiến độ đã lưu của bạn. Hành động này không thể hoàn tác.",
     "auth.deleteAccountBtn": "Xóa tài khoản của tôi",
     "auth.saveChanges": "Lưu thay đổi",
     "auth.createAccountTitle": "Tạo tài khoản của bạn",
@@ -9175,7 +9177,7 @@ const state = {
   lang: (function(){ try { return localStorage.getItem("ivm_lang") || "en"; } catch(e){ return "en"; } })(),
   list: { search:"", section:"all", cat:"all", cefr:"all", learned:"all" },
   examples: { search:"", section:"all", cat:"all", cefr:"all", learned:"all", headline:"all", page:1 },
-  auth: { loggedIn:false, id:null, name:"", email:"", picture:"", isStaff:false },
+  auth: { loggedIn:false, id:null, name:"", email:"", picture:"", isStaff:false, hasPassword:true },
 };
 
 function learnedState(word){ return state.learnMap[word] || null; }
@@ -9391,13 +9393,13 @@ async function initAuth(){
       const profileRes = await fetch(`${AUTH_BASE}/session/`, { credentials: 'same-origin' });
       const profile = await profileRes.json();
       state.auth = profile.loggedIn
-        ? { loggedIn:true, id:profile.id, name:profile.name||"", username:profile.username||"", email:profile.email, picture:profile.picture||"", isStaff:!!profile.isStaff }
-        : { loggedIn:false, id:null, name:"", username:"", email:"", picture:"", isStaff:false };
+        ? { loggedIn:true, id:profile.id, name:profile.name||"", username:profile.username||"", email:profile.email, picture:profile.picture||"", isStaff:!!profile.isStaff, hasPassword:profile.hasPassword !== false }
+        : { loggedIn:false, id:null, name:"", username:"", email:"", picture:"", isStaff:false, hasPassword:true };
     } catch(e){
-      state.auth = { loggedIn:true, id:user.id, name:user.display||"", username:user.username||"", email:user.email, picture:"", isStaff:false };
+      state.auth = { loggedIn:true, id:user.id, name:user.display||"", username:user.username||"", email:user.email, picture:"", isStaff:false, hasPassword:true };
     }
   } else {
-    state.auth = { loggedIn:false, id:null, name:"", username:"", email:"", picture:"", isStaff:false };
+    state.auth = { loggedIn:false, id:null, name:"", username:"", email:"", picture:"", isStaff:false, hasPassword:true };
   }
   renderAuthUI();
   applyDebugMode();
@@ -12491,6 +12493,15 @@ document.getElementById("deleteAccountBtn").addEventListener("click", () => {
   document.getElementById("userChip").classList.remove("open");
   document.getElementById("deletePassword").value = "";
   document.getElementById("deleteError").textContent = "";
+  // Social-login-only accounts have no password to enter — check_password()
+  // would reject any input, so hide the field entirely for them instead of
+  // showing a form that can never be submitted successfully.
+  const needsPassword = state.auth.hasPassword !== false;
+  document.getElementById("deletePasswordGroup").style.display = needsPassword ? "" : "none";
+  document.getElementById("deletePassword").required = needsPassword;
+  document.getElementById("deleteWarning").textContent = needsPassword
+    ? t("auth.deleteAccountWarning")
+    : t("auth.deleteAccountWarningNoPassword");
   document.getElementById("deleteOverlay").classList.add("open");
 });
 document.getElementById("deleteClose").addEventListener("click", () => {
@@ -13201,7 +13212,10 @@ function debugSaveCategory(existing){
 }
 
 async function debugDeleteCategory(cat){
-  if (!await debugConfirm(`Delete category "${cat.name}" and ALL its words? This cannot be undone.`)) return;
+  // The API refuses to delete a category that still has words (same guard
+  // as the classic dashboard) rather than cascading, so this only ever
+  // removes an already-empty category.
+  if (!await debugConfirm(`Delete category "${cat.name}"? This cannot be undone.`)) return;
   try {
     await debugFetch(`/api/categories/${cat.pk}/`, 'DELETE');
     await debugRefreshVocab();

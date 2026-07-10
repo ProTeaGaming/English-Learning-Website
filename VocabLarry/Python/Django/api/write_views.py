@@ -97,6 +97,14 @@ def category_create(request):
 def category_detail(request, pk):
     category = get_object_or_404(Category, pk=pk)
     if request.method == 'DELETE':
+        # Same guard as the dashboard's category_delete view — refuse rather
+        # than silently cascading a delete of every word in the category.
+        word_count = category.words.count()
+        if word_count:
+            return JsonResponse({
+                'error': f'Cannot delete — {word_count} words still use this category. '
+                         f'Reassign or delete them first.',
+            }, status=409)
         category.delete()
         return JsonResponse({'ok': True})
     payload, err = _json_body(request)

@@ -153,6 +153,17 @@ def test_staff_can_create_update_delete_category(logged_in, staff_user, category
 
 
 @pytest.mark.django_db
+def test_category_delete_blocked_when_words_exist(logged_in, staff_user, category, word):
+    # Same guard as the dashboard's category_delete view — the API must not
+    # silently cascade-delete every word in the category.
+    r = logged_in(staff_user).delete(f'/api/categories/{category.pk}/')
+    assert r.status_code == 409
+    assert 'error' in r.json()
+    assert Category.objects.filter(pk=category.pk).exists()
+    assert Word.objects.filter(pk=word.pk).exists()
+
+
+@pytest.mark.django_db
 def test_category_create_duplicate_slug_returns_400(logged_in, staff_user, category, cefr_b1):
     payload = {'slug': 'travel', 'name': 'Travel 2', 'icon': 'x',
                'cefr_level': cefr_b1.pk, 'color': category.color.pk, 'order': 9}

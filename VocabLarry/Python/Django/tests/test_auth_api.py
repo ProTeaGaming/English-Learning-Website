@@ -1,5 +1,6 @@
 import json
 import pytest
+from django.contrib.auth import get_user_model
 from django.test import Client
 
 
@@ -87,3 +88,56 @@ def test_check_email_returns_true_for_existing(regular_user):
                enforce_csrf_checks=False)
     assert r.status_code == 200
     assert json.loads(r.content) == {'exists': True}
+
+
+@pytest.mark.django_db
+def test_session_reports_has_password(regular_user):
+    c = Client()
+    c.force_login(regular_user)
+    r = c.get('/auth/session/')
+    assert json.loads(r.content)['hasPassword'] is True
+
+
+@pytest.mark.django_db
+def test_session_reports_no_password_for_social_only_account(regular_user):
+    regular_user.set_unusable_password()
+    regular_user.save()
+    c = Client()
+    c.force_login(regular_user)
+    r = c.get('/auth/session/')
+    assert json.loads(r.content)['hasPassword'] is False
+
+
+@pytest.mark.django_db
+def test_delete_account_wrong_password_rejected(regular_user):
+    c = Client()
+    c.force_login(regular_user)
+    payload = json.dumps({'password': 'wrong'})
+    r = c.post('/auth/delete-account/', payload, content_type='application/json')
+    assert r.status_code == 401
+    assert get_user_model().objects.filter(pk=regular_user.pk).exists()
+
+
+@pytest.mark.django_db
+def test_delete_account_correct_password_succeeds(regular_user):
+    c = Client()
+    c.force_login(regular_user)
+    payload = json.dumps({'password': 'testpass123'})
+    r = c.post('/auth/delete-account/', payload, content_type='application/json')
+    assert r.status_code == 200
+    assert not get_user_model().objects.filter(pk=regular_user.pk).exists()
+
+
+@pytest.mark.django_db
+def test_delete_account_without_usable_password_succeeds_without_password(regular_user):
+    # Social-login-only accounts (e.g. Google) have no usable password —
+    # check_password() rejects any input for them, so the password check
+    # must be skipped entirely rather than permanently blocking deletion.
+    regular_user.set_unusable_password()
+    regular_user.save()
+    c = Client()
+    c.force_login(regular_user)
+    payload = json.dumps({'password': ''})
+    r = c.post('/auth/delete-account/', payload, content_type='application/json')
+    assert r.status_code == 200
+    assert not get_user_model().objects.filter(pk=regular_user.pk).exists()
