@@ -10522,7 +10522,20 @@ document.querySelectorAll("#langMenu [data-lang]").forEach(row => {
     // happen after the page has fully loaded.
     if (typeof renderBrowse === "function") renderBrowse();
     if (typeof renderExamplesFilters === "function") renderExamplesFilters();
+    if (typeof renderExamples === "function") renderExamples();
     if (typeof renderTestFiltersSection === "function") renderTestFiltersSection();
+    // The functions above only rebuild filter bars/headlines, not the word
+    // list bodies — those bake wordDef()/catName() text into innerHTML at
+    // render time and are otherwise only refreshed by a filter change or
+    // page navigation. Refresh whatever is currently showing baked-in text:
+    // the open category's grid + header, and an open word modal.
+    if (catState.cat && CAT_MAP[catState.cat]){
+      const cat = CAT_MAP[catState.cat];
+      document.getElementById("catViewName").textContent = catName(cat);
+      document.getElementById("catViewSub").textContent = `${(CAT_WORDS[cat.id]||[]).length} words · ${sectionLabel(cat.section||"")}`;
+      if (typeof renderWordGrid === "function") renderWordGrid();
+    }
+    if (typeof currentModalWord !== "undefined" && currentModalWord) openWordModal(currentModalWord);
     document.getElementById("langChip").classList.remove("open");
   });
 });
