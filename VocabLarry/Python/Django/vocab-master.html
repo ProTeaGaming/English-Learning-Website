@@ -9912,6 +9912,62 @@ function grammarTopicTitle(topic){
   return (state.lang === "vi" && GRAMMAR_TOPIC_TITLE_VI[topic.slug]) || topic.title;
 }
 
+/* Vietnamese lesson-block translations (intro/rule/tip title+body, table
+   title only), keyed by the block's numeric id (globally unique across all
+   47 topics, matches the API's block.id). Table reference data (head/rows)
+   and example-block sentences intentionally stay English — same "core
+   English content never translates" rule as vocab word/synonym/example
+   data, since they ARE the grammar forms/examples being taught. Filled in
+   incrementally across many batches, same technique as WORD_DEF_VI. */
+const GRAMMAR_LESSON_VI = {
+  // present-simple-continuous
+  3549: { body: "<p>Hiện tại đơn diễn tả <b>sự thật, thói quen và hành động lặp lại</b>, trong khi hiện tại tiếp diễn diễn tả các hành động <b>đang xảy ra ngay bây giờ</b> hoặc <b>xung quanh thời điểm hiện tại</b>. Chọn đúng thì sẽ làm thay đổi ý nghĩa của câu.</p>" },
+  3550: { title: "Hiện tại đơn", body: "<p>Cấu trúc: động từ nguyên thể (+ <b>-s</b> với he/she/it). Dùng cho sự thật (<em>Water boils at 100°C</em>), thói quen (<em>She studies every evening</em>) và tình huống lâu dài (<em>He works in marketing</em>). Thêm <b>do/does</b> cho câu hỏi và câu phủ định: <em>She doesn't study on Sundays.</em></p>" },
+  3551: { title: "Hiện tại tiếp diễn", body: "<p>Cấu trúc: <b>am/is/are + verb-ing</b>. Dùng cho hành động đang xảy ra ngay lúc nói (<em>The graph is showing a decline</em>), tình huống tạm thời (<em>He is living abroad this year</em>) và xu hướng hiện tại (<em>Prices are rising</em>).</p>" },
+  3552: { title: "Động từ trạng thái", body: "<p>Một số động từ diễn tả trạng thái chứ không phải hành động, và hiếm khi được dùng ở dạng tiếp diễn: <em>know, believe, want, own, understand, prefer</em>. Nói <em>I understand the question</em>, không nói <em>I am understanding</em>.</p>" },
+  3553: { title: "Bảng tóm tắt nhanh" },
+  3554: { items: [
+    "Sự thật/quy luật chung — hiện tại đơn.",
+    "Miêu tả điều đang xảy ra trong hình ảnh ngay lúc này — hiện tại tiếp diễn.",
+    "\"Understand\" là động từ trạng thái — không có dạng tiếp diễn.",
+    "Một xu hướng đang thay đổi, tạm thời — hiện tại tiếp diễn.",
+    "Sự thật chung về nội dung của báo cáo — hiện tại đơn.",
+  ] },
+  3555: { body: "<p>Trong Writing Task 1, dùng hiện tại đơn để mô tả xu hướng tổng quát của biểu đồ (<em>The graph shows…</em>) và chỉ dùng hiện tại tiếp diễn khi bạn mô tả một xu hướng vẫn đang tiếp diễn tại điểm dữ liệu cuối cùng (<em>the figure is still rising in 2020</em>).</p>" },
+};
+/* Quiz "why" explanations, keyed by question id (globally unique). prompt/
+   options/answers always stay English — they're the grammar exercise
+   itself, not commentary about it. */
+const GRAMMAR_QUIZ_WHY_VI = {
+  // present-simple-continuous
+  5121: "Một sự thật khoa học dùng hiện tại đơn, thêm -s cho \"it\".",
+  5122: "Một hành động đang diễn ra ngay lúc này dùng hiện tại tiếp diễn.",
+  5123: "Một hành động thường xuyên dùng hiện tại đơn, thêm -s cho \"she\".",
+  5124: "\"Understand\" là động từ trạng thái và không được dùng ở dạng tiếp diễn.",
+  5125: "Một xu hướng hiện tại đang thay đổi dùng hiện tại tiếp diễn.",
+  5126: "Một thói quen hàng ngày dùng hiện tại đơn; thêm -s cho \"he\".",
+  5127: "Câu hỏi hiện tại đơn với she/he/it dùng \"does\".",
+  5128: "Mô tả nội dung chung của một biểu đồ dùng hiện tại đơn.",
+  5129: "Phủ định hiện tại đơn cho he/she/it dùng \"doesn't\" + động từ nguyên thể.",
+  5130: "Một xu hướng được mô tả là đang xảy ra hiện tại dùng hiện tại tiếp diễn.",
+};
+function grammarBlockTr(block){
+  if (state.lang !== "vi") return block;
+  const tr = GRAMMAR_LESSON_VI[block.id];
+  if (!tr) return block;
+  const merged = { ...block, title: tr.title ?? block.title, body: tr.body ?? block.body };
+  // 'examples' blocks: translate each item's explanatory note, but never the
+  // English example sentence itself (data.items[].en) — that's the exercise.
+  if (tr.items && block.data && block.data.items){
+    merged.data = { ...block.data, items: block.data.items.map((it, i) =>
+      tr.items[i] ? { ...it, note: tr.items[i] } : it) };
+  }
+  return merged;
+}
+function grammarWhy(q){
+  return (state.lang === "vi" && GRAMMAR_QUIZ_WHY_VI[q.id]) || q.why;
+}
+
 const GRAMMAR_CEFR_KEY  = { 'A1': 'basic', 'B1': 'inter', 'C1': 'adv' };
 
 function cefrRangePillHtml(label){
@@ -10221,6 +10277,7 @@ function grammarLessonHtml(lesson, icon, imgs){
 }
 
 function grammarRuleCardHtml(block, idx, icon, imgs){
+  block = grammarBlockTr(block);
   const num = String(idx + 1).padStart(2, '0');
   const pool = [...new Set([...(imgs || []), ...GRAMMAR_IMG_FALLBACK])];
   const img = pool[idx % pool.length];
@@ -10242,6 +10299,7 @@ function grammarRuleCardHtml(block, idx, icon, imgs){
 }
 
 function grammarBlockHtml(block){
+  block = grammarBlockTr(block);
   switch (block.type){
     case 'intro':
       return `<div class="gram-block gram-reveal gram-intro" data-block-id="${block.id}">${block.body}</div>`;
@@ -10378,7 +10436,7 @@ function checkGrammarMcq(q, selectedBtn){
     if (Number(btn.dataset.i) === correctIdx) btn.classList.add('correct');
     else if (btn === selectedBtn) btn.classList.add('wrong');
   });
-  grammarShowFeedback(isCorrect, `<b>${isCorrect ? t("testUi.correct") : t("testUi.notQuite")}</b> ${q.why}`);
+  grammarShowFeedback(isCorrect, `<b>${isCorrect ? t("testUi.correct") : t("testUi.notQuite")}</b> ${grammarWhy(q)}`);
 }
 
 /* When the blank opens the sentence, the correct answer must be capitalised
@@ -10420,8 +10478,8 @@ function checkGrammarTyped(q, input){
   document.getElementById('grammarCheckBtn').disabled = true;
   input.classList.add(isCorrect ? 'correct' : 'wrong');
   const feedback = isCorrect
-    ? `<b>${t("testUi.correct")}</b> ${q.why}`
-    : `<b>${t("testUi.notQuite")}</b> ${t("testUi.theAnswerIs").replace("{answer}", expected[0])} ${q.why}`;
+    ? `<b>${t("testUi.correct")}</b> ${grammarWhy(q)}`
+    : `<b>${t("testUi.notQuite")}</b> ${t("testUi.theAnswerIs").replace("{answer}", expected[0])} ${grammarWhy(q)}`;
   grammarShowFeedback(isCorrect, feedback);
 }
 
