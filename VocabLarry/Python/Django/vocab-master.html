@@ -11100,6 +11100,63 @@ const GRAMMAR_QUIZ_WHY_VI = {
   5589: "A silver bullet = một giải pháp thần kỳ duy nhất; cụm từ này thường xuất hiện ở dạng phủ định.",
   5590: "A white elephant = một tài sản hoặc dự án tốn kém, vô dụng.",
 };
+// "Transform" (rewrite-the-sentence) quiz prompts only — the instruction
+// wrapping the quoted English sentence translates, the quoted sentence
+// itself never does (see grammarPrompt()).
+const GRAMMAR_QUIZ_PROMPT_VI = {
+  5130: "Viết lại ở thì hiện tại tiếp diễn để mô tả một xu hướng đang diễn ra ngay trên biểu đồ: \"The population increases every year.\"",
+  5140: "Viết lại bằng cách kết hợp thì quá khứ tiếp diễn và quá khứ đơn, thể hiện một hành động bị gián đoạn bởi hành động khác: \"The team analysed the results. At the same time, a new report was published.\"",
+  5150: "Viết lại thành một dự đoán dựa trên bằng chứng hiện tại: \"Sales figures are falling. They will drop below target.\"",
+  5160: "Viết lại thành câu hỏi wh- hỏi về thời gian: \"The report was published in March.\"",
+  5170: "Viết lại với đúng dạng từ: \"The company announced a significant expand, and sales grew successful.\"",
+  5180: "Viết lại với đúng mạo từ: \"Graph shows increase in number of tourists.\"",
+  5190: "Viết lại và sửa đúng dạng danh từ: \"The childs gave many informations about their familys.\"",
+  5200: "Viết lại và sửa đúng lượng từ: \"There is many reason for the delay, and we don't have much problems left to solve.\"",
+  5210: "Viết lại và sửa đúng đại từ: \"Me and him submitted our report, and the results surprised we.\"",
+  5220: "Viết lại thành một câu so sánh hơn duy nhất: \"Country A's economy grew fast. Country B's economy grew faster than that.\"",
+  5230: "Viết lại và sửa đúng giới từ: \"The study was conducted on 2019, and the results were published at March.\"",
+  5240: "Viết lại với trạng từ ở đúng vị trí: \"She reviewed careful the report before the meeting.\"",
+  5489: "Viết lại ở thì hiện tại hoàn thành: \"She wrote the report.\"",
+  5490: "Viết lại ở thể bị động: \"Someone stole the results.\"",
+  5496: "Kết hợp bằng \"although\", bắt đầu câu với từ đó: \"Costs fell. Profits stayed low.\"",
+  5500: "Nối câu bằng \"both… and\": \"The course improves speaking. The course improves listening.\"",
+  5250: "Viết lại bằng thì hiện tại hoàn thành: \"The last time I saw her was three years ago.\"",
+  5257: "Viết lại ở thể bị động: \"Someone stole my laptop last night.\"",
+  5260: "Viết lại ở thể bị động: \"The company will launch the product next month.\"",
+  5270: "Viết lại thành câu tường thuật: \"I have lost my keys,\" she said.",
+  5280: "Viết lại thành câu điều kiện loại 3: \"She didn't warn us, so we made a mistake.\"",
+  5290: "Kết hợp bằng mệnh đề quan hệ: \"The professor won an award. She teaches linguistics.\"",
+  5300: "Viết lại dùng \"must\" để suy luận logic: \"I'm sure he is the manager because he has the office keys.\"",
+  5310: "Viết lại sao cho câu dùng \"to + động từ nguyên mẫu\": \"She managed finishing the project on time.\"",
+  5320: "Viết lại dùng \"used to\": \"She smoked when she was younger, but she doesn't anymore.\"",
+  5330: "Viết lại dùng \"wish\": \"I regret not buying that house.\"",
+  5340: "Viết lại dùng cấu trúc câu sai khiến: \"A mechanic services her car every year.\"",
+  5350: "Viết lại thành câu hỏi gián tiếp: \"What time does the museum close?\"",
+  5360: "Kết hợp bằng \"so...that\": \"The music was very loud. We couldn't hear each other.\"",
+  5509: "Thay cụm động từ bằng từ tương đương trang trọng: \"The lab carried out three experiments.\"",
+  5510: "Viết lại dùng \"put up with\": \"She tolerates the noise.\"",
+  5519: "Viết lại dùng \"succeed in\": \"She passed the exam.\"",
+  5520: "Hoàn thành đúng câu trong thư trang trọng: \"I look forward to hear from you.\"",
+  5529: "Viết lại dùng \"make\": \"The teacher forced us to repeat the exercise.\"",
+  5530: "Viết lại dùng \"allow\": \"The pass lets visitors enter all museums.\"",
+  5539: "Viết lại dùng \"as … as\": \"Flying and rail travel take the same time on this route.\"",
+  5540: "Viết lại dùng số nhân (multiplier): \"Output was 200% of the 2005 level in 2015.\"",
+  5560: "Sửa lỗi hòa hợp chủ ngữ - động từ: \"The number of complaints were rising.\"",
+  5370: "Viết lại dùng đảo ngữ: \"If the company had known about the defect, it would have issued a recall.\"",
+  5380: "Viết lại thành câu chẻ với \"it\" để nhấn mạnh \"the new manager\": \"The new manager introduced these changes.\"",
+  5390: "Viết lại dùng thức giả định mệnh lệnh (mandative subjunctive): \"The dean insists that all staff must attend the meeting.\"",
+  5400: "Viết lại dùng \"shouldn't have\": \"It was a mistake for the team to ignore the warning signs.\"",
+  5410: "Kết hợp thành một câu dùng mệnh đề phân từ: \"She had reviewed all the applications. Then she shortlisted five candidates.\"",
+  5420: "Viết lại dùng dạng danh từ hóa của \"increase\": \"Prices increased sharply after the storm.\"",
+  5430: "Viết lại để giảm nhẹ luận điểm quá khẳng định này: \"This proves that social media causes anxiety in teenagers.\"",
+  5440: "Kết hợp thành câu điều kiện hỗn hợp (nguyên nhân quá khứ, kết quả hiện tại): \"She didn't take the internship. She isn't working in finance now.\"",
+  5450: "Viết lại dùng tỉnh lược để tránh lặp lại cụm động từ: \"My sister can drive a car, and my brother can drive a car too.\"",
+  5460: "Viết lại dùng hậu trí hóa với 'it': \"That the experiment failed twice was disappointing.\"",
+  5470: "Viết lại bằng cách đưa tân ngữ lên đầu câu để nhấn mạnh: \"Few researchers would dispute this finding.\"",
+  5480: "Viết lại, thay 'very' bằng một từ nhấn mạnh tự nhiên hơn cho tính từ cực cấp này: \"The results were very astonishing.\"",
+  5548: "Viết lại theo thể khách quan với \"It…\": \"People say that remote work improves productivity.\"",
+  5549: "Viết lại bắt đầu bằng \"Remote work…\": \"People say that remote work improves productivity.\"",
+};
 function grammarBlockTr(block){
   if (state.lang !== "vi") return block;
   const tr = GRAMMAR_LESSON_VI[block.id];
@@ -11115,6 +11172,14 @@ function grammarBlockTr(block){
 }
 function grammarWhy(q){
   return (state.lang === "vi" && GRAMMAR_QUIZ_WHY_VI[q.id]) || q.why;
+}
+// Only "transform" (rewrite-the-sentence) questions have this — their
+// prompt is an instruction WRAPPING a quoted English sentence that must
+// stay untranslated, unlike mcq/gap prompts which ARE the English exercise
+// sentence itself and always stay English. Sparse map: only transform
+// question ids have entries; everything else falls through to q.prompt.
+function grammarPrompt(q){
+  return (state.lang === "vi" && GRAMMAR_QUIZ_PROMPT_VI[q.id]) || q.prompt;
 }
 
 const GRAMMAR_CEFR_KEY  = { 'A1': 'basic', 'B1': 'inter', 'C1': 'adv' };
@@ -11558,7 +11623,7 @@ function renderGrammarQuestion(){
     <div class="q-meta"><span>${progressText}</span><span>${t("testUi.scoreLabel").replace("{n}", grammarQuiz.score)}</span></div>
     <div class="q-card">
       <div class="q-prompt">${promptLabel}</div>
-      <div class="q-text">${q.prompt}</div>
+      <div class="q-text">${grammarPrompt(q)}</div>
       ${isTyped
         ? `<div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
              <input class="gram-gap-input" id="grammarGapInput" type="text" autocomplete="off" spellcheck="false" aria-label="${t("grammar.yourAnswer")}" placeholder="${gapPlaceholder}">
