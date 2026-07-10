@@ -1622,11 +1622,11 @@ function iconSvg(emoji, cls){
         </div>
       </div>
       <div class="stats">
-        Learned: <b id="learnedCount">0</b> / <b id="totalCount">5000</b>
-        <button class="review-link" id="reviewLittleBtn" title="Review words marked &quot;little bit&quot;" style="display:none;"><span id="littleCount">0</span> to review</button>
+        <span data-i18n="common.learned">Learned</span>: <b id="learnedCount">0</b> / <b id="totalCount">5000</b>
+        <button class="review-link" id="reviewLittleBtn" title="Review words marked &quot;little bit&quot;" style="display:none;"><span id="littleCount">0</span> <span data-i18n="header.toReview">to review</span></button>
       </div>
       <div class="auth-area">
-        <button class="signin-btn" id="signInBtn" style="display:none;">Sign In</button>
+        <button class="signin-btn" id="signInBtn" style="display:none;" data-i18n="auth.signInBtn">Sign In</button>
         <div class="user-chip" id="userChip" style="display:none;">
           <div class="user-avatar" id="userAvatar"></div>
           <span class="user-name" id="userName"></span>
@@ -1634,11 +1634,11 @@ function iconSvg(emoji, cls){
             <span class="user-menu-name" id="userMenuName"></span>
             <span class="user-menu-username" id="userMenuUsername"></span>
             <span class="user-menu-email" id="userEmail"></span>
-            <button id="editProfileBtn">Edit profile</button>
-            <button id="resetProgressBtn" title="Reset all learning progress">Reset progress</button>
+            <button id="editProfileBtn" data-i18n="auth.editProfile">Edit profile</button>
+            <button id="resetProgressBtn" title="Reset all learning progress" data-i18n="auth.resetProgress">Reset progress</button>
             <button id="debugToggle" style="display:none;" type="button">Debug mode: Off</button>
-            <button id="signOutBtn">Sign out</button>
-            <button id="deleteAccountBtn" class="delete-account-link">Delete account</button>
+            <button id="signOutBtn" data-i18n="auth.signOut">Sign out</button>
+            <button id="deleteAccountBtn" class="delete-account-link" data-i18n="auth.deleteAccount">Delete account</button>
           </div>
         </div>
       </div>
@@ -1649,9 +1649,9 @@ function iconSvg(emoji, cls){
 <div class="auth-modal-overlay" id="authOverlay">
   <div class="auth-modal auth-modal-lg">
     <button class="auth-modal-close" id="authClose" aria-label="Close">&times;</button>
-    <h2 class="auth-modal-title" id="authTitle">Sign in</h2>
-    <p class="auth-modal-subtitle">Get access to more learning features</p>
-    <p class="auth-switch" id="authRegisterHint">Don't have an account? <a href="#" id="authRegisterLink">Register</a></p>
+    <h2 class="auth-modal-title" id="authTitle" data-i18n="auth.signInTitle">Sign in</h2>
+    <p class="auth-modal-subtitle" data-i18n="auth.subtitle">Get access to more learning features</p>
+    <p class="auth-switch" id="authRegisterHint" data-i18n-html="auth.registerHintHtml">Don't have an account? <a href="#" id="authRegisterLink">Register</a></p>
 
     <div class="auth-social-row">
       <button type="button" class="auth-social-btn" data-provider="google" title="Continue with Google">
@@ -1673,12 +1673,12 @@ function iconSvg(emoji, cls){
     <p class="auth-modal-info auth-hidden" id="authInfo"></p>
     <form id="authForm">
       <label class="auth-field">
-        <span>Email</span>
+        <span data-i18n="auth.email">Email</span>
         <input type="email" id="authEmail" required autocomplete="email">
       </label>
       <div id="authPasswordGroup" class="auth-hidden">
         <label class="auth-field">
-          <span>Password</span>
+          <span data-i18n="auth.password">Password</span>
           <div class="auth-password-wrap">
             <input type="password" id="authPassword" autocomplete="current-password">
             <button type="button" class="auth-pw-toggle" id="authPwToggle" aria-label="Show password"><svg class="ico" aria-hidden="true"><use href="#i-eye"/></svg></button>
@@ -1687,22 +1687,22 @@ function iconSvg(emoji, cls){
         <div class="auth-options-row">
           <label class="auth-remember-me">
             <input type="checkbox" id="authRememberMe">
-            <span>Remember me</span>
+            <span data-i18n="auth.rememberMe">Remember me</span>
           </label>
-          <p class="auth-forgot-link auth-hidden" id="authForgotWrap"><a href="#" id="authForgotLink">Forgot your password?</a></p>
+          <p class="auth-forgot-link auth-hidden" id="authForgotWrap"><a href="#" id="authForgotLink" data-i18n="auth.forgotPassword">Forgot your password?</a></p>
         </div>
       </div>
       <div id="authSignupExtra" class="auth-hidden">
         <label class="auth-field">
-          <span>Full name</span>
+          <span data-i18n="auth.fullName">Full name</span>
           <input type="text" id="authName" autocomplete="name">
         </label>
         <label class="auth-field">
-          <span>Username</span>
+          <span data-i18n="auth.username">Username</span>
           <input type="text" id="authUsername" autocomplete="username">
         </label>
         <label class="auth-field">
-          <span>Profile picture <small>(optional)</small></span>
+          <span data-i18n-html="auth.profilePictureOptionalHtml">Profile picture <small>(optional)</small></span>
           <input type="file" id="authPicture" accept="image/png,image/jpeg,image/gif,image/webp">
         </label>
         <div class="avatar-preview-wrap auth-hidden" id="authAvatarPreviewWrap">
@@ -1711,21 +1711,21 @@ function iconSvg(emoji, cls){
       </div>
       <div id="authMfaGroup" class="auth-hidden">
         <label class="auth-field">
-          <span>Authentication code</span>
-          <input type="text" id="authMfaCode" inputmode="numeric" autocomplete="one-time-code" placeholder="6-digit code">
+          <span data-i18n="auth.authCode">Authentication code</span>
+          <input type="text" id="authMfaCode" inputmode="numeric" autocomplete="one-time-code" placeholder="6-digit code" data-i18n-placeholder="auth.mfaPlaceholder">
         </label>
       </div>
       <div id="authResetGroup" class="auth-hidden">
         <label class="auth-field">
-          <span>New password</span>
+          <span data-i18n="auth.newPassword">New password</span>
           <input type="password" id="authResetPassword" autocomplete="new-password">
         </label>
         <label class="auth-field">
-          <span>Confirm new password</span>
+          <span data-i18n="auth.confirmNewPassword">Confirm new password</span>
           <input type="password" id="authResetPassword2" autocomplete="new-password">
         </label>
       </div>
-      <button type="submit" class="auth-submit-btn" id="authSubmitBtn">Continue</button>
+      <button type="submit" class="auth-submit-btn" id="authSubmitBtn" data-i18n="auth.continue">Continue</button>
     </form>
     <p class="auth-switch auth-hidden" id="authSwitch"></p>
   </div>
@@ -1734,15 +1734,15 @@ function iconSvg(emoji, cls){
 <div class="auth-modal-overlay" id="deleteOverlay">
   <div class="auth-modal">
     <button class="auth-modal-close" id="deleteClose" aria-label="Close">&times;</button>
-    <h2 class="auth-modal-title">Delete your account?</h2>
+    <h2 class="auth-modal-title" data-i18n="auth.deleteAccountTitle">Delete your account?</h2>
     <p class="auth-modal-error" id="deleteError"></p>
-    <p style="font-size:.85rem;color:var(--muted);margin:0 0 14px;">This permanently deletes your account and all saved progress. Enter your password to confirm.</p>
+    <p style="font-size:.85rem;color:var(--muted);margin:0 0 14px;" data-i18n="auth.deleteAccountWarning">This permanently deletes your account and all saved progress. Enter your password to confirm.</p>
     <form id="deleteForm">
       <label class="auth-field">
-        <span>Password</span>
+        <span data-i18n="auth.password">Password</span>
         <input type="password" id="deletePassword" autocomplete="current-password" required>
       </label>
-      <button type="submit" class="auth-submit-btn" id="deleteSubmitBtn" style="background:#dc2626;">Delete my account</button>
+      <button type="submit" class="auth-submit-btn" id="deleteSubmitBtn" style="background:#dc2626;" data-i18n="auth.deleteAccountBtn">Delete my account</button>
     </form>
   </div>
 </div>
@@ -1750,25 +1750,25 @@ function iconSvg(emoji, cls){
 <div class="auth-modal-overlay" id="profileOverlay">
   <div class="auth-modal">
     <button class="auth-modal-close" id="profileClose" aria-label="Close">&times;</button>
-    <h2 class="auth-modal-title">Edit profile</h2>
+    <h2 class="auth-modal-title" data-i18n="auth.editProfile">Edit profile</h2>
     <p class="auth-modal-error" id="profileError"></p>
     <form id="profileForm">
       <div class="avatar-preview-wrap auth-hidden" id="profileAvatarPreviewWrap">
         <img id="profileAvatarPreview" alt="Profile picture preview">
       </div>
       <label class="auth-field">
-        <span>Profile picture</span>
+        <span data-i18n="auth.profilePicture">Profile picture</span>
         <input type="file" id="profilePicture" accept="image/png,image/jpeg,image/gif,image/webp">
       </label>
       <label class="auth-field">
-        <span>Full name</span>
+        <span data-i18n="auth.fullName">Full name</span>
         <input type="text" id="profileName" autocomplete="name">
       </label>
       <label class="auth-field">
-        <span>Username</span>
+        <span data-i18n="auth.username">Username</span>
         <input type="text" id="profileUsername" autocomplete="username">
       </label>
-      <button type="submit" class="auth-submit-btn" id="profileSubmitBtn">Save changes</button>
+      <button type="submit" class="auth-submit-btn" id="profileSubmitBtn" data-i18n="auth.saveChanges">Save changes</button>
     </form>
   </div>
 </div>
@@ -8521,6 +8521,9 @@ const UI_STRINGS = {
     "common.words": "words",
     "common.category": "category",
     "common.categories": "categories",
+    "common.allCategories": "All Categories",
+    "common.noCategoriesMatch": "No categories match",
+    "common.custom": "Custom",
     "footer.trackProgress": "Track your progress across 5,000 IELTS words across every CEFR level.",
     "footer.totalWords": "Total words",
     "footer.acrossAllLevels": "across all levels",
@@ -8540,6 +8543,69 @@ const UI_STRINGS = {
     "footer.sun": "Sun",
     "footer.copyright": "© 2025 VocabLarry · All rights reserved",
     "footer.builtFor": "Built for IELTS learners",
+    "header.toReview": "to review",
+    "auth.signInBtn": "Sign In",
+    "auth.signInTitle": "Sign in",
+    "auth.editProfile": "Edit profile",
+    "auth.resetProgress": "Reset progress",
+    "auth.signOut": "Sign out",
+    "auth.deleteAccount": "Delete account",
+    "auth.subtitle": "Get access to more learning features",
+    "auth.registerHintHtml": "Don't have an account? <a href=\"#\" id=\"authRegisterLink\">Register</a>",
+    "auth.email": "Email",
+    "auth.password": "Password",
+    "auth.rememberMe": "Remember me",
+    "auth.forgotPassword": "Forgot your password?",
+    "auth.fullName": "Full name",
+    "auth.username": "Username",
+    "auth.profilePictureOptionalHtml": "Profile picture <small>(optional)</small>",
+    "auth.profilePicture": "Profile picture",
+    "auth.authCode": "Authentication code",
+    "auth.mfaPlaceholder": "6-digit code",
+    "auth.newPassword": "New password",
+    "auth.confirmNewPassword": "Confirm new password",
+    "auth.continue": "Continue",
+    "auth.deleteAccountTitle": "Delete your account?",
+    "auth.deleteAccountWarning": "This permanently deletes your account and all saved progress. Enter your password to confirm.",
+    "auth.deleteAccountBtn": "Delete my account",
+    "auth.saveChanges": "Save changes",
+    "auth.createAccountTitle": "Create your account",
+    "auth.createAccountBtn": "Create account",
+    "auth.resetPasswordTitle": "Reset your password",
+    "auth.sendResetLink": "Send reset link",
+    "auth.willEmailResetLink": "We'll email a reset link to {email}.",
+    "auth.alreadyHaveAccount": "Already have an account?",
+    "auth.useDifferentEmail": "Use a different email",
+    "auth.notYou": "Not you?",
+    "auth.twoFactorTitle": "Two-factor authentication",
+    "auth.mfaInfo": "Enter the 6-digit code from your authenticator app.",
+    "auth.verify": "Verify",
+    "auth.networkError": "Could not reach the server.",
+    "auth.incorrectCredentials": "Incorrect email or password.",
+    "auth.enterMfaCode": "Please enter your 2FA code.",
+    "auth.invalidMfaCode": "Invalid 2FA code.",
+    "auth.passwordTooShort": "Password must be at least 8 characters.",
+    "auth.passwordMismatch": "Passwords do not match.",
+    "auth.resetFailed": "Could not reset password. The link may have expired.",
+    "auth.checkEmailTitle": "Check your email",
+    "auth.resetSentInfo": "If an account exists for {email}, a reset link is on its way.",
+    "auth.backToSignIn": "Back to sign in",
+    "auth.enterEmail": "Please enter your email address.",
+    "auth.nameLettersOnly": "Full name can only contain letters and spaces.",
+    "auth.usernameFormat": "Username must be 3–20 characters, letters and numbers only (no spaces or symbols).",
+    "auth.accountCreatedInfo": "Account created — please check your email to verify your address.",
+    "auth.createAccountFailed": "Could not create account.",
+    "auth.setNewPasswordTitle": "Set a new password",
+    "auth.resetPasswordBtn": "Reset password",
+    "auth.chooseNewPasswordInfo": "Choose a new password for your account.",
+    "auth.somethingWrong": "Something went wrong.",
+    "auth.openingProviderSignIn": "Opening {provider} sign-in…",
+    "auth.deleteAccountFailed": "Could not delete account.",
+    "auth.updateProfileFailed": "Could not update profile.",
+    "auth.passwordResetSuccess": "Password reset successful. You can now sign in.",
+    "auth.emailVerified": "Email verified! You can now sign in.",
+    "auth.verifyLinkInvalid": "This verification link is invalid or has expired.",
+    "auth.verifyFailed": "Could not verify your email — please try again.",
   },
   vi: {
     "nav.home": "Trang chủ",
@@ -8620,6 +8686,9 @@ const UI_STRINGS = {
     "common.words": "từ",
     "common.category": "danh mục",
     "common.categories": "danh mục",
+    "common.allCategories": "Tất cả danh mục",
+    "common.noCategoriesMatch": "Không có danh mục phù hợp",
+    "common.custom": "Tùy chỉnh",
     "footer.trackProgress": "Theo dõi tiến độ học tập của bạn qua 5.000 từ vựng IELTS ở mọi cấp độ CEFR.",
     "footer.totalWords": "Tổng số từ",
     "footer.acrossAllLevels": "ở mọi cấp độ",
@@ -8639,6 +8708,69 @@ const UI_STRINGS = {
     "footer.sun": "CN",
     "footer.copyright": "© 2025 VocabLarry · Đã đăng ký bản quyền",
     "footer.builtFor": "Được xây dựng cho người học IELTS",
+    "header.toReview": "cần ôn tập",
+    "auth.signInBtn": "Đăng nhập",
+    "auth.signInTitle": "Đăng nhập",
+    "auth.editProfile": "Chỉnh sửa hồ sơ",
+    "auth.resetProgress": "Đặt lại tiến độ",
+    "auth.signOut": "Đăng xuất",
+    "auth.deleteAccount": "Xóa tài khoản",
+    "auth.subtitle": "Truy cập thêm các tính năng học tập",
+    "auth.registerHintHtml": "Chưa có tài khoản? <a href=\"#\" id=\"authRegisterLink\">Đăng ký</a>",
+    "auth.email": "Email",
+    "auth.password": "Mật khẩu",
+    "auth.rememberMe": "Ghi nhớ đăng nhập",
+    "auth.forgotPassword": "Quên mật khẩu?",
+    "auth.fullName": "Họ và tên",
+    "auth.username": "Tên đăng nhập",
+    "auth.profilePictureOptionalHtml": "Ảnh đại diện <small>(không bắt buộc)</small>",
+    "auth.profilePicture": "Ảnh đại diện",
+    "auth.authCode": "Mã xác thực",
+    "auth.mfaPlaceholder": "Mã 6 chữ số",
+    "auth.newPassword": "Mật khẩu mới",
+    "auth.confirmNewPassword": "Xác nhận mật khẩu mới",
+    "auth.continue": "Tiếp tục",
+    "auth.deleteAccountTitle": "Xóa tài khoản của bạn?",
+    "auth.deleteAccountWarning": "Thao tác này sẽ xóa vĩnh viễn tài khoản và toàn bộ tiến độ đã lưu của bạn. Nhập mật khẩu để xác nhận.",
+    "auth.deleteAccountBtn": "Xóa tài khoản của tôi",
+    "auth.saveChanges": "Lưu thay đổi",
+    "auth.createAccountTitle": "Tạo tài khoản của bạn",
+    "auth.createAccountBtn": "Tạo tài khoản",
+    "auth.resetPasswordTitle": "Đặt lại mật khẩu",
+    "auth.sendResetLink": "Gửi liên kết đặt lại",
+    "auth.willEmailResetLink": "Chúng tôi sẽ gửi liên kết đặt lại tới {email}.",
+    "auth.alreadyHaveAccount": "Đã có tài khoản?",
+    "auth.useDifferentEmail": "Dùng email khác",
+    "auth.notYou": "Không phải bạn?",
+    "auth.twoFactorTitle": "Xác thực hai yếu tố",
+    "auth.mfaInfo": "Nhập mã 6 chữ số từ ứng dụng xác thực của bạn.",
+    "auth.verify": "Xác minh",
+    "auth.networkError": "Không thể kết nối đến máy chủ.",
+    "auth.incorrectCredentials": "Email hoặc mật khẩu không đúng.",
+    "auth.enterMfaCode": "Vui lòng nhập mã 2FA của bạn.",
+    "auth.invalidMfaCode": "Mã 2FA không hợp lệ.",
+    "auth.passwordTooShort": "Mật khẩu phải có ít nhất 8 ký tự.",
+    "auth.passwordMismatch": "Mật khẩu không khớp.",
+    "auth.resetFailed": "Không thể đặt lại mật khẩu. Liên kết có thể đã hết hạn.",
+    "auth.checkEmailTitle": "Kiểm tra email của bạn",
+    "auth.resetSentInfo": "Nếu tồn tại tài khoản cho {email}, liên kết đặt lại đang được gửi tới.",
+    "auth.backToSignIn": "Quay lại đăng nhập",
+    "auth.enterEmail": "Vui lòng nhập địa chỉ email của bạn.",
+    "auth.nameLettersOnly": "Họ và tên chỉ được chứa chữ cái và khoảng trắng.",
+    "auth.usernameFormat": "Tên đăng nhập phải dài 3–20 ký tự, chỉ gồm chữ cái và số (không dấu cách hoặc ký hiệu).",
+    "auth.accountCreatedInfo": "Đã tạo tài khoản — vui lòng kiểm tra email để xác minh địa chỉ của bạn.",
+    "auth.createAccountFailed": "Không thể tạo tài khoản.",
+    "auth.setNewPasswordTitle": "Đặt mật khẩu mới",
+    "auth.resetPasswordBtn": "Đặt lại mật khẩu",
+    "auth.chooseNewPasswordInfo": "Chọn mật khẩu mới cho tài khoản của bạn.",
+    "auth.somethingWrong": "Đã xảy ra lỗi.",
+    "auth.openingProviderSignIn": "Đang mở đăng nhập {provider}…",
+    "auth.deleteAccountFailed": "Không thể xóa tài khoản.",
+    "auth.updateProfileFailed": "Không thể cập nhật hồ sơ.",
+    "auth.passwordResetSuccess": "Đặt lại mật khẩu thành công. Bây giờ bạn có thể đăng nhập.",
+    "auth.emailVerified": "Email đã được xác minh! Bây giờ bạn có thể đăng nhập.",
+    "auth.verifyLinkInvalid": "Liên kết xác minh này không hợp lệ hoặc đã hết hạn.",
+    "auth.verifyFailed": "Không thể xác minh email của bạn — vui lòng thử lại.",
   },
 };
 
@@ -8654,6 +8786,11 @@ function applyI18n(){
     const key = el.dataset.i18nPlaceholder;
     const text = dict[key] || UI_STRINGS.en[key];
     if (text) el.placeholder = text;
+  });
+  document.querySelectorAll("[data-i18n-html]").forEach(el => {
+    const key = el.dataset.i18nHtml;
+    const html = dict[key] || UI_STRINGS.en[key];
+    if (html) el.innerHTML = html;
   });
 }
 
@@ -9089,7 +9226,7 @@ function buildCategoryChips(container, f, onChange, catSearch = ""){
   const allChip = document.createElement("button");
   allChip.className = "chip" + (multiSelect ? (f.cats.size===0 ? " active" : "") : (f.cat==="all" ? " active" : ""));
   allChip.dataset.cat = "all";
-  allChip.textContent = "All Categories";
+  allChip.textContent = t("common.allCategories");
 
   const optionChips = cats.map(c => {
     const chip = document.createElement("button");
@@ -9121,7 +9258,7 @@ function buildCategoryChips(container, f, onChange, catSearch = ""){
     if (optionChips.length === 0) {
       const none = document.createElement("span");
       none.style.cssText = "font-size:.82rem; color:var(--muted);";
-      none.textContent = "No categories match";
+      none.textContent = t("common.noCategoriesMatch");
       container.appendChild(none);
     } else {
       optionChips.forEach(chip => container.appendChild(chip));
@@ -10695,14 +10832,14 @@ document.getElementById("deleteForm").addEventListener("submit", async (e) => {
       body: JSON.stringify({ password }),
     });
     const data = await res.json();
-    if (!res.ok){ errorEl.textContent = data.error || "Could not delete account."; return; }
+    if (!res.ok){ errorEl.textContent = data.error || t("auth.deleteAccountFailed"); return; }
     try {
       localStorage.removeItem(LEARN_STATE_KEY);
       localStorage.removeItem("ivm_learned_words");
     } catch(e) {}
     location.reload();
   } catch(err){
-    errorEl.textContent = "Could not reach the server.";
+    errorEl.textContent = t("auth.networkError");
   } finally {
     submitBtn.disabled = false;
   }
@@ -10742,11 +10879,11 @@ document.getElementById("profileForm").addEventListener("submit", async (e) => {
   const username = document.getElementById("profileUsername").value.trim();
 
   if (!/^[\p{L}\s]{1,60}$/u.test(name)){
-    errorEl.textContent = "Full name can only contain letters and spaces.";
+    errorEl.textContent = t("auth.nameLettersOnly");
     return;
   }
   if (!/^[A-Za-z0-9]{3,20}$/.test(username)){
-    errorEl.textContent = "Username must be 3–20 characters, letters and numbers only (no spaces or symbols).";
+    errorEl.textContent = t("auth.usernameFormat");
     return;
   }
 
@@ -10764,7 +10901,7 @@ document.getElementById("profileForm").addEventListener("submit", async (e) => {
       headers: { 'X-CSRFToken': getCsrf() }, body: formData,
     });
     const data = await res.json();
-    if (!res.ok){ errorEl.textContent = data.error || "Could not update profile."; return; }
+    if (!res.ok){ errorEl.textContent = data.error || t("auth.updateProfileFailed"); return; }
 
     state.auth.name = data.name || name;
     state.auth.username = data.username || username;
@@ -10772,7 +10909,7 @@ document.getElementById("profileForm").addEventListener("submit", async (e) => {
     renderAuthUI();
     document.getElementById("profileOverlay").classList.remove("open");
   } catch(err){
-    errorEl.textContent = "Could not reach the server.";
+    errorEl.textContent = t("auth.networkError");
   } finally {
     submitBtn.disabled = false;
   }
@@ -10809,8 +10946,8 @@ function resetAuthForm(){
   document.getElementById("authRegisterHint").classList.remove("auth-hidden");
   document.getElementById("authError").textContent = "";
   showAuthInfo("");
-  document.getElementById("authTitle").textContent = "Sign in";
-  document.getElementById("authSubmitBtn").textContent = "Continue";
+  document.getElementById("authTitle").textContent = t("auth.signInTitle");
+  document.getElementById("authSubmitBtn").textContent = t("auth.continue");
   document.getElementById("authSubmitBtn").disabled = false;
   document.getElementById("authSubmitBtn").classList.remove("auth-hidden");
 }
@@ -10875,19 +11012,20 @@ document.getElementById("authSwitch").addEventListener("click", (e) => {
   }
 });
 
-document.getElementById("authRegisterLink").addEventListener("click", (e) => {
+document.getElementById("authRegisterHint").addEventListener("click", (e) => {
+  if (e.target.id !== "authRegisterLink") return;
   e.preventDefault();
   authState.step = "signup";
   showAuthError("");
   showAuthInfo("");
-  document.getElementById("authTitle").textContent = "Create your account";
+  document.getElementById("authTitle").textContent = t("auth.createAccountTitle");
   document.getElementById("authPasswordGroup").classList.remove("auth-hidden");
   document.getElementById("authForgotWrap").classList.add("auth-hidden");
   document.getElementById("authSignupExtra").classList.remove("auth-hidden");
   document.getElementById("authRegisterHint").classList.add("auth-hidden");
   document.getElementById("authSwitch").classList.remove("auth-hidden");
-  document.getElementById("authSwitch").innerHTML = `Already have an account? <a href="#" id="authBackLink">Sign in</a>`;
-  document.getElementById("authSubmitBtn").textContent = "Create account";
+  document.getElementById("authSwitch").innerHTML = `${t("auth.alreadyHaveAccount")} <a href="#" id="authBackLink">${t("auth.signInTitle")}</a>`;
+  document.getElementById("authSubmitBtn").textContent = t("auth.createAccountBtn");
   document.getElementById("authEmail").focus();
 });
 
@@ -10895,11 +11033,11 @@ document.getElementById("authForgotLink").addEventListener("click", (e) => {
   e.preventDefault();
   authState.step = "forgot";
   showAuthError("");
-  document.getElementById("authTitle").textContent = "Reset your password";
+  document.getElementById("authTitle").textContent = t("auth.resetPasswordTitle");
   document.getElementById("authPasswordGroup").classList.add("auth-hidden");
   document.getElementById("authSwitch").classList.add("auth-hidden");
-  showAuthInfo(`We'll email a reset link to ${authState.email}.`);
-  document.getElementById("authSubmitBtn").textContent = "Send reset link";
+  showAuthInfo(t("auth.willEmailResetLink").replace("{email}", authState.email));
+  document.getElementById("authSubmitBtn").textContent = t("auth.sendResetLink");
 });
 
 document.getElementById("authPwToggle").addEventListener("click", () => {
@@ -10947,7 +11085,7 @@ function socialLogin(provider) {
 document.querySelectorAll(".auth-social-btn").forEach((btn) => {
   btn.addEventListener("click", () => {
     showAuthError("");
-    showAuthInfo(`Opening ${btn.dataset.provider} sign-in…`);
+    showAuthInfo(t("auth.openingProviderSignIn").replace("{provider}", btn.dataset.provider));
     socialLogin(btn.dataset.provider);
   });
 });
@@ -10967,32 +11105,32 @@ document.getElementById("authForm").addEventListener("submit", async (e) => {
         body: JSON.stringify({ email }),
       });
       const data = await res.json();
-      if (!res.ok){ showAuthError(data.error || "Something went wrong."); return; }
+      if (!res.ok){ showAuthError(data.error || t("auth.somethingWrong")); return; }
 
       authState.email = email;
       document.getElementById("authEmail").disabled = true;
       document.getElementById("authPasswordGroup").classList.remove("auth-hidden");
       document.getElementById("authSwitch").classList.remove("auth-hidden");
-      document.getElementById("authSwitch").innerHTML = `Not you? <a href="#" id="authBackLink">Use a different email</a>`;
+      document.getElementById("authSwitch").innerHTML = `${t("auth.notYou")} <a href="#" id="authBackLink">${t("auth.useDifferentEmail")}</a>`;
       document.getElementById("authRegisterHint").classList.add("auth-hidden");
       showAuthInfo("");
 
       if (data.exists){
         authState.step = "login";
-        document.getElementById("authTitle").textContent = "Sign in";
+        document.getElementById("authTitle").textContent = t("auth.signInTitle");
         document.getElementById("authSignupExtra").classList.add("auth-hidden");
         document.getElementById("authForgotWrap").classList.remove("auth-hidden");
-        submitBtn.textContent = "Sign in";
+        submitBtn.textContent = t("auth.signInTitle");
       } else {
         authState.step = "signup";
-        document.getElementById("authTitle").textContent = "Create your account";
+        document.getElementById("authTitle").textContent = t("auth.createAccountTitle");
         document.getElementById("authSignupExtra").classList.remove("auth-hidden");
         document.getElementById("authForgotWrap").classList.add("auth-hidden");
-        submitBtn.textContent = "Create account";
+        submitBtn.textContent = t("auth.createAccountBtn");
       }
       document.getElementById("authPassword").focus();
     } catch(err){
-      showAuthError("Could not reach the server.");
+      showAuthError(t("auth.networkError"));
     } finally {
       submitBtn.disabled = false;
     }
@@ -11014,20 +11152,20 @@ document.getElementById("authForm").addEventListener("submit", async (e) => {
       const flows = data?.data?.flows || [];
       if (res.status === 401 && flows.some(f => f.id === "mfa_authenticate")){
         authState.step = "mfa";
-        document.getElementById("authTitle").textContent = "Two-factor authentication";
+        document.getElementById("authTitle").textContent = t("auth.twoFactorTitle");
         document.getElementById("authPasswordGroup").classList.add("auth-hidden");
         document.getElementById("authForgotWrap").classList.add("auth-hidden");
         document.getElementById("authMfaGroup").classList.remove("auth-hidden");
-        showAuthInfo("Enter the 6-digit code from your authenticator app.");
-        submitBtn.textContent = "Verify";
+        showAuthInfo(t("auth.mfaInfo"));
+        submitBtn.textContent = t("auth.verify");
         document.getElementById("authMfaCode").focus();
         return;
       }
-      if (data.status !== 200){ showAuthError((data.errors?.[0]?.message) || "Incorrect email or password."); return; }
+      if (data.status !== 200){ showAuthError((data.errors?.[0]?.message) || t("auth.incorrectCredentials")); return; }
       closeAuthModal();
       await initAuth();
     } catch(err){
-      showAuthError("Could not reach the server.");
+      showAuthError(t("auth.networkError"));
     } finally {
       submitBtn.disabled = false;
     }
@@ -11036,7 +11174,7 @@ document.getElementById("authForm").addEventListener("submit", async (e) => {
 
   if (authState.step === "mfa"){
     const code = document.getElementById("authMfaCode").value.trim();
-    if (!code){ showAuthError("Please enter your 2FA code."); return; }
+    if (!code){ showAuthError(t("auth.enterMfaCode")); return; }
     submitBtn.disabled = true;
     try {
       const res = await authFetch(`${ALLAUTH_BASE}/auth/2fa/authenticate`, {
@@ -11044,11 +11182,11 @@ document.getElementById("authForm").addEventListener("submit", async (e) => {
         body: JSON.stringify({ code }),
       });
       const data = await res.json();
-      if (data.status !== 200){ showAuthError("Invalid 2FA code."); return; }
+      if (data.status !== 200){ showAuthError(t("auth.invalidMfaCode")); return; }
       closeAuthModal();
       await initAuth();
     } catch(err){
-      showAuthError("Could not reach the server.");
+      showAuthError(t("auth.networkError"));
     } finally {
       submitBtn.disabled = false;
     }
@@ -11058,8 +11196,8 @@ document.getElementById("authForm").addEventListener("submit", async (e) => {
   if (authState.step === "reset"){
     const pw1 = document.getElementById("authResetPassword").value;
     const pw2 = document.getElementById("authResetPassword2").value;
-    if (!pw1 || pw1.length < 8){ showAuthError("Password must be at least 8 characters."); return; }
-    if (pw1 !== pw2){ showAuthError("Passwords do not match."); return; }
+    if (!pw1 || pw1.length < 8){ showAuthError(t("auth.passwordTooShort")); return; }
+    if (pw1 !== pw2){ showAuthError(t("auth.passwordMismatch")); return; }
     submitBtn.disabled = true;
     try {
       const res = await authFetch(`${ALLAUTH_BASE}/auth/password/reset`, {
@@ -11068,13 +11206,13 @@ document.getElementById("authForm").addEventListener("submit", async (e) => {
       });
       const data = await res.json();
       if (res.status !== 200 && data.status !== 200){
-        showAuthError((data.errors?.[0]?.message) || "Could not reset password. The link may have expired.");
+        showAuthError((data.errors?.[0]?.message) || t("auth.resetFailed"));
         return;
       }
-      sessionStorage.setItem("ivm_flash", "Password reset successful. You can now sign in.");
+      sessionStorage.setItem("ivm_flash", t("auth.passwordResetSuccess"));
       window.location.href = "/";
     } catch(err){
-      showAuthError("Could not reach the server.");
+      showAuthError(t("auth.networkError"));
     } finally {
       submitBtn.disabled = false;
     }
@@ -11089,12 +11227,12 @@ document.getElementById("authForm").addEventListener("submit", async (e) => {
         body: JSON.stringify({ email: authState.email }),
       });
       authState.step = "forgot-sent";
-      document.getElementById("authTitle").textContent = "Check your email";
-      showAuthInfo(`If an account exists for ${authState.email}, a reset link is on its way.`);
+      document.getElementById("authTitle").textContent = t("auth.checkEmailTitle");
+      showAuthInfo(t("auth.resetSentInfo").replace("{email}", authState.email));
       submitBtn.classList.add("auth-hidden");
-      document.getElementById("authSwitch").innerHTML = `<a href="#" id="authBackLink">Back to sign in</a>`;
+      document.getElementById("authSwitch").innerHTML = `<a href="#" id="authBackLink">${t("auth.backToSignIn")}</a>`;
     } catch(err){
-      showAuthError("Could not reach the server.");
+      showAuthError(t("auth.networkError"));
     } finally {
       submitBtn.disabled = false;
     }
@@ -11113,15 +11251,15 @@ document.getElementById("authForm").addEventListener("submit", async (e) => {
     const pictureInput = document.getElementById("authPicture");
 
     if (!email){
-      showAuthError("Please enter your email address.");
+      showAuthError(t("auth.enterEmail"));
       return;
     }
     if (!/^[\p{L}\s]{1,60}$/u.test(name)){
-      showAuthError("Full name can only contain letters and spaces.");
+      showAuthError(t("auth.nameLettersOnly"));
       return;
     }
     if (!/^[A-Za-z0-9]{3,20}$/.test(username)){
-      showAuthError("Username must be 3–20 characters, letters and numbers only (no spaces or symbols).");
+      showAuthError(t("auth.usernameFormat"));
       return;
     }
 
@@ -11137,16 +11275,16 @@ document.getElementById("authForm").addEventListener("submit", async (e) => {
       // verify_email flow. The account WAS created — don't treat it as an error.
       const flows = data?.data?.flows || [];
       if (res.status === 401 && flows.some(f => f.id === "verify_email")){
-        document.getElementById("authTitle").textContent = "Check your email";
+        document.getElementById("authTitle").textContent = t("auth.checkEmailTitle");
         document.getElementById("authPasswordGroup").classList.add("auth-hidden");
         document.getElementById("authSignupExtra").classList.add("auth-hidden");
         document.getElementById("authSubmitBtn").classList.add("auth-hidden");
         document.getElementById("authSwitch").classList.remove("auth-hidden");
-        document.getElementById("authSwitch").innerHTML = `<a href="#" id="authBackLink">Back to sign in</a>`;
-        showAuthInfo("Account created — please check your email to verify your address.");
+        document.getElementById("authSwitch").innerHTML = `<a href="#" id="authBackLink">${t("auth.backToSignIn")}</a>`;
+        showAuthInfo(t("auth.accountCreatedInfo"));
         return;
       }
-      if (data.status !== 200){ showAuthError((data.errors?.[0]?.message) || "Could not create account."); return; }
+      if (data.status !== 200){ showAuthError((data.errors?.[0]?.message) || t("auth.createAccountFailed")); return; }
       // Allauth headless doesn't accept name/picture — save them now that the account exists
       if (name || pictureInput.files[0]) {
         const pf = new FormData();
@@ -11160,7 +11298,7 @@ document.getElementById("authForm").addEventListener("submit", async (e) => {
       closeAuthModal();
       await initAuth();
     } catch(err){
-      showAuthError("Could not reach the server.");
+      showAuthError(t("auth.networkError"));
     } finally {
       submitBtn.disabled = false;
     }
@@ -11193,11 +11331,11 @@ async function handleAuthDeepLinks(){
       const ok = res.status === 200 || data.status === 200;
       try {
         sessionStorage.setItem("ivm_flash", ok
-          ? "Email verified! You can now sign in."
-          : "This verification link is invalid or has expired.");
+          ? t("auth.emailVerified")
+          : t("auth.verifyLinkInvalid"));
       } catch(e){}
     } catch(e){
-      try { sessionStorage.setItem("ivm_flash", "Could not verify your email — please try again."); } catch(_){}
+      try { sessionStorage.setItem("ivm_flash", t("auth.verifyFailed")); } catch(_){}
     }
     window.location.href = "/";
     return;
@@ -11207,14 +11345,14 @@ async function handleAuthDeepLinks(){
     authState.resetKey = decodeURIComponent(resetMatch[1]);
     openAuthModal();
     authState.step = "reset";
-    document.getElementById("authTitle").textContent = "Set a new password";
+    document.getElementById("authTitle").textContent = t("auth.setNewPasswordTitle");
     document.getElementById("authEmail").closest("label").classList.add("auth-hidden");
     document.getElementById("authPasswordGroup").classList.add("auth-hidden");
     document.getElementById("authSignupExtra").classList.add("auth-hidden");
     document.getElementById("authRegisterHint").classList.add("auth-hidden");
     document.getElementById("authResetGroup").classList.remove("auth-hidden");
-    document.getElementById("authSubmitBtn").textContent = "Reset password";
-    showAuthInfo("Choose a new password for your account.");
+    document.getElementById("authSubmitBtn").textContent = t("auth.resetPasswordBtn");
+    showAuthInfo(t("auth.chooseNewPasswordInfo"));
   }
 }
 
@@ -12474,7 +12612,7 @@ function renderTestCounts(){
   customChip.className = "custom-chip" + (isCustom ? " active" : "");
 
   const customText = document.createElement("span");
-  customText.textContent = "Custom";
+  customText.textContent = t("common.custom");
   customChip.appendChild(customText);
 
   if (isCustom) {
