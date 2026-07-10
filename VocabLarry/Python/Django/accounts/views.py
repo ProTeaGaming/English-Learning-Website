@@ -36,6 +36,7 @@ def session(request):
         'isStaff': is_staff_user(u),
         'hasPassword': u.has_usable_password(),
         'justSignedUpSocial': request.session.pop('social_signup_needs_profile', False),
+        'socialAccountConnected': request.session.pop('social_account_connected', False),
     })
 
 
