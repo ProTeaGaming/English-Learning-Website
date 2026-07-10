@@ -9388,10 +9388,23 @@ function renderAuthUI(){
 
 async function initAuth(){
   let user = null;
+  let pendingVerifyEmail = false;
   try {
     const res = await fetch(`${ALLAUTH_BASE}/auth/session`, { credentials: 'same-origin' });
     const data = await res.json();
     user = data?.data?.user ?? null;   // allauth headless v1 shape
+    // A social-login round trip (Google/Facebook/etc.) is a full-page
+    // redirect, not a fetch — so unlike the login/signup forms' own
+    // fetch() handlers, nothing ever inspects the response for a pending
+    // verify_email flow here. That flow covers two cases that look
+    // identical from this response (allauth deliberately doesn't
+    // distinguish them, to avoid leaking which emails are registered):
+    // a genuine new social signup awaiting confirmation, or the account
+    // already existing under a different sign-in method. Either way the
+    // user should see *something* instead of silently landing back on a
+    // blank sign-in screen.
+    const flows = data?.data?.flows || [];
+    pendingVerifyEmail = !user && flows.some(f => f.id === "verify_email" && f.is_pending);
   } catch(e){}
 
   if (user) {
@@ -9410,6 +9423,18 @@ async function initAuth(){
   }
   renderAuthUI();
   applyDebugMode();
+
+  if (pendingVerifyEmail && typeof openAuthModal === "function"){
+    openAuthModal();
+    document.getElementById("authTitle").textContent = t("auth.checkEmailTitle");
+    document.getElementById("authPasswordGroup").classList.add("auth-hidden");
+    document.getElementById("authSignupExtra").classList.add("auth-hidden");
+    document.getElementById("authForgotWrap").classList.add("auth-hidden");
+    document.getElementById("authSubmitBtn").classList.add("auth-hidden");
+    document.getElementById("authSwitch").classList.remove("auth-hidden");
+    document.getElementById("authSwitch").innerHTML = `<a href="#" id="authBackLink">${t("auth.backToSignIn")}</a>`;
+    showAuthInfo(t("auth.emailNotVerifiedInfo"));
+  }
 
   if (!state.auth.loggedIn) return;
 
