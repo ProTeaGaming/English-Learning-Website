@@ -38,3 +38,14 @@ class SocialAccountAdapter(DefaultSocialAccountAdapter):
             except User.DoesNotExist:
                 pass
         return user
+
+    def save_user(self, request, sociallogin, form=None):
+        user = super().save_user(request, sociallogin, form)
+        # First-time social signup only (save_user is never called for a
+        # returning user — see DefaultSocialAccountAdapter's docstring).
+        # They never got the name/username/picture step the email+password
+        # signup form offers, so flag it for the frontend to prompt for
+        # once, right after landing back from the provider. Consumed via
+        # session.pop() in accounts/views.py:session() — a one-time signal.
+        request.session['social_signup_needs_profile'] = True
+        return user

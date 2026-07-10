@@ -109,6 +109,59 @@ def test_session_reports_no_password_for_social_only_account(regular_user):
 
 
 @pytest.mark.django_db
+def test_session_reports_just_signed_up_social_when_flagged(regular_user):
+    c = Client()
+    c.force_login(regular_user)
+    session = c.session
+    session['social_signup_needs_profile'] = True
+    session.save()
+    r = c.get('/auth/session/')
+    assert json.loads(r.content)['justSignedUpSocial'] is True
+
+
+@pytest.mark.django_db
+def test_session_just_signed_up_social_is_one_time_only(regular_user):
+    c = Client()
+    c.force_login(regular_user)
+    session = c.session
+    session['social_signup_needs_profile'] = True
+    session.save()
+    c.get('/auth/session/')
+    r = c.get('/auth/session/')
+    assert json.loads(r.content)['justSignedUpSocial'] is False
+
+
+@pytest.mark.django_db
+def test_session_just_signed_up_social_false_for_normal_login(regular_user):
+    c = Client()
+    c.force_login(regular_user)
+    r = c.get('/auth/session/')
+    assert json.loads(r.content)['justSignedUpSocial'] is False
+
+
+@pytest.mark.django_db
+def test_social_account_adapter_flags_first_time_signup(regular_user, rf):
+    from allauth.socialaccount.adapter import DefaultSocialAccountAdapter
+    from accounts.adapters import SocialAccountAdapter
+
+    request = rf.get('/')
+    request.session = {}
+
+    class FakeSocialLogin:
+        user = regular_user
+        account = None
+
+        def save(self, request):
+            pass
+
+    adapter = SocialAccountAdapter()
+    import unittest.mock as mock
+    with mock.patch.object(DefaultSocialAccountAdapter, 'save_user', return_value=regular_user):
+        adapter.save_user(request, FakeSocialLogin())
+    assert request.session.get('social_signup_needs_profile') is True
+
+
+@pytest.mark.django_db
 def test_delete_account_wrong_password_rejected(regular_user):
     c = Client()
     c.force_login(regular_user)

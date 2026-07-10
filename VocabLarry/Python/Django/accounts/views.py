@@ -35,6 +35,7 @@ def session(request):
         'picture': _picture_url(request, u),
         'isStaff': is_staff_user(u),
         'hasPassword': u.has_usable_password(),
+        'justSignedUpSocial': request.session.pop('social_signup_needs_profile', False),
     })
 
 

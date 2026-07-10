@@ -1753,7 +1753,8 @@ function iconSvg(emoji, cls){
 <div class="auth-modal-overlay" id="profileOverlay">
   <div class="auth-modal">
     <button class="auth-modal-close" id="profileClose" aria-label="Close">&times;</button>
-    <h2 class="auth-modal-title" data-i18n="auth.editProfile">Edit profile</h2>
+    <h2 class="auth-modal-title" id="profileTitle" data-i18n="auth.editProfile">Edit profile</h2>
+    <p class="auth-modal-subtitle auth-hidden" id="profileSubtitle"></p>
     <p class="auth-modal-error" id="profileError"></p>
     <form id="profileForm">
       <div class="avatar-preview-wrap auth-hidden" id="profileAvatarPreviewWrap">
@@ -8580,6 +8581,8 @@ const UI_STRINGS = {
     "auth.signInBtn": "Sign In",
     "auth.signInTitle": "Sign in",
     "auth.editProfile": "Edit profile",
+    "auth.welcomeProfileTitle": "Welcome! Complete your profile",
+    "auth.welcomeProfileInfo": "Update your name, username, or add a profile picture — you can always change these later.",
     "auth.resetProgress": "Reset progress",
     "auth.signOut": "Sign out",
     "auth.deleteAccount": "Delete account",
@@ -8921,6 +8924,8 @@ const UI_STRINGS = {
     "auth.signInBtn": "Đăng nhập",
     "auth.signInTitle": "Đăng nhập",
     "auth.editProfile": "Chỉnh sửa hồ sơ",
+    "auth.welcomeProfileTitle": "Chào mừng! Hoàn thiện hồ sơ của bạn",
+    "auth.welcomeProfileInfo": "Cập nhật tên, tên đăng nhập hoặc thêm ảnh đại diện — bạn luôn có thể thay đổi những thông tin này sau.",
     "auth.resetProgress": "Đặt lại tiến độ",
     "auth.signOut": "Đăng xuất",
     "auth.deleteAccount": "Xóa tài khoản",
@@ -9389,6 +9394,7 @@ function renderAuthUI(){
 async function initAuth(){
   let user = null;
   let pendingVerifyEmail = false;
+  let justSignedUpSocial = false;
   try {
     const res = await fetch(`${ALLAUTH_BASE}/auth/session`, { credentials: 'same-origin' });
     const data = await res.json();
@@ -9415,6 +9421,7 @@ async function initAuth(){
       state.auth = profile.loggedIn
         ? { loggedIn:true, id:profile.id, name:profile.name||"", username:profile.username||"", email:profile.email, picture:profile.picture||"", isStaff:!!profile.isStaff, hasPassword:profile.hasPassword !== false }
         : { loggedIn:false, id:null, name:"", username:"", email:"", picture:"", isStaff:false, hasPassword:true };
+      justSignedUpSocial = !!profile.justSignedUpSocial;
     } catch(e){
       state.auth = { loggedIn:true, id:user.id, name:user.display||"", username:user.username||"", email:user.email, picture:"", isStaff:false, hasPassword:true };
     }
@@ -9434,6 +9441,14 @@ async function initAuth(){
     document.getElementById("authSwitch").classList.remove("auth-hidden");
     document.getElementById("authSwitch").innerHTML = `<a href="#" id="authBackLink">${t("auth.backToSignIn")}</a>`;
     showAuthInfo(t("auth.emailNotVerifiedInfo"));
+  }
+
+  // First-time social signup (Google/Facebook/etc.) — those providers only
+  // hand back whatever name/photo they have on file, with no chance for
+  // the user to pick their own, unlike the email+password signup form's
+  // dedicated step. Prompt for it once, right after landing back here.
+  if (justSignedUpSocial && state.auth.loggedIn && typeof openProfileModal === "function"){
+    openProfileModal(true);
   }
 
   if (!state.auth.loggedIn) return;
@@ -13020,8 +13035,7 @@ document.getElementById("deleteForm").addEventListener("submit", async (e) => {
   }
 });
 
-document.getElementById("editProfileBtn").addEventListener("click", () => {
-  document.getElementById("userChip").classList.remove("open");
+function openProfileModal(isWelcome){
   document.getElementById("profileError").textContent = "";
   document.getElementById("profileName").value = state.auth.name || "";
   document.getElementById("profileUsername").value = state.auth.username || "";
@@ -13035,7 +13049,15 @@ document.getElementById("editProfileBtn").addEventListener("click", () => {
     img.src = "";
     wrap.classList.add("auth-hidden");
   }
+  document.getElementById("profileTitle").textContent = isWelcome ? t("auth.welcomeProfileTitle") : t("auth.editProfile");
+  const subtitle = document.getElementById("profileSubtitle");
+  subtitle.textContent = isWelcome ? t("auth.welcomeProfileInfo") : "";
+  subtitle.classList.toggle("auth-hidden", !isWelcome);
   document.getElementById("profileOverlay").classList.add("open");
+}
+document.getElementById("editProfileBtn").addEventListener("click", () => {
+  document.getElementById("userChip").classList.remove("open");
+  openProfileModal(false);
 });
 document.getElementById("profileClose").addEventListener("click", () => {
   document.getElementById("profileOverlay").classList.remove("open");
