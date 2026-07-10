@@ -11268,8 +11268,10 @@ function renderGrammarSection(name, topics, num){
 }
 
 const GRAM_LESSON_TABLE_PREVIEW = 10;
+let currentGrammarTopic = null;
 
 function openGrammarTopic(topic){
+  currentGrammarTopic = topic;
   showGrammarView('grammarLesson');
   const el = document.getElementById('grammarLesson');
   const section = GRAMMAR_SECTIONS[topic.slug] || topic.tag;
@@ -12388,12 +12390,20 @@ document.querySelectorAll("#langMenu [data-lang]").forEach(row => {
     if (typeof renderTestCounts === "function") renderTestCounts();
     if (typeof renderTestFiltersSection === "function") renderTestFiltersSection();
     if (typeof updateFooter === "function") updateFooter();
-    // Grammar home/word-reference are safe to fully re-render (idempotent,
-    // no in-progress state to lose). Lesson/quiz/result views are left as a
-    // known minor limitation if open during a switch, same as the auth modal.
-    if (document.getElementById("page-grammar")?.classList.contains("active")
-      && document.getElementById("grammarHome")?.style.display !== "none"
-      && typeof renderGrammarHome === "function") renderGrammarHome();
+    // Grammar's 4 sub-views (home/lesson/quiz/result) all bake translated
+    // text into innerHTML at render time, same as the Vocabulary category
+    // detail/word grid — a switch mid-view left them stale until navigation
+    // forced a re-render. Re-render whichever one is currently showing.
+    if (document.getElementById("page-grammar")?.classList.contains("active")){
+      if (document.getElementById("grammarHome")?.style.display !== "none"
+        && typeof renderGrammarHome === "function") renderGrammarHome();
+      else if (document.getElementById("grammarLesson")?.style.display !== "none"
+        && currentGrammarTopic && typeof openGrammarTopic === "function") openGrammarTopic(currentGrammarTopic);
+      else if (document.getElementById("grammarQuizView")?.style.display !== "none"
+        && grammarQuiz.topic && typeof renderGrammarQuestion === "function") renderGrammarQuestion();
+      else if (document.getElementById("grammarResult")?.style.display !== "none"
+        && grammarQuiz.topic && typeof showGrammarResult === "function") showGrammarResult();
+    }
     if (document.getElementById("page-gramword")?.classList.contains("active")
       && typeof renderGramword === "function") renderGramword();
     // The functions above only rebuild filter bars/headlines, not the word
