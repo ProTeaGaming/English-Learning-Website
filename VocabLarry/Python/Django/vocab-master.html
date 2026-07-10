@@ -2228,25 +2228,25 @@ function iconSvg(emoji, cls){
   <!-- ===== GRAMMAR PAGE ===== -->
   <section id="page-grammar" class="page">
     <div class="page-head">
-      <span class="eyebrow">Section 02 / Grammar</span>
-      <h1>Category</h1>
-      <p>From first tenses to advanced structures — a lesson and a practice set for every stage.</p>
+      <span class="eyebrow" data-i18n="grammar.eyebrow">Section 02 / Grammar</span>
+      <h1 data-i18n="nav.category">Category</h1>
+      <p data-i18n="grammar.categoryDesc">From first tenses to advanced structures — a lesson and a practice set for every stage.</p>
     </div>
     <div id="grammarHome">
       <div class="headline-bar" id="grammarFilterBar">
-        <button class="headline-btn active" data-grammar-stage="all">All</button>
-        <button class="headline-btn" data-grammar-stage="beginner"><svg class="ico" aria-hidden="true"><use href="#i-sprout"/></svg> Basic</button>
-        <button class="headline-btn" data-grammar-stage="independent"><svg class="ico" aria-hidden="true"><use href="#i-trend-up"/></svg> Intermediate</button>
-        <button class="headline-btn" data-grammar-stage="expert"><svg class="ico" aria-hidden="true"><use href="#i-grad-cap"/></svg> Advanced</button>
+        <button class="headline-btn active" data-grammar-stage="all" data-i18n="common.all">All</button>
+        <button class="headline-btn" data-grammar-stage="beginner"><svg class="ico" aria-hidden="true"><use href="#i-sprout"/></svg> <span data-i18n="common.basic">Basic</span></button>
+        <button class="headline-btn" data-grammar-stage="independent"><svg class="ico" aria-hidden="true"><use href="#i-trend-up"/></svg> <span data-i18n="common.intermediate">Intermediate</span></button>
+        <button class="headline-btn" data-grammar-stage="expert"><svg class="ico" aria-hidden="true"><use href="#i-grad-cap"/></svg> <span data-i18n="common.advanced">Advanced</span></button>
       </div>
       <div class="browse-bar">
         <div class="search-row" style="position:relative;">
-          <input type="search" id="grammarSearch" placeholder="Search grammar topics…">
+          <input type="search" id="grammarSearch" placeholder="Search grammar topics…" data-i18n-placeholder="grammar.searchPlaceholder">
         </div>
         <div class="filter-row" id="grammarSectionChips"></div>
         <div class="filter-row">
-          <span class="filter-label">CEFR Level</span>
-          <button class="chip active" id="grammarCefrAll">All</button>
+          <span class="filter-label" data-i18n="common.cefrLevel">CEFR Level</span>
+          <button class="chip active" id="grammarCefrAll" data-i18n="common.all">All</button>
           <button class="chip" data-grammar-cefr="A1">A1</button>
           <button class="chip" data-grammar-cefr="A1+">A1+</button>
           <button class="chip" data-grammar-cefr="A2">A2</button>
@@ -2261,14 +2261,14 @@ function iconSvg(emoji, cls){
           <button class="chip" data-grammar-cefr="C2+">C2+</button>
         </div>
         <div class="filter-row">
-          <span class="filter-label">Progress</span>
-          <button class="chip active" id="grammarStatusAll">All</button>
-          <button class="chip" data-grammar-status="completed">Mastered</button>
-          <button class="chip" data-grammar-status="inProgress">In Progress</button>
-          <button class="chip" data-grammar-status="notStarted">Not Started</button>
+          <span class="filter-label" data-i18n="common.progress">Progress</span>
+          <button class="chip active" id="grammarStatusAll" data-i18n="common.all">All</button>
+          <button class="chip" data-grammar-status="completed" data-i18n="grammar.mastered">Mastered</button>
+          <button class="chip" data-grammar-status="inProgress" data-i18n="grammar.inProgress">In Progress</button>
+          <button class="chip" data-grammar-status="notStarted" data-i18n="grammar.notStarted">Not Started</button>
         </div>
         <div class="filter-row" style="justify-content:flex-end;">
-          <button class="clear-btn" id="grammarClearFilters">Clear filters</button>
+          <button class="clear-btn" id="grammarClearFilters" data-i18n="common.clearFilters">Clear filters</button>
         </div>
       </div>
       <div id="grammarStages"></div>
@@ -2281,64 +2281,64 @@ function iconSvg(emoji, cls){
   <!-- ===== GRAMMAR WORD PAGE (irregular forms reference) ===== -->
   <section id="page-gramword" class="page">
     <div class="page-head">
-      <span class="eyebrow">Section 02 / Grammar</span>
-      <h1>Word</h1>
-      <p>The reference shelf — irregular verb forms, plural nouns, comparison forms, linking words and idioms, searchable.</p>
+      <span class="eyebrow" data-i18n="grammar.eyebrow">Section 02 / Grammar</span>
+      <h1 data-i18n="nav.word">Word</h1>
+      <p data-i18n="grammar.wordDesc">The reference shelf — irregular verb forms, plural nouns, comparison forms, linking words and idioms, searchable.</p>
     </div>
     <div class="headline-bar" id="gramwordSetBar">
-      <button class="headline-btn active" data-gramword-set="verbs"><svg class="ico" aria-hidden="true"><use href="#i-rotate"/></svg> Irregular Verbs</button>
-      <button class="headline-btn" data-gramword-set="plurals"><svg class="ico" aria-hidden="true"><use href="#i-users"/></svg> Irregular Plurals</button>
-      <button class="headline-btn" data-gramword-set="comparisons"><svg class="ico" aria-hidden="true"><use href="#i-trend-up"/></svg> Comparisons</button>
-      <button class="headline-btn" data-gramword-set="linkers"><svg class="ico" aria-hidden="true"><use href="#i-link"/></svg> Linking Words</button>
-      <button class="headline-btn" data-gramword-set="idioms"><svg class="ico" aria-hidden="true"><use href="#i-masks"/></svg> Idioms</button>
+      <button class="headline-btn active" data-gramword-set="verbs"><svg class="ico" aria-hidden="true"><use href="#i-rotate"/></svg> <span data-i18n="grammar.setVerbs">Irregular Verbs</span></button>
+      <button class="headline-btn" data-gramword-set="plurals"><svg class="ico" aria-hidden="true"><use href="#i-users"/></svg> <span data-i18n="grammar.setPlurals">Irregular Plurals</span></button>
+      <button class="headline-btn" data-gramword-set="comparisons"><svg class="ico" aria-hidden="true"><use href="#i-trend-up"/></svg> <span data-i18n="grammar.setComparisons">Comparisons</span></button>
+      <button class="headline-btn" data-gramword-set="linkers"><svg class="ico" aria-hidden="true"><use href="#i-link"/></svg> <span data-i18n="grammar.setLinkers">Linking Words</span></button>
+      <button class="headline-btn" data-gramword-set="idioms"><svg class="ico" aria-hidden="true"><use href="#i-masks"/></svg> <span data-i18n="grammar.setIdioms">Idioms</span></button>
     </div>
     <div class="browse-bar">
       <div class="search-row" style="position:relative;">
-        <input type="search" id="gramwordSearch" placeholder="Search forms…">
+        <input type="search" id="gramwordSearch" placeholder="Search forms…" data-i18n-placeholder="grammar.searchFormsPlaceholder">
         <span class="result-count" id="gramwordCount"></span>
       </div>
       <div class="filter-row" id="gramwordPatternRow">
-        <span class="filter-label">Pattern</span>
-        <button class="chip active" data-gramword-pattern="all">All</button>
-        <button class="chip" data-gramword-pattern="AAA">AAA — all the same</button>
-        <button class="chip" data-gramword-pattern="ABA">ABA — V3 returns</button>
-        <button class="chip" data-gramword-pattern="ABB">ABB — V2 = V3</button>
-        <button class="chip" data-gramword-pattern="ABC">ABC — all different</button>
+        <span class="filter-label" data-i18n="grammar.patternLabel">Pattern</span>
+        <button class="chip active" data-gramword-pattern="all" data-i18n="common.all">All</button>
+        <button class="chip" data-gramword-pattern="AAA" data-i18n="grammar.patternAAA">AAA — all the same</button>
+        <button class="chip" data-gramword-pattern="ABA" data-i18n="grammar.patternABA">ABA — V3 returns</button>
+        <button class="chip" data-gramword-pattern="ABB" data-i18n="grammar.patternABB">ABB — V2 = V3</button>
+        <button class="chip" data-gramword-pattern="ABC" data-i18n="grammar.patternABC">ABC — all different</button>
       </div>
       <div class="filter-row" id="gramwordPtypeRow" style="display:none;">
-        <span class="filter-label">Type</span>
-        <button class="chip active" data-gramword-ptype="all">All</button>
-        <button class="chip" data-gramword-ptype="vowel">Vowel change</button>
-        <button class="chip" data-gramword-ptype="en">-en</button>
-        <button class="chip" data-gramword-ptype="fve">f/fe → ves</button>
-        <button class="chip" data-gramword-ptype="unchanged">Unchanged</button>
-        <button class="chip" data-gramword-ptype="foreign">Foreign</button>
-        <button class="chip" data-gramword-ptype="other">Other</button>
+        <span class="filter-label" data-i18n="grammar.typeLabel">Type</span>
+        <button class="chip active" data-gramword-ptype="all" data-i18n="common.all">All</button>
+        <button class="chip" data-gramword-ptype="vowel" data-i18n="grammar.ptypeVowel">Vowel change</button>
+        <button class="chip" data-gramword-ptype="en" data-i18n="grammar.ptypeEn">-en</button>
+        <button class="chip" data-gramword-ptype="fve" data-i18n="grammar.ptypeFve">f/fe → ves</button>
+        <button class="chip" data-gramword-ptype="unchanged" data-i18n="grammar.ptypeUnchanged">Unchanged</button>
+        <button class="chip" data-gramword-ptype="foreign" data-i18n="grammar.ptypeForeign">Foreign</button>
+        <button class="chip" data-gramword-ptype="other" data-i18n="grammar.ptypeOther">Other</button>
       </div>
       <div class="filter-row" id="gramwordTypeRow" style="display:none;">
-        <span class="filter-label">Type</span>
-        <button class="chip active" data-gramword-ctype="all">All</button>
-        <button class="chip" data-gramword-ctype="irregular">Irregular — own word</button>
-        <button class="chip" data-gramword-ctype="er">-er / -est</button>
+        <span class="filter-label" data-i18n="grammar.typeLabel">Type</span>
+        <button class="chip active" data-gramword-ctype="all" data-i18n="common.all">All</button>
+        <button class="chip" data-gramword-ctype="irregular" data-i18n="grammar.ctypeIrregular">Irregular — own word</button>
+        <button class="chip" data-gramword-ctype="er" data-i18n="grammar.ctypeEr">-er / -est</button>
       </div>
       <div class="filter-row" id="gramwordLtypeRow" style="display:none;">
-        <span class="filter-label">Family</span>
-        <button class="chip active" data-gramword-ltype="all">All</button>
-        <button class="chip" data-gramword-ltype="fanboys">FANBOYS</button>
-        <button class="chip" data-gramword-ltype="sub">Subordinating</button>
-        <button class="chip" data-gramword-ltype="corr">Correlative</button>
-        <button class="chip" data-gramword-ltype="adv">Advanced transitions</button>
-        <button class="chip" data-gramword-ltype="formal">Formal phrases</button>
+        <span class="filter-label" data-i18n="grammar.familyLabel">Family</span>
+        <button class="chip active" data-gramword-ltype="all" data-i18n="common.all">All</button>
+        <button class="chip" data-gramword-ltype="fanboys" data-i18n="grammar.familyFanboys">FANBOYS</button>
+        <button class="chip" data-gramword-ltype="sub" data-i18n="grammar.familySub">Subordinating</button>
+        <button class="chip" data-gramword-ltype="corr" data-i18n="grammar.familyCorr">Correlative</button>
+        <button class="chip" data-gramword-ltype="adv" data-i18n="grammar.familyAdv">Advanced transitions</button>
+        <button class="chip" data-gramword-ltype="formal" data-i18n="grammar.familyFormal">Formal phrases</button>
       </div>
       <div class="filter-row" id="gramwordItypeRow" style="display:none;">
-        <span class="filter-label">Level</span>
-        <button class="chip active" data-gramword-itype="all">All</button>
-        <button class="chip" data-gramword-itype="basic">Basic</button>
-        <button class="chip" data-gramword-itype="inter">Intermediate</button>
-        <button class="chip" data-gramword-itype="adv">Advanced</button>
-        <button class="chip" data-gramword-itype="classic">Classic</button>
-        <button class="chip" data-gramword-itype="formal">Formal</button>
-        <button class="chip" data-gramword-itype="brit">British</button>
+        <span class="filter-label" data-i18n="grammar.levelLabel">Level</span>
+        <button class="chip active" data-gramword-itype="all" data-i18n="common.all">All</button>
+        <button class="chip" data-gramword-itype="basic" data-i18n="common.basic">Basic</button>
+        <button class="chip" data-gramword-itype="inter" data-i18n="common.intermediate">Intermediate</button>
+        <button class="chip" data-gramword-itype="adv" data-i18n="common.advanced">Advanced</button>
+        <button class="chip" data-gramword-itype="classic" data-i18n="grammar.levelClassic">Classic</button>
+        <button class="chip" data-gramword-itype="formal" data-i18n="grammar.levelFormal">Formal</button>
+        <button class="chip" data-gramword-itype="brit" data-i18n="grammar.levelBrit">British</button>
       </div>
     </div>
     <div id="gramwordContent"></div>
@@ -3157,6 +3157,19 @@ function noMatchFiltersLabel(unit){
     return `Không có ${unitVi} nào phù hợp với bộ lọc này — hãy thử mở rộng lựa chọn.`;
   }
   return `No ${unit}s match these filters — try widening your selection.`;
+}
+function grammarTopicCountLabel(n){
+  return state.lang === "vi" ? `${n} chủ đề` : `${n} topic${n!==1?"s":""}`;
+}
+function grammarQuestionCountLabel(n){
+  return state.lang === "vi" ? `${n} câu hỏi` : `${n} question${n!==1?"s":""}`;
+}
+function gramwordCountLabel(unit, n){
+  if (state.lang === "vi"){
+    const map = { verb: "động từ", word: "từ", linker: "từ nối", noun: "danh từ", idiom: "thành ngữ" };
+    return `${n} ${map[unit] || unit}`;
+  }
+  return `${n} ${unit}${n!==1?"s":""}`;
 }
 
 /* Vietnamese names for all 250 vocab categories, keyed by category slug
@@ -8713,6 +8726,89 @@ const UI_STRINGS = {
     "gapMode.connotation.desc": "Choose the word whose tone — positive, negative or formal — fits the sentence.",
     "gapMode.mixed.name": "Mixed Review",
     "gapMode.mixed.desc": "A random mix of all four gap fill types.",
+    "grammar.eyebrow": "Section 02 / Grammar",
+    "grammar.categoryDesc": "From first tenses to advanced structures — a lesson and a practice set for every stage.",
+    "grammar.searchPlaceholder": "Search grammar topics…",
+    "grammar.mastered": "Mastered",
+    "grammar.inProgress": "In Progress",
+    "grammar.notStarted": "Not Started",
+    "grammar.notStartedLower": "not started",
+    "grammar.loading": "Loading grammar…",
+    "grammar.noTopicsMatch": "No topics match these filters — try widening your selection.",
+    "grammar.noTopicsYet": "No grammar topics yet.",
+    "grammar.loadError": "Couldn't load the grammar library. Check your connection and try again.",
+    "grammar.retry": "Retry",
+    "grammar.bestPct": "best {n}%",
+    "grammar.backToAll": "← All grammar",
+    "grammar.practice": "Practice",
+    "grammar.ruleLabel": "Rule {n}",
+    "grammar.ieltsTip": "IELTS tip",
+    "grammar.viewAllTemplate": "View all {n} {type} in Word",
+    "grammar.firstNSuffix": " — first {n}",
+    "grammar.typeLinkingWords": "linking words",
+    "grammar.typeIdioms": "idioms",
+    "grammar.typePluralNouns": "plural nouns",
+    "grammar.typeForms": "forms",
+    "grammar.promptMcq": "Choose the correct option",
+    "grammar.promptGap": "Fill the gap",
+    "grammar.promptTransform": "Rewrite the sentence",
+    "grammar.gapPlaceholder": "Leave blank if no article is needed",
+    "grammar.checkBtn": "Check",
+    "grammar.nextQuestion": "Next Question",
+    "grammar.typeAnswerFirst": "Type an answer first — blank submissions aren't counted.",
+    "grammar.topicMastered": "Topic mastered — it now counts toward your stage progress.",
+    "grammar.scoreToMaster": "Score {pct}% or higher to master this topic.",
+    "grammar.backToLesson": "Back to Lesson",
+    "grammar.backToGrammar": "Back to Grammar",
+    "grammar.wordDesc": "The reference shelf — irregular verb forms, plural nouns, comparison forms, linking words and idioms, searchable.",
+    "grammar.setVerbs": "Irregular Verbs",
+    "grammar.setPlurals": "Irregular Plurals",
+    "grammar.setComparisons": "Comparisons",
+    "grammar.setLinkers": "Linking Words",
+    "grammar.setIdioms": "Idioms",
+    "grammar.searchFormsPlaceholder": "Search forms…",
+    "grammar.patternLabel": "Pattern",
+    "grammar.patternAAA": "AAA — all the same",
+    "grammar.patternABA": "ABA — V3 returns",
+    "grammar.patternABB": "ABB — V2 = V3",
+    "grammar.patternABC": "ABC — all different",
+    "grammar.typeLabel": "Type",
+    "grammar.ptypeVowel": "Vowel change",
+    "grammar.ptypeEn": "-en",
+    "grammar.ptypeFve": "f/fe → ves",
+    "grammar.ptypeUnchanged": "Unchanged",
+    "grammar.ptypeForeign": "Foreign",
+    "grammar.ptypeOther": "Other",
+    "grammar.ctypeIrregular": "Irregular — own word",
+    "grammar.ctypeEr": "-er / -est",
+    "grammar.familyLabel": "Family",
+    "grammar.familyFanboys": "FANBOYS",
+    "grammar.familySub": "Subordinating",
+    "grammar.familyCorr": "Correlative",
+    "grammar.familyAdv": "Advanced transitions",
+    "grammar.familyFormal": "Formal phrases",
+    "grammar.levelLabel": "Level",
+    "grammar.levelClassic": "Classic",
+    "grammar.levelFormal": "Formal",
+    "grammar.levelBrit": "British",
+    "grammar.loadingForms": "Loading forms…",
+    "grammar.noRefTable": "No reference table found for this set.",
+    "grammar.noFormsMatch": "No forms match — try a different search.",
+    "grammar.loadRefError": "Couldn't load the reference tables. Check your connection and try again.",
+    "grammar.colPattern": "Pattern",
+    "grammar.colBase": "Base",
+    "grammar.colComparative": "Comparative",
+    "grammar.colSuperlative": "Superlative",
+    "grammar.colType": "Type",
+    "grammar.colLinker": "Linker",
+    "grammar.colFunction": "Function",
+    "grammar.colExample": "Example",
+    "grammar.colFamily": "Family",
+    "grammar.colSingular": "Singular",
+    "grammar.colPlural": "Plural",
+    "grammar.colIdiom": "Idiom",
+    "grammar.colMeaning": "Meaning",
+    "grammar.colLevel": "Level",
   },
   vi: {
     "nav.home": "Trang chủ",
@@ -8968,6 +9064,89 @@ const UI_STRINGS = {
     "gapMode.connotation.desc": "Chọn từ có sắc thái — tích cực, tiêu cực hoặc trang trọng — phù hợp với câu.",
     "gapMode.mixed.name": "Ôn tập tổng hợp",
     "gapMode.mixed.desc": "Trộn ngẫu nhiên cả bốn dạng điền từ.",
+    "grammar.eyebrow": "Phần 02 / Ngữ pháp",
+    "grammar.categoryDesc": "Từ những thì đầu tiên đến cấu trúc nâng cao — một bài học và một bộ luyện tập cho mỗi cấp độ.",
+    "grammar.searchPlaceholder": "Tìm kiếm chủ đề ngữ pháp…",
+    "grammar.mastered": "Đã thành thạo",
+    "grammar.inProgress": "Đang học",
+    "grammar.notStarted": "Chưa bắt đầu",
+    "grammar.notStartedLower": "chưa bắt đầu",
+    "grammar.loading": "Đang tải ngữ pháp…",
+    "grammar.noTopicsMatch": "Không có chủ đề nào phù hợp với bộ lọc này — hãy thử mở rộng lựa chọn.",
+    "grammar.noTopicsYet": "Chưa có chủ đề ngữ pháp nào.",
+    "grammar.loadError": "Không thể tải thư viện ngữ pháp. Kiểm tra kết nối và thử lại.",
+    "grammar.retry": "Thử lại",
+    "grammar.bestPct": "cao nhất {n}%",
+    "grammar.backToAll": "← Tất cả ngữ pháp",
+    "grammar.practice": "Luyện tập",
+    "grammar.ruleLabel": "Quy tắc {n}",
+    "grammar.ieltsTip": "Mẹo IELTS",
+    "grammar.viewAllTemplate": "Xem tất cả {n} {type} trong mục Từ ngữ",
+    "grammar.firstNSuffix": " — {n} mục đầu",
+    "grammar.typeLinkingWords": "từ nối",
+    "grammar.typeIdioms": "thành ngữ",
+    "grammar.typePluralNouns": "danh từ số nhiều",
+    "grammar.typeForms": "dạng từ",
+    "grammar.promptMcq": "Chọn đáp án đúng",
+    "grammar.promptGap": "Điền vào chỗ trống",
+    "grammar.promptTransform": "Viết lại câu",
+    "grammar.gapPlaceholder": "Để trống nếu không cần mạo từ",
+    "grammar.checkBtn": "Kiểm tra",
+    "grammar.nextQuestion": "Câu hỏi tiếp theo",
+    "grammar.typeAnswerFirst": "Hãy nhập câu trả lời trước — bài nộp để trống sẽ không được tính.",
+    "grammar.topicMastered": "Đã thành thạo chủ đề — giờ đây được tính vào tiến độ cấp độ của bạn.",
+    "grammar.scoreToMaster": "Đạt {pct}% trở lên để thành thạo chủ đề này.",
+    "grammar.backToLesson": "Quay lại bài học",
+    "grammar.backToGrammar": "Quay lại Ngữ pháp",
+    "grammar.wordDesc": "Kệ tra cứu — các dạng động từ bất quy tắc, danh từ số nhiều, dạng so sánh, từ nối và thành ngữ, có thể tìm kiếm.",
+    "grammar.setVerbs": "Động từ bất quy tắc",
+    "grammar.setPlurals": "Số nhiều bất quy tắc",
+    "grammar.setComparisons": "So sánh",
+    "grammar.setLinkers": "Từ nối",
+    "grammar.setIdioms": "Thành ngữ",
+    "grammar.searchFormsPlaceholder": "Tìm kiếm dạng từ…",
+    "grammar.patternLabel": "Mẫu hình",
+    "grammar.patternAAA": "AAA — giống nhau hoàn toàn",
+    "grammar.patternABA": "ABA — V3 quay lại dạng gốc",
+    "grammar.patternABB": "ABB — V2 = V3",
+    "grammar.patternABC": "ABC — khác nhau hoàn toàn",
+    "grammar.typeLabel": "Loại",
+    "grammar.ptypeVowel": "Đổi nguyên âm",
+    "grammar.ptypeEn": "-en",
+    "grammar.ptypeFve": "f/fe → ves",
+    "grammar.ptypeUnchanged": "Không đổi",
+    "grammar.ptypeForeign": "Gốc ngoại",
+    "grammar.ptypeOther": "Khác",
+    "grammar.ctypeIrregular": "Bất quy tắc — từ riêng",
+    "grammar.ctypeEr": "-er / -est",
+    "grammar.familyLabel": "Nhóm",
+    "grammar.familyFanboys": "FANBOYS",
+    "grammar.familySub": "Liên từ phụ thuộc",
+    "grammar.familyCorr": "Liên từ tương quan",
+    "grammar.familyAdv": "Từ chuyển tiếp nâng cao",
+    "grammar.familyFormal": "Cụm từ trang trọng",
+    "grammar.levelLabel": "Cấp độ",
+    "grammar.levelClassic": "Cổ điển",
+    "grammar.levelFormal": "Trang trọng",
+    "grammar.levelBrit": "Anh-Anh",
+    "grammar.loadingForms": "Đang tải dạng từ…",
+    "grammar.noRefTable": "Không tìm thấy bảng tra cứu cho mục này.",
+    "grammar.noFormsMatch": "Không có dạng từ nào phù hợp — hãy thử tìm kiếm khác.",
+    "grammar.loadRefError": "Không thể tải bảng tra cứu. Kiểm tra kết nối và thử lại.",
+    "grammar.colPattern": "Mẫu hình",
+    "grammar.colBase": "Dạng gốc",
+    "grammar.colComparative": "So sánh hơn",
+    "grammar.colSuperlative": "So sánh nhất",
+    "grammar.colType": "Loại",
+    "grammar.colLinker": "Từ nối",
+    "grammar.colFunction": "Chức năng",
+    "grammar.colExample": "Ví dụ",
+    "grammar.colFamily": "Nhóm",
+    "grammar.colSingular": "Số ít",
+    "grammar.colPlural": "Số nhiều",
+    "grammar.colIdiom": "Thành ngữ",
+    "grammar.colMeaning": "Ý nghĩa",
+    "grammar.colLevel": "Cấp độ",
   },
 };
 
@@ -9689,7 +9868,7 @@ function renderGrammarHome(){
   killGrammarStageTriggers();
   showGrammarView('grammarHome');
   const wrap = document.getElementById('grammarStages');
-  wrap.innerHTML = `<p class="sub" style="text-align:center;">Loading grammar…</p>`;
+  wrap.innerHTML = `<p class="sub" style="text-align:center;">${t("grammar.loading")}</p>`;
   loadGrammar().then(stages => {
     wrap.innerHTML = '';
     const topics = [];
@@ -9726,8 +9905,8 @@ function renderGrammarHome(){
     });
     if (!rendered){
       wrap.innerHTML = topics.length
-        ? `<p class="sub" style="text-align:center;">No topics match these filters — try widening your selection.</p>`
-        : `<p class="sub" style="text-align:center;">No grammar topics yet.</p>`;
+        ? `<p class="sub" style="text-align:center;">${t("grammar.noTopicsMatch")}</p>`
+        : `<p class="sub" style="text-align:center;">${t("grammar.noTopicsYet")}</p>`;
     }
     if (typeof gsap !== 'undefined'){
       gsap.fromTo(wrap.querySelectorAll('.cat-card'), {opacity:0, y:16},
@@ -9736,8 +9915,8 @@ function renderGrammarHome(){
   }).catch(() => {
     wrap.innerHTML = `
       <div class="setup-card" style="text-align:center;">
-        <p class="sub">Couldn't load the grammar library. Check your connection and try again.</p>
-        <button class="btn" id="grammarRetryBtn">Retry</button>
+        <p class="sub">${t("grammar.loadError")}</p>
+        <button class="btn" id="grammarRetryBtn">${t("grammar.retry")}</button>
       </div>`;
     document.getElementById('grammarRetryBtn').addEventListener('click', renderGrammarHome);
   });
@@ -9754,7 +9933,7 @@ function renderGrammarSection(name, topics, num){
       <div class="section-block-num">${String(num).padStart(2, '0')}</div>
       <div class="section-block-info">
         <div class="section-block-name">${name}</div>
-        <div class="section-block-meta">${topics.length} topic${topics.length !== 1 ? 's' : ''}</div>
+        <div class="section-block-meta">${grammarTopicCountLabel(topics.length)}</div>
       </div>
       <div class="section-block-right">
         <div class="section-block-prog">
@@ -9776,34 +9955,34 @@ function renderGrammarSection(name, topics, num){
     body.style.maxHeight = opening ? body.scrollHeight + 'px' : '0';
   });
   const grid = wrap.querySelector('.cat-grid');
-  topics.forEach(t => {
-    const done = grammarTopicDone(t.slug);
-    const best = (progress[t.slug] || {}).best || 0;
-    const qn = (t.quiz || []).length;
+  topics.forEach(topic => {
+    const done = grammarTopicDone(topic.slug);
+    const best = (progress[topic.slug] || {}).best || 0;
+    const qn = (topic.quiz || []).length;
     const card = document.createElement('div');
-    card.className = `cat-card ${t.theme || 't-tv'}`;
+    card.className = `cat-card ${topic.theme || 't-tv'}`;
     card.innerHTML = `
       <div class="cat-card-top">
-        <span class="cat-tag"><svg class="ico" aria-hidden="true"><use href="#${t.icon || 'i-pen'}"/></svg> ${qn} question${qn !== 1 ? 's' : ''}</span>
-        ${cefrRangePillHtml(t.cefr)}
+        <span class="cat-tag"><svg class="ico" aria-hidden="true"><use href="#${topic.icon || 'i-pen'}"/></svg> ${grammarQuestionCountLabel(qn)}</span>
+        ${cefrRangePillHtml(topic.cefr)}
         <span class="dbg-ctl" data-dbg-topic-ctl>
           <button type="button" class="dbg-edit-topic">✎</button>
           <button type="button" class="dbg-delete-topic">✕</button>
         </span>
         <svg class="ico cat-arrow" aria-hidden="true"><use href="#i-arrow-up-right"/></svg>
       </div>
-      <div class="cat-name">${t.title}</div>
+      <div class="cat-name">${topic.title}</div>
       <div class="cat-pbar-row">
         <div class="cat-pbar"><div class="cat-pfill${done ? ' gram-done' : ''}" style="width:${best}%"></div></div>
         ${done
           ? '<svg class="ico cat-medal" aria-label="Mastered"><use href="#i-medal"/></svg>'
-          : `<span class="cat-plabel">${best ? `best ${best}%` : 'not started'}</span>`}
+          : `<span class="cat-plabel">${best ? t("grammar.bestPct").replace("{n}", best) : t("grammar.notStartedLower")}</span>`}
       </div>`;
-    card.addEventListener('click', () => openGrammarTopic(t));
+    card.addEventListener('click', () => openGrammarTopic(topic));
     const dbgTopicCtl = card.querySelector('[data-dbg-topic-ctl]');
     dbgTopicCtl.addEventListener('click', e => e.stopPropagation());
-    dbgTopicCtl.querySelector('.dbg-edit-topic').addEventListener('click', () => debugSaveTopic({ ...t, stage: t.stageId }));
-    dbgTopicCtl.querySelector('.dbg-delete-topic').addEventListener('click', () => debugDeleteTopic(t));
+    dbgTopicCtl.querySelector('.dbg-edit-topic').addEventListener('click', () => debugSaveTopic({ ...topic, stage: topic.stageId }));
+    dbgTopicCtl.querySelector('.dbg-delete-topic').addEventListener('click', () => debugDeleteTopic(topic));
     grid.appendChild(card);
   });
   // Always in the DOM; CSS-gated by body.debug-on (same pattern as .dbg-ctl),
@@ -9833,15 +10012,16 @@ function openGrammarTopic(topic){
       : gramwordSet === 'linkers' ? GRAMWORD_LINKERS.length
       : gramwordSet === 'idioms' ? GRAMWORD_IDIOMS.length
       : gramwordSet === 'plurals' ? GRAMWORD_PLURALS.length : tableTotal;
-    gramwordLabel = `View all ${wordTotal} ${gramwordSet === 'linkers' ? 'linking words' : gramwordSet === 'idioms' ? 'idioms' : gramwordSet === 'plurals' ? 'plural nouns' : 'forms'} in Word`;
+    const typeKey = gramwordSet === 'linkers' ? 'grammar.typeLinkingWords' : gramwordSet === 'idioms' ? 'grammar.typeIdioms' : gramwordSet === 'plurals' ? 'grammar.typePluralNouns' : 'grammar.typeForms';
+    gramwordLabel = t("grammar.viewAllTemplate").replace("{n}", wordTotal).replace("{type}", t(typeKey));
     lesson = topic.lesson.map(b =>
       (b.type === 'table' && (b.data.rows || []).length > GRAM_LESSON_TABLE_PREVIEW)
         ? { ...b, data: { ...b.data, rows: b.data.rows.slice(0, GRAM_LESSON_TABLE_PREVIEW) },
-            title: b.title ? `${b.title} — first ${GRAM_LESSON_TABLE_PREVIEW}` : b.title }
+            title: b.title ? `${b.title}${t("grammar.firstNSuffix").replace("{n}", GRAM_LESSON_TABLE_PREVIEW)}` : b.title }
         : b);
   }
   el.innerHTML = `
-    <button class="back-btn" id="grammarBackBtn">← All grammar</button>
+    <button class="back-btn" id="grammarBackBtn">${t("grammar.backToAll")}</button>
     <div class="cat-view-title-row" style="margin-bottom:26px;">
       <div class="cat-view-icon ${topic.theme || 't-tv'}"><svg class="ico" aria-hidden="true"><use href="#${topic.icon || 'i-pen'}"/></svg></div>
       <div>
@@ -9849,7 +10029,7 @@ function openGrammarTopic(topic){
           <h2 class="cat-view-name ${topic.theme || 't-tv'}">${topic.title}</h2>
           ${cefrRangePillHtml(topic.cefr)}
         </div>
-        <p class="cat-view-sub">${topic.quiz.length} question${topic.quiz.length !== 1 ? 's' : ''} · ${section}</p>
+        <p class="cat-view-sub">${grammarQuestionCountLabel(topic.quiz.length)} · ${section}</p>
       </div>
     </div>
     <div class="gram-lesson">${grammarLessonHtml(lesson, topic.icon,
@@ -9857,9 +10037,9 @@ function openGrammarTopic(topic){
     ${grammarQuestionMgrHtml(topic)}
     <div class="cat-bulk-actions">
       ${topic.quiz.length
-        ? `<button class="btn" id="grammarPracticeBtn">Practice — ${topic.quiz.length} question${topic.quiz.length !== 1 ? 's' : ''}</button>`
+        ? `<button class="btn" id="grammarPracticeBtn">${t("grammar.practice")} — ${grammarQuestionCountLabel(topic.quiz.length)}</button>`
         : ''}
-      <button class="cat-bulk-btn cat-bulk-btn-secondary" id="grammarBackBottom">← All grammar</button>
+      <button class="cat-bulk-btn cat-bulk-btn-secondary" id="grammarBackBottom">${t("grammar.backToAll")}</button>
     </div>`;
   document.getElementById('grammarBackBtn').addEventListener('click', renderGrammarHome);
   document.getElementById('grammarBackBottom').addEventListener('click', renderGrammarHome);
@@ -9973,7 +10153,7 @@ function grammarRuleCardHtml(block, idx, icon, imgs){
   const img = pool[idx % pool.length];
   return `<article class="gram-stage gram-ac-${idx % 4}${idx % 2 ? ' gram-stage-flip' : ''}" data-block-id="${block.id}">
     <div class="gram-stage-content">
-      <div class="gram-stage-meta"><span>Rule ${num}</span></div>
+      <div class="gram-stage-meta"><span>${t("grammar.ruleLabel").replace("{n}", num)}</span></div>
       <div>
         <span class="gram-stage-ghost" aria-hidden="true">${num}</span>
         ${block.title ? `<h3 class="gram-stage-title">${block.title}</h3>` : ''}
@@ -10007,7 +10187,7 @@ function grammarBlockHtml(block){
     case 'tip':
       return `<div class="gram-block gram-reveal gram-tip" data-block-id="${block.id}">
         <span class="gram-tip-icon" aria-hidden="true"><svg class="ico"><use href="#i-lightbulb"/></svg></span>
-        <span class="gram-tip-label">IELTS tip</span>${block.body}</div>`;
+        <span class="gram-tip-label">${t("grammar.ieltsTip")}</span>${block.body}</div>`;
     default:
       return '';
   }
@@ -10058,35 +10238,36 @@ function startGrammarQuiz(topic){
 }
 
 function renderGrammarQuestion(){
-  const t = grammarQuiz.topic;
+  const topic = grammarQuiz.topic;
   const q = grammarQuiz.questions[grammarQuiz.idx];
   const total = grammarQuiz.questions.length;
   const view = document.getElementById('grammarQuizView');
   const pct = Math.round(((grammarQuiz.idx + 1) / total) * 100);
   const isTyped = q.qtype !== 'mcq';
-  const promptLabel = q.qtype === 'mcq' ? 'Choose the correct option'
-    : q.qtype === 'gap' ? 'Fill the gap' : 'Rewrite the sentence';
+  const promptLabel = q.qtype === 'mcq' ? t("grammar.promptMcq")
+    : q.qtype === 'gap' ? t("grammar.promptGap") : t("grammar.promptTransform");
   // If any gap question in this topic can be answered by leaving the blank empty,
   // hint it on every gap question (not just the one it applies to — showing it only
   // there would give the answer away before the user even reads the sentence).
-  const gapPlaceholder = q.qtype === 'gap' && grammarTopicOffersBlankGap(t) ? 'Leave blank if no article is needed' : '';
+  const gapPlaceholder = q.qtype === 'gap' && grammarTopicOffersBlankGap(topic) ? t("grammar.gapPlaceholder") : '';
+  const progressText = t("testUi.progressCurrentOfTotal").replace("{noun}", t("testMode.quiz.noun")).replace("{current}", grammarQuiz.idx + 1).replace("{total}", total);
   view.innerHTML = `
-    <button class="back-btn" id="grammarQuizLeaveBtn">← Leave</button>
+    <button class="back-btn" id="grammarQuizLeaveBtn">${t("testUi.leave")}</button>
     <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
-    <div class="q-meta"><span>Question ${grammarQuiz.idx + 1} of ${total}</span><span>Score: ${grammarQuiz.score}</span></div>
+    <div class="q-meta"><span>${progressText}</span><span>${t("testUi.scoreLabel").replace("{n}", grammarQuiz.score)}</span></div>
     <div class="q-card">
       <div class="q-prompt">${promptLabel}</div>
       <div class="q-text">${q.prompt}</div>
       ${isTyped
         ? `<div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
              <input class="gram-gap-input" id="grammarGapInput" type="text" autocomplete="off" spellcheck="false" aria-label="Your answer" placeholder="${gapPlaceholder}">
-             <button class="btn" id="grammarCheckBtn">Check</button>
+             <button class="btn" id="grammarCheckBtn">${t("grammar.checkBtn")}</button>
            </div>`
         : `<div class="q-options">${shuffle(q.options.map((_, i) => i)).map(i => `<button class="q-opt" data-i="${i}">${q.options[i]}</button>`).join('')}</div>`}
       <div class="q-feedback"></div>
-      <div class="q-next" style="display:none;"><button class="btn" id="grammarNextBtn">${grammarQuiz.idx + 1 === total ? 'See Results' : 'Next Question'}</button></div>
+      <div class="q-next" style="display:none;"><button class="btn" id="grammarNextBtn">${grammarQuiz.idx + 1 === total ? t("testUi.seeResults") : t("grammar.nextQuestion")}</button></div>
     </div>`;
-  document.getElementById('grammarQuizLeaveBtn').addEventListener('click', () => openGrammarTopic(t));
+  document.getElementById('grammarQuizLeaveBtn').addEventListener('click', () => openGrammarTopic(topic));
   if (isTyped){
     const input = document.getElementById('grammarGapInput');
     document.getElementById('grammarCheckBtn').addEventListener('click', () => checkGrammarTyped(q, input));
@@ -10106,7 +10287,7 @@ function grammarShowFeedback(isCorrect, feedbackHtml){
   const view = document.getElementById('grammarQuizView');
   if (isCorrect) grammarQuiz.score++;
   view.querySelector('.q-feedback').innerHTML = feedbackHtml;
-  view.querySelector('.q-meta span:last-child').textContent = `Score: ${grammarQuiz.score}`;
+  view.querySelector('.q-meta span:last-child').textContent = t("testUi.scoreLabel").replace("{n}", grammarQuiz.score);
   view.querySelector('.q-next').style.display = 'flex';
   document.getElementById('grammarNextBtn').addEventListener('click', () => {
     grammarQuiz.idx++;
@@ -10124,7 +10305,7 @@ function checkGrammarMcq(q, selectedBtn){
     if (Number(btn.dataset.i) === correctIdx) btn.classList.add('correct');
     else if (btn === selectedBtn) btn.classList.add('wrong');
   });
-  grammarShowFeedback(isCorrect, `<b>${isCorrect ? 'Correct!' : 'Not quite.'}</b> ${q.why}`);
+  grammarShowFeedback(isCorrect, `<b>${isCorrect ? t("testUi.correct") : t("testUi.notQuite")}</b> ${q.why}`);
 }
 
 /* When the blank opens the sentence, the correct answer must be capitalised
@@ -10157,7 +10338,7 @@ function checkGrammarTyped(q, input){
   // blocking it, otherwise the "type an answer" message contradicts the hint text.
   const blankIsAnswerChoice = q.qtype === 'gap' && grammarTopicOffersBlankGap(grammarQuiz.topic);
   if (!typed && !acceptsBlank && !blankIsAnswerChoice){
-    document.querySelector('#grammarQuizView .q-feedback').innerHTML = 'Type an answer first — blank submissions aren\'t counted.';
+    document.querySelector('#grammarQuizView .q-feedback').innerHTML = t("grammar.typeAnswerFirst");
     return;
   }
   const expected = grammarExpectedAnswers(q);
@@ -10166,29 +10347,30 @@ function checkGrammarTyped(q, input){
   document.getElementById('grammarCheckBtn').disabled = true;
   input.classList.add(isCorrect ? 'correct' : 'wrong');
   const feedback = isCorrect
-    ? `<b>Correct!</b> ${q.why}`
-    : `<b>Not quite.</b> The answer is “${expected[0]}”. ${q.why}`;
+    ? `<b>${t("testUi.correct")}</b> ${q.why}`
+    : `<b>${t("testUi.notQuite")}</b> ${t("testUi.theAnswerIs").replace("{answer}", expected[0])} ${q.why}`;
   grammarShowFeedback(isCorrect, feedback);
 }
 
 function showGrammarResult(){
-  const t = grammarQuiz.topic;
-  const total = t.quiz.length;
+  const topic = grammarQuiz.topic;
+  const total = topic.quiz.length;
   const score = grammarQuiz.score;
   const pct = Math.round((score / total) * 100);
-  recordGrammarScore(t.slug, pct);
+  recordGrammarScore(topic.slug, pct);
   showGrammarView('grammarResult');
   const result = document.getElementById('grammarResult');
+  const scoredText = t("testUi.scoredTemplate").replace("{score}", score).replace("{total}", total).replace("{pct}", pct);
   result.innerHTML = `
-    <h2>${t.title}</h2>
+    <h2>${topic.title}</h2>
     <div class="result-score" id="grammarScoreNum">0</div>
-    <div class="result-msg">You scored ${score} out of ${total} (${pct}%). ${pct >= GRAMMAR_PASS_PCT
-      ? 'Topic mastered — it now counts toward your stage progress.'
-      : `Score ${GRAMMAR_PASS_PCT}% or higher to master this topic.`}</div>
+    <div class="result-msg">${scoredText} ${pct >= GRAMMAR_PASS_PCT
+      ? t("grammar.topicMastered")
+      : t("grammar.scoreToMaster").replace("{pct}", GRAMMAR_PASS_PCT)}</div>
     <div class="result-actions">
-      <button class="btn" id="grammarRetryBtn2">Try Again</button>
-      <button class="btn secondary" id="grammarBackLessonBtn">Back to Lesson</button>
-      <button class="btn secondary" id="grammarBackHomeBtn">Back to Grammar</button>
+      <button class="btn" id="grammarRetryBtn2">${t("testUi.tryAgain")}</button>
+      <button class="btn secondary" id="grammarBackLessonBtn">${t("grammar.backToLesson")}</button>
+      <button class="btn secondary" id="grammarBackHomeBtn">${t("grammar.backToGrammar")}</button>
     </div>`;
   const scoreEl = document.getElementById('grammarScoreNum');
   if (typeof gsap !== 'undefined'){
@@ -10198,8 +10380,8 @@ function showGrammarResult(){
   } else {
     scoreEl.textContent = score;
   }
-  document.getElementById('grammarRetryBtn2').addEventListener('click', () => startGrammarQuiz(t));
-  document.getElementById('grammarBackLessonBtn').addEventListener('click', () => openGrammarTopic(t));
+  document.getElementById('grammarRetryBtn2').addEventListener('click', () => startGrammarQuiz(topic));
+  document.getElementById('grammarBackLessonBtn').addEventListener('click', () => openGrammarTopic(topic));
   document.getElementById('grammarBackHomeBtn').addEventListener('click', renderGrammarHome);
 }
 
@@ -10207,7 +10389,7 @@ function renderGrammarSectionChips(names){
   const sc = document.getElementById('grammarSectionChips');
   const allBtn = document.createElement('button');
   allBtn.className = 'chip' + (grammarFilter.section === 'all' ? ' active' : '');
-  allBtn.textContent = 'All';
+  allBtn.textContent = t("common.all");
   allBtn.addEventListener('click', () => { grammarFilter.section = 'all'; renderGrammarHome(); });
   const btns = names.map(n => {
     const b = document.createElement('button');
@@ -10278,30 +10460,30 @@ const GRAMWORD_TOPIC_SETS = {
 /* Linking words — coordinating (FANBOYS), subordinating, correlative pairs
    and advanced academic transitions. [word, function, example, type] */
 const GRAMWORD_LTYPE_META = {
-  fanboys: { label: 'FANBOYS',       color: '#3b82f6' },
-  sub:     { label: 'subordinating', color: '#0d9488' },
-  corr:    { label: 'correlative',   color: '#a855f7' },
-  adv:     { label: 'advanced',      color: '#f43f5e' },
-  formal:  { label: 'formal',        color: '#f59e0b' },
+  fanboys: { labelKey: 'grammar.familyFanboys', color: '#3b82f6' },
+  sub:     { labelKey: 'grammar.familySub',     color: '#0d9488' },
+  corr:    { labelKey: 'grammar.familyCorr',    color: '#a855f7' },
+  adv:     { labelKey: 'grammar.familyAdv',     color: '#f43f5e' },
+  formal:  { labelKey: 'grammar.familyFormal',  color: '#f59e0b' },
 };
 /* Idioms — six levels incl. classic proverbs, formal allusions and British colour. */
 const GRAMWORD_ITYPE_META = {
-  basic:   { label: 'basic',        color: '#10b981' },
-  inter:   { label: 'intermediate', color: '#3b82f6' },
-  adv:     { label: 'advanced',     color: '#a855f7' },
-  classic: { label: 'classic',      color: '#f59e0b' },
-  formal:  { label: 'formal',       color: '#f43f5e' },
-  brit:    { label: 'British',      color: '#06b6d4' },
+  basic:   { labelKey: 'common.basic',        color: '#10b981' },
+  inter:   { labelKey: 'common.intermediate', color: '#3b82f6' },
+  adv:     { labelKey: 'common.advanced',     color: '#a855f7' },
+  classic: { labelKey: 'grammar.levelClassic', color: '#f59e0b' },
+  formal:  { labelKey: 'grammar.levelFormal',  color: '#f43f5e' },
+  brit:    { labelKey: 'grammar.levelBrit',    color: '#06b6d4' },
 };
 /* Irregular plural nouns, grouped by how the plural is formed.
    [singular, plural, example, type] */
 const GRAMWORD_PTYPE_META = {
-  vowel:     { label: 'Vowel change',         color: '#3b82f6' },
-  en:        { label: '-en',                  color: '#a855f7' },
-  fve:       { label: 'f/fe → ves',            color: '#0d9488' },
-  unchanged: { label: 'Unchanged',             color: '#f59e0b' },
-  foreign:   { label: 'Foreign (Latin/Greek)', color: '#f43f5e' },
-  other:     { label: 'Other',                 color: '#06b6d4' },
+  vowel:     { labelKey: 'grammar.ptypeVowel',     color: '#3b82f6' },
+  en:        { labelKey: 'grammar.ptypeEn',        color: '#a855f7' },
+  fve:       { labelKey: 'grammar.ptypeFve',       color: '#0d9488' },
+  unchanged: { labelKey: 'grammar.ptypeUnchanged', color: '#f59e0b' },
+  foreign:   { labelKey: 'grammar.ptypeForeign',   color: '#f43f5e' },
+  other:     { labelKey: 'grammar.ptypeOther',     color: '#06b6d4' },
 };
 const GRAMWORD_IDIOMS = [
   ["a piece of cake", "very easy", "The quiz was a piece of cake.", "basic"],
@@ -10588,8 +10770,8 @@ const GRAMWORD_ER_EST = [
   ['young','younger','youngest'],
 ];
 const GRAMWORD_CTYPE_META = {
-  irregular: { label: 'irregular', color: '#f59e0b' },
-  er:        { label: '-er / -est', color: '#0d9488' },
+  irregular: { labelKey: 'grammar.ctypeIrregular', color: '#f59e0b' },
+  er:        { labelKey: 'grammar.ctypeEr',        color: '#0d9488' },
 };
 
 function gramwordPatternOf(row){
@@ -10607,7 +10789,7 @@ function gramwordPatternPill(p){
 
 function renderGramword(){
   const content = document.getElementById('gramwordContent');
-  content.innerHTML = `<p class="sub" style="text-align:center;">Loading forms…</p>`;
+  content.innerHTML = `<p class="sub" style="text-align:center;">${t("grammar.loadingForms")}</p>`;
   loadGrammar().then(stages => {
     const isVerbs = gramwordState.set === 'verbs';
     document.querySelectorAll('#gramwordSetBar .headline-btn').forEach(b =>
@@ -10636,7 +10818,7 @@ function renderGramword(){
     const pagination = document.getElementById('gramwordPagination');
     if (isVerbs){
       if (!block){
-        content.innerHTML = `<p class="sub" style="text-align:center;">No reference table found for this set.</p>`;
+        content.innerHTML = `<p class="sub" style="text-align:center;">${t("grammar.noRefTable")}</p>`;
         document.getElementById('gramwordCount').textContent = '';
         pagination.innerHTML = '';
         return;
@@ -10650,7 +10832,7 @@ function renderGramword(){
       const totalPages = Math.max(1, Math.ceil(count / GRAMWORD_PER_PAGE));
       if (gramwordState.page > totalPages) gramwordState.page = totalPages;
       const pageRows = rows.slice((gramwordState.page - 1) * GRAMWORD_PER_PAGE, gramwordState.page * GRAMWORD_PER_PAGE);
-      head = (block.data.head || []).map(h => `<th>${h}</th>`).join('') + '<th>Pattern</th>';
+      head = (block.data.head || []).map(h => `<th>${h}</th>`).join('') + `<th>${t("grammar.colPattern")}</th>`;
       body = pageRows.map(r =>
         `<tr>${r.map((c, i) => `<td>${i === 0 ? `<b>${c}</b>` : c}</td>`).join('')}<td>${gramwordPatternPill(gramwordPatternOf(r))}</td></tr>`
       ).join('');
@@ -10666,10 +10848,10 @@ function renderGramword(){
       const totalPages = Math.max(1, Math.ceil(count / GRAMWORD_PER_PAGE));
       if (gramwordState.page > totalPages) gramwordState.page = totalPages;
       const pageEntries = entries.slice((gramwordState.page - 1) * GRAMWORD_PER_PAGE, gramwordState.page * GRAMWORD_PER_PAGE);
-      head = '<th>Base</th><th>Comparative</th><th>Superlative</th><th>Type</th>';
+      head = `<th>${t("grammar.colBase")}</th><th>${t("grammar.colComparative")}</th><th>${t("grammar.colSuperlative")}</th><th>${t("grammar.colType")}</th>`;
       body = pageEntries.map(e => {
         const meta = GRAMWORD_CTYPE_META[e.t];
-        const pill = `<span class="cat-cefr-pill" style="background:${meta.color}1c;border:1px solid ${meta.color}55;color:${meta.color}">${meta.label}</span>`;
+        const pill = `<span class="cat-cefr-pill" style="background:${meta.color}1c;border:1px solid ${meta.color}55;color:${meta.color}">${t(meta.labelKey)}</span>`;
         return `<tr>${e.r.map((c, i) => `<td>${i === 0 ? `<b>${c}</b>` : c}</td>`).join('')}<td>${pill}</td></tr>`;
       }).join('');
     } else if (gramwordState.set === 'linkers'){
@@ -10681,10 +10863,10 @@ function renderGramword(){
       const totalPages = Math.max(1, Math.ceil(count / GRAMWORD_PER_PAGE));
       if (gramwordState.page > totalPages) gramwordState.page = totalPages;
       const pageEntries = entries.slice((gramwordState.page - 1) * GRAMWORD_PER_PAGE, gramwordState.page * GRAMWORD_PER_PAGE);
-      head = '<th>Linker</th><th>Function</th><th>Example</th><th>Family</th>';
+      head = `<th>${t("grammar.colLinker")}</th><th>${t("grammar.colFunction")}</th><th>${t("grammar.colExample")}</th><th>${t("grammar.colFamily")}</th>`;
       body = pageEntries.map(e => {
         const meta = GRAMWORD_LTYPE_META[e[3]];
-        const pill = `<span class="cat-cefr-pill" style="background:${meta.color}1c;border:1px solid ${meta.color}55;color:${meta.color}">${meta.label}</span>`;
+        const pill = `<span class="cat-cefr-pill" style="background:${meta.color}1c;border:1px solid ${meta.color}55;color:${meta.color}">${t(meta.labelKey)}</span>`;
         return `<tr><td><b>${e[0]}</b></td><td>${e[1]}</td><td><em>${e[2]}</em></td><td>${pill}</td></tr>`;
       }).join('');
     } else if (gramwordState.set === 'plurals'){
@@ -10695,10 +10877,10 @@ function renderGramword(){
       const totalPages = Math.max(1, Math.ceil(count / GRAMWORD_PER_PAGE));
       if (gramwordState.page > totalPages) gramwordState.page = totalPages;
       const pageEntries = entries.slice((gramwordState.page - 1) * GRAMWORD_PER_PAGE, gramwordState.page * GRAMWORD_PER_PAGE);
-      head = '<th>Singular</th><th>Plural</th><th>Example</th><th>Type</th>';
+      head = `<th>${t("grammar.colSingular")}</th><th>${t("grammar.colPlural")}</th><th>${t("grammar.colExample")}</th><th>${t("grammar.colType")}</th>`;
       body = pageEntries.map(e => {
         const meta = GRAMWORD_PTYPE_META[e[3]];
-        const pill = `<span class="cat-cefr-pill" style="background:${meta.color}1c;border:1px solid ${meta.color}55;color:${meta.color}">${meta.label}</span>`;
+        const pill = `<span class="cat-cefr-pill" style="background:${meta.color}1c;border:1px solid ${meta.color}55;color:${meta.color}">${t(meta.labelKey)}</span>`;
         return `<tr><td><b>${e[0]}</b></td><td>${e[1]}</td><td><em>${e[2]}</em></td><td>${pill}</td></tr>`;
       }).join('');
     } else {
@@ -10709,16 +10891,16 @@ function renderGramword(){
       const totalPages = Math.max(1, Math.ceil(count / GRAMWORD_PER_PAGE));
       if (gramwordState.page > totalPages) gramwordState.page = totalPages;
       const pageEntries = entries.slice((gramwordState.page - 1) * GRAMWORD_PER_PAGE, gramwordState.page * GRAMWORD_PER_PAGE);
-      head = '<th>Idiom</th><th>Meaning</th><th>Example</th><th>Level</th>';
+      head = `<th>${t("grammar.colIdiom")}</th><th>${t("grammar.colMeaning")}</th><th>${t("grammar.colExample")}</th><th>${t("grammar.colLevel")}</th>`;
       body = pageEntries.map(e => {
         const meta = GRAMWORD_ITYPE_META[e[3]];
-        const pill = `<span class="cat-cefr-pill" style="background:${meta.color}1c;border:1px solid ${meta.color}55;color:${meta.color}">${meta.label}</span>`;
+        const pill = `<span class="cat-cefr-pill" style="background:${meta.color}1c;border:1px solid ${meta.color}55;color:${meta.color}">${t(meta.labelKey)}</span>`;
         return `<tr><td><b>${e[0]}</b></td><td>${e[1]}</td><td><em>${e[2]}</em></td><td>${pill}</td></tr>`;
       }).join('');
     }
-    document.getElementById('gramwordCount').textContent = `${count} ${unit}${count !== 1 ? 's' : ''}`;
+    document.getElementById('gramwordCount').textContent = gramwordCountLabel(unit, count);
     if (!count){
-      content.innerHTML = `<p class="sub" style="text-align:center;">No forms match — try a different search.</p>`;
+      content.innerHTML = `<p class="sub" style="text-align:center;">${t("grammar.noFormsMatch")}</p>`;
       pagination.innerHTML = '';
       return;
     }
@@ -10737,8 +10919,8 @@ function renderGramword(){
   }).catch(() => {
     content.innerHTML = `
       <div class="setup-card" style="text-align:center;">
-        <p class="sub">Couldn't load the reference tables. Check your connection and try again.</p>
-        <button class="btn" id="gramwordRetryBtn">Retry</button>
+        <p class="sub">${t("grammar.loadRefError")}</p>
+        <button class="btn" id="gramwordRetryBtn">${t("grammar.retry")}</button>
       </div>`;
     document.getElementById('gramwordRetryBtn').addEventListener('click', renderGramword);
   });
@@ -10932,6 +11114,14 @@ document.querySelectorAll("#langMenu [data-lang]").forEach(row => {
     if (typeof renderTestCounts === "function") renderTestCounts();
     if (typeof renderTestFiltersSection === "function") renderTestFiltersSection();
     if (typeof updateFooter === "function") updateFooter();
+    // Grammar home/word-reference are safe to fully re-render (idempotent,
+    // no in-progress state to lose). Lesson/quiz/result views are left as a
+    // known minor limitation if open during a switch, same as the auth modal.
+    if (document.getElementById("page-grammar")?.classList.contains("active")
+      && document.getElementById("grammarHome")?.style.display !== "none"
+      && typeof renderGrammarHome === "function") renderGrammarHome();
+    if (document.getElementById("page-gramword")?.classList.contains("active")
+      && typeof renderGramword === "function") renderGramword();
     // The functions above only rebuild filter bars/headlines, not the word
     // list bodies — those bake wordDef()/catName() text into innerHTML at
     // render time and are otherwise only refreshed by a filter change or
