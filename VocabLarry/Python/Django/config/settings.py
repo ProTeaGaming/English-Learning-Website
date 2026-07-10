@@ -26,6 +26,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.facebook',
     'allauth.socialaccount.providers.github',
     'allauth.socialaccount.providers.microsoft',
+    'allauth.socialaccount.providers.apple',
     'accounts',
     'vocab',
     'grammar',
@@ -89,6 +90,53 @@ ACCOUNT_SESSION_REMEMBER = None  # show "Remember me" checkbox
 HEADLESS_FRONTEND_URLS = {
     'account_confirm_email': '/verify-email/{key}',
     'account_reset_password_from_key': '/reset-password/{key}',
+}
+
+# Social login — each provider is a no-op (button shows, click fails with a
+# provider-side error) until real credentials are filled in via .env. Get
+# credentials from each platform's own developer console — see .env.example
+# for a link + what each value corresponds to. Apple's "secret" is its Key
+# ID (not a real secret) and "certificate_key" is the .p8 private key's
+# contents — see allauth's apple provider client.py for why.
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'APP': {
+            'client_id': os.environ.get('GOOGLE_CLIENT_ID', ''),
+            'secret': os.environ.get('GOOGLE_CLIENT_SECRET', ''),
+        },
+    },
+    'facebook': {
+        'APP': {
+            'client_id': os.environ.get('FACEBOOK_CLIENT_ID', ''),
+            'secret': os.environ.get('FACEBOOK_CLIENT_SECRET', ''),
+        },
+    },
+    'github': {
+        'APP': {
+            'client_id': os.environ.get('GITHUB_CLIENT_ID', ''),
+            'secret': os.environ.get('GITHUB_CLIENT_SECRET', ''),
+        },
+    },
+    'microsoft': {
+        'APP': {
+            'client_id': os.environ.get('MICROSOFT_CLIENT_ID', ''),
+            'secret': os.environ.get('MICROSOFT_CLIENT_SECRET', ''),
+        },
+        # 'common' accepts both personal Microsoft accounts and any Azure AD
+        # tenant — the right default for a public sign-in button.
+        'TENANT': os.environ.get('MICROSOFT_TENANT', 'common'),
+    },
+    'apple': {
+        'APP': {
+            'client_id': os.environ.get('APPLE_CLIENT_ID', ''),      # Services ID
+            'secret': os.environ.get('APPLE_KEY_ID', ''),            # Key ID, not a real secret
+            'key': os.environ.get('APPLE_TEAM_ID', ''),               # Team ID
+            'settings': {
+                # Contents of the downloaded .p8 private key file, verbatim.
+                'certificate_key': os.environ.get('APPLE_PRIVATE_KEY', ''),
+            },
+        },
+    },
 }
 
 # Email
