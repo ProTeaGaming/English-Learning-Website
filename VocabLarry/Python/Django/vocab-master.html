@@ -3141,6 +3141,23 @@ function wordsCountLabel(n){
 function categoriesCountLabel(n){
   return state.lang === "vi" ? `${n} ${t("common.categories")}` : `${n} categor${n!==1?"ies":"y"}`;
 }
+/* Test-setup "N words/sentences match" and "No words/sentences match" labels —
+   unit is the internal "word"/"sentence" identifier from getTestModeMeta(), not
+   translated text; Vietnamese has no plural forms so it needs its own branch. */
+function topicMatchLabel(unit, count){
+  if (state.lang === "vi"){
+    const unitVi = unit === "word" ? t("common.word") : t("test.unitSentence");
+    return `${count} ${unitVi} ${t("test.matchSuffix")}`;
+  }
+  return `${count} ${unit}${count!==1?"s":""} match`;
+}
+function noMatchFiltersLabel(unit){
+  if (state.lang === "vi"){
+    const unitVi = unit === "word" ? t("common.word") : t("test.unitSentence");
+    return `Không có ${unitVi} nào phù hợp với bộ lọc này — hãy thử mở rộng lựa chọn.`;
+  }
+  return `No ${unit}s match these filters — try widening your selection.`;
+}
 
 /* Vietnamese names for all 250 vocab categories, keyed by category slug
    (the canonical id used for filtering/matching everywhere — only display
@@ -8606,6 +8623,96 @@ const UI_STRINGS = {
     "auth.emailVerified": "Email verified! You can now sign in.",
     "auth.verifyLinkInvalid": "This verification link is invalid or has expired.",
     "auth.verifyFailed": "Could not verify your email — please try again.",
+    "testMode.quiz.toggleLabel": "Quiz",
+    "testMode.quiz.pageTitle": "Quiz",
+    "testMode.quiz.pageDesc": "Test your knowledge with multiple question types.",
+    "testMode.quiz.setupTitle": "Choose a quiz mode",
+    "testMode.quiz.setupSub": "Pick a question style, choose how many questions, then start.",
+    "testMode.quiz.noun": "Question",
+    "testMode.quiz.countAll": "All words",
+    "testMode.quiz.countN": "{n} questions",
+    "testMode.quiz.startLabel": "Start Quiz",
+    "testMode.quiz.resultTitle": "Quiz Complete",
+    "testMode.quiz.resultMsg100": "Perfect score! Outstanding vocabulary mastery.",
+    "testMode.quiz.resultMsg80": "Excellent work — you know these words well.",
+    "testMode.quiz.resultMsg60": "Good effort — a bit more practice and you'll nail it.",
+    "testMode.quiz.resultMsgLow": "Keep practising — review the word list and try again.",
+    "testMode.quiz.secondaryLabel": "Leave",
+    "testMode.gap.toggleLabel": "Fill the Gap",
+    "testMode.gap.pageTitle": "Fill the Gap",
+    "testMode.gap.pageDesc": "Choose the word that correctly completes each sentence.",
+    "testMode.gap.setupTitle": "Choose a gap fill mode",
+    "testMode.gap.setupSub": "Pick a question style, choose how many sentences, then start.",
+    "testMode.gap.noun": "Sentence",
+    "testMode.gap.countAll": "All sentences",
+    "testMode.gap.countN": "{n} sentences",
+    "testMode.gap.startLabel": "Start Exercise",
+    "testMode.gap.resultTitle": "Exercise Complete",
+    "testMode.gap.resultMsg100": "Flawless! Every gap filled correctly.",
+    "testMode.gap.resultMsg80": "Great job — your usage is on point.",
+    "testMode.gap.resultMsg60": "Solid attempt — review the examples page for tricky words.",
+    "testMode.gap.resultMsgLow": "Keep practising — re-reading the example sentences will help.",
+    "testMode.gap.secondaryLabel": "Change Mode",
+    "testMode.challenge.toggleLabel": "Challenge",
+    "testMode.challenge.pageTitle": "Challenge",
+    "testMode.challenge.pageDesc": "The jack-of-all-trades test: definitions, synonyms, antonyms, word recall and fill-the-gap, all mixed into one round.",
+    "testMode.challenge.setupTitle": "Ready for the Challenge?",
+    "testMode.challenge.setupSub": "Every question can be any type — choose your topic, level and length, then go.",
+    "testMode.challenge.noun": "Question",
+    "testMode.challenge.countAll": "All words",
+    "testMode.challenge.countN": "{n} questions",
+    "testMode.challenge.startLabel": "Start Challenge",
+    "testMode.challenge.resultTitle": "Challenge Complete",
+    "testMode.challenge.resultMsg100": "Perfect score! You're ready for anything the exam throws at you.",
+    "testMode.challenge.resultMsg80": "Excellent — a strong, well-rounded command of these words.",
+    "testMode.challenge.resultMsg60": "Good effort — a bit more practice across modes and you'll nail it.",
+    "testMode.challenge.resultMsgLow": "Keep practising — try the Category and Quiz pages to build confidence.",
+    "testMode.challenge.secondaryLabel": "Leave",
+    "test.unitSentence": "sentence",
+    "test.matchSuffix": "match",
+    "testUi.leave": "← Leave",
+    "testUi.progressCurrentOfTotal": "{noun} {current} of {total}",
+    "testUi.scoreLabel": "Score: {n}",
+    "testUi.seeResults": "See Results",
+    "testUi.nextNoun": "Next {noun}",
+    "testUi.correct": "Correct!",
+    "testUi.notQuite": "Not quite.",
+    "testUi.theAnswerIs": "The answer is \"{answer}\"",
+    "testUi.scoredTemplate": "You scored {score} out of {total} ({pct}%).",
+    "testUi.tryAgain": "Try Again",
+    "testUi.review": "Review",
+    "testUi.noWordsSelected": "No words selected — pick some words above to start.",
+    "testUi.noneWorkForMode": "None of your selected words work for {mode} mode — try a different mode or select more words.",
+    "testUi.selected": "selected",
+    "testUi.enterNumberWarning": "Please enter a number ≥ 1",
+    "qPrompt.word": "Which word matches this definition?",
+    "qPrompt.synonym": "Choose the closest synonym",
+    "qPrompt.antonym": "Choose the word with the opposite meaning",
+    "qPrompt.definition": "Choose the correct definition",
+    "qPrompt.gapNuance": "Near-synonyms are the distractors — choose the most precise word",
+    "qPrompt.gapCollocation": "Choose the word that completes the fixed expression",
+    "qPrompt.gapConnotation": "Choose the word that matches the sentence's tone",
+    "qPrompt.gapContext": "Use the sentence context to identify the missing word",
+    "quizMode.definition.name": "Definition Match",
+    "quizMode.definition.desc": "See a word — choose its correct definition.",
+    "quizMode.word.name": "Word from Definition",
+    "quizMode.word.desc": "Read a definition — choose the matching word.",
+    "quizMode.synonym.name": "Synonym Match",
+    "quizMode.synonym.desc": "See a word — choose a word with a similar meaning.",
+    "quizMode.antonym.name": "Antonym Match",
+    "quizMode.antonym.desc": "See a word — choose a word with the opposite meaning.",
+    "quizMode.mixed.name": "Mixed Review",
+    "quizMode.mixed.desc": "A random mix of every question type.",
+    "gapMode.context.name": "Contextual Definition",
+    "gapMode.context.desc": "The sentence provides context clues — use them to find the missing word.",
+    "gapMode.nuance.name": "Lexical Nuance",
+    "gapMode.nuance.desc": "Near-synonyms are the distractors — only one word is precisely correct.",
+    "gapMode.collocation.name": "Collocation & Idiom",
+    "gapMode.collocation.desc": "The blank requires a specific fixed word partnership or collocation.",
+    "gapMode.connotation.name": "Connotation Match",
+    "gapMode.connotation.desc": "Choose the word whose tone — positive, negative or formal — fits the sentence.",
+    "gapMode.mixed.name": "Mixed Review",
+    "gapMode.mixed.desc": "A random mix of all four gap fill types.",
   },
   vi: {
     "nav.home": "Trang chủ",
@@ -8771,6 +8878,96 @@ const UI_STRINGS = {
     "auth.emailVerified": "Email đã được xác minh! Bây giờ bạn có thể đăng nhập.",
     "auth.verifyLinkInvalid": "Liên kết xác minh này không hợp lệ hoặc đã hết hạn.",
     "auth.verifyFailed": "Không thể xác minh email của bạn — vui lòng thử lại.",
+    "testMode.quiz.toggleLabel": "Trắc nghiệm",
+    "testMode.quiz.pageTitle": "Trắc nghiệm",
+    "testMode.quiz.pageDesc": "Kiểm tra kiến thức của bạn với nhiều dạng câu hỏi khác nhau.",
+    "testMode.quiz.setupTitle": "Chọn chế độ trắc nghiệm",
+    "testMode.quiz.setupSub": "Chọn kiểu câu hỏi, số lượng câu hỏi, rồi bắt đầu.",
+    "testMode.quiz.noun": "Câu hỏi",
+    "testMode.quiz.countAll": "Tất cả từ",
+    "testMode.quiz.countN": "{n} câu hỏi",
+    "testMode.quiz.startLabel": "Bắt đầu trắc nghiệm",
+    "testMode.quiz.resultTitle": "Hoàn thành trắc nghiệm",
+    "testMode.quiz.resultMsg100": "Điểm tuyệt đối! Vốn từ vựng xuất sắc.",
+    "testMode.quiz.resultMsg80": "Làm rất tốt — bạn nắm vững những từ này.",
+    "testMode.quiz.resultMsg60": "Cố gắng tốt — luyện tập thêm chút nữa là bạn sẽ thành thạo.",
+    "testMode.quiz.resultMsgLow": "Tiếp tục luyện tập — xem lại danh sách từ và thử lại.",
+    "testMode.quiz.secondaryLabel": "Rời đi",
+    "testMode.gap.toggleLabel": "Điền vào chỗ trống",
+    "testMode.gap.pageTitle": "Điền vào chỗ trống",
+    "testMode.gap.pageDesc": "Chọn từ đúng để hoàn thành mỗi câu.",
+    "testMode.gap.setupTitle": "Chọn chế độ điền từ",
+    "testMode.gap.setupSub": "Chọn kiểu câu hỏi, số lượng câu, rồi bắt đầu.",
+    "testMode.gap.noun": "Câu",
+    "testMode.gap.countAll": "Tất cả câu",
+    "testMode.gap.countN": "{n} câu",
+    "testMode.gap.startLabel": "Bắt đầu bài tập",
+    "testMode.gap.resultTitle": "Hoàn thành bài tập",
+    "testMode.gap.resultMsg100": "Hoàn hảo! Điền đúng tất cả các chỗ trống.",
+    "testMode.gap.resultMsg80": "Làm rất tốt — cách dùng từ của bạn rất chuẩn.",
+    "testMode.gap.resultMsg60": "Cố gắng khá tốt — xem lại trang ví dụ với những từ khó.",
+    "testMode.gap.resultMsgLow": "Tiếp tục luyện tập — đọc lại các câu ví dụ sẽ giúp ích.",
+    "testMode.gap.secondaryLabel": "Đổi chế độ",
+    "testMode.challenge.toggleLabel": "Thử thách",
+    "testMode.challenge.pageTitle": "Thử thách",
+    "testMode.challenge.pageDesc": "Bài kiểm tra tổng hợp: định nghĩa, từ đồng nghĩa, từ trái nghĩa, nhớ từ và điền vào chỗ trống, tất cả trộn lẫn trong một vòng.",
+    "testMode.challenge.setupTitle": "Sẵn sàng cho Thử thách?",
+    "testMode.challenge.setupSub": "Mỗi câu hỏi có thể thuộc bất kỳ dạng nào — chọn chủ đề, cấp độ và độ dài, rồi bắt đầu.",
+    "testMode.challenge.noun": "Câu hỏi",
+    "testMode.challenge.countAll": "Tất cả từ",
+    "testMode.challenge.countN": "{n} câu hỏi",
+    "testMode.challenge.startLabel": "Bắt đầu Thử thách",
+    "testMode.challenge.resultTitle": "Hoàn thành Thử thách",
+    "testMode.challenge.resultMsg100": "Điểm tuyệt đối! Bạn đã sẵn sàng cho mọi thử thách trong kỳ thi.",
+    "testMode.challenge.resultMsg80": "Xuất sắc — bạn nắm vững toàn diện những từ này.",
+    "testMode.challenge.resultMsg60": "Cố gắng tốt — luyện tập thêm ở các chế độ khác nhau là bạn sẽ thành thạo.",
+    "testMode.challenge.resultMsgLow": "Tiếp tục luyện tập — thử trang Danh mục và Trắc nghiệm để xây dựng sự tự tin.",
+    "testMode.challenge.secondaryLabel": "Rời đi",
+    "test.unitSentence": "câu",
+    "test.matchSuffix": "phù hợp",
+    "testUi.leave": "← Rời đi",
+    "testUi.progressCurrentOfTotal": "{noun} {current}/{total}",
+    "testUi.scoreLabel": "Điểm: {n}",
+    "testUi.seeResults": "Xem kết quả",
+    "testUi.nextNoun": "{noun} tiếp theo",
+    "testUi.correct": "Chính xác!",
+    "testUi.notQuite": "Chưa đúng.",
+    "testUi.theAnswerIs": "Đáp án đúng là \"{answer}\"",
+    "testUi.scoredTemplate": "Bạn đạt {score} trên {total} điểm ({pct}%).",
+    "testUi.tryAgain": "Thử lại",
+    "testUi.review": "Xem lại",
+    "testUi.noWordsSelected": "Chưa chọn từ nào — hãy chọn một số từ ở trên để bắt đầu.",
+    "testUi.noneWorkForMode": "Không có từ nào bạn đã chọn phù hợp với chế độ {mode} — hãy thử chế độ khác hoặc chọn thêm từ.",
+    "testUi.selected": "đã chọn",
+    "testUi.enterNumberWarning": "Vui lòng nhập số lớn hơn hoặc bằng 1",
+    "qPrompt.word": "Từ nào phù hợp với định nghĩa này?",
+    "qPrompt.synonym": "Chọn từ đồng nghĩa gần nhất",
+    "qPrompt.antonym": "Chọn từ có nghĩa trái ngược",
+    "qPrompt.definition": "Chọn định nghĩa đúng",
+    "qPrompt.gapNuance": "Các phương án gây nhiễu là từ gần nghĩa — chọn từ chính xác nhất",
+    "qPrompt.gapCollocation": "Chọn từ hoàn thành cụm từ cố định",
+    "qPrompt.gapConnotation": "Chọn từ phù hợp với sắc thái của câu",
+    "qPrompt.gapContext": "Dùng ngữ cảnh của câu để xác định từ còn thiếu",
+    "quizMode.definition.name": "Ghép định nghĩa",
+    "quizMode.definition.desc": "Xem một từ — chọn định nghĩa đúng của nó.",
+    "quizMode.word.name": "Đoán từ từ định nghĩa",
+    "quizMode.word.desc": "Đọc một định nghĩa — chọn từ phù hợp.",
+    "quizMode.synonym.name": "Ghép từ đồng nghĩa",
+    "quizMode.synonym.desc": "Xem một từ — chọn từ có nghĩa tương tự.",
+    "quizMode.antonym.name": "Ghép từ trái nghĩa",
+    "quizMode.antonym.desc": "Xem một từ — chọn từ có nghĩa trái ngược.",
+    "quizMode.mixed.name": "Ôn tập tổng hợp",
+    "quizMode.mixed.desc": "Trộn ngẫu nhiên tất cả các dạng câu hỏi.",
+    "gapMode.context.name": "Định nghĩa theo ngữ cảnh",
+    "gapMode.context.desc": "Câu văn cung cấp manh mối ngữ cảnh — hãy dùng chúng để tìm từ còn thiếu.",
+    "gapMode.nuance.name": "Sắc thái từ vựng",
+    "gapMode.nuance.desc": "Các phương án gây nhiễu là từ gần nghĩa — chỉ một từ là chính xác.",
+    "gapMode.collocation.name": "Kết hợp từ & Thành ngữ",
+    "gapMode.collocation.desc": "Chỗ trống cần một cụm từ kết hợp cố định cụ thể.",
+    "gapMode.connotation.name": "Ghép sắc thái nghĩa",
+    "gapMode.connotation.desc": "Chọn từ có sắc thái — tích cực, tiêu cực hoặc trang trọng — phù hợp với câu.",
+    "gapMode.mixed.name": "Ôn tập tổng hợp",
+    "gapMode.mixed.desc": "Trộn ngẫu nhiên cả bốn dạng điền từ.",
   },
 };
 
@@ -9287,7 +9484,7 @@ function renderTopicFilters(prefix, f, getPool, unitLabel){
   });
   const count = getPool().length;
   const unit = typeof unitLabel === "function" ? unitLabel() : unitLabel;
-  document.getElementById(`${prefix}FilterCount`).textContent = `${count} ${unit}${count!==1?"s":""} match`;
+  document.getElementById(`${prefix}FilterCount`).textContent = topicMatchLabel(unit, count);
   const startBtn = document.getElementById(`${prefix}Start`);
   if (startBtn) startBtn.disabled = count === 0;
   const noMatch = document.getElementById(`${prefix}NoMatch`);
@@ -12247,65 +12444,31 @@ const TEST_MODE_ORDER = ["quiz", "gap", "challenge"];
 const TEST_COUNTS = [10, 20, 30, "all"];
 let GAP_POOL = [];
 
-const TEST_MODE_META = {
-  quiz: {
-    toggleLabel: "Quiz",
-    pageTitle: "Quiz",
-    pageDesc: "Test your knowledge with multiple question types.",
-    setupTitle: "Choose a quiz mode",
-    setupSub: "Pick a question style, choose how many questions, then start.",
-    unit: "word",
-    noun: "Question",
-    countLabel: c => c === "all" ? "All words" : `${c} questions`,
-    startLabel: "Start Quiz",
-    resultTitle: "Quiz Complete",
+const TEST_MODE_UNIT = { quiz: "word", gap: "sentence", challenge: "word" };
+/* Built fresh on every call (not a static table) so it always reflects the
+   current state.lang — TEST_MODE_META was a plain object before i18n; call
+   sites just changed TEST_MODE_META[mode] to getTestModeMeta(mode). */
+function getTestModeMeta(mode){
+  return {
+    toggleLabel: t(`testMode.${mode}.toggleLabel`),
+    pageTitle: t(`testMode.${mode}.pageTitle`),
+    pageDesc: t(`testMode.${mode}.pageDesc`),
+    setupTitle: t(`testMode.${mode}.setupTitle`),
+    setupSub: t(`testMode.${mode}.setupSub`),
+    unit: TEST_MODE_UNIT[mode],
+    noun: t(`testMode.${mode}.noun`),
+    countLabel: c => c === "all" ? t(`testMode.${mode}.countAll`) : t(`testMode.${mode}.countN`).replace("{n}", c),
+    startLabel: t(`testMode.${mode}.startLabel`),
+    resultTitle: t(`testMode.${mode}.resultTitle`),
     resultMessage: pct => {
-      if (pct === 100) return "Perfect score! Outstanding vocabulary mastery.";
-      if (pct >= 80) return "Excellent work — you know these words well.";
-      if (pct >= 60) return "Good effort — a bit more practice and you'll nail it.";
-      return "Keep practising — review the word list and try again.";
+      if (pct === 100) return t(`testMode.${mode}.resultMsg100`);
+      if (pct >= 80) return t(`testMode.${mode}.resultMsg80`);
+      if (pct >= 60) return t(`testMode.${mode}.resultMsg60`);
+      return t(`testMode.${mode}.resultMsgLow`);
     },
-    secondaryLabel: "Leave",
-  },
-  gap: {
-    toggleLabel: "Fill the Gap",
-    pageTitle: "Fill the Gap",
-    pageDesc: "Choose the word that correctly completes each sentence.",
-    setupTitle: "Choose a gap fill mode",
-    setupSub: "Pick a question style, choose how many sentences, then start.",
-    unit: "sentence",
-    noun: "Sentence",
-    countLabel: c => c === "all" ? "All sentences" : `${c} sentences`,
-    startLabel: "Start Exercise",
-    resultTitle: "Exercise Complete",
-    resultMessage: pct => {
-      if (pct === 100) return "Flawless! Every gap filled correctly.";
-      if (pct >= 80) return "Great job — your usage is on point.";
-      if (pct >= 60) return "Solid attempt — review the examples page for tricky words.";
-      return "Keep practising — re-reading the example sentences will help.";
-    },
-    secondaryLabel: "Change Mode",
-  },
-  challenge: {
-    toggleLabel: "Challenge",
-    pageTitle: "Challenge",
-    pageDesc: "The jack-of-all-trades test: definitions, synonyms, antonyms, word recall and fill-the-gap, all mixed into one round.",
-    setupTitle: "Ready for the Challenge?",
-    setupSub: "Every question can be any type — choose your topic, level and length, then go.",
-    unit: "word",
-    noun: "Question",
-    countLabel: c => c === "all" ? "All words" : `${c} questions`,
-    startLabel: "Start Challenge",
-    resultTitle: "Challenge Complete",
-    resultMessage: pct => {
-      if (pct === 100) return "Perfect score! You're ready for anything the exam throws at you.";
-      if (pct >= 80) return "Excellent — a strong, well-rounded command of these words.";
-      if (pct >= 60) return "Good effort — a bit more practice across modes and you'll nail it.";
-      return "Keep practising — try the Category and Quiz pages to build confidence.";
-    },
-    secondaryLabel: "Leave",
-  },
-};
+    secondaryLabel: t(`testMode.${mode}.secondaryLabel`),
+  };
+}
 
 state.test = {
   mode: "quiz",
@@ -12338,25 +12501,25 @@ function buildQuestion(word, mode){
   let prompt, text, correct, options;
   switch(mode){
     case "word":
-      prompt = "Which word matches this definition?";
+      prompt = t("qPrompt.word");
       text = wordDef(word);
       correct = word.w;
       options = buildOptions(correct, others, w => w.w);
       break;
     case "synonym":
-      prompt = "Choose the closest synonym";
+      prompt = t("qPrompt.synonym");
       text = `${word.w} <span class="qpos">(${word.pos})</span>`;
       correct = capitalize(word.syn[Math.floor(Math.random()*word.syn.length)]);
       options = buildOptions(correct, others.filter(w => w.w !== correct), w => w.w);
       break;
     case "antonym":
-      prompt = "Choose the word with the opposite meaning";
+      prompt = t("qPrompt.antonym");
       text = `${word.w} <span class="qpos">(${word.pos})</span>`;
       correct = capitalize(word.ant[Math.floor(Math.random()*word.ant.length)]);
       options = buildOptions(correct, others.filter(w => w.w !== correct), w => w.w);
       break;
     default:
-      prompt = "Choose the correct definition";
+      prompt = t("qPrompt.definition");
       text = `${word.w} <span class="qpos">(${word.pos})</span>`;
       correct = wordDef(word);
       options = buildOptions(correct, others, w => wordDef(w));
@@ -12379,13 +12542,13 @@ function buildGapQuestion(word, gapMode = "context"){
       const synSet = new Set((word.syn || []).map(s => s.toLowerCase()));
       const synPool = others.filter(w => w.syn && w.syn.some(s => synSet.has(s.toLowerCase())));
       distractorPool = synPool.length >= 3 ? synPool : samePos;
-      prompt = "Near-synonyms are the distractors — choose the most precise word";
+      prompt = t("qPrompt.gapNuance");
       break;
     }
     case "collocation": {
       const sameCat = others.filter(w => w.cat === word.cat);
       distractorPool = sameCat.length >= 3 ? sameCat : samePos;
-      prompt = "Choose the word that completes the fixed expression";
+      prompt = t("qPrompt.gapCollocation");
       break;
     }
     case "connotation": {
@@ -12394,12 +12557,12 @@ function buildGapQuestion(word, gapMode = "context"){
       distractorPool = antPool.length >= 2
         ? [...antPool, ...samePos.filter(w => !antSet.has(w.w.toLowerCase()))]
         : samePos;
-      prompt = "Choose the word that matches the sentence's tone";
+      prompt = t("qPrompt.gapConnotation");
       break;
     }
     default: {
       distractorPool = samePos.length >= 3 ? samePos : others;
-      prompt = "Use the sentence context to identify the missing word";
+      prompt = t("qPrompt.gapContext");
     }
   }
 
@@ -12464,7 +12627,7 @@ function wordMatchesHeadline(cefr, hl){
 
 function renderTestFiltersSection(){
   if (state.test.sourceMode === "words") renderWordPicker();
-  else renderTopicFilters("test", state.test.filters, testPool, () => TEST_MODE_META[state.test.mode].unit);
+  else renderTopicFilters("test", state.test.filters, testPool, () => getTestModeMeta(state.test.mode).unit);
 }
 
 function renderWordPicker(){
@@ -12506,9 +12669,9 @@ function renderWordPicker(){
   const pageWords = allWords.slice((state.test.wordPage - 1) * 25, state.test.wordPage * 25);
 
   const pool = testPool();
-  const meta = TEST_MODE_META[state.test.mode];
+  const meta = getTestModeMeta(state.test.mode);
   document.getElementById("testWordMatchCount").textContent =
-    `${state.test.selectedWords.size} selected · ${pool.length} ${meta.unit}${pool.length!==1?"s":""} match`;
+    `${state.test.selectedWords.size} ${t("testUi.selected")} · ${topicMatchLabel(meta.unit, pool.length)}`;
 
   const clearBtn = document.getElementById("testClearWordSel");
   if (clearBtn) clearBtn.style.display = state.test.selectedWords.size > 0 ? "" : "none";
@@ -12540,8 +12703,8 @@ function renderWordPicker(){
     noMatch.style.display = pool.length === 0 ? "block" : "none";
     if (pool.length === 0) {
       noMatch.textContent = state.test.selectedWords.size === 0
-        ? "No words selected — pick some words above to start."
-        : `None of your selected words work for ${state.test.mode} mode — try a different mode or select more words.`;
+        ? t("testUi.noWordsSelected")
+        : t("testUi.noneWorkForMode").replace("{mode}", meta.toggleLabel);
     }
   }
 }
@@ -12565,7 +12728,7 @@ function renderTestModes(){
     QUIZ_MODES.forEach(m => {
       const card = document.createElement("div");
       card.className = "modeCard" + (state.test.quizMode===m.id ? " active" : "");
-      card.innerHTML = `<h3>${m.name}</h3><p>${m.desc}</p>`;
+      card.innerHTML = `<h3>${t(`quizMode.${m.id}.name`)}</h3><p>${t(`quizMode.${m.id}.desc`)}</p>`;
       card.addEventListener("click", () => {
         state.test.quizMode = m.id;
         renderTestModes();
@@ -12579,7 +12742,7 @@ function renderTestModes(){
     GAP_MODES.forEach(m => {
       const card = document.createElement("div");
       card.className = "modeCard" + (state.test.gapMode===m.id ? " active" : "");
-      card.innerHTML = `<h3>${m.name}</h3><p>${m.desc}</p>`;
+      card.innerHTML = `<h3>${t(`gapMode.${m.id}.name`)}</h3><p>${t(`gapMode.${m.id}.desc`)}</p>`;
       card.addEventListener("click", () => {
         state.test.gapMode = m.id;
         renderTestModes();
@@ -12595,7 +12758,7 @@ function renderTestModes(){
 function renderTestCounts(){
   const container = document.getElementById("testCounts");
   container.innerHTML = "";
-  const meta = TEST_MODE_META[state.test.mode];
+  const meta = getTestModeMeta(state.test.mode);
   TEST_COUNTS.forEach(c => {
     const btn = document.createElement("button");
     btn.className = "chip" + (state.test.count===c ? " active" : "");
@@ -12632,7 +12795,7 @@ function renderTestCounts(){
         if (warn) warn.style.display = "none";
       } else {
         inp.classList.add("bad");
-        if (warn) { warn.textContent = "Please enter a number ≥ 1"; warn.style.display = "block"; }
+        if (warn) { warn.textContent = t("testUi.enterNumberWarning"); warn.style.display = "block"; }
       }
     });
     customChip.appendChild(inp);
@@ -12647,14 +12810,14 @@ function renderTestCounts(){
 }
 
 function renderTestSetupCopy(){
-  const meta = TEST_MODE_META[state.test.mode];
+  const meta = getTestModeMeta(state.test.mode);
   document.getElementById("testTitle").textContent = meta.pageTitle;
   document.getElementById("testDesc").textContent = meta.pageDesc;
   document.getElementById("testModeLabel").textContent = meta.toggleLabel;
   document.getElementById("testSetupTitle").textContent = meta.setupTitle;
   document.getElementById("testSetupSub").textContent = meta.setupSub;
   document.getElementById("testStart").textContent = meta.startLabel;
-  document.getElementById("testNoMatch").textContent = `No ${meta.unit}s match these filters — try widening your selection.`;
+  document.getElementById("testNoMatch").textContent = noMatchFiltersLabel(meta.unit);
 }
 
 function renderTestMode(){
@@ -12694,14 +12857,16 @@ document.getElementById("testStart").addEventListener("click", () => {
 function renderTestQuestion(){
   const q = state.test.questions[state.test.idx];
   const total = state.test.questions.length;
-  const meta = TEST_MODE_META[state.test.mode];
+  const meta = getTestModeMeta(state.test.mode);
   const play = document.getElementById("testPlay");
   const prompt = q.prompt;
   const pct = Math.round(((state.test.idx + 1) / total) * 100);
+  const progressText = t("testUi.progressCurrentOfTotal").replace("{noun}", meta.noun).replace("{current}", state.test.idx+1).replace("{total}", total);
+  const nextBtnText = state.test.idx+1===total ? t("testUi.seeResults") : t("testUi.nextNoun").replace("{noun}", meta.noun);
   play.innerHTML = `
-    <button class="back-btn" id="testLeaveBtn">← Leave</button>
+    <button class="back-btn" id="testLeaveBtn">${t("testUi.leave")}</button>
     <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
-    <div class="q-meta"><span>${meta.noun} ${state.test.idx+1} of ${total}</span><span>Score: ${state.test.score}</span></div>
+    <div class="q-meta"><span>${progressText}</span><span>${t("testUi.scoreLabel").replace("{n}", state.test.score)}</span></div>
     <div class="q-card">
       <div class="q-prompt">${prompt}</div>
       <div class="q-text">${q.text}</div>
@@ -12709,7 +12874,7 @@ function renderTestQuestion(){
         ${q.options.map(opt => `<button class="q-opt">${opt}</button>`).join("")}
       </div>
       <div class="q-feedback"></div>
-      <div class="q-next" style="display:none;"><button class="btn" id="testNextBtn">${state.test.idx+1===total ? "See Results" : `Next ${meta.noun}`}</button></div>
+      <div class="q-next" style="display:none;"><button class="btn" id="testNextBtn">${nextBtnText}</button></div>
     </div>`;
   play.querySelectorAll(".q-opt").forEach(btn => {
     btn.addEventListener("click", () => handleTestAnswer(btn, q));
@@ -12737,15 +12902,15 @@ function handleTestAnswer(selectedBtn, q){
   if (q.type === "gap"){
     const fullEx = q.word.ex.replace(/<\/?em>/g, "");
     feedback = isCorrect
-      ? `<b>Correct!</b> ${q.word.w} — ${wordDef(q.word)}<br>${fullEx}`
-      : `<b>Not quite.</b> The answer is "${q.correct}" — ${wordDef(q.word)}<br>${fullEx}`;
+      ? `<b>${t("testUi.correct")}</b> ${q.word.w} — ${wordDef(q.word)}<br>${fullEx}`
+      : `<b>${t("testUi.notQuite")}</b> ${t("testUi.theAnswerIs").replace("{answer}", q.correct)} — ${wordDef(q.word)}<br>${fullEx}`;
   } else {
     feedback = isCorrect
-      ? `<b>Correct!</b> ${q.word.w} — ${wordDef(q.word)}`
-      : `<b>Not quite.</b> ${q.word.w} — ${wordDef(q.word)}`;
+      ? `<b>${t("testUi.correct")}</b> ${q.word.w} — ${wordDef(q.word)}`
+      : `<b>${t("testUi.notQuite")}</b> ${q.word.w} — ${wordDef(q.word)}`;
   }
   play.querySelector(".q-feedback").innerHTML = feedback;
-  play.querySelector(".q-meta span:last-child").textContent = `Score: ${state.test.score}`;
+  play.querySelector(".q-meta span:last-child").textContent = t("testUi.scoreLabel").replace("{n}", state.test.score);
   play.querySelector(".q-next").style.display = "flex";
   document.getElementById("testNextBtn").addEventListener("click", () => {
     state.test.idx++;
@@ -12761,18 +12926,19 @@ function showTestResult(){
   const total = state.test.questions.length;
   const score = state.test.score;
   const pct = Math.round((score/total)*100);
-  const meta = TEST_MODE_META[state.test.mode];
+  const meta = getTestModeMeta(state.test.mode);
   const secondaryBtn = meta.secondaryLabel
     ? `<button class="btn secondary" id="testChangeBtn">${meta.secondaryLabel}</button>`
     : "";
+  const scoredText = t("testUi.scoredTemplate").replace("{score}", score).replace("{total}", total).replace("{pct}", pct);
   result.innerHTML = `
     <h2>${meta.resultTitle}</h2>
     <div class="result-score" id="testScoreNum">0</div>
-    <div class="result-msg">You scored ${score} out of ${total} (${pct}%). ${meta.resultMessage(pct)}</div>
+    <div class="result-msg">${scoredText} ${meta.resultMessage(pct)}</div>
     <div class="result-actions">
-      <button class="btn" id="testRetryBtn">Try Again</button>
+      <button class="btn" id="testRetryBtn">${t("testUi.tryAgain")}</button>
       ${secondaryBtn}
-      <button class="btn secondary" id="testReviewBtn">Review</button>
+      <button class="btn secondary" id="testReviewBtn">${t("testUi.review")}</button>
     </div>
     <div id="testReview" style="display:none;"></div>`;
   const scoreEl = document.getElementById("testScoreNum");
@@ -12901,7 +13067,7 @@ renderExamples();
 renderTestSetupCopy();
 renderTestModes();
 renderTestCounts();
-initTopicFilters("test", state.test.filters, testPool, () => TEST_MODE_META[state.test.mode].unit);
+initTopicFilters("test", state.test.filters, testPool, () => getTestModeMeta(state.test.mode).unit);
 
 document.getElementById("testSourceCategory").addEventListener("click", () => {
   if (state.test.sourceMode === "category") return;
@@ -12910,7 +13076,7 @@ document.getElementById("testSourceCategory").addEventListener("click", () => {
   document.getElementById("testSourceWords").classList.remove("active");
   document.getElementById("testCategoryFilter").style.display = "";
   document.getElementById("testWordPicker").style.display = "none";
-  renderTopicFilters("test", state.test.filters, testPool, () => TEST_MODE_META[state.test.mode].unit);
+  renderTopicFilters("test", state.test.filters, testPool, () => getTestModeMeta(state.test.mode).unit);
 });
 document.getElementById("testSourceWords").addEventListener("click", () => {
   if (state.test.sourceMode === "words") return;
