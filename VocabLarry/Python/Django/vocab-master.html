@@ -8625,6 +8625,7 @@ const UI_STRINGS = {
     "auth.nameLettersOnly": "Full name can only contain letters and spaces.",
     "auth.usernameFormat": "Username must be 3–20 characters, letters and numbers only (no spaces or symbols).",
     "auth.accountCreatedInfo": "Account created — please check your email to verify your address.",
+    "auth.emailNotVerifiedInfo": "This account's email hasn't been verified yet. Check your inbox for the confirmation link, then try signing in again.",
     "auth.createAccountFailed": "Could not create account.",
     "auth.setNewPasswordTitle": "Set a new password",
     "auth.resetPasswordBtn": "Reset password",
@@ -8964,6 +8965,7 @@ const UI_STRINGS = {
     "auth.nameLettersOnly": "Họ và tên chỉ được chứa chữ cái và khoảng trắng.",
     "auth.usernameFormat": "Tên đăng nhập phải dài 3–20 ký tự, chỉ gồm chữ cái và số (không dấu cách hoặc ký hiệu).",
     "auth.accountCreatedInfo": "Đã tạo tài khoản — vui lòng kiểm tra email để xác minh địa chỉ của bạn.",
+    "auth.emailNotVerifiedInfo": "Email của tài khoản này chưa được xác minh. Vui lòng kiểm tra hộp thư để lấy liên kết xác nhận, sau đó thử đăng nhập lại.",
     "auth.createAccountFailed": "Không thể tạo tài khoản.",
     "auth.setNewPasswordTitle": "Đặt mật khẩu mới",
     "auth.resetPasswordBtn": "Đặt lại mật khẩu",
@@ -12850,6 +12852,21 @@ document.getElementById("authForm").addEventListener("submit", async (e) => {
         showAuthInfo(t("auth.mfaInfo"));
         submitBtn.textContent = t("auth.verify");
         document.getElementById("authMfaCode").focus();
+        return;
+      }
+      // The password was correct (allauth got as far as flagging a pending
+      // verify_email flow, not just re-showing "login") but the account's
+      // email isn't verified yet — show the real reason instead of falling
+      // through to "incorrect credentials", which is what a fresh
+      // createsuperuser account looks like until its email gets verified.
+      if (res.status === 401 && flows.some(f => f.id === "verify_email")){
+        document.getElementById("authTitle").textContent = t("auth.checkEmailTitle");
+        document.getElementById("authPasswordGroup").classList.add("auth-hidden");
+        document.getElementById("authForgotWrap").classList.add("auth-hidden");
+        document.getElementById("authSubmitBtn").classList.add("auth-hidden");
+        document.getElementById("authSwitch").classList.remove("auth-hidden");
+        document.getElementById("authSwitch").innerHTML = `<a href="#" id="authBackLink">${t("auth.backToSignIn")}</a>`;
+        showAuthInfo(t("auth.emailNotVerifiedInfo"));
         return;
       }
       if (data.status !== 200){ showAuthError((data.errors?.[0]?.message) || t("auth.incorrectCredentials")); return; }
