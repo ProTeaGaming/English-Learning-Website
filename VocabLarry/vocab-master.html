@@ -2434,6 +2434,7 @@ function iconSvg(emoji, cls){
           <input type="search" id="gramtestSearch" placeholder="Search topics…" data-i18n-placeholder="gramtest.searchTopics">
         </div>
         <div class="filter-row" id="gramtestSectionChips"></div>
+        <div class="filter-row" id="gramtestTopicChips"></div>
         <div class="filter-row" id="gramtestCefrChips">
           <span class="filter-label" data-i18n="common.cefrLevel">CEFR Level</span>
           <button class="chip active" data-gramtest-cefr="all" data-i18n="common.all">All</button>
@@ -2444,12 +2445,9 @@ function iconSvg(emoji, cls){
           <button class="chip" data-gramtest-cefr="C1">C1</button><button class="chip" data-gramtest-cefr="C1+">C1+</button>
           <button class="chip" data-gramtest-cefr="C2">C2</button><button class="chip" data-gramtest-cefr="C2+">C2+</button>
         </div>
-        <div class="filter-row">
-          <button class="chip" id="gramtestSelectAll" data-i18n="vocab.selectAllResults">Select all results</button>
-          <button class="clear-btn" id="gramtestClearSel" style="display:none;" data-i18n="vocab.clearSelection">Clear selection</button>
+        <div class="filter-row" style="justify-content:flex-end;">
           <button class="clear-btn" id="gramtestClearFilters" data-i18n="common.clearFilters">Clear filters</button>
         </div>
-        <div class="filter-row" id="gramtestTopicChips" style="flex-wrap:wrap; gap:6px; row-gap:6px;"></div>
       </div>
       <div class="filter-row" style="justify-content:center; flex-direction:column; align-items:center; gap:8px;">
         <button class="btn" id="gramtestStart" data-i18n="gramtest.start">Start Test</button>
@@ -12362,10 +12360,11 @@ function showGrammarResult(){
 /* ════════════════════════════════════════════════════════
    GRAMMAR TEST (cross-topic practice — never records mastery)
    ════════════════════════════════════════════════════════ */
-const GRAMTEST_MODES = ['mixed', 'mcq', 'gap', 'transform'];
+// Specific modes first, Mixed last — same card order as the vocab Quiz setup.
+const GRAMTEST_MODES = ['mcq', 'gap', 'transform', 'mixed'];
 const GRAMTEST_COUNTS = [10, 20, 30, 'all'];
 const gramtest = {
-  mode: 'mixed', count: 10, customCount: 10,
+  mode: 'mcq', count: 10, customCount: 10,
   topics: new Set(),      // selected topic slugs; empty = all topics
   search: '', section: 'all', cefr: 'all',
 };
@@ -12374,8 +12373,27 @@ let gramtestTopicCache = null;
 function gramtestAllTopics(){
   if (gramtestTopicCache) return Promise.resolve(gramtestTopicCache);
   return loadGrammar().then(stages => {
+    // Mirror renderGrammarHome's canonical grouping so chip order, theme
+    // colours and icons all match the topic cards on the grammar home page.
+    const grouped = new Map();
+    stages.forEach(stage => stage.topics.forEach(tp => {
+      const section = GRAMMAR_SECTIONS[tp.slug] || tp.tag;
+      if (!grouped.has(section)) grouped.set(section, []);
+      grouped.get(section).push({ ...tp, stageId: stage.id, section });
+    }));
+    const names = [...GRAMMAR_SECTION_ORDER.filter(n => grouped.has(n)),
+                   ...[...grouped.keys()].filter(n => !GRAMMAR_SECTION_ORDER.includes(n))];
     const topics = [];
-    stages.forEach(stage => stage.topics.forEach(tp => topics.push(tp)));
+    let themeIdx = 0;
+    names.forEach(name => {
+      grouped.get(name)
+        .sort((a, b) => (GRAMMAR_STAGE_RANK[a.stageId] ?? 3) - (GRAMMAR_STAGE_RANK[b.stageId] ?? 3))
+        .forEach(tp => {
+          tp.theme = GRAMMAR_CARD_THEMES[themeIdx++ % GRAMMAR_CARD_THEMES.length];
+          tp.icon = GRAMMAR_SECTION_ICONS[name] || 'i-pen';
+          topics.push(tp);
+        });
+    });
     gramtestTopicCache = topics;
     return topics;
   });
@@ -12385,18 +12403,25 @@ function gramtestMatchesMode(q){
   return gramtest.mode === 'mixed' || q.qtype === gramtest.mode;
 }
 
+/* Section + CEFR narrow the question pool itself, exactly like the vocab
+   Test's matchesFilters; the search box only narrows the visible chip list. */
+function gramtestFilteredTopics(topics){
+  return topics.filter(tp =>
+    (gramtest.section === 'all' || tp.section === gramtest.section) &&
+    (gramtest.cefr === 'all' || tp.cefr === gramtest.cefr));
+}
+
 function gramtestVisibleTopics(topics){
   const needle = gramtest.search.trim().toLowerCase();
-  return topics.filter(tp =>
-    (gramtest.section === 'all' || (GRAMMAR_SECTIONS[tp.slug] || tp.tag) === gramtest.section) &&
-    (gramtest.cefr === 'all' || tp.cefr === gramtest.cefr) &&
-    (!needle || grammarTopicTitle(tp).toLowerCase().includes(needle) || tp.title.toLowerCase().includes(needle)));
+  return gramtestFilteredTopics(topics).filter(tp =>
+    !needle || grammarTopicTitle(tp).toLowerCase().includes(needle) || tp.title.toLowerCase().includes(needle));
 }
 
 function gramtestPool(topics){
-  const selected = topics.filter(tp => !gramtest.topics.size || gramtest.topics.has(tp.slug));
+  const eligible = gramtestFilteredTopics(topics)
+    .filter(tp => !gramtest.topics.size || gramtest.topics.has(tp.slug));
   const qs = [];
-  selected.forEach(tp => tp.quiz.forEach(q => { if (gramtestMatchesMode(q)) qs.push(q); }));
+  eligible.forEach(tp => tp.quiz.forEach(q => { if (gramtestMatchesMode(q)) qs.push(q); }));
   return qs;
 }
 
@@ -12486,7 +12511,9 @@ function renderGramtestFilters(){
       const b = document.createElement('button');
       b.className = 'chip' + (gramtest.section === n ? ' active' : '');
       b.textContent = grammarSectionLabel(n);
-      b.addEventListener('click', () => { gramtest.section = n; renderGramtestFilters(); });
+      // Changing section resets the topic selection, same as the vocab
+      // picker resets its category set on a section change.
+      b.addEventListener('click', () => { gramtest.section = n; gramtest.topics = new Set(); renderGramtestFilters(); });
       return b;
     });
     renderExpandableChips(sc, allBtn, btns);
@@ -12494,20 +12521,38 @@ function renderGramtestFilters(){
     document.querySelectorAll('[data-gramtest-cefr]').forEach(c =>
       c.classList.toggle('active', c.dataset.gramtestCefr === gramtest.cefr));
 
+    // Topic chips mirror the vocab category chips: pinned "All" chip, themed
+    // + icon per topic, collapsed to two rows unless a search is active.
     const grid = document.getElementById('gramtestTopicChips');
-    grid.innerHTML = '';
-    gramtestVisibleTopics(topics).forEach(tp => {
+    const allTopicsChip = document.createElement('button');
+    allTopicsChip.className = 'chip' + (gramtest.topics.size === 0 ? ' active' : '');
+    allTopicsChip.textContent = t('common.allCategories');
+    allTopicsChip.addEventListener('click', () => { gramtest.topics = new Set(); renderGramtestFilters(); });
+    const topicChips = gramtestVisibleTopics(topics).map(tp => {
       const b = document.createElement('button');
-      b.className = 'chip' + (gramtest.topics.has(tp.slug) ? ' active' : '');
-      b.textContent = grammarTopicTitle(tp);
+      b.className = `chip ${tp.theme}` + (gramtest.topics.has(tp.slug) ? ' active' : '');
+      b.innerHTML = `<svg class="ico" aria-hidden="true"><use href="#${tp.icon}"/></svg> ${grammarTopicTitle(tp)}`;
       b.addEventListener('click', () => {
         if (gramtest.topics.has(tp.slug)) gramtest.topics.delete(tp.slug);
         else gramtest.topics.add(tp.slug);
         renderGramtestFilters();
       });
-      grid.appendChild(b);
+      return b;
     });
-    document.getElementById('gramtestClearSel').style.display = gramtest.topics.size ? '' : 'none';
+    if (gramtest.search.trim()){
+      grid.innerHTML = '';
+      grid.appendChild(allTopicsChip);
+      if (!topicChips.length){
+        const none = document.createElement('span');
+        none.style.cssText = 'font-size:.82rem; color:var(--muted);';
+        none.textContent = t('common.noCategoriesMatch');
+        grid.appendChild(none);
+      } else {
+        topicChips.forEach(c => grid.appendChild(c));
+      }
+    } else {
+      renderExpandableChips(grid, allTopicsChip, topicChips);
+    }
 
     const pool = gramtestPool(topics);
     document.getElementById('gramtestPoolCount').textContent = t('gramtest.poolCount').replace('{n}', pool.length);
@@ -12575,20 +12620,11 @@ document.getElementById('gramtestSearch').addEventListener('input', e => {
 document.querySelectorAll('[data-gramtest-cefr]').forEach(chip => {
   chip.addEventListener('click', () => { gramtest.cefr = chip.dataset.gramtestCefr; renderGramtestFilters(); });
 });
-document.getElementById('gramtestSelectAll').addEventListener('click', () => {
-  gramtestAllTopics().then(topics => {
-    gramtestVisibleTopics(topics).forEach(tp => gramtest.topics.add(tp.slug));
-    renderGramtestFilters();
-  });
-});
-document.getElementById('gramtestClearSel').addEventListener('click', () => {
-  gramtest.topics.clear();
-  renderGramtestFilters();
-});
 document.getElementById('gramtestClearFilters').addEventListener('click', () => {
   gramtest.search = '';
   gramtest.section = 'all';
   gramtest.cefr = 'all';
+  gramtest.topics = new Set();
   document.getElementById('gramtestSearch').value = '';
   renderGramtestFilters();
 });
