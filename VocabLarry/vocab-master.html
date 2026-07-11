@@ -909,19 +909,20 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
 }
 [data-theme="dark"] .browse-bar{background:rgba(20,20,26,0.82);}
 .browse-bar .search-row::before, .setup-filters .search-row::before{opacity:.45;}
-#browseSearch, #catSearchInput, #testCatSearch, #testWordSearch, #grammarSearch, #gramwordSearch{
+#browseSearch, #catSearchInput, #testCatSearch, #testWordSearch, #grammarSearch, #gramwordSearch, #gramtestSearch{
   flex:1; width:100%; background:rgba(var(--vio),.06); border:1px solid rgba(var(--vio),.2);
   color:var(--text); padding:10px 16px 10px 38px; border-radius:12px; font-size:.93rem;
   font-family:'Plus Jakarta Sans','Inter',sans-serif;
   -webkit-appearance:none; appearance:none; transition:border-color .18s ease, box-shadow .18s ease;
 }
-#browseSearch:focus, #catSearchInput:focus, #testCatSearch:focus, #testWordSearch:focus, #grammarSearch:focus, #gramwordSearch:focus{outline:none; border-color:rgba(var(--vio),.6); box-shadow:0 0 0 3px rgba(var(--vio),.12);}
+#browseSearch:focus, #catSearchInput:focus, #testCatSearch:focus, #testWordSearch:focus, #grammarSearch:focus, #gramwordSearch:focus, #gramtestSearch:focus{outline:none; border-color:rgba(var(--vio),.6); box-shadow:0 0 0 3px rgba(var(--vio),.12);}
 #browseSearch::-webkit-search-decoration, #browseSearch::-webkit-search-cancel-button,
 #catSearchInput::-webkit-search-decoration, #catSearchInput::-webkit-search-cancel-button,
 #testCatSearch::-webkit-search-decoration, #testCatSearch::-webkit-search-cancel-button,
 #testWordSearch::-webkit-search-decoration, #testWordSearch::-webkit-search-cancel-button,
 #grammarSearch::-webkit-search-decoration, #grammarSearch::-webkit-search-cancel-button,
-#gramwordSearch::-webkit-search-decoration, #gramwordSearch::-webkit-search-cancel-button{-webkit-appearance:none;}
+#gramwordSearch::-webkit-search-decoration, #gramwordSearch::-webkit-search-cancel-button,
+#gramtestSearch::-webkit-search-decoration, #gramtestSearch::-webkit-search-cancel-button{-webkit-appearance:none;}
 
 /* ===== SECTION ACCORDION BLOCK ===== */
 .section-block{
@@ -1587,6 +1588,7 @@ function iconSvg(emoji, cls){
           <div class="nav-dropdown">
             <button class="nav-dropdown-item" data-page="grammar" data-i18n="nav.category">Category</button>
             <button class="nav-dropdown-item" data-page="gramword" data-i18n="nav.word">Word</button>
+            <button class="nav-dropdown-item" data-page="gramtest" data-i18n="nav.test">Test</button>
           </div>
         </div>
         <div class="nav-group" data-section="reading">
@@ -2406,6 +2408,56 @@ function iconSvg(emoji, cls){
     </div>
     <div id="gramwordContent"></div>
     <div class="pagination" id="gramwordPagination"></div>
+  </section>
+
+  <!-- ===== GRAMMAR TEST PAGE ===== -->
+  <section id="page-gramtest" class="page">
+    <div class="page-head">
+      <span class="eyebrow" data-i18n="grammar.eyebrow">Section 02 / Grammar</span>
+      <h1 data-i18n="nav.test">Test</h1>
+      <p data-i18n="gramtest.pageDesc">Practice questions drawn from any mix of grammar topics.</p>
+    </div>
+    <div id="gramtestSetup">
+      <div class="setup-card" style="margin-bottom:20px; max-width:none;">
+        <h2 data-i18n="gramtest.setupTitle">Choose a test mode</h2>
+        <p class="sub" data-i18n="gramtest.setupSub">Pick a question style, how many questions, and which topics — then start.</p>
+        <div class="option-grid" id="gramtestModes"></div>
+        <div class="count-row" id="gramtestCounts"></div>
+        <p id="gramtestCustomWarn" class="custom-count-warn"></p>
+      </div>
+      <div class="browse-bar" style="margin-bottom:16px;">
+        <div class="filter-head">
+          <span class="filter-label" data-i18n="gramtest.topicsLabel">Topics</span>
+          <span class="result-count" id="gramtestPoolCount"></span>
+        </div>
+        <div class="search-row" style="position:relative;">
+          <input type="search" id="gramtestSearch" placeholder="Search topics…" data-i18n-placeholder="gramtest.searchTopics">
+        </div>
+        <div class="filter-row" id="gramtestSectionChips"></div>
+        <div class="filter-row" id="gramtestCefrChips">
+          <span class="filter-label" data-i18n="common.cefrLevel">CEFR Level</span>
+          <button class="chip active" data-gramtest-cefr="all" data-i18n="common.all">All</button>
+          <button class="chip" data-gramtest-cefr="A1">A1</button><button class="chip" data-gramtest-cefr="A1+">A1+</button>
+          <button class="chip" data-gramtest-cefr="A2">A2</button><button class="chip" data-gramtest-cefr="A2+">A2+</button>
+          <button class="chip" data-gramtest-cefr="B1">B1</button><button class="chip" data-gramtest-cefr="B1+">B1+</button>
+          <button class="chip" data-gramtest-cefr="B2">B2</button><button class="chip" data-gramtest-cefr="B2+">B2+</button>
+          <button class="chip" data-gramtest-cefr="C1">C1</button><button class="chip" data-gramtest-cefr="C1+">C1+</button>
+          <button class="chip" data-gramtest-cefr="C2">C2</button><button class="chip" data-gramtest-cefr="C2+">C2+</button>
+        </div>
+        <div class="filter-row">
+          <button class="chip" id="gramtestSelectAll" data-i18n="vocab.selectAllResults">Select all results</button>
+          <button class="clear-btn" id="gramtestClearSel" style="display:none;" data-i18n="vocab.clearSelection">Clear selection</button>
+          <button class="clear-btn" id="gramtestClearFilters" data-i18n="common.clearFilters">Clear filters</button>
+        </div>
+        <div class="filter-row" id="gramtestTopicChips" style="flex-wrap:wrap; gap:6px; row-gap:6px;"></div>
+      </div>
+      <div class="filter-row" style="justify-content:center; flex-direction:column; align-items:center; gap:8px;">
+        <button class="btn" id="gramtestStart" data-i18n="gramtest.start">Start Test</button>
+        <p class="sub" id="gramtestEmpty" style="display:none;" data-i18n="gramtest.emptyPool">No questions match — pick more topics or another mode.</p>
+      </div>
+    </div>
+    <div id="gramtestQuizView" class="quiz-wrap" style="display:none;"></div>
+    <div id="gramtestResult" class="result-card" style="display:none;"></div>
   </section>
 
   <!-- ===== READING PAGE ===== -->
@@ -8546,6 +8598,24 @@ const UI_STRINGS = {
     "nav.category": "Category",
     "nav.word": "Word",
     "nav.test": "Test",
+    "gramtest.pageDesc": "Practice questions drawn from any mix of grammar topics.",
+    "gramtest.setupTitle": "Choose a test mode",
+    "gramtest.setupSub": "Pick a question style, how many questions, and which topics — then start.",
+    "gramtest.topicsLabel": "Topics",
+    "gramtest.searchTopics": "Search topics…",
+    "gramtest.start": "Start Test",
+    "gramtest.emptyPool": "No questions match — pick more topics or another mode.",
+    "gramtest.poolCount": "{n} questions in pool",
+    "gramtest.changeSettings": "Change Settings",
+    "gramtest.resultTitle": "Grammar Test",
+    "gramtest.mode.mixed.name": "Mixed",
+    "gramtest.mode.mixed.desc": "All three question styles shuffled together.",
+    "gramtest.mode.mcq.name": "Multichoice",
+    "gramtest.mode.mcq.desc": "Pick the correct option.",
+    "gramtest.mode.gap.name": "Fill the Gap",
+    "gramtest.mode.gap.desc": "Type the missing word or form.",
+    "gramtest.mode.transform.name": "Rewrite the Sentence",
+    "gramtest.mode.transform.desc": "Rewrite the sentence as instructed.",
     "common.soon": "Soon",
     "common.loading": "Loading…",
     "common.active": "Active",
@@ -8910,6 +8980,24 @@ const UI_STRINGS = {
     "nav.category": "Danh mục",
     "nav.word": "Từ ngữ",
     "nav.test": "Kiểm tra",
+    "gramtest.pageDesc": "Luyện tập với câu hỏi lấy từ các chủ đề ngữ pháp bạn chọn.",
+    "gramtest.setupTitle": "Chọn chế độ kiểm tra",
+    "gramtest.setupSub": "Chọn kiểu câu hỏi, số câu và các chủ đề — rồi bắt đầu.",
+    "gramtest.topicsLabel": "Chủ đề",
+    "gramtest.searchTopics": "Tìm chủ đề…",
+    "gramtest.start": "Bắt đầu kiểm tra",
+    "gramtest.emptyPool": "Không có câu hỏi phù hợp — hãy chọn thêm chủ đề hoặc chế độ khác.",
+    "gramtest.poolCount": "{n} câu hỏi trong bộ đề",
+    "gramtest.changeSettings": "Đổi cài đặt",
+    "gramtest.resultTitle": "Kiểm tra ngữ pháp",
+    "gramtest.mode.mixed.name": "Tổng hợp",
+    "gramtest.mode.mixed.desc": "Trộn cả ba kiểu câu hỏi.",
+    "gramtest.mode.mcq.name": "Trắc nghiệm",
+    "gramtest.mode.mcq.desc": "Chọn đáp án đúng.",
+    "gramtest.mode.gap.name": "Điền vào chỗ trống",
+    "gramtest.mode.gap.desc": "Gõ từ hoặc dạng từ còn thiếu.",
+    "gramtest.mode.transform.name": "Viết lại câu",
+    "gramtest.mode.transform.desc": "Viết lại câu theo yêu cầu.",
     "common.soon": "Sắp có",
     "common.loading": "Đang tải…",
     "common.active": "Hoạt động",
@@ -12049,7 +12137,15 @@ function grammarQuestionMgrHtml(topic){
   </div>`;
 }
 
-const grammarQuiz = { topic: null, questions: [], idx: 0, score: 0, answered: null, optionOrder: null };
+/* mode 'topic' = a topic's own 10-question quiz (records mastery);
+   mode 'test'  = cross-topic gramtest run (practice only, records nothing). */
+const grammarQuiz = { mode: 'topic', topic: null, questions: [], idx: 0, score: 0, answered: null, optionOrder: null };
+
+/* The quiz engine below renders into page-grammar's quiz view for topic
+   quizzes and page-gramtest's for test runs — same functions, one lookup. */
+function grammarQuizViewEl(){
+  return document.getElementById(grammarQuiz.mode === 'test' ? 'gramtestQuizView' : 'grammarQuizView');
+}
 
 let grammarStageTriggers = [];
 function killGrammarStageTriggers(){
@@ -12065,6 +12161,7 @@ function grammarNorm(s){
 }
 
 function startGrammarQuiz(topic){
+  grammarQuiz.mode = 'topic';
   grammarQuiz.topic = topic;
   grammarQuiz.questions = shuffle(topic.quiz);
   grammarQuiz.idx = 0;
@@ -12079,7 +12176,7 @@ function renderGrammarQuestion(){
   const topic = grammarQuiz.topic;
   const q = grammarQuiz.questions[grammarQuiz.idx];
   const total = grammarQuiz.questions.length;
-  const view = document.getElementById('grammarQuizView');
+  const view = grammarQuizViewEl();
   const pct = Math.round(((grammarQuiz.idx + 1) / total) * 100);
   const isTyped = q.qtype !== 'mcq';
   // A language switch re-renders whichever question is on screen (see the
@@ -12104,7 +12201,7 @@ function renderGrammarQuestion(){
   // If any gap question in this topic can be answered by leaving the blank empty,
   // hint it on every gap question (not just the one it applies to — showing it only
   // there would give the answer away before the user even reads the sentence).
-  const gapPlaceholder = q.qtype === 'gap' && grammarTopicOffersBlankGap(topic) ? t("grammar.gapPlaceholder") : '';
+  const gapPlaceholder = q.qtype === 'gap' && grammarQuizOffersBlankGap() ? t("grammar.gapPlaceholder") : '';
   const progressText = t("testUi.progressCurrentOfTotal").replace("{noun}", t("testMode.quiz.noun")).replace("{current}", grammarQuiz.idx + 1).replace("{total}", total);
   view.innerHTML = `
     <button class="back-btn" id="grammarQuizLeaveBtn">${t("testUi.leave")}</button>
@@ -12122,7 +12219,8 @@ function renderGrammarQuestion(){
       <div class="q-feedback"></div>
       <div class="q-next" style="display:none;"><button class="btn" id="grammarNextBtn">${grammarQuiz.idx + 1 === total ? t("testUi.seeResults") : t("grammar.nextQuestion")}</button></div>
     </div>`;
-  document.getElementById('grammarQuizLeaveBtn').addEventListener('click', () => openGrammarTopic(topic));
+  document.getElementById('grammarQuizLeaveBtn').addEventListener('click', () =>
+    grammarQuiz.mode === 'test' ? renderGramtest() : openGrammarTopic(topic));
   if (isTyped){
     const input = document.getElementById('grammarGapInput');
     document.getElementById('grammarCheckBtn').addEventListener('click', () => checkGrammarTyped(q, input));
@@ -12149,7 +12247,7 @@ function renderGrammarQuestion(){
 }
 
 function grammarShowFeedback(isCorrect, feedbackHtml, isReplay){
-  const view = document.getElementById('grammarQuizView');
+  const view = grammarQuizViewEl();
   // isReplay re-applies the visual state of an already-answered question
   // after a language-switch re-render (see renderGrammarQuestion) — the
   // score was already counted the first time, so skip it here.
@@ -12167,7 +12265,7 @@ function grammarShowFeedback(isCorrect, feedbackHtml, isReplay){
 }
 
 function checkGrammarMcq(q, selectedBtn, isReplay){
-  const view = document.getElementById('grammarQuizView');
+  const view = grammarQuizViewEl();
   const correctIdx = q.answers[0];
   const selectedIdx = Number(selectedBtn.dataset.i);
   const isCorrect = selectedIdx === correctIdx;
@@ -12194,11 +12292,13 @@ function grammarBlankMeansNoAnswer(q){
   return q.qtype === 'gap' && q.answers.some(a => /^\(?no article\)?$|^-$/i.test(grammarNorm(a)));
 }
 
-/* True once any gap question in the topic can be answered by leaving the blank
-   empty — used to decide whether blank is a real answer choice on every gap
-   question in that topic (see renderGrammarQuestion), not just the one it applies to. */
-function grammarTopicOffersBlankGap(topic){
-  return !!topic && topic.quiz.some(qq => grammarBlankMeansNoAnswer(qq));
+/* True once any gap question in the running quiz can be answered by leaving the
+   blank empty — used to decide whether blank is a real answer choice on every gap
+   question in the run (see renderGrammarQuestion), not just the one it applies to.
+   Reads the active question set, so it covers both a topic quiz (the whole topic)
+   and a cross-topic gramtest draw. */
+function grammarQuizOffersBlankGap(){
+  return grammarQuiz.questions.some(qq => grammarBlankMeansNoAnswer(qq));
 }
 
 function checkGrammarTyped(q, input, isReplay){
@@ -12208,9 +12308,9 @@ function checkGrammarTyped(q, input, isReplay){
   // Once the topic offers "leave it blank" as an option, blank is a real answer
   // choice on every gap question in it — evaluate it (right or wrong) instead of
   // blocking it, otherwise the "type an answer" message contradicts the hint text.
-  const blankIsAnswerChoice = q.qtype === 'gap' && grammarTopicOffersBlankGap(grammarQuiz.topic);
+  const blankIsAnswerChoice = q.qtype === 'gap' && grammarQuizOffersBlankGap();
   if (!typed && !acceptsBlank && !blankIsAnswerChoice){
-    document.querySelector('#grammarQuizView .q-feedback').innerHTML = t("grammar.typeAnswerFirst");
+    grammarQuizViewEl().querySelector('.q-feedback').innerHTML = t("grammar.typeAnswerFirst");
     return;
   }
   const expected = grammarExpectedAnswers(q);
@@ -12226,6 +12326,7 @@ function checkGrammarTyped(q, input, isReplay){
 }
 
 function showGrammarResult(){
+  if (grammarQuiz.mode === 'test'){ showGramtestResult(); return; }
   const topic = grammarQuiz.topic;
   const total = topic.quiz.length;
   const score = grammarQuiz.score;
@@ -12257,6 +12358,252 @@ function showGrammarResult(){
   document.getElementById('grammarBackLessonBtn').addEventListener('click', () => openGrammarTopic(topic));
   document.getElementById('grammarBackHomeBtn').addEventListener('click', renderGrammarHome);
 }
+
+/* ════════════════════════════════════════════════════════
+   GRAMMAR TEST (cross-topic practice — never records mastery)
+   ════════════════════════════════════════════════════════ */
+const GRAMTEST_MODES = ['mixed', 'mcq', 'gap', 'transform'];
+const GRAMTEST_COUNTS = [10, 20, 30, 'all'];
+const gramtest = {
+  mode: 'mixed', count: 10, customCount: 10,
+  topics: new Set(),      // selected topic slugs; empty = all topics
+  search: '', section: 'all', cefr: 'all',
+};
+
+let gramtestTopicCache = null;
+function gramtestAllTopics(){
+  if (gramtestTopicCache) return Promise.resolve(gramtestTopicCache);
+  return loadGrammar().then(stages => {
+    const topics = [];
+    stages.forEach(stage => stage.topics.forEach(tp => topics.push(tp)));
+    gramtestTopicCache = topics;
+    return topics;
+  });
+}
+
+function gramtestMatchesMode(q){
+  return gramtest.mode === 'mixed' || q.qtype === gramtest.mode;
+}
+
+function gramtestVisibleTopics(topics){
+  const needle = gramtest.search.trim().toLowerCase();
+  return topics.filter(tp =>
+    (gramtest.section === 'all' || (GRAMMAR_SECTIONS[tp.slug] || tp.tag) === gramtest.section) &&
+    (gramtest.cefr === 'all' || tp.cefr === gramtest.cefr) &&
+    (!needle || grammarTopicTitle(tp).toLowerCase().includes(needle) || tp.title.toLowerCase().includes(needle)));
+}
+
+function gramtestPool(topics){
+  const selected = topics.filter(tp => !gramtest.topics.size || gramtest.topics.has(tp.slug));
+  const qs = [];
+  selected.forEach(tp => tp.quiz.forEach(q => { if (gramtestMatchesMode(q)) qs.push(q); }));
+  return qs;
+}
+
+function showGramtestView(view){
+  const map = { setup: 'gramtestSetup', quiz: 'gramtestQuizView', result: 'gramtestResult' };
+  Object.keys(map).forEach(k => {
+    document.getElementById(map[k]).style.display = (k === view) ? '' : 'none';
+  });
+}
+
+function renderGramtest(){
+  showGramtestView('setup');
+  renderGramtestModes();
+  renderGramtestCounts();
+  renderGramtestFilters();
+}
+
+function renderGramtestModes(){
+  const grid = document.getElementById('gramtestModes');
+  grid.innerHTML = '';
+  GRAMTEST_MODES.forEach(id => {
+    const card = document.createElement('div');
+    card.className = 'modeCard' + (gramtest.mode === id ? ' active' : '');
+    card.innerHTML = `<h3>${t(`gramtest.mode.${id}.name`)}</h3><p>${t(`gramtest.mode.${id}.desc`)}</p>`;
+    card.addEventListener('click', () => { gramtest.mode = id; renderGramtestModes(); renderGramtestFilters(); });
+    grid.appendChild(card);
+  });
+}
+
+function renderGramtestCounts(){
+  const container = document.getElementById('gramtestCounts');
+  container.innerHTML = '';
+  GRAMTEST_COUNTS.forEach(c => {
+    const btn = document.createElement('button');
+    btn.className = 'chip' + (gramtest.count === c ? ' active' : '');
+    btn.textContent = c === 'all' ? t('common.all') : c;
+    btn.addEventListener('click', () => { gramtest.count = c; renderGramtestCounts(); });
+    container.appendChild(btn);
+  });
+  const isCustom = gramtest.count === 'custom';
+  const customChip = document.createElement('label');
+  customChip.className = 'custom-chip' + (isCustom ? ' active' : '');
+  const customText = document.createElement('span');
+  customText.textContent = t('common.custom');
+  customChip.appendChild(customText);
+  if (isCustom){
+    const inp = document.createElement('input');
+    inp.type = 'number';
+    inp.id = 'gramtestCustomCount';
+    inp.min = 1;
+    inp.value = gramtest.customCount;
+    inp.className = 'custom-count-input';
+    inp.addEventListener('click', e => e.stopPropagation());
+    inp.addEventListener('input', () => {
+      const val = parseInt(inp.value, 10);
+      const warn = document.getElementById('gramtestCustomWarn');
+      if (val > 0){
+        gramtest.customCount = val;
+        inp.classList.remove('bad');
+        if (warn) warn.style.display = 'none';
+      } else {
+        inp.classList.add('bad');
+        if (warn){ warn.textContent = t('testUi.enterNumberWarning'); warn.style.display = 'block'; }
+      }
+    });
+    customChip.appendChild(inp);
+  }
+  customChip.addEventListener('click', () => {
+    gramtest.count = 'custom';
+    renderGramtestCounts();
+    document.getElementById('gramtestCustomCount')?.focus();
+  });
+  container.appendChild(customChip);
+}
+
+function renderGramtestFilters(){
+  gramtestAllTopics().then(topics => {
+    const present = new Set(topics.map(tp => GRAMMAR_SECTIONS[tp.slug] || tp.tag));
+    const names = GRAMMAR_SECTION_ORDER.filter(n => present.has(n));
+    present.forEach(n => { if (!names.includes(n)) names.push(n); });
+    const sc = document.getElementById('gramtestSectionChips');
+    const allBtn = document.createElement('button');
+    allBtn.className = 'chip' + (gramtest.section === 'all' ? ' active' : '');
+    allBtn.textContent = t('common.all');
+    allBtn.addEventListener('click', () => { gramtest.section = 'all'; renderGramtestFilters(); });
+    const btns = names.map(n => {
+      const b = document.createElement('button');
+      b.className = 'chip' + (gramtest.section === n ? ' active' : '');
+      b.textContent = grammarSectionLabel(n);
+      b.addEventListener('click', () => { gramtest.section = n; renderGramtestFilters(); });
+      return b;
+    });
+    renderExpandableChips(sc, allBtn, btns);
+
+    document.querySelectorAll('[data-gramtest-cefr]').forEach(c =>
+      c.classList.toggle('active', c.dataset.gramtestCefr === gramtest.cefr));
+
+    const grid = document.getElementById('gramtestTopicChips');
+    grid.innerHTML = '';
+    gramtestVisibleTopics(topics).forEach(tp => {
+      const b = document.createElement('button');
+      b.className = 'chip' + (gramtest.topics.has(tp.slug) ? ' active' : '');
+      b.textContent = grammarTopicTitle(tp);
+      b.addEventListener('click', () => {
+        if (gramtest.topics.has(tp.slug)) gramtest.topics.delete(tp.slug);
+        else gramtest.topics.add(tp.slug);
+        renderGramtestFilters();
+      });
+      grid.appendChild(b);
+    });
+    document.getElementById('gramtestClearSel').style.display = gramtest.topics.size ? '' : 'none';
+
+    const pool = gramtestPool(topics);
+    document.getElementById('gramtestPoolCount').textContent = t('gramtest.poolCount').replace('{n}', pool.length);
+    document.getElementById('gramtestStart').disabled = !pool.length;
+    document.getElementById('gramtestEmpty').style.display = pool.length ? 'none' : '';
+  }).catch(() => {
+    // Same failure mode as grammar home's fetch: nothing to test against.
+    document.getElementById('gramtestPoolCount').textContent = '';
+    document.getElementById('gramtestStart').disabled = true;
+    document.getElementById('gramtestEmpty').style.display = '';
+  });
+}
+
+function startGramtestRun(questions){
+  grammarQuiz.mode = 'test';
+  grammarQuiz.topic = null;
+  grammarQuiz.questions = questions;
+  grammarQuiz.idx = 0;
+  grammarQuiz.score = 0;
+  grammarQuiz.answered = null;
+  grammarQuiz.optionOrder = null;
+  showGramtestView('quiz');
+  renderGrammarQuestion();
+}
+
+function showGramtestResult(){
+  const total = grammarQuiz.questions.length;
+  const score = grammarQuiz.score;
+  const pct = total ? Math.round((score / total) * 100) : 0;
+  // Practice only — deliberately no recordGrammarScore / grammar_map write.
+  showGramtestView('result');
+  const result = document.getElementById('gramtestResult');
+  const scoredText = t("testUi.scoredTemplate").replace("{score}", score).replace("{total}", total).replace("{pct}", pct);
+  result.innerHTML = `
+    <h2>${t("gramtest.resultTitle")}</h2>
+    <div class="result-score" id="gramtestScoreNum">0</div>
+    <div class="result-msg">${scoredText}</div>
+    <div class="result-actions">
+      <button class="btn" id="gramtestRetryBtn">${t("testUi.tryAgain")}</button>
+      <button class="btn secondary" id="gramtestSettingsBtn">${t("gramtest.changeSettings")}</button>
+      <button class="btn secondary" id="gramtestBackBtn">${t("grammar.backToGrammar")}</button>
+    </div>`;
+  const scoreEl = document.getElementById('gramtestScoreNum');
+  if (typeof gsap !== 'undefined'){
+    gsap.to({val: 0}, {val: score, duration: 1, ease: 'power1.out', onUpdate(){
+      scoreEl.textContent = Math.round(this.targets()[0].val);
+    }});
+  } else {
+    scoreEl.textContent = score;
+  }
+  document.getElementById('gramtestRetryBtn').addEventListener('click', () => {
+    gramtestAllTopics().then(topics => {
+      const pool = gramtestPool(topics);   // same settings, fresh draw
+      startGramtestRun(shuffle(pool).slice(0, total));
+    });
+  });
+  document.getElementById('gramtestSettingsBtn').addEventListener('click', renderGramtest);
+  document.getElementById('gramtestBackBtn').addEventListener('click', () => goToPage('grammar'));
+}
+
+document.getElementById('gramtestSearch').addEventListener('input', e => {
+  gramtest.search = e.target.value;
+  renderGramtestFilters();
+});
+document.querySelectorAll('[data-gramtest-cefr]').forEach(chip => {
+  chip.addEventListener('click', () => { gramtest.cefr = chip.dataset.gramtestCefr; renderGramtestFilters(); });
+});
+document.getElementById('gramtestSelectAll').addEventListener('click', () => {
+  gramtestAllTopics().then(topics => {
+    gramtestVisibleTopics(topics).forEach(tp => gramtest.topics.add(tp.slug));
+    renderGramtestFilters();
+  });
+});
+document.getElementById('gramtestClearSel').addEventListener('click', () => {
+  gramtest.topics.clear();
+  renderGramtestFilters();
+});
+document.getElementById('gramtestClearFilters').addEventListener('click', () => {
+  gramtest.search = '';
+  gramtest.section = 'all';
+  gramtest.cefr = 'all';
+  document.getElementById('gramtestSearch').value = '';
+  renderGramtestFilters();
+});
+document.getElementById('gramtestStart').addEventListener('click', () => {
+  gramtestAllTopics().then(topics => {
+    const pool = gramtestPool(topics);
+    if (!pool.length) return;
+    const count = gramtest.count === 'all'
+      ? pool.length
+      : gramtest.count === 'custom'
+        ? Math.min(Math.max(1, gramtest.customCount || 1), pool.length)
+        : Math.min(gramtest.count, pool.length);
+    startGramtestRun(shuffle(pool).slice(0, count));
+  });
+});
 
 function renderGrammarSectionChips(names){
   const sc = document.getElementById('grammarSectionChips');
@@ -12858,7 +13205,7 @@ document.querySelectorAll('[data-gramword-pattern]').forEach(chip => {
 const NAV_SECTIONS = {
   home: ["home"],
   vocabulary: ["list", "examples", "test"],
-  grammar: ["grammar", "gramword"],
+  grammar: ["grammar", "gramword", "gramtest"],
   reading: ["reading"],
   writing: ["writing"],
   listening: ["listening"],
@@ -12891,6 +13238,7 @@ function goToPage(pageId){
   else if (pageId === "test") renderTestMode();
   else if (pageId === "grammar") renderGrammarHome();
   else if (pageId === "gramword") renderGramword();
+  else if (pageId === "gramtest") renderGramtest();
   if (typeof gsap !== "undefined"){
     gsap.fromTo(page, {opacity:0, y:18}, {opacity:1, y:0, duration:.5, ease:"power3.out"});
   }
@@ -13009,6 +13357,17 @@ document.querySelectorAll("#langMenu [data-lang]").forEach(row => {
         && grammarQuiz.topic && typeof renderGrammarQuestion === "function") renderGrammarQuestion();
       else if (document.getElementById("grammarResult")?.style.display !== "none"
         && grammarQuiz.topic && typeof showGrammarResult === "function") showGrammarResult();
+    }
+    // Gramtest bakes translated text into innerHTML the same way — re-render
+    // whichever of its 3 sub-views is showing (the quiz re-render is safe for
+    // in-progress answers, same as the topic-quiz branch above).
+    if (document.getElementById("page-gramtest")?.classList.contains("active")){
+      if (document.getElementById("gramtestSetup")?.style.display !== "none"
+        && typeof renderGramtest === "function") renderGramtest();
+      else if (document.getElementById("gramtestQuizView")?.style.display !== "none"
+        && grammarQuiz.mode === 'test' && typeof renderGrammarQuestion === "function") renderGrammarQuestion();
+      else if (document.getElementById("gramtestResult")?.style.display !== "none"
+        && grammarQuiz.mode === 'test' && typeof showGramtestResult === "function") showGramtestResult();
     }
     if (document.getElementById("page-gramword")?.classList.contains("active")
       && typeof renderGramword === "function") renderGramword();
