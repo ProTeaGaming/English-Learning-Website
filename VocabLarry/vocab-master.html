@@ -716,7 +716,6 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
   transition:opacity .25s cubic-bezier(.25,.46,.45,.94), transform .25s cubic-bezier(.25,.46,.45,.94);
 }
 [data-theme="light"] .chat-box{ background:rgba(255,255,255,.96); }
-.chat-widget:hover .chat-box,
 .chat-widget.pinned .chat-box{
   opacity:1; transform:translateY(0) scale(1); pointer-events:auto;
 }
@@ -1708,7 +1707,7 @@ function iconSvg(emoji, cls){
         <svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M16.365 1.43c0 1.14-.415 2.05-1.245 2.735-.83.685-1.83 1.08-2.996 1.18-.03-.06-.06-.19-.06-.4 0-1.1.42-2.05 1.26-2.85.42-.4.9-.71 1.44-.94.54-.23 1.05-.36 1.53-.4.02.2.03.4.03.6zm3.75 5.85c-.06.05-1.845 1.08-1.845 3.3 0 2.565 2.25 3.475 2.31 3.5-.01.06-.36 1.235-1.19 2.44-.74 1.06-1.51 2.115-2.72 2.135-1.19.02-1.57-.705-2.93-.705-1.365 0-1.79.685-2.915.725-1.17.04-2.06-1.15-2.81-2.205-1.53-2.16-2.7-6.1-1.13-8.755.78-1.32 2.175-2.155 3.69-2.175 1.15-.02 2.23.775 2.93.775.695 0 1.995-.955 3.365-.815.575.025 2.19.235 3.245 1.78z"/></svg>
       </button>
     </div>
-    <div class="auth-divider"><span>or</span></div>
+    <div class="auth-divider"><span data-i18n="auth.or">or</span></div>
 
     <p class="auth-modal-error" id="authError"></p>
     <p class="auth-modal-info auth-hidden" id="authInfo"></p>
@@ -8764,6 +8763,7 @@ const UI_STRINGS = {
     "auth.twoFactorTitle": "Two-factor authentication",
     "auth.mfaInfo": "Enter the 6-digit code from your authenticator app.",
     "auth.verify": "Verify",
+    "auth.or": "or",
     "auth.networkError": "Could not reach the server.",
     "auth.incorrectCredentials": "Incorrect email or password.",
     "auth.enterMfaCode": "Please enter your 2FA code.",
@@ -9146,6 +9146,7 @@ const UI_STRINGS = {
     "auth.twoFactorTitle": "Xác thực hai yếu tố",
     "auth.mfaInfo": "Nhập mã 6 chữ số từ ứng dụng xác thực của bạn.",
     "auth.verify": "Xác minh",
+    "auth.or": "hoặc",
     "auth.networkError": "Không thể kết nối đến máy chủ.",
     "auth.incorrectCredentials": "Email hoặc mật khẩu không đúng.",
     "auth.enterMfaCode": "Vui lòng nhập mã 2FA của bạn.",
@@ -12158,10 +12159,15 @@ function grammarNorm(s){
   return String(s).replace(/[’‘]/g, "'").trim();
 }
 
+/* Topic banks hold up to 300 questions; each attempt samples a fresh 10 so
+   the quiz stays short and repeat attempts see new questions. Mastery (80%)
+   is judged on the attempt, same as before. */
+const GRAMMAR_QUIZ_DRAW = 10;
+
 function startGrammarQuiz(topic){
   grammarQuiz.mode = 'topic';
   grammarQuiz.topic = topic;
-  grammarQuiz.questions = shuffle(topic.quiz);
+  grammarQuiz.questions = shuffle(topic.quiz).slice(0, GRAMMAR_QUIZ_DRAW);
   grammarQuiz.idx = 0;
   grammarQuiz.score = 0;
   grammarQuiz.answered = null;
@@ -12326,7 +12332,7 @@ function checkGrammarTyped(q, input, isReplay){
 function showGrammarResult(){
   if (grammarQuiz.mode === 'test'){ showGramtestResult(); return; }
   const topic = grammarQuiz.topic;
-  const total = topic.quiz.length;
+  const total = grammarQuiz.questions.length;
   const score = grammarQuiz.score;
   const pct = Math.round((score / total) * 100);
   recordGrammarScore(topic.slug, pct);
@@ -12362,7 +12368,8 @@ function showGrammarResult(){
    ════════════════════════════════════════════════════════ */
 // Specific modes first, Mixed last — same card order as the vocab Quiz setup.
 const GRAMTEST_MODES = ['mcq', 'gap', 'transform', 'mixed'];
-const GRAMTEST_COUNTS = [10, 20, 30, 'all'];
+const GRAMTEST_COUNTS = [10, 20, 30, 50, 100];
+const GRAMTEST_MAX = 100;   // hard cap per run (user spec)
 const gramtest = {
   mode: 'mcq', count: 10, customCount: 10,
   topics: new Set(),      // selected topic slugs; empty = all topics
@@ -12457,7 +12464,8 @@ function renderGramtestCounts(){
   GRAMTEST_COUNTS.forEach(c => {
     const btn = document.createElement('button');
     btn.className = 'chip' + (gramtest.count === c ? ' active' : '');
-    btn.textContent = c === 'all' ? t('common.all') : c;
+    // Same label shape as the vocab count row: "10 questions".
+    btn.textContent = t('testMode.quiz.countN').replace('{n}', c);
     btn.addEventListener('click', () => { gramtest.count = c; renderGramtestCounts(); });
     container.appendChild(btn);
   });
@@ -12472,6 +12480,7 @@ function renderGramtestCounts(){
     inp.type = 'number';
     inp.id = 'gramtestCustomCount';
     inp.min = 1;
+    inp.max = GRAMTEST_MAX;
     inp.value = gramtest.customCount;
     inp.className = 'custom-count-input';
     inp.addEventListener('click', e => e.stopPropagation());
@@ -12479,7 +12488,7 @@ function renderGramtestCounts(){
       const val = parseInt(inp.value, 10);
       const warn = document.getElementById('gramtestCustomWarn');
       if (val > 0){
-        gramtest.customCount = val;
+        gramtest.customCount = Math.min(val, GRAMTEST_MAX);
         inp.classList.remove('bad');
         if (warn) warn.style.display = 'none';
       } else {
@@ -12632,11 +12641,10 @@ document.getElementById('gramtestStart').addEventListener('click', () => {
   gramtestAllTopics().then(topics => {
     const pool = gramtestPool(topics);
     if (!pool.length) return;
-    const count = gramtest.count === 'all'
-      ? pool.length
-      : gramtest.count === 'custom'
-        ? Math.min(Math.max(1, gramtest.customCount || 1), pool.length)
-        : Math.min(gramtest.count, pool.length);
+    const wanted = gramtest.count === 'custom'
+      ? Math.max(1, gramtest.customCount || 1)
+      : gramtest.count;
+    const count = Math.min(wanted, GRAMTEST_MAX, pool.length);
     startGramtestRun(shuffle(pool).slice(0, count));
   });
 });
@@ -13043,6 +13051,18 @@ function gramwordPatternPill(p){
   return `<span class="cat-cefr-pill" style="background:${c}1c;border:1px solid ${c}55;color:${c}">${p}</span>`;
 }
 
+// The irregular-verbs table's column headers come from the lesson content
+// (English-only, unlike the other gramword tables' UI_STRINGS headers) —
+// translate the known fixed set for the vi UI; unknown headers pass through.
+const GRAMWORD_VERB_HEAD_VI = {
+  "Base (V1)": "Nguyên mẫu (V1)",
+  "Past simple (V2)": "Quá khứ đơn (V2)",
+  "Past participle (V3)": "Quá khứ phân từ (V3)",
+};
+function gramwordColHeadVi(h){
+  return (state.lang === "vi" && GRAMWORD_VERB_HEAD_VI[h]) || h;
+}
+
 function renderGramword(){
   const content = document.getElementById('gramwordContent');
   content.innerHTML = `<p class="sub" style="text-align:center;">${t("grammar.loadingForms")}</p>`;
@@ -13088,7 +13108,10 @@ function renderGramword(){
       const totalPages = Math.max(1, Math.ceil(count / GRAMWORD_PER_PAGE));
       if (gramwordState.page > totalPages) gramwordState.page = totalPages;
       const pageRows = rows.slice((gramwordState.page - 1) * GRAMWORD_PER_PAGE, gramwordState.page * GRAMWORD_PER_PAGE);
-      head = (block.data.head || []).map(h => `<th>${h}</th>`).join('') + `<th>${t("grammar.colPattern")}</th>`;
+      // block.data.head comes straight from the (English-only) lesson content,
+      // unlike the other gramword tables whose headers are UI_STRINGS via t() —
+      // translate the known column labels for the vi UI without touching the content.
+      head = (block.data.head || []).map(h => `<th>${gramwordColHeadVi(h)}</th>`).join('') + `<th>${t("grammar.colPattern")}</th>`;
       body = pageRows.map(r =>
         `<tr>${r.map((c, i) => `<td>${i === 0 ? `<b>${c}</b>` : c}</td>`).join('')}<td>${gramwordPatternPill(gramwordPatternOf(r))}</td></tr>`
       ).join('');
@@ -13837,10 +13860,12 @@ function openAuthModal(){
   resetAuthForm();
   document.getElementById("authOverlay").classList.add("open");
   document.getElementById("authEmail").focus();
+  document.body.style.overflow = "hidden";
 }
 
 function closeAuthModal(){
   document.getElementById("authOverlay").classList.remove("open");
+  document.body.style.overflow = "";
 }
 
 function showAuthError(msg){
