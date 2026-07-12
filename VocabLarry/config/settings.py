@@ -6,8 +6,24 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv(BASE_DIR / '.env')
 
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'dev-secret-key-change-in-production')
-DEBUG = True
+DEBUG = os.environ.get('DJANGO_DEBUG', 'true').lower() == 'true'
+
 ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS += [h.strip() for h in os.environ.get('ALLOWED_HOSTS', '').split(',') if h.strip()]
+
+# Django rejects HTTPS POSTs unless the origin is trusted, so production
+# needs the full scheme+host here (e.g. https://vocablarry.pythonanywhere.com)
+CSRF_TRUSTED_ORIGINS = [
+    o.strip() for o in os.environ.get('CSRF_TRUSTED_ORIGINS', '').split(',') if o.strip()
+]
+
+if not DEBUG:
+    # PythonAnywhere terminates TLS at its load balancer and forwards the
+    # original scheme in this header; without it Django thinks every request
+    # is plain http and the secure cookies below would never be sent.
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -84,7 +100,10 @@ ACCOUNT_ADAPTER = 'accounts.adapters.AccountAdapter'
 SOCIALACCOUNT_ADAPTER = 'accounts.adapters.SocialAccountAdapter'
 ACCOUNT_LOGIN_METHODS = {'email'}
 ACCOUNT_SIGNUP_FIELDS = ['email*', 'username*', 'password1*', 'password2*']
-ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+# 'mandatory' blocks sign-in until the email is verified — set the env var
+# to 'optional' on hosts where no SMTP account is configured yet, otherwise
+# new users can never finish signing up.
+ACCOUNT_EMAIL_VERIFICATION = os.environ.get('EMAIL_VERIFICATION', 'mandatory')
 ACCOUNT_SESSION_REMEMBER = None  # show "Remember me" checkbox
 
 HEADLESS_FRONTEND_URLS = {
@@ -139,9 +158,12 @@ SOCIALACCOUNT_PROVIDERS = {
     },
 }
 
-# Email
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-# Switch to smtp.EmailBackend in production and set SMTP_* env vars
+# Email — real SMTP once credentials exist, otherwise print to console so
+# local signup flows stay testable without a mail account.
+if os.environ.get('SMTP_USER'):
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+else:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_HOST = os.environ.get('SMTP_HOST', 'smtp.gmail.com')
 EMAIL_PORT = int(os.environ.get('SMTP_PORT', 587))
 EMAIL_HOST_USER = os.environ.get('SMTP_USER', '')
@@ -159,6 +181,9 @@ MEDIA_URL = '/media/'
 # Static
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'static'] if (BASE_DIR / 'static').exists() else []
+# collectstatic target — the production web server serves this directory
+# directly (PythonAnywhere: map /static/ to it in the Web tab).
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
