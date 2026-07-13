@@ -97,6 +97,11 @@ h1,h2,h3,.brand,.tab,.btn,.modeCard h3,.mode-toggle-label{font-family:'Plus Jaka
 .brand-name b{font-weight:inherit; color:rgb(var(--vio));}
 .tabs{display:flex; gap:3px; flex-wrap:wrap;}
 .mobile-nav-chip{display:none; position:relative;}
+/* #mobileNavToggle reuses .theme-toggle's circular icon-button look, but
+   needs to show a "Topics" label alongside the icon so the hamburger
+   isn't a bare, undiscoverable glyph on first visit — override just the
+   sizing to a pill shape, keep the inherited border/background/hover. */
+#mobileNavToggle{width:auto; height:32px; padding:0 14px 0 10px; gap:6px; font-size:.85rem; font-weight:600;}
 .mobile-page-switcher{display:none; gap:8px; margin:0 0 20px; flex-wrap:wrap;}
 .mobile-nav-chip.open .mobile-nav-menu{display:flex;}
 .mobile-nav-menu{
@@ -1492,7 +1497,7 @@ function iconSvg(emoji, cls){
     <div class="topbar-left">
       <div class="brand"><svg class="ico ico-mark" aria-hidden="true"><use href="#i-mark"/></svg><span class="brand-name">Vocab<b>Larry</b></span></div>
       <div class="mobile-nav-chip" id="mobileNavChip">
-        <button class="theme-toggle" id="mobileNavToggle" title="Menu" aria-label="Open navigation menu" type="button"><svg class="ico" aria-hidden="true"><use href="#i-menu"/></svg></button>
+        <button class="theme-toggle" id="mobileNavToggle" title="Menu" aria-label="Open navigation menu" type="button"><svg class="ico" aria-hidden="true"><use href="#i-menu"/></svg> <span data-i18n="gramtest.topicsLabel">Topics</span></button>
         <div class="mobile-nav-menu" id="mobileNavMenu">
           <button class="mobile-nav-menu-item" data-section-btn="home" data-i18n="nav.home" type="button">Home</button>
           <button class="mobile-nav-menu-item" data-section-btn="vocabulary" data-i18n="nav.vocabulary" type="button">Vocabulary</button>
