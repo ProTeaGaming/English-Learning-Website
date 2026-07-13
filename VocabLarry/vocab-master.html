@@ -13255,13 +13255,13 @@ function closeNavDropdowns(){
 
 function goToPage(pageId){
   document.querySelectorAll(".nav-group > .tab").forEach(t => t.classList.remove("active"));
-  document.querySelectorAll(".nav-dropdown-item").forEach(i => i.classList.remove("active"));
+  document.querySelectorAll(".nav-dropdown-item, .mobile-page-switcher .chip").forEach(i => i.classList.remove("active"));
   document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
 
   const section = sectionOfPage(pageId);
   document.querySelector(`.tab[data-section-btn="${section}"]`).classList.add("active");
-  const dropdownItem = document.querySelector(`.nav-dropdown-item[data-page="${pageId}"]`);
-  if (dropdownItem) dropdownItem.classList.add("active");
+  document.querySelectorAll(`.nav-dropdown-item[data-page="${pageId}"], .mobile-page-switcher .chip[data-page="${pageId}"]`)
+    .forEach(el => el.classList.add("active"));
 
   const page = document.getElementById(`page-${pageId}`);
   page.classList.add("active");
@@ -13285,6 +13285,12 @@ document.querySelectorAll(".nav-dropdown-item").forEach(item => {
     }
     goToPage(item.dataset.page);
     closeNavDropdowns();
+  });
+});
+
+document.querySelectorAll(".mobile-page-switcher .chip[data-page]").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelector(`.nav-dropdown-item[data-page="${btn.dataset.page}"]`).click();
   });
 });
 
