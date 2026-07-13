@@ -14864,7 +14864,7 @@ function renderWordGrid(){
       if (newState === null) delete state.learnMap[word.w];
       else state.learnMap[word.w] = newState;
       stateBtn.dataset.state = newState === null ? "none" : newState;
-      stateBtn.textContent = newState === "learned" ? "Learned" : newState === "little" ? "Little Bit" : "Not Learned";
+      stateBtn.textContent = learnStateLabel(newState);
       card.className = `word-card t-${CEFR_THEME[word.cefr]||"tb"}` + (newState==="learned"?" learned":newState==="little"?" little":"");
       saveLearned();
       if (catState.learned !== "all") renderWordGrid();
