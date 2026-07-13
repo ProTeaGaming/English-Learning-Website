@@ -382,6 +382,8 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
 .result-count{font-size:.84rem; color:var(--muted); white-space:nowrap; font-family:'JetBrains Mono',monospace;}
 .filter-row{display:flex; gap:8px; flex-wrap:wrap; align-items:center;}
 .filter-label{font-size:.72rem; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:.1em; margin-right:4px; font-family:'JetBrains Mono',monospace;}
+.mobile-page-switcher{display:none; gap:8px; margin:0 0 20px; flex-wrap:wrap;}
+@media (max-width:640px){ .mobile-page-switcher{display:flex;} }
 .chip{
   font-size:.82rem; font-weight:600; padding:6px 14px; border-radius:999px;
   background:rgba(124,58,237,0.06); border:1px solid rgba(124,58,237,0.18); color:var(--muted);
@@ -1959,6 +1961,11 @@ function iconSvg(emoji, cls){
       <h1 data-i18n="nav.category">Category</h1>
       <p data-i18n="vocab.categoryPageDesc">5,000 essential words, organised by section and category — click one to begin.</p>
     </div>
+    <div class="mobile-page-switcher">
+      <button class="chip" data-page="list" data-i18n="nav.category" type="button">Category</button>
+      <button class="chip" data-page="examples" data-i18n="nav.word" type="button">Word</button>
+      <button class="chip" data-page="test" data-i18n="nav.test" type="button">Test</button>
+    </div>
 
     <!-- BROWSE VIEW: section/category grid -->
     <div id="listBrowse">
@@ -2066,6 +2073,11 @@ function iconSvg(emoji, cls){
       <h1 data-i18n="nav.word">Word</h1>
       <p data-i18n="vocab.wordPageDesc">Every word, used correctly in a full sentence.</p>
     </div>
+    <div class="mobile-page-switcher">
+      <button class="chip" data-page="list" data-i18n="nav.category" type="button">Category</button>
+      <button class="chip" data-page="examples" data-i18n="nav.word" type="button">Word</button>
+      <button class="chip" data-page="test" data-i18n="nav.test" type="button">Test</button>
+    </div>
     <div class="headline-bar" id="exHeadlineFilters">
       <button class="headline-btn active" data-headline="all" data-i18n="common.all">All</button>
       <button class="headline-btn" data-headline="basic"><svg class="ico" aria-hidden="true"><use href="#i-sprout"/></svg> <span data-i18n="common.basic">Basic</span></button>
@@ -2110,6 +2122,11 @@ function iconSvg(emoji, cls){
       <span class="eyebrow" data-i18n="vocab.eyebrow">Section 01 / Vocabulary</span>
       <h1 id="testTitle">Quiz</h1>
       <p id="testDesc">Test your knowledge with multiple question types.</p>
+    </div>
+    <div class="mobile-page-switcher">
+      <button class="chip" data-page="list" data-i18n="nav.category" type="button">Category</button>
+      <button class="chip" data-page="examples" data-i18n="nav.word" type="button">Word</button>
+      <button class="chip" data-page="test" data-i18n="nav.test" type="button">Test</button>
     </div>
     <div id="testSetup">
       <div class="setup-card" style="margin-bottom:20px; max-width:none;">
@@ -2227,6 +2244,11 @@ function iconSvg(emoji, cls){
       <h1 data-i18n="nav.category">Category</h1>
       <p data-i18n="grammar.categoryDesc">From first tenses to advanced structures — a lesson and a practice set for every stage.</p>
     </div>
+    <div class="mobile-page-switcher">
+      <button class="chip" data-page="grammar" data-i18n="nav.category" type="button">Category</button>
+      <button class="chip" data-page="gramword" data-i18n="nav.word" type="button">Word</button>
+      <button class="chip" data-page="gramtest" data-i18n="nav.test" type="button">Test</button>
+    </div>
     <div id="grammarHome">
       <div class="headline-bar" id="grammarFilterBar">
         <button class="headline-btn active" data-grammar-stage="all" data-i18n="common.all">All</button>
@@ -2279,6 +2301,11 @@ function iconSvg(emoji, cls){
       <span class="eyebrow" data-i18n="grammar.eyebrow">Section 02 / Grammar</span>
       <h1 data-i18n="nav.word">Word</h1>
       <p data-i18n="grammar.wordDesc">The reference shelf — irregular verb forms, plural nouns, comparison forms, linking words and idioms, searchable.</p>
+    </div>
+    <div class="mobile-page-switcher">
+      <button class="chip" data-page="grammar" data-i18n="nav.category" type="button">Category</button>
+      <button class="chip" data-page="gramword" data-i18n="nav.word" type="button">Word</button>
+      <button class="chip" data-page="gramtest" data-i18n="nav.test" type="button">Test</button>
     </div>
     <div class="headline-bar" id="gramwordSetBar">
       <button class="headline-btn active" data-gramword-set="verbs"><svg class="ico" aria-hidden="true"><use href="#i-rotate"/></svg> <span data-i18n="grammar.setVerbs">Irregular Verbs</span></button>
@@ -2346,6 +2373,11 @@ function iconSvg(emoji, cls){
       <span class="eyebrow" data-i18n="grammar.eyebrow">Section 02 / Grammar</span>
       <h1 data-i18n="nav.test">Test</h1>
       <p data-i18n="gramtest.pageDesc">Practice questions drawn from any mix of grammar topics.</p>
+    </div>
+    <div class="mobile-page-switcher">
+      <button class="chip" data-page="grammar" data-i18n="nav.category" type="button">Category</button>
+      <button class="chip" data-page="gramword" data-i18n="nav.word" type="button">Word</button>
+      <button class="chip" data-page="gramtest" data-i18n="nav.test" type="button">Test</button>
     </div>
     <div id="gramtestSetup">
       <div class="setup-card" style="margin-bottom:20px; max-width:none;">
