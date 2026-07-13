@@ -97,11 +97,23 @@ h1,h2,h3,.brand,.tab,.btn,.modeCard h3,.mode-toggle-label{font-family:'Plus Jaka
 .brand-name b{font-weight:inherit; color:rgb(var(--vio));}
 .tabs{display:flex; gap:3px; flex-wrap:wrap;}
 .mobile-nav-chip{display:none; position:relative;}
-#mobileNavToggle{display:none;}
+.mobile-nav-chip.open .mobile-nav-menu{display:flex;}
+.mobile-nav-menu{
+  display:none; position:absolute; top:calc(100% + 8px); left:0; min-width:200px;
+  background:rgba(22,26,35,.94); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+  border:1px solid rgba(var(--vio),.22); border-radius:16px;
+  box-shadow:0 16px 48px rgba(0,0,0,.4); padding:12px; z-index:50; flex-direction:column; gap:4px;
+}
+[data-theme="light"] .mobile-nav-menu{background:rgba(255,255,255,.94);}
+.mobile-nav-menu-item{
+  display:block; width:100%; text-align:left; font-family:'Plus Jakarta Sans','Sora',sans-serif;
+  font-size:.9rem; font-weight:600; color:var(--muted); background:transparent; border:none;
+  padding:10px 14px; border-radius:10px; cursor:pointer;
+}
+.mobile-nav-menu-item:hover{color:var(--text); background:rgba(var(--vio),.1);}
 @media (max-width:640px){
   .tabs{display:none;}
   .mobile-nav-chip{display:block;}
-  #mobileNavToggle{display:flex;}
 }
 .topbar-right{display:flex; align-items:center; gap:14px; flex-wrap:wrap;}
 .tab{
@@ -1479,6 +1491,15 @@ function iconSvg(emoji, cls){
       <div class="brand"><svg class="ico ico-mark" aria-hidden="true"><use href="#i-mark"/></svg><span class="brand-name">Vocab<b>Larry</b></span></div>
       <div class="mobile-nav-chip" id="mobileNavChip">
         <button class="theme-toggle" id="mobileNavToggle" title="Menu" aria-label="Open navigation menu" type="button"><svg class="ico" aria-hidden="true"><use href="#i-menu"/></svg></button>
+        <div class="mobile-nav-menu" id="mobileNavMenu">
+          <button class="mobile-nav-menu-item" data-section-btn="home" data-i18n="nav.home" type="button">Home</button>
+          <button class="mobile-nav-menu-item" data-section-btn="vocabulary" data-i18n="nav.vocabulary" type="button">Vocabulary</button>
+          <button class="mobile-nav-menu-item" data-section-btn="grammar" data-i18n="nav.grammar" type="button">Grammar</button>
+          <button class="mobile-nav-menu-item" data-section-btn="reading" data-i18n="nav.reading" type="button">Reading</button>
+          <button class="mobile-nav-menu-item" data-section-btn="writing" data-i18n="nav.writing" type="button">Writing</button>
+          <button class="mobile-nav-menu-item" data-section-btn="listening" data-i18n="nav.listening" type="button">Listening</button>
+          <button class="mobile-nav-menu-item" data-section-btn="speaking" data-i18n="nav.speaking" type="button">Speaking</button>
+        </div>
       </div>
       <nav class="tabs">
         <div class="nav-group" data-section="home">
@@ -13310,6 +13331,22 @@ function positionDropdown(chipId, menuId){
 window.addEventListener("resize", () => {
   positionDropdown("langChip", "langMenu");
   positionDropdown("userChip", "userMenu");
+});
+document.getElementById("mobileNavToggle").addEventListener("click", (e) => {
+  e.stopPropagation();
+  document.getElementById("mobileNavChip").classList.toggle("open");
+  positionDropdown("mobileNavChip", "mobileNavMenu");
+});
+document.querySelectorAll("#mobileNavMenu [data-section-btn]").forEach(item => {
+  item.addEventListener("click", (e) => {
+    e.stopPropagation();
+    goToPage(NAV_SECTIONS[item.dataset.sectionBtn][0]);
+    closeNavDropdowns();
+    document.getElementById("mobileNavChip").classList.remove("open");
+  });
+});
+document.addEventListener("click", (e) => {
+  if (!e.target.closest("#mobileNavChip")) document.getElementById("mobileNavChip")?.classList.remove("open");
 });
 document.getElementById("langChip").addEventListener("click", (e) => {
   e.stopPropagation();
