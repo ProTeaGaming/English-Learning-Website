@@ -13273,9 +13273,37 @@ updateLangActiveRow();
 // silently skip translating the page on load (e.g. after a reload with
 // a saved non-English language).
 applyI18n();
+// Both .lang-menu and .user-menu are CSS position:absolute; right:0 under
+// a small trigger chip — correct on desktop where that chip sits flush
+// against the topbar's right edge, but on mobile the topbar wraps into
+// left-aligned rows so the chip can end up anywhere, and the dropdown
+// (with a fixed min-width) then bleeds off the left edge of the screen
+// with most of its content unreachable. Repositioning it to a clamped
+// fixed-viewport coordinate computed from the chip's actual on-screen
+// location, every time it opens (and on resize/orientation change while
+// open), is correct regardless of how the header happens to wrap.
+function positionDropdown(chipId, menuId){
+  const chip = document.getElementById(chipId);
+  const menu = document.getElementById(menuId);
+  if (!chip.classList.contains("open")) return;
+  const margin = 10;
+  const chipRect = chip.getBoundingClientRect();
+  const menuWidth = menu.offsetWidth;
+  let left = chipRect.right - menuWidth;
+  left = Math.max(margin, Math.min(left, window.innerWidth - menuWidth - margin));
+  menu.style.position = "fixed";
+  menu.style.top = (chipRect.bottom + 8) + "px";
+  menu.style.left = left + "px";
+  menu.style.right = "auto";
+}
+window.addEventListener("resize", () => {
+  positionDropdown("langChip", "langMenu");
+  positionDropdown("userChip", "userMenu");
+});
 document.getElementById("langChip").addEventListener("click", (e) => {
   e.stopPropagation();
   document.getElementById("langChip").classList.toggle("open");
+  positionDropdown("langChip", "langMenu");
 });
 document.querySelectorAll("#langMenu [data-lang]").forEach(row => {
   row.addEventListener("click", (e) => {
@@ -13387,6 +13415,7 @@ document.getElementById("reviewLittleBtn").addEventListener("click", () => {
 document.getElementById("userChip").addEventListener("click", (e) => {
   e.stopPropagation();
   document.getElementById("userChip").classList.toggle("open");
+  positionDropdown("userChip", "userMenu");
 });
 
 {
