@@ -30,6 +30,9 @@ lerna-debug.log*
 .claude/scheduled_tasks.lock
 .claude/settings.local.json
 
+# Local git worktrees (not shared)
+.worktrees/
+
 # Local auth/db state (not shared)
 VocabLarry/site/data/*.sqlite
 VocabLarry/site/auth/uploads/
