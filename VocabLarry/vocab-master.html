@@ -11982,7 +11982,7 @@ function openGrammarTopic(topic){
     ${grammarQuestionMgrHtml(topic)}
     <div class="cat-bulk-actions">
       ${topic.quiz.length
-        ? `<button class="btn" id="grammarPracticeBtn">${t("grammar.practice")} — ${grammarQuestionCountLabel(topic.quiz.length)}</button>`
+        ? `<button class="btn" id="grammarPracticeBtn">${t("grammar.practice")} — ${grammarQuestionCountLabel(Math.min(GRAMMAR_QUIZ_DRAW, topic.quiz.length))}</button>`
         : ''}
       <button class="cat-bulk-btn cat-bulk-btn-secondary" id="grammarBackBottom">${t("grammar.backToAll")}</button>
     </div>`;
