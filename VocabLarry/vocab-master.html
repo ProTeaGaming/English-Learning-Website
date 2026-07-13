@@ -9732,7 +9732,7 @@ function matchesFilters(word, f){
   if (f.learned === "unlearned" && isAnyLearned(word.w)) return false;
   if (f.search){
     const q = f.search.toLowerCase();
-    const hay = [word.w, word.def, wordDef(word), ...(word.syn||[]), ...(word.ant||[])].join(" ").toLowerCase();
+    const hay = [word.w, wordDef(word), ...(word.syn||[]), ...(word.ant||[])].join(" ").toLowerCase();
     if (!hay.includes(q)) return false;
   }
   return true;
@@ -9862,11 +9862,15 @@ function buildCategoryChips(container, f, onChange, catSearch = ""){
     cats = cats.filter(c => f.section==="all" || c.section===f.section);
   }
   const q = catSearch.trim().toLowerCase();
-  // A query matching the category's SECTION name (either language) also
-  // counts as a match — otherwise, with no section chip selected, searching
-  // a section's own name finds nothing since it isn't any category's name.
-  if (q) cats = cats.filter(c => c.name.toLowerCase().includes(q) || catName(c).toLowerCase().includes(q)
-    || c.section.toLowerCase().includes(q) || sectionLabel(c.section).toLowerCase().includes(q));
+  // catName()/sectionLabel() already resolve to whichever language is
+  // active (falling back to English when there's no translation) — search
+  // must go through them only, not the raw English fields too, or a
+  // Vietnamese-mode search would also match English text that a user in
+  // that mode never sees on screen. A query matching the category's
+  // SECTION name also counts as a match — otherwise, with no section chip
+  // selected, searching a section's own name finds nothing since it isn't
+  // any category's name.
+  if (q) cats = cats.filter(c => catName(c).toLowerCase().includes(q) || sectionLabel(c.section).toLowerCase().includes(q));
 
   const allChip = document.createElement("button");
   allChip.className = "chip" + (multiSelect ? (f.cats.size===0 ? " active" : "") : (f.cat==="all" ? " active" : ""));
@@ -14802,13 +14806,14 @@ function renderBrowse(){
   const matchedSections = [];
   sectionsToShow.forEach(sName => {
     let cats = ALL_CATEGORIES.filter(c => c.section===sName);
-    // A query matching the SECTION name (either language) shows every
-    // category in that section, same as a query matching a category name
-    // shows just that category — otherwise searching a section's own name
-    // (e.g. its Vietnamese label) finds nothing, since no category inside
-    // it necessarily contains that text in its own name.
-    const sectionMatches = q && (sName.toLowerCase().includes(q) || sectionLabel(sName).toLowerCase().includes(q));
-    if (q && !sectionMatches) cats = cats.filter(c => c.name.toLowerCase().includes(q) || catName(c).toLowerCase().includes(q));
+    // sectionLabel()/catName() resolve to whichever language is active, so
+    // matching only through them (never the raw English fields directly)
+    // keeps Vietnamese-mode search from also matching English text the
+    // user never sees on screen. A query matching the SECTION name shows
+    // every category in that section, same as a query matching a category
+    // name shows just that category.
+    const sectionMatches = q && sectionLabel(sName).toLowerCase().includes(q);
+    if (q && !sectionMatches) cats = cats.filter(c => catName(c).toLowerCase().includes(q));
     if (browseState.cefr !== "all") {
       cats = cats.filter(c => topCefrOf(c.id) === browseState.cefr);
     }
@@ -14846,7 +14851,7 @@ function renderWordGrid(){
     if (f.learned === "unlearned" && isAnyLearned(w.w)) return false;
     if (f.search){
       const q = f.search.toLowerCase();
-      const hay = [w.w, w.def, wordDef(w), ...(w.syn||[]), ...(w.ant||[])].join(" ").toLowerCase();
+      const hay = [w.w, wordDef(w), ...(w.syn||[]), ...(w.ant||[])].join(" ").toLowerCase();
       if (!hay.includes(q)) return false;
     }
     return true;
@@ -15441,7 +15446,7 @@ function renderWordPicker(){
     if (wl === "learned" && !isLearned(w.w)) return false;
     if (wl === "unlearned" && isAnyLearned(w.w)) return false;
     if (!q) return true;
-    return [w.w, w.def, wordDef(w), ...(w.syn||[]), ...(w.ant||[])].join(" ").toLowerCase().includes(q);
+    return [w.w, wordDef(w), ...(w.syn||[]), ...(w.ant||[])].join(" ").toLowerCase().includes(q);
   });
   document.querySelectorAll("#testWordHeadlineBar [data-word-headline]").forEach(btn => {
     btn.classList.toggle("active", btn.dataset.wordHeadline === hl);
@@ -15920,7 +15925,7 @@ document.getElementById("testSelectAllWords").addEventListener("click", () => {
     if (wl === "learned" && !isLearned(w.w)) return false;
     if (wl === "unlearned" && isAnyLearned(w.w)) return false;
     if (!q) return true;
-    return [w.w, w.def, wordDef(w), ...(w.syn||[]), ...(w.ant||[])].join(" ").toLowerCase().includes(q);
+    return [w.w, wordDef(w), ...(w.syn||[]), ...(w.ant||[])].join(" ").toLowerCase().includes(q);
   }).forEach(w => state.test.selectedWords.add(w.w));
   renderWordPicker();
 });
