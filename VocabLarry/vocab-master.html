@@ -15959,7 +15959,15 @@ initStreak();
 // Scroll reveals: home sections + footer dash cards rise in once as they enter the viewport
 (function(){
   if (typeof gsap === "undefined" || !("IntersectionObserver" in window)) return;
-  const targets = document.querySelectorAll(".home-content > div, .footer-dash .dash-card");
+  // .footer-dash has 4 stat cards: 3 share the .dash-card class, but the
+  // Streak widget uses a different class (.dash-streak) — ".footer-dash >
+  // div" catches all of a container's direct-child cards regardless of
+  // their specific class, so a selector like the old ".dash-card"-only
+  // one can't silently miss a sibling that's classed differently. Without
+  // this, .dash-streak never got the opacity:0 treatment below and always
+  // rendered immediately while its 3 siblings waited for scroll — visible
+  // as one populated card floating alone above empty gaps.
+  const targets = document.querySelectorAll(".home-content > div, .footer-dash > div");
   if (!targets.length) return;
   gsap.set(targets, {opacity:0, y:26});
   const io = new IntersectionObserver((entries) => {
