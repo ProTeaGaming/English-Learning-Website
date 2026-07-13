@@ -2176,7 +2176,7 @@ function iconSvg(emoji, cls){
   <!-- ===== TEST PAGE ===== -->
   <section id="page-test" class="page">
     <div class="page-head">
-      <span class="eyebrow">Section 01 / Vocabulary</span>
+      <span class="eyebrow" data-i18n="vocab.eyebrow">Section 01 / Vocabulary</span>
       <h1 id="testTitle">Quiz</h1>
       <p id="testDesc">Test your knowledge with multiple question types.</p>
     </div>
@@ -9384,6 +9384,9 @@ function learnedState(word){ return state.learnMap[word] || null; }
 function isLearned(word){ return state.learnMap[word] === "learned"; }
 function isLittle(word){ return state.learnMap[word] === "little"; }
 function isAnyLearned(word){ return !!state.learnMap[word]; }
+function learnStateLabel(ws){
+  return ws==="learned" ? t("common.learned") : ws==="little" ? t("common.littleBit") : t("common.notLearned");
+}
 
 function postLearnMapNow(useKeepalive){
   // Never flush before the initial page-load merge (authReady, see initAuth())
@@ -9708,7 +9711,7 @@ function matchesFilters(word, f){
   if (f.learned === "unlearned" && isAnyLearned(word.w)) return false;
   if (f.search){
     const q = f.search.toLowerCase();
-    const hay = [word.w, word.def, ...(word.syn||[]), ...(word.ant||[])].join(" ").toLowerCase();
+    const hay = [word.w, word.def, wordDef(word), ...(word.syn||[]), ...(word.ant||[])].join(" ").toLowerCase();
     if (!hay.includes(q)) return false;
   }
   return true;
@@ -9838,7 +9841,7 @@ function buildCategoryChips(container, f, onChange, catSearch = ""){
     cats = cats.filter(c => f.section==="all" || c.section===f.section);
   }
   const q = catSearch.trim().toLowerCase();
-  if (q) cats = cats.filter(c => c.name.toLowerCase().includes(q));
+  if (q) cats = cats.filter(c => c.name.toLowerCase().includes(q) || catName(c).toLowerCase().includes(q));
 
   const allChip = document.createElement("button");
   allChip.className = "chip" + (multiSelect ? (f.cats.size===0 ? " active" : "") : (f.cat==="all" ? " active" : ""));
@@ -14354,6 +14357,14 @@ async function loadVocab() {
     if (typeof renderExamples === 'function')   renderExamples();
     if (typeof renderWordGrid === 'function')   renderWordGrid();
     if (typeof renderTestCounts === 'function') renderTestCounts();
+    // The Test page's word-count display + Start-button disabled state are
+    // computed once at page load from testPool(), which reads VOCAB_DATA —
+    // still [] at that point since this fetch hasn't resolved yet. Without
+    // this, a user who reaches the Test page before the fetch completes
+    // (slow connection) is stuck on a permanently-disabled Start button
+    // showing "0 words match" forever, even once VOCAB_DATA is populated,
+    // because nothing else re-runs this render after the initial one.
+    if (typeof renderTestFiltersSection === 'function') renderTestFiltersSection();
   } catch(e){ console.error('loadVocab failed:', e); }
 }
 
@@ -14766,7 +14777,7 @@ function renderBrowse(){
   const matchedSections = [];
   sectionsToShow.forEach(sName => {
     let cats = ALL_CATEGORIES.filter(c => c.section===sName);
-    if (q) cats = cats.filter(c => c.name.toLowerCase().includes(q));
+    if (q) cats = cats.filter(c => c.name.toLowerCase().includes(q) || catName(c).toLowerCase().includes(q));
     if (browseState.cefr !== "all") {
       cats = cats.filter(c => topCefrOf(c.id) === browseState.cefr);
     }
@@ -14804,7 +14815,7 @@ function renderWordGrid(){
     if (f.learned === "unlearned" && isAnyLearned(w.w)) return false;
     if (f.search){
       const q = f.search.toLowerCase();
-      const hay = [w.w, w.def, ...(w.syn||[]), ...(w.ant||[])].join(" ").toLowerCase();
+      const hay = [w.w, w.def, wordDef(w), ...(w.syn||[]), ...(w.ant||[])].join(" ").toLowerCase();
       if (!hay.includes(q)) return false;
     }
     return true;
@@ -14835,8 +14846,8 @@ function renderWordGrid(){
         ${word.ant && word.ant.length ? `<div class="rrow"><b>${t("vocab.antonyms")}:</b> ${linkedWordsHtml(word.ant)}</div>` : ""}
         <div class="rex">${word.ex}</div>
         <div class="learn-state-row">
-          <span class="learn-state-label">Progress:</span>
-          <button class="learn-state-btn" data-state="${ws===null?"none":ws}">${ws==="learned"?"Learned":ws==="little"?"Little Bit":"Not Learned"}</button>
+          <span class="learn-state-label">${t("common.progress")}:</span>
+          <button class="learn-state-btn" data-state="${ws===null?"none":ws}">${learnStateLabel(ws)}</button>
         </div>
       </div>`;
     wireWordXrefs(card);
@@ -15399,7 +15410,7 @@ function renderWordPicker(){
     if (wl === "learned" && !isLearned(w.w)) return false;
     if (wl === "unlearned" && isAnyLearned(w.w)) return false;
     if (!q) return true;
-    return [w.w, w.def, ...(w.syn||[]), ...(w.ant||[])].join(" ").toLowerCase().includes(q);
+    return [w.w, w.def, wordDef(w), ...(w.syn||[]), ...(w.ant||[])].join(" ").toLowerCase().includes(q);
   });
   document.querySelectorAll("#testWordHeadlineBar [data-word-headline]").forEach(btn => {
     btn.classList.toggle("active", btn.dataset.wordHeadline === hl);
@@ -15796,8 +15807,8 @@ function renderModalProgress(word){
   const el = document.getElementById("modal-progress");
   const ws = learnedState(word.w);
   el.innerHTML = `<div class="learn-state-row">
-    <span class="learn-state-label">Progress:</span>
-    <button class="learn-state-btn" data-state="${ws===null?"none":ws}">${ws==="learned"?"Learned":ws==="little"?"Little Bit":"Not Learned"}</button>
+    <span class="learn-state-label">${t("common.progress")}:</span>
+    <button class="learn-state-btn" data-state="${ws===null?"none":ws}">${learnStateLabel(ws)}</button>
   </div>`;
   el.querySelector(".learn-state-btn").addEventListener("click", () => {
     const cycle = [null, "little", "learned"];
@@ -15878,7 +15889,7 @@ document.getElementById("testSelectAllWords").addEventListener("click", () => {
     if (wl === "learned" && !isLearned(w.w)) return false;
     if (wl === "unlearned" && isAnyLearned(w.w)) return false;
     if (!q) return true;
-    return [w.w, w.def, ...(w.syn||[]), ...(w.ant||[])].join(" ").toLowerCase().includes(q);
+    return [w.w, w.def, wordDef(w), ...(w.syn||[]), ...(w.ant||[])].join(" ").toLowerCase().includes(q);
   }).forEach(w => state.test.selectedWords.add(w.w));
   renderWordPicker();
 });
