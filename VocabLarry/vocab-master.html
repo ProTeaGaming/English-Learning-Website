@@ -9862,7 +9862,11 @@ function buildCategoryChips(container, f, onChange, catSearch = ""){
     cats = cats.filter(c => f.section==="all" || c.section===f.section);
   }
   const q = catSearch.trim().toLowerCase();
-  if (q) cats = cats.filter(c => c.name.toLowerCase().includes(q) || catName(c).toLowerCase().includes(q));
+  // A query matching the category's SECTION name (either language) also
+  // counts as a match — otherwise, with no section chip selected, searching
+  // a section's own name finds nothing since it isn't any category's name.
+  if (q) cats = cats.filter(c => c.name.toLowerCase().includes(q) || catName(c).toLowerCase().includes(q)
+    || c.section.toLowerCase().includes(q) || sectionLabel(c.section).toLowerCase().includes(q));
 
   const allChip = document.createElement("button");
   allChip.className = "chip" + (multiSelect ? (f.cats.size===0 ? " active" : "") : (f.cat==="all" ? " active" : ""));
@@ -14798,7 +14802,13 @@ function renderBrowse(){
   const matchedSections = [];
   sectionsToShow.forEach(sName => {
     let cats = ALL_CATEGORIES.filter(c => c.section===sName);
-    if (q) cats = cats.filter(c => c.name.toLowerCase().includes(q) || catName(c).toLowerCase().includes(q));
+    // A query matching the SECTION name (either language) shows every
+    // category in that section, same as a query matching a category name
+    // shows just that category — otherwise searching a section's own name
+    // (e.g. its Vietnamese label) finds nothing, since no category inside
+    // it necessarily contains that text in its own name.
+    const sectionMatches = q && (sName.toLowerCase().includes(q) || sectionLabel(sName).toLowerCase().includes(q));
+    if (q && !sectionMatches) cats = cats.filter(c => c.name.toLowerCase().includes(q) || catName(c).toLowerCase().includes(q));
     if (browseState.cefr !== "all") {
       cats = cats.filter(c => topCefrOf(c.id) === browseState.cefr);
     }
