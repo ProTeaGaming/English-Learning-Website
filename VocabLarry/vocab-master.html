@@ -46,9 +46,18 @@
   --card-bg:#ffffff; --card-border:#dcd7cc;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
+/* The site has no horizontal-scroll feature anywhere, so an accidental
+   sideways swipe on mobile only ever triggers the browser's native
+   horizontal overscroll/rubber-band bounce - a well-known trigger for
+   fixed-position/composited layers (e.g. the film-grain overlay below) to
+   render corrupted/garbage tiles on mobile Chrome/WebView. Disabling the
+   gesture outright is more reliable than trying to fix that rendering
+   glitch, which is a browser quirk outside our control. */
+html{overflow-x:hidden; overscroll-behavior-x:none;}
 body{
   font-family:'Inter',sans-serif; background:var(--bg); color:var(--text);
   line-height:1.5; min-height:100vh;
+  overflow-x:hidden; overscroll-behavior-x:none;
   transition:background-color .25s ease, color .25s ease;
 }
 /* soft ambient gradient behind everything */
