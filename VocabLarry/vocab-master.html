@@ -2044,6 +2044,7 @@ function iconSvg(emoji, cls){
         </div>
       </div>
       <div class="card-grid" id="wordGrid"></div>
+      <div class="pagination" id="catPagination"></div>
       <div class="cat-bulk-actions">
         <button class="cat-bulk-btn" id="catCompleteAllBtn" data-i18n="vocab.markAllCompleted">✓ Mark All Completed</button>
         <button class="cat-bulk-btn cat-bulk-btn-secondary" id="catResetAllBtn" data-i18n="vocab.resetAll">↺ Reset All</button>
@@ -14623,7 +14624,8 @@ function categoryStatusOf(catId){
   if (learnedCnt === 0 && littleCnt === 0) return "notStarted";
   return "inProgress";
 }
-const catState    = { cat:null, search:"", cefr:"all", learned:"all" };
+const catState    = { cat:null, search:"", cefr:"all", learned:"all", page:1 };
+const CAT_WORDS_PER_PAGE = 25;
 const CEFR_COLORS = {
   "A1":"#10b981", "A1+":"#eab308",
   "A2":"#06b6d4", "A2+":"#f97316",
@@ -14838,9 +14840,13 @@ function renderWordGrid(){
     }
     return true;
   });
-  const words = allWords;
+  const total = allWords.length;
+  const totalPages = Math.max(1, Math.ceil(total / CAT_WORDS_PER_PAGE));
+  if (catState.page > totalPages) catState.page = totalPages;
+  const page = catState.page;
+  const words = allWords.slice((page - 1) * CAT_WORDS_PER_PAGE, page * CAT_WORDS_PER_PAGE);
   const grid = document.getElementById("wordGrid");
-  document.getElementById("listCount").textContent = wordsCountLabel(allWords.length);
+  document.getElementById("listCount").textContent = wordsCountLabel(total);
   grid.innerHTML = "";
   words.forEach(word => {
     const ws = learnedState(word.w);
@@ -14896,6 +14902,11 @@ function renderWordGrid(){
   if (typeof gsap !== "undefined"){
     gsap.fromTo(grid.children, {opacity:0,y:14},{opacity:1,y:0,duration:.4,ease:"power2.out",stagger:{amount:.3,from:"start"}});
   }
+  buildPagination(document.getElementById("catPagination"), total, CAT_WORDS_PER_PAGE, page, p => {
+    catState.page = p;
+    renderWordGrid();
+    document.getElementById("listCatView").scrollIntoView({behavior:"smooth", block:"start"});
+  });
 }
 
 document.getElementById("catCompleteAllBtn").addEventListener("click", () => {
@@ -14917,6 +14928,7 @@ function enterCatView(cat){
   catState.search = "";
   catState.cefr = "all";
   catState.learned = "all";
+  catState.page = 1;
   document.getElementById("catSearchInput").value = "";
   document.getElementById("catViewIcon").innerHTML = iconSvg(cat.icon);
   document.getElementById("catViewIcon").className = `cat-view-icon t-${cat.theme}`;
@@ -14990,12 +15002,14 @@ document.getElementById("backToBrowse").addEventListener("click", exitCatView);
 document.getElementById("backToBrowseBottom").addEventListener("click", exitCatView);
 document.getElementById("catSearchInput").addEventListener("input", debounce(e => {
   catState.search = e.target.value.trim();
+  catState.page = 1;
   renderWordGrid();
 }, 150));
 document.getElementById("dbgAddWordBtn").addEventListener("click", () => debugSaveWord());
 document.querySelectorAll("[data-cat-cefr]").forEach(chip => {
   chip.addEventListener("click", () => {
     catState.cefr = chip.dataset.catCefr;
+    catState.page = 1;
     document.querySelectorAll("[data-cat-cefr]").forEach(c => c.classList.toggle("active", c.dataset.catCefr===catState.cefr));
     renderWordGrid();
   });
@@ -15003,12 +15017,13 @@ document.querySelectorAll("[data-cat-cefr]").forEach(chip => {
 document.querySelectorAll("[data-cat-learned]").forEach(chip => {
   chip.addEventListener("click", () => {
     catState.learned = chip.dataset.catLearned;
+    catState.page = 1;
     document.querySelectorAll("[data-cat-learned]").forEach(c => c.classList.toggle("active", c.dataset.catLearned===catState.learned));
     renderWordGrid();
   });
 });
 document.getElementById("clearCatFilters").addEventListener("click", () => {
-  catState.search=""; catState.cefr="all"; catState.learned="all";
+  catState.search=""; catState.cefr="all"; catState.learned="all"; catState.page=1;
   document.getElementById("catSearchInput").value="";
   document.querySelectorAll("[data-cat-cefr]").forEach(c => c.classList.toggle("active", c.dataset.catCefr==="all"));
   document.querySelectorAll("[data-cat-learned]").forEach(c => c.classList.toggle("active", c.dataset.catLearned==="all"));
