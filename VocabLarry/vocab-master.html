@@ -2532,13 +2532,7 @@ const ALLAUTH_BASE    = '/_allauth/browser/v1';
 const AUTH_BASE       = '/auth';
 const API_BASE        = '/api';
 const LEARN_STATE_KEY = 'ivm_learn_map';
-// Set whenever initAuth() sees an active session, cleared by the explicit
-// Sign Out/delete-account flows. Its mere presence at the next page load
-// means the session ended some other way (expired cookie, tab just closed)
-// without going through those clear-on-purpose flows — see initAuth()'s
-// not-logged-in branch, which uses it to tell a leaked ex-account's local
-// progress apart from a genuine guest's own (intentionally persisted) data.
-const LAST_ACCOUNT_KEY = 'ivm_last_account';
+const GRAMMAR_PROGRESS_KEY = 'grammarProgress';
 
 function getCsrf() {
   return document.cookie.split(';').map(c => c.trim())
@@ -8534,6 +8528,12 @@ function loadCachedLearnMap(){
     return cached ? JSON.parse(cached) : {};
   } catch(e){ return {}; }
 }
+function loadCachedGrammarProgress(){
+  try {
+    const cached = localStorage.getItem(GRAMMAR_PROGRESS_KEY);
+    return cached ? JSON.parse(cached) : {};
+  } catch(e){ return {}; }
+}
 /* UI chrome translations. Only interface copy lives here — words,
    definitions, examples, and quiz answers are never translated (see
    docs/superpowers/specs/2026-07-09-language-switcher-design.md). Each
@@ -9331,6 +9331,7 @@ function applyI18n(){
 
 const state = {
   learnMap: loadCachedLearnMap(),   /* { "word": "little"|"learned" } — only persisted for signed-in accounts */
+  grammarMap: loadCachedGrammarProgress(),   /* { topicSlug: {best, done} } — only persisted for signed-in accounts */
   lang: (function(){ try { return localStorage.getItem("ivm_lang") || "en"; } catch(e){ return "en"; } })(),
   list: { search:"", section:"all", cat:"all", cefr:"all", learned:"all" },
   examples: { search:"", section:"all", cat:"all", cefr:"all", learned:"all", headline:"all", page:1 },
@@ -9580,9 +9581,6 @@ async function initAuth(){
   }
   renderAuthUI();
   applyDebugMode();
-  if (state.auth.loggedIn){
-    try { localStorage.setItem(LAST_ACCOUNT_KEY, "1"); } catch(e){}
-  }
 
   if (pendingVerifyEmail && typeof openAuthModal === "function"){
     openAuthModal();
@@ -9607,16 +9605,12 @@ async function initAuth(){
   }
 
   if (!state.auth.loggedIn) {
-    // LAST_ACCOUNT_KEY is only set while logged in and only cleared by the
-    // explicit Sign Out/delete-account flows — so it being present here means
-    // the previous session ended some other way (expired cookie, tab just
-    // closed) without going through those flows.
-    const leakedFromExAccount = !!localStorage.getItem(LAST_ACCOUNT_KEY);
-    // saveLearned() only ever writes LEARN_STATE_KEY to localStorage while
-    // logged in (see its loggedIn guard) — so if this cache is non-empty here,
-    // it can only be a leftover from a previous account. Wipe it so a
-    // signed-out visitor never inherits another account's learned-word
-    // progress.
+    // saveLearned()/saveGrammarProgress() only ever write to localStorage
+    // while logged in — so any cached data here can only be a leftover from
+    // a previous account whose session ended without the explicit Sign
+    // Out/delete-account flow (which already clears both keys), e.g. an
+    // expired cookie or the tab just being closed. Wipe it so a signed-out
+    // visitor never inherits another account's progress.
     if (Object.keys(state.learnMap).length){
       state.learnMap = {};
       try {
@@ -9628,16 +9622,9 @@ async function initAuth(){
       if (typeof renderExamples === "function") renderExamples();
       if (typeof renderWordGrid === "function") renderWordGrid();
     }
-    // Grammar progress, unlike vocab, is intentionally guest-persistent
-    // (saveGrammarProgress has no loggedIn gate) — a genuine guest is meant
-    // to keep their local progress across visits, so it must NOT be
-    // blanket-cleared here. Only clear it once we can prove it was
-    // contributed by an ex-account rather than this guest's own browsing.
-    if (leakedFromExAccount){
-      try {
-        localStorage.removeItem(GRAMMAR_PROGRESS_KEY);
-        localStorage.removeItem(LAST_ACCOUNT_KEY);
-      } catch(e){}
+    if (Object.keys(state.grammarMap).length){
+      state.grammarMap = {};
+      try { localStorage.removeItem(GRAMMAR_PROGRESS_KEY); } catch(e){}
       if (GRAMMAR_STAGES_DATA && typeof renderGrammarHome === "function") renderGrammarHome();
     }
     return;
@@ -9957,18 +9944,23 @@ function initTopicFilters(prefix, f, getPool, unitLabel){
 /* ════════════════════════════════════════════════════════
    GRAMMAR SECTION
    ════════════════════════════════════════════════════════ */
-const GRAMMAR_PROGRESS_KEY = 'grammarProgress';
 const GRAMMAR_PASS_PCT = 80;
 let GRAMMAR_STAGES_DATA = null;   // fetched once per session
 const grammarFilter = { stage:'all', search:'', section:'all', cefr:'all', status:'all' };   // resets on reload
 let grammarLoading = null;        // in-flight fetch promise
 
 function loadGrammarProgress(){
-  try { return JSON.parse(localStorage.getItem(GRAMMAR_PROGRESS_KEY)) || {}; }
-  catch(e){ return {}; }
+  return state.grammarMap;
 }
 function saveGrammarProgress(p){
-  try { localStorage.setItem(GRAMMAR_PROGRESS_KEY, JSON.stringify(p)); } catch(e){}
+  // Mirrors saveLearned(): kept in memory for the current session regardless
+  // of auth state, but only ever written to localStorage while logged in —
+  // so a signed-out visitor can never inherit another account's grammar
+  // progress (see initAuth()'s not-logged-in branch, which clears this key).
+  state.grammarMap = p;
+  if (state.auth.loggedIn) {
+    try { localStorage.setItem(GRAMMAR_PROGRESS_KEY, JSON.stringify(p)); } catch(e){}
+  }
 }
 function grammarTopicDone(slug){
   const rec = loadGrammarProgress()[slug];
@@ -13563,7 +13555,6 @@ document.getElementById("signOutBtn").addEventListener("click", async () => {
     localStorage.removeItem(LEARN_STATE_KEY);
     localStorage.removeItem("ivm_learned_words");
     localStorage.removeItem(GRAMMAR_PROGRESS_KEY);
-    localStorage.removeItem(LAST_ACCOUNT_KEY);
   } catch(e) {}
   location.reload();
 });
@@ -13611,7 +13602,6 @@ document.getElementById("deleteForm").addEventListener("submit", async (e) => {
       localStorage.removeItem(LEARN_STATE_KEY);
       localStorage.removeItem("ivm_learned_words");
       localStorage.removeItem(GRAMMAR_PROGRESS_KEY);
-      localStorage.removeItem(LAST_ACCOUNT_KEY);
     } catch(e) {}
     location.reload();
   } catch(err){
