@@ -9704,15 +9704,36 @@ function measurePageBreaks(container, pinnedChip, optionChips, maxRows){
   const breaks = [];
   let pageStart = 0;
   while (pageStart < optionChips.length){
-    container.innerHTML = "";
-    container.appendChild(pinnedChip.cloneNode(true));
-    for (let i = pageStart; i < optionChips.length; i++) container.appendChild(optionChips[i].cloneNode(true));
-    const clones = Array.from(container.children).slice(1);
-    let rowCount = 0, lastTop = null, pageEnd = optionChips.length;
-    for (let i = 0; i < clones.length; i++){
-      const top = clones[i].getBoundingClientRect().top;
-      if (lastTop === null || Math.abs(top - lastTop) > 4){ rowCount++; lastTop = top; }
-      if (rowCount > maxRows){ pageEnd = pageStart + i; break; }
+    // Re-appending and measuring EVERY remaining chip on every iteration made
+    // this O(n^2) - for vocab's 250 categories that was ~3.8s of blocked
+    // main thread just to open the Word/Test page. Only render a bounded
+    // batch per page instead, doubling it if that batch turns out not to
+    // overflow past maxRows (rare - happens only on very wide screens with
+    // short chip labels), so the result is still measured via real DOM
+    // layout (correct for any viewport/font) but each chip only gets
+    // created/measured a small constant number of times overall.
+    // Chip labels are often long enough to wrap to nearly a full row each
+    // (e.g. on phone widths), so a page can be as small as ~1 chip per row -
+    // start the guess near that (doubling handles wider screens/shorter
+    // labels that fit more) rather than guessing high and measuring a much
+    // bigger batch than actually gets used on every single page.
+    let batchSize = Math.min(maxRows + 2, optionChips.length - pageStart);
+    let pageEnd, clones;
+    while (true){
+      container.innerHTML = "";
+      container.appendChild(pinnedChip.cloneNode(true));
+      const batchEnd = Math.min(pageStart + batchSize, optionChips.length);
+      for (let i = pageStart; i < batchEnd; i++) container.appendChild(optionChips[i].cloneNode(true));
+      clones = Array.from(container.children).slice(1);
+      let rowCount = 0, lastTop = null, overflowed = false;
+      pageEnd = batchEnd;
+      for (let i = 0; i < clones.length; i++){
+        const top = clones[i].getBoundingClientRect().top;
+        if (lastTop === null || Math.abs(top - lastTop) > 4){ rowCount++; lastTop = top; }
+        if (rowCount > maxRows){ pageEnd = pageStart + i; overflowed = true; break; }
+      }
+      if (overflowed || batchEnd >= optionChips.length) break;
+      batchSize *= 2;
     }
     if (pageEnd <= pageStart) pageEnd = Math.min(pageStart + 1, optionChips.length);
     breaks.push([pageStart, pageEnd]);
