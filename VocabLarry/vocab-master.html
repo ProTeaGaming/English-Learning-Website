@@ -2532,6 +2532,13 @@ const ALLAUTH_BASE    = '/_allauth/browser/v1';
 const AUTH_BASE       = '/auth';
 const API_BASE        = '/api';
 const LEARN_STATE_KEY = 'ivm_learn_map';
+// Set whenever initAuth() sees an active session, cleared by the explicit
+// Sign Out/delete-account flows. Its mere presence at the next page load
+// means the session ended some other way (expired cookie, tab just closed)
+// without going through those clear-on-purpose flows — see initAuth()'s
+// not-logged-in branch, which uses it to tell a leaked ex-account's local
+// progress apart from a genuine guest's own (intentionally persisted) data.
+const LAST_ACCOUNT_KEY = 'ivm_last_account';
 
 function getCsrf() {
   return document.cookie.split(';').map(c => c.trim())
@@ -9573,6 +9580,9 @@ async function initAuth(){
   }
   renderAuthUI();
   applyDebugMode();
+  if (state.auth.loggedIn){
+    try { localStorage.setItem(LAST_ACCOUNT_KEY, "1"); } catch(e){}
+  }
 
   if (pendingVerifyEmail && typeof openAuthModal === "function"){
     openAuthModal();
@@ -9596,7 +9606,42 @@ async function initAuth(){
     openProfileModal(false);
   }
 
-  if (!state.auth.loggedIn) return;
+  if (!state.auth.loggedIn) {
+    // LAST_ACCOUNT_KEY is only set while logged in and only cleared by the
+    // explicit Sign Out/delete-account flows — so it being present here means
+    // the previous session ended some other way (expired cookie, tab just
+    // closed) without going through those flows.
+    const leakedFromExAccount = !!localStorage.getItem(LAST_ACCOUNT_KEY);
+    // saveLearned() only ever writes LEARN_STATE_KEY to localStorage while
+    // logged in (see its loggedIn guard) — so if this cache is non-empty here,
+    // it can only be a leftover from a previous account. Wipe it so a
+    // signed-out visitor never inherits another account's learned-word
+    // progress.
+    if (Object.keys(state.learnMap).length){
+      state.learnMap = {};
+      try {
+        localStorage.removeItem(LEARN_STATE_KEY);
+        localStorage.removeItem("ivm_learned_words");
+      } catch(e){}
+      saveLearned();
+      if (typeof renderBrowse === "function") renderBrowse();
+      if (typeof renderExamples === "function") renderExamples();
+      if (typeof renderWordGrid === "function") renderWordGrid();
+    }
+    // Grammar progress, unlike vocab, is intentionally guest-persistent
+    // (saveGrammarProgress has no loggedIn gate) — a genuine guest is meant
+    // to keep their local progress across visits, so it must NOT be
+    // blanket-cleared here. Only clear it once we can prove it was
+    // contributed by an ex-account rather than this guest's own browsing.
+    if (leakedFromExAccount){
+      try {
+        localStorage.removeItem(GRAMMAR_PROGRESS_KEY);
+        localStorage.removeItem(LAST_ACCOUNT_KEY);
+      } catch(e){}
+      if (GRAMMAR_STAGES_DATA && typeof renderGrammarHome === "function") renderGrammarHome();
+    }
+    return;
+  }
 
   try {
     const res = await fetch(`${AUTH_BASE}/sync/`, { credentials: 'same-origin' });
@@ -13518,6 +13563,7 @@ document.getElementById("signOutBtn").addEventListener("click", async () => {
     localStorage.removeItem(LEARN_STATE_KEY);
     localStorage.removeItem("ivm_learned_words");
     localStorage.removeItem(GRAMMAR_PROGRESS_KEY);
+    localStorage.removeItem(LAST_ACCOUNT_KEY);
   } catch(e) {}
   location.reload();
 });
@@ -13564,6 +13610,8 @@ document.getElementById("deleteForm").addEventListener("submit", async (e) => {
     try {
       localStorage.removeItem(LEARN_STATE_KEY);
       localStorage.removeItem("ivm_learned_words");
+      localStorage.removeItem(GRAMMAR_PROGRESS_KEY);
+      localStorage.removeItem(LAST_ACCOUNT_KEY);
     } catch(e) {}
     location.reload();
   } catch(err){
