@@ -102,7 +102,8 @@ h1,h2,h3,.brand,.tab,.btn,.modeCard h3,.mode-toggle-label{font-family:'Plus Jaka
   display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;
 }
 .topbar-left{display:flex; align-items:center; gap:16px; flex-wrap:wrap;}
-.brand{font-weight:800; font-size:1.35rem; letter-spacing:-.035em; display:flex; align-items:center; gap:7px;}
+.brand{font-weight:800; font-size:1.35rem; letter-spacing:-.035em; display:flex; align-items:center; gap:7px; cursor:pointer; transition:opacity .15s ease;}
+.brand:hover{opacity:.8;}
 .brand-name b{font-weight:inherit; color:rgb(var(--vio));}
 .tabs{display:flex; gap:3px; flex-wrap:wrap;}
 .mobile-nav-chip{display:none; position:relative; align-items:center; gap:8px;}
@@ -13362,6 +13363,11 @@ document.querySelectorAll(".tab[data-section-btn]").forEach(btn => {
 
 document.addEventListener("click", (e) => {
   if (!e.target.closest(".nav-group")) closeNavDropdowns();
+});
+
+document.querySelector(".brand").addEventListener("click", () => {
+  goToPage("home");
+  closeNavDropdowns();
 });
 
 /* ════════════════════════════════════════════════════════
