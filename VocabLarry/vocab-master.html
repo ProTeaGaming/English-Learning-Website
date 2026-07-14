@@ -788,6 +788,10 @@ main{max-width:1280px; margin:0 auto; padding:28px 24px 64px;}
 }
 .dash-week-dot.today{outline:2px solid rgba(245,158,11,.55);outline-offset:2px;}
 .dash-week-lbl{font-family:'JetBrains Mono',monospace;font-size:.56rem;color:var(--muted);font-weight:700;text-transform:uppercase;}
+/* Cramming all 7 days into the narrow streak card made every dot/label tiny
+   and crowded on phones - only today + the 2 days before it (see the
+   week-far class toggled in renderStreak()) stay visible there. */
+@media(max-width:480px){.dash-week-day.week-far{display:none;}}
 .footer-bottom{
   display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
   padding-top:20px;border-top:1px solid rgba(var(--vio),.1);
@@ -9483,11 +9487,17 @@ function renderStreak(count, longest, weekVisits, dow){
   if(el('streakCount'))   el('streakCount').textContent   = count;
   if(el('streakBest'))    el('streakBest').textContent    = longest;
   if(el('hStatStreak'))   el('hStatStreak').textContent   = count;
+  // On phone widths the full Mon-Sun strip is too cramped to read - only
+  // today + the 2 days before it stay visible there (see .dash-week-day.
+  // week-far, gated to narrow screens only below), since a streak is about
+  // what you've already done, not the days still to come this week.
+  const recentStart = Math.max(0, dow - 2);
   for(let i=0;i<7;i++){
     const dot = el('sday-'+i);
     if(!dot) continue;
     dot.classList.toggle('active', !!weekVisits[i]);
     dot.classList.toggle('today',  i===dow);
+    dot.closest('.dash-week-day').classList.toggle('week-far', i < recentStart || i > dow);
   }
 }
 
