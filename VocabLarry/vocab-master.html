@@ -9449,7 +9449,24 @@ function localDateStr(d){
   return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
 }
 
-function initStreak(){
+function loadCachedStreak(){
+  try { return JSON.parse(localStorage.getItem('ielts_streak')||'{}'); } catch(e){ return {}; }
+}
+
+// Renders whatever's cached without advancing or saving anything - safe to
+// call before auth state is known (mirrors state.learnMap/state.grammarMap
+// being loaded from cache at page load, ahead of initAuth() resolving).
+function renderStreakFromCache(){
+  const dow = (new Date().getDay()+6)%7;   // 0=Mon … 6=Sun
+  const { count=0, longest=0, weekVisits=Array(7).fill(false) } = loadCachedStreak();
+  renderStreak(count, longest, weekVisits, dow);
+}
+
+// Only ever called once initAuth() has confirmed the user is signed in -
+// like vocab/grammar progress, the streak only persists for signed-in
+// accounts, so today's visit is only recorded/saved here, never at page
+// load before auth is known.
+function advanceStreak(){
   const today    = new Date();
   const todayStr = localDateStr(today);
   const dow      = (today.getDay()+6)%7;   // 0=Mon … 6=Sun
@@ -9458,8 +9475,7 @@ function initStreak(){
   mon.setDate(today.getDate()-dow);
   const weekStart = localDateStr(mon);
 
-  let d = {};
-  try { d = JSON.parse(localStorage.getItem('ielts_streak')||'{}'); } catch(e){}
+  let d = loadCachedStreak();
 
   let { count=0, longest=0, lastDate='', weekStart:ws='', weekVisits=Array(7).fill(false) } = d;
 
@@ -9647,6 +9663,14 @@ async function initAuth(){
       try { localStorage.removeItem(GRAMMAR_PROGRESS_KEY); } catch(e){}
       if (GRAMMAR_STAGES_DATA && typeof renderGrammarHome === "function") renderGrammarHome();
     }
+    // Streak, like vocab/grammar progress, only persists for signed-in
+    // accounts - advanceStreak() (which saves) is only ever called below in
+    // the logged-in branch, so any cached ielts_streak here is the same
+    // kind of stale leftover as the caches above.
+    if (Object.keys(loadCachedStreak()).length){
+      try { localStorage.removeItem('ielts_streak'); } catch(e){}
+    }
+    renderStreakFromCache();
     return;
   }
 
@@ -9675,6 +9699,7 @@ async function initAuth(){
     if (typeof renderExamples === "function") renderExamples();
     if (typeof renderWordGrid === "function") renderWordGrid();
     if (GRAMMAR_STAGES_DATA && typeof renderGrammarHome === "function") renderGrammarHome();
+    advanceStreak();
   } catch(e){}
 }
 
@@ -13552,6 +13577,7 @@ document.getElementById("resetProgressBtn").addEventListener("click", () => {
     localStorage.removeItem(LEARN_STATE_KEY);
     localStorage.removeItem("ivm_learned_words");
     localStorage.removeItem("grammarProgress");
+    localStorage.removeItem('ielts_streak');
   } catch(e) {}
   location.reload();
 });
@@ -13601,6 +13627,7 @@ document.getElementById("signOutBtn").addEventListener("click", async () => {
     localStorage.removeItem(LEARN_STATE_KEY);
     localStorage.removeItem("ivm_learned_words");
     localStorage.removeItem(GRAMMAR_PROGRESS_KEY);
+    localStorage.removeItem('ielts_streak');
   } catch(e) {}
   location.reload();
 });
@@ -13648,6 +13675,7 @@ document.getElementById("deleteForm").addEventListener("submit", async (e) => {
       localStorage.removeItem(LEARN_STATE_KEY);
       localStorage.removeItem("ivm_learned_words");
       localStorage.removeItem(GRAMMAR_PROGRESS_KEY);
+      localStorage.removeItem('ielts_streak');
     } catch(e) {}
     location.reload();
   } catch(err){
@@ -16032,7 +16060,7 @@ document.querySelectorAll("#testWordLearnedFilters [data-word-learned]").forEach
 saveLearned();
 updateFooter();
 updateHome();
-initStreak();
+renderStreakFromCache();
 
 // Scroll reveals: home sections + footer dash cards rise in once as they enter the viewport
 (function(){
