@@ -11,7 +11,7 @@ def serve_vocab(request, **kwargs):
     # ensure_csrf_cookie forces get_token(request), so Django sets the
     # csrftoken cookie even though FileResponse never touches it itself.
     # The SPA reads that cookie (getCsrf) to authorise its POSTs.
-    html_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'vocab-master.html')
+    html_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'vocablarry.html')
     response = FileResponse(open(html_path, 'rb'), content_type='text/html')
     # FileResponse sets no Cache-Control by default, leaving this HTML GET
     # heuristically cacheable by the browser - a plain reload (not a hard
