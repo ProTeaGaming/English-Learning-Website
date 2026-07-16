@@ -8530,7 +8530,90 @@ const WORD_DEF_VI = {
 /* Returns the Vietnamese definition when available and Vietnamese is
    active, else the original English definition unchanged. */
 function wordDef(word){
-  return (state.lang === "vi" && WORD_DEF_VI[word.pk]) || word.def;
+  if (state.lang === "vi" && WORD_DEF_VI[word.pk]) return WORD_DEF_VI[word.pk];
+  const gb = ukOverride(word);
+  if (gb && gb.def) return gb.def;
+  return word.def;
+}
+
+/* English (UK) spelling variant data. Only the ~40 words (of 5,000) whose
+   headword, definition, example, synonyms, or antonyms actually contain a
+   genuine US/UK spelling difference get an entry here — reviewed by hand
+   against every occurrence of context-ambiguous terms (story/storey,
+   check/cheque, program/programme, practice/practise, license/licence,
+   curb/kerb, tire/tyre all turned out to have zero genuine matches in this
+   dataset's actual usage and are deliberately NOT included; see the design
+   spec's audit section). Each entry holds only the fields that differ. */
+const WORD_GB = {
+  4961: { "example": "She was <em>elated</em> when she found out she had been accepted to the programme." },
+  5227: { "word": "sceptical", "example": "Many investors remain <em>sceptical</em> about the company's growth forecasts." },
+  5560: { "synonyms": ["distrustful", "sceptical", "jaded", "pessimistic"] },
+  5599: { "word": "instalment", "example": "She paid for the laptop in monthly <em>instalments</em> over a year." },
+  5606: { "synonyms": ["endurance", "staying power", "resilience", "vigour"] },
+  5692: { "antonyms": ["critic", "sceptic", "disinterested party"] },
+  7023: { "example": "The report analysed <em>macroeconomic</em> trends across the region." },
+  7029: { "def": "Relating to the economic behaviour of individuals or firms." },
+  7334: { "def": "Treating serious issues with inappropriate humour." },
+  7647: { "example": "The programme pairs new employees with senior staff for <em>mentorship</em>." },
+  7654: { "example": "The city centre is closed to <em>vehicular</em> traffic on weekends." },
+  7669: { "example": "The new <em>condominium</em> offers stunning views of the harbour." },
+  7705: { "def": "The act of offering money or favours to influence someone's actions." },
+  7718: { "antonyms": ["defence"] },
+  7732: { "example": "The rumour was clearly <em>malicious</em> in intent." },
+  7740: { "example": "The <em>jovial</em> innkeeper welcomed every traveller with a joke." },
+  7895: { "def": "The branch of theology concerned with death, judgement, and final destiny." },
+  7907: { "synonyms": ["scepticism"] },
+  7917: { "antonyms": ["clarity", "directness", "candour"] },
+  7935: { "example": "The resort caters to travellers with <em>epicurean</em> tastes." },
+  7954: { "example": "The university launched a programme to encourage student <em>entrepreneurship</em>." },
+  8063: { "example": "You should <em>take that rumour with a grain of salt</em>." },
+  8113: { "def": "A judgement that a person is not guilty of a crime." },
+  8383: { "example": "The government launched an <em>afforestation</em> programme to combat erosion." },
+  8526: { "example": "The town centre benefited from a wave of <em>revitalization</em>." },
+  8696: { "example": "<em>Offshoring</em> helped the company reduce labour costs." },
+  8732: { "word": "endeavour", "example": "The team will <em>endeavour</em> to finish the project on time." },
+  8830: { "example": "The new road was built to <em>bypass</em> the city centre." },
+  8920: { "example": "A <em>seasoned</em> traveller, she packed light and moved quickly through customs." },
+  9110: { "synonyms": ["skilful", "talented", "expert"] },
+  9282: { "word": "flavour", "example": "The soup had a strong <em>flavour</em> of garlic." },
+  9283: { "synonyms": ["flavour"] },
+  9624: { "word": "catalyse", "example": "The new policy helped <em>catalyse</em> economic reform." },
+  9782: { "synonyms": ["minor fault", "indiscretion", "misdemeanour", "foible"] },
+  9787: { "antonyms": ["wellbeing", "vigour", "contentment"] },
+  9788: { "antonyms": ["vigour", "energy", "alertness"] },
+  9789: { "antonyms": ["vigour", "energy", "liveliness"] },
+  9804: { "synonyms": ["endless struggle", "never-ending labour"] },
+  9846: { "synonyms": ["favourable", "helpful", "beneficial", "supportive"], "antonyms": ["detrimental", "unfavourable", "hindering"] },
+  9874: { "antonyms": ["comfortable", "relaxed", "cosy"] }
+};
+
+/* Returns this word's WORD_GB override object when English (UK) is active
+   and one exists, else undefined. Internal helper for the wordX()
+   accessors below — never read the returned object's absence as "this
+   word has no UK spelling", since most words genuinely don't differ. */
+function ukOverride(word){
+  return state.lang === "en-gb" ? WORD_GB[word.pk] : undefined;
+}
+/* Display-only accessors: use these wherever the word/example/synonyms/
+   antonyms are shown to the user or matched against a search box. Do NOT
+   use these for learnMap/VOCAB_BY_WORD/selectedWords keys — those must
+   stay on the raw word.w/word.ex/etc. fields so progress tracking and
+   quiz-option identity survive a language switch mid-session. */
+function wordHeadword(word){
+  const gb = ukOverride(word);
+  return (gb && gb.word) || word.w;
+}
+function wordExample(word){
+  const gb = ukOverride(word);
+  return (gb && gb.example) || word.ex;
+}
+function wordSynonyms(word){
+  const gb = ukOverride(word);
+  return (gb && gb.synonyms) || word.syn;
+}
+function wordAntonyms(word){
+  const gb = ukOverride(word);
+  return (gb && gb.antonyms) || word.ant;
 }
 
 /* Pre-compute words per category (including CEFR virtual cats) */
@@ -14472,6 +14555,13 @@ async function loadVocab() {
     CAT_MAP       = Object.fromEntries(CATEGORIES.map(c => [c.id, c]));
     ALL_CATEGORIES = [...CATEGORIES, ...CEFR_CATEGORIES];
     VOCAB_BY_WORD = new Map(VOCAB_DATA.map(w => [w.w.toLowerCase(), w]));
+    // Also alias each word's UK-spelling headword (if it has one) to the
+    // same object, so cross-reference links resolve regardless of which
+    // spelling variant is currently displayed as synonym/antonym text.
+    VOCAB_DATA.forEach(w => {
+      const gb = WORD_GB[w.pk];
+      if (gb && gb.word) VOCAB_BY_WORD.set(gb.word.toLowerCase(), w);
+    });
 
     CAT_WORDS = {};
     CATEGORIES.forEach(cat      => { CAT_WORDS[cat.id] = VOCAB_DATA.filter(w => w.cat === cat.id); });
