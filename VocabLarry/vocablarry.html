@@ -317,6 +317,7 @@ html[lang="vi"] .nav-group[data-section="vocabulary"] .nav-dropdown{min-width:96
   margin:0 0 12px; font-size:.72rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase;
   color:var(--muted); font-family:'JetBrains Mono',monospace;
 }
+.profile-dialect-toggle{display:flex; gap:10px; margin-top:10px;}
 .profile-conn-row{
   display:flex; align-items:center; gap:10px; padding:8px 0;
   border-bottom:1px solid rgba(var(--vio),.1);
@@ -1543,10 +1544,7 @@ function iconSvg(emoji, cls){
         <button class="theme-toggle" id="langToggle" title="Change language" aria-label="Change language" type="button"><svg class="ico" aria-hidden="true"><use href="#i-globe"/></svg></button>
         <div class="lang-menu" id="langMenu">
           <button class="mode-picker-row" data-lang="en" type="button">
-            <span class="mode-picker-name">English (US)</span>
-          </button>
-          <button class="mode-picker-row" data-lang="en-gb" type="button">
-            <span class="mode-picker-name">English (UK)</span>
+            <span class="mode-picker-name">English</span>
           </button>
           <button class="mode-picker-row" data-lang="vi" type="button">
             <span class="mode-picker-name">Tiếng Việt</span>
@@ -1747,6 +1745,14 @@ function iconSvg(emoji, cls){
       </label>
       <button type="submit" class="auth-submit-btn" id="profileSubmitBtn" data-i18n="auth.saveChanges">Save changes</button>
     </form>
+    <div class="profile-connections">
+      <p class="auth-divider-label" data-i18n="auth.vocabDialect">Vocabulary dialect</p>
+      <p class="auth-modal-info" data-i18n="auth.vocabDialectInfo">Choose which English spelling and words you want to learn — this doesn't change the app's own interface language.</p>
+      <div class="profile-dialect-toggle" id="profileDialectToggle">
+        <button type="button" class="chip" data-dialect="en" id="profileDialectUS" data-i18n="auth.dialectUS">US English</button>
+        <button type="button" class="chip" data-dialect="en-gb" id="profileDialectUK" data-i18n="auth.dialectUK">UK English</button>
+      </div>
+    </div>
     <div class="profile-connections">
       <p class="auth-divider-label" data-i18n="auth.connectedAccounts">Connected accounts</p>
       <p class="auth-modal-error" id="profileConnectionsError"></p>
@@ -8596,25 +8602,7 @@ const WORD_GB = {
   6135: { "word": "garden", "example": "She grows vegetables in the <em>garden</em>.", "synonyms": ["yard", "lawn", "plot"] },
   8995: { "word": "bin", "def": "A container for waste or rubbish.", "example": "Throw the empty can in the <em>bin</em>.", "synonyms": ["dustbin", "trash can", "waste basket", "skip"] },
   9204: { "word": "rubber", "example": "Can I borrow your <em>rubber</em>?", "synonyms": ["eraser", "correction tool"] },
-  9053: { "word": "trainers", "example": "She bought new <em>trainers</em> for the gym.", "synonyms": ["sneakers", "shoes", "footwear"] },
-  9921: { "word": "aubergine", "example": "She grilled some <em>aubergine</em> for dinner.", "synonyms": ["eggplant"] },
-  9922: { "word": "courgette", "example": "He sliced the <em>courgette</em> for the stir-fry.", "synonyms": ["zucchini"] },
-  9923: { "word": "nappy", "example": "She changed the baby's <em>nappy</em> before bed.", "synonyms": ["diaper"] },
-  9924: { "word": "jumper", "example": "He put on a <em>jumper</em> because it was cold.", "synonyms": ["sweater", "pullover"] },
-  9925: { "word": "torch", "example": "She used a <em>torch</em> to find her keys in the dark.", "synonyms": ["flashlight"] },
-  9926: { "word": "petrol", "example": "The car ran out of <em>petrol</em> on the highway.", "synonyms": ["gasoline", "fuel"] },
-  9927: { "word": "pavement", "example": "Children were playing on the <em>pavement</em>.", "synonyms": ["sidewalk"] },
-  9928: { "word": "tap", "example": "She turned off the <em>tap</em> after washing her hands.", "synonyms": ["faucet"] },
-  9929: { "word": "car park", "example": "We left the car in the <em>car park</em> near the mall.", "synonyms": ["parking lot"] },
-  9930: { "word": "postbox", "example": "He checked the <em>postbox</em> for new mail.", "synonyms": ["mailbox"] },
-  9931: { "word": "mobile phone", "example": "She left her <em>mobile phone</em> at home by mistake.", "synonyms": ["cell phone", "cellphone"] },
-  9932: { "word": "CV", "example": "He updated his <em>CV</em> before applying for the job.", "synonyms": ["resume", "curriculum vitae"] },
-  9933: { "word": "pram", "example": "She pushed the <em>pram</em> through the park.", "synonyms": ["stroller", "buggy"] },
-  9934: { "word": "dummy", "example": "The baby calmed down once given a <em>dummy</em>.", "synonyms": ["pacifier", "soother"] },
-  9935: { "word": "plaster", "example": "She put a <em>plaster</em> on her scraped knee.", "synonyms": ["band-aid"] },
-  9936: { "word": "cot", "example": "The baby slept peacefully in her <em>cot</em>.", "synonyms": ["crib"] },
-  9937: { "word": "lift", "example": "They took the <em>lift</em> to the tenth floor.", "synonyms": ["elevator"] },
-  9938: { "word": "maths", "example": "She's always been good at <em>maths</em>.", "synonyms": ["math", "mathematics"] }
+  9053: { "word": "trainers", "example": "She bought new <em>trainers</em> for the gym.", "synonyms": ["sneakers", "shoes", "footwear"] }
 };
 
 /* Returns this word's WORD_GB override object when English (UK) is active
@@ -8797,6 +8785,10 @@ const UI_STRINGS = {
     "auth.editProfile": "Edit profile",
     "auth.welcomeProfileTitle": "Welcome! Complete your profile",
     "auth.welcomeProfileInfo": "Update your name, username, or add a profile picture — you can always change these later.",
+    "auth.vocabDialect": "Vocabulary dialect",
+    "auth.vocabDialectInfo": "Choose which English spelling and words you want to learn — this doesn't change the app's own interface language.",
+    "auth.dialectUS": "US English",
+    "auth.dialectUK": "UK English",
     "auth.connectedAccounts": "Connected accounts",
     "auth.connect": "Connect",
     "auth.disconnect": "Disconnect",
@@ -9180,6 +9172,10 @@ const UI_STRINGS = {
     "auth.editProfile": "Chỉnh sửa hồ sơ",
     "auth.welcomeProfileTitle": "Chào mừng! Hoàn thiện hồ sơ của bạn",
     "auth.welcomeProfileInfo": "Cập nhật tên, tên đăng nhập hoặc thêm ảnh đại diện — bạn luôn có thể thay đổi những thông tin này sau.",
+    "auth.vocabDialect": "Phương ngữ từ vựng",
+    "auth.vocabDialectInfo": "Chọn cách viết và từ vựng tiếng Anh bạn muốn học — điều này không thay đổi ngôn ngữ giao diện của ứng dụng.",
+    "auth.dialectUS": "Tiếng Anh Mỹ",
+    "auth.dialectUK": "Tiếng Anh Anh",
     "auth.connectedAccounts": "Tài khoản đã liên kết",
     "auth.connect": "Liên kết",
     "auth.disconnect": "Hủy liên kết",
@@ -9463,6 +9459,17 @@ const state = {
   learnMap: loadCachedLearnMap(),   /* { "word": "little"|"learned" } — only persisted for signed-in accounts */
   grammarMap: loadCachedGrammarProgress(),   /* { topicSlug: {best, done} } — only persisted for signed-in accounts */
   lang: (function(){ try { return localStorage.getItem("ivm_lang") || "en"; } catch(e){ return "en"; } })(),
+  /* US/UK vocabulary dialect, chosen in Profile Settings — independent of
+     the UI translation language above. Falls back to a pre-existing
+     ivm_lang=="en-gb" so switching this control's location doesn't reset
+     a preference set before this setting existed. */
+  dialect: (function(){
+    try {
+      const saved = localStorage.getItem("ivm_dialect");
+      if (saved) return saved;
+      return localStorage.getItem("ivm_lang") === "en-gb" ? "en-gb" : "en";
+    } catch(e){ return "en"; }
+  })(),
   list: { search:"", section:"all", cat:"all", cefr:"all", learned:"all" },
   examples: { search:"", section:"all", cat:"all", cefr:"all", learned:"all", headline:"all", page:1 },
   auth: { loggedIn:false, id:null, name:"", email:"", picture:"", isStaff:false, hasPassword:true },
@@ -13544,7 +13551,10 @@ themeToggleBtn.addEventListener("click", () => {
    ════════════════════════════════════════════════════════ */
 function updateLangActiveRow(){
   document.querySelectorAll("#langMenu [data-lang]").forEach(row => {
-    row.classList.toggle("active", row.dataset.lang === state.lang);
+    // The "English" row covers both en/en-gb (the US/UK choice lives in
+    // Profile Settings now, not here) — every other row is an exact match.
+    const active = row.dataset.lang === "en" ? state.lang.startsWith("en") : row.dataset.lang === state.lang;
+    row.classList.toggle("active", active);
   });
 }
 updateLangActiveRow();
@@ -13604,20 +13614,15 @@ document.getElementById("langChip").addEventListener("click", (e) => {
   document.getElementById("langChip").classList.toggle("open");
   positionDropdown("langChip", "langMenu");
 });
-document.querySelectorAll("#langMenu [data-lang]").forEach(row => {
-  row.addEventListener("click", (e) => {
-    e.stopPropagation();
-    state.lang = row.dataset.lang;
-    try { localStorage.setItem("ivm_lang", state.lang); } catch(e) {}
-    updateLangActiveRow();
-    applyI18n();
-    // Section names (and anything else built by these render functions) are
-    // set from JS, not static HTML, so applyI18n()'s [data-i18n] sweep can't
-    // reach them — re-run their render functions so a language switch updates
-    // an already-open page immediately, not just on next navigation. Safe
-    // here (unlike inside applyI18n() itself, which also runs once very
-    // early at page load before this state exists) because a click can only
-    // happen after the page has fully loaded.
+// Section names (and anything else built by these render functions) are set
+// from JS, not static HTML, so applyI18n()'s [data-i18n] sweep can't reach
+// them — re-run their render functions so a language/dialect change updates
+// an already-open page immediately, not just on next navigation. Safe here
+// (unlike inside applyI18n() itself, which also runs once very early at page
+// load before this state exists) because this only ever runs after a click,
+// which can only happen once the page has fully loaded. Shared by both the
+// language menu (en/vi) and the Profile Settings US/UK dialect toggle.
+function refreshAfterLangChange(){
     if (typeof renderBrowse === "function") renderBrowse();
     if (typeof renderExamplesFilters === "function") renderExamplesFilters();
     if (typeof renderExamples === "function") renderExamples();
@@ -13680,6 +13685,18 @@ document.querySelectorAll("#langMenu [data-lang]").forEach(row => {
       if (typeof renderWordGrid === "function") renderWordGrid();
     }
     if (typeof currentModalWord !== "undefined" && currentModalWord) openWordModal(currentModalWord);
+}
+document.querySelectorAll("#langMenu [data-lang]").forEach(row => {
+  row.addEventListener("click", (e) => {
+    e.stopPropagation();
+    // The "English" row always resolves to whichever US/UK dialect is
+    // currently set in Profile Settings, so switching away from and back
+    // to English (e.g. via Vietnamese) doesn't lose that preference.
+    state.lang = row.dataset.lang === "en" ? state.dialect : row.dataset.lang;
+    try { localStorage.setItem("ivm_lang", state.lang); } catch(e) {}
+    updateLangActiveRow();
+    applyI18n();
+    refreshAfterLangChange();
     document.getElementById("langChip").classList.remove("open");
   });
 });
@@ -13822,7 +13839,30 @@ function openProfileModal(isWelcome){
   document.getElementById("profileOverlay").classList.add("open");
   renderProfileConnections();
   renderProfileMfa();
+  updateDialectToggle();
 }
+function updateDialectToggle(){
+  document.querySelectorAll("#profileDialectToggle [data-dialect]").forEach(btn => {
+    btn.classList.toggle("active", btn.dataset.dialect === state.dialect);
+  });
+}
+document.querySelectorAll("#profileDialectToggle [data-dialect]").forEach(btn => {
+  btn.addEventListener("click", () => {
+    state.dialect = btn.dataset.dialect;
+    try { localStorage.setItem("ivm_dialect", state.dialect); } catch(e) {}
+    updateDialectToggle();
+    // Only take effect immediately if English is the active UI language —
+    // switching this while Vietnamese is active just updates the stored
+    // preference for the next time English is selected.
+    if (state.lang.startsWith("en")){
+      state.lang = state.dialect;
+      try { localStorage.setItem("ivm_lang", state.lang); } catch(e) {}
+      if (typeof updateLangActiveRow === "function") updateLangActiveRow();
+      applyI18n();
+      refreshAfterLangChange();
+    }
+  });
+});
 
 const PROVIDER_LABELS = { google: "Google", facebook: "Facebook", github: "GitHub", microsoft: "Microsoft", apple: "Apple" };
 const PROVIDER_ICONS = {

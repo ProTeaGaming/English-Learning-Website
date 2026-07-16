@@ -81,96 +81,51 @@ def test_examples_use_us_spelling_and_terms(seeded_words):
     assert '<em>trash can</em>' in Word.objects.get(pk=8995).example
 
 
-# --- Task 2: 18 new words for US/UK pairs missing from the dataset entirely ---
+# --- Migration 0008: revert the 18 new words added by 0007 ---
 #
-# add_words() below is the real migration logic from
-# vocab/migrations/0007_add_us_uk_new_words.py. As with 0006 above, the
-# fresh/empty pytest-django test DB has no Category or CEFRLevel rows, and
-# add_words() calls Category.objects.get(slug=...) / CEFRLevel.objects.get(
-# code=...) directly (no .filter().update() no-op safety net like 0006's
-# apply_fixes) -- so without seeding, it would raise DoesNotExist rather than
-# silently doing nothing. It also relies on Word.objects.filter(category=...)
-# to compute the next `order` value, and (via
-# test_elevator_is_distinct_from_existing_lift_verb) on a pre-existing pk 5992
-# ("lift", a verb) that isn't part of this migration -- that row lives only in
-# the real dev db.sqlite3 dataset, not in migrations.
-#
-# test_eighteen_new_words_created asserts Word.objects.count() == 5018, which
-# is only true against the real dataset (5,000 pre-existing words + 18 new
-# ones). To exercise add_words() faithfully rather than weakening that
-# assertion, this fixture seeds the required Category/CEFRLevel rows, the
-# pre-existing pk 5992 "lift" verb, and 4,999 filler Word rows (5,000 total
-# pre-existing words including "lift") before calling the real add_words().
-migration_0007 = importlib.import_module(
-    'vocab.migrations.0007_add_us_uk_new_words'
+# The 18 new words (eggplant, elevator, etc.) turned out to be scope the
+# user didn't want -- they only wanted existing US-form words to gain a
+# UK-mode override, not brand-new vocabulary added to the dataset. 0008
+# reverses 0007: remove_words() deletes the 18 rows; restore_words() (its
+# reverse_code) recreates them, mirroring 0007's own add_words() logic.
+migration_0008 = importlib.import_module(
+    'vocab.migrations.0008_remove_us_uk_new_words'
 )
-NEW_WORDS_0007 = migration_0007.NEW_WORDS
-
-NEW_WORD_LIST = [
-    'eggplant', 'zucchini', 'diaper', 'sweater', 'flashlight', 'gasoline',
-    'sidewalk', 'faucet', 'parking lot', 'mailbox', 'cell phone', 'resume',
-    'stroller', 'pacifier', 'band-aid', 'crib', 'elevator', 'math',
-]
-NEW_WORD_PKS = list(range(9921, 9939))  # 9921..9938 inclusive
+NEW_WORDS_0008 = migration_0008.NEW_WORDS
+NEW_WORD_PKS = [row[0] for row in NEW_WORDS_0008]
 
 
 @pytest.fixture
-def seeded_new_words(db):
+def seeded_then_removed_words(db):
     cefr_codes = ['A1', 'A1+', 'A2', 'A2+', 'B1']
     cefr_by_code = {
         code: CEFRLevel.objects.create(code=code, name=code, order=i)
         for i, code in enumerate(cefr_codes)
     }
+    cat_slugs = sorted({row[7] for row in NEW_WORDS_0008})
+    categories = {slug: Category.objects.create(slug=slug, name=slug) for slug in cat_slugs}
 
-    cat_slugs = sorted({row[7] for row in NEW_WORDS_0007})
-    categories = [Category.objects.create(slug=slug, name=slug) for slug in cat_slugs]
-    filler_cat = categories[0]
-
-    # Pre-existing "lift" verb (pk 5992), referenced by
-    # test_elevator_is_distinct_from_existing_lift_verb. Not created by
-    # migration 0007 -- it's part of the real dev dataset.
-    Word.objects.create(
-        pk=5992, word='lift', pos='verb', definition='placeholder definition',
-        example='placeholder', category=filler_cat, cefr_level=cefr_by_code['A1'],
-    )
-
-    # Fill out the rest of the real dev db's 5,000 pre-existing words so
-    # Word.objects.count() == 5018 after add_words() is meaningful.
-    fillers = [
-        Word(
-            pk=pk, word=f'filler-word-{pk}', pos='noun',
-            definition='placeholder definition', example='placeholder',
-            category=filler_cat, cefr_level=cefr_by_code['A1'],
+    # Seed the 18 rows exactly as 0007 would have created them, so 0008's
+    # remove_words() has real rows to delete rather than a no-op.
+    for pk, word, pos, definition, example, synonyms, antonyms, cat_slug, cefr_code in NEW_WORDS_0008:
+        Word.objects.create(
+            pk=pk, word=word, pos=pos, definition=definition, example=example,
+            synonyms=synonyms, antonyms=antonyms,
+            category=categories[cat_slug], cefr_level=cefr_by_code[cefr_code],
         )
-        for pk in range(1, 5000) if pk != 5992
-    ]
-    Word.objects.bulk_create(fillers)
 
-    migration_0007.add_words(django_apps, None)
+    migration_0008.remove_words(django_apps, None)
 
 
 @pytest.mark.django_db
-def test_eighteen_new_words_created(seeded_new_words):
-    assert Word.objects.count() == 5018
-    for pk, word in zip(NEW_WORD_PKS, NEW_WORD_LIST):
-        w = Word.objects.get(pk=pk)
-        assert w.word == word, f"pk {pk} expected {word!r}, got {w.word!r}"
+def test_eighteen_new_words_removed(seeded_then_removed_words):
+    assert Word.objects.count() == 0  # only the 18 seeded rows existed in this test DB
+    assert not Word.objects.filter(pk__in=NEW_WORD_PKS).exists()
 
 
 @pytest.mark.django_db
-def test_new_words_have_categories_and_cefr(seeded_new_words):
-    for word in NEW_WORD_LIST:
-        w = Word.objects.get(word=word)
-        assert w.category_id is not None, f"{word!r} has no category"
-        assert w.cefr_level_id is not None, f"{word!r} has no CEFR level"
-        assert w.definition, f"{word!r} has no definition"
-        assert f"<em>{word}</em>" in w.example, f"{word!r} example doesn't italicize the headword"
-
-
-@pytest.mark.django_db
-def test_elevator_is_distinct_from_existing_lift_verb(seeded_new_words):
-    elevator = Word.objects.get(word='elevator')
-    lift_verb = Word.objects.get(pk=5992)
-    assert lift_verb.word == 'lift'
-    assert lift_verb.pos == 'verb'
-    assert elevator.pos == 'noun'
+def test_reverse_migration_restores_the_18_words(seeded_then_removed_words):
+    migration_0008.restore_words(django_apps, None)
+    assert Word.objects.count() == 18
+    for pk, word, *_ in NEW_WORDS_0008:
+        assert Word.objects.get(pk=pk).word == word
