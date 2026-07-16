@@ -9824,7 +9824,7 @@ function matchesFilters(word, f){
   if (f.learned === "unlearned" && isAnyLearned(word.w)) return false;
   if (f.search){
     const q = f.search.toLowerCase();
-    const hay = [word.w, wordDef(word), ...(word.syn||[]), ...(word.ant||[])].join(" ").toLowerCase();
+    const hay = [wordHeadword(word), wordDef(word), ...(wordSynonyms(word)||[]), ...(wordAntonyms(word)||[])].join(" ").toLowerCase();
     if (!hay.includes(q)) return false;
   }
   return true;
@@ -15040,7 +15040,7 @@ function renderWordGrid(){
     if (f.learned === "unlearned" && isAnyLearned(w.w)) return false;
     if (f.search){
       const q = f.search.toLowerCase();
-      const hay = [w.w, wordDef(w), ...(w.syn||[]), ...(w.ant||[])].join(" ").toLowerCase();
+      const hay = [wordHeadword(w), wordDef(w), ...(wordSynonyms(w)||[]), ...(wordAntonyms(w)||[])].join(" ").toLowerCase();
       if (!hay.includes(q)) return false;
     }
     return true;
@@ -15060,7 +15060,7 @@ function renderWordGrid(){
     card.innerHTML = `
       <div class="face">
         <div>
-          <div class="word">${word.w}</div>
+          <div class="word">${wordHeadword(word)}</div>
           <div class="pos">${word.pos}</div>
         </div>
         <span class="cefr-badge ${word.cefr}">${word.cefr}</span>
@@ -15071,9 +15071,9 @@ function renderWordGrid(){
           <button type="button" class="dbg-delete-word">✕</button>
         </span>
         <div class="rdef">${wordDef(word)}</div>
-        ${word.syn && word.syn.length ? `<div class="rrow"><b>${t("vocab.synonyms")}:</b> ${linkedWordsHtml(word.syn)}</div>` : ""}
-        ${word.ant && word.ant.length ? `<div class="rrow"><b>${t("vocab.antonyms")}:</b> ${linkedWordsHtml(word.ant)}</div>` : ""}
-        <div class="rex">${word.ex}</div>
+        ${word.syn && word.syn.length ? `<div class="rrow"><b>${t("vocab.synonyms")}:</b> ${linkedWordsHtml(wordSynonyms(word))}</div>` : ""}
+        ${word.ant && word.ant.length ? `<div class="rrow"><b>${t("vocab.antonyms")}:</b> ${linkedWordsHtml(wordAntonyms(word))}</div>` : ""}
+        <div class="rex">${wordExample(word)}</div>
         <div class="learn-state-row">
           <span class="learn-state-label">${t("common.progress")}:</span>
           <button class="learn-state-btn" data-state="${ws===null?"none":ws}">${learnStateLabel(ws)}</button>
@@ -15317,16 +15317,16 @@ function renderExamples(){
     item.className = `ex-item t-${CEFR_THEME[word.cefr]||"tb"}`;
     item.innerHTML = `
       <div class="ex-head">
-        <span class="ex-word">${word.w}</span>
+        <span class="ex-word">${wordHeadword(word)}</span>
         <span class="ex-pos">${word.pos}</span>
         <span class="cefr-badge ${word.cefr}">${word.cefr}</span>
       </div>
-      <div class="ex-sentence">${word.ex}</div>`;
+      <div class="ex-sentence">${wordExample(word)}</div>`;
     item.classList.add("interactive");
     item.insertAdjacentHTML("beforeend", `<div class="ex-reveal">
       <div class="rdef">${wordDef(word)}</div>
-      ${word.syn && word.syn.length ? `<div class="rrow"><b>${t("vocab.synonyms")}:</b> ${linkedWordsHtml(word.syn)}</div>` : ""}
-      ${word.ant && word.ant.length ? `<div class="rrow"><b>${t("vocab.antonyms")}:</b> ${linkedWordsHtml(word.ant)}</div>` : ""}
+      ${word.syn && word.syn.length ? `<div class="rrow"><b>${t("vocab.synonyms")}:</b> ${linkedWordsHtml(wordSynonyms(word))}</div>` : ""}
+      ${word.ant && word.ant.length ? `<div class="rrow"><b>${t("vocab.antonyms")}:</b> ${linkedWordsHtml(wordAntonyms(word))}</div>` : ""}
     </div>`);
     wireWordXrefs(item);
     item.addEventListener("click", (e) => {
@@ -15648,7 +15648,7 @@ function renderWordPicker(){
     if (wl === "learned" && !isLearned(w.w)) return false;
     if (wl === "unlearned" && isAnyLearned(w.w)) return false;
     if (!q) return true;
-    return [w.w, wordDef(w), ...(w.syn||[]), ...(w.ant||[])].join(" ").toLowerCase().includes(q);
+    return [wordHeadword(w), wordDef(w), ...(wordSynonyms(w)||[]), ...(wordAntonyms(w)||[])].join(" ").toLowerCase().includes(q);
   });
   document.querySelectorAll("#testWordHeadlineBar [data-word-headline]").forEach(btn => {
     btn.classList.toggle("active", btn.dataset.wordHeadline === hl);
@@ -15677,7 +15677,7 @@ function renderWordPicker(){
     const btn = document.createElement("button");
     const sel = state.test.selectedWords.has(w.w);
     btn.className = "chip" + (sel ? " active" : "");
-    btn.innerHTML = `${w.w} <span class="cefr-badge ${w.cefr}" style="font-size:.6rem;padding:1px 5px;margin-left:3px;vertical-align:middle;">${w.cefr}</span>`;
+    btn.innerHTML = `${wordHeadword(w)} <span class="cefr-badge ${w.cefr}" style="font-size:.6rem;padding:1px 5px;margin-left:3px;vertical-align:middle;">${w.cefr}</span>`;
     btn.addEventListener("click", () => {
       if (state.test.selectedWords.has(w.w)) state.test.selectedWords.delete(w.w);
       else state.test.selectedWords.add(w.w);
@@ -16015,20 +16015,20 @@ function openWordModal(word){
   currentModalWord = word;
   const cat = CAT_MAP[word.cat];
   document.getElementById("word-modal-card").className = `modal-card t-${CEFR_THEME[word.cefr]||"tb"}`;
-  document.getElementById("modal-word").textContent = word.w;
+  document.getElementById("modal-word").textContent = wordHeadword(word);
   document.getElementById("modal-pos").textContent = word.pos;
   const cefrEl = document.getElementById("modal-cefr");
   cefrEl.textContent = word.cefr; cefrEl.className = `cefr-badge ${word.cefr}`;
   document.getElementById("modal-def").textContent = wordDef(word);
   const synEl = document.getElementById("modal-syn");
-  synEl.innerHTML = word.syn && word.syn.length ? `<b>${t("vocab.synonyms")}:</b> ${linkedWordsHtml(word.syn)}` : "";
+  synEl.innerHTML = word.syn && word.syn.length ? `<b>${t("vocab.synonyms")}:</b> ${linkedWordsHtml(wordSynonyms(word))}` : "";
   synEl.style.display = word.syn && word.syn.length ? "" : "none";
   wireWordXrefs(synEl);
   const antEl = document.getElementById("modal-ant");
-  antEl.innerHTML = word.ant && word.ant.length ? `<b>${t("vocab.antonyms")}:</b> ${linkedWordsHtml(word.ant)}` : "";
+  antEl.innerHTML = word.ant && word.ant.length ? `<b>${t("vocab.antonyms")}:</b> ${linkedWordsHtml(wordAntonyms(word))}` : "";
   antEl.style.display = word.ant && word.ant.length ? "" : "none";
   wireWordXrefs(antEl);
-  document.getElementById("modal-ex").innerHTML = word.ex;
+  document.getElementById("modal-ex").innerHTML = wordExample(word);
   const catEl = document.getElementById("modal-cat");
   if (cat){ catEl.innerHTML = `<b>${t("nav.category")}:</b> ${catName(cat)}`; catEl.style.display = ""; }
   else catEl.style.display = "none";
@@ -16127,7 +16127,7 @@ document.getElementById("testSelectAllWords").addEventListener("click", () => {
     if (wl === "learned" && !isLearned(w.w)) return false;
     if (wl === "unlearned" && isAnyLearned(w.w)) return false;
     if (!q) return true;
-    return [w.w, wordDef(w), ...(w.syn||[]), ...(w.ant||[])].join(" ").toLowerCase().includes(q);
+    return [wordHeadword(w), wordDef(w), ...(wordSynonyms(w)||[]), ...(wordAntonyms(w)||[])].join(" ").toLowerCase().includes(q);
   }).forEach(w => state.test.selectedWords.add(w.w));
   renderWordPicker();
 });
