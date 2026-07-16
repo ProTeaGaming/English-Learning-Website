@@ -67,15 +67,8 @@ def add_words(apps, schema_editor):
     CEFRLevel = apps.get_model('vocab', 'CEFRLevel')
 
     for pk, word, pos, definition, example, synonyms, antonyms, cat_slug, cefr_code in NEW_WORDS:
-        try:
-            category = Category.objects.get(slug=cat_slug)
-            cefr = CEFRLevel.objects.get(code=cefr_code)
-        except (Category.DoesNotExist, CEFRLevel.DoesNotExist):
-            # No-op, same as 0006's filter().update(): a schema-only database
-            # (e.g. pytest-django's fresh test DB, built from migrations
-            # without the real seeded Category/CEFRLevel dataset) has nothing
-            # for this word to attach to, so skip it rather than raising.
-            continue
+        category = Category.objects.get(slug=cat_slug)
+        cefr = CEFRLevel.objects.get(code=cefr_code)
         max_order = Word.objects.filter(category=category).order_by('-order').first()
         next_order = (max_order.order + 1) if max_order else 0
         Word.objects.create(
