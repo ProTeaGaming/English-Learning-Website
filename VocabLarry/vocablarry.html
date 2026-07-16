@@ -15498,24 +15498,24 @@ function buildQuestion(word, mode){
     case "word":
       promptKey = "qPrompt.word";
       text = wordDef(word);
-      correct = word.w;
-      options = buildOptions(correct, others, w => w.w);
+      correct = wordHeadword(word);
+      options = buildOptions(correct, others, w => wordHeadword(w));
       break;
     case "synonym":
       promptKey = "qPrompt.synonym";
-      text = `${word.w} <span class="qpos">(${word.pos})</span>`;
-      correct = capitalize(word.syn[Math.floor(Math.random()*word.syn.length)]);
-      options = buildOptions(correct, others.filter(w => w.w !== correct), w => w.w);
+      text = `${wordHeadword(word)} <span class="qpos">(${word.pos})</span>`;
+      correct = capitalize(wordSynonyms(word)[Math.floor(Math.random()*wordSynonyms(word).length)]);
+      options = buildOptions(correct, others.filter(w => wordHeadword(w) !== correct), w => wordHeadword(w));
       break;
     case "antonym":
       promptKey = "qPrompt.antonym";
-      text = `${word.w} <span class="qpos">(${word.pos})</span>`;
-      correct = capitalize(word.ant[Math.floor(Math.random()*word.ant.length)]);
-      options = buildOptions(correct, others.filter(w => w.w !== correct), w => w.w);
+      text = `${wordHeadword(word)} <span class="qpos">(${word.pos})</span>`;
+      correct = capitalize(wordAntonyms(word)[Math.floor(Math.random()*wordAntonyms(word).length)]);
+      options = buildOptions(correct, others.filter(w => wordHeadword(w) !== correct), w => wordHeadword(w));
       break;
     default:
       promptKey = "qPrompt.definition";
-      text = `${word.w} <span class="qpos">(${word.pos})</span>`;
+      text = `${wordHeadword(word)} <span class="qpos">(${word.pos})</span>`;
       correct = wordDef(word);
       options = buildOptions(correct, others, w => wordDef(w));
   }
@@ -15561,9 +15561,9 @@ function buildGapQuestion(word, gapMode = "context"){
     }
   }
 
-  const options = buildOptions(word.w, distractorPool, w => w.w);
+  const options = buildOptions(wordHeadword(word), distractorPool, w => wordHeadword(w));
   const text = word.gap.replace("___", `<span class="gapblank">_____</span>`);
-  return {text, options, correct:word.w, word, promptKey};
+  return {text, options, correct: wordHeadword(word), word, promptKey};
 }
 
 function buildHybridQuestion(word){
@@ -15909,14 +15909,14 @@ function handleTestAnswer(selectedBtn, q, isReplay){
   }
   let feedback;
   if (q.type === "gap"){
-    const fullEx = q.word.ex.replace(/<\/?em>/g, "");
+    const fullEx = wordExample(q.word).replace(/<\/?em>/g, "");
     feedback = isCorrect
-      ? `<b>${t("testUi.correct")}</b> ${q.word.w} — ${wordDef(q.word)}<br>${fullEx}`
+      ? `<b>${t("testUi.correct")}</b> ${wordHeadword(q.word)} — ${wordDef(q.word)}<br>${fullEx}`
       : `<b>${t("testUi.notQuite")}</b> ${t("testUi.theAnswerIs").replace("{answer}", q.correct)} — ${wordDef(q.word)}<br>${fullEx}`;
   } else {
     feedback = isCorrect
-      ? `<b>${t("testUi.correct")}</b> ${q.word.w} — ${wordDef(q.word)}`
-      : `<b>${t("testUi.notQuite")}</b> ${q.word.w} — ${wordDef(q.word)}`;
+      ? `<b>${t("testUi.correct")}</b> ${wordHeadword(q.word)} — ${wordDef(q.word)}`
+      : `<b>${t("testUi.notQuite")}</b> ${wordHeadword(q.word)} — ${wordDef(q.word)}`;
   }
   play.querySelector(".q-feedback").innerHTML = feedback;
   play.querySelector(".q-meta span:last-child").textContent = t("testUi.scoreLabel").replace("{n}", state.test.score);
