@@ -3,9 +3,12 @@ from django.conf.urls.static import static
 from django.urls import include, path
 
 from config.views import home
+from config.views_vocab import vocab_browse, vocab_category
 
 urlpatterns = [
     path('', home, name='home'),
+    path('vocab/', vocab_browse, name='vocab_browse'),
+    path('vocab/<slug:slug>/', vocab_category, name='vocab_category'),
     path('accounts/', include('allauth.urls')),
     path('auth/', include('accounts.urls')),
     path('api/', include('api.urls')),

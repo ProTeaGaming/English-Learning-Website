@@ -1,7 +1,7 @@
 <nav class="site-nav">
   <a class="brand" href="{% url 'home' %}">Vocab<b>Larry</b></a>
   <ul class="nav-links">
-    <li><span class="disabled" data-i18n="nav.vocabulary">Vocabulary</span> <small data-i18n="nav.comingSoon">Coming soon</small></li>
+    <li><a href="{% url 'vocab_browse' %}" data-i18n="nav.vocabulary">Vocabulary</a></li>
     <li><span class="disabled" data-i18n="nav.grammar">Grammar</span> <small data-i18n="nav.comingSoon">Coming soon</small></li>
   </ul>
   <div class="nav-actions">

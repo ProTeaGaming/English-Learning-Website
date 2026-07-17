@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Vocabulary — VocabLarry{% endblock %}
+{% block extra_head %}<link rel="stylesheet" href="{% static 'css/vocab.css' %}">{% endblock %}
+{% block content %}
+<section class="vocab-browse">
+  <h1>Vocabulary</h1>
+  <form method="get" class="vocab-filters">
+    <input type="text" name="q" value="{{ query }}" placeholder="Search categories…">
+    <select name="cefr">
+      <option value="">All levels</option>
+      {% for level in cefr_levels %}
+        <option value="{{ level.code }}" {% if level.code == cefr_filter %}selected{% endif %}>{{ level.code }}</option>
+      {% endfor %}
+    </select>
+    <button type="submit" class="btn">Filter</button>
+  </form>
+  {% if categories %}
+  <div class="category-grid">
+    {% for category in categories %}
+    <a class="category-card" href="{% url 'vocab_category' category.slug %}"
+       style="--cat-bg:{{ category.color.bg_hex|default:'#f4f4f8' }}; --cat-text:{{ category.color.text_hex|default:'#16161f' }};">
+      <span class="category-icon">{{ category.icon }}</span>
+      <span class="category-name">{{ category.name }}</span>
+      {% if category.cefr_level %}<span class="category-cefr">{{ category.cefr_level.code }}</span>{% endif %}
+    </a>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p class="vocab-empty">No categories match your search.</p>
+  {% endif %}
+</section>
+{% endblock %}
