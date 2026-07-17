@@ -335,19 +335,6 @@ html[lang="vi"] .nav-group[data-section="vocabulary"] .nav-dropdown{min-width:96
 .profile-conn-btn.profile-conn-disconnect{border-color:rgba(220,38,38,.3); color:#dc2626; background:rgba(220,38,38,.06);}
 .profile-conn-btn.profile-conn-disconnect:hover{border-color:rgba(220,38,38,.55); background:rgba(220,38,38,.12);}
 .profile-conn-btn:disabled{opacity:.5; cursor:not-allowed;}
-.profile-mfa-secret{
-  display:block; margin-top:6px; padding:6px 8px; border-radius:6px;
-  background:rgba(var(--vio),.1); font-family:'JetBrains Mono',monospace; font-size:.8rem;
-  word-break:break-all; user-select:all;
-}
-.profile-mfa-codes{
-  display:grid; grid-template-columns:1fr 1fr; gap:6px; margin:10px 0;
-  font-family:'JetBrains Mono',monospace; font-size:.85rem;
-}
-.profile-mfa-codes span{
-  padding:6px 8px; border-radius:6px; background:rgba(var(--vio),.08);
-  border:1px solid rgba(var(--vio),.2); text-align:center; user-select:all;
-}
 .auth-modal-info:empty{display:none;}
 .auth-options-row{display:flex; align-items:center; justify-content:space-between; gap:10px; margin:-6px 0 14px;}
 .auth-forgot-link{margin:0; font-size:.8rem;}
@@ -1757,24 +1744,6 @@ function iconSvg(emoji, cls){
       <p class="auth-divider-label" data-i18n="auth.connectedAccounts">Connected accounts</p>
       <p class="auth-modal-error" id="profileConnectionsError"></p>
       <div id="profileConnectionsList"></div>
-    </div>
-    <div class="profile-connections">
-      <p class="auth-divider-label" data-i18n="auth.twoFactorAuth">Two-factor authentication</p>
-      <p class="auth-modal-error" id="profileMfaError"></p>
-      <div id="profileMfaStatus"></div>
-      <div id="profileMfaSetup" class="auth-hidden">
-        <p class="auth-modal-info" id="profileMfaSecretInfo"></p>
-        <label class="auth-field">
-          <span data-i18n="auth.enterCodeToActivate">Enter the 6-digit code from your app</span>
-          <input type="text" id="profileMfaCode" inputmode="numeric" autocomplete="one-time-code" maxlength="6">
-        </label>
-        <button type="button" class="profile-conn-btn" id="profileMfaActivateBtn" data-i18n="auth.activate">Activate</button>
-      </div>
-      <div id="profileMfaRecovery" class="auth-hidden">
-        <p class="auth-modal-info" data-i18n="auth.recoveryCodesWarning">Save these recovery codes somewhere safe — each can be used once if you lose access to your authenticator app, and they won't be shown again.</p>
-        <div id="profileMfaRecoveryCodes" class="profile-mfa-codes"></div>
-        <button type="button" class="profile-conn-btn" id="profileMfaRecoveryDoneBtn" data-i18n="auth.savedRecoveryCodes">I've saved these codes</button>
-      </div>
     </div>
   </div>
 </div>
@@ -8794,20 +8763,6 @@ const UI_STRINGS = {
     "auth.disconnect": "Disconnect",
     "auth.connected": "Connected",
     "auth.disconnectFailed": "Could not disconnect this account.",
-    "auth.twoFactorAuth": "Two-factor authentication",
-    "auth.mfaEnabled": "Two-factor authentication is on.",
-    "auth.mfaNotEnabled": "Two-factor authentication is off.",
-    "auth.enable2fa": "Enable",
-    "auth.disable2fa": "Disable",
-    "auth.mfaSecretInfo": "In your authenticator app (Google Authenticator, Authy, 1Password, etc.), add a new account and enter this code manually:",
-    "auth.enterCodeToActivate": "Enter the 6-digit code from your app",
-    "auth.activate": "Activate",
-    "auth.recoveryCodesWarning": "Save these recovery codes somewhere safe — each can be used once if you lose access to your authenticator app, and they won't be shown again.",
-    "auth.savedRecoveryCodes": "I've saved these codes",
-    "auth.mfaSetupFailed": "Could not start two-factor setup.",
-    "auth.mfaActivationFailed": "Incorrect code. Check your authenticator app and try again.",
-    "auth.mfaDisableConfirm": "Turn off two-factor authentication for your account?",
-    "auth.mfaDisableFailed": "Could not disable two-factor authentication.",
     "auth.resetProgress": "Reset progress",
     "auth.signOut": "Sign out",
     "auth.deleteAccount": "Delete account",
@@ -9181,20 +9136,6 @@ const UI_STRINGS = {
     "auth.disconnect": "Hủy liên kết",
     "auth.connected": "Đã liên kết",
     "auth.disconnectFailed": "Không thể hủy liên kết tài khoản này.",
-    "auth.twoFactorAuth": "Xác thực hai yếu tố",
-    "auth.mfaEnabled": "Xác thực hai yếu tố đang bật.",
-    "auth.mfaNotEnabled": "Xác thực hai yếu tố đang tắt.",
-    "auth.enable2fa": "Bật",
-    "auth.disable2fa": "Tắt",
-    "auth.mfaSecretInfo": "Trong ứng dụng xác thực của bạn (Google Authenticator, Authy, 1Password, v.v.), thêm một tài khoản mới và nhập mã này theo cách thủ công:",
-    "auth.enterCodeToActivate": "Nhập mã 6 chữ số từ ứng dụng của bạn",
-    "auth.activate": "Kích hoạt",
-    "auth.recoveryCodesWarning": "Lưu các mã khôi phục này ở nơi an toàn — mỗi mã chỉ dùng được một lần nếu bạn mất quyền truy cập vào ứng dụng xác thực, và chúng sẽ không hiển thị lại.",
-    "auth.savedRecoveryCodes": "Tôi đã lưu các mã này",
-    "auth.mfaSetupFailed": "Không thể bắt đầu thiết lập xác thực hai yếu tố.",
-    "auth.mfaActivationFailed": "Mã không đúng. Kiểm tra ứng dụng xác thực và thử lại.",
-    "auth.mfaDisableConfirm": "Tắt xác thực hai yếu tố cho tài khoản của bạn?",
-    "auth.mfaDisableFailed": "Không thể tắt xác thực hai yếu tố.",
     "auth.resetProgress": "Đặt lại tiến độ",
     "auth.signOut": "Đăng xuất",
     "auth.deleteAccount": "Xóa tài khoản",
@@ -13838,7 +13779,6 @@ function openProfileModal(isWelcome){
   subtitle.classList.toggle("auth-hidden", !isWelcome);
   document.getElementById("profileOverlay").classList.add("open");
   renderProfileConnections();
-  renderProfileMfa();
   updateDialectToggle();
 }
 function updateDialectToggle(){
@@ -13927,121 +13867,6 @@ async function disconnectProvider(provider, uid){
   }
 }
 
-let mfaSetupSecret = null; // holds the pending secret between "Enable" and "Activate"
-
-function setMfaStatusHtml(enabled){
-  const statusEl = document.getElementById("profileMfaStatus");
-  statusEl.innerHTML = `
-    <div class="profile-conn-row">
-      <span class="profile-conn-name">${enabled ? t("auth.mfaEnabled") : t("auth.mfaNotEnabled")}</span>
-      <button type="button" class="profile-conn-btn${enabled ? " profile-conn-disconnect" : ""}" id="profileMfaToggleBtn">
-        ${enabled ? t("auth.disable2fa") : t("auth.enable2fa")}
-      </button>
-    </div>`;
-  document.getElementById("profileMfaToggleBtn").addEventListener("click", () => {
-    enabled ? disableMfa() : startMfaSetup();
-  });
-}
-
-async function renderProfileMfa(){
-  const errEl = document.getElementById("profileMfaError");
-  const statusEl = document.getElementById("profileMfaStatus");
-  errEl.textContent = "";
-  document.getElementById("profileMfaSetup").classList.add("auth-hidden");
-  document.getElementById("profileMfaRecovery").classList.add("auth-hidden");
-  document.getElementById("profileMfaCode").value = "";
-  statusEl.innerHTML = `<p class="sub">${t("common.loading")}</p>`;
-  let enabled = false;
-  try {
-    const res = await authFetch(`${ALLAUTH_BASE}/account/authenticators/totp`, { method: "GET" });
-    enabled = res.status === 200;
-  } catch(e){
-    statusEl.innerHTML = "";
-    errEl.textContent = t("auth.networkError");
-    return;
-  }
-  setMfaStatusHtml(enabled);
-}
-
-async function startMfaSetup(){
-  const errEl = document.getElementById("profileMfaError");
-  errEl.textContent = "";
-  try {
-    const res = await authFetch(`${ALLAUTH_BASE}/account/authenticators/totp`, { method: "GET" });
-    const data = await res.json();
-    if (res.status !== 404 || !data.meta?.secret){
-      errEl.textContent = t("auth.mfaSetupFailed");
-      return;
-    }
-    mfaSetupSecret = data.meta.secret;
-    document.getElementById("profileMfaSecretInfo").innerHTML =
-      `${t("auth.mfaSecretInfo")}<code class="profile-mfa-secret">${mfaSetupSecret}</code>`;
-    document.getElementById("profileMfaSetup").classList.remove("auth-hidden");
-    document.getElementById("profileMfaCode").focus();
-  } catch(e){
-    errEl.textContent = t("auth.networkError");
-  }
-}
-
-document.getElementById("profileMfaActivateBtn").addEventListener("click", async () => {
-  const errEl = document.getElementById("profileMfaError");
-  errEl.textContent = "";
-  const code = document.getElementById("profileMfaCode").value.trim();
-  if (!code) return;
-  try {
-    const res = await authFetch(`${ALLAUTH_BASE}/account/authenticators/totp`, {
-      method: "POST",
-      body: JSON.stringify({ code }),
-    });
-    const data = await res.json();
-    if (!res.ok){
-      errEl.textContent = data.errors?.[0]?.message || t("auth.mfaActivationFailed");
-      return;
-    }
-    mfaSetupSecret = null;
-    document.getElementById("profileMfaSetup").classList.add("auth-hidden");
-    // Update just the status line, not the full renderProfileMfa() reset —
-    // that unconditionally re-hides #profileMfaRecovery, which would hide
-    // the codes shown immediately below before the user ever sees them.
-    setMfaStatusHtml(true);
-    await showMfaRecoveryCodes();
-  } catch(e){
-    errEl.textContent = t("auth.networkError");
-  }
-});
-
-async function showMfaRecoveryCodes(){
-  try {
-    const res = await authFetch(`${ALLAUTH_BASE}/account/authenticators/recovery-codes`, { method: "GET" });
-    const data = await res.json();
-    const codes = data.data?.unused_codes || [];
-    if (!codes.length) return;
-    document.getElementById("profileMfaRecoveryCodes").innerHTML =
-      codes.map(c => `<span>${c}</span>`).join("");
-    document.getElementById("profileMfaRecovery").classList.remove("auth-hidden");
-  } catch(e){}
-}
-
-document.getElementById("profileMfaRecoveryDoneBtn").addEventListener("click", () => {
-  document.getElementById("profileMfaRecovery").classList.add("auth-hidden");
-});
-
-async function disableMfa(){
-  if (!await debugConfirm(t("auth.mfaDisableConfirm"))) return;
-  const errEl = document.getElementById("profileMfaError");
-  errEl.textContent = "";
-  try {
-    const res = await authFetch(`${ALLAUTH_BASE}/account/authenticators/totp`, { method: "DELETE" });
-    if (!res.ok){
-      const data = await res.json().catch(() => ({}));
-      errEl.textContent = data.errors?.[0]?.message || t("auth.mfaDisableFailed");
-      return;
-    }
-    await renderProfileMfa();
-  } catch(e){
-    errEl.textContent = t("auth.networkError");
-  }
-}
 
 document.getElementById("editProfileBtn").addEventListener("click", () => {
   document.getElementById("userChip").classList.remove("open");
