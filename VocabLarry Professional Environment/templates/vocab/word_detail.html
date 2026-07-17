@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}{{ word.word }} — VocabLarry{% endblock %}
+{% block extra_head %}<link rel="stylesheet" href="{% static 'css/vocab.css' %}">{% endblock %}
+{% block content %}
+<section class="vocab-word-detail">
+  <p class="vocab-breadcrumb">
+    <a href="{% url 'vocab_browse' %}">Vocabulary</a> /
+    <a href="{% url 'vocab_category' word.category.slug %}">{{ word.category.name }}</a> /
+    {{ word.word }}
+  </p>
+  <h1>{{ word.word }}{% if word.pos %} <span class="vocab-pos">{{ word.pos }}</span>{% endif %}</h1>
+  <p class="vocab-definition">{{ word.definition }}</p>
+  {% if word.example %}<p class="vocab-example">"{{ word.example }}"</p>{% endif %}
+  {% if word.synonyms %}<p class="vocab-synonyms"><strong>Synonyms:</strong> {{ word.synonyms|join:", " }}</p>{% endif %}
+  {% if word.antonyms %}<p class="vocab-antonyms"><strong>Antonyms:</strong> {{ word.antonyms|join:", " }}</p>{% endif %}
+  {% if user.is_authenticated %}
+  <div class="learn-state-row">
+    <span class="learn-state-label">Progress:</span>
+    <button type="button" class="learn-state-btn" data-word-id="{{ word.pk }}"
+            data-state="{{ learn_state|default:'none' }}">
+      {% if learn_state == 'learned' %}Learned{% elif learn_state == 'little' %}Little Bit{% else %}Not Learned{% endif %}
+    </button>
+  </div>
+  {% endif %}
+</section>
+{% endblock %}

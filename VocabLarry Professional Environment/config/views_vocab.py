@@ -1,8 +1,8 @@
 from django.core.paginator import Paginator
-from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render
+from django.views.decorators.csrf import ensure_csrf_cookie
 
-from vocab.models import CEFRLevel, Category
+from vocab.models import CEFRLevel, Category, Word
 
 
 def vocab_browse(request):
@@ -35,12 +35,15 @@ def vocab_category(request, slug):
     })
 
 
+@ensure_csrf_cookie
 def vocab_word_detail(request, pk):
-    # Stub for Task 3 — real implementation replaces only this function
-    # body. This task's own template (category_word_list.html) renders
-    # real Word rows through a {% url 'vocab_word_detail' word.pk %}
-    # reference, which Django evaluates (and would raise NoReverseMatch
-    # for) at render time if no route named vocab_word_detail exists at
-    # all — a route must be registered now, at the exact path Task 3
-    # specifies, so Task 3 only needs to change this function's body.
-    return HttpResponse('Word detail page coming in Task 3', status=501)
+    word = get_object_or_404(
+        Word.objects.select_related('category', 'cefr_level'), pk=pk
+    )
+    learn_state = None
+    if request.user.is_authenticated:
+        learn_state = request.user.learn_map.get(str(word.pk))
+    return render(request, 'vocab/word_detail.html', {
+        'word': word,
+        'learn_state': learn_state,
+    })

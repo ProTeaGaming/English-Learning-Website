@@ -97,3 +97,59 @@ def test_vocab_category_pagination(cefr_a1):
     body2 = r2.content.decode()
     assert 'Word29' in body2
     assert 'Word00' not in body2
+
+
+@pytest.mark.django_db
+def test_vocab_word_detail_renders(cefr_a1):
+    category = Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1)
+    word = Word.objects.create(
+        word='Cat', pos='noun', definition='A small domesticated pet.',
+        example='The cat slept all day.', synonyms=['feline'], antonyms=[],
+        category=category, order=1,
+    )
+    c = Client()
+    r = c.get(f'/vocab/word/{word.pk}/')
+    assert r.status_code == 200
+    body = r.content.decode()
+    assert 'Cat' in body
+    assert 'A small domesticated pet.' in body
+    assert 'The cat slept all day.' in body
+    assert 'feline' in body
+
+
+@pytest.mark.django_db
+def test_vocab_word_detail_unknown_id_404():
+    c = Client()
+    r = c.get('/vocab/word/999999/')
+    assert r.status_code == 404
+
+
+@pytest.mark.django_db
+def test_vocab_word_detail_shows_progress_toggle_when_authenticated(cefr_a1, regular_user):
+    category = Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1)
+    word = Word.objects.create(word='Cat', definition='x', category=category, order=1)
+    c = Client()
+    c.force_login(regular_user)
+    r = c.get(f'/vocab/word/{word.pk}/')
+    assert 'learn-state-btn' in r.content.decode()
+
+
+@pytest.mark.django_db
+def test_vocab_word_detail_hides_progress_toggle_when_anonymous(cefr_a1):
+    category = Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1)
+    word = Word.objects.create(word='Cat', definition='x', category=category, order=1)
+    c = Client()
+    r = c.get(f'/vocab/word/{word.pk}/')
+    assert 'learn-state-btn' not in r.content.decode()
+
+
+@pytest.mark.django_db
+def test_vocab_word_detail_reflects_existing_progress(cefr_a1, regular_user):
+    category = Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1)
+    word = Word.objects.create(word='Cat', definition='x', category=category, order=1)
+    regular_user.learn_map = {str(word.pk): 'learned'}
+    regular_user.save()
+    c = Client()
+    c.force_login(regular_user)
+    r = c.get(f'/vocab/word/{word.pk}/')
+    assert 'data-state="learned"' in r.content.decode()
