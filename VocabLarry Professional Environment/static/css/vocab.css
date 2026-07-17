@@ -49,3 +49,30 @@
 
 .vocab-breadcrumb{ color: var(--muted); font-size: 0.9rem; margin: 24px 0 4px; }
 .vocab-breadcrumb a{ color: var(--muted); }
+
+.word-list{
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 10px;
+}
+.word-list li a{
+  display: block;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--card-bg);
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 600;
+}
+.vocab-pagination{
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 0 48px;
+  color: var(--muted);
+}
+.vocab-pagination a{ font-weight: 700; }

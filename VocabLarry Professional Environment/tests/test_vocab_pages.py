@@ -1,6 +1,6 @@
 import pytest
 from django.test import Client
-from vocab.models import CEFRLevel, Category
+from vocab.models import CEFRLevel, Category, Word
 
 
 @pytest.fixture
@@ -61,3 +61,39 @@ def test_home_nav_links_to_vocab_browse():
     # "coming soon" is gone entirely, only that Vocabulary now links out.
     assert 'href="/vocab/"' in body
     assert 'data-i18n="nav.vocabulary">Vocabulary</a>' in body
+
+
+@pytest.mark.django_db
+def test_vocab_category_renders_words(cefr_a1):
+    category = Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1)
+    Word.objects.create(word='Cat', definition='A small pet.', category=category, order=1)
+    Word.objects.create(word='Dog', definition='A loyal pet.', category=category, order=2)
+    c = Client()
+    r = c.get('/vocab/category/animals/')
+    assert r.status_code == 200
+    body = r.content.decode()
+    assert 'Cat' in body
+    assert 'Dog' in body
+
+
+@pytest.mark.django_db
+def test_vocab_category_unknown_slug_404():
+    c = Client()
+    r = c.get('/vocab/category/does-not-exist/')
+    assert r.status_code == 404
+
+
+@pytest.mark.django_db
+def test_vocab_category_pagination(cefr_a1):
+    category = Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1)
+    for i in range(30):
+        Word.objects.create(word=f'Word{i:02d}', definition='x', category=category, order=i)
+    c = Client()
+    r1 = c.get('/vocab/category/animals/')
+    body1 = r1.content.decode()
+    assert 'Word00' in body1
+    assert 'Word29' not in body1  # page 2 content shouldn't leak onto page 1
+    r2 = c.get('/vocab/category/animals/?page=2')
+    body2 = r2.content.decode()
+    assert 'Word29' in body2
+    assert 'Word00' not in body2

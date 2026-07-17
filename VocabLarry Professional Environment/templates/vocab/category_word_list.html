@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}{{ category.name }} — VocabLarry{% endblock %}
+{% block extra_head %}<link rel="stylesheet" href="{% static 'css/vocab.css' %}">{% endblock %}
+{% block content %}
+<section class="vocab-category">
+  <p class="vocab-breadcrumb"><a href="{% url 'vocab_browse' %}">Vocabulary</a> / {{ category.name }}</p>
+  <h1>{{ category.name }}</h1>
+  <ul class="word-list">
+    {% for word in page_obj %}
+    <li><a href="{% url 'vocab_word_detail' word.pk %}">{{ word.word }}</a></li>
+    {% endfor %}
+  </ul>
+  {% if page_obj.paginator.num_pages > 1 %}
+  <nav class="vocab-pagination">
+    {% if page_obj.has_previous %}<a href="?page={{ page_obj.previous_page_number }}">Previous</a>{% endif %}
+    <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+    {% if page_obj.has_next %}<a href="?page={{ page_obj.next_page_number }}">Next</a>{% endif %}
+  </nav>
+  {% endif %}
+</section>
+{% endblock %}
