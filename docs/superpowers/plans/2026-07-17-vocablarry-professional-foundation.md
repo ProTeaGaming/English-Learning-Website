@@ -80,7 +80,6 @@ with open(src_env, encoding='utf-8') as f:
 
 lines = [
     f\"DJANGO_SECRET_KEY={secrets.token_urlsafe(50)}\",
-    'EMAIL_VERIFICATION=optional',
     f\"GOOGLE_CLIENT_ID={values.get('GOOGLE_CLIENT_ID', '')}\",
     f\"GOOGLE_CLIENT_SECRET={values.get('GOOGLE_CLIENT_SECRET', '')}\",
     'FACEBOOK_CLIENT_ID=',
@@ -98,6 +97,13 @@ with open(dst_env, 'w', encoding='utf-8') as f:
 print('wrote', dst_env, '(secret values copied, not printed)')
 "
 ```
+
+`EMAIL_VERIFICATION` is deliberately left unset so it defaults to
+`mandatory` (`config/settings.py`'s `ACCOUNT_EMAIL_VERIFICATION`),
+matching production — Task 2's adapted signup test
+(`test_signup_with_deliverable_domain_still_works`) asserts a redirect to
+`/accounts/confirm-email/`, which only happens under mandatory
+verification. Setting it to `optional` here would make that test fail.
 
 - [ ] **Step 3: Verify the copy is self-consistent**
 
@@ -846,14 +852,18 @@ cd "D:\IT RELATED\CLAUDE BOMBASTIC AI\VocabLarry Professional Environment"
 python manage.py runserver 8001
 ```
 
-Click through, in order: home → Sign Up (create a throwaway account; with
-`EMAIL_VERIFICATION=optional` in this project's `.env` you're logged in
-immediately) → nav now shows your username and a Sign Out link → Sign Out
-→ Sign In with the same credentials → Sign In page's "Sign in with Google"
-button → confirm it lands on Google's real OAuth consent screen (you can
-cancel out, the point is confirming the redirect fires) → back on the
-site, visit `/accounts/password/reset/` and confirm it renders inside the
-branded layout. Stop the server (Ctrl+C) when done.
+Click through, in order: home → Sign Up (create a throwaway account) →
+email verification is mandatory in this project's `.env` (matching
+production), so you land on the "check your inbox" confirm-email page
+instead of being logged in immediately; the verification email prints to
+the console running `runserver` (no SMTP configured) — copy the
+`/accounts/confirm-email/<key>/` link from that console output into the
+browser to complete verification → nav now shows your username and a Sign
+Out link → Sign Out → Sign In with the same credentials → Sign In page's
+"Sign in with Google" button → confirm it lands on Google's real OAuth
+consent screen (you can cancel out, the point is confirming the redirect
+fires) → back on the site, visit `/accounts/password/reset/` and confirm
+it renders inside the branded layout. Stop the server (Ctrl+C) when done.
 
 - [ ] **Step 7: Commit**
 
