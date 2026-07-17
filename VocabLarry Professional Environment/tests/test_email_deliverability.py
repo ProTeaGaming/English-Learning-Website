@@ -72,15 +72,12 @@ def test_clean_email_accepts_deliverable_domain(mocker):
 def test_signup_rejects_undeliverable_email_domain(mocker):
     mocker.patch('accounts.adapters.email_domain_accepts_mail', return_value=False)
     c = Client()
-    r = c.post(
-        '/_allauth/browser/v1/auth/signup',
-        json.dumps({'email': 'me@unpurchased-brand.com', 'username': 'branduser',
-                    'password': 'Str0ng-pass-123'}),
-        content_type='application/json',
-    )
-    assert r.status_code == 400
-    errors = json.loads(r.content)['errors']
-    assert any(e.get('param') == 'email' for e in errors)
+    r = c.post('/accounts/signup/', {
+        'email': 'me@unpurchased-brand.com', 'username': 'branduser',
+        'password1': 'Str0ng-pass-123', 'password2': 'Str0ng-pass-123',
+    })
+    assert r.status_code == 200  # re-renders the form with an error
+    assert 'This email domain cannot receive mail' in r.content.decode()
     assert not get_user_model().objects.filter(email='me@unpurchased-brand.com').exists()
 
 
@@ -88,14 +85,12 @@ def test_signup_rejects_undeliverable_email_domain(mocker):
 def test_signup_with_deliverable_domain_still_works(mocker):
     mocker.patch('accounts.adapters.email_domain_accepts_mail', return_value=True)
     c = Client()
-    r = c.post(
-        '/_allauth/browser/v1/auth/signup',
-        json.dumps({'email': 'me@example.com', 'username': 'newuser',
-                    'password': 'Str0ng-pass-123'}),
-        content_type='application/json',
-    )
-    # Mandatory verification: account is created, session pends on verify_email.
-    assert r.status_code == 401
-    flows = json.loads(r.content)['data']['flows']
-    assert any(f['id'] == 'verify_email' for f in flows)
+    r = c.post('/accounts/signup/', {
+        'email': 'me@example.com', 'username': 'newuser',
+        'password1': 'Str0ng-pass-123', 'password2': 'Str0ng-pass-123',
+    })
+    # Mandatory verification: account is created, redirected to the
+    # "check your inbox" page rather than logged straight in.
+    assert r.status_code == 302
+    assert r['Location'] == '/accounts/confirm-email/'
     assert get_user_model().objects.filter(email='me@example.com').exists()

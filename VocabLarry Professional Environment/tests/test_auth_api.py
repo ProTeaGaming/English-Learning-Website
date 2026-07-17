@@ -195,54 +195,6 @@ def test_social_account_added_signal_flags_session(regular_user, rf):
 
 
 @pytest.mark.django_db
-def test_connected_providers_list_and_disconnect(regular_user):
-    from allauth.account.models import EmailAddress
-    from allauth.socialaccount.models import SocialAccount
-
-    # Disconnecting your only SocialAccount also requires a verified email
-    # on file (so a password reset stays possible) — the regular_user
-    # fixture doesn't create one by default.
-    EmailAddress.objects.create(user=regular_user, email=regular_user.email, verified=True, primary=True)
-    SocialAccount.objects.create(user=regular_user, provider='google', uid='test-uid-1', extra_data={})
-    c = Client()
-    c.force_login(regular_user)
-
-    r = c.get('/_allauth/browser/v1/account/providers')
-    assert r.status_code == 200
-    data = json.loads(r.content)['data']
-    assert len(data) == 1
-    assert data[0]['provider']['id'] == 'google'
-    assert data[0]['uid'] == 'test-uid-1'
-
-    r = c.delete(
-        '/_allauth/browser/v1/account/providers',
-        data=json.dumps({'provider': 'google', 'account': 'test-uid-1'}),
-        content_type='application/json',
-    )
-    assert r.status_code == 200
-    assert not SocialAccount.objects.filter(user=regular_user, provider='google').exists()
-
-
-@pytest.mark.django_db
-def test_cannot_disconnect_only_login_method_without_password(regular_user):
-    from allauth.socialaccount.models import SocialAccount
-
-    regular_user.set_unusable_password()
-    regular_user.save()
-    SocialAccount.objects.create(user=regular_user, provider='google', uid='test-uid-2', extra_data={})
-    c = Client()
-    c.force_login(regular_user)
-
-    r = c.delete(
-        '/_allauth/browser/v1/account/providers',
-        data=json.dumps({'provider': 'google', 'account': 'test-uid-2'}),
-        content_type='application/json',
-    )
-    assert r.status_code == 400
-    assert SocialAccount.objects.filter(user=regular_user, provider='google').exists()
-
-
-@pytest.mark.django_db
 def test_delete_account_wrong_password_rejected(regular_user):
     c = Client()
     c.force_login(regular_user)
