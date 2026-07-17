@@ -36,6 +36,7 @@
 **Interfaces:**
 - Produces: `config.views_vocab.vocab_browse(request)` — renders `vocab/browse.html`, context keys `categories` (queryset), `cefr_levels` (queryset), `query` (str), `cefr_filter` (str).
 - Produces: URL name `vocab_browse` at `/vocab/`.
+- Produces (stub): `config.views_vocab.vocab_category(request, slug)` — placeholder returning HTTP 501, registered at `/vocab/category/<slug:slug>/` (URL name `vocab_category`). Task 2 replaces the function body only; the route registration doesn't change.
 - Consumes: `templates/base.html`'s `content`/`extra_head`/`title` blocks, `templates/partials/nav.html`'s existing structure (from Foundation).
 
 - [ ] **Step 1: Write the failing tests**
@@ -119,9 +120,10 @@ Expected: all 5 FAIL — `/vocab/` doesn't resolve yet (404), and the nav still 
 
 - [ ] **Step 3: Create the view**
 
-Create `config/views_vocab.py`:
+Create `config/views_vocab.py`. This also includes a stub for `vocab_category` (Task 2's view) — `browse.html` (Step 6 below) renders `{% url 'vocab_category' category.slug %}` inside its category loop, and this task's own tests (`test_vocab_browse_lists_categories` etc.) create real `Category` rows that loop renders — so Django evaluates that `{% url %}` tag at render time. If no route named `vocab_category` exists at all, that raises `NoReverseMatch` (a 500), not a graceful skip. A minimal stub avoids this without implementing any of Task 2's real behavior:
 
 ```python
+from django.http import HttpResponse
 from django.shortcuts import render
 
 from vocab.models import CEFRLevel, Category
@@ -142,11 +144,18 @@ def vocab_browse(request):
         'query': query,
         'cefr_filter': cefr_filter,
     })
+
+
+def vocab_category(request, slug):
+    # Stub for Task 2 — real implementation replaces only this function
+    # body. Registered now, at the exact path Task 2 specifies, so Task 2
+    # doesn't need to touch urls.py's route registration at all.
+    return HttpResponse('Category page coming in Task 2', status=501)
 ```
 
 - [ ] **Step 4: Wire the URL**
 
-Modify `config/urls.py` — add the import and the route:
+Modify `config/urls.py` — add the import and both routes (the real `vocab_browse` and the `vocab_category` stub, at the exact path Task 2 will keep using):
 
 ```python
 from django.conf import settings
@@ -154,11 +163,12 @@ from django.conf.urls.static import static
 from django.urls import include, path
 
 from config.views import home
-from config.views_vocab import vocab_browse
+from config.views_vocab import vocab_browse, vocab_category
 
 urlpatterns = [
     path('', home, name='home'),
     path('vocab/', vocab_browse, name='vocab_browse'),
+    path('vocab/category/<slug:slug>/', vocab_category, name='vocab_category'),
     path('accounts/', include('allauth.urls')),
     path('auth/', include('accounts.urls')),
     path('api/', include('api.urls')),
@@ -259,7 +269,7 @@ urlpatterns = [
 {% endblock %}
 ```
 
-Note: this template links to `{% url 'vocab_category' category.slug %}`, which doesn't exist until Task 2. That's fine — Django only resolves `{% url %}` tags when the template actually renders, and this task's tests never click through to that URL, so Task 1 is independently green. Task 2 makes the link resolve.
+Note: this template links to `{% url 'vocab_category' category.slug %}`, which resolves against the stub route registered in Step 4 above — clicking through it right now would hit the 501 placeholder, but the tag itself resolves fine, which is what this task's own tests need. Task 2 replaces the stub with the real page.
 
 - [ ] **Step 7: Wire the nav and home hero to the new page**
 
@@ -335,9 +345,9 @@ EOF
 - Test: `tests/test_vocab_pages.py`
 
 **Interfaces:**
-- Produces: `config.views_vocab.vocab_category(request, slug)` — renders `vocab/category_word_list.html`, context keys `category` (single `Category` instance), `page_obj` (Django `Page` object from `Paginator`).
-- Produces: URL name `vocab_category` at `/vocab/category/<slug:slug>/`.
-- Consumes: `Category.words` related manager (from `vocab.models.Word.category`'s `related_name='words'`), `templates/vocab/browse.html`'s link from Task 1 (now resolves).
+- Produces: `config.views_vocab.vocab_category(request, slug)` — renders `vocab/category_word_list.html`, context keys `category` (single `Category` instance), `page_obj` (Django `Page` object from `Paginator`). This REPLACES the 501 stub Task 1 registered — the URL name and route (`/vocab/category/<slug:slug>/`) already exist; this task only changes the function body.
+- Produces (stub): `config.views_vocab.vocab_word_detail(request, pk)` — placeholder returning HTTP 501, registered at `/vocab/word/<int:pk>/` (URL name `vocab_word_detail`), needed for the same reason Task 1 needed the `vocab_category` stub: this task's own template renders real `Word` rows through a `{% url 'vocab_word_detail' %}` reference. Task 3 replaces the function body only.
+- Consumes: `Category.words` related manager (from `vocab.models.Word.category`'s `related_name='words'`), `templates/vocab/browse.html`'s link from Task 1 (was resolving against the stub; now returns real content).
 
 - [ ] **Step 1: Write the failing tests**
 
@@ -390,11 +400,11 @@ cd "D:\IT RELATED\CLAUDE BOMBASTIC AI\VocabLarry Professional Environment"
 python -m pytest tests/test_vocab_pages.py -v -k vocab_category
 ```
 
-Expected: all 3 FAIL — `/vocab/category/animals/` doesn't resolve yet (404 for the wrong reason: no route at all).
+Expected: `/vocab/category/animals/` resolves against Task 1's stub, so all 3 get an HTTP 501 response instead of what they expect: `test_vocab_category_renders_words` and `test_vocab_category_pagination` fail on both the status code (501 not 200) and the missing word content; `test_vocab_category_unknown_slug_404` fails because the stub doesn't distinguish a real slug from a fake one (501 not 404).
 
-- [ ] **Step 3: Add the view**
+- [ ] **Step 3: Replace the stub view, and stub out Task 3's view**
 
-Add to `config/views_vocab.py`:
+The `vocab_category` route already exists (Task 1's Step 4) — this only replaces the stub function's body. It also adds a `vocab_word_detail` stub for the same forward-reference reason Task 1 needed one for `vocab_category` (see this task's Interfaces above). Replace the `# Stub for Task 2...` function in `config/views_vocab.py` with:
 
 ```python
 from django.core.paginator import Paginator
@@ -412,6 +422,17 @@ def vocab_category(request, slug):
         'category': category,
         'page_obj': page_obj,
     })
+
+
+def vocab_word_detail(request, pk):
+    # Stub for Task 3 — real implementation replaces only this function
+    # body. This task's own template (category_word_list.html) renders
+    # real Word rows through a {% url 'vocab_word_detail' word.pk %}
+    # reference, which Django evaluates (and would raise NoReverseMatch
+    # for) at render time if no route named vocab_word_detail exists at
+    # all — a route must be registered now, at the exact path Task 3
+    # specifies, so Task 3 only needs to change this function's body.
+    return HttpResponse('Word detail page coming in Task 3', status=501)
 ```
 
 (`get_object_or_404` needs importing — add it to the existing `from django.shortcuts import render` line, making it `from django.shortcuts import get_object_or_404, render`.)
@@ -421,17 +442,20 @@ def vocab_category(request, slug):
 Modify `config/urls.py`:
 
 ```python
-from config.views_vocab import vocab_browse, vocab_category
+from config.views_vocab import vocab_browse, vocab_category, vocab_word_detail
 
 urlpatterns = [
     path('', home, name='home'),
     path('vocab/', vocab_browse, name='vocab_browse'),
     path('vocab/category/<slug:slug>/', vocab_category, name='vocab_category'),
+    path('vocab/word/<int:pk>/', vocab_word_detail, name='vocab_word_detail'),
     path('accounts/', include('allauth.urls')),
     path('auth/', include('accounts.urls')),
     path('api/', include('api.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 ```
+
+This registers `vocab_word_detail` at the exact same path Task 3 specifies (`vocab/word/<int:pk>/`) — Task 3 does NOT need to touch `urls.py`'s route registration at all, only replace the stub function body and remove the now-unneeded `HttpResponse` import if nothing else in the file uses it.
 
 - [ ] **Step 5: Create `templates/vocab/category_word_list.html`**
 
@@ -460,7 +484,7 @@ urlpatterns = [
 {% endblock %}
 ```
 
-Note: this links to `{% url 'vocab_word_detail' word.pk %}`, which doesn't exist until Task 3 — same forward-reference situation as Task 1's category link, and equally fine for the same reason.
+Note: this links to `{% url 'vocab_word_detail' word.pk %}`, which resolves against the stub route registered in Step 4 above — the URL name exists now, only the real page content is deferred to Task 3.
 
 - [ ] **Step 6: Append pagination/word-list CSS**
 
@@ -539,9 +563,8 @@ EOF
 - Test: `tests/test_vocab_pages.py`
 
 **Interfaces:**
-- Produces: `config.views_vocab.vocab_word_detail(request, pk)` — renders `vocab/word_detail.html`, context keys `word` (single `Word` instance), `learn_state` (`"little"`, `"learned"`, or `None`).
-- Produces: URL name `vocab_word_detail` at `/vocab/word/<int:pk>/`.
-- Consumes: `templates/vocab/category_word_list.html`'s link from Task 2 (now resolves). This task renders the progress state but does NOT make the toggle clickable — that's Task 4.
+- Produces: `config.views_vocab.vocab_word_detail(request, pk)` — renders `vocab/word_detail.html`, context keys `word` (single `Word` instance), `learn_state` (`"little"`, `"learned"`, or `None`). This REPLACES the 501 stub Task 2 registered — the URL name and route (`/vocab/word/<int:pk>/`) already exist; this task only changes the function body.
+- Consumes: `templates/vocab/category_word_list.html`'s link from Task 2 (was already resolving against the stub; now returns real content). This task renders the progress state but does NOT make the toggle clickable — that's Task 4.
 
 - [ ] **Step 1: Write the failing tests**
 
@@ -611,18 +634,13 @@ cd "D:\IT RELATED\CLAUDE BOMBASTIC AI\VocabLarry Professional Environment"
 python -m pytest tests/test_vocab_pages.py -v -k vocab_word_detail
 ```
 
-Expected: all 5 FAIL — no route yet.
+Expected: `test_vocab_word_detail_hides_progress_toggle_when_anonymous` PASSES already (the stub's placeholder text trivially contains no `learn-state-btn`, so the "not in body" assertion happens to be true for the wrong reason). The other 4 FAIL: the stub always returns HTTP 501 regardless of `pk`, so `test_vocab_word_detail_renders` and the two authenticated-state tests get 501 instead of 200 (wrong body content), and `test_vocab_word_detail_unknown_id_404` gets 501 instead of the expected 404.
 
-- [ ] **Step 3: Add the view**
+- [ ] **Step 3: Replace the stub view**
 
-Add to `config/views_vocab.py` (also add `from vocab.models import Word` to the existing model import line, and `from django.views.decorators.csrf import ensure_csrf_cookie` — the `ensure_csrf_cookie` decorator isn't used until Task 4, but add the import now since Task 4 modifies this same function rather than adding a new one):
+The route is already registered (Task 2's Step 4) — this task only replaces the stub function's body in `config/views_vocab.py`. Remove the stub's `# Stub for Task 3...` function entirely and replace it with:
 
 ```python
-from django.views.decorators.csrf import ensure_csrf_cookie
-from vocab.models import CEFRLevel, Category, Word
-
-
-@ensure_csrf_cookie
 def vocab_word_detail(request, pk):
     word = get_object_or_404(
         Word.objects.select_related('category', 'cefr_level'), pk=pk
@@ -636,27 +654,11 @@ def vocab_word_detail(request, pk):
     })
 ```
 
-`@ensure_csrf_cookie` is applied now (not deferred to Task 4) because it must be present the first time an authenticated user's browser loads this page, so the `csrftoken` cookie Task 4's JS reads is guaranteed to exist — matching the exact reasoning documented in the original VocabLarry's `config/urls.py` for its own root view.
+Add `@ensure_csrf_cookie` as a decorator directly above `def vocab_word_detail(request, pk):`. It's applied now (not deferred to Task 4) because it must be present the first time an authenticated user's browser loads this page, so the `csrftoken` cookie Task 4's JS reads is guaranteed to exist — matching the exact reasoning documented in the original VocabLarry's `config/urls.py` for its own root view.
 
-- [ ] **Step 4: Wire the URL**
+Update the file's imports: add `from django.views.decorators.csrf import ensure_csrf_cookie`, change `from vocab.models import CEFRLevel, Category` to `from vocab.models import CEFRLevel, Category, Word`, and remove `from django.http import HttpResponse` (Task 2 added it only for the now-deleted stub — confirm nothing else in the file uses `HttpResponse` before removing it).
 
-Modify `config/urls.py`:
-
-```python
-from config.views_vocab import vocab_browse, vocab_category, vocab_word_detail
-
-urlpatterns = [
-    path('', home, name='home'),
-    path('vocab/', vocab_browse, name='vocab_browse'),
-    path('vocab/category/<slug:slug>/', vocab_category, name='vocab_category'),
-    path('vocab/word/<int:pk>/', vocab_word_detail, name='vocab_word_detail'),
-    path('accounts/', include('allauth.urls')),
-    path('auth/', include('accounts.urls')),
-    path('api/', include('api.urls')),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-```
-
-- [ ] **Step 5: Create `templates/vocab/word_detail.html`**
+- [ ] **Step 4: Create `templates/vocab/word_detail.html`**
 
 ```html
 {% extends "base.html" %}
@@ -688,7 +690,7 @@ urlpatterns = [
 {% endblock %}
 ```
 
-- [ ] **Step 6: Append word-detail CSS**
+- [ ] **Step 5: Append word-detail CSS**
 
 Append to `static/css/vocab.css`:
 
@@ -728,7 +730,7 @@ Append to `static/css/vocab.css`:
 
 (Amber for "little", green for "learned" — matching the color meaning already established in production's `vocablarry.html`.)
 
-- [ ] **Step 7: Run tests to verify they pass**
+- [ ] **Step 6: Run tests to verify they pass**
 
 ```bash
 cd "D:\IT RELATED\CLAUDE BOMBASTIC AI\VocabLarry Professional Environment"
@@ -737,7 +739,7 @@ python -m pytest tests/test_vocab_pages.py -v
 
 Expected: all 13 tests in the file PASS (8 from Tasks 1-2 + 5 new).
 
-- [ ] **Step 8: Run the full suite**
+- [ ] **Step 7: Run the full suite**
 
 ```bash
 cd "D:\IT RELATED\CLAUDE BOMBASTIC AI\VocabLarry Professional Environment"
@@ -746,7 +748,7 @@ python -m pytest tests -q
 
 Expected: `109 passed`.
 
-- [ ] **Step 9: Commit**
+- [ ] **Step 8: Commit**
 
 ```bash
 cd "D:\IT RELATED\CLAUDE BOMBASTIC AI"
