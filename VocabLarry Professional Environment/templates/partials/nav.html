@@ -1,0 +1,18 @@
+<nav class="site-nav">
+  <a class="brand" href="{% url 'home' %}">Vocab<b>Larry</b></a>
+  <ul class="nav-links">
+    <li><span class="disabled" data-i18n="nav.vocabulary">Vocabulary</span> <small data-i18n="nav.comingSoon">Coming soon</small></li>
+    <li><span class="disabled" data-i18n="nav.grammar">Grammar</span> <small data-i18n="nav.comingSoon">Coming soon</small></li>
+  </ul>
+  <div class="nav-actions">
+    <button type="button" data-lang-toggle aria-label="Switch language">EN/VI</button>
+    <button type="button" data-theme-toggle aria-label="Toggle theme">Theme</button>
+    {% if user.is_authenticated %}
+      <span>{{ user.username }}</span>
+      <a class="btn" href="{% url 'account_logout' %}" data-i18n="nav.signOut">Sign Out</a>
+    {% else %}
+      <a class="btn" href="{% url 'account_login' %}" data-i18n="nav.signIn">Sign In</a>
+      <a class="btn btn-primary" href="{% url 'account_signup' %}" data-i18n="nav.signUp">Sign Up</a>
+    {% endif %}
+  </div>
+</nav>

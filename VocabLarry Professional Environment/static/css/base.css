@@ -1,0 +1,125 @@
+:root{
+  --violet: 109 40 217;
+  --bg: #ffffff;
+  --text: #16161f;
+  --muted: #6b7280;
+  --border: #e5e7eb;
+  --card-bg: #f9f9fc;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg: #0f1115;
+    --text: #f2f2f7;
+    --muted: #9ca3af;
+    --border: #262633;
+    --card-bg: #191922;
+  }
+}
+
+*{ box-sizing: border-box; }
+body{
+  margin: 0;
+  font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+}
+a{ color: rgb(var(--violet)); }
+
+.site-nav{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 24px;
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+.site-nav .brand{
+  font-weight: 800;
+  font-size: 1.25rem;
+  text-decoration: none;
+  color: var(--text);
+}
+.site-nav .brand b{ color: rgb(var(--violet)); }
+.nav-links{
+  display: flex;
+  gap: 18px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex-wrap: wrap;
+}
+.nav-links a, .nav-links span{
+  text-decoration: none;
+  color: var(--text);
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+.nav-links .disabled{ color: var(--muted); cursor: default; }
+.nav-actions{ display: flex; align-items: center; gap: 12px; }
+
+.btn{
+  display: inline-block;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 700;
+  text-decoration: none;
+  border: 1px solid rgb(var(--violet));
+  color: rgb(var(--violet));
+  background: transparent;
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+.btn-primary{
+  background: rgb(var(--violet));
+  color: #fff;
+}
+.btn.disabled{
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.page-content{ max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+
+.hero{
+  padding: 72px 0 48px;
+  text-align: center;
+}
+.hero h1{ font-size: 2.6rem; margin: 0 0 12px; }
+.hero p{ color: var(--muted); font-size: 1.1rem; max-width: 560px; margin: 0 auto 28px; }
+.hero-actions{ display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+
+/* Auth pages (allauth's classic views rendered inside body_class="auth-page") */
+.auth-page .page-content{
+  max-width: 420px;
+  padding-top: 48px;
+}
+.auth-page h1{ font-size: 1.6rem; margin-bottom: 8px; }
+.auth-page form{
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 20px;
+}
+.auth-page form p{ margin: 0; display: flex; flex-direction: column; gap: 6px; }
+.auth-page form label{ font-weight: 600; font-size: 0.9rem; }
+.auth-page form input{
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--card-bg);
+  color: var(--text);
+  font-size: 1rem;
+}
+.auth-page form button[type="submit"]{
+  margin-top: 6px;
+  padding: 11px 20px;
+  border-radius: 8px;
+  border: none;
+  background: rgb(var(--violet));
+  color: #fff;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+}

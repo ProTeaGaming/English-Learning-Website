@@ -1,5 +1,12 @@
 {% extends "base.html" %}
 {% block title %}VocabLarry{% endblock %}
 {% block content %}
-<h1>VocabLarry</h1>
+<section class="hero">
+  <h1 data-i18n="hero.title">Master every word, say it till it stays.</h1>
+  <p data-i18n="hero.subtitle">Build vocabulary and grammar skills for IELTS, one focused session at a time.</p>
+  <div class="hero-actions">
+    <span class="btn btn-primary disabled" data-i18n="hero.start">Start Learning</span>
+    <span class="btn disabled" data-i18n="hero.grammar">Practice Grammar</span>
+  </div>
+</section>
 {% endblock %}
