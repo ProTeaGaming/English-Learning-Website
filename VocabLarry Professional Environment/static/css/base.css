@@ -7,13 +7,27 @@
   --card-bg: #f9f9fc;
 }
 @media (prefers-color-scheme: dark){
-  :root{
+  :root:not([data-theme]){
     --bg: #0f1115;
     --text: #f2f2f7;
     --muted: #9ca3af;
     --border: #262633;
     --card-bg: #191922;
   }
+}
+:root[data-theme="dark"]{
+  --bg: #0f1115;
+  --text: #f2f2f7;
+  --muted: #9ca3af;
+  --border: #262633;
+  --card-bg: #191922;
+}
+:root[data-theme="light"]{
+  --bg: #ffffff;
+  --text: #16161f;
+  --muted: #6b7280;
+  --border: #e5e7eb;
+  --card-bg: #f9f9fc;
 }
 
 *{ box-sizing: border-box; }
@@ -122,4 +136,31 @@ a{ color: rgb(var(--violet)); }
   font-weight: 700;
   font-size: 1rem;
   cursor: pointer;
+}
+
+/* django.contrib.messages, surfaced across all pages incl. allauth flows */
+.site-messages{
+  list-style: none;
+  margin: 20px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.site-messages li{
+  padding: 10px 14px;
+  border-radius: 8px;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+.site-messages li.success{
+  border-color: rgb(var(--violet));
+  color: rgb(var(--violet));
+}
+.site-messages li.error{
+  border-color: #dc2626;
+  color: #dc2626;
 }
