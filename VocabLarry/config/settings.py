@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.facebook',
-    'allauth.socialaccount.providers.github',
     'allauth.socialaccount.providers.microsoft',
     'allauth.socialaccount.providers.apple',
     'accounts',
@@ -128,12 +127,6 @@ SOCIALACCOUNT_PROVIDERS = {
         'APP': {
             'client_id': os.environ.get('FACEBOOK_CLIENT_ID', ''),
             'secret': os.environ.get('FACEBOOK_CLIENT_SECRET', ''),
-        },
-    },
-    'github': {
-        'APP': {
-            'client_id': os.environ.get('GITHUB_CLIENT_ID', ''),
-            'secret': os.environ.get('GITHUB_CLIENT_SECRET', ''),
         },
     },
     'microsoft': {
