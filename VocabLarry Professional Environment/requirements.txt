@@ -1,0 +1,10 @@
+django>=5.0,<6.0
+django-allauth[mfa]>=65.0
+requests>=2.31
+PyJWT>=2.8
+dnspython>=2.4
+python-dotenv>=1.0
+Pillow>=10.0
+json5>=0.9
+pytest-django>=4.8
+pytest-mock>=3.12

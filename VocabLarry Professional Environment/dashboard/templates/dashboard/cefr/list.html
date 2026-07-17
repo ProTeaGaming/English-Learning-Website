@@ -1,0 +1,15 @@
+{% extends "dashboard/base.html" %}
+{% block title %}CEFR Levels{% endblock %}
+{% block content %}
+<h1 class="mb-3">CEFR Levels</h1>
+<p class="text-muted">Edit level names inline. Codes and order are fixed.</p>
+{% for level in levels %}
+<form method="post" class="row g-2 align-items-center mb-2">
+  {% csrf_token %}
+  <input type="hidden" name="level_pk" value="{{ level.pk }}">
+  <div class="col-auto"><span class="badge bg-secondary fs-6">{{ level.code }}</span></div>
+  <div class="col-md-4"><input name="name" value="{{ level.name }}" class="form-control"></div>
+  <div class="col-auto"><button class="btn btn-sm btn-outline-primary">Save</button></div>
+</form>
+{% endfor %}
+{% endblock %}
