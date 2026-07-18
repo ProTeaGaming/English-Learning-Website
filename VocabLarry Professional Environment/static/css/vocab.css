@@ -117,6 +117,11 @@
   gap: 16px;
   max-width: 360px;
 }
+.vocab-quiz-fields{
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
 .vocab-quiz-field{
   display: flex;
   flex-direction: column;

@@ -6,7 +6,7 @@
 <section class="vocab-quiz-setup">
   <h1>Quiz</h1>
   <p class="vocab-quiz-intro">Test yourself on definitions, synonyms, antonyms, and fill-in-the-blank sentences.</p>
-  <form method="get" action="{% url 'vocab_quiz_play' %}" class="vocab-quiz-form">
+  <div class="vocab-quiz-form">
     <div class="vocab-quiz-field">
       <span>Mode family</span>
       <div class="vocab-quiz-family-toggle">
@@ -14,55 +14,57 @@
         <label><input type="radio" name="family" value="gap" id="familyGap"> Gap</label>
       </div>
     </div>
-    <label class="vocab-quiz-field" id="quizModeField">
-      <span>Mode</span>
-      <select name="mode" id="quizModeSelect">
-        <option value="definition">Definition Match</option>
-        <option value="word">Word from Definition</option>
-        <option value="synonym">Synonym Match</option>
-        <option value="antonym">Antonym Match</option>
-        <option value="mixed">Mixed Review</option>
-      </select>
-    </label>
-    <label class="vocab-quiz-field" id="gapModeField" hidden>
-      <span>Gap sub-mode</span>
-      <select name="mode" id="gapModeSelect" disabled>
-        <option value="gap-context">Contextual Definition</option>
-        <option value="gap-nuance">Lexical Nuance</option>
-        <option value="gap-collocation">Collocation &amp; Idiom</option>
-        <option value="gap-connotation">Connotation Match</option>
-        <option value="gap-mixed">Mixed Review</option>
-      </select>
-    </label>
-    <label class="vocab-quiz-field">
-      <span>Category</span>
-      <select name="category">
-        <option value="">All categories</option>
-        {% for category in categories %}
-          <option value="{{ category.slug }}">{{ category.name }}</option>
-        {% endfor %}
-      </select>
-    </label>
-    <label class="vocab-quiz-field">
-      <span>CEFR level</span>
-      <select name="cefr">
-        <option value="">All levels</option>
-        {% for level in cefr_levels %}
-          <option value="{{ level.code }}">{{ level.code }}</option>
-        {% endfor %}
-      </select>
-    </label>
-    <label class="vocab-quiz-field">
-      <span>Questions</span>
-      <select name="count">
-        <option value="10">10 questions</option>
-        <option value="20">20 questions</option>
-        <option value="30">30 questions</option>
-        <option value="all">All words</option>
-      </select>
-    </label>
-    <button type="submit" class="btn btn-primary">Start Quiz</button>
-  </form>
+    <form method="get" action="{% url 'vocab_quiz_play' %}" class="vocab-quiz-fields">
+      <label class="vocab-quiz-field" id="quizModeField">
+        <span>Mode</span>
+        <select name="mode" id="quizModeSelect">
+          <option value="definition">Definition Match</option>
+          <option value="word">Word from Definition</option>
+          <option value="synonym">Synonym Match</option>
+          <option value="antonym">Antonym Match</option>
+          <option value="mixed">Mixed Review</option>
+        </select>
+      </label>
+      <label class="vocab-quiz-field" id="gapModeField" hidden>
+        <span>Gap sub-mode</span>
+        <select name="mode" id="gapModeSelect" disabled>
+          <option value="gap-context">Contextual Definition</option>
+          <option value="gap-nuance">Lexical Nuance</option>
+          <option value="gap-collocation">Collocation &amp; Idiom</option>
+          <option value="gap-connotation">Connotation Match</option>
+          <option value="gap-mixed">Mixed Review</option>
+        </select>
+      </label>
+      <label class="vocab-quiz-field">
+        <span>Category</span>
+        <select name="category">
+          <option value="">All categories</option>
+          {% for category in categories %}
+            <option value="{{ category.slug }}">{{ category.name }}</option>
+          {% endfor %}
+        </select>
+      </label>
+      <label class="vocab-quiz-field">
+        <span>CEFR level</span>
+        <select name="cefr">
+          <option value="">All levels</option>
+          {% for level in cefr_levels %}
+            <option value="{{ level.code }}">{{ level.code }}</option>
+          {% endfor %}
+        </select>
+      </label>
+      <label class="vocab-quiz-field">
+        <span>Questions</span>
+        <select name="count">
+          <option value="10">10 questions</option>
+          <option value="20">20 questions</option>
+          <option value="30">30 questions</option>
+          <option value="all">All words</option>
+        </select>
+      </label>
+      <button type="submit" class="btn btn-primary">Start Quiz</button>
+    </form>
+  </div>
 </section>
 {% endblock %}
 {% block extra_body %}
