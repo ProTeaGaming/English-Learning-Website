@@ -225,6 +225,39 @@ def test_vocab_quiz_setup_lists_cefr_levels(cefr_a1):
 
 
 @pytest.mark.django_db
+def test_vocab_quiz_setup_has_family_toggle():
+    c = Client()
+    r = c.get('/vocab/quiz/')
+    html = r.content.decode()
+    assert 'name="family"' in html
+    assert 'value="quiz"' in html
+    assert 'value="gap"' in html
+
+
+@pytest.mark.django_db
+def test_vocab_quiz_setup_lists_gap_submodes():
+    c = Client()
+    r = c.get('/vocab/quiz/')
+    html = r.content.decode()
+    assert 'value="gap-context"' in html
+    assert 'value="gap-nuance"' in html
+    assert 'value="gap-collocation"' in html
+    assert 'value="gap-connotation"' in html
+    assert 'value="gap-mixed"' in html
+
+
+@pytest.mark.django_db
+def test_vocab_quiz_setup_quiz_modes_still_present():
+    c = Client()
+    r = c.get('/vocab/quiz/')
+    html = r.content.decode()
+    assert 'value="definition"' in html
+    assert 'value="word"' in html
+    assert 'value="synonym"' in html
+    assert 'value="antonym"' in html
+
+
+@pytest.mark.django_db
 def test_home_nav_links_to_vocab_quiz():
     c = Client()
     r = c.get('/')

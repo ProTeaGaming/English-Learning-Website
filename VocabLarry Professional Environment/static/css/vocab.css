@@ -197,3 +197,7 @@
 .vocab-quiz-review-item.wrong{ border-color: #dc2626; }
 .vocab-quiz-review-num{ font-weight: 700; color: var(--muted); }
 .vocab-quiz-review-correct{ color: #dc2626; font-weight: 600; }
+
+.vocab-quiz-family-toggle{ display: flex; gap: 16px; font-weight: 400; }
+.vocab-quiz-family-toggle label{ display: flex; align-items: center; gap: 6px; cursor: pointer; }
+.vocab-quiz-field[hidden]{ display: none; }

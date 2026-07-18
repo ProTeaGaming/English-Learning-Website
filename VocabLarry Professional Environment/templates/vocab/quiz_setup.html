@@ -5,16 +5,33 @@
 {% block content %}
 <section class="vocab-quiz-setup">
   <h1>Quiz</h1>
-  <p class="vocab-quiz-intro">Test yourself on definitions, synonyms, and antonyms.</p>
+  <p class="vocab-quiz-intro">Test yourself on definitions, synonyms, antonyms, and fill-in-the-blank sentences.</p>
   <form method="get" action="{% url 'vocab_quiz_play' %}" class="vocab-quiz-form">
-    <label class="vocab-quiz-field">
+    <div class="vocab-quiz-field">
+      <span>Mode family</span>
+      <div class="vocab-quiz-family-toggle">
+        <label><input type="radio" name="family" value="quiz" id="familyQuiz" checked> Quiz</label>
+        <label><input type="radio" name="family" value="gap" id="familyGap"> Gap</label>
+      </div>
+    </div>
+    <label class="vocab-quiz-field" id="quizModeField">
       <span>Mode</span>
-      <select name="mode">
+      <select name="mode" id="quizModeSelect">
         <option value="definition">Definition Match</option>
         <option value="word">Word from Definition</option>
         <option value="synonym">Synonym Match</option>
         <option value="antonym">Antonym Match</option>
         <option value="mixed">Mixed Review</option>
+      </select>
+    </label>
+    <label class="vocab-quiz-field" id="gapModeField" hidden>
+      <span>Gap sub-mode</span>
+      <select name="mode" id="gapModeSelect" disabled>
+        <option value="gap-context">Contextual Definition</option>
+        <option value="gap-nuance">Lexical Nuance</option>
+        <option value="gap-collocation">Collocation &amp; Idiom</option>
+        <option value="gap-connotation">Connotation Match</option>
+        <option value="gap-mixed">Mixed Review</option>
       </select>
     </label>
     <label class="vocab-quiz-field">
@@ -47,4 +64,25 @@
     <button type="submit" class="btn btn-primary">Start Quiz</button>
   </form>
 </section>
+{% endblock %}
+{% block extra_body %}
+<script>
+(function(){
+  var quizField = document.getElementById("quizModeField");
+  var gapField = document.getElementById("gapModeField");
+  var quizSelect = document.getElementById("quizModeSelect");
+  var gapSelect = document.getElementById("gapModeSelect");
+  function applyFamily(family){
+    var isGap = family === "gap";
+    quizField.hidden = isGap;
+    gapField.hidden = !isGap;
+    quizSelect.disabled = isGap;
+    gapSelect.disabled = !isGap;
+  }
+  document.querySelectorAll('input[name="family"]').forEach(function(radio){
+    radio.addEventListener("change", function(){ applyFamily(radio.value); });
+  });
+  applyFamily("quiz");
+})();
+</script>
 {% endblock %}
