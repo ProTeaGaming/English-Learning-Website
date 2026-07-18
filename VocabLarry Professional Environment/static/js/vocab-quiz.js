@@ -133,6 +133,19 @@
     };
   }
 
+  function buildHybridQuestion(word){
+    var candidates = ["definition", "word"];
+    if (word.synonyms && word.synonyms.length) candidates.push("synonym");
+    if (word.antonyms && word.antonyms.length) candidates.push("antonym");
+    if (word.gap && word.gap.indexOf("___") !== -1) candidates.push("gap");
+    var pick = candidates[Math.floor(Math.random() * candidates.length)];
+    if (pick === "gap"){
+      var gapSubModes = ["gap-context", "gap-nuance", "gap-collocation", "gap-connotation"];
+      return buildGapQuestion(word, gapSubModes[Math.floor(Math.random() * gapSubModes.length)]);
+    }
+    return buildQuestion(word, pick);
+  }
+
   function buildPool(){
     var pool = state.allWords;
     if (categorySlug){
@@ -163,6 +176,7 @@
     var pool = buildPool();
     var targets = pickTargetWords(pool);
     state.questions = targets.map(function(word){
+      if (mode === "challenge") return buildHybridQuestion(word);
       if (mode.indexOf("gap-") === 0) return buildGapQuestion(word, mode);
       var qMode = mode === "mixed" ? randomMixedMode(word) : mode;
       return buildQuestion(word, qMode);
