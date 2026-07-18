@@ -78,6 +78,61 @@
     return { prompt: prompt, text: text, options: options, correct: correct, word: word };
   }
 
+  var GAP_PROMPTS = {
+    context: "Choose the word that best completes the sentence.",
+    nuance: "Near-synonyms are the options — only one word is precisely correct.",
+    collocation: "The blank requires a specific fixed word partnership.",
+    connotation: "Choose the word whose tone fits the sentence."
+  };
+
+  function stripEmTags(s){
+    return (s || "").replace(/<\/?em>/g, "");
+  }
+
+  function buildGapQuestion(word, gapMode){
+    if (gapMode === "gap-mixed"){
+      var concrete = ["gap-context", "gap-nuance", "gap-collocation", "gap-connotation"];
+      return buildGapQuestion(word, concrete[Math.floor(Math.random() * concrete.length)]);
+    }
+    var others = state.allWords.filter(function(w){ return w.id !== word.id; });
+    var samePos = others.filter(function(w){ return w.pos === word.pos; });
+    var distractorPool, subMode;
+    if (gapMode === "gap-nuance"){
+      subMode = "nuance";
+      var synSet = {};
+      (word.synonyms || []).forEach(function(s){ synSet[s.toLowerCase()] = true; });
+      var synPool = others.filter(function(w){
+        return w.synonyms && w.synonyms.some(function(s){ return synSet[s.toLowerCase()]; });
+      });
+      distractorPool = synPool.length >= 3 ? synPool : samePos;
+    } else if (gapMode === "gap-collocation"){
+      subMode = "collocation";
+      var sameCat = others.filter(function(w){ return w.category_id === word.category_id; });
+      distractorPool = sameCat.length >= 3 ? sameCat : samePos;
+    } else if (gapMode === "gap-connotation"){
+      subMode = "connotation";
+      var antSet = {};
+      (word.antonyms || []).forEach(function(a){ antSet[a.toLowerCase()] = true; });
+      var antPool = others.filter(function(w){ return antSet[w.word.toLowerCase()]; });
+      distractorPool = antPool.length >= 2
+        ? antPool.concat(samePos.filter(function(w){ return !antSet[w.word.toLowerCase()]; }))
+        : samePos;
+    } else {
+      subMode = "context";
+      distractorPool = samePos.length >= 3 ? samePos : others;
+    }
+    var options = buildOptions(word.word, distractorPool, function(w){ return w.word; });
+    var text = word.gap.replace("___", '<span class="vocab-quiz-blank">_____</span>');
+    return {
+      type: "gap",
+      prompt: GAP_PROMPTS[subMode],
+      text: text,
+      options: options,
+      correct: word.word,
+      word: word
+    };
+  }
+
   function buildPool(){
     var pool = state.allWords;
     if (categorySlug){
@@ -91,6 +146,8 @@
       pool = pool.filter(function(w){ return w.synonyms && w.synonyms.length; });
     } else if (mode === "antonym"){
       pool = pool.filter(function(w){ return w.antonyms && w.antonyms.length; });
+    } else if (mode.indexOf("gap-") === 0){
+      pool = pool.filter(function(w){ return w.gap && w.gap.indexOf("___") !== -1; });
     }
     return pool;
   }
@@ -106,6 +163,7 @@
     var pool = buildPool();
     var targets = pickTargetWords(pool);
     state.questions = targets.map(function(word){
+      if (mode.indexOf("gap-") === 0) return buildGapQuestion(word, mode);
       var qMode = mode === "mixed" ? randomMixedMode(word) : mode;
       return buildQuestion(word, qMode);
     });
@@ -146,8 +204,12 @@
     if (isCorrect) state.score++;
     state.answers.push({ question: q, selected: selectedBtn.textContent, isCorrect: isCorrect });
     var feedback = root.querySelector(".vocab-quiz-feedback");
-    feedback.innerHTML = (isCorrect ? "<b>Correct!</b> " : "<b>Not quite.</b> The answer is " + q.correct + ". ") +
+    var feedbackText = (isCorrect ? "<b>Correct!</b> " : "<b>Not quite.</b> The answer is " + q.correct + ". ") +
       q.word.word + " — " + q.word.definition;
+    if (q.type === "gap" && q.word.example){
+      feedbackText += "<br>" + stripEmTags(q.word.example);
+    }
+    feedback.innerHTML = feedbackText;
     root.querySelector(".vocab-quiz-meta span:last-child").textContent = "Score: " + state.score;
     var nextWrap = root.querySelector(".vocab-quiz-next");
     var nextBtn = document.getElementById("quizNextBtn");

@@ -206,3 +206,10 @@
 .vocab-quiz-family-toggle{ display: flex; gap: 16px; font-weight: 400; }
 .vocab-quiz-family-toggle label{ display: flex; align-items: center; gap: 6px; cursor: pointer; }
 .vocab-quiz-field[hidden]{ display: none; }
+
+.vocab-quiz-blank{
+  display: inline-block;
+  min-width: 64px;
+  border-bottom: 2px solid rgb(var(--violet));
+  font-weight: 700;
+}
