@@ -178,3 +178,22 @@
 .vocab-quiz-feedback{ margin-top: 16px; color: var(--muted); }
 .vocab-quiz-next{ margin-top: 20px; }
 .vocab-quiz-error{ color: var(--muted); padding: 40px 0; }
+
+.vocab-quiz-results{ text-align: center; padding: 40px 0; }
+.vocab-quiz-score{ font-size: 3rem; font-weight: 800; color: rgb(var(--violet)); }
+.vocab-quiz-pct{ color: var(--muted); margin-bottom: 24px; }
+.vocab-quiz-result-actions{ display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.vocab-quiz-review{ text-align: left; margin-top: 32px; display: flex; flex-direction: column; gap: 10px; }
+.vocab-quiz-review-item{
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.vocab-quiz-review-item.correct{ border-color: #22c55e; }
+.vocab-quiz-review-item.wrong{ border-color: #dc2626; }
+.vocab-quiz-review-num{ font-weight: 700; color: var(--muted); }
+.vocab-quiz-review-correct{ color: #dc2626; font-weight: 600; }

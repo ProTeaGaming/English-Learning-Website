@@ -162,8 +162,47 @@
   }
 
   function renderResults(){
-    // Replaced in Task 4 — until then, finishing the last question does
-    // nothing (the "See Results" button click has no visible effect).
+    var total = state.questions.length;
+    var pct = total > 0 ? Math.round((state.score / total) * 100) : 0;
+    root.innerHTML =
+      '<div class="vocab-quiz-results">' +
+        '<h2>Quiz Complete</h2>' +
+        '<div class="vocab-quiz-score">' + state.score + ' / ' + total + '</div>' +
+        '<p class="vocab-quiz-pct">' + pct + '%</p>' +
+        '<div class="vocab-quiz-result-actions">' +
+          '<button type="button" class="btn" id="quizRetryBtn">Try Again</button>' +
+          '<button type="button" class="btn" id="quizChangeBtn">Change Settings</button>' +
+          '<button type="button" class="btn" id="quizReviewBtn">Review Answers</button>' +
+        '</div>' +
+        '<div class="vocab-quiz-review" id="quizReview" style="display:none;"></div>' +
+      '</div>';
+    document.getElementById("quizRetryBtn").addEventListener("click", function(){
+      state.idx = 0;
+      state.score = 0;
+      state.answers = [];
+      generateQuestions();
+      if (state.questions.length === 0){
+        renderError("No words available for this combination — try different settings.");
+        return;
+      }
+      renderQuestion();
+    });
+    document.getElementById("quizChangeBtn").addEventListener("click", function(){
+      window.location.href = "/vocab/quiz/";
+    });
+    document.getElementById("quizReviewBtn").addEventListener("click", function(){
+      var panel = document.getElementById("quizReview");
+      if (panel.style.display === "block"){ panel.style.display = "none"; return; }
+      panel.innerHTML = state.answers.map(function(a, i){
+        return '<div class="vocab-quiz-review-item ' + (a.isCorrect ? "correct" : "wrong") + '">' +
+          '<span class="vocab-quiz-review-num">' + (i + 1) + '</span>' +
+          '<span class="vocab-quiz-review-word">' + a.question.word.word + '</span>' +
+          '<span class="vocab-quiz-review-answer">Your answer: ' + a.selected + '</span>' +
+          (a.isCorrect ? '' : '<span class="vocab-quiz-review-correct">Correct: ' + a.question.correct + '</span>') +
+        '</div>';
+      }).join("");
+      panel.style.display = "block";
+    });
   }
 
   function init(){
