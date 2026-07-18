@@ -229,3 +229,25 @@ def test_home_nav_links_to_vocab_quiz():
     c = Client()
     r = c.get('/')
     assert 'href="/vocab/quiz/"' in r.content.decode()
+
+
+@pytest.mark.django_db
+def test_vocab_quiz_play_renders():
+    c = Client()
+    r = c.get('/vocab/quiz/play/')
+    assert r.status_code == 200
+    assert 'site-nav' in r.content.decode()
+
+
+@pytest.mark.django_db
+def test_vocab_quiz_play_has_mount_point():
+    c = Client()
+    r = c.get('/vocab/quiz/play/')
+    assert 'id="quizPlayRoot"' in r.content.decode()
+
+
+@pytest.mark.django_db
+def test_vocab_quiz_play_loads_script():
+    c = Client()
+    r = c.get('/vocab/quiz/play/')
+    assert 'vocab-quiz.js' in r.content.decode()

@@ -1,5 +1,4 @@
 from django.core.paginator import Paginator
-from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render
 from django.views.decorators.csrf import ensure_csrf_cookie
 
@@ -60,8 +59,4 @@ def vocab_quiz_setup(request):
 
 
 def vocab_quiz_play(request):
-    # Stub for Task 2 — real implementation replaces only this function
-    # body. Registered now, at the exact path Task 2 specifies, because
-    # quiz_setup.html's <form action="{% url 'vocab_quiz_play' %}"> is
-    # evaluated at render time regardless of whether the form is submitted.
-    return HttpResponse('Quiz play page coming in Task 2', status=501)
+    return render(request, 'vocab/quiz_play.html')

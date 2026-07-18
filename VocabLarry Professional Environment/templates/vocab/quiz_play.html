@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Quiz — VocabLarry{% endblock %}
+{% block extra_head %}<link rel="stylesheet" href="{% static 'css/vocab.css' %}">{% endblock %}
+{% block content %}
+<section class="vocab-quiz-play" id="quizPlayRoot"></section>
+{% endblock %}
+{% block extra_body %}
+<script src="{% static 'js/vocab-quiz.js' %}" defer></script>
+{% endblock %}
