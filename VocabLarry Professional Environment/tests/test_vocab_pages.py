@@ -1,3 +1,5 @@
+import json
+
 import pytest
 from django.test import Client
 from vocab.models import CEFRLevel, Category, Word
@@ -153,3 +155,47 @@ def test_vocab_word_detail_reflects_existing_progress(cefr_a1, regular_user):
     c.force_login(regular_user)
     r = c.get(f'/vocab/word/{word.pk}/')
     assert 'data-state="learned"' in r.content.decode()
+
+
+@pytest.mark.django_db
+def test_progress_toggle_round_trip_preserves_other_words(cefr_a1, regular_user):
+    category = Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1)
+    word = Word.objects.create(word='Cat', definition='x', category=category, order=1)
+    regular_user.learn_map = {'999': 'learned'}
+    regular_user.save()
+    c = Client()
+    c.force_login(regular_user)
+
+    # Exactly what static/js/vocab-word.js does on click: GET the current
+    # map, mutate only this word's key, POST the full map back.
+    get_res = c.get('/auth/sync/')
+    learn_map = get_res.json()['learn_map']
+    learn_map[str(word.pk)] = 'little'
+    post_res = c.post(
+        '/auth/sync/', json.dumps({'learn_map': learn_map}),
+        content_type='application/json',
+    )
+
+    assert post_res.status_code == 200
+    regular_user.refresh_from_db()
+    assert regular_user.learn_map == {'999': 'learned', str(word.pk): 'little'}
+
+
+@pytest.mark.django_db
+def test_vocab_word_detail_sets_csrf_cookie(cefr_a1, regular_user):
+    category = Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1)
+    word = Word.objects.create(word='Cat', definition='x', category=category, order=1)
+    c = Client()
+    c.force_login(regular_user)
+    r = c.get(f'/vocab/word/{word.pk}/')
+    assert 'csrftoken' in r.cookies
+
+
+@pytest.mark.django_db
+def test_vocab_word_detail_loads_toggle_script_when_authenticated(cefr_a1, regular_user):
+    category = Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1)
+    word = Word.objects.create(word='Cat', definition='x', category=category, order=1)
+    c = Client()
+    c.force_login(regular_user)
+    r = c.get(f'/vocab/word/{word.pk}/')
+    assert 'vocab-word.js' in r.content.decode()

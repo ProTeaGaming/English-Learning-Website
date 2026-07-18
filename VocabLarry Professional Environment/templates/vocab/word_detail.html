@@ -25,3 +25,8 @@
   {% endif %}
 </section>
 {% endblock %}
+{% block extra_body %}
+{% if user.is_authenticated %}
+<script src="{% static 'js/vocab-word.js' %}" defer></script>
+{% endif %}
+{% endblock %}
