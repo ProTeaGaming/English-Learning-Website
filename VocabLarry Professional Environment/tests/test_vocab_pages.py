@@ -258,6 +258,23 @@ def test_vocab_quiz_setup_quiz_modes_still_present():
 
 
 @pytest.mark.django_db
+def test_vocab_quiz_setup_has_challenge_family_radio():
+    c = Client()
+    r = c.get('/vocab/quiz/')
+    html = r.content.decode()
+    assert 'value="challenge" id="familyChallenge"' in html
+
+
+@pytest.mark.django_db
+def test_vocab_quiz_setup_has_challenge_mode_input():
+    c = Client()
+    r = c.get('/vocab/quiz/')
+    html = r.content.decode()
+    assert 'id="challengeModeInput"' in html
+    assert 'name="mode" value="challenge"' in html
+
+
+@pytest.mark.django_db
 def test_home_nav_links_to_vocab_quiz():
     c = Client()
     r = c.get('/')

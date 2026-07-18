@@ -12,6 +12,7 @@
       <div class="vocab-quiz-family-toggle">
         <label><input type="radio" name="family" value="quiz" id="familyQuiz" checked> Quiz</label>
         <label><input type="radio" name="family" value="gap" id="familyGap"> Gap</label>
+        <label><input type="radio" name="family" value="challenge" id="familyChallenge"> Challenge</label>
       </div>
     </div>
     <form method="get" action="{% url 'vocab_quiz_play' %}" class="vocab-quiz-fields">
@@ -35,6 +36,7 @@
           <option value="gap-mixed">Mixed Review</option>
         </select>
       </label>
+      <input type="hidden" name="mode" value="challenge" id="challengeModeInput" disabled>
       <label class="vocab-quiz-field">
         <span>Category</span>
         <select name="category">
@@ -74,12 +76,15 @@
   var gapField = document.getElementById("gapModeField");
   var quizSelect = document.getElementById("quizModeSelect");
   var gapSelect = document.getElementById("gapModeSelect");
+  var challengeModeInput = document.getElementById("challengeModeInput");
   function applyFamily(family){
     var isGap = family === "gap";
-    quizField.hidden = isGap;
+    var isChallenge = family === "challenge";
+    quizField.hidden = family !== "quiz";
     gapField.hidden = !isGap;
-    quizSelect.disabled = isGap;
+    quizSelect.disabled = family !== "quiz";
     gapSelect.disabled = !isGap;
+    challengeModeInput.disabled = !isChallenge;
   }
   document.querySelectorAll('input[name="family"]').forEach(function(radio){
     radio.addEventListener("change", function(){ applyFamily(radio.value); });
