@@ -2,6 +2,7 @@
   var STRINGS = {
     en: {
       "nav.vocabulary": "Vocabulary",
+      "nav.quiz": "Quiz",
       "nav.grammar": "Grammar",
       "nav.comingSoon": "Coming soon",
       "nav.signIn": "Sign In",
@@ -14,6 +15,7 @@
     },
     vi: {
       "nav.vocabulary": "Từ vựng",
+      "nav.quiz": "Trắc nghiệm",
       "nav.grammar": "Ngữ pháp",
       "nav.comingSoon": "Sắp ra mắt",
       "nav.signIn": "Đăng nhập",

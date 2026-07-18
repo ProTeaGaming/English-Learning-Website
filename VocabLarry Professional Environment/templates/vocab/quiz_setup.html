@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Quiz — VocabLarry{% endblock %}
+{% block extra_head %}<link rel="stylesheet" href="{% static 'css/vocab.css' %}">{% endblock %}
+{% block content %}
+<section class="vocab-quiz-setup">
+  <h1>Quiz</h1>
+  <p class="vocab-quiz-intro">Test yourself on definitions, synonyms, and antonyms.</p>
+  <form method="get" action="{% url 'vocab_quiz_play' %}" class="vocab-quiz-form">
+    <label class="vocab-quiz-field">
+      <span>Mode</span>
+      <select name="mode">
+        <option value="definition">Definition Match</option>
+        <option value="word">Word from Definition</option>
+        <option value="synonym">Synonym Match</option>
+        <option value="antonym">Antonym Match</option>
+        <option value="mixed">Mixed Review</option>
+      </select>
+    </label>
+    <label class="vocab-quiz-field">
+      <span>Category</span>
+      <select name="category">
+        <option value="">All categories</option>
+        {% for category in categories %}
+          <option value="{{ category.slug }}">{{ category.name }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    <label class="vocab-quiz-field">
+      <span>CEFR level</span>
+      <select name="cefr">
+        <option value="">All levels</option>
+        {% for level in cefr_levels %}
+          <option value="{{ level.code }}">{{ level.code }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    <label class="vocab-quiz-field">
+      <span>Questions</span>
+      <select name="count">
+        <option value="10">10 questions</option>
+        <option value="20">20 questions</option>
+        <option value="30">30 questions</option>
+        <option value="all">All words</option>
+      </select>
+    </label>
+    <button type="submit" class="btn btn-primary">Start Quiz</button>
+  </form>
+</section>
+{% endblock %}

@@ -108,3 +108,28 @@
 .learn-state-btn[data-state="learned"]{
   background: #22c55e; border-color: #22c55e; color: #fff;
 }
+
+.vocab-quiz-setup h1{ margin-top: 32px; }
+.vocab-quiz-intro{ color: var(--muted); margin: 8px 0 24px; }
+.vocab-quiz-form{
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 360px;
+}
+.vocab-quiz-field{
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+.vocab-quiz-field select{
+  padding: 9px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--card-bg);
+  color: var(--text);
+  font-size: 0.95rem;
+  font-weight: 400;
+}

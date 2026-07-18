@@ -199,3 +199,33 @@ def test_vocab_word_detail_loads_toggle_script_when_authenticated(cefr_a1, regul
     c.force_login(regular_user)
     r = c.get(f'/vocab/word/{word.pk}/')
     assert 'vocab-word.js' in r.content.decode()
+
+
+@pytest.mark.django_db
+def test_vocab_quiz_setup_renders():
+    c = Client()
+    r = c.get('/vocab/quiz/')
+    assert r.status_code == 200
+    assert 'site-nav' in r.content.decode()
+
+
+@pytest.mark.django_db
+def test_vocab_quiz_setup_lists_categories(cefr_a1):
+    Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1)
+    c = Client()
+    r = c.get('/vocab/quiz/')
+    assert 'Animals' in r.content.decode()
+
+
+@pytest.mark.django_db
+def test_vocab_quiz_setup_lists_cefr_levels(cefr_a1):
+    c = Client()
+    r = c.get('/vocab/quiz/')
+    assert '>A1<' in r.content.decode()
+
+
+@pytest.mark.django_db
+def test_home_nav_links_to_vocab_quiz():
+    c = Client()
+    r = c.get('/')
+    assert 'href="/vocab/quiz/"' in r.content.decode()
