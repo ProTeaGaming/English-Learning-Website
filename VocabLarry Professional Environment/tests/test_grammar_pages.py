@@ -111,7 +111,7 @@ def test_grammar_topic_detail_renders(topic_with_blocks):
     c = Client()
     r = c.get('/grammar/topic/present-simple-continuous/')
     assert r.status_code == 200
-    assert 'Present Simple & Continuous' in r.content.decode()
+    assert 'Present Simple &amp; Continuous' in r.content.decode()
 
 
 @pytest.mark.django_db
