@@ -1,12 +1,37 @@
 {% extends "base.html" %}
 {% block title %}VocabLarry{% endblock %}
 {% block content %}
-<section class="hero">
-  <h1 data-i18n="hero.title">Master every word, say it till it stays.</h1>
-  <p data-i18n="hero.subtitle">Build vocabulary and grammar skills for IELTS, one focused session at a time.</p>
-  <div class="hero-actions">
+<section class="home-hero">
+  <div class="home-grid-bg"></div>
+  <div class="home-glow"></div>
+  <div class="home-badge"><svg class="ico" aria-hidden="true"><use href="#i-grad-cap"/></svg> <span data-i18n="home.badge">IELTS Preparation · Band 5–9</span></div>
+  <h1 class="home-title"><span data-i18n="home.title1">Master every word,</span><br><span class="home-grad" data-i18n="home.title2">say it till it stays.</span></h1>
+  <p class="home-sub" data-i18n="hero.subtitle">Build vocabulary and grammar skills for IELTS, one focused session at a time.</p>
+  <div class="home-hero-actions">
     <a class="btn btn-primary" href="{% url 'vocab_browse' %}" data-i18n="hero.start">Start Learning</a>
-    <a class="btn" href="{% url 'grammar_browse' %}" data-i18n="hero.grammar">Practice Grammar</a>
+    <a class="home-btn-outline" href="{% url 'grammar_browse' %}" data-i18n="hero.grammar">Practice Grammar</a>
   </div>
 </section>
+<div class="home-content">
+  <div>
+    <div class="home-section-hd" data-i18n="home.yourProgress">Your Progress</div>
+    <div class="home-stats">
+      <div class="home-stat">
+        <div class="home-stat-ico"><svg class="ico" aria-hidden="true"><use href="#i-check-circle"/></svg></div>
+        <div class="home-stat-val">{{ words_learned }}</div>
+        <div class="home-stat-lbl" data-i18n="home.wordsLearned">Words learned</div>
+      </div>
+      <div class="home-stat">
+        <div class="home-stat-ico"><svg class="ico" aria-hidden="true"><use href="#i-folder"/></svg></div>
+        <div class="home-stat-val">{{ categories_started }}</div>
+        <div class="home-stat-lbl" data-i18n="home.categoriesStarted">Categories started</div>
+      </div>
+      <div class="home-stat">
+        <div class="home-stat-ico"><svg class="ico" aria-hidden="true"><use href="#i-bar-chart"/></svg></div>
+        <div class="home-stat-val">{{ pct_complete }}%</div>
+        <div class="home-stat-lbl" data-i18n="home.complete">Complete</div>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}

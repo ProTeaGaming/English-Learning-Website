@@ -138,3 +138,55 @@ def test_nav_grammar_test_tab_active_on_grammar_test_setup():
     r = c.get('/grammar/test/')
     html = r.content.decode()
     assert '<a class="tab active" href="/grammar/test/" data-i18n="nav.grammarTest">Grammar Test</a>' in html
+
+
+@pytest.mark.django_db
+def test_home_stats_zero_for_guest():
+    from django.test import Client
+    c = Client()
+    r = c.get('/')
+    html = r.content.decode()
+    assert '<div class="home-stat-val">0</div>' in html
+    assert '<div class="home-stat-val">0%</div>' in html
+
+
+@pytest.mark.django_db
+def test_home_stats_computed_for_authenticated_user(regular_user):
+    from django.test import Client
+    from vocab.models import Category, Word
+
+    cat1 = Category.objects.create(slug='animals', name='Animals', order=1)
+    cat2 = Category.objects.create(slug='colors', name='Colors', order=2)
+    w1 = Word.objects.create(word='Cat', definition='x', category=cat1, order=1)
+    w2 = Word.objects.create(word='Dog', definition='x', category=cat1, order=2)
+    w3 = Word.objects.create(word='Red', definition='x', category=cat2, order=1)
+
+    # w1 fully learned, w2 only "little" (counts toward categories-started
+    # but NOT words-learned), w3 untouched.
+    regular_user.learn_map = {str(w1.pk): 'learned', str(w2.pk): 'little'}
+    regular_user.save(update_fields=['learn_map'])
+
+    c = Client()
+    c.force_login(regular_user)
+    r = c.get('/')
+    html = r.content.decode()
+
+    from vocab.models import Word as WordModel
+    total = WordModel.objects.count()
+    expected_pct = round(1 / total * 100)
+
+    assert '<div class="home-stat-val">1</div>' in html
+    assert f'<div class="home-stat-val">{expected_pct}%</div>' in html
+    # Both cat1 (via w1 AND w2) and cat2 (untouched) exist, but only cat1
+    # has any learn_map entry — categories_started must be 1, not 2.
+    assert '<div class="home-stat-val">2</div>' not in html
+
+
+@pytest.mark.django_db
+def test_home_badge_and_progress_heading_render():
+    from django.test import Client
+    c = Client()
+    r = c.get('/')
+    html = r.content.decode()
+    assert 'home.badge">IELTS Preparation' in html
+    assert 'home.yourProgress">Your Progress' in html
