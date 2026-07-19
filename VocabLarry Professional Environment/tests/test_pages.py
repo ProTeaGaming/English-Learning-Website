@@ -77,3 +77,64 @@ def test_email_verification_sent_page_uses_site_layout():
     r = c.get('/accounts/confirm-email/')
     assert r.status_code == 200
     assert 'site-nav' in r.content.decode()
+
+
+@pytest.mark.django_db
+def test_base_includes_fonts_and_icon_sprite():
+    from django.test import Client
+    c = Client()
+    r = c.get('/')
+    html = r.content.decode()
+    assert 'fonts.googleapis.com' in html
+    assert 'Fraunces' in html
+    assert 'id="i-mark"' in html
+
+
+@pytest.mark.django_db
+def test_nav_theme_and_lang_toggles_are_icon_only():
+    from django.test import Client
+    c = Client()
+    r = c.get('/')
+    html = r.content.decode()
+    assert 'data-theme-toggle' in html
+    assert 'data-lang-toggle' in html
+    assert '#i-moon' in html
+    assert '#i-globe' in html
+
+
+@pytest.mark.django_db
+def test_nav_vocabulary_tab_active_on_vocab_browse():
+    from django.test import Client
+    c = Client()
+    r = c.get('/vocab/')
+    html = r.content.decode()
+    assert '<a class="tab active" href="/vocab/" data-i18n="nav.vocabulary">Vocabulary</a>' in html
+    assert '<a class="tab" href="/vocab/quiz/" data-i18n="nav.quiz">Quiz</a>' in html
+
+
+@pytest.mark.django_db
+def test_nav_quiz_tab_active_on_vocab_quiz_setup():
+    from django.test import Client
+    c = Client()
+    r = c.get('/vocab/quiz/')
+    html = r.content.decode()
+    assert '<a class="tab active" href="/vocab/quiz/" data-i18n="nav.quiz">Quiz</a>' in html
+    assert '<a class="tab" href="/vocab/" data-i18n="nav.vocabulary">Vocabulary</a>' in html
+
+
+@pytest.mark.django_db
+def test_nav_grammar_tab_active_on_grammar_browse():
+    from django.test import Client
+    c = Client()
+    r = c.get('/grammar/')
+    html = r.content.decode()
+    assert '<a class="tab active" href="/grammar/" data-i18n="nav.grammar">Grammar</a>' in html
+
+
+@pytest.mark.django_db
+def test_nav_grammar_test_tab_active_on_grammar_test_setup():
+    from django.test import Client
+    c = Client()
+    r = c.get('/grammar/test/')
+    html = r.content.decode()
+    assert '<a class="tab active" href="/grammar/test/" data-i18n="nav.grammarTest">Grammar Test</a>' in html

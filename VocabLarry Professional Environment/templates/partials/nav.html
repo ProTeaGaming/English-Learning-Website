@@ -1,17 +1,17 @@
 <nav class="site-nav">
-  <a class="brand" href="{% url 'home' %}">Vocab<b>Larry</b></a>
+  <a class="brand" href="{% url 'home' %}"><svg class="ico ico-mark" aria-hidden="true"><use href="#i-mark"/></svg>Vocab<b>Larry</b></a>
   <ul class="nav-links">
-    <li><a href="{% url 'vocab_browse' %}" data-i18n="nav.vocabulary">Vocabulary</a></li>
-    <li><a href="{% url 'vocab_quiz_setup' %}" data-i18n="nav.quiz">Quiz</a></li>
-    <li><a href="{% url 'grammar_browse' %}" data-i18n="nav.grammar">Grammar</a></li>
-    <li><a href="{% url 'grammar_test_setup' %}" data-i18n="nav.grammarTest">Grammar Test</a></li>
+    <li><a class="tab{% if request.resolver_match.url_name == 'vocab_browse' or request.resolver_match.url_name == 'vocab_category' or request.resolver_match.url_name == 'vocab_word_detail' %} active{% endif %}" href="{% url 'vocab_browse' %}" data-i18n="nav.vocabulary">Vocabulary</a></li>
+    <li><a class="tab{% if request.resolver_match.url_name == 'vocab_quiz_setup' or request.resolver_match.url_name == 'vocab_quiz_play' %} active{% endif %}" href="{% url 'vocab_quiz_setup' %}" data-i18n="nav.quiz">Quiz</a></li>
+    <li><a class="tab{% if request.resolver_match.url_name == 'grammar_browse' or request.resolver_match.url_name == 'grammar_topic_detail' or request.resolver_match.url_name == 'grammar_topic_quiz' %} active{% endif %}" href="{% url 'grammar_browse' %}" data-i18n="nav.grammar">Grammar</a></li>
+    <li><a class="tab{% if request.resolver_match.url_name == 'grammar_test_setup' or request.resolver_match.url_name == 'grammar_test_play' %} active{% endif %}" href="{% url 'grammar_test_setup' %}" data-i18n="nav.grammarTest">Grammar Test</a></li>
     {% if user.role == 'staff' or user.role == 'admin' %}
     <li><a href="{% url 'dashboard_index' %}">Dashboard</a></li>
     {% endif %}
   </ul>
   <div class="nav-actions">
-    <button type="button" data-lang-toggle aria-label="Switch language">EN/VI</button>
-    <button type="button" data-theme-toggle aria-label="Toggle theme">Theme</button>
+    <button type="button" class="icon-toggle" data-lang-toggle aria-label="Switch language"><svg class="ico" aria-hidden="true"><use href="#i-globe"/></svg></button>
+    <button type="button" class="icon-toggle" data-theme-toggle aria-label="Toggle theme"><svg class="ico" data-theme-icon aria-hidden="true"><use href="#i-moon"/></svg></button>
     {% if user.is_authenticated %}
       <span>{{ user.username }}</span>
       <a class="btn" href="{% url 'account_logout' %}" data-i18n="nav.signOut">Sign Out</a>
