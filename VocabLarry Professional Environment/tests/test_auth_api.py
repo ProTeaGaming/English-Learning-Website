@@ -71,6 +71,28 @@ def test_sync_post_without_grammar_map_leaves_it_untouched(regular_user):
 
 
 @pytest.mark.django_db
+def test_sync_post_with_grammar_map_preserves_learn_map_when_echoed_back(regular_user):
+    # Guards the exact contract static/js/grammar-quiz.js's syncMastery()
+    # relies on: unlike grammar_map, learn_map has no absent-key guard on
+    # this endpoint, so a grammar-only client MUST echo back whatever
+    # learn_map its own preceding GET returned, or it gets silently wiped.
+    regular_user.learn_map = {'1': 'learned', '2': 'little'}
+    regular_user.grammar_map = {}
+    regular_user.save()
+    c = Client()
+    c.force_login(regular_user)
+    payload = json.dumps({
+        'grammar_map': {'articles': {'best': 100, 'done': True}},
+        'learn_map': {'1': 'learned', '2': 'little'},
+    })
+    r = c.post('/auth/sync/', payload, content_type='application/json')
+    assert r.status_code == 200
+    regular_user.refresh_from_db()
+    assert regular_user.learn_map == {'1': 'learned', '2': 'little'}
+    assert regular_user.grammar_map == {'articles': {'best': 100, 'done': True}}
+
+
+@pytest.mark.django_db
 def test_check_email_returns_false_for_unknown():
     c = Client()
     payload = json.dumps({'email': 'nobody@example.com'})
