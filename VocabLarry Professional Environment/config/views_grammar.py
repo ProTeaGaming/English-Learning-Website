@@ -1,5 +1,4 @@
-from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 
 from vocab.models import GrammarTopic
 
@@ -21,8 +20,9 @@ def grammar_browse(request):
 
 
 def grammar_topic_detail(request, slug):
-    # Stub for Task 2 — real implementation replaces only this function
-    # body. Registered now, at the exact path Task 2 specifies, because
-    # browse.html's {% url 'grammar_topic_detail' topic.slug %} is
-    # evaluated at render time regardless of whether the link is clicked.
-    return HttpResponse('Grammar topic detail coming in Task 2', status=501)
+    topic = get_object_or_404(GrammarTopic, slug=slug)
+    blocks = topic.blocks.order_by('order')
+    return render(request, 'grammar/topic_detail.html', {
+        'topic': topic,
+        'blocks': blocks,
+    })

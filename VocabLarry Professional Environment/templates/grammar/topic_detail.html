@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}{{ topic.title }} — VocabLarry{% endblock %}
+{% block extra_head %}<link rel="stylesheet" href="{% static 'css/grammar.css' %}">{% endblock %}
+{% block content %}
+<section class="grammar-topic-detail">
+  <p class="grammar-breadcrumb">
+    <a href="{% url 'grammar_browse' %}">Grammar</a> / {{ topic.title|safe }}
+  </p>
+  <h1>{{ topic.title|safe }}</h1>
+  <p class="grammar-topic-detail-cefr">{{ topic.cefr_label }}</p>
+  <p class="grammar-topic-detail-blurb">{{ topic.blurb }}</p>
+  {% for block in blocks %}
+    {% if block.type == 'intro' %}
+      <div class="grammar-block grammar-block-intro">{{ block.body|safe }}</div>
+    {% elif block.type == 'rule' %}
+      <div class="grammar-block grammar-block-rule">
+        {% if block.title %}<h2>{{ block.title }}</h2>{% endif %}
+        {{ block.body|safe }}
+      </div>
+    {% elif block.type == 'table' %}
+      <div class="grammar-block grammar-block-table">
+        {% if block.title %}<h2>{{ block.title }}</h2>{% endif %}
+        <table>
+          <thead>
+            <tr>
+              {% for h in block.data.head %}<th>{{ h }}</th>{% endfor %}
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in block.data.rows %}
+            <tr>
+              {% for cell in row %}<td>{{ cell }}</td>{% endfor %}
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% elif block.type == 'examples' %}
+      <div class="grammar-block grammar-block-examples">
+        {% if block.title %}<h2>{{ block.title }}</h2>{% endif %}
+        <ul class="grammar-examples-list">
+          {% for item in block.data.items %}
+          <li>
+            <span class="grammar-example-en">{{ item.en }}</span>
+            {% if item.note %}<span class="grammar-example-note">{{ item.note }}</span>{% endif %}
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% elif block.type == 'tip' %}
+      <div class="grammar-block grammar-block-tip">{{ block.body|safe }}</div>
+    {% endif %}
+  {% endfor %}
+</section>
+{% endblock %}
