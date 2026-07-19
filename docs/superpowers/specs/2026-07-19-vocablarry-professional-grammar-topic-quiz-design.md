@@ -121,10 +121,15 @@ the two).
   — "Not started yet" / "Best: N%" / "Mastered ✓" depending on state.
   Guests see the Practice button with no status line.
 - **Browse grid gains a small per-card status badge**, authenticated users
-  only, using the same three states, computed once per request from
-  `request.user.grammar_map` (no per-card query — the map is already a
-  single JSON field on the user). Guests see plain cards, unchanged from
-  Grammar Browse + Topic.
+  only, and **only when there's progress to report** — "Mastered" or
+  "Best: N%" — computed once per request from `request.user.grammar_map`
+  (no per-card query — the map is already a single JSON field on the
+  user). A never-attempted topic shows no badge at all, same as a guest
+  sees it — 47 repeated "Not started" badges on untouched cards would be
+  pure noise with no information value; the topic detail page's singular
+  status line is a better place for that state (a whole page has room for
+  it, a dense grid doesn't). This is the one place this design
+  deliberately doesn't show all three states.
 - **Results screen actions, matching production exactly:** *Try Again*
   (draws a fresh random 10 and restarts in place, no navigation — this is
   why the client-side-sampling decision above matters), *Back to Lesson*
