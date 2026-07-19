@@ -57,6 +57,7 @@
       .then(function(res){ return res.json(); })
       .then(function(data){
         var grammarMap = data.grammar_map || {};
+        var learnMap = data.learn_map || {};
         var prev = grammarMap[topicSlug] || { best: 0, done: false };
         var best = Math.max(prev.best, pct);
         grammarMap[topicSlug] = { best: best, done: prev.done || best >= PASS_PCT };
@@ -67,7 +68,7 @@
             "Content-Type": "application/json",
             "X-CSRFToken": getCsrfToken(),
           },
-          body: JSON.stringify({ grammar_map: grammarMap }),
+          body: JSON.stringify({ grammar_map: grammarMap, learn_map: learnMap }),
         });
       })
       .catch(function(){
