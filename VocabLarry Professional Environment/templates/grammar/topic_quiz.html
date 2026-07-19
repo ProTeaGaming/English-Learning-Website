@@ -8,7 +8,7 @@
     <a href="{% url 'grammar_browse' %}">Grammar</a> /
     <a href="{% url 'grammar_topic_detail' topic.slug %}">{{ topic.title }}</a> / Practice
   </p>
-  <div id="grammarQuizRoot" data-topic-slug="{{ topic.slug }}"></div>
+  <div id="grammarQuizRoot" data-topic-slug="{{ topic.slug }}" data-authenticated="{{ user.is_authenticated|yesno:'1,0' }}"></div>
 </section>
 {% endblock %}
 {% block extra_body %}

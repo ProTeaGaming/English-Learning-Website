@@ -47,6 +47,35 @@
     return shuffle(topic.quiz).slice(0, DRAW_COUNT);
   }
 
+  function getCsrfToken(){
+    var match = document.cookie.match(/(?:^|; )csrftoken=([^;]+)/);
+    return match ? decodeURIComponent(match[1]) : "";
+  }
+
+  function syncMastery(pct){
+    fetch("/auth/sync/", { credentials: "same-origin" })
+      .then(function(res){ return res.json(); })
+      .then(function(data){
+        var grammarMap = data.grammar_map || {};
+        var prev = grammarMap[topicSlug] || { best: 0, done: false };
+        var best = Math.max(prev.best, pct);
+        grammarMap[topicSlug] = { best: best, done: prev.done || best >= PASS_PCT };
+        return fetch("/auth/sync/", {
+          method: "POST",
+          credentials: "same-origin",
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": getCsrfToken(),
+          },
+          body: JSON.stringify({ grammar_map: grammarMap }),
+        });
+      })
+      .catch(function(){
+        // Best-effort: the results screen is already rendered and fully
+        // usable regardless of whether the sync round-trip succeeds.
+      });
+  }
+
   function renderError(message){
     root.innerHTML = '<p class="grammar-quiz-error">' + message +
       ' <a href="/grammar/topic/' + topicSlug + '/">Back to topic</a></p>';
@@ -144,6 +173,7 @@
   function renderResults(){
     var total = state.questions.length;
     var pct = total > 0 ? Math.round((state.score / total) * 100) : 0;
+    if (root.dataset.authenticated === "1") syncMastery(pct);
     var masteredMsg = pct >= PASS_PCT
       ? "You've mastered this topic!"
       : "Score " + PASS_PCT + "%+ to master this topic.";

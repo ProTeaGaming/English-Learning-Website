@@ -10,6 +10,13 @@
   <h1>{{ topic.title }}</h1>
   <p class="grammar-topic-detail-cefr">{{ topic.cefr_label }}</p>
   <p class="grammar-topic-detail-blurb">{{ topic.blurb }}</p>
+  {% if grammar_status.done %}
+    <p class="grammar-topic-detail-status grammar-topic-detail-status-mastered">Mastered ✓</p>
+  {% elif grammar_status %}
+    <p class="grammar-topic-detail-status">Best score: {{ grammar_status.best }}%</p>
+  {% elif user.is_authenticated %}
+    <p class="grammar-topic-detail-status grammar-topic-detail-status-new">Not started yet</p>
+  {% endif %}
   <a class="btn grammar-topic-detail-practice" href="{% url 'grammar_topic_quiz' topic.slug %}">Practice this topic</a>
   {% for block in blocks %}
     {% if block.type == 'intro' %}

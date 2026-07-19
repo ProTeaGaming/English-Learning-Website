@@ -178,3 +178,80 @@ def test_grammar_topic_detail_has_practice_link(topic_with_blocks):
     c = Client()
     r = c.get('/grammar/topic/present-simple-continuous/')
     assert 'href="/grammar/topic/present-simple-continuous/quiz/"' in r.content.decode()
+
+
+@pytest.mark.django_db
+def test_grammar_topic_quiz_authenticated_flag_set(topic_with_blocks, regular_user):
+    c = Client()
+    c.force_login(regular_user)
+    r = c.get('/grammar/topic/present-simple-continuous/quiz/')
+    assert 'data-authenticated="1"' in r.content.decode()
+
+
+@pytest.mark.django_db
+def test_grammar_topic_quiz_authenticated_flag_unset_for_guest(topic_with_blocks):
+    c = Client()
+    r = c.get('/grammar/topic/present-simple-continuous/quiz/')
+    assert 'data-authenticated="0"' in r.content.decode()
+
+
+@pytest.mark.django_db
+def test_grammar_topic_detail_status_not_started_for_authenticated_user(topic_with_blocks, regular_user):
+    c = Client()
+    c.force_login(regular_user)
+    r = c.get('/grammar/topic/present-simple-continuous/')
+    assert 'Not started yet' in r.content.decode()
+
+
+@pytest.mark.django_db
+def test_grammar_topic_detail_status_shows_best_score(topic_with_blocks, regular_user):
+    regular_user.grammar_map = {'present-simple-continuous': {'best': 60, 'done': False}}
+    regular_user.save(update_fields=['grammar_map'])
+    c = Client()
+    c.force_login(regular_user)
+    r = c.get('/grammar/topic/present-simple-continuous/')
+    assert 'Best score: 60%' in r.content.decode()
+
+
+@pytest.mark.django_db
+def test_grammar_topic_detail_status_shows_mastered(topic_with_blocks, regular_user):
+    regular_user.grammar_map = {'present-simple-continuous': {'best': 90, 'done': True}}
+    regular_user.save(update_fields=['grammar_map'])
+    c = Client()
+    c.force_login(regular_user)
+    r = c.get('/grammar/topic/present-simple-continuous/')
+    assert 'Mastered' in r.content.decode()
+
+
+@pytest.mark.django_db
+def test_grammar_topic_detail_no_status_for_guest(topic_with_blocks):
+    c = Client()
+    r = c.get('/grammar/topic/present-simple-continuous/')
+    html = r.content.decode()
+    assert 'Not started yet' not in html
+    assert 'grammar-topic-detail-status' not in html
+
+
+@pytest.mark.django_db
+def test_grammar_browse_badge_shows_mastered(topic_articles, regular_user):
+    regular_user.grammar_map = {'articles': {'best': 95, 'done': True}}
+    regular_user.save(update_fields=['grammar_map'])
+    c = Client()
+    c.force_login(regular_user)
+    r = c.get('/grammar/')
+    assert 'grammar-topic-badge-mastered' in r.content.decode()
+
+
+@pytest.mark.django_db
+def test_grammar_browse_no_badge_for_untouched_topic(topic_articles, regular_user):
+    c = Client()
+    c.force_login(regular_user)
+    r = c.get('/grammar/')
+    assert 'grammar-topic-badge' not in r.content.decode()
+
+
+@pytest.mark.django_db
+def test_grammar_browse_no_badge_for_guest(topic_articles):
+    c = Client()
+    r = c.get('/grammar/')
+    assert 'grammar-topic-badge' not in r.content.decode()

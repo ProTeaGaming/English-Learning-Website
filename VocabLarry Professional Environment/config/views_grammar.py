@@ -12,6 +12,10 @@ def grammar_browse(request):
         topics = topics.filter(title__icontains=query)
     if stage_filter:
         topics = topics.filter(stage=stage_filter)
+    topics = list(topics)
+    grammar_map = request.user.grammar_map if request.user.is_authenticated else {}
+    for topic in topics:
+        topic.grammar_status = grammar_map.get(topic.slug)
     return render(request, 'grammar/browse.html', {
         'topics': topics,
         'stages': GrammarTopic.STAGES,
@@ -23,9 +27,13 @@ def grammar_browse(request):
 def grammar_topic_detail(request, slug):
     topic = get_object_or_404(GrammarTopic, slug=slug)
     blocks = topic.blocks.order_by('order')
+    grammar_status = None
+    if request.user.is_authenticated:
+        grammar_status = request.user.grammar_map.get(topic.slug)
     return render(request, 'grammar/topic_detail.html', {
         'topic': topic,
         'blocks': blocks,
+        'grammar_status': grammar_status,
     })
 
 

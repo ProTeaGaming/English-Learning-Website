@@ -20,6 +20,11 @@
     {% for topic in topics %}
     <a class="grammar-topic-card" href="{% url 'grammar_topic_detail' topic.slug %}">
       <span class="grammar-topic-tag">{{ topic.tag }}</span>
+      {% if topic.grammar_status.done %}
+        <span class="grammar-topic-badge grammar-topic-badge-mastered">Mastered</span>
+      {% elif topic.grammar_status %}
+        <span class="grammar-topic-badge">Best: {{ topic.grammar_status.best }}%</span>
+      {% endif %}
       <span class="grammar-topic-title">{{ topic.title }}</span>
       <span class="grammar-topic-cefr">{{ topic.cefr_label }}</span>
       <span class="grammar-topic-blurb">{{ topic.blurb }}</span>

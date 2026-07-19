@@ -162,3 +162,18 @@
 .grammar-quiz-pct{ color: var(--muted); margin-bottom: 8px; }
 .grammar-quiz-mastered-msg{ margin-bottom: 24px; }
 .grammar-quiz-result-actions{ display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+.grammar-topic-badge{
+  align-self: flex-start;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(34,197,94,0.12);
+  color: #16a34a;
+}
+.grammar-topic-badge-mastered{ background: rgba(234,179,8,0.15); color: #b45309; }
+
+.grammar-topic-detail-status{ font-weight: 600; margin-bottom: 16px; }
+.grammar-topic-detail-status-mastered{ color: #b45309; }
+.grammar-topic-detail-status-new{ color: var(--muted); font-weight: 400; }
