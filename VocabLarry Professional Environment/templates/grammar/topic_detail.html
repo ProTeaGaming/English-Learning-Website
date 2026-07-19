@@ -10,6 +10,7 @@
   <h1>{{ topic.title }}</h1>
   <p class="grammar-topic-detail-cefr">{{ topic.cefr_label }}</p>
   <p class="grammar-topic-detail-blurb">{{ topic.blurb }}</p>
+  <a class="btn grammar-topic-detail-practice" href="{% url 'grammar_topic_quiz' topic.slug %}">Practice this topic</a>
   {% for block in blocks %}
     {% if block.type == 'intro' %}
       <div class="grammar-block grammar-block-intro">{{ block.body|safe }}</div>

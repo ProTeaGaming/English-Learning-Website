@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Practice: {{ topic.title }} — VocabLarry{% endblock %}
+{% block extra_head %}<link rel="stylesheet" href="{% static 'css/grammar.css' %}">{% endblock %}
+{% block content %}
+<section class="grammar-topic-quiz">
+  <p class="grammar-breadcrumb">
+    <a href="{% url 'grammar_browse' %}">Grammar</a> /
+    <a href="{% url 'grammar_topic_detail' topic.slug %}">{{ topic.title }}</a> / Practice
+  </p>
+  <div id="grammarQuizRoot" data-topic-slug="{{ topic.slug }}"></div>
+</section>
+{% endblock %}
+{% block extra_body %}
+<script src="{% static 'js/grammar-quiz.js' %}" defer></script>
+{% endblock %}

@@ -1,4 +1,5 @@
 from django.shortcuts import get_object_or_404, render
+from django.views.decorators.csrf import ensure_csrf_cookie
 
 from vocab.models import GrammarTopic
 
@@ -26,3 +27,9 @@ def grammar_topic_detail(request, slug):
         'topic': topic,
         'blocks': blocks,
     })
+
+
+@ensure_csrf_cookie
+def grammar_topic_quiz(request, slug):
+    topic = get_object_or_404(GrammarTopic, slug=slug)
+    return render(request, 'grammar/topic_quiz.html', {'topic': topic})

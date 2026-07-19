@@ -154,3 +154,27 @@ def test_grammar_topic_detail_renders_examples(topic_with_blocks):
     assert 'The sun rises in the east.' in html
     assert 'General fact.' in html
     assert 'Prices are rising.' in html
+
+
+@pytest.mark.django_db
+def test_grammar_topic_quiz_renders(topic_with_blocks):
+    c = Client()
+    r = c.get('/grammar/topic/present-simple-continuous/quiz/')
+    assert r.status_code == 200
+    html = r.content.decode()
+    assert 'grammarQuizRoot' in html
+    assert 'data-topic-slug="present-simple-continuous"' in html
+
+
+@pytest.mark.django_db
+def test_grammar_topic_quiz_unknown_slug_404():
+    c = Client()
+    r = c.get('/grammar/topic/does-not-exist/quiz/')
+    assert r.status_code == 404
+
+
+@pytest.mark.django_db
+def test_grammar_topic_detail_has_practice_link(topic_with_blocks):
+    c = Client()
+    r = c.get('/grammar/topic/present-simple-continuous/')
+    assert 'href="/grammar/topic/present-simple-continuous/quiz/"' in r.content.decode()
