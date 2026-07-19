@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Grammar Test — VocabLarry{% endblock %}
+{% block extra_head %}<link rel="stylesheet" href="{% static 'css/grammar.css' %}">{% endblock %}
+{% block content %}
+<section class="grammar-test-setup">
+  <h1>Grammar Test</h1>
+  <p class="grammar-test-intro">Practice across every topic at once — pick a level, question type, and length.</p>
+  <form method="get" action="{% url 'grammar_test_play' %}" class="grammar-test-fields">
+    <label class="grammar-test-field">
+      <span>Level</span>
+      <select name="stage">
+        <option value="">All levels</option>
+        {% for value, label in stages %}
+          <option value="{{ value }}">{{ label }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    <label class="grammar-test-field">
+      <span>Question type</span>
+      <select name="qtype">
+        <option value="mixed" selected>Mixed</option>
+        <option value="mcq">Multichoice</option>
+        <option value="gap">Fill the Gap</option>
+        <option value="transform">Rewrite the Sentence</option>
+      </select>
+    </label>
+    <label class="grammar-test-field">
+      <span>Questions</span>
+      <select name="count">
+        <option value="10">10 questions</option>
+        <option value="20">20 questions</option>
+        <option value="30">30 questions</option>
+        <option value="all">All questions</option>
+      </select>
+    </label>
+    <button type="submit" class="btn btn-primary">Start Test</button>
+  </form>
+</section>
+{% endblock %}

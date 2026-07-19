@@ -177,3 +177,28 @@
 .grammar-topic-detail-status{ font-weight: 600; margin-bottom: 16px; }
 .grammar-topic-detail-status-mastered{ color: #b45309; }
 .grammar-topic-detail-status-new{ color: var(--muted); font-weight: 400; }
+
+.grammar-test-setup h1{ margin-top: 32px; }
+.grammar-test-intro{ color: var(--muted); margin: 8px 0 24px; }
+.grammar-test-fields{
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 360px;
+}
+.grammar-test-field{
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+.grammar-test-field select{
+  padding: 9px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--card-bg);
+  color: var(--text);
+  font-size: 0.95rem;
+  font-weight: 400;
+}

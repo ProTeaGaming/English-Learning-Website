@@ -265,3 +265,34 @@ def test_grammar_test_play_renders():
     html = r.content.decode()
     assert 'grammarQuizRoot' in html
     assert 'data-mode="test"' in html
+
+
+@pytest.mark.django_db
+def test_grammar_test_setup_renders():
+    c = Client()
+    r = c.get('/grammar/test/')
+    assert r.status_code == 200
+    html = r.content.decode()
+    assert 'name="stage"' in html
+    assert 'name="qtype"' in html
+    assert 'name="count"' in html
+    assert 'action="/grammar/test/play/"' in html
+
+
+@pytest.mark.django_db
+def test_grammar_test_setup_stage_options_match_model():
+    c = Client()
+    r = c.get('/grammar/test/')
+    html = r.content.decode()
+    assert '<option value="beginner">Basic</option>' in html
+    assert '<option value="independent">Intermediate</option>' in html
+    assert '<option value="expert">Advanced</option>' in html
+
+
+@pytest.mark.django_db
+def test_nav_grammar_test_link_present():
+    c = Client()
+    r = c.get('/')
+    html = r.content.decode()
+    assert 'href="/grammar/test/"' in html
+    assert 'nav.grammarTest">Grammar Test</a>' in html
