@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Grammar — VocabLarry{% endblock %}
+{% block extra_head %}<link rel="stylesheet" href="{% static 'css/grammar.css' %}">{% endblock %}
+{% block content %}
+<section class="grammar-browse">
+  <h1>Grammar</h1>
+  <form method="get" class="grammar-filters">
+    <input type="text" name="q" value="{{ query }}" placeholder="Search topics…">
+    <select name="stage">
+      <option value="">All levels</option>
+      {% for value, label in stages %}
+        <option value="{{ value }}" {% if value == stage_filter %}selected{% endif %}>{{ label }}</option>
+      {% endfor %}
+    </select>
+    <button type="submit" class="btn">Filter</button>
+  </form>
+  {% if topics %}
+  <div class="grammar-topic-grid">
+    {% for topic in topics %}
+    <a class="grammar-topic-card" href="{% url 'grammar_topic_detail' topic.slug %}">
+      <span class="grammar-topic-tag">{{ topic.tag }}</span>
+      <span class="grammar-topic-title">{{ topic.title }}</span>
+      <span class="grammar-topic-cefr">{{ topic.cefr_label }}</span>
+      <span class="grammar-topic-blurb">{{ topic.blurb }}</span>
+    </a>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p class="grammar-empty">No topics match your search.</p>
+  {% endif %}
+</section>
+{% endblock %}

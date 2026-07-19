@@ -1,0 +1,49 @@
+.grammar-browse h1{ margin-top: 32px; }
+
+.grammar-filters{
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin: 16px 0 28px;
+}
+.grammar-filters input[type="text"],
+.grammar-filters select{
+  padding: 9px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--card-bg);
+  color: var(--text);
+  font-size: 0.95rem;
+}
+.grammar-filters input[type="text"]{ flex: 1; min-width: 180px; }
+
+.grammar-topic-grid{
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 14px;
+  padding-bottom: 48px;
+}
+.grammar-topic-card{
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--card-bg);
+  color: var(--text);
+  text-decoration: none;
+}
+.grammar-topic-tag{
+  align-self: flex-start;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(var(--violet), 0.12);
+  color: rgb(var(--violet));
+}
+.grammar-topic-title{ font-weight: 700; }
+.grammar-topic-cefr{ font-size: 0.8rem; color: var(--muted); }
+.grammar-topic-blurb{ font-size: 0.9rem; color: var(--muted); }
+.grammar-empty{ color: var(--muted); padding: 24px 0; }

@@ -6,7 +6,7 @@
   <p data-i18n="hero.subtitle">Build vocabulary and grammar skills for IELTS, one focused session at a time.</p>
   <div class="hero-actions">
     <a class="btn btn-primary" href="{% url 'vocab_browse' %}" data-i18n="hero.start">Start Learning</a>
-    <span class="btn disabled" data-i18n="hero.grammar">Practice Grammar</span>
+    <a class="btn" href="{% url 'grammar_browse' %}" data-i18n="hero.grammar">Practice Grammar</a>
   </div>
 </section>
 {% endblock %}
