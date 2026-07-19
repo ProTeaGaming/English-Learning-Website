@@ -2,12 +2,16 @@
   var root = document.getElementById("grammarQuizRoot");
   if (!root) return;
 
-  var topicSlug = root.dataset.topicSlug;
+  var topicSlug = root.dataset.topicSlug || null;
+  var testMode = root.dataset.mode === "test";
   var DRAW_COUNT = 10;
   var PASS_PCT = 80;
 
   var state = {
+    mode: testMode ? "test" : "topic",
     topic: null,
+    pool: [],
+    drawCount: DRAW_COUNT,
     questions: [],
     idx: 0,
     score: 0,
@@ -43,8 +47,8 @@
     return state.questions.some(function(qq){ return blankMeansNoAnswer(qq); });
   }
 
-  function drawQuestions(topic){
-    return shuffle(topic.quiz).slice(0, DRAW_COUNT);
+  function drawQuestions(){
+    return shuffle(state.pool).slice(0, state.drawCount);
   }
 
   function getCsrfToken(){
@@ -77,9 +81,14 @@
       });
   }
 
+  function backHref(){
+    return state.mode === "test" ? "/grammar/test/" : ("/grammar/topic/" + topicSlug + "/");
+  }
+
   function renderError(message){
+    var label = state.mode === "test" ? "Back to Test setup" : "Back to topic";
     root.innerHTML = '<p class="grammar-quiz-error">' + message +
-      ' <a href="/grammar/topic/' + topicSlug + '/">Back to topic</a></p>';
+      ' <a href="' + backHref() + '">' + label + '</a></p>';
   }
 
   function renderQuestion(){
@@ -91,7 +100,7 @@
       : q.qtype === "gap" ? "Fill in the blank:" : "Rewrite the sentence:";
     var gapPlaceholder = q.qtype === "gap" && offersBlankGap() ? "(leave blank if nothing goes here)" : "";
     root.innerHTML =
-      '<a class="grammar-quiz-leave" href="/grammar/topic/' + topicSlug + '/">&larr; Leave</a>' +
+      '<a class="grammar-quiz-leave" href="' + backHref() + '">&larr; Leave</a>' +
       '<div class="grammar-quiz-progress"><div class="grammar-quiz-progress-fill" style="width:' + pct + '%"></div></div>' +
       '<div class="grammar-quiz-meta"><span>Question ' + (state.idx + 1) + ' of ' + total + '</span><span>Score: ' + state.score + '</span></div>' +
       '<div class="grammar-quiz-card">' +
@@ -174,31 +183,34 @@
   function renderResults(){
     var total = state.questions.length;
     var pct = total > 0 ? Math.round((state.score / total) * 100) : 0;
-    if (root.dataset.authenticated === "1") syncMastery(pct);
-    var masteredMsg = pct >= PASS_PCT
-      ? "You've mastered this topic!"
-      : "Score " + PASS_PCT + "%+ to master this topic.";
+    if (state.mode === "topic" && root.dataset.authenticated === "1") syncMastery(pct);
+    var masteredMsg = state.mode === "topic"
+      ? (pct >= PASS_PCT ? "You've mastered this topic!" : "Score " + PASS_PCT + "%+ to master this topic.")
+      : "";
+    var secondaryAction = state.mode === "topic"
+      ? '<a class="btn" href="/grammar/topic/' + topicSlug + '/">Back to Lesson</a>'
+      : '<a class="btn" href="/grammar/test/">Change Settings</a>';
     root.innerHTML =
       '<div class="grammar-quiz-results">' +
         '<h2>Quiz Complete</h2>' +
         '<div class="grammar-quiz-score">' + state.score + ' / ' + total + '</div>' +
         '<p class="grammar-quiz-pct">' + pct + '%</p>' +
-        '<p class="grammar-quiz-mastered-msg">' + masteredMsg + '</p>' +
+        (masteredMsg ? '<p class="grammar-quiz-mastered-msg">' + masteredMsg + '</p>' : '') +
         '<div class="grammar-quiz-result-actions">' +
           '<button type="button" class="btn" id="grammarQuizRetryBtn">Try Again</button>' +
-          '<a class="btn" href="/grammar/topic/' + topicSlug + '/">Back to Lesson</a>' +
+          secondaryAction +
           '<a class="btn" href="/grammar/">Back to Grammar</a>' +
         '</div>' +
       '</div>';
     document.getElementById("grammarQuizRetryBtn").addEventListener("click", function(){
       state.idx = 0;
       state.score = 0;
-      state.questions = drawQuestions(state.topic);
+      state.questions = drawQuestions();
       renderQuestion();
     });
   }
 
-  function init(){
+  function initTopicMode(){
     fetch("/api/grammar/").then(function(r){ return r.json(); }).then(function(stages){
       var found = null;
       stages.forEach(function(stage){
@@ -211,11 +223,46 @@
         return;
       }
       state.topic = found;
-      state.questions = drawQuestions(found);
+      state.pool = found.quiz;
+      state.drawCount = DRAW_COUNT;
+      state.questions = drawQuestions();
       renderQuestion();
     }).catch(function(){
       renderError("Couldn't load quiz data — check your connection and try again.");
     });
+  }
+
+  function initTestMode(){
+    var params = new URLSearchParams(window.location.search);
+    var stageFilter = params.get("stage") || "";
+    var qtypeFilter = params.get("qtype") || "mixed";
+    var countParam = params.get("count") || "10";
+    fetch("/api/grammar/").then(function(r){ return r.json(); }).then(function(stages){
+      var pool = [];
+      stages.forEach(function(stage){
+        if (stageFilter && stage.id !== stageFilter) return;
+        stage.topics.forEach(function(topic){
+          topic.quiz.forEach(function(q){
+            if (qtypeFilter !== "mixed" && q.qtype !== qtypeFilter) return;
+            pool.push(q);
+          });
+        });
+      });
+      if (!pool.length){
+        renderError("No questions match this combination — try different settings.");
+        return;
+      }
+      state.pool = pool;
+      state.drawCount = countParam === "all" ? pool.length : Math.min(parseInt(countParam, 10) || 10, pool.length);
+      state.questions = drawQuestions();
+      renderQuestion();
+    }).catch(function(){
+      renderError("Couldn't load quiz data — check your connection and try again.");
+    });
+  }
+
+  function init(){
+    if (testMode) initTestMode(); else initTopicMode();
   }
 
   init();

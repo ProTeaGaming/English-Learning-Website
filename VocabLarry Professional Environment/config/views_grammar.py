@@ -41,3 +41,7 @@ def grammar_topic_detail(request, slug):
 def grammar_topic_quiz(request, slug):
     topic = get_object_or_404(GrammarTopic, slug=slug)
     return render(request, 'grammar/topic_quiz.html', {'topic': topic})
+
+
+def grammar_test_play(request):
+    return render(request, 'grammar/test_play.html')

@@ -7,7 +7,9 @@ from config.views_vocab import (
     vocab_browse, vocab_category, vocab_word_detail,
     vocab_quiz_setup, vocab_quiz_play,
 )
-from config.views_grammar import grammar_browse, grammar_topic_detail, grammar_topic_quiz
+from config.views_grammar import (
+    grammar_browse, grammar_topic_detail, grammar_topic_quiz, grammar_test_play,
+)
 
 urlpatterns = [
     path('', home, name='home'),
@@ -19,6 +21,7 @@ urlpatterns = [
     path('grammar/', grammar_browse, name='grammar_browse'),
     path('grammar/topic/<slug:slug>/', grammar_topic_detail, name='grammar_topic_detail'),
     path('grammar/topic/<slug:slug>/quiz/', grammar_topic_quiz, name='grammar_topic_quiz'),
+    path('grammar/test/play/', grammar_test_play, name='grammar_test_play'),
     path('accounts/', include('allauth.urls')),
     path('auth/', include('accounts.urls')),
     path('api/', include('api.urls')),

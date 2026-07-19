@@ -255,3 +255,13 @@ def test_grammar_browse_no_badge_for_guest(topic_articles):
     c = Client()
     r = c.get('/grammar/')
     assert 'grammar-topic-badge' not in r.content.decode()
+
+
+@pytest.mark.django_db
+def test_grammar_test_play_renders():
+    c = Client()
+    r = c.get('/grammar/test/play/')
+    assert r.status_code == 200
+    html = r.content.decode()
+    assert 'grammarQuizRoot' in html
+    assert 'data-mode="test"' in html

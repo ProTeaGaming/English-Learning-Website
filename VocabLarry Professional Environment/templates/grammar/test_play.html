@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Grammar Test — VocabLarry{% endblock %}
+{% block extra_head %}<link rel="stylesheet" href="{% static 'css/grammar.css' %}">{% endblock %}
+{% block content %}
+<section class="grammar-test-play">
+  <p class="grammar-breadcrumb">
+    <a href="{% url 'grammar_browse' %}">Grammar</a> / Test
+  </p>
+  <div id="grammarQuizRoot" data-mode="test"></div>
+</section>
+{% endblock %}
+{% block extra_body %}
+<script src="{% static 'js/grammar-quiz.js' %}" defer></script>
+{% endblock %}
