@@ -3,9 +3,32 @@
 {% block title %}Vocabulary — VocabLarry{% endblock %}
 {% block extra_head %}<link rel="stylesheet" href="{% static 'css/vocab.css' %}">{% endblock %}
 {% block content %}
-<section class="page-stub">
-  <span class="eyebrow">Section 01 / Vocabulary</span>
-  <h1>Vocabulary</h1>
-  <p>Coming soon.</p>
+<section class="home-hero">
+  <div class="home-grid-bg"></div>
+  <div class="home-glow"></div>
+  <div class="home-badge"><svg class="ico" aria-hidden="true"><use href="#i-book"/></svg> <span data-i18n="vocabHome.badge">5,000 words · 250 categories</span></div>
+  <h1 class="home-title"><span data-i18n="vocabHome.title1">Build your word bank,</span><br><span class="home-grad" data-i18n="vocabHome.title2">one category at a time.</span></h1>
+  <p class="home-sub" data-i18n="vocabHome.subtitle">Browse by topic, look up any word, or test yourself with a quiz — pick where to start below.</p>
 </section>
+<div class="home-content">
+  <div>
+    <div class="home-secs">
+      <a class="home-sec" href="{% url 'vocabulary_category_list' %}">
+        <div class="home-sec-ico"><svg class="ico" aria-hidden="true"><use href="#i-folder"/></svg></div>
+        <div class="home-sec-name" data-i18n="nav.category">Category</div>
+        <div class="home-sec-desc" data-i18n="vocabHome.descCategory">Browse every word, grouped by topic and CEFR level.</div>
+      </a>
+      <a class="home-sec" href="{% url 'vocabulary_word_list' %}">
+        <div class="home-sec-ico"><svg class="ico" aria-hidden="true"><use href="#i-book"/></svg></div>
+        <div class="home-sec-name" data-i18n="nav.word">Word</div>
+        <div class="home-sec-desc" data-i18n="vocabHome.descWord">Look up any word across the full dictionary.</div>
+      </a>
+      <a class="home-sec" href="{% url 'vocabulary_quiz_setup' %}">
+        <div class="home-sec-ico"><svg class="ico" aria-hidden="true"><use href="#i-target"/></svg></div>
+        <div class="home-sec-name" data-i18n="nav.quiz">Quiz</div>
+        <div class="home-sec-desc" data-i18n="vocabHome.descQuiz">Test yourself with definitions, synonyms, and gap-fills.</div>
+      </a>
+    </div>
+  </div>
+</div>
 {% endblock %}

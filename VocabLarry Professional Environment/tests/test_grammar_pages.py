@@ -317,3 +317,15 @@ def test_grammar_word_stub_renders():
     assert 'Section 02 / Grammar' in html
     assert '<h1>Word</h1>' in html
     assert 'Coming soon.' in html
+
+
+@pytest.mark.django_db
+def test_grammar_home_renders():
+    c = Client()
+    r = c.get('/grammar/')
+    assert r.status_code == 200
+    html = r.content.decode()
+    assert 'href="/grammar/category/"' in html
+    assert 'href="/grammar/word/"' in html
+    assert 'href="/grammar/quiz/"' in html
+    assert 'data-i18n="grammarHome.title1"' in html

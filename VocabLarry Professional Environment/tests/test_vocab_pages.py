@@ -321,3 +321,15 @@ def test_vocabulary_word_list_stub_renders():
     assert 'Section 01 / Vocabulary' in html
     assert '<h1>Word</h1>' in html
     assert 'Coming soon.' in html
+
+
+@pytest.mark.django_db
+def test_vocabulary_home_renders():
+    c = Client()
+    r = c.get('/vocabulary/')
+    assert r.status_code == 200
+    html = r.content.decode()
+    assert 'href="/vocabulary/category/"' in html
+    assert 'href="/vocabulary/word/"' in html
+    assert 'href="/vocabulary/quiz/"' in html
+    assert 'data-i18n="vocabHome.title1"' in html
