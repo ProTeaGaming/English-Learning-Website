@@ -184,7 +184,7 @@
   }
 
   function renderError(message){
-    root.innerHTML = '<p class="vocab-quiz-error">' + message + ' <a href="/vocab/quiz/">Back to setup</a></p>';
+    root.innerHTML = '<p class="vocab-quiz-error">' + message + ' <a href="/vocabulary/quiz/">Back to setup</a></p>';
   }
 
   function renderQuestion(){
@@ -264,7 +264,7 @@
       renderQuestion();
     });
     document.getElementById("quizChangeBtn").addEventListener("click", function(){
-      window.location.href = "/vocab/quiz/";
+      window.location.href = "/vocabulary/quiz/";
     });
     document.getElementById("quizReviewBtn").addEventListener("click", function(){
       var panel = document.getElementById("quizReview");

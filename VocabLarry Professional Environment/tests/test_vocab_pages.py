@@ -648,3 +648,11 @@ def test_vocabulary_word_detail_synonym_without_match_renders_plain_text(cefr_a1
     # More precise: no anchor tag wraps this specific text
     import re
     assert not re.search(r'<a[^>]*>NotARealWordEntry</a>', html)
+
+
+def test_vocab_quiz_js_has_no_stale_setup_links():
+    import pathlib
+    js_path = pathlib.Path(__file__).resolve().parent.parent / 'static' / 'js' / 'vocab-quiz.js'
+    content = js_path.read_text(encoding='utf-8')
+    assert '/vocab/quiz/' not in content
+    assert content.count('/vocabulary/quiz/') >= 2
