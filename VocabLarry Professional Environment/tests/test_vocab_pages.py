@@ -575,15 +575,22 @@ def test_bulk_mark_all_completed_round_trip_preserves_other_categories(cefr_a1, 
 @pytest.mark.django_db
 def test_bulk_reset_all_deletes_keys_not_sets_none(cefr_a1, regular_user):
     category = Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1)
+    other_category = Category.objects.create(slug='food', name='Food', order=2, cefr_level=cefr_a1)
     w1 = Word.objects.create(word='Cat', definition='x', category=category, order=1)
-    other_word = Word.objects.create(word='Bread', definition='x', category=category, order=2)
-    regular_user.learn_map = {str(w1.pk): 'learned', str(other_word.pk): 'little'}
+    same_category_word = Word.objects.create(word='Bread', definition='x', category=category, order=2)
+    other_category_word = Word.objects.create(word='Rice', definition='x', category=other_category, order=1)
+    regular_user.learn_map = {
+        str(w1.pk): 'learned',
+        str(same_category_word.pk): 'little',
+        str(other_category_word.pk): 'learned',
+    }
     regular_user.save()
     c = Client()
     c.force_login(regular_user)
 
     # Exactly what vocabBulkSetCategory("reset") does: delete every word
-    # ID in this category from the map entirely.
+    # ID belonging to `category` from the map entirely — never touch
+    # words in a different category.
     get_res = c.get('/auth/sync/')
     learn_map = get_res.json()['learn_map']
     del learn_map[str(w1.pk)]
@@ -595,4 +602,7 @@ def test_bulk_reset_all_deletes_keys_not_sets_none(cefr_a1, regular_user):
     assert post_res.status_code == 200
     regular_user.refresh_from_db()
     assert str(w1.pk) not in regular_user.learn_map
-    assert regular_user.learn_map == {str(other_word.pk): 'little'}
+    assert regular_user.learn_map == {
+        str(same_category_word.pk): 'little',
+        str(other_category_word.pk): 'learned',
+    }
