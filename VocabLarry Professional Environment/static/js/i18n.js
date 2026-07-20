@@ -111,6 +111,10 @@
       var key = el.getAttribute("data-i18n");
       if (dict[key]) el.textContent = dict[key];
     });
+    document.querySelectorAll("[data-i18n-placeholder]").forEach(function(el){
+      var key = el.getAttribute("data-i18n-placeholder");
+      if (dict[key]) el.placeholder = dict[key];
+    });
     document.documentElement.setAttribute("lang", lang);
   }
 

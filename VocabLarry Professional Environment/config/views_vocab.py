@@ -18,7 +18,9 @@ def vocab_browse(request):
         categories = categories.filter(cefr_level__code=cefr_filter)
     categories = list(categories)
 
-    word_category = dict(Word.objects.values_list('id', 'category_id'))
+    word_category = dict(
+        Word.objects.filter(category_id__in=[c.id for c in categories]).values_list('id', 'category_id')
+    )
     word_counts = Counter(word_category.values())
 
     for category in categories:

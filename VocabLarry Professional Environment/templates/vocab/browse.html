@@ -19,18 +19,18 @@
     </form>
     <div class="filter-row">
       <span class="filter-label" data-i18n="common.cefrLevel">CEFR Level</span>
-      <a class="chip{% if not cefr_filter %} active{% endif %}" href="?q={{ query }}{% if progress_filter %}&progress={{ progress_filter }}{% endif %}" data-i18n="common.all">All</a>
+      <a class="chip{% if not cefr_filter %} active{% endif %}" href="?q={{ query|urlencode }}{% if progress_filter %}&progress={{ progress_filter }}{% endif %}" data-i18n="common.all">All</a>
       {% for level in cefr_levels %}
-      <a class="chip{% if cefr_filter == level.code %} active{% endif %}" data-browse-cefr="{{ level.code }}" href="?q={{ query }}&cefr={{ level.code }}{% if progress_filter %}&progress={{ progress_filter }}{% endif %}">{{ level.code }}</a>
+      <a class="chip{% if cefr_filter == level.code %} active{% endif %}" data-browse-cefr="{{ level.code }}" href="?q={{ query|urlencode }}&cefr={{ level.code }}{% if progress_filter %}&progress={{ progress_filter }}{% endif %}">{{ level.code }}</a>
       {% endfor %}
     </div>
     {% if user.is_authenticated %}
     <div class="filter-row">
       <span class="filter-label" data-i18n="common.progress">Progress</span>
-      <a class="chip{% if not progress_filter %} active{% endif %}" href="?q={{ query }}{% if cefr_filter %}&cefr={{ cefr_filter }}{% endif %}" data-i18n="common.all">All</a>
-      <a class="chip{% if progress_filter == 'learned' %} active{% endif %}" data-browse-status="completed" href="?q={{ query }}{% if cefr_filter %}&cefr={{ cefr_filter }}{% endif %}&progress=learned" data-i18n="common.completed">Completed</a>
-      <a class="chip{% if progress_filter == 'in_progress' %} active{% endif %}" data-browse-status="inProgress" href="?q={{ query }}{% if cefr_filter %}&cefr={{ cefr_filter }}{% endif %}&progress=in_progress" data-i18n="common.inProgress">In Progress</a>
-      <a class="chip{% if progress_filter == 'not_started' %} active{% endif %}" data-browse-status="notStarted" href="?q={{ query }}{% if cefr_filter %}&cefr={{ cefr_filter }}{% endif %}&progress=not_started" data-i18n="common.notStarted">Not Started</a>
+      <a class="chip{% if not progress_filter %} active{% endif %}" href="?q={{ query|urlencode }}{% if cefr_filter %}&cefr={{ cefr_filter }}{% endif %}" data-i18n="common.all">All</a>
+      <a class="chip{% if progress_filter == 'learned' %} active{% endif %}" data-browse-status="completed" href="?q={{ query|urlencode }}{% if cefr_filter %}&cefr={{ cefr_filter }}{% endif %}&progress=learned" data-i18n="common.completed">Completed</a>
+      <a class="chip{% if progress_filter == 'in_progress' %} active{% endif %}" data-browse-status="inProgress" href="?q={{ query|urlencode }}{% if cefr_filter %}&cefr={{ cefr_filter }}{% endif %}&progress=in_progress" data-i18n="common.inProgress">In Progress</a>
+      <a class="chip{% if progress_filter == 'not_started' %} active{% endif %}" data-browse-status="notStarted" href="?q={{ query|urlencode }}{% if cefr_filter %}&cefr={{ cefr_filter }}{% endif %}&progress=not_started" data-i18n="common.notStarted">Not Started</a>
     </div>
     {% endif %}
     <div class="filter-row" style="justify-content:flex-end;">
