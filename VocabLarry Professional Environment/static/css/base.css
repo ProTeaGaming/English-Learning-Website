@@ -301,3 +301,85 @@ body::after{
   border-color: #dc2626;
   color: #dc2626;
 }
+
+/* Section-link cards (Vocabulary/Grammar intro pages) — ported from
+   production's .home-sec family (vocablarry.html), --vio renamed to
+   --violet and rgba(var(--vio),X) converted to rgb(var(--violet) / X)
+   per this codebase's established custom-property syntax rule. */
+.home-secs{ display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; }
+@media (max-width: 700px){ .home-secs{ grid-template-columns: repeat(2,1fr); } }
+@media (max-width: 460px){ .home-secs{ grid-template-columns: 1fr; } }
+.home-sec{
+  background: rgba(22,26,35,.78); border: 1px solid rgb(var(--violet) / .15);
+  border-radius: 20px; padding: 22px 20px; backdrop-filter: blur(14px);
+  display: flex; flex-direction: column; gap: 7px; position: relative; overflow: hidden;
+  transition: transform .45s var(--ease-luxe), border-color .45s var(--ease-luxe), box-shadow .45s var(--ease-luxe);
+  text-decoration: none;
+}
+[data-theme="light"] .home-sec{ background: rgba(255,255,255,.86); }
+.home-sec:hover{
+  transform: translateY(-4px);
+  border-color: rgb(var(--violet) / .45);
+  box-shadow: 0 26px 60px rgba(0,0,0,.2), 0 6px 18px rgb(var(--violet) / .08);
+}
+.home-sec-ico{ font-size: 1.9rem; margin-bottom: 4px; color: rgb(var(--violet)); }
+.home-sec-name{
+  font-family: 'Plus Jakarta Sans','Sora',sans-serif; font-size: 1.05rem; font-weight: 800; color: var(--text);
+}
+.home-sec-desc{ font-size: .82rem; color: var(--muted); line-height: 1.55; }
+
+/* Desktop dropdown nav (Vocabulary/Grammar) — ported from production's
+   .nav-group/.nav-dropdown family. */
+.nav-group{ position: relative; }
+.nav-dropdown{
+  display: none; position: absolute; top: calc(100% + 8px); left: 0; min-width: 160px;
+  background: rgba(22,26,35,.94); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgb(var(--violet) / .22); border-radius: 16px;
+  box-shadow: 0 16px 48px rgba(0,0,0,.4); padding: 12px; z-index: 50; flex-direction: column; gap: 4px;
+}
+[data-theme="light"] .nav-dropdown{ background: rgba(255,255,255,.94); }
+.nav-group.open .nav-dropdown{ display: flex; }
+.nav-dropdown-item{
+  display: block; width: 100%; text-align: left; font-family: 'Plus Jakarta Sans','Sora',sans-serif;
+  font-size: .9rem; font-weight: 600; color: var(--muted); text-decoration: none;
+  padding: 10px 14px; border-radius: 10px;
+}
+.nav-dropdown-item:hover, .nav-dropdown-item.active{ color: var(--text); background: rgb(var(--violet) / .1); }
+
+/* Mobile hamburger nav + in-page Category/Word/Quiz switcher — ported
+   from production's .mobile-nav-chip/.mobile-page-switcher family. */
+.mobile-nav-chip{ display: none; position: relative; align-items: center; gap: 8px; }
+.mobile-nav-chip-label{ font-size: .85rem; font-weight: 600; color: var(--text); cursor: pointer; white-space: nowrap; }
+.mobile-nav-chip.open .mobile-nav-menu{ display: flex; }
+.mobile-nav-menu{
+  display: none; position: absolute; top: calc(100% + 8px); left: 0; min-width: 200px;
+  background: rgba(22,26,35,.94); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgb(var(--violet) / .22); border-radius: 16px;
+  box-shadow: 0 16px 48px rgba(0,0,0,.4); padding: 12px; z-index: 50; flex-direction: column; gap: 4px;
+}
+[data-theme="light"] .mobile-nav-menu{ background: rgba(255,255,255,.94); }
+.mobile-nav-menu-item{
+  display: block; width: 100%; text-align: left; font-family: 'Plus Jakarta Sans','Sora',sans-serif;
+  font-size: .9rem; font-weight: 600; color: var(--muted); background: transparent; border: none;
+  padding: 10px 14px; border-radius: 10px; cursor: pointer; text-decoration: none;
+}
+.mobile-nav-menu-item:hover{ color: var(--text); background: rgb(var(--violet) / .1); }
+.mobile-page-switcher{ display: none; gap: 8px; margin: 0 0 20px; flex-wrap: wrap; }
+.mobile-page-switcher .chip{
+  font-family: 'Plus Jakarta Sans','Sora',sans-serif; font-size: .82rem; font-weight: 600;
+  color: var(--muted); background: var(--card-bg); border: 1px solid var(--border);
+  border-radius: 999px; padding: 6px 14px; text-decoration: none;
+}
+.mobile-page-switcher .chip.active{ color: #fff; background: rgb(var(--violet)); border-color: rgb(var(--violet)); }
+@media (max-width: 640px){
+  .nav-links{ display: none; }
+  .mobile-nav-chip{ display: flex; }
+  .mobile-page-switcher{ display: flex; }
+}
+
+/* Minimal placeholder pages (Reading/Writing/Listening/Speaking, and the
+   two not-yet-built Word pages) — matches production's literal
+   eyebrow+h1+"Coming soon." shape. */
+.page-stub{ padding: 64px 0; display: flex; flex-direction: column; gap: 10px; }
+.page-stub h1{ margin: 6px 0 0; font-size: 2rem; }
+.page-stub p{ color: var(--muted); }
