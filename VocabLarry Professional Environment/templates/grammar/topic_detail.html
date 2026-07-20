@@ -5,7 +5,7 @@
 {% block content %}
 <section class="grammar-topic-detail">
   <p class="grammar-breadcrumb">
-    <a href="{% url 'grammar_browse' %}">Grammar</a> / {{ topic.title }}
+    <a href="{% url 'grammar_category_list' %}">Grammar</a> / {{ topic.title }}
   </p>
   <h1>{{ topic.title }}</h1>
   <p class="grammar-topic-detail-cefr">{{ topic.cefr_label }}</p>
@@ -17,7 +17,7 @@
   {% elif user.is_authenticated %}
     <p class="grammar-topic-detail-status grammar-topic-detail-status-new">Not started yet</p>
   {% endif %}
-  <a class="btn grammar-topic-detail-practice" href="{% url 'grammar_topic_quiz' topic.slug %}">Practice this topic</a>
+  <a class="btn grammar-topic-detail-practice" href="{% url 'grammar_category_quiz' topic.slug %}">Practice this topic</a>
   {% for block in blocks %}
     {% if block.type == 'intro' %}
       <div class="grammar-block grammar-block-intro">{{ block.body|safe }}</div>

@@ -60,3 +60,11 @@ def vocab_quiz_setup(request):
 
 def vocab_quiz_play(request):
     return render(request, 'vocab/quiz_play.html')
+
+
+def vocabulary_home(request):
+    return render(request, 'vocab/home.html')
+
+
+def vocabulary_word_list(request):
+    return render(request, 'vocab/word_list.html')

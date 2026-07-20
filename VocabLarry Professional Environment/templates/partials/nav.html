@@ -1,10 +1,10 @@
 <nav class="site-nav">
   <a class="brand" href="{% url 'home' %}"><svg class="ico ico-mark" aria-hidden="true"><use href="#i-mark"/></svg>Vocab<b>Larry</b></a>
   <ul class="nav-links">
-    <li><a class="tab{% if request.resolver_match.url_name == 'vocab_browse' or request.resolver_match.url_name == 'vocab_category' or request.resolver_match.url_name == 'vocab_word_detail' %} active{% endif %}" href="{% url 'vocab_browse' %}" data-i18n="nav.vocabulary">Vocabulary</a></li>
-    <li><a class="tab{% if request.resolver_match.url_name == 'vocab_quiz_setup' or request.resolver_match.url_name == 'vocab_quiz_play' %} active{% endif %}" href="{% url 'vocab_quiz_setup' %}" data-i18n="nav.quiz">Quiz</a></li>
-    <li><a class="tab{% if request.resolver_match.url_name == 'grammar_browse' or request.resolver_match.url_name == 'grammar_topic_detail' or request.resolver_match.url_name == 'grammar_topic_quiz' %} active{% endif %}" href="{% url 'grammar_browse' %}" data-i18n="nav.grammar">Grammar</a></li>
-    <li><a class="tab{% if request.resolver_match.url_name == 'grammar_test_setup' or request.resolver_match.url_name == 'grammar_test_play' %} active{% endif %}" href="{% url 'grammar_test_setup' %}" data-i18n="nav.grammarTest">Grammar Test</a></li>
+    <li><a class="tab{% if request.resolver_match.url_name == 'vocabulary_category_list' or request.resolver_match.url_name == 'vocabulary_category_detail' or request.resolver_match.url_name == 'vocabulary_word_detail' %} active{% endif %}" href="{% url 'vocabulary_category_list' %}" data-i18n="nav.vocabulary">Vocabulary</a></li>
+    <li><a class="tab{% if request.resolver_match.url_name == 'vocabulary_quiz_setup' or request.resolver_match.url_name == 'vocabulary_quiz_play' %} active{% endif %}" href="{% url 'vocabulary_quiz_setup' %}" data-i18n="nav.quiz">Quiz</a></li>
+    <li><a class="tab{% if request.resolver_match.url_name == 'grammar_category_list' or request.resolver_match.url_name == 'grammar_category_detail' or request.resolver_match.url_name == 'grammar_category_quiz' %} active{% endif %}" href="{% url 'grammar_category_list' %}" data-i18n="nav.grammar">Grammar</a></li>
+    <li><a class="tab{% if request.resolver_match.url_name == 'grammar_quiz_setup' or request.resolver_match.url_name == 'grammar_quiz_play' %} active{% endif %}" href="{% url 'grammar_quiz_setup' %}" data-i18n="nav.grammarTest">Grammar Test</a></li>
     {% if user.role == 'staff' or user.role == 'admin' %}
     <li><a href="{% url 'dashboard_index' %}">Dashboard</a></li>
     {% endif %}

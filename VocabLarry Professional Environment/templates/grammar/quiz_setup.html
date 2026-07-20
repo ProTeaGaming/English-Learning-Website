@@ -1,12 +1,12 @@
 {% extends "base.html" %}
 {% load static %}
-{% block title %}Grammar Test — VocabLarry{% endblock %}
+{% block title %}Quiz — VocabLarry{% endblock %}
 {% block extra_head %}<link rel="stylesheet" href="{% static 'css/grammar.css' %}">{% endblock %}
 {% block content %}
 <section class="grammar-test-setup">
-  <h1>Grammar Test</h1>
+  <h1>Quiz</h1>
   <p class="grammar-test-intro">Practice across every topic at once — pick a level, question type, and length.</p>
-  <form method="get" action="{% url 'grammar_test_play' %}" class="grammar-test-fields">
+  <form method="get" action="{% url 'grammar_quiz_play' %}" class="grammar-test-fields">
     <label class="grammar-test-field">
       <span>Level</span>
       <select name="stage">
@@ -34,7 +34,7 @@
         <option value="all">All questions</option>
       </select>
     </label>
-    <button type="submit" class="btn btn-primary">Start Test</button>
+    <button type="submit" class="btn btn-primary">Start Quiz</button>
   </form>
 </section>
 {% endblock %}

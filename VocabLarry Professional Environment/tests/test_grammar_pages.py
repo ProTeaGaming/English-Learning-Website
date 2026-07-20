@@ -14,41 +14,41 @@ def topic_articles(db):
 
 
 @pytest.mark.django_db
-def test_grammar_browse_renders():
+def test_grammar_category_list_renders():
     c = Client()
-    r = c.get('/grammar/')
+    r = c.get('/grammar/category/')
     assert r.status_code == 200
     assert 'site-nav' in r.content.decode()
 
 
 @pytest.mark.django_db
-def test_grammar_browse_lists_topics(topic_articles):
+def test_grammar_category_list_lists_topics(topic_articles):
     c = Client()
-    r = c.get('/grammar/')
+    r = c.get('/grammar/category/')
     assert 'Articles (a/an/the)' in r.content.decode()
 
 
 @pytest.mark.django_db
-def test_grammar_browse_search_filters_by_title(topic_articles):
+def test_grammar_category_list_search_filters_by_title(topic_articles):
     GrammarTopic.objects.create(
         slug='future-forms', title='Future Forms', tag='Tenses',
         cefr_label='A1+', blurb='will vs going to.', stage='beginner', order=1,
     )
     c = Client()
-    r = c.get('/grammar/?q=Articles')
+    r = c.get('/grammar/category/?q=Articles')
     html = r.content.decode()
     assert 'Articles (a/an/the)' in html
     assert 'Future Forms' not in html
 
 
 @pytest.mark.django_db
-def test_grammar_browse_stage_filter(topic_articles):
+def test_grammar_category_list_stage_filter(topic_articles):
     GrammarTopic.objects.create(
         slug='conditionals', title='Conditionals', tag='Conditionals',
         cefr_label='B2', blurb='If clauses.', stage='expert', order=1,
     )
     c = Client()
-    r = c.get('/grammar/?stage=expert')
+    r = c.get('/grammar/category/?stage=expert')
     html = r.content.decode()
     assert 'Conditionals' in html
     assert 'Articles (a/an/the)' not in html
@@ -59,7 +59,7 @@ def test_nav_grammar_link_enabled():
     c = Client()
     r = c.get('/')
     html = r.content.decode()
-    assert 'href="/grammar/"' in html
+    assert 'href="/grammar/category/"' in html
     assert 'nav.grammar">Grammar</a>' in html
 
 
@@ -107,49 +107,49 @@ def topic_with_blocks(db):
 
 
 @pytest.mark.django_db
-def test_grammar_topic_detail_renders(topic_with_blocks):
+def test_grammar_category_detail_renders(topic_with_blocks):
     c = Client()
-    r = c.get('/grammar/topic/present-simple-continuous/')
+    r = c.get('/grammar/category/present-simple-continuous/')
     assert r.status_code == 200
     assert 'Present Simple &amp; Continuous' in r.content.decode()
 
 
 @pytest.mark.django_db
-def test_grammar_topic_detail_unknown_slug_404():
+def test_grammar_category_detail_unknown_slug_404():
     c = Client()
-    r = c.get('/grammar/topic/does-not-exist/')
+    r = c.get('/grammar/category/does-not-exist/')
     assert r.status_code == 404
 
 
 @pytest.mark.django_db
-def test_grammar_topic_detail_renders_intro_html_unescaped(topic_with_blocks):
+def test_grammar_category_detail_renders_intro_html_unescaped(topic_with_blocks):
     c = Client()
-    r = c.get('/grammar/topic/present-simple-continuous/')
+    r = c.get('/grammar/category/present-simple-continuous/')
     assert '<b>facts</b>' in r.content.decode()
 
 
 @pytest.mark.django_db
-def test_grammar_topic_detail_renders_rule_title(topic_with_blocks):
+def test_grammar_category_detail_renders_rule_title(topic_with_blocks):
     c = Client()
-    r = c.get('/grammar/topic/present-simple-continuous/')
+    r = c.get('/grammar/category/present-simple-continuous/')
     html = r.content.decode()
     assert 'Present Simple' in html
     assert '<b>-s</b>' in html
 
 
 @pytest.mark.django_db
-def test_grammar_topic_detail_renders_table(topic_with_blocks):
+def test_grammar_category_detail_renders_table(topic_with_blocks):
     c = Client()
-    r = c.get('/grammar/topic/present-simple-continuous/')
+    r = c.get('/grammar/category/present-simple-continuous/')
     html = r.content.decode()
     assert '<th>Use</th>' in html
     assert '<td>Fact</td>' in html
 
 
 @pytest.mark.django_db
-def test_grammar_topic_detail_renders_examples(topic_with_blocks):
+def test_grammar_category_detail_renders_examples(topic_with_blocks):
     c = Client()
-    r = c.get('/grammar/topic/present-simple-continuous/')
+    r = c.get('/grammar/category/present-simple-continuous/')
     html = r.content.decode()
     assert 'The sun rises in the east.' in html
     assert 'General fact.' in html
@@ -157,9 +157,9 @@ def test_grammar_topic_detail_renders_examples(topic_with_blocks):
 
 
 @pytest.mark.django_db
-def test_grammar_topic_quiz_renders(topic_with_blocks):
+def test_grammar_category_quiz_renders(topic_with_blocks):
     c = Client()
-    r = c.get('/grammar/topic/present-simple-continuous/quiz/')
+    r = c.get('/grammar/category/present-simple-continuous/quiz/')
     assert r.status_code == 200
     html = r.content.decode()
     assert 'grammarQuizRoot' in html
@@ -167,100 +167,100 @@ def test_grammar_topic_quiz_renders(topic_with_blocks):
 
 
 @pytest.mark.django_db
-def test_grammar_topic_quiz_unknown_slug_404():
+def test_grammar_category_quiz_unknown_slug_404():
     c = Client()
-    r = c.get('/grammar/topic/does-not-exist/quiz/')
+    r = c.get('/grammar/category/does-not-exist/quiz/')
     assert r.status_code == 404
 
 
 @pytest.mark.django_db
-def test_grammar_topic_detail_has_practice_link(topic_with_blocks):
+def test_grammar_category_detail_has_practice_link(topic_with_blocks):
     c = Client()
-    r = c.get('/grammar/topic/present-simple-continuous/')
-    assert 'href="/grammar/topic/present-simple-continuous/quiz/"' in r.content.decode()
+    r = c.get('/grammar/category/present-simple-continuous/')
+    assert 'href="/grammar/category/present-simple-continuous/quiz/"' in r.content.decode()
 
 
 @pytest.mark.django_db
-def test_grammar_topic_quiz_authenticated_flag_set(topic_with_blocks, regular_user):
+def test_grammar_category_quiz_authenticated_flag_set(topic_with_blocks, regular_user):
     c = Client()
     c.force_login(regular_user)
-    r = c.get('/grammar/topic/present-simple-continuous/quiz/')
+    r = c.get('/grammar/category/present-simple-continuous/quiz/')
     assert 'data-authenticated="1"' in r.content.decode()
 
 
 @pytest.mark.django_db
-def test_grammar_topic_quiz_authenticated_flag_unset_for_guest(topic_with_blocks):
+def test_grammar_category_quiz_authenticated_flag_unset_for_guest(topic_with_blocks):
     c = Client()
-    r = c.get('/grammar/topic/present-simple-continuous/quiz/')
+    r = c.get('/grammar/category/present-simple-continuous/quiz/')
     assert 'data-authenticated="0"' in r.content.decode()
 
 
 @pytest.mark.django_db
-def test_grammar_topic_detail_status_not_started_for_authenticated_user(topic_with_blocks, regular_user):
+def test_grammar_category_detail_status_not_started_for_authenticated_user(topic_with_blocks, regular_user):
     c = Client()
     c.force_login(regular_user)
-    r = c.get('/grammar/topic/present-simple-continuous/')
+    r = c.get('/grammar/category/present-simple-continuous/')
     assert 'Not started yet' in r.content.decode()
 
 
 @pytest.mark.django_db
-def test_grammar_topic_detail_status_shows_best_score(topic_with_blocks, regular_user):
+def test_grammar_category_detail_status_shows_best_score(topic_with_blocks, regular_user):
     regular_user.grammar_map = {'present-simple-continuous': {'best': 60, 'done': False}}
     regular_user.save(update_fields=['grammar_map'])
     c = Client()
     c.force_login(regular_user)
-    r = c.get('/grammar/topic/present-simple-continuous/')
+    r = c.get('/grammar/category/present-simple-continuous/')
     assert 'Best score: 60%' in r.content.decode()
 
 
 @pytest.mark.django_db
-def test_grammar_topic_detail_status_shows_mastered(topic_with_blocks, regular_user):
+def test_grammar_category_detail_status_shows_mastered(topic_with_blocks, regular_user):
     regular_user.grammar_map = {'present-simple-continuous': {'best': 90, 'done': True}}
     regular_user.save(update_fields=['grammar_map'])
     c = Client()
     c.force_login(regular_user)
-    r = c.get('/grammar/topic/present-simple-continuous/')
+    r = c.get('/grammar/category/present-simple-continuous/')
     assert 'Mastered' in r.content.decode()
 
 
 @pytest.mark.django_db
-def test_grammar_topic_detail_no_status_for_guest(topic_with_blocks):
+def test_grammar_category_detail_no_status_for_guest(topic_with_blocks):
     c = Client()
-    r = c.get('/grammar/topic/present-simple-continuous/')
+    r = c.get('/grammar/category/present-simple-continuous/')
     html = r.content.decode()
     assert 'Not started yet' not in html
     assert 'grammar-topic-detail-status' not in html
 
 
 @pytest.mark.django_db
-def test_grammar_browse_badge_shows_mastered(topic_articles, regular_user):
+def test_grammar_category_list_badge_shows_mastered(topic_articles, regular_user):
     regular_user.grammar_map = {'articles': {'best': 95, 'done': True}}
     regular_user.save(update_fields=['grammar_map'])
     c = Client()
     c.force_login(regular_user)
-    r = c.get('/grammar/')
+    r = c.get('/grammar/category/')
     assert 'grammar-topic-badge-mastered' in r.content.decode()
 
 
 @pytest.mark.django_db
-def test_grammar_browse_no_badge_for_untouched_topic(topic_articles, regular_user):
+def test_grammar_category_list_no_badge_for_untouched_topic(topic_articles, regular_user):
     c = Client()
     c.force_login(regular_user)
-    r = c.get('/grammar/')
+    r = c.get('/grammar/category/')
     assert 'grammar-topic-badge' not in r.content.decode()
 
 
 @pytest.mark.django_db
-def test_grammar_browse_no_badge_for_guest(topic_articles):
+def test_grammar_category_list_no_badge_for_guest(topic_articles):
     c = Client()
-    r = c.get('/grammar/')
+    r = c.get('/grammar/category/')
     assert 'grammar-topic-badge' not in r.content.decode()
 
 
 @pytest.mark.django_db
-def test_grammar_test_play_renders():
+def test_grammar_quiz_play_renders():
     c = Client()
-    r = c.get('/grammar/test/play/')
+    r = c.get('/grammar/quiz/play/')
     assert r.status_code == 200
     html = r.content.decode()
     assert 'grammarQuizRoot' in html
@@ -268,21 +268,21 @@ def test_grammar_test_play_renders():
 
 
 @pytest.mark.django_db
-def test_grammar_test_setup_renders():
+def test_grammar_quiz_setup_renders():
     c = Client()
-    r = c.get('/grammar/test/')
+    r = c.get('/grammar/quiz/')
     assert r.status_code == 200
     html = r.content.decode()
     assert 'name="stage"' in html
     assert 'name="qtype"' in html
     assert 'name="count"' in html
-    assert 'action="/grammar/test/play/"' in html
+    assert 'action="/grammar/quiz/play/"' in html
 
 
 @pytest.mark.django_db
-def test_grammar_test_setup_stage_options_match_model():
+def test_grammar_quiz_setup_stage_options_match_model():
     c = Client()
-    r = c.get('/grammar/test/')
+    r = c.get('/grammar/quiz/')
     html = r.content.decode()
     assert '<option value="beginner">Basic</option>' in html
     assert '<option value="independent">Intermediate</option>' in html
@@ -290,9 +290,30 @@ def test_grammar_test_setup_stage_options_match_model():
 
 
 @pytest.mark.django_db
-def test_nav_grammar_test_link_present():
+def test_nav_grammar_quiz_link_present():
     c = Client()
     r = c.get('/')
     html = r.content.decode()
-    assert 'href="/grammar/test/"' in html
+    assert 'href="/grammar/quiz/"' in html
     assert 'nav.grammarTest">Grammar Test</a>' in html
+
+
+@pytest.mark.django_db
+def test_old_grammar_urls_are_gone():
+    c = Client()
+    assert c.get('/grammar/').status_code == 200  # now the intro page, not 404
+    assert c.get('/grammar/topic/articles/').status_code == 404
+    assert c.get('/grammar/topic/articles/quiz/').status_code == 404
+    assert c.get('/grammar/test/').status_code == 404
+    assert c.get('/grammar/test/play/').status_code == 404
+
+
+@pytest.mark.django_db
+def test_grammar_word_stub_renders():
+    c = Client()
+    r = c.get('/grammar/word/')
+    assert r.status_code == 200
+    html = r.content.decode()
+    assert 'Section 02 / Grammar' in html
+    assert '<h1>Word</h1>' in html
+    assert 'Coming soon.' in html

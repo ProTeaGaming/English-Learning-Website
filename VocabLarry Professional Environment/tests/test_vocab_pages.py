@@ -16,62 +16,62 @@ def cefr_b1(db):
 
 
 @pytest.mark.django_db
-def test_vocab_browse_renders():
+def test_vocabulary_category_list_renders():
     c = Client()
-    r = c.get('/vocab/')
+    r = c.get('/vocabulary/category/')
     assert r.status_code == 200
     assert 'site-nav' in r.content.decode()
 
 
 @pytest.mark.django_db
-def test_vocab_browse_lists_categories(cefr_a1):
+def test_vocabulary_category_list_lists_categories(cefr_a1):
     Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1)
     c = Client()
-    r = c.get('/vocab/')
+    r = c.get('/vocabulary/category/')
     assert 'Animals' in r.content.decode()
 
 
 @pytest.mark.django_db
-def test_vocab_browse_search_filters_by_name(cefr_a1):
+def test_vocabulary_category_list_search_filters_by_name(cefr_a1):
     Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1)
     Category.objects.create(slug='food', name='Food', order=2, cefr_level=cefr_a1)
     c = Client()
-    r = c.get('/vocab/?q=Animal')
+    r = c.get('/vocabulary/category/?q=Animal')
     body = r.content.decode()
     assert 'Animals' in body
     assert 'Food' not in body
 
 
 @pytest.mark.django_db
-def test_vocab_browse_cefr_filter(cefr_a1, cefr_b1):
+def test_vocabulary_category_list_cefr_filter(cefr_a1, cefr_b1):
     Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1)
     Category.objects.create(slug='business-basics', name='Business Basics', order=2, cefr_level=cefr_b1)
     c = Client()
-    r = c.get('/vocab/?cefr=B1')
+    r = c.get('/vocabulary/category/?cefr=B1')
     body = r.content.decode()
     assert 'Business Basics' in body
     assert 'Animals' not in body
 
 
 @pytest.mark.django_db
-def test_home_nav_links_to_vocab_browse():
+def test_home_nav_links_to_vocabulary_category_list():
     c = Client()
     r = c.get('/')
     body = r.content.decode()
     # Vocabulary becomes a real link. Grammar stays disabled/coming-soon
     # on this same page (separate future sub-project) - don't assert
     # "coming soon" is gone entirely, only that Vocabulary now links out.
-    assert 'href="/vocab/"' in body
+    assert 'href="/vocabulary/category/"' in body
     assert 'data-i18n="nav.vocabulary">Vocabulary</a>' in body
 
 
 @pytest.mark.django_db
-def test_vocab_category_renders_words(cefr_a1):
+def test_vocabulary_category_detail_renders_words(cefr_a1):
     category = Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1)
     Word.objects.create(word='Cat', definition='A small pet.', category=category, order=1)
     Word.objects.create(word='Dog', definition='A loyal pet.', category=category, order=2)
     c = Client()
-    r = c.get('/vocab/category/animals/')
+    r = c.get('/vocabulary/category/animals/')
     assert r.status_code == 200
     body = r.content.decode()
     assert 'Cat' in body
@@ -79,30 +79,30 @@ def test_vocab_category_renders_words(cefr_a1):
 
 
 @pytest.mark.django_db
-def test_vocab_category_unknown_slug_404():
+def test_vocabulary_category_detail_unknown_slug_404():
     c = Client()
-    r = c.get('/vocab/category/does-not-exist/')
+    r = c.get('/vocabulary/category/does-not-exist/')
     assert r.status_code == 404
 
 
 @pytest.mark.django_db
-def test_vocab_category_pagination(cefr_a1):
+def test_vocabulary_category_detail_pagination(cefr_a1):
     category = Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1)
     for i in range(30):
         Word.objects.create(word=f'Word{i:02d}', definition='x', category=category, order=i)
     c = Client()
-    r1 = c.get('/vocab/category/animals/')
+    r1 = c.get('/vocabulary/category/animals/')
     body1 = r1.content.decode()
     assert 'Word00' in body1
     assert 'Word29' not in body1  # page 2 content shouldn't leak onto page 1
-    r2 = c.get('/vocab/category/animals/?page=2')
+    r2 = c.get('/vocabulary/category/animals/?page=2')
     body2 = r2.content.decode()
     assert 'Word29' in body2
     assert 'Word00' not in body2
 
 
 @pytest.mark.django_db
-def test_vocab_word_detail_renders(cefr_a1):
+def test_vocabulary_word_detail_renders(cefr_a1):
     category = Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1)
     word = Word.objects.create(
         word='Cat', pos='noun', definition='A small domesticated pet.',
@@ -110,7 +110,7 @@ def test_vocab_word_detail_renders(cefr_a1):
         category=category, order=1,
     )
     c = Client()
-    r = c.get(f'/vocab/word/{word.pk}/')
+    r = c.get(f'/vocabulary/word/{word.pk}/')
     assert r.status_code == 200
     body = r.content.decode()
     assert 'Cat' in body
@@ -120,40 +120,40 @@ def test_vocab_word_detail_renders(cefr_a1):
 
 
 @pytest.mark.django_db
-def test_vocab_word_detail_unknown_id_404():
+def test_vocabulary_word_detail_unknown_id_404():
     c = Client()
-    r = c.get('/vocab/word/999999/')
+    r = c.get('/vocabulary/word/999999/')
     assert r.status_code == 404
 
 
 @pytest.mark.django_db
-def test_vocab_word_detail_shows_progress_toggle_when_authenticated(cefr_a1, regular_user):
+def test_vocabulary_word_detail_shows_progress_toggle_when_authenticated(cefr_a1, regular_user):
     category = Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1)
     word = Word.objects.create(word='Cat', definition='x', category=category, order=1)
     c = Client()
     c.force_login(regular_user)
-    r = c.get(f'/vocab/word/{word.pk}/')
+    r = c.get(f'/vocabulary/word/{word.pk}/')
     assert 'learn-state-btn' in r.content.decode()
 
 
 @pytest.mark.django_db
-def test_vocab_word_detail_hides_progress_toggle_when_anonymous(cefr_a1):
+def test_vocabulary_word_detail_hides_progress_toggle_when_anonymous(cefr_a1):
     category = Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1)
     word = Word.objects.create(word='Cat', definition='x', category=category, order=1)
     c = Client()
-    r = c.get(f'/vocab/word/{word.pk}/')
+    r = c.get(f'/vocabulary/word/{word.pk}/')
     assert 'learn-state-btn' not in r.content.decode()
 
 
 @pytest.mark.django_db
-def test_vocab_word_detail_reflects_existing_progress(cefr_a1, regular_user):
+def test_vocabulary_word_detail_reflects_existing_progress(cefr_a1, regular_user):
     category = Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1)
     word = Word.objects.create(word='Cat', definition='x', category=category, order=1)
     regular_user.learn_map = {str(word.pk): 'learned'}
     regular_user.save()
     c = Client()
     c.force_login(regular_user)
-    r = c.get(f'/vocab/word/{word.pk}/')
+    r = c.get(f'/vocabulary/word/{word.pk}/')
     assert 'data-state="learned"' in r.content.decode()
 
 
@@ -182,52 +182,52 @@ def test_progress_toggle_round_trip_preserves_other_words(cefr_a1, regular_user)
 
 
 @pytest.mark.django_db
-def test_vocab_word_detail_sets_csrf_cookie(cefr_a1, regular_user):
+def test_vocabulary_word_detail_sets_csrf_cookie(cefr_a1, regular_user):
     category = Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1)
     word = Word.objects.create(word='Cat', definition='x', category=category, order=1)
     c = Client()
     c.force_login(regular_user)
-    r = c.get(f'/vocab/word/{word.pk}/')
+    r = c.get(f'/vocabulary/word/{word.pk}/')
     assert 'csrftoken' in r.cookies
 
 
 @pytest.mark.django_db
-def test_vocab_word_detail_loads_toggle_script_when_authenticated(cefr_a1, regular_user):
+def test_vocabulary_word_detail_loads_toggle_script_when_authenticated(cefr_a1, regular_user):
     category = Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1)
     word = Word.objects.create(word='Cat', definition='x', category=category, order=1)
     c = Client()
     c.force_login(regular_user)
-    r = c.get(f'/vocab/word/{word.pk}/')
+    r = c.get(f'/vocabulary/word/{word.pk}/')
     assert 'vocab-word.js' in r.content.decode()
 
 
 @pytest.mark.django_db
-def test_vocab_quiz_setup_renders():
+def test_vocabulary_quiz_setup_renders():
     c = Client()
-    r = c.get('/vocab/quiz/')
+    r = c.get('/vocabulary/quiz/')
     assert r.status_code == 200
     assert 'site-nav' in r.content.decode()
 
 
 @pytest.mark.django_db
-def test_vocab_quiz_setup_lists_categories(cefr_a1):
+def test_vocabulary_quiz_setup_lists_categories(cefr_a1):
     Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1)
     c = Client()
-    r = c.get('/vocab/quiz/')
+    r = c.get('/vocabulary/quiz/')
     assert 'Animals' in r.content.decode()
 
 
 @pytest.mark.django_db
-def test_vocab_quiz_setup_lists_cefr_levels(cefr_a1):
+def test_vocabulary_quiz_setup_lists_cefr_levels(cefr_a1):
     c = Client()
-    r = c.get('/vocab/quiz/')
+    r = c.get('/vocabulary/quiz/')
     assert '>A1<' in r.content.decode()
 
 
 @pytest.mark.django_db
-def test_vocab_quiz_setup_has_family_toggle():
+def test_vocabulary_quiz_setup_has_family_toggle():
     c = Client()
-    r = c.get('/vocab/quiz/')
+    r = c.get('/vocabulary/quiz/')
     html = r.content.decode()
     assert 'name="family"' in html
     assert 'value="quiz"' in html
@@ -235,9 +235,9 @@ def test_vocab_quiz_setup_has_family_toggle():
 
 
 @pytest.mark.django_db
-def test_vocab_quiz_setup_lists_gap_submodes():
+def test_vocabulary_quiz_setup_lists_gap_submodes():
     c = Client()
-    r = c.get('/vocab/quiz/')
+    r = c.get('/vocabulary/quiz/')
     html = r.content.decode()
     assert 'value="gap-context"' in html
     assert 'value="gap-nuance"' in html
@@ -247,9 +247,9 @@ def test_vocab_quiz_setup_lists_gap_submodes():
 
 
 @pytest.mark.django_db
-def test_vocab_quiz_setup_quiz_modes_still_present():
+def test_vocabulary_quiz_setup_quiz_modes_still_present():
     c = Client()
-    r = c.get('/vocab/quiz/')
+    r = c.get('/vocabulary/quiz/')
     html = r.content.decode()
     assert 'value="definition"' in html
     assert 'value="word"' in html
@@ -258,46 +258,67 @@ def test_vocab_quiz_setup_quiz_modes_still_present():
 
 
 @pytest.mark.django_db
-def test_vocab_quiz_setup_has_challenge_family_radio():
+def test_vocabulary_quiz_setup_has_challenge_family_radio():
     c = Client()
-    r = c.get('/vocab/quiz/')
+    r = c.get('/vocabulary/quiz/')
     html = r.content.decode()
     assert 'value="challenge" id="familyChallenge"' in html
 
 
 @pytest.mark.django_db
-def test_vocab_quiz_setup_has_challenge_mode_input():
+def test_vocabulary_quiz_setup_has_challenge_mode_input():
     c = Client()
-    r = c.get('/vocab/quiz/')
+    r = c.get('/vocabulary/quiz/')
     html = r.content.decode()
     assert 'id="challengeModeInput"' in html
     assert 'name="mode" value="challenge"' in html
 
 
 @pytest.mark.django_db
-def test_home_nav_links_to_vocab_quiz():
+def test_home_nav_links_to_vocabulary_quiz():
     c = Client()
     r = c.get('/')
-    assert 'href="/vocab/quiz/"' in r.content.decode()
+    assert 'href="/vocabulary/quiz/"' in r.content.decode()
 
 
 @pytest.mark.django_db
-def test_vocab_quiz_play_renders():
+def test_vocabulary_quiz_play_renders():
     c = Client()
-    r = c.get('/vocab/quiz/play/')
+    r = c.get('/vocabulary/quiz/play/')
     assert r.status_code == 200
     assert 'site-nav' in r.content.decode()
 
 
 @pytest.mark.django_db
-def test_vocab_quiz_play_has_mount_point():
+def test_vocabulary_quiz_play_has_mount_point():
     c = Client()
-    r = c.get('/vocab/quiz/play/')
+    r = c.get('/vocabulary/quiz/play/')
     assert 'id="quizPlayRoot"' in r.content.decode()
 
 
 @pytest.mark.django_db
-def test_vocab_quiz_play_loads_script():
+def test_vocabulary_quiz_play_loads_script():
     c = Client()
-    r = c.get('/vocab/quiz/play/')
+    r = c.get('/vocabulary/quiz/play/')
     assert 'vocab-quiz.js' in r.content.decode()
+
+
+@pytest.mark.django_db
+def test_old_vocab_urls_are_gone():
+    c = Client()
+    assert c.get('/vocab/').status_code == 404
+    assert c.get('/vocab/category/animals/').status_code == 404
+    assert c.get('/vocab/word/1/').status_code == 404
+    assert c.get('/vocab/quiz/').status_code == 404
+    assert c.get('/vocab/quiz/play/').status_code == 404
+
+
+@pytest.mark.django_db
+def test_vocabulary_word_list_stub_renders():
+    c = Client()
+    r = c.get('/vocabulary/word/')
+    assert r.status_code == 200
+    html = r.content.decode()
+    assert 'Section 01 / Vocabulary' in html
+    assert '<h1>Word</h1>' in html
+    assert 'Coming soon.' in html

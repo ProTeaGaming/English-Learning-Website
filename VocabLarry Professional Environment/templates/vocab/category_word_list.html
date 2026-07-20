@@ -4,11 +4,11 @@
 {% block extra_head %}<link rel="stylesheet" href="{% static 'css/vocab.css' %}">{% endblock %}
 {% block content %}
 <section class="vocab-category">
-  <p class="vocab-breadcrumb"><a href="{% url 'vocab_browse' %}">Vocabulary</a> / {{ category.name }}</p>
+  <p class="vocab-breadcrumb"><a href="{% url 'vocabulary_category_list' %}">Vocabulary</a> / {{ category.name }}</p>
   <h1>{{ category.name }}</h1>
   <ul class="word-list">
     {% for word in page_obj %}
-    <li><a href="{% url 'vocab_word_detail' word.pk %}">{{ word.word }}</a></li>
+    <li><a href="{% url 'vocabulary_word_detail' word.pk %}">{{ word.word }}</a></li>
     {% endfor %}
   </ul>
   {% if page_obj.paginator.num_pages > 1 %}

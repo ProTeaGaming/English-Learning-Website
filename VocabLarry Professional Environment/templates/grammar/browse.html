@@ -18,7 +18,7 @@
   {% if topics %}
   <div class="grammar-topic-grid">
     {% for topic in topics %}
-    <a class="grammar-topic-card" href="{% url 'grammar_topic_detail' topic.slug %}">
+    <a class="grammar-topic-card" href="{% url 'grammar_category_detail' topic.slug %}">
       <span class="grammar-topic-tag">{{ topic.tag }}</span>
       {% if topic.grammar_status.done %}
         <span class="grammar-topic-badge grammar-topic-badge-mastered">Mastered</span>

@@ -44,8 +44,16 @@ def grammar_topic_quiz(request, slug):
 
 
 def grammar_test_setup(request):
-    return render(request, 'grammar/test_setup.html', {'stages': GrammarTopic.STAGES})
+    return render(request, 'grammar/quiz_setup.html', {'stages': GrammarTopic.STAGES})
 
 
 def grammar_test_play(request):
-    return render(request, 'grammar/test_play.html')
+    return render(request, 'grammar/quiz_play.html')
+
+
+def grammar_home(request):
+    return render(request, 'grammar/home.html')
+
+
+def grammar_word(request):
+    return render(request, 'grammar/word.html')

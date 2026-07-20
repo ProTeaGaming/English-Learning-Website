@@ -18,7 +18,7 @@
   {% if categories %}
   <div class="category-grid">
     {% for category in categories %}
-    <a class="category-card" href="{% url 'vocab_category' category.slug %}"
+    <a class="category-card" href="{% url 'vocabulary_category_detail' category.slug %}"
        style="--cat-bg:{{ category.color.bg_hex|default:'#f4f4f8' }}; --cat-text:{{ category.color.text_hex|default:'#16161f' }};">
       <span class="category-icon">{{ category.icon }}</span>
       <span class="category-name">{{ category.name }}</span>

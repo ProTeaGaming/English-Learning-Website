@@ -103,41 +103,41 @@ def test_nav_theme_and_lang_toggles_are_icon_only():
 
 
 @pytest.mark.django_db
-def test_nav_vocabulary_tab_active_on_vocab_browse():
+def test_nav_vocabulary_tab_active_on_vocabulary_category_list():
     from django.test import Client
     c = Client()
-    r = c.get('/vocab/')
+    r = c.get('/vocabulary/category/')
     html = r.content.decode()
-    assert '<a class="tab active" href="/vocab/" data-i18n="nav.vocabulary">Vocabulary</a>' in html
-    assert '<a class="tab" href="/vocab/quiz/" data-i18n="nav.quiz">Quiz</a>' in html
+    assert '<a class="tab active" href="/vocabulary/category/" data-i18n="nav.vocabulary">Vocabulary</a>' in html
+    assert '<a class="tab" href="/vocabulary/quiz/" data-i18n="nav.quiz">Quiz</a>' in html
 
 
 @pytest.mark.django_db
-def test_nav_quiz_tab_active_on_vocab_quiz_setup():
+def test_nav_quiz_tab_active_on_vocabulary_quiz_setup():
     from django.test import Client
     c = Client()
-    r = c.get('/vocab/quiz/')
+    r = c.get('/vocabulary/quiz/')
     html = r.content.decode()
-    assert '<a class="tab active" href="/vocab/quiz/" data-i18n="nav.quiz">Quiz</a>' in html
-    assert '<a class="tab" href="/vocab/" data-i18n="nav.vocabulary">Vocabulary</a>' in html
+    assert '<a class="tab active" href="/vocabulary/quiz/" data-i18n="nav.quiz">Quiz</a>' in html
+    assert '<a class="tab" href="/vocabulary/category/" data-i18n="nav.vocabulary">Vocabulary</a>' in html
 
 
 @pytest.mark.django_db
-def test_nav_grammar_tab_active_on_grammar_browse():
+def test_nav_grammar_tab_active_on_grammar_category_list():
     from django.test import Client
     c = Client()
-    r = c.get('/grammar/')
+    r = c.get('/grammar/category/')
     html = r.content.decode()
-    assert '<a class="tab active" href="/grammar/" data-i18n="nav.grammar">Grammar</a>' in html
+    assert '<a class="tab active" href="/grammar/category/" data-i18n="nav.grammar">Grammar</a>' in html
 
 
 @pytest.mark.django_db
-def test_nav_grammar_test_tab_active_on_grammar_test_setup():
+def test_nav_grammar_quiz_tab_active_on_grammar_quiz_setup():
     from django.test import Client
     c = Client()
-    r = c.get('/grammar/test/')
+    r = c.get('/grammar/quiz/')
     html = r.content.decode()
-    assert '<a class="tab active" href="/grammar/test/" data-i18n="nav.grammarTest">Grammar Test</a>' in html
+    assert '<a class="tab active" href="/grammar/quiz/" data-i18n="nav.grammarTest">Grammar Test</a>' in html
 
 
 @pytest.mark.django_db
@@ -190,3 +190,22 @@ def test_home_badge_and_progress_heading_render():
     html = r.content.decode()
     assert 'home.badge">IELTS Preparation' in html
     assert 'home.yourProgress">Your Progress' in html
+
+
+@pytest.mark.django_db
+def test_reading_writing_listening_speaking_stub_pages_render():
+    from django.test import Client
+    c = Client()
+    pages = [
+        ('/reading/', 'Section 03 / Reading', 'Reading'),
+        ('/writing/', 'Section 04 / Writing', 'Writing'),
+        ('/listening/', 'Section 05 / Listening', 'Listening'),
+        ('/speaking/', 'Section 06 / Speaking', 'Speaking'),
+    ]
+    for url, eyebrow, title in pages:
+        r = c.get(url)
+        assert r.status_code == 200, url
+        html = r.content.decode()
+        assert eyebrow in html, url
+        assert f'<h1>{title}</h1>' in html, url
+        assert 'Coming soon.' in html, url

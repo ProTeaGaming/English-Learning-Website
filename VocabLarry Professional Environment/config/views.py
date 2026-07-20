@@ -16,3 +16,19 @@ def home(request):
         'categories_started': categories_started,
         'pct_complete': pct_complete,
     })
+
+
+def reading(request):
+    return render(request, 'reading.html')
+
+
+def writing(request):
+    return render(request, 'writing.html')
+
+
+def listening(request):
+    return render(request, 'listening.html')
+
+
+def speaking(request):
+    return render(request, 'speaking.html')

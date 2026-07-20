@@ -5,8 +5,8 @@
 {% block content %}
 <section class="vocab-word-detail">
   <p class="vocab-breadcrumb">
-    <a href="{% url 'vocab_browse' %}">Vocabulary</a> /
-    <a href="{% url 'vocab_category' word.category.slug %}">{{ word.category.name }}</a> /
+    <a href="{% url 'vocabulary_category_list' %}">Vocabulary</a> /
+    <a href="{% url 'vocabulary_category_detail' word.category.slug %}">{{ word.category.name }}</a> /
     {{ word.word }}
   </p>
   <h1>{{ word.word }}{% if word.pos %} <span class="vocab-pos">{{ word.pos }}</span>{% endif %}</h1>
