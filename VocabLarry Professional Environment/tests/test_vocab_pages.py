@@ -606,3 +606,45 @@ def test_bulk_reset_all_deletes_keys_not_sets_none(cefr_a1, regular_user):
         str(same_category_word.pk): 'little',
         str(other_category_word.pk): 'learned',
     }
+
+
+@pytest.mark.django_db
+def test_vocabulary_word_detail_shows_cefr_badge(cefr_a1):
+    category = Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1)
+    word = Word.objects.create(word='Cat', definition='x', category=category, order=1, cefr_level=cefr_a1)
+    c = Client()
+    r = c.get(f'/vocabulary/word/{word.pk}/')
+    html = r.content.decode()
+    assert f'cefr-badge {cefr_a1.code}' in html
+
+
+@pytest.mark.django_db
+def test_vocabulary_word_detail_synonym_links_to_real_word(cefr_a1):
+    category = Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1)
+    feline = Word.objects.create(word='Feline', definition='cat-like', category=category, order=1)
+    word = Word.objects.create(
+        word='Cat', definition='x', synonyms=['Feline'], antonyms=[],
+        category=category, order=2,
+    )
+    c = Client()
+    r = c.get(f'/vocabulary/word/{word.pk}/')
+    html = r.content.decode()
+    assert f'href="/vocabulary/word/{feline.pk}/"' in html
+    assert 'Feline' in html
+
+
+@pytest.mark.django_db
+def test_vocabulary_word_detail_synonym_without_match_renders_plain_text(cefr_a1):
+    category = Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1)
+    word = Word.objects.create(
+        word='Cat', definition='x', synonyms=['NotARealWordEntry'], antonyms=[],
+        category=category, order=1,
+    )
+    c = Client()
+    r = c.get(f'/vocabulary/word/{word.pk}/')
+    html = r.content.decode()
+    assert 'NotARealWordEntry' in html
+    assert f'>NotARealWordEntry<' not in html.replace('<a ', '').replace(f'href="', '')  # crude but: no stray <a> around it
+    # More precise: no anchor tag wraps this specific text
+    import re
+    assert not re.search(r'<a[^>]*>NotARealWordEntry</a>', html)

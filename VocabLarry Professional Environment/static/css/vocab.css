@@ -243,3 +243,18 @@
 .cat-bulk-btn:hover{ transform: translateY(-1px); box-shadow: 0 6px 20px rgba(34,197,94,.45); }
 .cat-bulk-btn-secondary{ background: rgb(var(--violet) / .1); border: 1px solid rgb(var(--violet) / .2); color: var(--text); box-shadow: none; }
 .cat-bulk-btn-secondary:hover{ background: rgb(var(--violet) / .16); box-shadow: none; }
+
+/* Word detail — card container matching production's modal content */
+.word-detail-card{
+  position: relative; max-width: 480px; margin: 24px 0 48px;
+  background: var(--card-bg); border-radius: 24px; overflow: hidden;
+  border-top: 4px solid var(--accent-c, rgb(var(--violet)));
+  border-left: 1px solid rgb(var(--violet) / .25); border-right: 1px solid rgb(var(--violet) / .25);
+  border-bottom: 1px solid rgb(var(--violet) / .25);
+  box-shadow: 0 32px 80px rgba(0,0,0,.25);
+  padding: 24px 24px 28px;
+}
+.word-detail-header{ display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 14px; }
+.word-detail-header h1{ font-size: 1.8rem; font-weight: 800; font-family: 'Plus Jakarta Sans','Sora',sans-serif; color: var(--accent-c, rgb(var(--violet))); line-height: 1.1; margin: 0; }
+.word-xref{ color: rgb(var(--violet)); font-weight: 700; text-decoration: underline; text-decoration-style: dotted; text-underline-offset: 2px; }
+.word-xref:hover{ text-decoration-style: solid; }

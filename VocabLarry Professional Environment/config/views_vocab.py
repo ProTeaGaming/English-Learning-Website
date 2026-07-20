@@ -116,6 +116,14 @@ def vocab_category(request, slug):
     })
 
 
+def _resolve_word_refs(strings):
+    resolved = []
+    for text in strings:
+        match = Word.objects.filter(word__iexact=text).first()
+        resolved.append({'text': text, 'word': match})
+    return resolved
+
+
 @ensure_csrf_cookie
 def vocab_word_detail(request, pk):
     word = get_object_or_404(
@@ -127,6 +135,8 @@ def vocab_word_detail(request, pk):
     return render(request, 'vocab/word_detail.html', {
         'word': word,
         'learn_state': learn_state,
+        'synonym_refs': _resolve_word_refs(word.synonyms),
+        'antonym_refs': _resolve_word_refs(word.antonyms),
     })
 
 
