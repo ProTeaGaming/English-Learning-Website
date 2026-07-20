@@ -1,32 +1,34 @@
 (function(){
-  var btn = document.querySelector(".learn-state-btn");
-  if (!btn) return;
-
   var CYCLE = [null, "little", "learned"];
   var LABELS = { null: "Not Learned", little: "Little Bit", learned: "Learned" };
-
-  function readState(){
-    var raw = btn.dataset.state;
-    return raw === "none" ? null : raw;
-  }
-
-  function paint(stateValue){
-    btn.dataset.state = stateValue === null ? "none" : stateValue;
-    btn.textContent = LABELS[stateValue === null ? "null" : stateValue];
-  }
 
   function getCsrfToken(){
     var match = document.cookie.match(/(?:^|; )csrftoken=([^;]+)/);
     return match ? decodeURIComponent(match[1]) : "";
   }
 
-  btn.addEventListener("click", function(){
-    var wordId = btn.dataset.wordId;
-    var prevState = readState();
-    var nextState = CYCLE[(CYCLE.indexOf(prevState) + 1) % CYCLE.length];
-    paint(nextState);
+  function readState(btn){
+    var raw = btn.dataset.state;
+    return raw === "none" ? null : raw;
+  }
 
-    fetch("/auth/sync/", { credentials: "same-origin" })
+  function paint(btn, stateValue){
+    btn.dataset.state = stateValue === null ? "none" : stateValue;
+    btn.textContent = LABELS[stateValue === null ? "null" : stateValue];
+  }
+
+  // Cycles one word's state (none -> little -> learned -> none) and
+  // syncs it to the server via GET-then-merge-then-POST against
+  // /auth/sync/, never sending a partial map. Used by both the single
+  // word_detail.html toggle and each per-card toggle on
+  // category_word_list.html.
+  function vocabToggleWord(btn){
+    var wordId = btn.dataset.wordId;
+    var prevState = readState(btn);
+    var nextState = CYCLE[(CYCLE.indexOf(prevState) + 1) % CYCLE.length];
+    paint(btn, nextState);
+
+    return fetch("/auth/sync/", { credentials: "same-origin" })
       .then(function(res){
         if (!res.ok) throw new Error("sync GET failed");
         return res.json();
@@ -49,7 +51,43 @@
         if (!res.ok) throw new Error("sync POST failed");
       })
       .catch(function(){
-        paint(prevState);
+        paint(btn, prevState);
       });
-  });
+  }
+
+  // Sets or clears every word ID in wordIds at once: mode "learned" sets
+  // each to "learned"; mode "reset" deletes each key entirely (matching
+  // vocabToggleWord's own none-state convention — learn_map stays sparse,
+  // never gets an explicit "none" value).
+  function vocabBulkSetCategory(wordIds, mode){
+    return fetch("/auth/sync/", { credentials: "same-origin" })
+      .then(function(res){
+        if (!res.ok) throw new Error("sync GET failed");
+        return res.json();
+      })
+      .then(function(data){
+        var learnMap = data.learn_map || {};
+        wordIds.forEach(function(wordId){
+          if (mode === "reset") delete learnMap[wordId];
+          else learnMap[wordId] = "learned";
+        });
+        return fetch("/auth/sync/", {
+          method: "POST",
+          credentials: "same-origin",
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": getCsrfToken(),
+          },
+          body: JSON.stringify({ learn_map: learnMap }),
+        });
+      });
+  }
+
+  window.vocabToggleWord = vocabToggleWord;
+  window.vocabBulkSetCategory = vocabBulkSetCategory;
+
+  var btn = document.querySelector(".learn-state-btn");
+  if (btn){
+    btn.addEventListener("click", function(){ vocabToggleWord(btn); });
+  }
 })();
