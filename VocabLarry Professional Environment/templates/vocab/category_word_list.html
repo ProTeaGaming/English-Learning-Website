@@ -6,17 +6,84 @@
 <section class="vocab-category">
   <p class="vocab-breadcrumb"><a href="{% url 'vocabulary_category_list' %}">Vocabulary</a> / {{ category.name }}</p>
   <h1>{{ category.name }}</h1>
-  <ul class="word-list">
+  <div class="card-grid">
     {% for word in page_obj %}
-    <li><a href="{% url 'vocabulary_word_detail' word.pk %}">{{ word.word }}</a></li>
+    <div class="word-card{% if word.learn_state == 'learned' %} learned{% elif word.learn_state == 'little' %} little{% endif %}">
+      <div class="face">
+        <div>
+          <div class="word"><a href="{% url 'vocabulary_word_detail' word.pk %}">{{ word.word }}</a></div>
+          {% if word.pos %}<div class="pos">{{ word.pos }}</div>{% endif %}
+        </div>
+        {% if word.cefr_level %}<span class="cefr-badge {{ word.cefr_level.code }}">{{ word.cefr_level.code }}</span>{% endif %}
+      </div>
+      <div class="reveal">
+        <div class="rdef">{{ word.definition }}</div>
+        {% if word.synonyms %}<div class="rrow"><b>Synonyms:</b> {{ word.synonyms|join:", " }}</div>{% endif %}
+        {% if word.antonyms %}<div class="rrow"><b>Antonyms:</b> {{ word.antonyms|join:", " }}</div>{% endif %}
+        {% if word.example %}<div class="rex">"{{ word.example }}"</div>{% endif %}
+        {% if user.is_authenticated %}
+        <div class="learn-state-row">
+          <span class="learn-state-label">Progress:</span>
+          <button type="button" class="learn-state-btn card-toggle" data-word-id="{{ word.pk }}"
+                  data-state="{{ word.learn_state|default:'none' }}">
+            {% if word.learn_state == 'learned' %}Learned{% elif word.learn_state == 'little' %}Little Bit{% else %}Not Learned{% endif %}
+          </button>
+        </div>
+        {% endif %}
+      </div>
+    </div>
     {% endfor %}
-  </ul>
+  </div>
   {% if page_obj.paginator.num_pages > 1 %}
-  <nav class="vocab-pagination">
-    {% if page_obj.has_previous %}<a href="?page={{ page_obj.previous_page_number }}">Previous</a>{% endif %}
-    <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
-    {% if page_obj.has_next %}<a href="?page={{ page_obj.next_page_number }}">Next</a>{% endif %}
+  <nav class="pagination">
+    <a class="page-btn{% if not page_obj.has_previous %} disabled{% endif %}"
+       href="{% if page_obj.has_previous %}?page={{ page_obj.previous_page_number }}{% else %}#{% endif %}">«</a>
+    {% for p in pagination_window %}
+      {% if p is None %}<span class="page-ellipsis">…</span>
+      {% else %}<a class="page-btn{% if p == page_obj.number %} active{% endif %}" href="?page={{ p }}">{{ p }}</a>
+      {% endif %}
+    {% endfor %}
+    <a class="page-btn{% if not page_obj.has_next %} disabled{% endif %}"
+       href="{% if page_obj.has_next %}?page={{ page_obj.next_page_number }}{% else %}#{% endif %}">»</a>
   </nav>
   {% endif %}
+  {% if user.is_authenticated %}
+  <div class="cat-bulk-actions">
+    <button type="button" class="cat-bulk-btn" id="catCompleteAllBtn" data-i18n="vocab.markAllCompleted">✓ Mark All Completed</button>
+    <button type="button" class="cat-bulk-btn cat-bulk-btn-secondary" id="catResetAllBtn" data-i18n="vocab.resetAll">↺ Reset All</button>
+    <a class="cat-bulk-btn cat-bulk-btn-secondary" href="{% url 'vocabulary_category_list' %}" data-i18n="common.allSections">← All Sections</a>
+  </div>
+  {% endif %}
 </section>
+{% endblock %}
+{% block extra_body %}
+{% if user.is_authenticated %}
+<script src="{% static 'js/vocab-word.js' %}" defer></script>
+<script>
+(function(){
+  document.addEventListener("DOMContentLoaded", function(){
+    document.querySelectorAll(".card-toggle").forEach(function(btn){
+      btn.addEventListener("click", function(){ window.vocabToggleWord(btn); });
+    });
+    var allWordIds = {{ all_word_ids }};
+    var completeBtn = document.getElementById("catCompleteAllBtn");
+    var resetBtn = document.getElementById("catResetAllBtn");
+    if (completeBtn){
+      completeBtn.addEventListener("click", function(){
+        window.vocabBulkSetCategory(allWordIds.map(String), "learned").then(function(){
+          window.location.reload();
+        });
+      });
+    }
+    if (resetBtn){
+      resetBtn.addEventListener("click", function(){
+        window.vocabBulkSetCategory(allWordIds.map(String), "reset").then(function(){
+          window.location.reload();
+        });
+      });
+    }
+  });
+})();
+</script>
+{% endif %}
 {% endblock %}

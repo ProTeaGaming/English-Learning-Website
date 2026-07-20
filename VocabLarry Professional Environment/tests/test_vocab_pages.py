@@ -468,3 +468,131 @@ def test_vocabulary_category_list_chip_filter_bar_present(cefr_a1, regular_user)
     assert 'data-browse-status="completed"' in html
     assert 'data-browse-status="inProgress"' in html
     assert 'data-browse-status="notStarted"' in html
+
+
+@pytest.mark.django_db
+def test_vocabulary_category_detail_renders_hover_reveal_cards(cefr_a1):
+    category = Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1)
+    Word.objects.create(
+        word='Cat', pos='noun', definition='A small pet.', example='I have a cat.',
+        synonyms=['feline'], antonyms=['dog'], category=category, order=1, cefr_level=cefr_a1,
+    )
+    c = Client()
+    r = c.get('/vocabulary/category/animals/')
+    html = r.content.decode()
+    assert 'word-card' in html
+    assert 'A small pet.' in html
+    assert 'feline' in html
+    assert 'I have a cat.' in html
+
+
+@pytest.mark.django_db
+def test_vocabulary_category_detail_shows_per_word_state(cefr_a1, regular_user):
+    category = Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1)
+    word = Word.objects.create(word='Cat', definition='x', category=category, order=1)
+    regular_user.learn_map = {str(word.pk): 'learned'}
+    regular_user.save(update_fields=['learn_map'])
+    c = Client()
+    c.force_login(regular_user)
+    r = c.get('/vocabulary/category/animals/')
+    assert 'data-state="learned"' in r.content.decode()
+
+
+@pytest.mark.django_db
+def test_vocabulary_category_detail_numbered_pagination(cefr_a1):
+    category = Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1)
+    for i in range(60):
+        Word.objects.create(word=f'Word{i:02d}', definition='x', category=category, order=i)
+    c = Client()
+    r = c.get('/vocabulary/category/animals/')
+    html = r.content.decode()
+    assert 'page-btn' in html
+    assert '<a class="page-btn active"' in html
+
+
+@pytest.mark.django_db
+def test_vocabulary_category_detail_sets_csrf_cookie(cefr_a1, regular_user):
+    category = Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1)
+    Word.objects.create(word='Cat', definition='x', category=category, order=1)
+    c = Client()
+    c.force_login(regular_user)
+    r = c.get('/vocabulary/category/animals/')
+    assert 'csrftoken' in r.cookies
+
+
+@pytest.mark.django_db
+def test_vocabulary_category_detail_bulk_actions_present_for_authenticated(cefr_a1, regular_user):
+    category = Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1)
+    Word.objects.create(word='Cat', definition='x', category=category, order=1)
+    c = Client()
+    c.force_login(regular_user)
+    r = c.get('/vocabulary/category/animals/')
+    html = r.content.decode()
+    assert 'cat-bulk-btn' in html
+    assert 'catCompleteAllBtn' in html
+    assert 'catResetAllBtn' in html
+
+
+@pytest.mark.django_db
+def test_vocabulary_category_detail_bulk_actions_absent_for_guest(cefr_a1):
+    category = Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1)
+    Word.objects.create(word='Cat', definition='x', category=category, order=1)
+    c = Client()
+    r = c.get('/vocabulary/category/animals/')
+    assert 'cat-bulk-btn' not in r.content.decode()
+
+
+@pytest.mark.django_db
+def test_bulk_mark_all_completed_round_trip_preserves_other_categories(cefr_a1, regular_user):
+    cat1 = Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1)
+    cat2 = Category.objects.create(slug='food', name='Food', order=2, cefr_level=cefr_a1)
+    w1 = Word.objects.create(word='Cat', definition='x', category=cat1, order=1)
+    w2 = Word.objects.create(word='Dog', definition='x', category=cat1, order=2)
+    other_word = Word.objects.create(word='Bread', definition='x', category=cat2, order=1)
+    regular_user.learn_map = {str(other_word.pk): 'little'}
+    regular_user.save()
+    c = Client()
+    c.force_login(regular_user)
+
+    # Exactly what vocabBulkSetCategory("learned") does: GET, set every
+    # word ID in this category to "learned", POST the full map back.
+    get_res = c.get('/auth/sync/')
+    learn_map = get_res.json()['learn_map']
+    for w in (w1, w2):
+        learn_map[str(w.pk)] = 'learned'
+    post_res = c.post(
+        '/auth/sync/', json.dumps({'learn_map': learn_map}),
+        content_type='application/json',
+    )
+
+    assert post_res.status_code == 200
+    regular_user.refresh_from_db()
+    assert regular_user.learn_map == {
+        str(w1.pk): 'learned', str(w2.pk): 'learned', str(other_word.pk): 'little',
+    }
+
+
+@pytest.mark.django_db
+def test_bulk_reset_all_deletes_keys_not_sets_none(cefr_a1, regular_user):
+    category = Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1)
+    w1 = Word.objects.create(word='Cat', definition='x', category=category, order=1)
+    other_word = Word.objects.create(word='Bread', definition='x', category=category, order=2)
+    regular_user.learn_map = {str(w1.pk): 'learned', str(other_word.pk): 'little'}
+    regular_user.save()
+    c = Client()
+    c.force_login(regular_user)
+
+    # Exactly what vocabBulkSetCategory("reset") does: delete every word
+    # ID in this category from the map entirely.
+    get_res = c.get('/auth/sync/')
+    learn_map = get_res.json()['learn_map']
+    del learn_map[str(w1.pk)]
+    post_res = c.post(
+        '/auth/sync/', json.dumps({'learn_map': learn_map}),
+        content_type='application/json',
+    )
+
+    assert post_res.status_code == 200
+    regular_user.refresh_from_db()
+    assert str(w1.pk) not in regular_user.learn_map
+    assert regular_user.learn_map == {str(other_word.pk): 'little'}

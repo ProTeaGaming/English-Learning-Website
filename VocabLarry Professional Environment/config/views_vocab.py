@@ -81,6 +81,19 @@ def vocab_browse(request):
     })
 
 
+def _pagination_window(current, total, delta=2):
+    """Page numbers to display, with None marking an ellipsis gap.
+    Mirrors production's own windowed-pagination shape."""
+    pages = []
+    for p in range(1, total + 1):
+        if p == 1 or p == total or (current - delta <= p <= current + delta):
+            pages.append(p)
+        elif pages and pages[-1] is not None:
+            pages.append(None)
+    return pages
+
+
+@ensure_csrf_cookie
 def vocab_category(request, slug):
     category = get_object_or_404(
         Category.objects.select_related('cefr_level', 'color'), slug=slug
@@ -88,9 +101,18 @@ def vocab_category(request, slug):
     words = category.words.order_by('order')
     paginator = Paginator(words, 25)
     page_obj = paginator.get_page(request.GET.get('page', 1))
+
+    learn_map = request.user.learn_map if request.user.is_authenticated else {}
+    for word in page_obj:
+        word.learn_state = learn_map.get(str(word.pk))
+
+    all_word_ids = list(words.values_list('id', flat=True))
+
     return render(request, 'vocab/category_word_list.html', {
         'category': category,
         'page_obj': page_obj,
+        'pagination_window': _pagination_window(page_obj.number, paginator.num_pages),
+        'all_word_ids': all_word_ids,
     })
 
 
