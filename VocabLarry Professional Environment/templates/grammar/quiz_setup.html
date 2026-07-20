@@ -5,6 +5,11 @@
 {% block content %}
 <section class="grammar-test-setup">
   <h1>Quiz</h1>
+  <div class="mobile-page-switcher">
+    <a class="chip" href="{% url 'grammar_category_list' %}" data-i18n="nav.category">Category</a>
+    <a class="chip" href="{% url 'grammar_word' %}" data-i18n="nav.word">Word</a>
+    <a class="chip active" href="{% url 'grammar_quiz_setup' %}" data-i18n="nav.quiz">Quiz</a>
+  </div>
   <p class="grammar-test-intro">Practice across every topic at once — pick a level, question type, and length.</p>
   <form method="get" action="{% url 'grammar_quiz_play' %}" class="grammar-test-fields">
     <label class="grammar-test-field">

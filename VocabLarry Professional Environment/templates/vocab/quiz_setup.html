@@ -5,6 +5,11 @@
 {% block content %}
 <section class="vocab-quiz-setup">
   <h1>Quiz</h1>
+  <div class="mobile-page-switcher">
+    <a class="chip" href="{% url 'vocabulary_category_list' %}" data-i18n="nav.category">Category</a>
+    <a class="chip" href="{% url 'vocabulary_word_list' %}" data-i18n="nav.word">Word</a>
+    <a class="chip active" href="{% url 'vocabulary_quiz_setup' %}" data-i18n="nav.quiz">Quiz</a>
+  </div>
   <p class="vocab-quiz-intro">Test yourself on definitions, synonyms, antonyms, and fill-in-the-blank sentences.</p>
   <div class="vocab-quiz-form">
     <div class="vocab-quiz-field">

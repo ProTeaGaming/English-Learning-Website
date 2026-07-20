@@ -5,6 +5,11 @@
 {% block content %}
 <section class="grammar-browse">
   <h1>Grammar</h1>
+  <div class="mobile-page-switcher">
+    <a class="chip active" href="{% url 'grammar_category_list' %}" data-i18n="nav.category">Category</a>
+    <a class="chip" href="{% url 'grammar_word' %}" data-i18n="nav.word">Word</a>
+    <a class="chip" href="{% url 'grammar_quiz_setup' %}" data-i18n="nav.quiz">Quiz</a>
+  </div>
   <form method="get" class="grammar-filters">
     <input type="text" name="q" value="{{ query }}" placeholder="Search topics…">
     <select name="stage">

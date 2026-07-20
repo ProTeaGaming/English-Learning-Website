@@ -333,3 +333,30 @@ def test_vocabulary_home_renders():
     assert 'href="/vocabulary/word/"' in html
     assert 'href="/vocabulary/quiz/"' in html
     assert 'data-i18n="vocabHome.title1"' in html
+
+
+@pytest.mark.django_db
+def test_mobile_page_switcher_present_on_vocabulary_landing_pages(cefr_a1):
+    category = Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1)
+    c = Client()
+    for url in ('/vocabulary/category/', '/vocabulary/word/', '/vocabulary/quiz/', '/vocabulary/quiz/play/'):
+        r = c.get(url)
+        assert 'mobile-page-switcher' in r.content.decode(), url
+
+
+@pytest.mark.django_db
+def test_mobile_page_switcher_absent_on_vocabulary_drill_in_pages(cefr_a1):
+    category = Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1)
+    word = Word.objects.create(word='Cat', definition='x', category=category, order=1)
+    c = Client()
+    for url in ('/vocabulary/', f'/vocabulary/category/{category.slug}/', f'/vocabulary/word/{word.pk}/'):
+        r = c.get(url)
+        assert 'mobile-page-switcher' not in r.content.decode(), url
+
+
+@pytest.mark.django_db
+def test_mobile_page_switcher_marks_active_chip():
+    c = Client()
+    r = c.get('/vocabulary/quiz/')
+    html = r.content.decode()
+    assert '<a class="chip active" href="/vocabulary/quiz/" data-i18n="nav.quiz">Quiz</a>' in html

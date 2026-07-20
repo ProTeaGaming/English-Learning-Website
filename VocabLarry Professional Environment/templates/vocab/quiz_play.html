@@ -3,7 +3,14 @@
 {% block title %}Quiz — VocabLarry{% endblock %}
 {% block extra_head %}<link rel="stylesheet" href="{% static 'css/vocab.css' %}">{% endblock %}
 {% block content %}
-<section class="vocab-quiz-play" id="quizPlayRoot"></section>
+<section class="vocab-quiz-play">
+  <div class="mobile-page-switcher">
+    <a class="chip" href="{% url 'vocabulary_category_list' %}" data-i18n="nav.category">Category</a>
+    <a class="chip" href="{% url 'vocabulary_word_list' %}" data-i18n="nav.word">Word</a>
+    <a class="chip active" href="{% url 'vocabulary_quiz_setup' %}" data-i18n="nav.quiz">Quiz</a>
+  </div>
+  <div id="quizPlayRoot"></div>
+</section>
 {% endblock %}
 {% block extra_body %}
 <script src="{% static 'js/vocab-quiz.js' %}" defer></script>

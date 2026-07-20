@@ -329,3 +329,19 @@ def test_grammar_home_renders():
     assert 'href="/grammar/word/"' in html
     assert 'href="/grammar/quiz/"' in html
     assert 'data-i18n="grammarHome.title1"' in html
+
+
+@pytest.mark.django_db
+def test_mobile_page_switcher_present_on_grammar_landing_pages(topic_articles):
+    c = Client()
+    for url in ('/grammar/category/', '/grammar/word/', '/grammar/quiz/', '/grammar/quiz/play/'):
+        r = c.get(url)
+        assert 'mobile-page-switcher' in r.content.decode(), url
+
+
+@pytest.mark.django_db
+def test_mobile_page_switcher_absent_on_grammar_drill_in_pages(topic_with_blocks):
+    c = Client()
+    for url in ('/grammar/', f'/grammar/category/{topic_with_blocks.slug}/', f'/grammar/category/{topic_with_blocks.slug}/quiz/'):
+        r = c.get(url)
+        assert 'mobile-page-switcher' not in r.content.decode(), url
