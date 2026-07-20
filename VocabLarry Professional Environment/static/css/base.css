@@ -352,7 +352,7 @@ body::after{
 .mobile-nav-chip-label{ font-size: .85rem; font-weight: 600; color: var(--text); cursor: pointer; white-space: nowrap; }
 .mobile-nav-chip.open .mobile-nav-menu{ display: flex; }
 .mobile-nav-menu{
-  display: none; position: absolute; top: calc(100% + 8px); left: 0; min-width: 200px;
+  display: none; position: absolute; top: calc(100% + 8px); right: 0; min-width: 200px;
   background: rgba(22,26,35,.94); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
   border: 1px solid rgb(var(--violet) / .22); border-radius: 16px;
   box-shadow: 0 16px 48px rgba(0,0,0,.4); padding: 12px; z-index: 50; flex-direction: column; gap: 4px;

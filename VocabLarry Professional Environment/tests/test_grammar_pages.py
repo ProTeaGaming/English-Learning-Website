@@ -59,7 +59,7 @@ def test_nav_grammar_link_enabled():
     c = Client()
     r = c.get('/')
     html = r.content.decode()
-    assert 'href="/grammar/category/"' in html
+    assert 'href="/grammar/"' in html
     assert 'nav.grammar">Grammar</a>' in html
 
 
@@ -295,7 +295,7 @@ def test_nav_grammar_quiz_link_present():
     r = c.get('/')
     html = r.content.decode()
     assert 'href="/grammar/quiz/"' in html
-    assert 'nav.grammarTest">Grammar Test</a>' in html
+    assert 'nav.quiz">Quiz</a>' in html
 
 
 @pytest.mark.django_db

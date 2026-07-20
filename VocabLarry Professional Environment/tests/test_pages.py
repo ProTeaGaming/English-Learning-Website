@@ -108,18 +108,22 @@ def test_nav_vocabulary_tab_active_on_vocabulary_category_list():
     c = Client()
     r = c.get('/vocabulary/category/')
     html = r.content.decode()
-    assert '<a class="tab active" href="/vocabulary/category/" data-i18n="nav.vocabulary">Vocabulary</a>' in html
-    assert '<a class="tab" href="/vocabulary/quiz/" data-i18n="nav.quiz">Quiz</a>' in html
+    # The li wrapper's "active" class is what nav.js reads (via
+    # .closest(".nav-group")) to decide toggle-dropdown vs navigate —
+    # check it explicitly, not just the inner <a>'s class.
+    assert '<li class="nav-group active">' in html
+    assert '<a class="tab active" href="/vocabulary/" data-nav-toggle data-i18n="nav.vocabulary">Vocabulary</a>' in html
+    assert '<a class="nav-dropdown-item active" href="/vocabulary/category/" data-i18n="nav.category">Category</a>' in html
 
 
 @pytest.mark.django_db
-def test_nav_quiz_tab_active_on_vocabulary_quiz_setup():
+def test_nav_quiz_dropdown_item_active_on_vocabulary_quiz_setup():
     from django.test import Client
     c = Client()
     r = c.get('/vocabulary/quiz/')
     html = r.content.decode()
-    assert '<a class="tab active" href="/vocabulary/quiz/" data-i18n="nav.quiz">Quiz</a>' in html
-    assert '<a class="tab" href="/vocabulary/category/" data-i18n="nav.vocabulary">Vocabulary</a>' in html
+    assert '<a class="tab active" href="/vocabulary/" data-nav-toggle data-i18n="nav.vocabulary">Vocabulary</a>' in html
+    assert '<a class="nav-dropdown-item active" href="/vocabulary/quiz/" data-i18n="nav.quiz">Quiz</a>' in html
 
 
 @pytest.mark.django_db
@@ -128,16 +132,54 @@ def test_nav_grammar_tab_active_on_grammar_category_list():
     c = Client()
     r = c.get('/grammar/category/')
     html = r.content.decode()
-    assert '<a class="tab active" href="/grammar/category/" data-i18n="nav.grammar">Grammar</a>' in html
+    assert '<a class="tab active" href="/grammar/" data-nav-toggle data-i18n="nav.grammar">Grammar</a>' in html
+    assert '<a class="nav-dropdown-item active" href="/grammar/category/" data-i18n="nav.category">Category</a>' in html
 
 
 @pytest.mark.django_db
-def test_nav_grammar_quiz_tab_active_on_grammar_quiz_setup():
+def test_nav_grammar_quiz_dropdown_item_active_on_grammar_quiz_setup():
     from django.test import Client
     c = Client()
     r = c.get('/grammar/quiz/')
     html = r.content.decode()
-    assert '<a class="tab active" href="/grammar/quiz/" data-i18n="nav.grammarTest">Grammar Test</a>' in html
+    assert '<a class="nav-dropdown-item active" href="/grammar/quiz/" data-i18n="nav.quiz">Quiz</a>' in html
+
+
+@pytest.mark.django_db
+def test_nav_reading_writing_listening_speaking_tabs_present():
+    from django.test import Client
+    c = Client()
+    r = c.get('/')
+    html = r.content.decode()
+    assert '<a class="tab" href="/reading/" data-i18n="nav.reading">Reading</a>' in html
+    assert '<a class="tab" href="/writing/" data-i18n="nav.writing">Writing</a>' in html
+    assert '<a class="tab" href="/listening/" data-i18n="nav.listening">Listening</a>' in html
+    assert '<a class="tab" href="/speaking/" data-i18n="nav.speaking">Speaking</a>' in html
+
+
+@pytest.mark.django_db
+def test_mobile_nav_menu_lists_all_7_sections():
+    from django.test import Client
+    c = Client()
+    r = c.get('/')
+    html = r.content.decode()
+    assert 'id="mobileNavMenu"' in html
+    for href in ('/', '/vocabulary/', '/grammar/', '/reading/', '/writing/', '/listening/', '/speaking/'):
+        assert f'<a class="mobile-nav-menu-item" href="{href}"' in html
+
+
+@pytest.mark.django_db
+def test_home_hero_ctas_bypass_intro_pages_and_link_to_category():
+    # Regression guard: the nav's Vocabulary/Grammar links now point at the
+    # intro pages (asserted above), but Home's own hero CTAs must keep
+    # pointing directly at Category — this is the one deliberate exception
+    # to "everything links to the intro page now".
+    from django.test import Client
+    c = Client()
+    r = c.get('/')
+    html = r.content.decode()
+    assert '<a class="btn btn-primary" href="/vocabulary/category/" data-i18n="hero.start">Start Learning</a>' in html
+    assert '<a class="home-btn-outline" href="/grammar/category/" data-i18n="hero.grammar">Practice Grammar</a>' in html
 
 
 @pytest.mark.django_db

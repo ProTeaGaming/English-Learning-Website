@@ -1,14 +1,42 @@
 <nav class="site-nav">
   <a class="brand" href="{% url 'home' %}"><svg class="ico ico-mark" aria-hidden="true"><use href="#i-mark"/></svg>Vocab<b>Larry</b></a>
   <ul class="nav-links">
-    <li><a class="tab{% if request.resolver_match.url_name == 'vocabulary_category_list' or request.resolver_match.url_name == 'vocabulary_category_detail' or request.resolver_match.url_name == 'vocabulary_word_detail' %} active{% endif %}" href="{% url 'vocabulary_category_list' %}" data-i18n="nav.vocabulary">Vocabulary</a></li>
-    <li><a class="tab{% if request.resolver_match.url_name == 'vocabulary_quiz_setup' or request.resolver_match.url_name == 'vocabulary_quiz_play' %} active{% endif %}" href="{% url 'vocabulary_quiz_setup' %}" data-i18n="nav.quiz">Quiz</a></li>
-    <li><a class="tab{% if request.resolver_match.url_name == 'grammar_category_list' or request.resolver_match.url_name == 'grammar_category_detail' or request.resolver_match.url_name == 'grammar_category_quiz' %} active{% endif %}" href="{% url 'grammar_category_list' %}" data-i18n="nav.grammar">Grammar</a></li>
-    <li><a class="tab{% if request.resolver_match.url_name == 'grammar_quiz_setup' or request.resolver_match.url_name == 'grammar_quiz_play' %} active{% endif %}" href="{% url 'grammar_quiz_setup' %}" data-i18n="nav.grammarTest">Grammar Test</a></li>
+    <li class="nav-group{% if nav_active_section == 'vocabulary' %} active{% endif %}">
+      <a class="tab{% if nav_active_section == 'vocabulary' %} active{% endif %}" href="{% url 'vocabulary_home' %}" data-nav-toggle data-i18n="nav.vocabulary">Vocabulary</a>
+      <div class="nav-dropdown">
+        <a class="nav-dropdown-item{% if request.resolver_match.url_name == 'vocabulary_category_list' or request.resolver_match.url_name == 'vocabulary_category_detail' %} active{% endif %}" href="{% url 'vocabulary_category_list' %}" data-i18n="nav.category">Category</a>
+        <a class="nav-dropdown-item{% if request.resolver_match.url_name == 'vocabulary_word_list' or request.resolver_match.url_name == 'vocabulary_word_detail' %} active{% endif %}" href="{% url 'vocabulary_word_list' %}" data-i18n="nav.word">Word</a>
+        <a class="nav-dropdown-item{% if request.resolver_match.url_name == 'vocabulary_quiz_setup' or request.resolver_match.url_name == 'vocabulary_quiz_play' %} active{% endif %}" href="{% url 'vocabulary_quiz_setup' %}" data-i18n="nav.quiz">Quiz</a>
+      </div>
+    </li>
+    <li class="nav-group{% if nav_active_section == 'grammar' %} active{% endif %}">
+      <a class="tab{% if nav_active_section == 'grammar' %} active{% endif %}" href="{% url 'grammar_home' %}" data-nav-toggle data-i18n="nav.grammar">Grammar</a>
+      <div class="nav-dropdown">
+        <a class="nav-dropdown-item{% if request.resolver_match.url_name == 'grammar_category_list' or request.resolver_match.url_name == 'grammar_category_detail' or request.resolver_match.url_name == 'grammar_category_quiz' %} active{% endif %}" href="{% url 'grammar_category_list' %}" data-i18n="nav.category">Category</a>
+        <a class="nav-dropdown-item{% if request.resolver_match.url_name == 'grammar_word' %} active{% endif %}" href="{% url 'grammar_word' %}" data-i18n="nav.word">Word</a>
+        <a class="nav-dropdown-item{% if request.resolver_match.url_name == 'grammar_quiz_setup' or request.resolver_match.url_name == 'grammar_quiz_play' %} active{% endif %}" href="{% url 'grammar_quiz_setup' %}" data-i18n="nav.quiz">Quiz</a>
+      </div>
+    </li>
+    <li><a class="tab{% if nav_active_section == 'reading' %} active{% endif %}" href="{% url 'reading' %}" data-i18n="nav.reading">Reading</a></li>
+    <li><a class="tab{% if nav_active_section == 'writing' %} active{% endif %}" href="{% url 'writing' %}" data-i18n="nav.writing">Writing</a></li>
+    <li><a class="tab{% if nav_active_section == 'listening' %} active{% endif %}" href="{% url 'listening' %}" data-i18n="nav.listening">Listening</a></li>
+    <li><a class="tab{% if nav_active_section == 'speaking' %} active{% endif %}" href="{% url 'speaking' %}" data-i18n="nav.speaking">Speaking</a></li>
     {% if user.role == 'staff' or user.role == 'admin' %}
     <li><a href="{% url 'dashboard_index' %}">Dashboard</a></li>
     {% endif %}
   </ul>
+  <div class="mobile-nav-chip" id="mobileNavChip">
+    <button type="button" class="icon-toggle" id="mobileNavToggle" aria-label="Open navigation menu"><svg class="ico" aria-hidden="true"><use href="#i-menu"/></svg></button>
+    <div class="mobile-nav-menu" id="mobileNavMenu">
+      <a class="mobile-nav-menu-item" href="{% url 'home' %}" data-i18n="nav.home">Home</a>
+      <a class="mobile-nav-menu-item" href="{% url 'vocabulary_home' %}" data-i18n="nav.vocabulary">Vocabulary</a>
+      <a class="mobile-nav-menu-item" href="{% url 'grammar_home' %}" data-i18n="nav.grammar">Grammar</a>
+      <a class="mobile-nav-menu-item" href="{% url 'reading' %}" data-i18n="nav.reading">Reading</a>
+      <a class="mobile-nav-menu-item" href="{% url 'writing' %}" data-i18n="nav.writing">Writing</a>
+      <a class="mobile-nav-menu-item" href="{% url 'listening' %}" data-i18n="nav.listening">Listening</a>
+      <a class="mobile-nav-menu-item" href="{% url 'speaking' %}" data-i18n="nav.speaking">Speaking</a>
+    </div>
+  </div>
   <div class="nav-actions">
     <button type="button" class="icon-toggle" data-lang-toggle aria-label="Switch language"><svg class="ico" aria-hidden="true"><use href="#i-globe"/></svg></button>
     <button type="button" class="icon-toggle" data-theme-toggle aria-label="Toggle theme"><svg class="ico" data-theme-icon aria-hidden="true"><use href="#i-moon"/></svg></button>

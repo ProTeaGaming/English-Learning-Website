@@ -54,14 +54,11 @@ def test_vocabulary_category_list_cefr_filter(cefr_a1, cefr_b1):
 
 
 @pytest.mark.django_db
-def test_home_nav_links_to_vocabulary_category_list():
+def test_home_nav_links_to_vocabulary_home():
     c = Client()
     r = c.get('/')
     body = r.content.decode()
-    # Vocabulary becomes a real link. Grammar stays disabled/coming-soon
-    # on this same page (separate future sub-project) - don't assert
-    # "coming soon" is gone entirely, only that Vocabulary now links out.
-    assert 'href="/vocabulary/category/"' in body
+    assert 'href="/vocabulary/"' in body
     assert 'data-i18n="nav.vocabulary">Vocabulary</a>' in body
 
 
@@ -278,6 +275,8 @@ def test_vocabulary_quiz_setup_has_challenge_mode_input():
 def test_home_nav_links_to_vocabulary_quiz():
     c = Client()
     r = c.get('/')
+    # The Quiz link lives inside the collapsed dropdown markup — still
+    # present in the raw HTML even though CSS hides it until opened.
     assert 'href="/vocabulary/quiz/"' in r.content.decode()
 
 
