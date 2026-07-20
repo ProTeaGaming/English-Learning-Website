@@ -438,18 +438,18 @@ body::after{
 }
 .chip:hover{ color: var(--text); border-color: rgb(var(--violet) / .5); background: rgb(var(--violet) / .1); transform: translateY(-1px); box-shadow: 0 4px 12px rgb(var(--violet) / .15); }
 .chip.active{ color: #fff; border-color: transparent; background: rgb(var(--violet)); box-shadow: 0 4px 14px rgb(var(--violet) / .35); }
-.chip.active[data-browse-cefr="A1"]{ background: var(--a1); }
-.chip.active[data-browse-cefr="A1+"]{ background: var(--a1p); }
-.chip.active[data-browse-cefr="A2"]{ background: var(--a2); }
-.chip.active[data-browse-cefr="A2+"]{ background: var(--a2p); }
-.chip.active[data-browse-cefr="B1"]{ background: var(--b1); }
-.chip.active[data-browse-cefr="B1+"]{ background: var(--b1p); }
-.chip.active[data-browse-cefr="B2"]{ background: var(--b2); }
-.chip.active[data-browse-cefr="B2+"]{ background: var(--b2p); }
-.chip.active[data-browse-cefr="C1"]{ background: var(--c1); }
-.chip.active[data-browse-cefr="C1+"]{ background: var(--c1p); }
-.chip.active[data-browse-cefr="C2"]{ background: var(--c2); }
-.chip.active[data-browse-cefr="C2+"]{ background: var(--c2p); }
+.chip.active[data-browse-cefr="A1"],.chip.active[data-quiz-cefr="A1"]{ background: var(--a1); }
+.chip.active[data-browse-cefr="A1+"],.chip.active[data-quiz-cefr="A1+"]{ background: var(--a1p); }
+.chip.active[data-browse-cefr="A2"],.chip.active[data-quiz-cefr="A2"]{ background: var(--a2); }
+.chip.active[data-browse-cefr="A2+"],.chip.active[data-quiz-cefr="A2+"]{ background: var(--a2p); }
+.chip.active[data-browse-cefr="B1"],.chip.active[data-quiz-cefr="B1"]{ background: var(--b1); }
+.chip.active[data-browse-cefr="B1+"],.chip.active[data-quiz-cefr="B1+"]{ background: var(--b1p); }
+.chip.active[data-browse-cefr="B2"],.chip.active[data-quiz-cefr="B2"]{ background: var(--b2); }
+.chip.active[data-browse-cefr="B2+"],.chip.active[data-quiz-cefr="B2+"]{ background: var(--b2p); }
+.chip.active[data-browse-cefr="C1"],.chip.active[data-quiz-cefr="C1"]{ background: var(--c1); }
+.chip.active[data-browse-cefr="C1+"],.chip.active[data-quiz-cefr="C1+"]{ background: var(--c1p); }
+.chip.active[data-browse-cefr="C2"],.chip.active[data-quiz-cefr="C2"]{ background: var(--c2); }
+.chip.active[data-browse-cefr="C2+"],.chip.active[data-quiz-cefr="C2+"]{ background: var(--c2p); }
 .chip.active[data-browse-status="completed"]{ background: #22c55e; }
 .chip.active[data-browse-status="inProgress"]{ background: var(--c1); }
 .chip.active[data-browse-status="notStarted"]{ background: var(--muted); }
