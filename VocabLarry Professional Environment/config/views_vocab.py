@@ -1,3 +1,5 @@
+from collections import Counter
+
 from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404, render
 from django.views.decorators.csrf import ensure_csrf_cookie
@@ -8,17 +10,74 @@ from vocab.models import CEFRLevel, Category, Word
 def vocab_browse(request):
     query = request.GET.get('q', '').strip()
     cefr_filter = request.GET.get('cefr', '').strip()
+    progress_filter = request.GET.get('progress', '').strip()
     categories = Category.objects.select_related('cefr_level', 'color').order_by('order')
     if query:
         categories = categories.filter(name__icontains=query)
     if cefr_filter:
         categories = categories.filter(cefr_level__code=cefr_filter)
+    categories = list(categories)
+
+    word_category = dict(Word.objects.values_list('id', 'category_id'))
+    word_counts = Counter(word_category.values())
+
+    for category in categories:
+        category.word_count = word_counts[category.id]
+
+    if request.user.is_authenticated:
+        learn_map = request.user.learn_map
+        progress_by_category = {}
+        for word_id_str, state in learn_map.items():
+            try:
+                word_id = int(word_id_str)
+            except (TypeError, ValueError):
+                continue
+            category_id = word_category.get(word_id)
+            if category_id is None:
+                continue
+            bucket = progress_by_category.setdefault(category_id, {'learned': 0, 'little': 0})
+            if state == 'learned':
+                bucket['learned'] += 1
+            elif state == 'little':
+                bucket['little'] += 1
+
+        for category in categories:
+            total = category.word_count
+            bucket = progress_by_category.get(category.id, {'learned': 0, 'little': 0})
+            learned = bucket['learned']
+            little = bucket['little']
+            category.progress = {
+                'learned': learned,
+                'little': little,
+                'total': total,
+                'learned_pct': round(learned / total * 100) if total else 0,
+                'little_pct': round(little / total * 100) if total else 0,
+                'complete': total > 0 and learned == total,
+            }
+
+        if progress_filter == 'learned':
+            categories = [c for c in categories if c.progress['complete']]
+        elif progress_filter == 'in_progress':
+            categories = [
+                c for c in categories
+                if not c.progress['complete'] and (c.progress['learned'] or c.progress['little'])
+            ]
+        elif progress_filter == 'not_started':
+            categories = [
+                c for c in categories
+                if not c.progress['learned'] and not c.progress['little']
+            ]
+    else:
+        for category in categories:
+            category.progress = None
+
     cefr_levels = CEFRLevel.objects.order_by('order')
     return render(request, 'vocab/browse.html', {
         'categories': categories,
         'cefr_levels': cefr_levels,
         'query': query,
         'cefr_filter': cefr_filter,
+        'progress_filter': progress_filter,
     })
 
 

@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load static %}
+{% load static vocab_extras %}
 {% block title %}Vocabulary — VocabLarry{% endblock %}
 {% block extra_head %}<link rel="stylesheet" href="{% static 'css/vocab.css' %}">{% endblock %}
 {% block content %}
@@ -10,24 +10,57 @@
     <a class="chip" href="{% url 'vocabulary_word_list' %}" data-i18n="nav.word">Word</a>
     <a class="chip" href="{% url 'vocabulary_quiz_setup' %}" data-i18n="nav.quiz">Quiz</a>
   </div>
-  <form method="get" class="vocab-filters">
-    <input type="text" name="q" value="{{ query }}" placeholder="Search categories…">
-    <select name="cefr">
-      <option value="">All levels</option>
+  <div class="filters">
+    <form method="get" class="search-row">
+      <input type="search" name="q" value="{{ query }}" placeholder="Search categories…" data-i18n-placeholder="vocab.searchCategories">
+      {% if cefr_filter %}<input type="hidden" name="cefr" value="{{ cefr_filter }}">{% endif %}
+      {% if progress_filter %}<input type="hidden" name="progress" value="{{ progress_filter }}">{% endif %}
+      <button type="submit" class="btn">Filter</button>
+    </form>
+    <div class="filter-row">
+      <span class="filter-label" data-i18n="common.cefrLevel">CEFR Level</span>
+      <a class="chip{% if not cefr_filter %} active{% endif %}" href="?q={{ query }}{% if progress_filter %}&progress={{ progress_filter }}{% endif %}" data-i18n="common.all">All</a>
       {% for level in cefr_levels %}
-        <option value="{{ level.code }}" {% if level.code == cefr_filter %}selected{% endif %}>{{ level.code }}</option>
+      <a class="chip{% if cefr_filter == level.code %} active{% endif %}" data-browse-cefr="{{ level.code }}" href="?q={{ query }}&cefr={{ level.code }}{% if progress_filter %}&progress={{ progress_filter }}{% endif %}">{{ level.code }}</a>
       {% endfor %}
-    </select>
-    <button type="submit" class="btn">Filter</button>
-  </form>
+    </div>
+    {% if user.is_authenticated %}
+    <div class="filter-row">
+      <span class="filter-label" data-i18n="common.progress">Progress</span>
+      <a class="chip{% if not progress_filter %} active{% endif %}" href="?q={{ query }}{% if cefr_filter %}&cefr={{ cefr_filter }}{% endif %}" data-i18n="common.all">All</a>
+      <a class="chip{% if progress_filter == 'learned' %} active{% endif %}" data-browse-status="completed" href="?q={{ query }}{% if cefr_filter %}&cefr={{ cefr_filter }}{% endif %}&progress=learned" data-i18n="common.completed">Completed</a>
+      <a class="chip{% if progress_filter == 'in_progress' %} active{% endif %}" data-browse-status="inProgress" href="?q={{ query }}{% if cefr_filter %}&cefr={{ cefr_filter }}{% endif %}&progress=in_progress" data-i18n="common.inProgress">In Progress</a>
+      <a class="chip{% if progress_filter == 'not_started' %} active{% endif %}" data-browse-status="notStarted" href="?q={{ query }}{% if cefr_filter %}&cefr={{ cefr_filter }}{% endif %}&progress=not_started" data-i18n="common.notStarted">Not Started</a>
+    </div>
+    {% endif %}
+    <div class="filter-row" style="justify-content:flex-end;">
+      <a class="clear-btn" href="{% url 'vocabulary_category_list' %}" data-i18n="common.clearFilters">Clear filters</a>
+    </div>
+  </div>
   {% if categories %}
-  <div class="category-grid">
+  <div class="cat-grid">
     {% for category in categories %}
-    <a class="category-card" href="{% url 'vocabulary_category_detail' category.slug %}"
-       style="--cat-bg:{{ category.color.bg_hex|default:'#f4f4f8' }}; --cat-text:{{ category.color.text_hex|default:'#16161f' }};">
-      <span class="category-icon">{{ category.icon }}</span>
-      <span class="category-name">{{ category.name }}</span>
-      {% if category.cefr_level %}<span class="category-cefr">{{ category.cefr_level.code }}</span>{% endif %}
+    <a class="cat-card" href="{% url 'vocabulary_category_detail' category.slug %}"
+       style="--accent-c:{{ category.color.bg_hex|default:'#7c3aed' }};">
+      <div class="cat-card-top">
+        <span class="cat-tag"><svg class="ico" aria-hidden="true"><use href="#{{ category.icon|category_icon }}"/></svg> {{ category.word_count }} words</span>
+        {% if category.cefr_level %}<span class="cefr-badge {{ category.cefr_level.code }}">{{ category.cefr_level.code }}</span>{% endif %}
+        <svg class="ico cat-arrow" aria-hidden="true"><use href="#i-arrow-up-right"/></svg>
+      </div>
+      <div class="cat-name">{{ category.name }}</div>
+      {% if category.progress %}
+      <div class="cat-pbar-row">
+        <div class="cat-pbar">
+          <div class="cat-pfill-little" style="width:{{ category.progress.little_pct }}%"></div>
+          <div class="cat-pfill" style="width:{{ category.progress.learned_pct }}%;{% if category.progress.complete %}background:#10b981;{% endif %}position:absolute;top:0;left:0;"></div>
+        </div>
+        {% if category.progress.complete %}
+        <svg class="ico cat-medal" aria-hidden="true"><use href="#i-medal"/></svg>
+        {% else %}
+        <span class="cat-plabel">{{ category.progress.learned }}/{{ category.progress.total }}</span>
+        {% endif %}
+      </div>
+      {% endif %}
     </a>
     {% endfor %}
   </div>

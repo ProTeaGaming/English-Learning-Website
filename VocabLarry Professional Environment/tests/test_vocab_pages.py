@@ -360,3 +360,111 @@ def test_mobile_page_switcher_marks_active_chip():
     r = c.get('/vocabulary/quiz/')
     html = r.content.decode()
     assert '<a class="chip active" href="/vocabulary/quiz/" data-i18n="nav.quiz">Quiz</a>' in html
+
+
+@pytest.mark.django_db
+def test_vocabulary_category_list_shows_progress_bar_for_authenticated_user(cefr_a1, regular_user):
+    from vocab.models import Color
+    color = Color.objects.create(name='blue', bg_hex='#3b82f6', text_hex='#ffffff')
+    category = Category.objects.create(
+        slug='animals', name='Animals', order=1, cefr_level=cefr_a1,
+        color=color, icon='📚',
+    )
+    w1 = Word.objects.create(word='Cat', definition='x', category=category, order=1)
+    w2 = Word.objects.create(word='Dog', definition='x', category=category, order=2)
+    regular_user.learn_map = {str(w1.pk): 'learned', str(w2.pk): 'little'}
+    regular_user.save(update_fields=['learn_map'])
+    c = Client()
+    c.force_login(regular_user)
+    r = c.get('/vocabulary/category/')
+    html = r.content.decode()
+    assert 'cat-pfill' in html
+    assert 'cat-medal' not in html  # not 100% complete
+
+
+@pytest.mark.django_db
+def test_vocabulary_category_list_shows_medal_at_100_percent(cefr_a1, regular_user):
+    from vocab.models import Color
+    color = Color.objects.create(name='blue', bg_hex='#3b82f6', text_hex='#ffffff')
+    category = Category.objects.create(
+        slug='animals', name='Animals', order=1, cefr_level=cefr_a1,
+        color=color, icon='📚',
+    )
+    w1 = Word.objects.create(word='Cat', definition='x', category=category, order=1)
+    regular_user.learn_map = {str(w1.pk): 'learned'}
+    regular_user.save(update_fields=['learn_map'])
+    c = Client()
+    c.force_login(regular_user)
+    r = c.get('/vocabulary/category/')
+    html = r.content.decode()
+    assert 'cat-medal' in html
+
+
+@pytest.mark.django_db
+def test_vocabulary_category_list_no_progress_bar_for_guest(cefr_a1):
+    from vocab.models import Color
+    color = Color.objects.create(name='blue', bg_hex='#3b82f6', text_hex='#ffffff')
+    category = Category.objects.create(
+        slug='animals', name='Animals', order=1, cefr_level=cefr_a1,
+        color=color, icon='📚',
+    )
+    Word.objects.create(word='Cat', definition='x', category=category, order=1)
+    c = Client()
+    r = c.get('/vocabulary/category/')
+    html = r.content.decode()
+    assert 'cat-pfill' not in html
+    assert 'cat-medal' not in html
+
+
+@pytest.mark.django_db
+def test_vocabulary_category_list_renders_resolved_icon(cefr_a1):
+    category = Category.objects.create(
+        slug='animals', name='Animals', order=1, cefr_level=cefr_a1, icon='📚',
+    )
+    c = Client()
+    r = c.get('/vocabulary/category/')
+    assert '#i-book' in r.content.decode()
+
+
+@pytest.mark.django_db
+def test_vocabulary_category_list_progress_filter_narrows_results(cefr_a1, regular_user):
+    cat1 = Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1)
+    cat2 = Category.objects.create(slug='food', name='Food', order=2, cefr_level=cefr_a1)
+    w1 = Word.objects.create(word='Cat', definition='x', category=cat1, order=1)
+    Word.objects.create(word='Bread', definition='x', category=cat2, order=1)
+    regular_user.learn_map = {str(w1.pk): 'learned'}
+    regular_user.save(update_fields=['learn_map'])
+    c = Client()
+    c.force_login(regular_user)
+    r = c.get('/vocabulary/category/?progress=learned')
+    body = r.content.decode()
+    assert 'Animals' in body
+    assert 'Food' not in body
+
+
+@pytest.mark.django_db
+def test_vocabulary_category_list_progress_filter_not_started(cefr_a1, regular_user):
+    cat1 = Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1)
+    cat2 = Category.objects.create(slug='food', name='Food', order=2, cefr_level=cefr_a1)
+    w1 = Word.objects.create(word='Cat', definition='x', category=cat1, order=1)
+    Word.objects.create(word='Bread', definition='x', category=cat2, order=1)
+    regular_user.learn_map = {str(w1.pk): 'learned'}
+    regular_user.save(update_fields=['learn_map'])
+    c = Client()
+    c.force_login(regular_user)
+    r = c.get('/vocabulary/category/?progress=not_started')
+    body = r.content.decode()
+    assert 'Food' in body
+    assert 'Animals' not in body
+
+
+@pytest.mark.django_db
+def test_vocabulary_category_list_chip_filter_bar_present(cefr_a1, regular_user):
+    c = Client()
+    c.force_login(regular_user)
+    r = c.get('/vocabulary/category/')
+    html = r.content.decode()
+    assert 'data-browse-cefr="A1"' in html
+    assert 'data-browse-status="completed"' in html
+    assert 'data-browse-status="inProgress"' in html
+    assert 'data-browse-status="notStarted"' in html
