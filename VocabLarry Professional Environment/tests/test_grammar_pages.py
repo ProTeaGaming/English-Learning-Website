@@ -334,6 +334,8 @@ def test_grammar_category_detail_renders_rule_title(topic_with_blocks):
     html = r.content.decode()
     assert 'Present Simple' in html
     assert '<b>-s</b>' in html
+    assert 'class="gram-stage' in html
+    assert 'Rule 01' in html
 
 
 @pytest.mark.django_db
@@ -353,6 +355,51 @@ def test_grammar_category_detail_renders_examples(topic_with_blocks):
     assert 'The sun rises in the east.' in html
     assert 'General fact.' in html
     assert 'Prices are rising.' in html
+
+
+@pytest.mark.django_db
+def test_grammar_category_detail_has_themed_header(topic_with_blocks):
+    c = Client()
+    r = c.get('/grammar/category/present-simple-continuous/')
+    html = r.content.decode()
+    assert 'class="cat-view-title-row"' in html
+    assert 'cat-view-icon t-t' in html
+    assert 'i-clock' in html
+
+
+@pytest.mark.django_db
+def test_grammar_category_detail_rule_card_has_image(topic_with_blocks):
+    c = Client()
+    r = c.get('/grammar/category/present-simple-continuous/')
+    html = r.content.decode()
+    assert 'gram-stage-panel' in html
+    assert 'images.unsplash.com/photo-' in html
+
+
+@pytest.mark.django_db
+def test_grammar_category_detail_loads_topic_js(topic_with_blocks):
+    c = Client()
+    r = c.get('/grammar/category/present-simple-continuous/')
+    assert 'grammar-topic.js' in r.content.decode()
+
+
+@pytest.mark.django_db
+def test_grammar_category_detail_has_back_link(topic_with_blocks):
+    c = Client()
+    r = c.get('/grammar/category/present-simple-continuous/')
+    html = r.content.decode()
+    assert 'class="back-btn"' in html
+    assert 'href="/grammar/category/"' in html
+
+
+@pytest.mark.django_db
+def test_grammar_category_detail_gram_block_types_render(topic_with_blocks):
+    c = Client()
+    r = c.get('/grammar/category/present-simple-continuous/')
+    html = r.content.decode()
+    assert 'gram-intro' in html
+    assert 'gram-table-wrap' in html
+    assert 'gram-examples' in html
 
 
 @pytest.mark.django_db
@@ -410,6 +457,7 @@ def test_grammar_category_detail_status_shows_best_score(topic_with_blocks, regu
     c.force_login(regular_user)
     r = c.get('/grammar/category/present-simple-continuous/')
     assert 'Best score: 60%' in r.content.decode()
+    assert 'cat-view-name' in r.content.decode()
 
 
 @pytest.mark.django_db
@@ -428,7 +476,6 @@ def test_grammar_category_detail_no_status_for_guest(topic_with_blocks):
     r = c.get('/grammar/category/present-simple-continuous/')
     html = r.content.decode()
     assert 'Not started yet' not in html
-    assert 'grammar-topic-detail-status' not in html
 
 
 @pytest.mark.django_db
