@@ -421,9 +421,21 @@ def test_grammar_category_quiz_unknown_slug_404():
 
 @pytest.mark.django_db
 def test_grammar_category_detail_has_practice_link(topic_with_blocks):
+    from vocab.models import GrammarQuestion
+    GrammarQuestion.objects.create(
+        topic=topic_with_blocks, qtype='mcq', prompt='Test question?',
+        options=['a', 'b'], answers=[0], why='because', order=0,
+    )
     c = Client()
     r = c.get('/grammar/category/present-simple-continuous/')
     assert 'href="/grammar/category/present-simple-continuous/quiz/"' in r.content.decode()
+
+
+@pytest.mark.django_db
+def test_grammar_category_detail_no_practice_link_when_no_questions(topic_with_blocks):
+    c = Client()
+    r = c.get('/grammar/category/present-simple-continuous/')
+    assert 'href="/grammar/category/present-simple-continuous/quiz/"' not in r.content.decode()
 
 
 @pytest.mark.django_db

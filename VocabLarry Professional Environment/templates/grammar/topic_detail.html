@@ -76,7 +76,9 @@
   </div>
 
   <div class="cat-bulk-actions">
+    {% if topic.questions.count %}
     <a class="btn" href="{% url 'grammar_category_quiz' topic.slug %}">Practice — {{ topic.questions.count }} question{{ topic.questions.count|pluralize }}</a>
+    {% endif %}
     <a class="cat-bulk-btn cat-bulk-btn-secondary" href="{% url 'grammar_category_list' %}">← All grammar</a>
   </div>
 </section>
