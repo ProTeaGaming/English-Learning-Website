@@ -1,4 +1,128 @@
 (function(){
+  var FAMILIES = ["quiz", "gap", "challenge"];
+  var FAMILY_LABELS = { quiz: "Quiz", gap: "Fill the Gap", challenge: "Challenge" };
+
+  var QUIZ_MODES = [
+    { id: "definition", name: "Definition Match", desc: "See a word — choose its correct definition." },
+    { id: "word", name: "Word from Definition", desc: "Read a definition — choose the matching word." },
+    { id: "synonym", name: "Synonym Match", desc: "See a word — choose a word with a similar meaning." },
+    { id: "antonym", name: "Antonym Match", desc: "See a word — choose a word with the opposite meaning." },
+    { id: "mixed", name: "Mixed Review", desc: "A random mix of every question type." }
+  ];
+
+  var GAP_MODES = [
+    { id: "gap-context", name: "Contextual Definition", desc: "The sentence provides context clues — use them to find the missing word." },
+    { id: "gap-nuance", name: "Lexical Nuance", desc: "Near-synonyms are the distractors — only one word is precisely correct." },
+    { id: "gap-collocation", name: "Collocation & Idiom", desc: "The blank requires a specific fixed word partnership or collocation." },
+    { id: "gap-connotation", name: "Connotation Match", desc: "Choose the word whose tone — positive, negative or formal — fits the sentence." },
+    { id: "gap-mixed", name: "Mixed Review", desc: "A random mix of all four gap fill types." }
+  ];
+
+  function initSetupPage(){
+    var form = document.getElementById("quizSetupForm");
+    if (!form) return;
+
+    var modeInput = document.getElementById("modeInput");
+    var cefrInput = document.getElementById("cefrInput");
+    var countInput = document.getElementById("countInput");
+    var familyLabel = document.getElementById("familyLabel");
+    var quizGrid = document.getElementById("quizModeGrid");
+    var gapGrid = document.getElementById("gapModeGrid");
+    var countRow = document.getElementById("countRow");
+    var customChip = document.getElementById("customCountChip");
+    var customInput = document.getElementById("customCountInput");
+    var customWarn = document.getElementById("customCountWarn");
+
+    var familyIdx = 0;
+
+    function renderModeGrid(container, modes){
+      container.innerHTML = modes.map(function(m, i){
+        return '<button type="button" class="modeCard' + (i === 0 ? ' active' : '') + '" data-mode="' + m.id + '">' +
+          '<h3>' + m.name + '</h3><p>' + m.desc + '</p></button>';
+      }).join("");
+      container.querySelectorAll(".modeCard").forEach(function(card){
+        card.addEventListener("click", function(){
+          container.querySelectorAll(".modeCard").forEach(function(c){ c.classList.remove("active"); });
+          card.classList.add("active");
+          modeInput.value = card.dataset.mode;
+        });
+      });
+    }
+
+    function applyFamily(){
+      var family = FAMILIES[familyIdx];
+      familyLabel.textContent = FAMILY_LABELS[family];
+      quizGrid.hidden = family !== "quiz";
+      gapGrid.hidden = family !== "gap";
+      if (family === "quiz"){
+        modeInput.value = QUIZ_MODES[0].id;
+      } else if (family === "gap"){
+        modeInput.value = GAP_MODES[0].id;
+      } else {
+        modeInput.value = "challenge";
+      }
+    }
+
+    renderModeGrid(quizGrid, QUIZ_MODES);
+    renderModeGrid(gapGrid, GAP_MODES);
+
+    document.getElementById("familyPrev").addEventListener("click", function(){
+      familyIdx = (familyIdx - 1 + FAMILIES.length) % FAMILIES.length;
+      applyFamily();
+    });
+    document.getElementById("familyNext").addEventListener("click", function(){
+      familyIdx = (familyIdx + 1) % FAMILIES.length;
+      applyFamily();
+    });
+    applyFamily();
+
+    form.querySelectorAll(".chip[data-quiz-cefr]").forEach(function(chip){
+      chip.addEventListener("click", function(){
+        form.querySelectorAll(".chip[data-quiz-cefr]").forEach(function(c){ c.classList.remove("active"); });
+        chip.classList.add("active");
+        cefrInput.value = chip.dataset.quizCefr === "all" ? "" : chip.dataset.quizCefr;
+      });
+    });
+
+    function setCount(value){
+      countInput.value = value;
+      countRow.querySelectorAll(".chip[data-count]").forEach(function(c){
+        c.classList.toggle("active", c.dataset.count === String(value));
+      });
+      customChip.classList.remove("active");
+      customInput.hidden = true;
+      customWarn.style.display = "none";
+    }
+
+    countRow.querySelectorAll(".chip[data-count]").forEach(function(chip){
+      chip.addEventListener("click", function(){ setCount(chip.dataset.count); });
+    });
+
+    customChip.addEventListener("click", function(){
+      countRow.querySelectorAll(".chip[data-count]").forEach(function(c){ c.classList.remove("active"); });
+      customChip.classList.add("active");
+      customInput.hidden = false;
+      customInput.focus();
+      var val = parseInt(customInput.value, 10);
+      if (val > 0) countInput.value = val;
+    });
+
+    customInput.addEventListener("click", function(e){ e.stopPropagation(); });
+    customInput.addEventListener("input", function(){
+      var val = parseInt(customInput.value, 10);
+      if (val > 0){
+        customInput.classList.remove("bad");
+        customWarn.style.display = "none";
+        countInput.value = val;
+      } else {
+        customInput.classList.add("bad");
+        customWarn.style.display = "block";
+      }
+    });
+  }
+
+  initSetupPage();
+
   var root = document.getElementById("quizPlayRoot");
   if (!root) return;
 

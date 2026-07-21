@@ -11,37 +11,22 @@
     <a class="chip active" href="{% url 'vocabulary_quiz_setup' %}" data-i18n="nav.quiz">Quiz</a>
   </div>
   <p class="vocab-quiz-intro">Test yourself on definitions, synonyms, antonyms, and fill-in-the-blank sentences.</p>
-  <div class="vocab-quiz-form">
-    <div class="vocab-quiz-field">
-      <span>Mode family</span>
-      <div class="vocab-quiz-family-toggle">
-        <label><input type="radio" name="family" value="quiz" id="familyQuiz" checked> Quiz</label>
-        <label><input type="radio" name="family" value="gap" id="familyGap"> Gap</label>
-        <label><input type="radio" name="family" value="challenge" id="familyChallenge"> Challenge</label>
-      </div>
+
+  <div class="setup-card">
+    <div class="mode-toggle-row">
+      <button type="button" class="mode-toggle-btn" id="familyPrev" aria-label="Previous test mode">‹</button>
+      <span class="mode-toggle-label" id="familyLabel">Quiz</span>
+      <button type="button" class="mode-toggle-btn" id="familyNext" aria-label="Next test mode">›</button>
     </div>
-    <form method="get" action="{% url 'vocabulary_quiz_play' %}" class="vocab-quiz-fields">
-      <label class="vocab-quiz-field" id="quizModeField">
-        <span>Mode</span>
-        <select name="mode" id="quizModeSelect">
-          <option value="definition">Definition Match</option>
-          <option value="word">Word from Definition</option>
-          <option value="synonym">Synonym Match</option>
-          <option value="antonym">Antonym Match</option>
-          <option value="mixed">Mixed Review</option>
-        </select>
-      </label>
-      <label class="vocab-quiz-field" id="gapModeField" hidden>
-        <span>Gap sub-mode</span>
-        <select name="mode" id="gapModeSelect" disabled>
-          <option value="gap-context">Contextual Definition</option>
-          <option value="gap-nuance">Lexical Nuance</option>
-          <option value="gap-collocation">Collocation &amp; Idiom</option>
-          <option value="gap-connotation">Connotation Match</option>
-          <option value="gap-mixed">Mixed Review</option>
-        </select>
-      </label>
-      <input type="hidden" name="mode" value="challenge" id="challengeModeInput" disabled>
+
+    <form method="get" action="{% url 'vocabulary_quiz_play' %}" class="vocab-quiz-fields" id="quizSetupForm">
+      <input type="hidden" name="mode" id="modeInput" value="definition">
+      <input type="hidden" name="cefr" id="cefrInput" value="">
+      <input type="hidden" name="count" id="countInput" value="10">
+
+      <div class="option-grid" id="quizModeGrid"></div>
+      <div class="option-grid" id="gapModeGrid" hidden></div>
+
       <label class="vocab-quiz-field">
         <span>Category</span>
         <select name="category">
@@ -51,50 +36,34 @@
           {% endfor %}
         </select>
       </label>
-      <label class="vocab-quiz-field">
-        <span>CEFR level</span>
-        <select name="cefr">
-          <option value="">All levels</option>
+
+      <div class="filters">
+        <div class="filter-row">
+          <span class="filter-label">CEFR</span>
+          <button type="button" class="chip active" data-quiz-cefr="all">All levels</button>
           {% for level in cefr_levels %}
-            <option value="{{ level.code }}">{{ level.code }}</option>
+            <button type="button" class="chip" data-quiz-cefr="{{ level.code }}">{{ level.code }}</button>
           {% endfor %}
-        </select>
-      </label>
-      <label class="vocab-quiz-field">
-        <span>Questions</span>
-        <select name="count">
-          <option value="10">10 questions</option>
-          <option value="20">20 questions</option>
-          <option value="30">30 questions</option>
-          <option value="all">All words</option>
-        </select>
-      </label>
+        </div>
+      </div>
+
+      <div class="count-row" id="countRow">
+        <button type="button" class="chip active" data-count="10">10</button>
+        <button type="button" class="chip" data-count="20">20</button>
+        <button type="button" class="chip" data-count="30">30</button>
+        <button type="button" class="chip" data-count="all">All</button>
+        <span class="custom-chip" id="customCountChip">
+          <span>Custom</span>
+          <input type="number" min="1" class="custom-count-input" id="customCountInput" value="15" hidden>
+        </span>
+      </div>
+      <span class="custom-count-warn" id="customCountWarn">Enter a number greater than 0.</span>
+
       <button type="submit" class="btn btn-primary">Start Quiz</button>
     </form>
   </div>
 </section>
 {% endblock %}
 {% block extra_body %}
-<script>
-(function(){
-  var quizField = document.getElementById("quizModeField");
-  var gapField = document.getElementById("gapModeField");
-  var quizSelect = document.getElementById("quizModeSelect");
-  var gapSelect = document.getElementById("gapModeSelect");
-  var challengeModeInput = document.getElementById("challengeModeInput");
-  function applyFamily(family){
-    var isGap = family === "gap";
-    var isChallenge = family === "challenge";
-    quizField.hidden = family !== "quiz";
-    gapField.hidden = !isGap;
-    quizSelect.disabled = family !== "quiz";
-    gapSelect.disabled = !isGap;
-    challengeModeInput.disabled = !isChallenge;
-  }
-  document.querySelectorAll('input[name="family"]').forEach(function(radio){
-    radio.addEventListener("change", function(){ applyFamily(radio.value); });
-  });
-  applyFamily("quiz");
-})();
-</script>
+<script src="{% static 'js/vocab-quiz.js' %}" defer></script>
 {% endblock %}

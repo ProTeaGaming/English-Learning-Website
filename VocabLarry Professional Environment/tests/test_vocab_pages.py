@@ -222,53 +222,74 @@ def test_vocabulary_quiz_setup_lists_cefr_levels(cefr_a1):
 
 
 @pytest.mark.django_db
-def test_vocabulary_quiz_setup_has_family_toggle():
+def test_vocabulary_quiz_setup_has_cefr_chips(cefr_a1):
     c = Client()
     r = c.get('/vocabulary/quiz/')
     html = r.content.decode()
-    assert 'name="family"' in html
-    assert 'value="quiz"' in html
-    assert 'value="gap"' in html
+    assert 'data-quiz-cefr="A1"' in html
+    assert 'name="cefr"' in html
 
 
 @pytest.mark.django_db
-def test_vocabulary_quiz_setup_lists_gap_submodes():
+def test_vocabulary_quiz_setup_has_count_row():
     c = Client()
     r = c.get('/vocabulary/quiz/')
     html = r.content.decode()
-    assert 'value="gap-context"' in html
-    assert 'value="gap-nuance"' in html
-    assert 'value="gap-collocation"' in html
-    assert 'value="gap-connotation"' in html
-    assert 'value="gap-mixed"' in html
+    assert 'id="countRow"' in html
+    assert 'data-count="10"' in html
+    assert 'data-count="all"' in html
+    assert 'id="customCountInput"' in html
+    assert 'name="count"' in html
 
 
 @pytest.mark.django_db
-def test_vocabulary_quiz_setup_quiz_modes_still_present():
+def test_vocabulary_quiz_setup_still_has_category_select():
     c = Client()
     r = c.get('/vocabulary/quiz/')
     html = r.content.decode()
-    assert 'value="definition"' in html
-    assert 'value="word"' in html
-    assert 'value="synonym"' in html
-    assert 'value="antonym"' in html
+    assert '<select name="category">' in html
 
 
 @pytest.mark.django_db
-def test_vocabulary_quiz_setup_has_challenge_family_radio():
+def test_vocabulary_quiz_setup_has_family_cycler():
     c = Client()
     r = c.get('/vocabulary/quiz/')
     html = r.content.decode()
-    assert 'value="challenge" id="familyChallenge"' in html
+    assert 'id="familyPrev"' in html
+    assert 'id="familyNext"' in html
+    assert 'id="familyLabel"' in html
 
 
 @pytest.mark.django_db
-def test_vocabulary_quiz_setup_has_challenge_mode_input():
+def test_vocabulary_quiz_setup_has_mode_grids():
     c = Client()
     r = c.get('/vocabulary/quiz/')
     html = r.content.decode()
-    assert 'id="challengeModeInput"' in html
-    assert 'name="mode" value="challenge"' in html
+    assert 'id="quizModeGrid"' in html
+    assert 'id="gapModeGrid"' in html
+
+
+@pytest.mark.django_db
+def test_vocabulary_quiz_setup_has_hidden_mode_input():
+    c = Client()
+    r = c.get('/vocabulary/quiz/')
+    html = r.content.decode()
+    assert 'id="modeInput"' in html
+    assert 'name="mode"' in html
+
+
+@pytest.mark.django_db
+def test_vocabulary_quiz_setup_loads_quiz_js():
+    c = Client()
+    r = c.get('/vocabulary/quiz/')
+    assert 'vocab-quiz.js' in r.content.decode()
+
+
+@pytest.mark.django_db
+def test_vocabulary_quiz_setup_has_setup_card():
+    c = Client()
+    r = c.get('/vocabulary/quiz/')
+    assert 'class="setup-card"' in r.content.decode()
 
 
 @pytest.mark.django_db
