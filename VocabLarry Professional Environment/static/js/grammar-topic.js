@@ -14,24 +14,38 @@
 
   var cards = Array.prototype.slice.call(document.querySelectorAll(".gram-stage"));
   if (cards.length > 1){
-    var last = cards[cards.length - 1];
     var START_OFFSET = 100;
     var END_OFFSET = 120;
-    var rafId = null;
 
+    // .gram-stage is position:sticky, so its live getBoundingClientRect().top
+    // freezes once pinned - it can't be used as a continuous scroll signal.
+    // Instead, capture each card's natural (pre-stick) document-flow position
+    // once up front, then compute progress purely from window.scrollY against
+    // those fixed reference points - matching how GSAP ScrollTrigger itself
+    // resolves trigger positions once at refresh time, not every frame.
+    var cardTops = [];
+    function measure(){
+      cardTops = cards.map(function(card){
+        return card.getBoundingClientRect().top + window.scrollY;
+      });
+    }
+    measure();
+
+    var rafId = null;
     function update(){
       rafId = null;
-      var lastTop = last.getBoundingClientRect().top;
+      var scrollY = window.scrollY;
+      var lastNaturalTop = cardTops[cardTops.length - 1];
+      var endScrollY = lastNaturalTop - END_OFFSET;
       cards.forEach(function(card, i){
         if (i === cards.length - 1) return;
-        var cardTop = card.getBoundingClientRect().top;
+        var cardStartScrollY = cardTops[i] - START_OFFSET;
         var progress;
-        if (cardTop > START_OFFSET){
+        if (endScrollY <= cardStartScrollY || scrollY <= cardStartScrollY){
           progress = 0;
         } else {
-          var total = START_OFFSET - END_OFFSET;
-          var traveled = START_OFFSET - Math.min(lastTop, START_OFFSET);
-          progress = total > 0 ? Math.min(Math.max(traveled / total, 0), 1) : (lastTop <= END_OFFSET ? 1 : 0);
+          progress = (scrollY - cardStartScrollY) / (endScrollY - cardStartScrollY);
+          progress = Math.min(Math.max(progress, 0), 1);
         }
         var scale = 1 - (1 - 0.93) * progress;
         var blur = 6 * progress;
@@ -48,6 +62,10 @@
     }
 
     window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", function(){
+      measure();
+      update();
+    });
     update();
   }
 })();
