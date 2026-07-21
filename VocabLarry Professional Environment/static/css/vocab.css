@@ -131,7 +131,7 @@
 
 /* Question screen — ported from production's .progress-bar/.q-card family */
 .quiz-wrap{ max-width: 680px; margin: 0 auto; }
-.progress-bar{ height: 4px; background: var(--surface2); border-radius: 99px; overflow: hidden; margin-bottom: 18px; }
+.progress-bar{ height: 4px; background: var(--border); border-radius: 99px; overflow: hidden; margin-bottom: 18px; }
 .progress-fill{
   height: 100%; border-radius: 99px; transition: width .4s ease;
   background: linear-gradient(90deg,#7c3aed 0%,#a855f7 100%);
@@ -147,7 +147,7 @@
 .q-prompt{ font-size: .78rem; color: var(--muted); text-transform: uppercase; letter-spacing: .1em; font-weight: 700; margin-bottom: 10px; font-family: 'JetBrains Mono',monospace; }
 .q-text{ font-size: 1.25rem; font-weight: 700; font-family: 'Plus Jakarta Sans','Sora',sans-serif; margin-bottom: 24px; line-height: 1.5; }
 .q-text .qpos{ font-size: .7em; color: var(--muted); font-weight: 400; font-style: italic; }
-.q-text .gapblank{ color: var(--accent); font-weight: 800; border-bottom: 2px dashed var(--accent); padding: 0 4px; }
+.q-text .gapblank{ color: rgb(var(--violet)); font-weight: 800; border-bottom: 2px dashed rgb(var(--violet)); padding: 0 4px; }
 .q-options{ display: flex; flex-direction: column; gap: 10px; }
 .q-opt{
   text-align: left; background: rgb(var(--violet) / .06); border: 1px solid rgb(var(--violet) / .18); color: var(--text);
