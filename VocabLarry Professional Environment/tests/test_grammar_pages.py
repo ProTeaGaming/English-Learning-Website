@@ -1,15 +1,41 @@
 import pytest
 from django.test import Client
 
-from vocab.models import GrammarTopic
+from vocab.models import CEFRLevel, GrammarTopic
+
+
+@pytest.fixture(autouse=True)
+def _setup_cefr_levels(db):
+    """Automatically create CEFR levels for grammar tests."""
+    if CEFRLevel.objects.exists():
+        return
+    cefr_data = [
+        ('A1', 'Beginner', 1),
+        ('A2', 'Elementary', 2),
+        ('B1', 'Intermediate', 3),
+        ('B2', 'Upper-Intermediate', 4),
+        ('C1', 'Advanced', 5),
+        ('C2+', 'Mastery', 6),
+    ]
+    for code, name, order in cefr_data:
+        CEFRLevel.objects.create(code=code, name=name, order=order)
 
 
 @pytest.fixture
-def topic_articles(db):
+def grammar_section(db):
+    from vocab.models import GrammarSection
+    return GrammarSection.objects.create(
+        slug='nouns-pronouns-determiners', name='Nouns, Pronouns & Determiners',
+        icon='i-type', order=2, image_ids=['1507842217343-583bb7270b66', '1524995997946-a1c2e315a42f'],
+    )
+
+
+@pytest.fixture
+def topic_articles(db, grammar_section):
     return GrammarTopic.objects.create(
         slug='articles', title='Articles (a/an/the)', tag='Determiners',
         cefr_label='A1', blurb='When to use a, an and the.',
-        stage='beginner', order=0,
+        stage='beginner', order=0, section=grammar_section,
     )
 
 
@@ -29,10 +55,121 @@ def test_grammar_category_list_lists_topics(topic_articles):
 
 
 @pytest.mark.django_db
-def test_grammar_category_list_search_filters_by_title(topic_articles):
+def test_grammar_category_list_has_headline_bar(topic_articles):
+    c = Client()
+    r = c.get('/grammar/category/')
+    html = r.content.decode()
+    assert 'class="headline-bar"' in html
+    assert 'data-grammar-stage="beginner"' in html
+    assert 'data-grammar-stage="independent"' in html
+    assert 'data-grammar-stage="expert"' in html
+
+
+@pytest.mark.django_db
+def test_grammar_category_list_has_accordion_section(topic_articles):
+    c = Client()
+    r = c.get('/grammar/category/')
+    html = r.content.decode()
+    assert 'class="section-block"' in html
+    assert 'Nouns, Pronouns &amp; Determiners' in html
+    assert 'section-block-pct' in html
+
+
+@pytest.mark.django_db
+def test_grammar_category_list_has_cefr_chips(topic_articles):
+    c = Client()
+    r = c.get('/grammar/category/')
+    html = r.content.decode()
+    assert 'data-grammar-cefr="A1"' in html
+    assert 'data-grammar-cefr="C2+"' in html
+
+
+@pytest.mark.django_db
+def test_grammar_category_list_has_status_chips_for_authenticated_user(topic_articles, regular_user):
+    c = Client()
+    c.force_login(regular_user)
+    r = c.get('/grammar/category/')
+    html = r.content.decode()
+    assert 'data-grammar-status="completed"' in html
+    assert 'data-grammar-status="inProgress"' in html
+    assert 'data-grammar-status="notStarted"' in html
+
+
+@pytest.mark.django_db
+def test_grammar_category_list_no_status_chips_for_guest(topic_articles):
+    c = Client()
+    r = c.get('/grammar/category/')
+    assert 'data-grammar-status' not in r.content.decode()
+
+
+@pytest.mark.django_db
+def test_grammar_category_list_cefr_filter(topic_articles, grammar_section):
+    GrammarTopic.objects.create(
+        slug='future-forms', title='Future Forms', tag='Tenses',
+        cefr_label='B2', blurb='will vs going to.', stage='beginner', order=1,
+        section=grammar_section,
+    )
+    c = Client()
+    r = c.get('/grammar/category/?cefr=A1')
+    html = r.content.decode()
+    assert 'Articles (a/an/the)' in html
+    assert 'Future Forms' not in html
+
+
+@pytest.mark.django_db
+def test_grammar_category_list_status_filter(topic_articles, regular_user):
+    regular_user.grammar_map = {'articles': {'best': 95, 'done': True}}
+    regular_user.save(update_fields=['grammar_map'])
+    c = Client()
+    c.force_login(regular_user)
+    r = c.get('/grammar/category/?status=notStarted')
+    html = r.content.decode()
+    assert 'Articles (a/an/the)' not in html
+
+
+@pytest.mark.django_db
+def test_grammar_category_list_section_filter(topic_articles, grammar_section):
+    from vocab.models import GrammarSection
+    other_section = GrammarSection.objects.create(slug='voice', name='Voice', icon='i-megaphone', order=6)
+    GrammarTopic.objects.create(
+        slug='passive-voice', title='Passive Voice', tag='Voice',
+        cefr_label='B1', blurb='x', stage='independent', order=1,
+        section=other_section,
+    )
+    c = Client()
+    r = c.get(f'/grammar/category/?section={grammar_section.slug}')
+    html = r.content.decode()
+    assert 'Articles (a/an/the)' in html
+    assert 'Passive Voice' not in html
+
+
+@pytest.mark.django_db
+def test_grammar_category_list_topics_have_theme_class(topic_articles):
+    c = Client()
+    r = c.get('/grammar/category/')
+    assert 'cat-card t-t' in r.content.decode()
+
+
+@pytest.mark.django_db
+def test_grammar_category_list_no_topics_yet_message():
+    c = Client()
+    r = c.get('/grammar/category/')
+    assert 'No grammar topics yet.' in r.content.decode()
+
+
+@pytest.mark.django_db
+def test_grammar_category_list_no_topics_match_message(topic_articles):
+    c = Client()
+    r = c.get('/grammar/category/?q=zzz-no-match')
+    assert 'No topics match these filters' in r.content.decode()
+
+
+@pytest.mark.django_db
+def test_grammar_category_list_search_filters_by_title(topic_articles, grammar_section):
     GrammarTopic.objects.create(
         slug='future-forms', title='Future Forms', tag='Tenses',
         cefr_label='A1+', blurb='will vs going to.', stage='beginner', order=1,
+        section=grammar_section,
     )
     c = Client()
     r = c.get('/grammar/category/?q=Articles')
@@ -42,10 +179,11 @@ def test_grammar_category_list_search_filters_by_title(topic_articles):
 
 
 @pytest.mark.django_db
-def test_grammar_category_list_stage_filter(topic_articles):
+def test_grammar_category_list_stage_filter(topic_articles, grammar_section):
     GrammarTopic.objects.create(
         slug='conditionals', title='Conditionals', tag='Conditionals',
         cefr_label='B2', blurb='If clauses.', stage='expert', order=1,
+        section=grammar_section,
     )
     c = Client()
     r = c.get('/grammar/category/?stage=expert')
@@ -76,10 +214,17 @@ from vocab.models import GrammarLessonBlock
 
 @pytest.fixture
 def topic_with_blocks(db):
+    from vocab.models import GrammarSection
+    section = GrammarSection.objects.get_or_create(
+        slug='tenses', defaults=dict(
+            name='Tenses', icon='i-clock', order=0,
+            image_ids=['1501139083538-0139583c060f', '1456513080510-7bf3a84b82f8'],
+        ),
+    )[0]
     topic = GrammarTopic.objects.create(
         slug='present-simple-continuous', title='Present Simple & Continuous',
         tag='Tenses', cefr_label='A1', blurb='Know when to use which.',
-        stage='beginner', order=0,
+        stage='beginner', order=0, section=section,
     )
     GrammarLessonBlock.objects.create(
         topic=topic, type='intro',
@@ -239,22 +384,22 @@ def test_grammar_category_list_badge_shows_mastered(topic_articles, regular_user
     c = Client()
     c.force_login(regular_user)
     r = c.get('/grammar/category/')
-    assert 'grammar-topic-badge-mastered' in r.content.decode()
+    assert 'cat-medal' in r.content.decode()
 
 
 @pytest.mark.django_db
-def test_grammar_category_list_no_badge_for_untouched_topic(topic_articles, regular_user):
+def test_grammar_category_list_no_medal_for_untouched_topic(topic_articles, regular_user):
     c = Client()
     c.force_login(regular_user)
     r = c.get('/grammar/category/')
-    assert 'grammar-topic-badge' not in r.content.decode()
+    assert 'cat-medal' not in r.content.decode()
 
 
 @pytest.mark.django_db
-def test_grammar_category_list_no_badge_for_guest(topic_articles):
+def test_grammar_category_list_no_medal_for_guest(topic_articles):
     c = Client()
     r = c.get('/grammar/category/')
-    assert 'grammar-topic-badge' not in r.content.decode()
+    assert 'cat-medal' not in r.content.decode()
 
 
 @pytest.mark.django_db

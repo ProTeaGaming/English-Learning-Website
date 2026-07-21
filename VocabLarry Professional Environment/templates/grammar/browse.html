@@ -10,34 +10,102 @@
     <a class="chip" href="{% url 'grammar_word' %}" data-i18n="nav.word">Word</a>
     <a class="chip" href="{% url 'grammar_quiz_setup' %}" data-i18n="nav.quiz">Quiz</a>
   </div>
-  <form method="get" class="grammar-filters">
-    <input type="text" name="q" value="{{ query }}" placeholder="Search topics…">
-    <select name="stage">
-      <option value="">All levels</option>
-      {% for value, label in stages %}
-        <option value="{{ value }}" {% if value == stage_filter %}selected{% endif %}>{{ label }}</option>
-      {% endfor %}
-    </select>
-    <button type="submit" class="btn">Filter</button>
-  </form>
-  {% if topics %}
-  <div class="grammar-topic-grid">
-    {% for topic in topics %}
-    <a class="grammar-topic-card" href="{% url 'grammar_category_detail' topic.slug %}">
-      <span class="grammar-topic-tag">{{ topic.tag }}</span>
-      {% if topic.grammar_status.done %}
-        <span class="grammar-topic-badge grammar-topic-badge-mastered">Mastered</span>
-      {% elif topic.grammar_status %}
-        <span class="grammar-topic-badge">Best: {{ topic.grammar_status.best }}%</span>
-      {% endif %}
-      <span class="grammar-topic-title">{{ topic.title }}</span>
-      <span class="grammar-topic-cefr">{{ topic.cefr_label }}</span>
-      <span class="grammar-topic-blurb">{{ topic.blurb }}</span>
-    </a>
+
+  <div class="headline-bar">
+    <a class="headline-btn{% if not stage_filter %} active{% endif %}" data-grammar-stage="all"
+       href="?q={{ query|urlencode }}{% if cefr_filter %}&cefr={{ cefr_filter }}{% endif %}{% if status_filter %}&status={{ status_filter }}{% endif %}{% if section_filter %}&section={{ section_filter }}{% endif %}">All</a>
+    {% for value, label in stages %}
+    <a class="headline-btn{% if stage_filter == value %} active{% endif %}" data-grammar-stage="{{ value }}"
+       href="?q={{ query|urlencode }}&stage={{ value }}{% if cefr_filter %}&cefr={{ cefr_filter }}{% endif %}{% if status_filter %}&status={{ status_filter }}{% endif %}{% if section_filter %}&section={{ section_filter }}{% endif %}">{{ label }}</a>
     {% endfor %}
   </div>
+
+  <div class="filters">
+    <form method="get" class="search-row">
+      <input type="search" name="q" value="{{ query }}" placeholder="Search topics…">
+      {% if stage_filter %}<input type="hidden" name="stage" value="{{ stage_filter }}">{% endif %}
+      {% if cefr_filter %}<input type="hidden" name="cefr" value="{{ cefr_filter }}">{% endif %}
+      {% if status_filter %}<input type="hidden" name="status" value="{{ status_filter }}">{% endif %}
+      {% if section_filter %}<input type="hidden" name="section" value="{{ section_filter }}">{% endif %}
+      <button type="submit" class="btn">Filter</button>
+    </form>
+    <div class="filter-row">
+      <span class="filter-label">Section</span>
+      <a class="chip{% if not section_filter %} active{% endif %}" href="?q={{ query|urlencode }}{% if stage_filter %}&stage={{ stage_filter }}{% endif %}{% if cefr_filter %}&cefr={{ cefr_filter }}{% endif %}{% if status_filter %}&status={{ status_filter }}{% endif %}">All</a>
+      {% for sec in all_sections %}
+      <a class="chip{% if section_filter == sec.slug %} active{% endif %}" href="?q={{ query|urlencode }}{% if stage_filter %}&stage={{ stage_filter }}{% endif %}{% if cefr_filter %}&cefr={{ cefr_filter }}{% endif %}{% if status_filter %}&status={{ status_filter }}{% endif %}&section={{ sec.slug }}">{{ sec.name }}</a>
+      {% endfor %}
+    </div>
+    <div class="filter-row">
+      <span class="filter-label">CEFR</span>
+      <a class="chip{% if not cefr_filter %} active{% endif %}" href="?q={{ query|urlencode }}{% if stage_filter %}&stage={{ stage_filter }}{% endif %}{% if status_filter %}&status={{ status_filter }}{% endif %}{% if section_filter %}&section={{ section_filter }}{% endif %}">All</a>
+      {% for level in cefr_levels %}
+      <a class="chip{% if cefr_filter == level.code %} active{% endif %}" data-grammar-cefr="{{ level.code }}" href="?q={{ query|urlencode }}{% if stage_filter %}&stage={{ stage_filter }}{% endif %}&cefr={{ level.code }}{% if status_filter %}&status={{ status_filter }}{% endif %}{% if section_filter %}&section={{ section_filter }}{% endif %}">{{ level.code }}</a>
+      {% endfor %}
+    </div>
+    {% if user.is_authenticated %}
+    <div class="filter-row">
+      <span class="filter-label">Status</span>
+      <a class="chip{% if not status_filter %} active{% endif %}" href="?q={{ query|urlencode }}{% if stage_filter %}&stage={{ stage_filter }}{% endif %}{% if cefr_filter %}&cefr={{ cefr_filter }}{% endif %}{% if section_filter %}&section={{ section_filter }}{% endif %}">All</a>
+      <a class="chip{% if status_filter == 'completed' %} active{% endif %}" data-grammar-status="completed" href="?q={{ query|urlencode }}{% if stage_filter %}&stage={{ stage_filter }}{% endif %}{% if cefr_filter %}&cefr={{ cefr_filter }}{% endif %}{% if section_filter %}&section={{ section_filter }}{% endif %}&status=completed">Mastered</a>
+      <a class="chip{% if status_filter == 'inProgress' %} active{% endif %}" data-grammar-status="inProgress" href="?q={{ query|urlencode }}{% if stage_filter %}&stage={{ stage_filter }}{% endif %}{% if cefr_filter %}&cefr={{ cefr_filter }}{% endif %}{% if section_filter %}&section={{ section_filter }}{% endif %}&status=inProgress">In Progress</a>
+      <a class="chip{% if status_filter == 'notStarted' %} active{% endif %}" data-grammar-status="notStarted" href="?q={{ query|urlencode }}{% if stage_filter %}&stage={{ stage_filter }}{% endif %}{% if cefr_filter %}&cefr={{ cefr_filter }}{% endif %}{% if section_filter %}&section={{ section_filter }}{% endif %}&status=notStarted">Not Started</a>
+    </div>
+    {% endif %}
+    <div class="filter-row" style="justify-content:flex-end;">
+      <a class="clear-btn" href="{% url 'grammar_category_list' %}">Clear filters</a>
+    </div>
+  </div>
+
+  {% if sections %}
+  {% for entry in sections %}
+  <div class="section-block">
+    <div class="section-block-header">
+      <div class="section-block-num">{{ forloop.counter|stringformat:"02d" }}</div>
+      <div class="section-block-info">
+        <div class="section-block-name">{{ entry.section.name }}</div>
+        <div class="section-block-meta">{{ entry.topics|length }} topic{{ entry.topics|length|pluralize }}</div>
+      </div>
+      <div class="section-block-right">
+        <div class="section-block-prog">
+          <div class="section-block-pbar"><div class="section-block-pfill" style="width:{{ entry.progress_pct }}%"></div></div>
+          <div class="section-block-pct">{{ entry.progress_pct }}%</div>
+        </div>
+        <span class="section-block-chevron">›</span>
+      </div>
+    </div>
+    <div class="section-block-divider"></div>
+    <div class="section-block-body">
+      <div class="section-block-body-inner">
+        <div class="cat-grid">
+          {% for topic in entry.topics %}
+          <a class="cat-card {{ topic.theme }}" href="{% url 'grammar_category_detail' topic.slug %}">
+            <div class="cat-card-top">
+              <span class="cat-tag"><svg class="ico" aria-hidden="true"><use href="#{{ entry.section.icon }}"/></svg> {{ topic.questions.count }} question{{ topic.questions.count|pluralize }}</span>
+              <span class="cefr-badge {{ topic.cefr_label }}">{{ topic.cefr_label }}</span>
+              <svg class="ico cat-arrow" aria-hidden="true"><use href="#i-arrow-up-right"/></svg>
+            </div>
+            <div class="cat-name">{{ topic.title }}</div>
+            <div class="cat-pbar-row">
+              <div class="cat-pbar"><div class="cat-pfill{% if topic.done %} gram-done{% endif %}" style="width:{{ topic.best }}%"></div></div>
+              {% if topic.done %}
+              <svg class="ico cat-medal" aria-label="Mastered"><use href="#i-medal"/></svg>
+              {% else %}
+              <span class="cat-plabel">{% if topic.best %}best {{ topic.best }}%{% else %}not started{% endif %}</span>
+              {% endif %}
+            </div>
+          </a>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
   {% else %}
-  <p class="grammar-empty">No topics match your search.</p>
+  <p class="grammar-empty">{% if has_any_topics %}No topics match these filters — try widening your selection.{% else %}No grammar topics yet.{% endif %}</p>
   {% endif %}
 </section>
+{% endblock %}
+{% block extra_body %}
+<script src="{% static 'js/grammar-browse.js' %}" defer></script>
 {% endblock %}
