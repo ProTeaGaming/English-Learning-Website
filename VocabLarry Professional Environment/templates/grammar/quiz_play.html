@@ -4,9 +4,7 @@
 {% block extra_head %}<link rel="stylesheet" href="{% static 'css/grammar.css' %}">{% endblock %}
 {% block content %}
 <section class="grammar-test-play">
-  <p class="grammar-breadcrumb">
-    <a href="{% url 'grammar_category_list' %}">Grammar</a> / Quiz
-  </p>
+  <a href="{% url 'grammar_quiz_setup' %}" class="back-btn">← Grammar Quiz</a>
   <div class="mobile-page-switcher">
     <a class="chip" href="{% url 'grammar_category_list' %}" data-i18n="nav.category">Category</a>
     <a class="chip" href="{% url 'grammar_word' %}" data-i18n="nav.word">Word</a>

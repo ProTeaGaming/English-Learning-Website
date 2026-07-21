@@ -603,3 +603,31 @@ def test_mobile_page_switcher_absent_on_grammar_drill_in_pages(topic_with_blocks
     for url in ('/grammar/', f'/grammar/category/{topic_with_blocks.slug}/', f'/grammar/category/{topic_with_blocks.slug}/quiz/'):
         r = c.get(url)
         assert 'mobile-page-switcher' not in r.content.decode(), url
+
+
+def test_grammar_quiz_js_has_no_stale_urls():
+    import pathlib
+    js_path = pathlib.Path(__file__).resolve().parent.parent / 'static' / 'js' / 'grammar-quiz.js'
+    content = js_path.read_text(encoding='utf-8')
+    assert '/grammar/topic/' not in content
+    assert '/grammar/test/' not in content
+    assert content.count('/grammar/category/') >= 1
+    assert content.count('/grammar/quiz/') >= 1
+
+
+@pytest.mark.django_db
+def test_grammar_quiz_play_has_back_btn_not_breadcrumb():
+    c = Client()
+    r = c.get('/grammar/quiz/play/')
+    html = r.content.decode()
+    assert 'class="back-btn"' in html
+    assert 'grammar-breadcrumb' not in html
+
+
+@pytest.mark.django_db
+def test_grammar_topic_quiz_has_back_btn_not_breadcrumb(topic_with_blocks):
+    c = Client()
+    r = c.get('/grammar/category/present-simple-continuous/quiz/')
+    html = r.content.decode()
+    assert 'class="back-btn"' in html
+    assert 'grammar-breadcrumb' not in html

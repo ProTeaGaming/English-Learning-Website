@@ -82,7 +82,7 @@
   }
 
   function backHref(){
-    return state.mode === "test" ? "/grammar/test/" : ("/grammar/topic/" + topicSlug + "/");
+    return state.mode === "test" ? "/grammar/quiz/" : ("/grammar/category/" + topicSlug + "/");
   }
 
   function renderError(message){
@@ -188,8 +188,8 @@
       ? (pct >= PASS_PCT ? "You've mastered this topic!" : "Score " + PASS_PCT + "%+ to master this topic.")
       : "";
     var secondaryAction = state.mode === "topic"
-      ? '<a class="btn" href="/grammar/topic/' + topicSlug + '/">Back to Lesson</a>'
-      : '<a class="btn" href="/grammar/test/">Change Settings</a>';
+      ? '<a class="btn" href="/grammar/category/' + topicSlug + '/">Back to Lesson</a>'
+      : '<a class="btn" href="/grammar/quiz/">Change Settings</a>';
     root.innerHTML =
       '<div class="grammar-quiz-results">' +
         '<h2>Quiz Complete</h2>' +

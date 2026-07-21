@@ -4,10 +4,7 @@
 {% block extra_head %}<link rel="stylesheet" href="{% static 'css/grammar.css' %}">{% endblock %}
 {% block content %}
 <section class="grammar-topic-quiz">
-  <p class="grammar-breadcrumb">
-    <a href="{% url 'grammar_category_list' %}">Grammar</a> /
-    <a href="{% url 'grammar_category_detail' topic.slug %}">{{ topic.title }}</a> / Practice
-  </p>
+  <a href="{% url 'grammar_category_detail' topic.slug %}" class="back-btn">← {{ topic.title }}</a>
   <div id="grammarQuizRoot" data-topic-slug="{{ topic.slug }}" data-authenticated="{{ user.is_authenticated|yesno:'1,0' }}"></div>
 </section>
 {% endblock %}
