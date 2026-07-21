@@ -1,6 +1,10 @@
 .grammar-browse h1{ margin-top: 32px; }
 .grammar-empty{ color: var(--muted); padding: 24px 0; }
 .grammar-topic-detail-status-mastered{ color: var(--gold); font-weight: 600; }
+.gram-gap-input{ width: 100%; max-width: 340px; padding: 10px 14px; border-radius: 10px; border: 1px solid var(--border); background: transparent; color: inherit; font: inherit; }
+.gram-gap-input:focus{ outline: none; border-color: rgb(var(--violet)); }
+.gram-gap-input.correct{ border-color: #10b981; }
+.gram-gap-input.wrong{ border-color: #ef4444; }
 
 /* Stage filter — ported from production's .headline-bar/.headline-btn */
 .headline-bar{ display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-bottom: 20px; }
