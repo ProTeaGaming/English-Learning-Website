@@ -150,7 +150,7 @@ def grammar_topic_quiz(request, slug):
 
 
 def grammar_test_setup(request):
-    return render(request, 'grammar/quiz_setup.html', {'stages': GrammarTopic.STAGES})
+    return render(request, 'grammar/quiz_setup.html')
 
 
 def grammar_test_play(request):

@@ -1,7 +1,10 @@
 {% extends "base.html" %}
 {% load static %}
 {% block title %}Quiz — VocabLarry{% endblock %}
-{% block extra_head %}<link rel="stylesheet" href="{% static 'css/grammar.css' %}">{% endblock %}
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'css/vocab.css' %}">
+<link rel="stylesheet" href="{% static 'css/grammar.css' %}">
+{% endblock %}
 {% block content %}
 <section class="grammar-test-setup">
   <h1>Quiz</h1>
@@ -11,35 +14,52 @@
     <a class="chip active" href="{% url 'grammar_quiz_setup' %}" data-i18n="nav.quiz">Quiz</a>
   </div>
   <p class="grammar-test-intro">Practice across every topic at once — pick a level, question type, and length.</p>
-  <form method="get" action="{% url 'grammar_quiz_play' %}" class="grammar-test-fields">
-    <label class="grammar-test-field">
-      <span>Level</span>
-      <select name="stage">
-        <option value="">All levels</option>
-        {% for value, label in stages %}
-          <option value="{{ value }}">{{ label }}</option>
-        {% endfor %}
-      </select>
-    </label>
-    <label class="grammar-test-field">
-      <span>Question type</span>
-      <select name="qtype">
-        <option value="mixed" selected>Mixed</option>
-        <option value="mcq">Multichoice</option>
-        <option value="gap">Fill the Gap</option>
-        <option value="transform">Rewrite the Sentence</option>
-      </select>
-    </label>
-    <label class="grammar-test-field">
-      <span>Questions</span>
-      <select name="count">
-        <option value="10">10 questions</option>
-        <option value="20">20 questions</option>
-        <option value="30">30 questions</option>
-        <option value="all">All questions</option>
-      </select>
-    </label>
-    <button type="submit" class="btn btn-primary">Start Quiz</button>
-  </form>
+
+  <div class="setup-card" style="margin-bottom:20px; max-width:none;">
+    <h2>Choose a test mode</h2>
+    <p class="sub">Pick a question style, how many questions, and which topics — then start.</p>
+    <div class="option-grid" id="gramtestModes"></div>
+    <div class="count-row" id="gramtestCounts"></div>
+    <p id="gramtestCustomWarn" class="custom-count-warn" style="display:none;">Enter a number greater than 0.</p>
+  </div>
+
+  <div class="filters">
+    <div class="filter-row">
+      <span class="filter-label">Topics</span>
+      <span id="gramtestPoolCount"></span>
+    </div>
+    <div class="search-row">
+      <input type="search" id="gramtestSearch" placeholder="Search topics…">
+    </div>
+    <div class="filter-row" id="gramtestSectionChips"></div>
+    <div class="filter-row" id="gramtestTopicChips"></div>
+    <div class="filter-row">
+      <span class="filter-label">CEFR</span>
+      <button type="button" class="chip active" data-gramtest-cefr="all">All</button>
+      <button type="button" class="chip" data-gramtest-cefr="A1">A1</button>
+      <button type="button" class="chip" data-gramtest-cefr="A1+">A1+</button>
+      <button type="button" class="chip" data-gramtest-cefr="A2">A2</button>
+      <button type="button" class="chip" data-gramtest-cefr="A2+">A2+</button>
+      <button type="button" class="chip" data-gramtest-cefr="B1">B1</button>
+      <button type="button" class="chip" data-gramtest-cefr="B1+">B1+</button>
+      <button type="button" class="chip" data-gramtest-cefr="B2">B2</button>
+      <button type="button" class="chip" data-gramtest-cefr="B2+">B2+</button>
+      <button type="button" class="chip" data-gramtest-cefr="C1">C1</button>
+      <button type="button" class="chip" data-gramtest-cefr="C1+">C1+</button>
+      <button type="button" class="chip" data-gramtest-cefr="C2">C2</button>
+      <button type="button" class="chip" data-gramtest-cefr="C2+">C2+</button>
+    </div>
+    <div class="filter-row" style="justify-content:flex-end;">
+      <button type="button" class="clear-btn" id="gramtestClearFilters">Clear filters</button>
+    </div>
+  </div>
+
+  <div class="filter-row" style="justify-content:center; flex-direction:column; align-items:center; gap:8px;">
+    <button type="button" class="btn" id="gramtestStart">Start Test</button>
+    <p class="sub" id="gramtestEmpty" style="display:none;">No questions match — pick more topics or another mode.</p>
+  </div>
 </section>
+{% endblock %}
+{% block extra_body %}
+<script src="{% static 'js/grammar-quiz.js' %}" defer></script>
 {% endblock %}

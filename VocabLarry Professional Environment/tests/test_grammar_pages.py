@@ -531,20 +531,44 @@ def test_grammar_quiz_setup_renders():
     r = c.get('/grammar/quiz/')
     assert r.status_code == 200
     html = r.content.decode()
-    assert 'name="stage"' in html
-    assert 'name="qtype"' in html
-    assert 'name="count"' in html
-    assert 'action="/grammar/quiz/play/"' in html
+    assert 'id="gramtestModes"' in html
+    assert 'id="gramtestCounts"' in html
+    assert 'id="gramtestStart"' in html
 
 
 @pytest.mark.django_db
-def test_grammar_quiz_setup_stage_options_match_model():
+def test_grammar_quiz_setup_has_cefr_chips():
     c = Client()
     r = c.get('/grammar/quiz/')
     html = r.content.decode()
-    assert '<option value="beginner">Basic</option>' in html
-    assert '<option value="independent">Intermediate</option>' in html
-    assert '<option value="expert">Advanced</option>' in html
+    assert 'data-gramtest-cefr="A1"' in html
+    assert 'data-gramtest-cefr="C2+"' in html
+
+
+@pytest.mark.django_db
+def test_grammar_quiz_setup_has_no_stage_filter():
+    c = Client()
+    r = c.get('/grammar/quiz/')
+    html = r.content.decode()
+    assert 'name="stage"' not in html
+
+
+@pytest.mark.django_db
+def test_grammar_quiz_setup_has_topic_picker_containers():
+    c = Client()
+    r = c.get('/grammar/quiz/')
+    html = r.content.decode()
+    assert 'id="gramtestSectionChips"' in html
+    assert 'id="gramtestTopicChips"' in html
+    assert 'id="gramtestPoolCount"' in html
+    assert 'id="gramtestSearch"' in html
+
+
+@pytest.mark.django_db
+def test_grammar_quiz_setup_loads_quiz_js():
+    c = Client()
+    r = c.get('/grammar/quiz/')
+    assert 'grammar-quiz.js' in r.content.decode()
 
 
 @pytest.mark.django_db

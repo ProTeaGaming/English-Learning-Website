@@ -1,4 +1,221 @@
 (function(){
+  var GRAMTEST_MODES = [
+    { id: "mcq", name: "Multichoice", desc: "Pick the correct option." },
+    { id: "gap", name: "Fill the Gap", desc: "Type the missing word or form." },
+    { id: "transform", name: "Rewrite the Sentence", desc: "Rewrite the sentence as instructed." },
+    { id: "mixed", name: "Mixed", desc: "All three question styles shuffled together." }
+  ];
+  var GRAMTEST_COUNTS = [10, 20, 30, 50, 100];
+  var GRAMTEST_MAX = 100;
+
+  function initGramtestSetup(){
+    var startBtn = document.getElementById("gramtestStart");
+    if (!startBtn) return;
+
+    var modesGrid = document.getElementById("gramtestModes");
+    var countsRow = document.getElementById("gramtestCounts");
+    var customWarn = document.getElementById("gramtestCustomWarn");
+    var poolCountEl = document.getElementById("gramtestPoolCount");
+    var searchInput = document.getElementById("gramtestSearch");
+    var sectionChipsRow = document.getElementById("gramtestSectionChips");
+    var topicChipsRow = document.getElementById("gramtestTopicChips");
+    var emptyMsg = document.getElementById("gramtestEmpty");
+
+    var gramtest = {
+      mode: "mcq", count: 10, customCount: 10,
+      topics: {}, search: "", section: "all", cefr: "all",
+    };
+    var allTopics = [];
+    var sectionsSeen = [];
+
+    function matchesMode(q){
+      return gramtest.mode === "mixed" || q.qtype === gramtest.mode;
+    }
+
+    function filteredTopics(){
+      return allTopics.filter(function(tp){
+        return (gramtest.section === "all" || (tp.section && tp.section.slug === gramtest.section))
+          && (gramtest.cefr === "all" || tp.cefr === gramtest.cefr);
+      });
+    }
+
+    function visibleTopics(){
+      var needle = gramtest.search.trim().toLowerCase();
+      return filteredTopics().filter(function(tp){
+        return !needle || tp.title.toLowerCase().indexOf(needle) !== -1;
+      });
+    }
+
+    function pool(){
+      var eligible = filteredTopics().filter(function(tp){
+        var selectedCount = Object.keys(gramtest.topics).length;
+        return !selectedCount || gramtest.topics[tp.slug];
+      });
+      var qs = [];
+      eligible.forEach(function(tp){
+        tp.quiz.forEach(function(q){ if (matchesMode(q)) qs.push(q); });
+      });
+      return qs;
+    }
+
+    function renderModes(){
+      modesGrid.innerHTML = GRAMTEST_MODES.map(function(m){
+        return '<button type="button" class="modeCard' + (gramtest.mode === m.id ? ' active' : '') + '" data-mode="' + m.id + '">' +
+          '<h3>' + m.name + '</h3><p>' + m.desc + '</p></button>';
+      }).join("");
+      modesGrid.querySelectorAll(".modeCard").forEach(function(card){
+        card.addEventListener("click", function(){
+          gramtest.mode = card.dataset.mode;
+          renderModes();
+          renderFilters();
+        });
+      });
+    }
+
+    function renderCounts(){
+      var isCustom = gramtest.count === "custom";
+      var html = GRAMTEST_COUNTS.map(function(c){
+        return '<button type="button" class="chip' + (gramtest.count === c ? ' active' : '') + '" data-count="' + c + '">' + c + '</button>';
+      }).join("");
+      html += '<span class="custom-chip' + (isCustom ? ' active' : '') + '" id="gramtestCustomChip">' +
+        '<span>Custom</span>' +
+        '<input type="number" min="1" max="' + GRAMTEST_MAX + '" class="custom-count-input" id="gramtestCustomCount" value="' + gramtest.customCount + '"' + (isCustom ? '' : ' hidden') + '>' +
+        '</span>';
+      countsRow.innerHTML = html;
+      countsRow.querySelectorAll(".chip[data-count]").forEach(function(btn){
+        btn.addEventListener("click", function(){
+          gramtest.count = parseInt(btn.dataset.count, 10);
+          renderCounts();
+        });
+      });
+      var customChip = document.getElementById("gramtestCustomChip");
+      var customInput = document.getElementById("gramtestCustomCount");
+      customChip.addEventListener("click", function(){
+        gramtest.count = "custom";
+        renderCounts();
+        var freshInput = document.getElementById("gramtestCustomCount");
+        if (freshInput) freshInput.focus();
+      });
+      customInput.addEventListener("click", function(e){ e.stopPropagation(); });
+      customInput.addEventListener("input", function(){
+        var val = parseInt(customInput.value, 10);
+        if (val > 0){
+          gramtest.customCount = Math.min(val, GRAMTEST_MAX);
+          customInput.classList.remove("bad");
+          customWarn.style.display = "none";
+        } else {
+          customInput.classList.add("bad");
+          customWarn.style.display = "block";
+        }
+      });
+    }
+
+    function renderFilters(){
+      document.querySelectorAll("[data-gramtest-cefr]").forEach(function(chip){
+        chip.classList.toggle("active", chip.dataset.gramtestCefr === gramtest.cefr);
+      });
+
+      sectionChipsRow.innerHTML =
+        '<button type="button" class="chip' + (gramtest.section === "all" ? ' active' : '') + '" data-section="all">All</button>' +
+        sectionsSeen.map(function(sec){
+          return '<button type="button" class="chip' + (gramtest.section === sec.slug ? ' active' : '') + '" data-section="' + sec.slug + '">' + sec.name + '</button>';
+        }).join("");
+      sectionChipsRow.querySelectorAll(".chip[data-section]").forEach(function(btn){
+        btn.addEventListener("click", function(){
+          gramtest.section = btn.dataset.section;
+          gramtest.topics = {};
+          renderFilters();
+        });
+      });
+
+      var visible = visibleTopics();
+      topicChipsRow.innerHTML =
+        '<button type="button" class="chip' + (Object.keys(gramtest.topics).length === 0 ? ' active' : '') + '" data-all-topics>All Topics</button>' +
+        visible.map(function(tp){
+          return '<button type="button" class="chip ' + (tp.theme || 't-tv') + '"' +
+            (gramtest.topics[tp.slug] ? ' data-active="1"' : '') +
+            ' data-topic="' + tp.slug + '">' + tp.title + '</button>';
+        }).join("");
+      topicChipsRow.querySelectorAll(".chip[data-topic]").forEach(function(btn){
+        if (btn.dataset.active) btn.classList.add("active");
+        btn.addEventListener("click", function(){
+          var slug = btn.dataset.topic;
+          if (gramtest.topics[slug]) delete gramtest.topics[slug];
+          else gramtest.topics[slug] = true;
+          renderFilters();
+        });
+      });
+      var allTopicsBtn = topicChipsRow.querySelector("[data-all-topics]");
+      allTopicsBtn.addEventListener("click", function(){
+        gramtest.topics = {};
+        renderFilters();
+      });
+
+      var currentPool = pool();
+      poolCountEl.textContent = currentPool.length + " question" + (currentPool.length === 1 ? "" : "s") + " match";
+      startBtn.disabled = !currentPool.length;
+      emptyMsg.style.display = currentPool.length ? "none" : "block";
+    }
+
+    document.querySelectorAll("[data-gramtest-cefr]").forEach(function(chip){
+      chip.addEventListener("click", function(){
+        gramtest.cefr = chip.dataset.gramtestCefr;
+        renderFilters();
+      });
+    });
+
+    searchInput.addEventListener("input", function(){
+      gramtest.search = searchInput.value;
+      renderFilters();
+    });
+
+    document.getElementById("gramtestClearFilters").addEventListener("click", function(){
+      gramtest.search = "";
+      gramtest.section = "all";
+      gramtest.cefr = "all";
+      gramtest.topics = {};
+      searchInput.value = "";
+      renderFilters();
+    });
+
+    startBtn.addEventListener("click", function(){
+      var currentPool = pool();
+      if (!currentPool.length) return;
+      var params = new URLSearchParams();
+      params.set("qtype", gramtest.mode);
+      var wanted = gramtest.count === "custom" ? Math.max(1, gramtest.customCount || 1) : gramtest.count;
+      params.set("count", String(Math.min(wanted, GRAMTEST_MAX, currentPool.length)));
+      if (gramtest.section !== "all") params.set("section", gramtest.section);
+      if (gramtest.cefr !== "all") params.set("cefr", gramtest.cefr);
+      var selectedTopics = Object.keys(gramtest.topics);
+      if (selectedTopics.length) params.set("topics", selectedTopics.join(","));
+      window.location.href = "/grammar/quiz/play/?" + params.toString();
+    });
+
+    fetch("/api/grammar/").then(function(r){ return r.json(); }).then(function(stages){
+      allTopics = [];
+      var seenSlugs = {};
+      stages.forEach(function(stage){
+        stage.topics.forEach(function(tp){
+          allTopics.push(tp);
+          if (tp.section && !seenSlugs[tp.section.slug]){
+            seenSlugs[tp.section.slug] = true;
+            sectionsSeen.push(tp.section);
+          }
+        });
+      });
+      renderModes();
+      renderCounts();
+      renderFilters();
+    }).catch(function(){
+      poolCountEl.textContent = "";
+      startBtn.disabled = true;
+      emptyMsg.style.display = "block";
+    });
+  }
+
+  initGramtestSetup();
+
   var root = document.getElementById("grammarQuizRoot");
   if (!root) return;
 
