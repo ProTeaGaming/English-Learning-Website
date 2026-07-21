@@ -454,6 +454,18 @@ def test_grammar_category_quiz_authenticated_flag_unset_for_guest(topic_with_blo
 
 
 @pytest.mark.django_db
+def test_grammar_topic_quiz_uses_q_card_classes(topic_with_blocks):
+    from vocab.models import GrammarQuestion
+    GrammarQuestion.objects.create(
+        topic=topic_with_blocks, qtype='mcq', prompt='Test?',
+        options=['a', 'b'], answers=[0], why='because', order=0,
+    )
+    c = Client()
+    r = c.get('/grammar/category/present-simple-continuous/quiz/')
+    assert 'grammar-quiz.js' in r.content.decode()
+
+
+@pytest.mark.django_db
 def test_grammar_category_detail_status_not_started_for_authenticated_user(topic_with_blocks, regular_user):
     c = Client()
     c.force_login(regular_user)

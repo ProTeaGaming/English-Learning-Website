@@ -244,7 +244,7 @@
   }
 
   function grammarNorm(s){
-    return String(s).replace(/[’‘]/g, "'").trim();
+    return String(s).replace(/['']/g, "'").trim();
   }
 
   function expectedAnswers(q){
@@ -317,24 +317,24 @@
       : q.qtype === "gap" ? "Fill in the blank:" : "Rewrite the sentence:";
     var gapPlaceholder = q.qtype === "gap" && offersBlankGap() ? "(leave blank if nothing goes here)" : "";
     root.innerHTML =
-      '<a class="grammar-quiz-leave" href="' + backHref() + '">&larr; Leave</a>' +
-      '<div class="grammar-quiz-progress"><div class="grammar-quiz-progress-fill" style="width:' + pct + '%"></div></div>' +
-      '<div class="grammar-quiz-meta"><span>Question ' + (state.idx + 1) + ' of ' + total + '</span><span>Score: ' + state.score + '</span></div>' +
-      '<div class="grammar-quiz-card">' +
-        '<div class="grammar-quiz-prompt">' + promptLabel + '</div>' +
-        '<div class="grammar-quiz-text">' + q.prompt + '</div>' +
+      '<a href="' + backHref() + '" class="back-btn">Leave</a>' +
+      '<div class="progress-bar"><div class="progress-fill" style="width:' + pct + '%"></div></div>' +
+      '<div class="q-meta"><span>Question ' + (state.idx + 1) + ' of ' + total + '</span><span>Score: ' + state.score + '</span></div>' +
+      '<div class="q-card">' +
+        '<div class="q-prompt">' + promptLabel + '</div>' +
+        '<div class="q-text">' + q.prompt + '</div>' +
         (isTyped
-          ? '<div class="grammar-quiz-typed-row">' +
-              '<input type="text" class="grammar-quiz-input" id="grammarQuizInput" autocomplete="off" spellcheck="false" placeholder="' + gapPlaceholder + '">' +
+          ? '<div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">' +
+              '<input type="text" class="gram-gap-input" id="grammarQuizInput" autocomplete="off" spellcheck="false" placeholder="' + gapPlaceholder + '">' +
               '<button type="button" class="btn" id="grammarQuizCheckBtn">Check</button>' +
             '</div>'
-          : '<div class="grammar-quiz-options">' +
+          : '<div class="q-options">' +
               q.options.map(function(opt, i){
-                return '<button type="button" class="grammar-quiz-opt" data-i="' + i + '">' + opt + '</button>';
+                return '<button type="button" class="q-opt" data-i="' + i + '">' + opt + '</button>';
               }).join("") +
             '</div>') +
-        '<div class="grammar-quiz-feedback"></div>' +
-        '<div class="grammar-quiz-next" style="display:none;"><button type="button" class="btn" id="grammarQuizNextBtn"></button></div>' +
+        '<div class="q-feedback"></div>' +
+        '<div class="q-next" style="display:none;"><button type="button" class="btn" id="grammarQuizNextBtn"></button></div>' +
       '</div>';
     if (isTyped){
       var input = document.getElementById("grammarQuizInput");
@@ -342,7 +342,7 @@
       input.addEventListener("keydown", function(e){ if (e.key === "Enter") checkTyped(q, input); });
       input.focus();
     } else {
-      root.querySelectorAll(".grammar-quiz-opt").forEach(function(btn){
+      root.querySelectorAll(".q-opt").forEach(function(btn){
         btn.addEventListener("click", function(){ checkMcq(q, btn); });
       });
     }
@@ -350,9 +350,9 @@
 
   function showFeedback(isCorrect, feedbackHtml){
     if (isCorrect) state.score++;
-    root.querySelector(".grammar-quiz-feedback").innerHTML = feedbackHtml;
-    root.querySelector(".grammar-quiz-meta span:last-child").textContent = "Score: " + state.score;
-    var nextWrap = root.querySelector(".grammar-quiz-next");
+    root.querySelector(".q-feedback").innerHTML = feedbackHtml;
+    root.querySelector(".q-meta span:last-child").textContent = "Score: " + state.score;
+    var nextWrap = root.querySelector(".q-next");
     var nextBtn = document.getElementById("grammarQuizNextBtn");
     var isLast = state.idx + 1 === state.questions.length;
     nextBtn.textContent = isLast ? "See Results" : "Next Question";
@@ -368,7 +368,7 @@
     var correctIdx = q.answers[0];
     var selectedIdx = Number(selectedBtn.dataset.i);
     var isCorrect = selectedIdx === correctIdx;
-    root.querySelectorAll(".grammar-quiz-opt").forEach(function(btn){
+    root.querySelectorAll(".q-opt").forEach(function(btn){
       btn.disabled = true;
       if (Number(btn.dataset.i) === correctIdx) btn.classList.add("correct");
       else if (btn === selectedBtn) btn.classList.add("wrong");
@@ -383,7 +383,7 @@
     var acceptsBlank = blankMeansNoAnswer(q);
     var blankIsAnswerChoice = q.qtype === "gap" && offersBlankGap();
     if (!typed && !acceptsBlank && !blankIsAnswerChoice){
-      root.querySelector(".grammar-quiz-feedback").innerHTML = "Type an answer first, or check the hint if the blank can be left empty.";
+      root.querySelector(".q-feedback").innerHTML = "Type an answer first, or check the hint if the blank can be left empty.";
       return;
     }
     var expected = expectedAnswers(q);
@@ -397,6 +397,17 @@
     showFeedback(isCorrect, feedback);
   }
 
+  function animateScore(el, target, total, duration){
+    var start = null;
+    function step(ts){
+      if (start === null) start = ts;
+      var progress = Math.min((ts - start) / duration, 1);
+      el.textContent = Math.round(progress * target) + " / " + total;
+      if (progress < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
   function renderResults(){
     var total = state.questions.length;
     var pct = total > 0 ? Math.round((state.score / total) * 100) : 0;
@@ -408,17 +419,17 @@
       ? '<a class="btn" href="/grammar/category/' + topicSlug + '/">Back to Lesson</a>'
       : '<a class="btn" href="/grammar/quiz/">Change Settings</a>';
     root.innerHTML =
-      '<div class="grammar-quiz-results">' +
+      '<div class="result-card">' +
         '<h2>Quiz Complete</h2>' +
-        '<div class="grammar-quiz-score">' + state.score + ' / ' + total + '</div>' +
-        '<p class="grammar-quiz-pct">' + pct + '%</p>' +
-        (masteredMsg ? '<p class="grammar-quiz-mastered-msg">' + masteredMsg + '</p>' : '') +
-        '<div class="grammar-quiz-result-actions">' +
+        '<div class="result-score" id="grammarQuizScoreNum">0 / ' + total + '</div>' +
+        (masteredMsg ? '<p class="result-msg">' + masteredMsg + '</p>' : '') +
+        '<div class="result-actions">' +
           '<button type="button" class="btn" id="grammarQuizRetryBtn">Try Again</button>' +
           secondaryAction +
           '<a class="btn" href="/grammar/">Back to Grammar</a>' +
         '</div>' +
       '</div>';
+    animateScore(document.getElementById("grammarQuizScoreNum"), state.score, total, 700);
     document.getElementById("grammarQuizRetryBtn").addEventListener("click", function(){
       state.idx = 0;
       state.score = 0;
@@ -451,14 +462,18 @@
 
   function initTestMode(){
     var params = new URLSearchParams(window.location.search);
-    var stageFilter = params.get("stage") || "";
     var qtypeFilter = params.get("qtype") || "mixed";
     var countParam = params.get("count") || "10";
+    var sectionFilter = params.get("section") || "";
+    var cefrFilter = params.get("cefr") || "";
+    var topicsFilter = params.get("topics") ? params.get("topics").split(",") : [];
     fetch("/api/grammar/").then(function(r){ return r.json(); }).then(function(stages){
       var pool = [];
       stages.forEach(function(stage){
-        if (stageFilter && stage.id !== stageFilter) return;
         stage.topics.forEach(function(topic){
+          if (sectionFilter && (!topic.section || topic.section.slug !== sectionFilter)) return;
+          if (cefrFilter && topic.cefr !== cefrFilter) return;
+          if (topicsFilter.length && topicsFilter.indexOf(topic.slug) === -1) return;
           topic.quiz.forEach(function(q){
             if (qtypeFilter !== "mixed" && q.qtype !== qtypeFilter) return;
             pool.push(q);
@@ -470,7 +485,7 @@
         return;
       }
       state.pool = pool;
-      state.drawCount = countParam === "all" ? pool.length : Math.min(parseInt(countParam, 10) || 10, pool.length);
+      state.drawCount = Math.min(parseInt(countParam, 10) || 10, GRAMTEST_MAX, pool.length);
       state.questions = drawQuestions();
       renderQuestion();
     }).catch(function(){
