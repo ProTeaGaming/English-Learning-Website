@@ -244,7 +244,7 @@
   }
 
   function grammarNorm(s){
-    return String(s).replace(/['']/g, "'").trim();
+    return String(s).replace(/[‘’]/g, "'").trim();
   }
 
   function expectedAnswers(q){

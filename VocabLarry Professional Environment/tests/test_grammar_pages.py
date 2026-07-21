@@ -667,3 +667,18 @@ def test_grammar_topic_quiz_has_back_btn_not_breadcrumb(topic_with_blocks):
     html = r.content.decode()
     assert 'class="back-btn"' in html
     assert 'grammar-breadcrumb' not in html
+
+
+def test_grammar_quiz_js_normalizes_smart_quotes():
+    import pathlib
+    js_path = pathlib.Path(__file__).resolve().parent.parent / 'static' / 'js' / 'grammar-quiz.js'
+    content = js_path.read_text(encoding='utf-8')
+    # Check for U+2019 (right single quotation mark) and U+2018 (left single quotation mark)
+    right_quote = chr(0x2019)  # '''
+    left_quote = chr(0x2018)   # '''
+    assert right_quote in content and left_quote in content, (
+        "grammarNorm's smart-quote character class must contain the actual "
+        "curly-quote Unicode characters (U+2019, U+2018), not their ASCII "
+        "apostrophe look-alikes, or typed answers with autocorrected quotes "
+        "will be silently marked wrong"
+    )
