@@ -67,7 +67,8 @@ GRAMMAR_STAGES = [
 
 @require_GET
 def grammar(request):
-    topics = GrammarTopic.objects.prefetch_related('blocks', 'questions').order_by('order')
+    from config.views_grammar import _assign_themes, _stage_ranked_topics
+    topics = list(_assign_themes(list(_stage_ranked_topics().prefetch_related('blocks', 'questions'))))
     by_stage = {}
     for t in topics:
         by_stage.setdefault(t.stage, []).append({
@@ -78,6 +79,8 @@ def grammar(request):
             'tag':   t.tag,
             'cefr':  t.cefr_label,
             'blurb': t.blurb,
+            'section': {'slug': t.section.slug, 'name': t.section.name} if t.section else None,
+            'theme': t.theme,
             'lesson': [
                 {'id': b.id, 'order': b.order, 'type': b.type, 'title': b.title,
                  'body': b.body, 'data': b.data}

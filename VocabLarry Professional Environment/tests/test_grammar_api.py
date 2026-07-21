@@ -1,15 +1,19 @@
 import json
 import pytest
 from django.test import Client
-from vocab.models import GrammarTopic, GrammarLessonBlock, GrammarQuestion
+from vocab.models import GrammarTopic, GrammarLessonBlock, GrammarQuestion, GrammarSection
 
 
 @pytest.fixture
 def grammar_data(db):
+    section = GrammarSection.objects.create(
+        slug='nouns-pronouns-determiners', name='Nouns, Pronouns & Determiners',
+        icon='i-type', order=2,
+    )
     t = GrammarTopic.objects.create(
         slug='articles', title='Articles (a/an/the)', tag='Determiners',
         cefr_label='A1–A2', blurb='When to use a, an and the.',
-        stage='beginner', order=0,
+        stage='beginner', order=0, section=section,
     )
     GrammarLessonBlock.objects.create(topic=t, type='intro', body='<p>Articles come before nouns.</p>', order=0)
     GrammarLessonBlock.objects.create(
@@ -43,6 +47,28 @@ def test_grammar_endpoint_nests_stages_topics_blocks_questions(grammar_data):
     assert topic['quiz'][0]['answers'] == [0]
     assert data[1]['topics'] == []
     assert data[2]['topics'] == []
+
+
+@pytest.mark.django_db
+def test_grammar_endpoint_includes_section_and_theme(grammar_data):
+    r = Client().get('/api/grammar/')
+    data = json.loads(r.content)
+    topic = data[0]['topics'][0]
+    assert topic['section'] == {'slug': 'nouns-pronouns-determiners', 'name': 'Nouns, Pronouns & Determiners'}
+    assert topic['theme'].startswith('t-t')
+
+
+@pytest.mark.django_db
+def test_grammar_endpoint_section_is_null_for_unassigned_topic(db):
+    GrammarTopic.objects.create(
+        slug='no-section-topic', title='No Section', tag='x',
+        cefr_label='A1', blurb='x', stage='beginner', order=0,
+    )
+    r = Client().get('/api/grammar/')
+    data = json.loads(r.content)
+    topic = data[0]['topics'][0]
+    assert topic['section'] is None
+    assert topic['theme'].startswith('t-t')
 
 
 @pytest.mark.django_db
