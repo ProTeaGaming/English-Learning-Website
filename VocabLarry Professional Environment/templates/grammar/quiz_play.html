@@ -1,7 +1,10 @@
 {% extends "base.html" %}
 {% load static %}
 {% block title %}Quiz — VocabLarry{% endblock %}
-{% block extra_head %}<link rel="stylesheet" href="{% static 'css/grammar.css' %}">{% endblock %}
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'css/vocab.css' %}">
+<link rel="stylesheet" href="{% static 'css/grammar.css' %}">
+{% endblock %}
 {% block content %}
 <section class="grammar-test-play">
   <a href="{% url 'grammar_quiz_setup' %}" class="back-btn">← Grammar Quiz</a>

@@ -1,7 +1,10 @@
 {% extends "base.html" %}
 {% load static %}
 {% block title %}Practice: {{ topic.title }} — VocabLarry{% endblock %}
-{% block extra_head %}<link rel="stylesheet" href="{% static 'css/grammar.css' %}">{% endblock %}
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'css/vocab.css' %}">
+<link rel="stylesheet" href="{% static 'css/grammar.css' %}">
+{% endblock %}
 {% block content %}
 <section class="grammar-topic-quiz">
   <a href="{% url 'grammar_category_detail' topic.slug %}" class="back-btn">← {{ topic.title }}</a>
