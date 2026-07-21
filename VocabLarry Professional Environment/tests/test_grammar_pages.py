@@ -144,6 +144,60 @@ def test_grammar_category_list_section_filter(topic_articles, grammar_section):
 
 
 @pytest.mark.django_db
+def test_grammar_category_list_groupby_contiguity_with_duplicate_section_orders():
+    """Regression test: itertools.groupby requires input contiguous by grouping key.
+    This test verifies that even if two GrammarSection rows have the SAME order value,
+    their topics still render in separate, correctly-grouped section blocks (not split/interleaved).
+    This tests the fix: order_by('section__order', 'section_id', ...) breaks ties on section_id
+    to ensure groupby's contiguity precondition is always satisfied.
+    """
+    from vocab.models import GrammarSection
+
+    # Create two sections with the SAME order value (both 0)
+    section1 = GrammarSection.objects.create(
+        slug='section-one', name='Section One', icon='i-test', order=0,
+    )
+    section2 = GrammarSection.objects.create(
+        slug='section-two', name='Section Two', icon='i-test', order=0,
+    )
+
+    # Create multiple topics in each section to increase chance of interleaving
+    # if the ordering doesn't guarantee contiguity by section_id
+    for i in range(3):
+        GrammarTopic.objects.create(
+            slug=f'topic-one-{i}', title=f'Topic One-{i}', tag='Test',
+            cefr_label='A1', blurb='Test topic.',
+            stage='beginner', order=i, section=section1,
+        )
+    for i in range(3):
+        GrammarTopic.objects.create(
+            slug=f'topic-two-{i}', title=f'Topic Two-{i}', tag='Test',
+            cefr_label='A1', blurb='Test topic.',
+            stage='beginner', order=i, section=section2,
+        )
+
+    c = Client()
+    r = c.get('/grammar/category/')
+    html = r.content.decode()
+
+    # All topics should be present
+    for i in range(3):
+        assert f'Topic One-{i}' in html
+        assert f'Topic Two-{i}' in html
+
+    # Both sections should be present (rendered as separate section blocks)
+    assert 'Section One' in html
+    assert 'Section Two' in html
+
+    # Critical assertion: count section blocks — should be exactly 2 (one for each section)
+    # Without the section_id fix, if topics interleave by section_id in the query results,
+    # groupby would create MORE than 2 groups (e.g. 4 or 6), splitting what should be
+    # one section's block into multiple blocks
+    section_block_count = html.count('class="section-block"')
+    assert section_block_count == 2, f"Expected exactly 2 section blocks, got {section_block_count}. Topics may have interleaved due to missing section_id in order_by."
+
+
+@pytest.mark.django_db
 def test_grammar_category_list_topics_have_theme_class(topic_articles):
     c = Client()
     r = c.get('/grammar/category/')

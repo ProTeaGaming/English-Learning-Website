@@ -22,7 +22,7 @@ def _stage_ranked_topics():
             default=Value(3),
             output_field=IntegerField(),
         ),
-    ).order_by('section__order', 'stage_rank', 'order')
+    ).order_by('section__order', 'section_id', 'stage_rank', 'order')
 
 
 def _assign_themes(topics):
