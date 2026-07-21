@@ -64,6 +64,20 @@ class Word(models.Model):
         return self.word
 
 
+class GrammarSection(models.Model):
+    slug      = models.SlugField(max_length=100, unique=True)
+    name      = models.CharField(max_length=100)
+    icon      = models.CharField(max_length=30)
+    order     = models.PositiveSmallIntegerField(default=0)
+    image_ids = models.JSONField(default=list, blank=True)
+
+    class Meta:
+        ordering = ['order']
+
+    def __str__(self):
+        return self.name
+
+
 class GrammarTopic(models.Model):
     STAGES = [
         ('beginner', 'Basic'),
@@ -77,6 +91,9 @@ class GrammarTopic(models.Model):
     blurb      = models.CharField(max_length=300)
     stage      = models.CharField(max_length=12, choices=STAGES)
     order      = models.PositiveSmallIntegerField(default=0)
+    section    = models.ForeignKey(
+        GrammarSection, null=True, blank=True, on_delete=models.SET_NULL, related_name='topics',
+    )
 
     class Meta:
         ordering = ['order']

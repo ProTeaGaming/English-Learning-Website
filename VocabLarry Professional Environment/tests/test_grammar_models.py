@@ -1,5 +1,5 @@
 import pytest
-from vocab.models import GrammarTopic, GrammarLessonBlock, GrammarQuestion
+from vocab.models import GrammarTopic, GrammarLessonBlock, GrammarQuestion, GrammarSection
 
 
 @pytest.mark.django_db
@@ -38,3 +38,52 @@ def test_blocks_and_questions_cascade_and_order():
     t.delete()
     assert GrammarLessonBlock.objects.count() == 0
     assert GrammarQuestion.objects.count() == 0
+
+
+@pytest.mark.django_db
+def test_grammar_sections_seeded_by_migration():
+    assert GrammarSection.objects.count() == 12
+    tenses = GrammarSection.objects.get(slug='tenses')
+    assert tenses.name == 'Tenses'
+    assert tenses.icon == 'i-clock'
+    assert tenses.order == 0
+    assert tenses.image_ids == ['1501139083538-0139583c060f', '1456513080510-7bf3a84b82f8']
+    idioms = GrammarSection.objects.get(slug='idioms')
+    assert idioms.name == 'Idioms'
+    assert idioms.order == 11
+
+
+@pytest.mark.django_db
+def test_grammar_sections_ordered_correctly():
+    names = list(GrammarSection.objects.order_by('order').values_list('name', flat=True))
+    assert names == [
+        'Tenses', 'Questions & Reported Speech', 'Nouns, Pronouns & Determiners',
+        'Adjectives & Adverbs', 'Word Forms & Prepositions', 'Verb Patterns & Modals',
+        'Voice', 'Conditionals & Unreal Forms', 'Clauses', 'Emphasis & Sentence Focus',
+        'Cohesion & Academic Style', 'Idioms',
+    ]
+
+
+@pytest.mark.django_db
+def test_grammar_topic_can_be_assigned_a_section():
+    section = GrammarSection.objects.get(slug='tenses')
+    topic = GrammarTopic.objects.create(
+        slug='present-simple-continuous', title='Present Simple & Continuous',
+        tag='Tenses', cefr_label='A1', blurb='x', stage='beginner', order=0,
+        section=section,
+    )
+    assert topic.section == section
+    assert section.topics.first() == topic
+
+
+@pytest.mark.django_db
+def test_grammar_topic_section_survives_section_deletion():
+    section = GrammarSection.objects.get(slug='tenses')
+    topic = GrammarTopic.objects.create(
+        slug='present-simple-continuous', title='Present Simple & Continuous',
+        tag='Tenses', cefr_label='A1', blurb='x', stage='beginner', order=0,
+        section=section,
+    )
+    section.delete()
+    topic.refresh_from_db()
+    assert topic.section is None
