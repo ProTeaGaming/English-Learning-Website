@@ -1,7 +1,10 @@
 {% extends "base.html" %}
 {% load static %}
 {% block title %}Grammar — VocabLarry{% endblock %}
-{% block extra_head %}<link rel="stylesheet" href="{% static 'css/grammar.css' %}">{% endblock %}
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'css/vocab.css' %}">
+<link rel="stylesheet" href="{% static 'css/grammar.css' %}">
+{% endblock %}
 {% block content %}
 <section class="grammar-browse">
   <h1>Grammar</h1>
@@ -40,7 +43,7 @@
       <span class="filter-label">CEFR</span>
       <a class="chip{% if not cefr_filter %} active{% endif %}" href="?q={{ query|urlencode }}{% if stage_filter %}&stage={{ stage_filter }}{% endif %}{% if status_filter %}&status={{ status_filter }}{% endif %}{% if section_filter %}&section={{ section_filter }}{% endif %}">All</a>
       {% for level in cefr_levels %}
-      <a class="chip{% if cefr_filter == level.code %} active{% endif %}" data-grammar-cefr="{{ level.code }}" href="?q={{ query|urlencode }}{% if stage_filter %}&stage={{ stage_filter }}{% endif %}&cefr={{ level.code }}{% if status_filter %}&status={{ status_filter }}{% endif %}{% if section_filter %}&section={{ section_filter }}{% endif %}">{{ level.code }}</a>
+      <a class="chip{% if cefr_filter == level %} active{% endif %}" data-grammar-cefr="{{ level }}" href="?q={{ query|urlencode }}{% if stage_filter %}&stage={{ stage_filter }}{% endif %}&cefr={{ level }}{% if status_filter %}&status={{ status_filter }}{% endif %}{% if section_filter %}&section={{ section_filter }}{% endif %}">{{ level }}</a>
       {% endfor %}
     </div>
     {% if user.is_authenticated %}

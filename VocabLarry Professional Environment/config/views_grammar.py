@@ -4,13 +4,14 @@ from django.db.models import Case, IntegerField, Value, When
 from django.shortcuts import get_object_or_404, render
 from django.views.decorators.csrf import ensure_csrf_cookie
 
-from vocab.models import CEFRLevel, GrammarSection, GrammarTopic
+from vocab.models import GrammarSection, GrammarTopic
 
 GRAMMAR_CARD_THEMES = [
     't-tb', 't-tv', 't-tp', 't-tr', 't-te', 't-ta', 't-tc', 't-tg', 't-ti',
     't-to', 't-tro', 't-tfg', 't-tpurp', 't-ts', 't-tnavy',
 ]
 GRAMMAR_IMG_FALLBACK = ['1456513080510-7bf3a84b82f8', '1488190211105-8b0e65b80b4e', '1516979187457-637abb4f9353']
+GRAMMAR_CEFR_LEVELS = ['A1', 'A1+', 'A2', 'A2+', 'B1', 'B1+', 'B2', 'B2+', 'C1', 'C1+', 'C2', 'C2+']
 
 
 def _stage_ranked_topics():
@@ -89,7 +90,7 @@ def grammar_browse(request):
         'sections': sections,
         'all_sections': GrammarSection.objects.order_by('order'),
         'stages': GrammarTopic.STAGES,
-        'cefr_levels': CEFRLevel.objects.all(),
+        'cefr_levels': GRAMMAR_CEFR_LEVELS,
         'query': query,
         'stage_filter': stage_filter,
         'cefr_filter': cefr_filter,
