@@ -131,6 +131,7 @@
   var cefrCode = params.get("cefr") || "";
   var requestedCount = params.get("count") || "10";
   var mode = params.get("mode") || "definition";
+  var family = mode === "challenge" ? "challenge" : (mode.indexOf("gap-") === 0 ? "gap" : "quiz");
 
   var state = {
     allWords: [],
@@ -185,17 +186,17 @@
       var syns = word.synonyms || [];
       correct = capitalize(syns[Math.floor(Math.random() * syns.length)]);
       prompt = "Choose a word with a similar meaning:";
-      text = word.word + " (" + word.pos + ")";
+      text = word.word + ' <span class="qpos">(' + word.pos + ')</span>';
       options = buildOptions(correct, others.filter(function(w){ return w.word !== correct; }), function(w){ return w.word; });
     } else if (qMode === "antonym"){
       var ants = word.antonyms || [];
       correct = capitalize(ants[Math.floor(Math.random() * ants.length)]);
       prompt = "Choose a word with the opposite meaning:";
-      text = word.word + " (" + word.pos + ")";
+      text = word.word + ' <span class="qpos">(' + word.pos + ')</span>';
       options = buildOptions(correct, others.filter(function(w){ return w.word !== correct; }), function(w){ return w.word; });
     } else {
       prompt = "Choose the correct definition:";
-      text = word.word + " (" + word.pos + ")";
+      text = word.word + ' <span class="qpos">(' + word.pos + ')</span>';
       correct = word.definition;
       options = buildOptions(correct, others, function(w){ return w.definition; });
     }
@@ -246,7 +247,7 @@
       distractorPool = samePos.length >= 3 ? samePos : others;
     }
     var options = buildOptions(word.word, distractorPool, function(w){ return w.word; });
-    var text = word.gap.replace("___", '<span class="vocab-quiz-blank">_____</span>');
+    var text = word.gap.replace("___", '<span class="gapblank">_____</span>');
     return {
       type: "gap",
       prompt: GAP_PROMPTS[subMode],
@@ -316,40 +317,40 @@
     var total = state.questions.length;
     var pct = Math.round(((state.idx + 1) / total) * 100);
     root.innerHTML =
-      '<div class="vocab-quiz-progress"><div class="vocab-quiz-progress-fill" style="width:' + pct + '%"></div></div>' +
-      '<div class="vocab-quiz-meta"><span>Question ' + (state.idx + 1) + ' of ' + total + '</span><span>Score: ' + state.score + '</span></div>' +
-      '<div class="vocab-quiz-card">' +
-        '<div class="vocab-quiz-prompt">' + q.prompt + '</div>' +
-        '<div class="vocab-quiz-text">' + q.text + '</div>' +
-        '<div class="vocab-quiz-options">' +
-          q.options.map(function(opt){ return '<button type="button" class="vocab-quiz-opt">' + opt + '</button>'; }).join("") +
+      '<div class="progress-bar"><div class="progress-fill" style="width:' + pct + '%"></div></div>' +
+      '<div class="q-meta"><span>Question ' + (state.idx + 1) + ' of ' + total + '</span><span>Score: ' + state.score + '</span></div>' +
+      '<div class="q-card">' +
+        '<div class="q-prompt">' + q.prompt + '</div>' +
+        '<div class="q-text">' + q.text + '</div>' +
+        '<div class="q-options">' +
+          q.options.map(function(opt){ return '<button type="button" class="q-opt">' + opt + '</button>'; }).join("") +
         '</div>' +
-        '<div class="vocab-quiz-feedback"></div>' +
-        '<div class="vocab-quiz-next" style="display:none;"><button type="button" class="btn" id="quizNextBtn"></button></div>' +
+        '<div class="q-feedback"></div>' +
+        '<div class="q-next" style="display:none;"><button type="button" class="btn" id="quizNextBtn"></button></div>' +
       '</div>';
-    root.querySelectorAll(".vocab-quiz-opt").forEach(function(btn){
+    root.querySelectorAll(".q-opt").forEach(function(btn){
       btn.addEventListener("click", function(){ handleAnswer(btn, q); });
     });
   }
 
   function handleAnswer(selectedBtn, q){
     var isCorrect = selectedBtn.textContent === q.correct;
-    root.querySelectorAll(".vocab-quiz-opt").forEach(function(btn){
+    root.querySelectorAll(".q-opt").forEach(function(btn){
       btn.disabled = true;
       if (btn.textContent === q.correct) btn.classList.add("correct");
       else if (btn === selectedBtn) btn.classList.add("wrong");
     });
     if (isCorrect) state.score++;
     state.answers.push({ question: q, selected: selectedBtn.textContent, isCorrect: isCorrect });
-    var feedback = root.querySelector(".vocab-quiz-feedback");
+    var feedback = root.querySelector(".q-feedback");
     var feedbackText = (isCorrect ? "<b>Correct!</b> " : "<b>Not quite.</b> The answer is " + q.correct + ". ") +
       q.word.word + " — " + q.word.definition;
     if (q.type === "gap" && q.word.example){
       feedbackText += "<br>" + stripEmTags(q.word.example);
     }
     feedback.innerHTML = feedbackText;
-    root.querySelector(".vocab-quiz-meta span:last-child").textContent = "Score: " + state.score;
-    var nextWrap = root.querySelector(".vocab-quiz-next");
+    root.querySelector(".q-meta span:last-child").textContent = "Score: " + state.score;
+    var nextWrap = root.querySelector(".q-next");
     var nextBtn = document.getElementById("quizNextBtn");
     var isLast = state.idx + 1 === state.questions.length;
     nextBtn.textContent = isLast ? "See Results" : "Next Question";
@@ -361,21 +362,41 @@
     });
   }
 
+  function resultMessage(pct){
+    if (pct === 100) return "Perfect score! Outstanding vocabulary mastery.";
+    if (pct >= 80) return "Excellent work — you know these words well.";
+    if (pct >= 60) return "Good effort — a bit more practice and you'll nail it.";
+    return "Keep practising — review the word list and try again.";
+  }
+
+  function animateScore(el, target, total, duration){
+    var start = null;
+    function step(ts){
+      if (start === null) start = ts;
+      var progress = Math.min((ts - start) / duration, 1);
+      el.textContent = Math.round(progress * target) + " / " + total;
+      if (progress < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
   function renderResults(){
     var total = state.questions.length;
     var pct = total > 0 ? Math.round((state.score / total) * 100) : 0;
+    var resultTitle = FAMILY_LABELS[family] + " Complete";
     root.innerHTML =
-      '<div class="vocab-quiz-results">' +
-        '<h2>Quiz Complete</h2>' +
-        '<div class="vocab-quiz-score">' + state.score + ' / ' + total + '</div>' +
-        '<p class="vocab-quiz-pct">' + pct + '%</p>' +
-        '<div class="vocab-quiz-result-actions">' +
+      '<div class="result-card">' +
+        '<h2>' + resultTitle + '</h2>' +
+        '<div class="result-score" id="resultScoreDisplay">0 / ' + total + '</div>' +
+        '<p class="result-msg">' + resultMessage(pct) + '</p>' +
+        '<div class="result-actions">' +
           '<button type="button" class="btn" id="quizRetryBtn">Try Again</button>' +
           '<button type="button" class="btn" id="quizChangeBtn">Change Settings</button>' +
           '<button type="button" class="btn" id="quizReviewBtn">Review Answers</button>' +
         '</div>' +
-        '<div class="vocab-quiz-review" id="quizReview" style="display:none;"></div>' +
+        '<div id="testReview" style="display:none;"></div>' +
       '</div>';
+    animateScore(document.getElementById("resultScoreDisplay"), state.score, total, 700);
     document.getElementById("quizRetryBtn").addEventListener("click", function(){
       state.idx = 0;
       state.score = 0;
@@ -391,17 +412,22 @@
       window.location.href = "/vocabulary/quiz/";
     });
     document.getElementById("quizReviewBtn").addEventListener("click", function(){
-      var panel = document.getElementById("quizReview");
-      if (panel.style.display === "block"){ panel.style.display = "none"; return; }
+      var panel = document.getElementById("testReview");
+      if (panel.style.display === "flex"){ panel.style.display = "none"; return; }
       panel.innerHTML = state.answers.map(function(a, i){
-        return '<div class="vocab-quiz-review-item ' + (a.isCorrect ? "correct" : "wrong") + '">' +
-          '<span class="vocab-quiz-review-num">' + (i + 1) + '</span>' +
-          '<span class="vocab-quiz-review-word">' + a.question.word.word + '</span>' +
-          '<span class="vocab-quiz-review-answer">Your answer: ' + a.selected + '</span>' +
-          (a.isCorrect ? '' : '<span class="vocab-quiz-review-correct">Correct: ' + a.question.correct + '</span>') +
+        var tags = '<span class="review-tag correct">✓ ' + a.question.correct + '</span>';
+        if (!a.isCorrect){
+          tags += '<span class="review-tag wrong">✗ Your answer: ' + a.selected + '</span>';
+        }
+        return '<div class="review-item ' + (a.isCorrect ? "review-correct" : "review-wrong") + '">' +
+          '<span class="review-num">' + (i + 1) + '</span>' +
+          '<div class="review-body">' +
+            '<div class="review-q">' + a.question.word.word + '</div>' +
+            '<div class="review-ans">' + tags + '</div>' +
+          '</div>' +
         '</div>';
       }).join("");
-      panel.style.display = "block";
+      panel.style.display = "flex";
     });
   }
 

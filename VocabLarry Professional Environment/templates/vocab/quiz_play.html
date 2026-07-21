@@ -9,7 +9,10 @@
     <a class="chip" href="{% url 'vocabulary_word_list' %}" data-i18n="nav.word">Word</a>
     <a class="chip active" href="{% url 'vocabulary_quiz_setup' %}" data-i18n="nav.quiz">Quiz</a>
   </div>
-  <div id="quizPlayRoot"></div>
+  <div class="quiz-wrap">
+    <a href="{% url 'vocabulary_quiz_setup' %}" class="back-btn">Leave</a>
+    <div id="quizPlayRoot"></div>
+  </div>
 </section>
 {% endblock %}
 {% block extra_body %}

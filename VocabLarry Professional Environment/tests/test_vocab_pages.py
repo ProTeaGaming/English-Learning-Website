@@ -324,6 +324,15 @@ def test_vocabulary_quiz_play_loads_script():
 
 
 @pytest.mark.django_db
+def test_vocabulary_quiz_play_has_leave_link():
+    c = Client()
+    r = c.get('/vocabulary/quiz/play/')
+    html = r.content.decode()
+    assert 'class="back-btn"' in html
+    assert 'href="/vocabulary/quiz/"' in html
+
+
+@pytest.mark.django_db
 def test_old_vocab_urls_are_gone():
     c = Client()
     assert c.get('/vocab/').status_code == 404
