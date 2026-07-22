@@ -535,7 +535,7 @@ def test_vocabulary_word_list_progress_filter_learned(cefr_a1, regular_user):
     c.force_login(regular_user)
     r = c.get('/vocabulary/word/', {'progress': 'learned'})
     html = r.content.decode()
-    assert 'Cat' in html and 'Dog' not in html
+    assert '>Cat<' in html and '>Dog<' not in html
 
 
 @pytest.mark.django_db
@@ -549,7 +549,7 @@ def test_vocabulary_word_list_progress_filter_little(cefr_a1, regular_user):
     c.force_login(regular_user)
     r = c.get('/vocabulary/word/', {'progress': 'little'})
     html = r.content.decode()
-    assert 'Cat' in html and 'Dog' not in html
+    assert '>Cat<' in html and '>Dog<' not in html
 
 
 @pytest.mark.django_db
@@ -563,7 +563,7 @@ def test_vocabulary_word_list_progress_filter_none(cefr_a1, regular_user):
     c.force_login(regular_user)
     r = c.get('/vocabulary/word/', {'progress': 'none'})
     html = r.content.decode()
-    assert 'Dog' in html and 'Cat' not in html
+    assert '>Dog<' in html and '>Cat<' not in html
 
 
 @pytest.mark.django_db
@@ -573,7 +573,7 @@ def test_vocabulary_word_list_progress_filter_ignored_for_guests(cefr_a1):
     c = Client()
     r = c.get('/vocabulary/word/', {'progress': 'learned'})
     html = r.content.decode()
-    assert 'Cat' in html
+    assert '>Cat<' in html
 
 
 @pytest.mark.django_db
