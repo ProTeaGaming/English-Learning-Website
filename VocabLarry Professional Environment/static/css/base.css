@@ -453,18 +453,26 @@ body::after{
 }
 .chip:hover{ color: var(--text); border-color: rgb(var(--violet) / .5); background: rgb(var(--violet) / .1); transform: translateY(-1px); box-shadow: 0 4px 12px rgb(var(--violet) / .15); }
 .chip.active{ color: #fff; border-color: transparent; background: rgb(var(--violet)); box-shadow: 0 4px 14px rgb(var(--violet) / .35); }
-.chip.active[data-browse-cefr="A1"],.chip.active[data-quiz-cefr="A1"],.chip.active[data-grammar-cefr="A1"]{ background: var(--a1); }
-.chip.active[data-browse-cefr="A1+"],.chip.active[data-quiz-cefr="A1+"],.chip.active[data-grammar-cefr="A1+"]{ background: var(--a1p); }
-.chip.active[data-browse-cefr="A2"],.chip.active[data-quiz-cefr="A2"],.chip.active[data-grammar-cefr="A2"]{ background: var(--a2); }
-.chip.active[data-browse-cefr="A2+"],.chip.active[data-quiz-cefr="A2+"],.chip.active[data-grammar-cefr="A2+"]{ background: var(--a2p); }
-.chip.active[data-browse-cefr="B1"],.chip.active[data-quiz-cefr="B1"],.chip.active[data-grammar-cefr="B1"]{ background: var(--b1); }
-.chip.active[data-browse-cefr="B1+"],.chip.active[data-quiz-cefr="B1+"],.chip.active[data-grammar-cefr="B1+"]{ background: var(--b1p); }
-.chip.active[data-browse-cefr="B2"],.chip.active[data-quiz-cefr="B2"],.chip.active[data-grammar-cefr="B2"]{ background: var(--b2); }
-.chip.active[data-browse-cefr="B2+"],.chip.active[data-quiz-cefr="B2+"],.chip.active[data-grammar-cefr="B2+"]{ background: var(--b2p); }
-.chip.active[data-browse-cefr="C1"],.chip.active[data-quiz-cefr="C1"],.chip.active[data-grammar-cefr="C1"]{ background: var(--c1); }
-.chip.active[data-browse-cefr="C1+"],.chip.active[data-quiz-cefr="C1+"],.chip.active[data-grammar-cefr="C1+"]{ background: var(--c1p); }
-.chip.active[data-browse-cefr="C2"],.chip.active[data-quiz-cefr="C2"],.chip.active[data-grammar-cefr="C2"]{ background: var(--c2); }
-.chip.active[data-browse-cefr="C2+"],.chip.active[data-quiz-cefr="C2+"],.chip.active[data-grammar-cefr="C2+"]{ background: var(--c2p); }
+.chip.active[data-browse-cefr="A1"],.chip.active[data-quiz-cefr="A1"],.chip.active[data-grammar-cefr="A1"],.chip.active[data-word-cefr="A1"]{ background: var(--a1); }
+.chip.active[data-browse-cefr="A1+"],.chip.active[data-quiz-cefr="A1+"],.chip.active[data-grammar-cefr="A1+"],.chip.active[data-word-cefr="A1+"]{ background: var(--a1p); }
+.chip.active[data-browse-cefr="A2"],.chip.active[data-quiz-cefr="A2"],.chip.active[data-grammar-cefr="A2"],.chip.active[data-word-cefr="A2"]{ background: var(--a2); }
+.chip.active[data-browse-cefr="A2+"],.chip.active[data-quiz-cefr="A2+"],.chip.active[data-grammar-cefr="A2+"],.chip.active[data-word-cefr="A2+"]{ background: var(--a2p); }
+.chip.active[data-browse-cefr="B1"],.chip.active[data-quiz-cefr="B1"],.chip.active[data-grammar-cefr="B1"],.chip.active[data-word-cefr="B1"]{ background: var(--b1); }
+.chip.active[data-browse-cefr="B1+"],.chip.active[data-quiz-cefr="B1+"],.chip.active[data-grammar-cefr="B1+"],.chip.active[data-word-cefr="B1+"]{ background: var(--b1p); }
+.chip.active[data-browse-cefr="B2"],.chip.active[data-quiz-cefr="B2"],.chip.active[data-grammar-cefr="B2"],.chip.active[data-word-cefr="B2"]{ background: var(--b2); }
+.chip.active[data-browse-cefr="B2+"],.chip.active[data-quiz-cefr="B2+"],.chip.active[data-grammar-cefr="B2+"],.chip.active[data-word-cefr="B2+"]{ background: var(--b2p); }
+.chip.active[data-browse-cefr="C1"],.chip.active[data-quiz-cefr="C1"],.chip.active[data-grammar-cefr="C1"],.chip.active[data-word-cefr="C1"]{ background: var(--c1); }
+.chip.active[data-browse-cefr="C1+"],.chip.active[data-quiz-cefr="C1+"],.chip.active[data-grammar-cefr="C1+"],.chip.active[data-word-cefr="C1+"]{ background: var(--c1p); }
+.chip.active[data-browse-cefr="C2"],.chip.active[data-quiz-cefr="C2"],.chip.active[data-grammar-cefr="C2"],.chip.active[data-word-cefr="C2"]{ background: var(--c2); }
+.chip.active[data-browse-cefr="C2+"],.chip.active[data-quiz-cefr="C2+"],.chip.active[data-grammar-cefr="C2+"],.chip.active[data-word-cefr="C2+"]{ background: var(--c2p); }
+/* Per-word progress chips (Word page) — intentionally separate rules
+   from the category-aggregate completed/inProgress/notStarted rules
+   above: those use different color tokens (--c1/--muted for a partial
+   aggregate), while a single word's own state should match the exact
+   green/amber already used by .card-toggle/.learn-state-btn elsewhere. */
+.chip.active[data-word-status="learned"]{ background: #22c55e; }
+.chip.active[data-word-status="little"]{ background: #f59e0b; }
+.chip.active[data-word-status="none"]{ background: var(--muted); }
 .chip.active[data-browse-status="completed"],.chip.active[data-grammar-status="completed"]{ background: #22c55e; }
 .chip.active[data-browse-status="inProgress"],.chip.active[data-grammar-status="inProgress"]{ background: var(--c1); }
 .chip.active[data-browse-status="notStarted"],.chip.active[data-grammar-status="notStarted"]{ background: var(--muted); }
