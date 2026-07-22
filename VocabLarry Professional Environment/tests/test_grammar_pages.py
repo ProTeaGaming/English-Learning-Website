@@ -305,6 +305,49 @@ def topic_with_blocks(db):
     return topic
 
 
+@pytest.fixture
+def gramword_topics(db):
+    from vocab.models import GrammarLessonBlock
+
+    verbs_topic = GrammarTopic.objects.create(
+        slug='irregular-verbs', title='Irregular Verbs',
+        tag='Verbs', cefr_label='A2', blurb='Common irregular verb forms.',
+        stage='beginner', order=0,
+    )
+    GrammarLessonBlock.objects.create(
+        topic=verbs_topic, type='table', title='Irregular Verbs',
+        data={
+            'head': ['Base (V1)', 'Past simple (V2)', 'Past participle (V3)'],
+            'rows': [
+                ['cut', 'cut', 'cut'],
+                ['buy', 'bought', 'bought'],
+                ['come', 'came', 'come'],
+                ['go', 'went', 'gone'],
+            ],
+        },
+        order=0,
+    )
+
+    comparisons_topic = GrammarTopic.objects.create(
+        slug='comparison-structures', title='Comparison Structures',
+        tag='Adjectives', cefr_label='A2', blurb='Irregular comparative/superlative forms.',
+        stage='beginner', order=1,
+    )
+    GrammarLessonBlock.objects.create(
+        topic=comparisons_topic, type='table', title='Irregular Comparisons',
+        data={
+            'head': ['Base', 'Comparative', 'Superlative'],
+            'rows': [
+                ['good / well', 'better', 'best'],
+                ['bad / badly', 'worse', 'worst'],
+                ['far', 'further / farther', 'furthest / farthest'],
+            ],
+        },
+        order=0,
+    )
+    return {'verbs': verbs_topic, 'comparisons': comparisons_topic}
+
+
 @pytest.mark.django_db
 def test_grammar_category_detail_renders(topic_with_blocks):
     c = Client()
@@ -603,17 +646,6 @@ def test_old_grammar_urls_are_gone():
 
 
 @pytest.mark.django_db
-def test_grammar_word_stub_renders():
-    c = Client()
-    r = c.get('/grammar/word/')
-    assert r.status_code == 200
-    html = r.content.decode()
-    assert 'Section 02 / Grammar' in html
-    assert '<h1>Word</h1>' in html
-    assert 'Coming soon.' in html
-
-
-@pytest.mark.django_db
 def test_grammar_home_renders():
     c = Client()
     r = c.get('/grammar/')
@@ -626,7 +658,7 @@ def test_grammar_home_renders():
 
 
 @pytest.mark.django_db
-def test_mobile_page_switcher_present_on_grammar_landing_pages(topic_articles):
+def test_mobile_page_switcher_present_on_grammar_landing_pages(topic_articles, gramword_topics):
     c = Client()
     for url in ('/grammar/category/', '/grammar/word/', '/grammar/quiz/', '/grammar/quiz/play/'):
         r = c.get(url)
@@ -682,3 +714,77 @@ def test_grammar_quiz_js_normalizes_smart_quotes():
         "apostrophe look-alikes, or typed answers with autocorrected quotes "
         "will be silently marked wrong"
     )
+
+
+def test_classify_verb_pattern_all_four_branches():
+    from config.views_grammar import _classify_verb_pattern
+    assert _classify_verb_pattern('cut', 'cut', 'cut') == 'AAA'
+    assert _classify_verb_pattern('buy', 'bought', 'bought') == 'ABB'
+    assert _classify_verb_pattern('come', 'came', 'come') == 'ABA'
+    assert _classify_verb_pattern('go', 'went', 'gone') == 'ABC'
+
+
+@pytest.mark.django_db
+def test_grammar_word_default_set_is_verbs(gramword_topics):
+    c = Client()
+    r = c.get('/grammar/word/')
+    assert r.status_code == 200
+    html = r.content.decode()
+    assert '>cut<' in html
+    assert 'class="headline-btn active" href="?set=verbs"' in html
+
+
+@pytest.mark.django_db
+def test_grammar_word_verbs_table_has_pattern_column(gramword_topics):
+    c = Client()
+    r = c.get('/grammar/word/')
+    html = r.content.decode()
+    assert 'class="pattern-badge AAA">AAA</span>' in html
+    assert 'class="pattern-badge ABB">ABB</span>' in html
+    assert 'class="pattern-badge ABA">ABA</span>' in html
+    assert 'class="pattern-badge ABC">ABC</span>' in html
+
+
+@pytest.mark.django_db
+def test_grammar_word_comparisons_set(gramword_topics):
+    c = Client()
+    r = c.get('/grammar/word/', {'set': 'comparisons'})
+    html = r.content.decode()
+    assert '>better<' in html
+    assert '>worse<' in html
+    assert 'pattern-badge' not in html
+    assert 'class="filter-label">Pattern</span>' not in html
+
+
+@pytest.mark.django_db
+def test_grammar_word_search_matches_any_column(gramword_topics):
+    c = Client()
+    r = c.get('/grammar/word/', {'q': 'went'})
+    html = r.content.decode()
+    assert '>go<' in html and '>cut<' not in html and '>buy<' not in html
+
+
+@pytest.mark.django_db
+def test_grammar_word_pattern_filter(gramword_topics):
+    c = Client()
+    r = c.get('/grammar/word/', {'pattern': 'ABB'})
+    html = r.content.decode()
+    assert '>buy<' in html
+    assert '>cut<' not in html and '>come<' not in html and '>go<' not in html
+
+
+@pytest.mark.django_db
+def test_grammar_word_pattern_filter_ignored_on_comparisons(gramword_topics):
+    c = Client()
+    r = c.get('/grammar/word/', {'set': 'comparisons', 'pattern': 'AAA'})
+    html = r.content.decode()
+    assert '>better<' in html
+    assert '>worse<' in html
+
+
+@pytest.mark.django_db
+def test_grammar_word_clear_filters_link_present(gramword_topics):
+    c = Client()
+    r = c.get('/grammar/word/', {'q': 'cut', 'pattern': 'AAA'})
+    html = r.content.decode()
+    assert 'class="clear-btn" href="/grammar/word/"' in html

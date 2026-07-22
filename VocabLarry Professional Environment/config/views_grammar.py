@@ -1,10 +1,11 @@
 import itertools
 
+from django.core.paginator import Paginator
 from django.db.models import Case, IntegerField, Value, When
 from django.shortcuts import get_object_or_404, render
 from django.views.decorators.csrf import ensure_csrf_cookie
 
-from vocab.models import GrammarSection, GrammarTopic
+from vocab.models import GrammarLessonBlock, GrammarSection, GrammarTopic
 
 GRAMMAR_CARD_THEMES = [
     't-tb', 't-tv', 't-tp', 't-tr', 't-te', 't-ta', 't-tc', 't-tg', 't-ti',
@@ -12,6 +13,34 @@ GRAMMAR_CARD_THEMES = [
 ]
 GRAMMAR_IMG_FALLBACK = ['1456513080510-7bf3a84b82f8', '1488190211105-8b0e65b80b4e', '1516979187457-637abb4f9353']
 GRAMMAR_CEFR_LEVELS = ['A1', 'A1+', 'A2', 'A2+', 'B1', 'B1+', 'B2', 'B2+', 'C1', 'C1+', 'C2', 'C2+']
+
+GRAMWORD_SETS = {
+    'verbs': {'topic_slug': 'irregular-verbs', 'label': 'Irregular Verbs'},
+    'comparisons': {'topic_slug': 'comparison-structures', 'label': 'Comparisons'},
+}
+
+
+def _classify_verb_pattern(v1, v2, v3):
+    if v1 == v2 == v3:
+        return 'AAA'
+    if v2 == v3:
+        return 'ABB'
+    if v1 == v3:
+        return 'ABA'
+    return 'ABC'
+
+
+def _pagination_window(current, total, delta=2):
+    """Page numbers to display, with None marking an ellipsis gap.
+    Duplicated from views_vocab.py's identical helper rather than
+    cross-imported, keeping the vocab/grammar view modules independent."""
+    pages = []
+    for p in range(1, total + 1):
+        if p == 1 or p == total or (current - delta <= p <= current + delta):
+            pages.append(p)
+        elif pages and pages[-1] is not None:
+            pages.append(None)
+    return pages
 
 
 def _stage_ranked_topics():
@@ -162,4 +191,43 @@ def grammar_home(request):
 
 
 def grammar_word(request):
-    return render(request, 'grammar/word.html')
+    active_set = request.GET.get('set', 'verbs')
+    if active_set not in GRAMWORD_SETS:
+        active_set = 'verbs'
+    query = request.GET.get('q', '').strip()
+    pattern_filter = request.GET.get('pattern', '').strip()
+
+    topic_slug = GRAMWORD_SETS[active_set]['topic_slug']
+    block = get_object_or_404(GrammarLessonBlock, topic__slug=topic_slug, type='table')
+    head = block.data.get('head', [])
+    rows = block.data.get('rows', [])
+
+    if active_set == 'verbs':
+        entries = [
+            {'cells': row, 'pattern': _classify_verb_pattern(*row)}
+            for row in rows
+        ]
+        if pattern_filter in ('AAA', 'ABA', 'ABB', 'ABC'):
+            entries = [e for e in entries if e['pattern'] == pattern_filter]
+    else:
+        entries = [{'cells': row, 'pattern': None} for row in rows]
+        pattern_filter = ''
+
+    if query:
+        q_lower = query.lower()
+        entries = [
+            e for e in entries
+            if any(q_lower in str(cell).lower() for cell in e['cells'])
+        ]
+
+    paginator = Paginator(entries, 25)
+    page_obj = paginator.get_page(request.GET.get('page', 1))
+
+    return render(request, 'grammar/word.html', {
+        'active_set': active_set,
+        'head': head,
+        'page_obj': page_obj,
+        'pagination_window': _pagination_window(page_obj.number, paginator.num_pages),
+        'query': query,
+        'pattern_filter': pattern_filter,
+    })

@@ -3,14 +3,65 @@
 {% block title %}Word — VocabLarry{% endblock %}
 {% block extra_head %}<link rel="stylesheet" href="{% static 'css/grammar.css' %}">{% endblock %}
 {% block content %}
-<section class="page-stub">
-  <span class="eyebrow">Section 02 / Grammar</span>
+<section class="grammar-word">
   <h1>Word</h1>
   <div class="mobile-page-switcher">
     <a class="chip" href="{% url 'grammar_category_list' %}" data-i18n="nav.category">Category</a>
     <a class="chip active" href="{% url 'grammar_word' %}" data-i18n="nav.word">Word</a>
     <a class="chip" href="{% url 'grammar_quiz_setup' %}" data-i18n="nav.quiz">Quiz</a>
   </div>
-  <p>Coming soon.</p>
+
+  <div class="headline-bar">
+    <a class="headline-btn{% if active_set == 'verbs' %} active{% endif %}" href="?set=verbs">Irregular Verbs</a>
+    <a class="headline-btn{% if active_set == 'comparisons' %} active{% endif %}" href="?set=comparisons">Comparisons</a>
+  </div>
+
+  <div class="filters">
+    <form method="get" class="search-row">
+      <input type="hidden" name="set" value="{{ active_set }}">
+      <input type="search" name="q" value="{{ query }}" placeholder="Search…">
+      <button type="submit" class="btn">Filter</button>
+    </form>
+    {% if active_set == 'verbs' %}
+    <div class="filter-row">
+      <span class="filter-label">Pattern</span>
+      <a class="chip{% if not pattern_filter %} active{% endif %}" href="?set=verbs{% if query %}&q={{ query|urlencode }}{% endif %}">All</a>
+      <a class="chip{% if pattern_filter == 'AAA' %} active{% endif %}" href="?set=verbs{% if query %}&q={{ query|urlencode }}{% endif %}&pattern=AAA">AAA</a>
+      <a class="chip{% if pattern_filter == 'ABA' %} active{% endif %}" href="?set=verbs{% if query %}&q={{ query|urlencode }}{% endif %}&pattern=ABA">ABA</a>
+      <a class="chip{% if pattern_filter == 'ABB' %} active{% endif %}" href="?set=verbs{% if query %}&q={{ query|urlencode }}{% endif %}&pattern=ABB">ABB</a>
+      <a class="chip{% if pattern_filter == 'ABC' %} active{% endif %}" href="?set=verbs{% if query %}&q={{ query|urlencode }}{% endif %}&pattern=ABC">ABC</a>
+    </div>
+    {% endif %}
+    <div class="filter-row" style="justify-content:flex-end;">
+      <a class="clear-btn" href="{% url 'grammar_word' %}">Clear filters</a>
+    </div>
+  </div>
+
+  {% if page_obj %}
+  <div class="gram-table-wrap"><div style="overflow-x:auto;"><table class="gram-table"><thead><tr>
+    {% for h in head %}<th>{{ h }}</th>{% endfor %}
+    {% if active_set == 'verbs' %}<th>Pattern</th>{% endif %}
+  </tr></thead><tbody>
+    {% for entry in page_obj %}<tr>
+      {% for cell in entry.cells %}<td>{{ cell }}</td>{% endfor %}
+      {% if active_set == 'verbs' %}<td><span class="pattern-badge {{ entry.pattern }}">{{ entry.pattern }}</span></td>{% endif %}
+    </tr>{% endfor %}
+  </tbody></table></div></div>
+  {% if page_obj.paginator.num_pages > 1 %}
+  <nav class="pagination">
+    <a class="page-btn{% if not page_obj.has_previous %} disabled{% endif %}"
+       href="{% if page_obj.has_previous %}?set={{ active_set }}{% if query %}&q={{ query|urlencode }}{% endif %}{% if pattern_filter %}&pattern={{ pattern_filter }}{% endif %}&page={{ page_obj.previous_page_number }}{% else %}#{% endif %}">«</a>
+    {% for p in pagination_window %}
+      {% if p is None %}<span class="page-ellipsis">…</span>
+      {% else %}<a class="page-btn{% if p == page_obj.number %} active{% endif %}" href="?set={{ active_set }}{% if query %}&q={{ query|urlencode }}{% endif %}{% if pattern_filter %}&pattern={{ pattern_filter }}{% endif %}&page={{ p }}">{{ p }}</a>
+      {% endif %}
+    {% endfor %}
+    <a class="page-btn{% if not page_obj.has_next %} disabled{% endif %}"
+       href="{% if page_obj.has_next %}?set={{ active_set }}{% if query %}&q={{ query|urlencode }}{% endif %}{% if pattern_filter %}&pattern={{ pattern_filter }}{% endif %}&page={{ page_obj.next_page_number }}{% else %}#{% endif %}">»</a>
+  </nav>
+  {% endif %}
+  {% else %}
+  <p class="grammar-empty">No entries match your search.</p>
+  {% endif %}
 </section>
 {% endblock %}
