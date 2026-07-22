@@ -251,3 +251,62 @@ def test_reading_writing_listening_speaking_stub_pages_render():
         assert eyebrow in html, url
         assert f'<h1>{title}</h1>' in html, url
         assert 'Coming soon.' in html, url
+
+
+@pytest.mark.django_db
+def test_nav_has_single_signin_button_when_logged_out():
+    from django.test import Client
+    c = Client()
+    r = c.get('/')
+    html = r.content.decode()
+    assert '<button type="button" class="btn btn-primary" id="signInBtn" data-i18n="nav.signIn">Sign In</button>' in html
+
+
+@pytest.mark.django_db
+def test_nav_no_longer_links_directly_to_classic_login_signup():
+    from django.test import Client
+    c = Client()
+    r = c.get('/')
+    html = r.content.decode()
+    assert 'href="/accounts/login/"' not in html
+    assert 'href="/accounts/signup/"' not in html
+
+
+@pytest.mark.django_db
+def test_auth_modal_renders_on_home_page():
+    from django.test import Client
+    c = Client()
+    r = c.get('/')
+    html = r.content.decode()
+    for element_id in (
+        'authOverlay', 'authClose', 'authTitle', 'authForm',
+        'authEmailGroup', 'authEmail', 'authPasswordGroup', 'authPassword',
+        'authPwToggle', 'authRememberMe', 'authForgotWrap', 'authForgotLink',
+        'authSignupExtra', 'authName', 'authUsername', 'authPicture',
+        'authMfaGroup', 'authMfaCode', 'authResetGroup', 'authResetPassword',
+        'authResetPassword2', 'authSubmitBtn', 'authSwitch', 'authError', 'authInfo',
+    ):
+        assert f'id="{element_id}"' in html, element_id
+
+
+@pytest.mark.django_db
+def test_auth_modal_has_exactly_4_social_providers_no_github():
+    from django.test import Client
+    c = Client()
+    r = c.get('/')
+    html = r.content.decode()
+    assert 'data-provider="google"' in html
+    assert 'data-provider="facebook"' in html
+    assert 'data-provider="microsoft"' in html
+    assert 'data-provider="apple"' in html
+    assert 'data-provider="github"' not in html
+
+
+@pytest.mark.django_db
+def test_eye_icon_symbols_present_for_password_toggle():
+    from django.test import Client
+    c = Client()
+    r = c.get('/')
+    html = r.content.decode()
+    assert 'id="i-eye"' in html
+    assert 'id="i-eye-off"' in html

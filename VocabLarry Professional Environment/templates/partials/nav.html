@@ -44,8 +44,7 @@
       <span>{{ user.username }}</span>
       <a class="btn" href="{% url 'account_logout' %}" data-i18n="nav.signOut">Sign Out</a>
     {% else %}
-      <a class="btn" href="{% url 'account_login' %}" data-i18n="nav.signIn">Sign In</a>
-      <a class="btn btn-primary" href="{% url 'account_signup' %}" data-i18n="nav.signUp">Sign Up</a>
+      <button type="button" class="btn btn-primary" id="signInBtn" data-i18n="nav.signIn">Sign In</button>
     {% endif %}
   </div>
 </nav>
