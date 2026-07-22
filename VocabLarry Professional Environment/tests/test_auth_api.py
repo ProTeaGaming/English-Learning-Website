@@ -285,3 +285,90 @@ def test_reset_password_deep_link_page_renders():
     r = c.get('/reset-password/sometestkey456/')
     assert r.status_code == 200
     assert 'site-nav' in r.content.decode()
+
+
+# The next 4 tests pin down a real allauth.headless behavior discovered via
+# manual browser verification of auth-modal.js: a *successful* email-verify
+# or password-reset POST returns HTTP 401 (not 200) — confirming an email or
+# resetting a password doesn't by itself establish a session under mandatory
+# verification. auth-modal.js relies on `!data.errors` (not the HTTP status)
+# to tell success from failure; these tests guard that contract against a
+# future allauth upgrade changing the response shape.
+
+@pytest.mark.django_db
+def test_headless_email_verify_succeeds_without_errors_key_even_though_401():
+    from allauth.account.models import EmailAddress, EmailConfirmationHMAC
+
+    User = get_user_model()
+    user = User.objects.create_user(
+        email='verifycontract@example.com', username='verifycontract', password='x',
+    )
+    email_address = EmailAddress.objects.create(
+        user=user, email=user.email, verified=False, primary=True,
+    )
+    key = EmailConfirmationHMAC(email_address).key
+
+    c = Client()
+    r = c.post(
+        '/_allauth/browser/v1/auth/email/verify',
+        json.dumps({'key': key}), content_type='application/json',
+    )
+    data = json.loads(r.content)
+    assert 'errors' not in data
+    email_address.refresh_from_db()
+    assert email_address.verified is True
+
+
+@pytest.mark.django_db
+def test_headless_email_verify_invalid_key_returns_errors_key():
+    c = Client()
+    r = c.post(
+        '/_allauth/browser/v1/auth/email/verify',
+        json.dumps({'key': 'bogus'}), content_type='application/json',
+    )
+    data = json.loads(r.content)
+    assert 'errors' in data
+
+
+@pytest.mark.django_db
+def test_headless_password_reset_succeeds_without_errors_key_even_though_401():
+    import re
+    from django.core import mail
+    from django.test import override_settings
+    from allauth.account.models import EmailAddress
+
+    User = get_user_model()
+    user = User.objects.create_user(
+        email='resetcontract@gmail.com', username='resetcontract', password='OldPass12345',
+    )
+    EmailAddress.objects.create(user=user, email=user.email, verified=True, primary=True)
+
+    c = Client()
+    with override_settings(EMAIL_BACKEND='django.core.mail.backends.locmem.EmailBackend'):
+        r = c.post(
+            '/_allauth/browser/v1/auth/password/request',
+            json.dumps({'email': user.email}), content_type='application/json',
+        )
+        assert r.status_code == 200
+        body = mail.outbox[-1].body
+    key = re.search(r'/reset-password/(\S+)', body).group(1)
+
+    r2 = c.post(
+        '/_allauth/browser/v1/auth/password/reset',
+        json.dumps({'key': key, 'password': 'BrandNewPass99'}), content_type='application/json',
+    )
+    data = json.loads(r2.content)
+    assert 'errors' not in data
+    user.refresh_from_db()
+    assert user.check_password('BrandNewPass99')
+
+
+@pytest.mark.django_db
+def test_headless_password_reset_invalid_key_returns_errors_key():
+    c = Client()
+    r = c.post(
+        '/_allauth/browser/v1/auth/password/reset',
+        json.dumps({'key': 'bogus', 'password': 'BrandNewPass99'}), content_type='application/json',
+    )
+    data = json.loads(r.content)
+    assert 'errors' in data

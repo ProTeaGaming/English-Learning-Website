@@ -153,7 +153,14 @@
           body: JSON.stringify({ key }),
         });
         const data = await res.json().catch(() => ({}));
-        const ok = res.status === 200 || data.status === 200;
+        // allauth.headless returns 401 (not 200) even on a SUCCESSFUL
+        // verify, since confirming an email doesn't by itself establish an
+        // authenticated session under mandatory verification — the account
+        // still needs a separate login afterward. Verified against real
+        // django-allauth 65.18.0 responses: a genuine failure always
+        // carries a top-level `errors` array (e.g. invalid_or_expired_key);
+        // a success never does, regardless of HTTP status.
+        const ok = !data.errors;
         try {
           sessionStorage.setItem("vlpe_flash", ok
             ? t("auth.emailVerified")
@@ -371,8 +378,13 @@
           body: JSON.stringify({ key: authState.resetKey, password: pw1 }),
         });
         const data = await res.json();
-        if (res.status !== 200 && data.status !== 200){
-          showAuthError((data.errors?.[0]?.message) || t("auth.resetFailed"));
+        // Same allauth.headless quirk as email verification above: a
+        // successful password reset also returns 401 (no session gets
+        // established), so the only reliable success signal is the
+        // absence of a top-level `errors` array — verified against real
+        // django-allauth 65.18.0 responses, not assumed from status code.
+        if (data.errors){
+          showAuthError(data.errors[0]?.message || t("auth.resetFailed"));
           return;
         }
         sessionStorage.setItem("vlpe_flash", t("auth.passwordResetSuccess"));
