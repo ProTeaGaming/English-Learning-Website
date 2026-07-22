@@ -608,6 +608,64 @@ def test_vocabulary_word_list_authenticated_query_count_does_not_scale_with_word
 
 
 @pytest.mark.django_db
+def test_vocabulary_word_list_category_and_cefr_combined(cefr_a1, cefr_b1):
+    animals = Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1)
+    food = Category.objects.create(slug='food', name='Food', order=2, cefr_level=cefr_a1)
+    Word.objects.create(word='Cat', definition='A feline.', category=animals, cefr_level=cefr_a1, order=1)
+    Word.objects.create(word='Contemplate', definition='To think.', category=animals, cefr_level=cefr_b1, order=2)
+    Word.objects.create(word='Bread', definition='Baked food.', category=food, cefr_level=cefr_a1, order=1)
+    c = Client()
+    r = c.get('/vocabulary/word/', {'category': 'animals', 'cefr': 'A1'})
+    html = r.content.decode()
+    assert '>Cat<' in html and '>Contemplate<' not in html and '>Bread<' not in html
+
+
+@pytest.mark.django_db
+def test_vocabulary_word_list_search_and_stage_combined(cefr_a1, cefr_b1):
+    category = Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1)
+    Word.objects.create(word='Cat', definition='A small feline.', category=category, cefr_level=cefr_a1, order=1)
+    Word.objects.create(word='Bobcat', definition='A wild feline.', category=category, cefr_level=cefr_b1, order=2)
+    c = Client()
+    r = c.get('/vocabulary/word/', {'q': 'feline', 'stage': 'basic'})
+    html = r.content.decode()
+    assert '>Cat<' in html and '>Bobcat<' not in html
+
+
+@pytest.mark.django_db
+def test_vocabulary_word_list_stage_and_cefr_combined(cefr_a1, cefr_b1):
+    category = Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1)
+    cefr_a2 = CEFRLevel.objects.create(code='A2', name='Elementary', order=3)
+    Word.objects.create(word='Cat', definition='A feline.', category=category, cefr_level=cefr_a1, order=1)
+    Word.objects.create(word='Dog', definition='A canine.', category=category, cefr_level=cefr_a2, order=2)
+    Word.objects.create(word='Contemplate', definition='To think.', category=category, cefr_level=cefr_b1, order=3)
+    c = Client()
+    r = c.get('/vocabulary/word/', {'stage': 'basic', 'cefr': 'A1'})
+    html = r.content.decode()
+    assert '>Cat<' in html and '>Dog<' not in html and '>Contemplate<' not in html
+
+
+@pytest.mark.django_db
+def test_vocabulary_word_list_no_matches_shows_empty_message(cefr_a1):
+    category = Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1)
+    Word.objects.create(word='Cat', definition='A feline.', category=category, cefr_level=cefr_a1, order=1)
+    c = Client()
+    r = c.get('/vocabulary/word/', {'q': 'nonexistentxyz'})
+    html = r.content.decode()
+    assert 'No words match your search.' in html
+    assert 'class="word-card' not in html
+
+
+@pytest.mark.django_db
+def test_vocabulary_word_list_card_links_to_its_category(cefr_a1):
+    category = Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1)
+    Word.objects.create(word='Cat', definition='A feline.', category=category, cefr_level=cefr_a1, order=1)
+    c = Client()
+    r = c.get('/vocabulary/word/')
+    html = r.content.decode()
+    assert 'class="word-cat" href="/vocabulary/category/animals/"' in html
+
+
+@pytest.mark.django_db
 def test_vocabulary_home_renders():
     c = Client()
     r = c.get('/vocabulary/')
