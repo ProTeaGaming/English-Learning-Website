@@ -15,57 +15,107 @@
       <input type="search" name="q" value="{{ query }}" placeholder="Search categories…" data-i18n-placeholder="vocab.searchCategories">
       {% if cefr_filter %}<input type="hidden" name="cefr" value="{{ cefr_filter }}">{% endif %}
       {% if progress_filter %}<input type="hidden" name="progress" value="{{ progress_filter }}">{% endif %}
+      {% if tier_filter %}<input type="hidden" name="tier" value="{{ tier_filter }}">{% endif %}
       <button type="submit" class="btn">Filter</button>
     </form>
     <div class="filter-row">
+      <span class="filter-label">Tier</span>
+      <a class="chip{% if not tier_filter %} active{% endif %}" href="?q={{ query|urlencode }}{% if cefr_filter %}&cefr={{ cefr_filter }}{% endif %}{% if progress_filter %}&progress={{ progress_filter }}{% endif %}">All</a>
+      <a class="chip{% if tier_filter == 'basic' %} active{% endif %}" href="?q={{ query|urlencode }}{% if cefr_filter %}&cefr={{ cefr_filter }}{% endif %}{% if progress_filter %}&progress={{ progress_filter }}{% endif %}&tier=basic">Basic</a>
+      <a class="chip{% if tier_filter == 'intermediate' %} active{% endif %}" href="?q={{ query|urlencode }}{% if cefr_filter %}&cefr={{ cefr_filter }}{% endif %}{% if progress_filter %}&progress={{ progress_filter }}{% endif %}&tier=intermediate">Intermediate</a>
+      <a class="chip{% if tier_filter == 'advanced' %} active{% endif %}" href="?q={{ query|urlencode }}{% if cefr_filter %}&cefr={{ cefr_filter }}{% endif %}{% if progress_filter %}&progress={{ progress_filter }}{% endif %}&tier=advanced">Advanced</a>
+    </div>
+    <div class="filter-row">
       <span class="filter-label" data-i18n="common.cefrLevel">CEFR Level</span>
-      <a class="chip{% if not cefr_filter %} active{% endif %}" href="?q={{ query|urlencode }}{% if progress_filter %}&progress={{ progress_filter }}{% endif %}" data-i18n="common.all">All</a>
+      <a class="chip{% if not cefr_filter %} active{% endif %}" href="?q={{ query|urlencode }}{% if tier_filter %}&tier={{ tier_filter }}{% endif %}{% if progress_filter %}&progress={{ progress_filter }}{% endif %}" data-i18n="common.all">All</a>
       {% for level in cefr_levels %}
-      <a class="chip{% if cefr_filter == level.code %} active{% endif %}" data-browse-cefr="{{ level.code }}" href="?q={{ query|urlencode }}&cefr={{ level.code }}{% if progress_filter %}&progress={{ progress_filter }}{% endif %}">{{ level.code }}</a>
+      <a class="chip{% if cefr_filter == level.code %} active{% endif %}" data-browse-cefr="{{ level.code }}" href="?q={{ query|urlencode }}{% if tier_filter %}&tier={{ tier_filter }}{% endif %}{% if progress_filter %}&progress={{ progress_filter }}{% endif %}&cefr={{ level.code }}">{{ level.code }}</a>
       {% endfor %}
     </div>
     {% if user.is_authenticated %}
     <div class="filter-row">
       <span class="filter-label" data-i18n="common.progress">Progress</span>
-      <a class="chip{% if not progress_filter %} active{% endif %}" href="?q={{ query|urlencode }}{% if cefr_filter %}&cefr={{ cefr_filter }}{% endif %}" data-i18n="common.all">All</a>
-      <a class="chip{% if progress_filter == 'learned' %} active{% endif %}" data-browse-status="completed" href="?q={{ query|urlencode }}{% if cefr_filter %}&cefr={{ cefr_filter }}{% endif %}&progress=learned" data-i18n="common.completed">Completed</a>
-      <a class="chip{% if progress_filter == 'in_progress' %} active{% endif %}" data-browse-status="inProgress" href="?q={{ query|urlencode }}{% if cefr_filter %}&cefr={{ cefr_filter }}{% endif %}&progress=in_progress" data-i18n="common.inProgress">In Progress</a>
-      <a class="chip{% if progress_filter == 'not_started' %} active{% endif %}" data-browse-status="notStarted" href="?q={{ query|urlencode }}{% if cefr_filter %}&cefr={{ cefr_filter }}{% endif %}&progress=not_started" data-i18n="common.notStarted">Not Started</a>
+      <a class="chip{% if not progress_filter %} active{% endif %}" href="?q={{ query|urlencode }}{% if tier_filter %}&tier={{ tier_filter }}{% endif %}{% if cefr_filter %}&cefr={{ cefr_filter }}{% endif %}" data-i18n="common.all">All</a>
+      <a class="chip{% if progress_filter == 'learned' %} active{% endif %}" data-browse-status="completed" href="?q={{ query|urlencode }}{% if tier_filter %}&tier={{ tier_filter }}{% endif %}{% if cefr_filter %}&cefr={{ cefr_filter }}{% endif %}&progress=learned" data-i18n="common.completed">Completed</a>
+      <a class="chip{% if progress_filter == 'in_progress' %} active{% endif %}" data-browse-status="inProgress" href="?q={{ query|urlencode }}{% if tier_filter %}&tier={{ tier_filter }}{% endif %}{% if cefr_filter %}&cefr={{ cefr_filter }}{% endif %}&progress=in_progress" data-i18n="common.inProgress">In Progress</a>
+      <a class="chip{% if progress_filter == 'not_started' %} active{% endif %}" data-browse-status="notStarted" href="?q={{ query|urlencode }}{% if tier_filter %}&tier={{ tier_filter }}{% endif %}{% if cefr_filter %}&cefr={{ cefr_filter }}{% endif %}&progress=not_started" data-i18n="common.notStarted">Not Started</a>
     </div>
     {% endif %}
     <div class="filter-row" style="justify-content:flex-end;">
       <a class="clear-btn" href="{% url 'vocabulary_category_list' %}" data-i18n="common.clearFilters">Clear filters</a>
     </div>
   </div>
-  {% if categories %}
-  <div class="cat-grid">
-    {% for category in categories %}
-    <a class="cat-card" href="{% url 'vocabulary_category_detail' category.slug %}"
-       style="--accent-c:{{ category.color.bg_hex|default:'#7c3aed' }};">
-      <div class="cat-card-top">
-        <span class="cat-tag"><svg class="ico" aria-hidden="true"><use href="#{{ category.icon|category_icon }}"/></svg> {{ category.word_count }} words</span>
-        {% if category.cefr_level %}<span class="cefr-badge {{ category.cefr_level.code }}">{{ category.cefr_level.code }}</span>{% endif %}
-        <svg class="ico cat-arrow" aria-hidden="true"><use href="#i-arrow-up-right"/></svg>
+
+  {% if page_obj %}
+  {% for entry in page_obj %}
+  <div class="section-block">
+    <div class="section-block-header">
+      <div class="section-block-num">{{ entry.section.order|add:1|stringformat:"02d" }}</div>
+      <div class="section-block-info">
+        <div class="section-block-name">{{ entry.section.name }}</div>
+        <div class="section-block-meta">{{ entry.categories|length }} categor{{ entry.categories|length|pluralize:"y,ies" }} · {{ entry.word_count }} words</div>
       </div>
-      <div class="cat-name">{{ category.name }}</div>
-      {% if category.progress %}
-      <div class="cat-pbar-row">
-        <div class="cat-pbar">
-          <div class="cat-pfill-little" style="width:{{ category.progress.little_pct }}%"></div>
-          <div class="cat-pfill" style="width:{{ category.progress.learned_pct }}%;{% if category.progress.complete %}background:#10b981;{% endif %}position:absolute;top:0;left:0;"></div>
+      <div class="section-block-right">
+        {% if entry.progress_pct is not None %}
+        <div class="section-block-prog">
+          <div class="section-block-pbar"><div class="section-block-pfill" style="width:{{ entry.progress_pct }}%"></div></div>
+          <div class="section-block-pct">{{ entry.progress_pct }}%</div>
         </div>
-        {% if category.progress.complete %}
-        <svg class="ico cat-medal" aria-hidden="true"><use href="#i-medal"/></svg>
-        {% else %}
-        <span class="cat-plabel">{{ category.progress.learned }}/{{ category.progress.total }}</span>
         {% endif %}
+        <span class="section-block-chevron">›</span>
       </div>
-      {% endif %}
-    </a>
-    {% endfor %}
+    </div>
+    <div class="section-block-divider"></div>
+    <div class="section-block-body">
+      <div class="section-block-body-inner">
+        <div class="cat-grid">
+          {% for category in entry.categories %}
+          <a class="cat-card" href="{% url 'vocabulary_category_detail' category.slug %}"
+             style="--accent-c:{{ category.color.bg_hex|default:'#7c3aed' }};">
+            <div class="cat-card-top">
+              <span class="cat-tag"><svg class="ico" aria-hidden="true"><use href="#{{ category.icon|category_icon }}"/></svg> {{ category.word_count }} words</span>
+              {% if category.cefr_level %}<span class="cefr-badge {{ category.cefr_level.code }}">{{ category.cefr_level.code }}</span>{% endif %}
+              <svg class="ico cat-arrow" aria-hidden="true"><use href="#i-arrow-up-right"/></svg>
+            </div>
+            <div class="cat-name">{{ category.name }}</div>
+            {% if category.progress %}
+            <div class="cat-pbar-row">
+              <div class="cat-pbar">
+                <div class="cat-pfill-little" style="width:{{ category.progress.little_pct }}%"></div>
+                <div class="cat-pfill" style="width:{{ category.progress.learned_pct }}%;{% if category.progress.complete %}background:#10b981;{% endif %}position:absolute;top:0;left:0;"></div>
+              </div>
+              {% if category.progress.complete %}
+              <svg class="ico cat-medal" aria-hidden="true"><use href="#i-medal"/></svg>
+              {% else %}
+              <span class="cat-plabel">{{ category.progress.learned }}/{{ category.progress.total }}</span>
+              {% endif %}
+            </div>
+            {% endif %}
+          </a>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
   </div>
+  {% endfor %}
+  {% if page_obj.paginator.num_pages > 1 %}
+  <nav class="pagination">
+    <a class="page-btn{% if not page_obj.has_previous %} disabled{% endif %}"
+       href="{% if page_obj.has_previous %}?q={{ query|urlencode }}{% if tier_filter %}&tier={{ tier_filter }}{% endif %}{% if cefr_filter %}&cefr={{ cefr_filter }}{% endif %}{% if progress_filter %}&progress={{ progress_filter }}{% endif %}&page={{ page_obj.previous_page_number }}{% else %}#{% endif %}">«</a>
+    {% for p in pagination_window %}
+      {% if p is None %}<span class="page-ellipsis">…</span>
+      {% else %}<a class="page-btn{% if p == page_obj.number %} active{% endif %}" href="?q={{ query|urlencode }}{% if tier_filter %}&tier={{ tier_filter }}{% endif %}{% if cefr_filter %}&cefr={{ cefr_filter }}{% endif %}{% if progress_filter %}&progress={{ progress_filter }}{% endif %}&page={{ p }}">{{ p }}</a>
+      {% endif %}
+    {% endfor %}
+    <a class="page-btn{% if not page_obj.has_next %} disabled{% endif %}"
+       href="{% if page_obj.has_next %}?q={{ query|urlencode }}{% if tier_filter %}&tier={{ tier_filter }}{% endif %}{% if cefr_filter %}&cefr={{ cefr_filter }}{% endif %}{% if progress_filter %}&progress={{ progress_filter }}{% endif %}&page={{ page_obj.next_page_number }}{% else %}#{% endif %}">»</a>
+  </nav>
+  {% endif %}
   {% else %}
   <p class="vocab-empty">No categories match your search.</p>
   {% endif %}
 </section>
+{% endblock %}
+{% block extra_body %}
+<script src="{% static 'js/section-accordion.js' %}" defer></script>
 {% endblock %}

@@ -25,34 +25,99 @@ def test_vocabulary_category_list_renders():
     assert 'site-nav' in r.content.decode()
 
 
+@pytest.fixture
+def vocab_sections(db):
+    from vocab.models import VocabSection
+    basic = VocabSection.objects.create(slug='essential-verbs', name='Essential Verbs', tier='basic', order=0)
+    inter = VocabSection.objects.create(slug='emotions-in-depth', name='Emotions in Depth', tier='intermediate', order=10)
+    adv = VocabSection.objects.create(slug='negative-qualities-criticism', name='Negative Qualities & Criticism', tier='advanced', order=37)
+    return {'basic': basic, 'intermediate': inter, 'advanced': adv}
+
+
 @pytest.mark.django_db
-def test_vocabulary_category_list_lists_categories(cefr_a1):
-    Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1)
+def test_vocabulary_category_list_shows_section_accordions(cefr_a1, vocab_sections):
+    Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1, section=vocab_sections['basic'])
     c = Client()
     r = c.get('/vocabulary/category/')
-    assert 'Animals' in r.content.decode()
+    html = r.content.decode()
+    assert 'class="section-block-name">Essential Verbs<' in html
+    assert 'class="section-block"' in html
+    assert 'Animals' in html
 
 
 @pytest.mark.django_db
-def test_vocabulary_category_list_search_filters_by_name(cefr_a1):
-    Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1)
-    Category.objects.create(slug='food', name='Food', order=2, cefr_level=cefr_a1)
+def test_vocabulary_category_list_search_filters_within_sections(cefr_a1, vocab_sections):
+    Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1, section=vocab_sections['basic'])
+    Category.objects.create(slug='food', name='Food', order=2, cefr_level=cefr_a1, section=vocab_sections['basic'])
     c = Client()
-    r = c.get('/vocabulary/category/?q=Animal')
-    body = r.content.decode()
-    assert 'Animals' in body
-    assert 'Food' not in body
+    r = c.get('/vocabulary/category/', {'q': 'anim'})
+    html = r.content.decode()
+    assert 'Animals' in html and 'Food' not in html
 
 
 @pytest.mark.django_db
-def test_vocabulary_category_list_cefr_filter(cefr_a1, cefr_b1):
-    Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1)
-    Category.objects.create(slug='business-basics', name='Business Basics', order=2, cefr_level=cefr_b1)
+def test_vocabulary_category_list_cefr_filter(cefr_a1, cefr_b1, vocab_sections):
+    Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1, section=vocab_sections['basic'])
+    Category.objects.create(slug='food', name='Food', order=2, cefr_level=cefr_b1, section=vocab_sections['basic'])
     c = Client()
-    r = c.get('/vocabulary/category/?cefr=B1')
-    body = r.content.decode()
-    assert 'Business Basics' in body
-    assert 'Animals' not in body
+    r = c.get('/vocabulary/category/', {'cefr': 'A1'})
+    html = r.content.decode()
+    assert 'Animals' in html and 'Food' not in html
+
+
+@pytest.mark.django_db
+def test_vocabulary_category_list_section_with_no_matches_is_hidden(cefr_a1, cefr_b1, vocab_sections):
+    Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1, section=vocab_sections['basic'])
+    Category.objects.create(slug='ethics', name='Ethics', order=1, cefr_level=cefr_b1, section=vocab_sections['advanced'])
+    c = Client()
+    r = c.get('/vocabulary/category/', {'cefr': 'A1'})
+    html = r.content.decode()
+    assert 'Essential Verbs' in html
+    assert 'Negative Qualities' not in html
+
+
+@pytest.mark.django_db
+def test_vocabulary_category_list_tier_filter(cefr_a1, vocab_sections):
+    Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1, section=vocab_sections['basic'])
+    Category.objects.create(slug='ethics', name='Ethics', order=1, cefr_level=cefr_a1, section=vocab_sections['advanced'])
+    c = Client()
+    r = c.get('/vocabulary/category/', {'tier': 'basic'})
+    html = r.content.decode()
+    assert 'Essential Verbs' in html
+    assert 'Negative Qualities' not in html
+
+
+@pytest.mark.django_db
+def test_vocabulary_category_list_pagination(cefr_a1):
+    from vocab.models import VocabSection
+    for i in range(12):
+        section = VocabSection.objects.create(slug=f'section-{i}', name=f'Section {i}', tier='basic', order=i)
+        Category.objects.create(slug=f'cat-{i}', name=f'Category {i}', order=i, cefr_level=cefr_a1, section=section)
+    c = Client()
+    r = c.get('/vocabulary/category/')
+    html = r.content.decode()
+    assert html.count('class="section-block"') == 10
+    assert 'class="pagination"' in html
+
+    r2 = c.get('/vocabulary/category/', {'page': 2})
+    html2 = r2.content.decode()
+    assert html2.count('class="section-block"') == 2
+
+
+@pytest.mark.django_db
+def test_vocabulary_category_list_section_progress_shown_for_authenticated_only(cefr_a1, vocab_sections, regular_user):
+    category = Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1, section=vocab_sections['basic'])
+    Word.objects.create(word='Cat', definition='x', category=category, order=1)
+    regular_user.learn_map = {}
+    regular_user.save(update_fields=['learn_map'])
+    c = Client()
+
+    r = c.get('/vocabulary/category/')
+    assert 'section-block-pct' not in r.content.decode()
+
+    c.force_login(regular_user)
+    r2 = c.get('/vocabulary/category/')
+    assert 'section-block-pct' in r2.content.decode()
 
 
 @pytest.mark.django_db
@@ -802,12 +867,12 @@ def test_mobile_page_switcher_marks_active_chip():
 
 
 @pytest.mark.django_db
-def test_vocabulary_category_list_shows_progress_bar_for_authenticated_user(cefr_a1, regular_user):
+def test_vocabulary_category_list_shows_progress_bar_for_authenticated_user(cefr_a1, regular_user, vocab_sections):
     from vocab.models import Color
     color = Color.objects.create(name='blue', bg_hex='#3b82f6', text_hex='#ffffff')
     category = Category.objects.create(
         slug='animals', name='Animals', order=1, cefr_level=cefr_a1,
-        color=color, icon='📚',
+        color=color, icon='📚', section=vocab_sections['basic'],
     )
     w1 = Word.objects.create(word='Cat', definition='x', category=category, order=1)
     w2 = Word.objects.create(word='Dog', definition='x', category=category, order=2)
@@ -822,12 +887,12 @@ def test_vocabulary_category_list_shows_progress_bar_for_authenticated_user(cefr
 
 
 @pytest.mark.django_db
-def test_vocabulary_category_list_shows_medal_at_100_percent(cefr_a1, regular_user):
+def test_vocabulary_category_list_shows_medal_at_100_percent(cefr_a1, regular_user, vocab_sections):
     from vocab.models import Color
     color = Color.objects.create(name='blue', bg_hex='#3b82f6', text_hex='#ffffff')
     category = Category.objects.create(
         slug='animals', name='Animals', order=1, cefr_level=cefr_a1,
-        color=color, icon='📚',
+        color=color, icon='📚', section=vocab_sections['basic'],
     )
     w1 = Word.objects.create(word='Cat', definition='x', category=category, order=1)
     regular_user.learn_map = {str(w1.pk): 'learned'}
@@ -840,12 +905,12 @@ def test_vocabulary_category_list_shows_medal_at_100_percent(cefr_a1, regular_us
 
 
 @pytest.mark.django_db
-def test_vocabulary_category_list_no_progress_bar_for_guest(cefr_a1):
+def test_vocabulary_category_list_no_progress_bar_for_guest(cefr_a1, vocab_sections):
     from vocab.models import Color
     color = Color.objects.create(name='blue', bg_hex='#3b82f6', text_hex='#ffffff')
     category = Category.objects.create(
         slug='animals', name='Animals', order=1, cefr_level=cefr_a1,
-        color=color, icon='📚',
+        color=color, icon='📚', section=vocab_sections['basic'],
     )
     Word.objects.create(word='Cat', definition='x', category=category, order=1)
     c = Client()
@@ -856,9 +921,10 @@ def test_vocabulary_category_list_no_progress_bar_for_guest(cefr_a1):
 
 
 @pytest.mark.django_db
-def test_vocabulary_category_list_renders_resolved_icon(cefr_a1):
+def test_vocabulary_category_list_renders_resolved_icon(cefr_a1, vocab_sections):
     category = Category.objects.create(
         slug='animals', name='Animals', order=1, cefr_level=cefr_a1, icon='📚',
+        section=vocab_sections['basic'],
     )
     c = Client()
     r = c.get('/vocabulary/category/')
@@ -866,9 +932,9 @@ def test_vocabulary_category_list_renders_resolved_icon(cefr_a1):
 
 
 @pytest.mark.django_db
-def test_vocabulary_category_list_progress_filter_narrows_results(cefr_a1, regular_user):
-    cat1 = Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1)
-    cat2 = Category.objects.create(slug='food', name='Food', order=2, cefr_level=cefr_a1)
+def test_vocabulary_category_list_progress_filter_narrows_results(cefr_a1, regular_user, vocab_sections):
+    cat1 = Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1, section=vocab_sections['basic'])
+    cat2 = Category.objects.create(slug='food', name='Food', order=2, cefr_level=cefr_a1, section=vocab_sections['basic'])
     w1 = Word.objects.create(word='Cat', definition='x', category=cat1, order=1)
     Word.objects.create(word='Bread', definition='x', category=cat2, order=1)
     regular_user.learn_map = {str(w1.pk): 'learned'}
@@ -882,9 +948,9 @@ def test_vocabulary_category_list_progress_filter_narrows_results(cefr_a1, regul
 
 
 @pytest.mark.django_db
-def test_vocabulary_category_list_progress_filter_not_started(cefr_a1, regular_user):
-    cat1 = Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1)
-    cat2 = Category.objects.create(slug='food', name='Food', order=2, cefr_level=cefr_a1)
+def test_vocabulary_category_list_progress_filter_not_started(cefr_a1, regular_user, vocab_sections):
+    cat1 = Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1, section=vocab_sections['basic'])
+    cat2 = Category.objects.create(slug='food', name='Food', order=2, cefr_level=cefr_a1, section=vocab_sections['basic'])
     w1 = Word.objects.create(word='Cat', definition='x', category=cat1, order=1)
     Word.objects.create(word='Bread', definition='x', category=cat2, order=1)
     regular_user.learn_map = {str(w1.pk): 'learned'}

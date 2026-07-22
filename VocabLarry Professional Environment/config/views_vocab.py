@@ -1,3 +1,4 @@
+import itertools
 from collections import Counter
 
 from django.core.paginator import Paginator
@@ -11,7 +12,9 @@ def vocab_browse(request):
     query = request.GET.get('q', '').strip()
     cefr_filter = request.GET.get('cefr', '').strip()
     progress_filter = request.GET.get('progress', '').strip()
-    categories = Category.objects.select_related('cefr_level', 'color').order_by('order')
+    tier_filter = request.GET.get('tier', '').strip()
+
+    categories = Category.objects.select_related('cefr_level', 'color', 'section').order_by('section__order', 'order')
     if query:
         categories = categories.filter(name__icontains=query)
     if cefr_filter:
@@ -73,13 +76,35 @@ def vocab_browse(request):
         for category in categories:
             category.progress = None
 
+    sections = []
+    for section_id, group in itertools.groupby(categories, key=lambda c: c.section_id):
+        if section_id is None:
+            continue
+        group = list(group)
+        section = group[0].section
+        if tier_filter and section.tier != tier_filter:
+            continue
+        total_words = sum(c.word_count for c in group)
+        entry = {'section': section, 'categories': group, 'word_count': total_words}
+        if request.user.is_authenticated:
+            learned_total = sum(c.progress['learned'] for c in group)
+            entry['progress_pct'] = round(learned_total / total_words * 100) if total_words else 0
+        else:
+            entry['progress_pct'] = None
+        sections.append(entry)
+
+    paginator = Paginator(sections, 10)
+    page_obj = paginator.get_page(request.GET.get('page', 1))
+
     cefr_levels = CEFRLevel.objects.order_by('order')
     return render(request, 'vocab/browse.html', {
-        'categories': categories,
+        'page_obj': page_obj,
+        'pagination_window': _pagination_window(page_obj.number, paginator.num_pages),
         'cefr_levels': cefr_levels,
         'query': query,
         'cefr_filter': cefr_filter,
         'progress_filter': progress_filter,
+        'tier_filter': tier_filter,
     })
 
 
