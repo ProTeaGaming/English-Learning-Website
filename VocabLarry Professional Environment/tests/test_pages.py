@@ -111,7 +111,7 @@ def test_nav_vocabulary_tab_active_on_vocabulary_category_list():
     # The li wrapper's "active" class is what nav.js reads (via
     # .closest(".nav-group")) to decide toggle-dropdown vs navigate —
     # check it explicitly, not just the inner <a>'s class.
-    assert '<li class="nav-group active">' in html
+    assert '<li class="nav-group active" data-section="vocabulary">' in html
     assert '<a class="tab active" href="/vocabulary/" data-nav-toggle data-i18n="nav.vocabulary">Vocabulary</a>' in html
     assert '<a class="nav-dropdown-item active" href="/vocabulary/category/" data-i18n="nav.category">Category</a>' in html
 

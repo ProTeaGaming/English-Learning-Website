@@ -1,7 +1,7 @@
 <nav class="site-nav">
   <a class="brand" href="{% url 'home' %}"><svg class="ico ico-mark" aria-hidden="true"><use href="#i-mark"/></svg>Vocab<b>Larry</b></a>
   <ul class="nav-links">
-    <li class="nav-group{% if nav_active_section == 'vocabulary' %} active{% endif %}">
+    <li class="nav-group{% if nav_active_section == 'vocabulary' %} active{% endif %}" data-section="vocabulary">
       <a class="tab{% if nav_active_section == 'vocabulary' %} active{% endif %}" href="{% url 'vocabulary_home' %}" data-nav-toggle data-i18n="nav.vocabulary">Vocabulary</a>
       <div class="nav-dropdown">
         <a class="nav-dropdown-item{% if request.resolver_match.url_name == 'vocabulary_category_list' or request.resolver_match.url_name == 'vocabulary_category_detail' %} active{% endif %}" href="{% url 'vocabulary_category_list' %}" data-i18n="nav.category">Category</a>
