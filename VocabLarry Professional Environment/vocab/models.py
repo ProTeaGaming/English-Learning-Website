@@ -32,6 +32,27 @@ class Category(models.Model):
     color = models.ForeignKey(
         Color, null=True, blank=True, on_delete=models.SET_NULL
     )
+    section = models.ForeignKey(
+        'VocabSection', null=True, blank=True, on_delete=models.SET_NULL, related_name='categories',
+    )
+    order = models.PositiveSmallIntegerField(default=0)
+
+    class Meta:
+        ordering = ['order']
+
+    def __str__(self):
+        return self.name
+
+
+class VocabSection(models.Model):
+    TIERS = [
+        ('basic', 'Basic'),
+        ('intermediate', 'Intermediate'),
+        ('advanced', 'Advanced'),
+    ]
+    slug  = models.SlugField(max_length=100, unique=True)
+    name  = models.CharField(max_length=100)
+    tier  = models.CharField(max_length=12, choices=TIERS)
     order = models.PositiveSmallIntegerField(default=0)
 
     class Meta:
