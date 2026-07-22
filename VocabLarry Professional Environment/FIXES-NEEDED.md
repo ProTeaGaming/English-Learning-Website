@@ -19,23 +19,31 @@ the next one.
 
 ## Functionally broken (not just unstyled)
 
-- [ ] **1. Sign-in modal missing.** Currently a plain `<a href="{% url 'account_login' %}">`
+- [x] **1. Sign-in modal missing.** Currently a plain `<a href="{% url 'account_login' %}">`
       — full page reload to django-allauth's bare default page. The original has
       a JS-driven MODAL (`id="authOverlay"`) that stays on the current page, with
       steps for login/signup/MFA/password-reset and 5 social login buttons
       (Google, Facebook, GitHub, Microsoft, Apple). Rebuild as a real modal,
       using the original's HTML/CSS/JS as reference (search `vocablarry.html`
       for `authOverlay`).
+      Built (2026-07-22): full modal with login/signup/MFA/forgot/reset steps,
+      wired to `allauth.headless`. Verified end-to-end in a real browser:
+      signup -> verify-email link -> sign in; forgot-password -> reset link ->
+      new password -> sign in; MFA (TOTP) code entry; Google social-login
+      redirect reaching the real provider endpoint.
 
-- [ ] **2. `allauth.headless` missing from `INSTALLED_APPS`** in `config/settings.py`.
+- [x] **2. `allauth.headless` missing from `INSTALLED_APPS`** in `config/settings.py`.
       Without it, every `/_allauth/browser/v1/...` call the auth JS makes has
       nowhere to go — login doesn't just look wrong, it's broken. Add it back.
 
-- [ ] **3. GitHub login provider missing.** `allauth.socialaccount.providers.github`
-      absent from `INSTALLED_APPS`, and no `'github'` entry in
-      `SOCIALACCOUNT_PROVIDERS`. The GitHub button shows but does nothing. Add both.
+- [x] **3. ~~GitHub login provider missing.~~ Corrected: production has no GitHub
+      provider at all** (verified directly against `vocablarry.html` and its
+      settings — no GitHub button, no `allauth.socialaccount.providers.github`,
+      no `SOCIALACCOUNT_PROVIDERS['github']` entry anywhere). This item was based
+      on inaccurate information. Built the real 4 providers instead — Google,
+      Facebook, Microsoft, Apple — matching production exactly.
 
-- [ ] **4. `HEADLESS_FRONTEND_URLS` missing** from `config/settings.py` (needed so
+- [x] **4. `HEADLESS_FRONTEND_URLS` missing** from `config/settings.py` (needed so
       email verification / password reset links route back into the app
       correctly). Original has:
       ```python
@@ -45,7 +53,7 @@ the next one.
       }
       ```
 
-- [ ] **5. `/_allauth/` route missing** from `config/urls.py`. Add:
+- [x] **5. `/_allauth/` route missing** from `config/urls.py`. Add:
       `path('_allauth/', include('allauth.headless.urls'))`
 
 - [ ] **6. Language dropdown has no menu markup at all** — just a bare globe icon
