@@ -159,5 +159,74 @@ def vocabulary_home(request):
     return render(request, 'vocab/home.html')
 
 
+WORD_STAGES = [
+    ('basic', 'Basic', ['A1', 'A1+', 'A2', 'A2+']),
+    ('intermediate', 'Intermediate', ['B1', 'B1+', 'B2', 'B2+']),
+    ('advanced', 'Advanced', ['C1', 'C1+', 'C2', 'C2+']),
+]
+
+
+@ensure_csrf_cookie
 def vocabulary_word_list(request):
-    return render(request, 'vocab/word_list.html')
+    query = request.GET.get('q', '').strip()
+    category_filter = request.GET.get('category', '').strip()
+    stage_filter = request.GET.get('stage', '').strip()
+    cefr_filter = request.GET.get('cefr', '').strip()
+    progress_filter = request.GET.get('progress', '').strip()
+
+    words = Word.objects.select_related('category', 'cefr_level').order_by('word')
+
+    if category_filter:
+        words = words.filter(category__slug=category_filter)
+
+    stage_codes = next((codes for sid, _, codes in WORD_STAGES if sid == stage_filter), None)
+    if stage_codes:
+        words = words.filter(cefr_level__code__in=stage_codes)
+    if cefr_filter:
+        words = words.filter(cefr_level__code=cefr_filter)
+
+    if query:
+        q_lower = query.lower()
+        words = [
+            w for w in words
+            if q_lower in w.word.lower()
+            or q_lower in w.definition.lower()
+            or any(q_lower in s.lower() for s in w.synonyms)
+            or any(q_lower in a.lower() for a in w.antonyms)
+        ]
+    else:
+        words = list(words)
+
+    if request.user.is_authenticated and progress_filter in ('learned', 'little', 'none'):
+        learn_map = request.user.learn_map
+
+        def _matches_progress(w):
+            state = learn_map.get(str(w.pk))
+            if progress_filter == 'none':
+                return state not in ('learned', 'little')
+            return state == progress_filter
+
+        words = [w for w in words if _matches_progress(w)]
+
+    paginator = Paginator(words, 25)
+    page_obj = paginator.get_page(request.GET.get('page', 1))
+    if request.user.is_authenticated:
+        learn_map = request.user.learn_map
+        for word in page_obj:
+            word.learn_state = learn_map.get(str(word.pk))
+    else:
+        for word in page_obj:
+            word.learn_state = None
+
+    return render(request, 'vocab/word_list.html', {
+        'page_obj': page_obj,
+        'pagination_window': _pagination_window(page_obj.number, paginator.num_pages),
+        'categories': Category.objects.order_by('name'),
+        'cefr_levels': CEFRLevel.objects.order_by('order'),
+        'stages': WORD_STAGES,
+        'query': query,
+        'category_filter': category_filter,
+        'stage_filter': stage_filter,
+        'cefr_filter': cefr_filter,
+        'progress_filter': progress_filter,
+    })
