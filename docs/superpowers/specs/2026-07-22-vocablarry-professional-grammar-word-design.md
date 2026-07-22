@@ -59,12 +59,14 @@ Verbs: 64 rows, paginated 25/page. Comparisons: 6 rows — fits on one page; the
 
 ## Testing
 
-Pytest + Django test client, mirroring `test_vocab_pages.py`'s established conventions, added to the existing `tests/test_grammar_pages.py`:
+Pytest + Django test client, mirroring `test_grammar_pages.py`'s established conventions.
 
-- Default `set=verbs` renders the Verbs table with all 64 rows across pagination.
-- `set=comparisons` renders the Comparisons table (6 rows, no pagination controls).
+**Important — this project's `pytest.ini` sets `addopts = --no-migrations`, so the real production `irregular-verbs`/`comparison-structures` lesson-table content (seeded via a management command, not a data migration, but equally absent from a fresh test database either way) will NOT exist in any test's database.** Every test must create its own `GrammarTopic(slug='irregular-verbs', ...)` + `GrammarLessonBlock(type='table', data={...})` fixture rows directly, exactly like the existing `topic_with_blocks` fixture in `test_grammar_pages.py` already does for other block types. Fixture data should be small and synthetic but deliberately include at least one real-feeling row per Pattern classification (AAA/ABA/ABB/ABC) so the filter tests are meaningful, plus a `comparison-structures` topic+table block for the Comparisons tab. (The `cut`/`buy`/`come`/`go` examples verified against the real dataset above are useful as inspiration for the fixture's synthetic rows, not as something the tests can read from a live-seeded database.)
+
+- Default `set=verbs` renders the Verbs table with all rows from the fixture's `irregular-verbs` block, across pagination if the fixture has enough rows to exercise it.
+- `set=comparisons` renders the Comparisons table from the fixture's `comparison-structures` block.
 - Search (`q`) matches across every column, not just the first.
-- Pattern filter (`pattern=AAA`/`ABA`/`ABB`/`ABC`) returns only rows of that classification — at least one concrete example per pattern value should be asserted against a known real verb from the 64-row dataset (e.g. `cut`→AAA, `buy`→ABB, `come`→ABA, `go`→ABC), not synthetic fixture data, since this is real reference content with no per-test fixture creation needed.
+- Pattern filter (`pattern=AAA`/`ABA`/`ABB`/`ABC`) returns only rows of that classification, using the fixture's own known rows.
 - Pattern filter has no effect / is not shown on the Comparisons tab.
 - Clear-filters link resets to the default (verbs, no search/pattern, page 1).
-- The classification helper itself is unit-testable directly (pure function, no DB needed) for its 4 branches plus an edge case or two.
+- The classification helper itself is unit-testable directly (pure function, no DB needed) for its 4 branches plus an edge case or two — this part of the test suite CAN safely use the real `cut`/`buy`/`come`/`go` examples as literal inputs, since it doesn't touch the database at all.
