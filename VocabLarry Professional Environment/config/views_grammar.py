@@ -203,12 +203,17 @@ def grammar_word(request):
     rows = block.data.get('rows', [])
 
     if active_set == 'verbs':
+        # Each row is guaranteed exactly 3 cells by the source table's own
+        # head/rows shape (Base/Past simple/Past participle) — not defended
+        # against malformed input, since this reads fixed reference data.
         entries = [
             {'cells': row, 'pattern': _classify_verb_pattern(*row)}
             for row in rows
         ]
         if pattern_filter in ('AAA', 'ABA', 'ABB', 'ABC'):
             entries = [e for e in entries if e['pattern'] == pattern_filter]
+        else:
+            pattern_filter = ''
     else:
         entries = [{'cells': row, 'pattern': None} for row in rows]
         pattern_filter = ''

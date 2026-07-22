@@ -788,3 +788,15 @@ def test_grammar_word_clear_filters_link_present(gramword_topics):
     r = c.get('/grammar/word/', {'q': 'cut', 'pattern': 'AAA'})
     html = r.content.decode()
     assert 'class="clear-btn" href="/grammar/word/"' in html
+
+
+@pytest.mark.django_db
+def test_grammar_word_invalid_pattern_filter_shows_no_active_chip(gramword_topics):
+    c = Client()
+    r = c.get('/grammar/word/', {'set': 'verbs', 'pattern': 'XYZ'})
+    html = r.content.decode()
+    assert 'class="chip active" href="?set=verbs"' in html
+    assert 'class="chip active" href="?set=verbs&pattern=AAA"' not in html
+    assert 'class="chip active" href="?set=verbs&pattern=ABA"' not in html
+    assert 'class="chip active" href="?set=verbs&pattern=ABB"' not in html
+    assert 'class="chip active" href="?set=verbs&pattern=ABC"' not in html
