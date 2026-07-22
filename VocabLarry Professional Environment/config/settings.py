@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.facebook',
     'allauth.socialaccount.providers.microsoft',
     'allauth.socialaccount.providers.apple',
+    'allauth.headless',
     'accounts',
     'vocab',
     'grammar',
@@ -104,6 +105,14 @@ ACCOUNT_SIGNUP_FIELDS = ['email*', 'username*', 'password1*', 'password2*']
 # new users can never finish signing up.
 ACCOUNT_EMAIL_VERIFICATION = os.environ.get('EMAIL_VERIFICATION', 'mandatory')
 ACCOUNT_SESSION_REMEMBER = None  # show "Remember me" checkbox
+
+# Headless JSON API — powers the JS-driven auth modal (auth-modal.js).
+# The classic allauth.urls mount below stays active too: OAuth provider
+# redirects/callbacks need it even though the UI no longer links to its pages.
+HEADLESS_FRONTEND_URLS = {
+    'account_confirm_email': '/verify-email/{key}',
+    'account_reset_password_from_key': '/reset-password/{key}',
+}
 
 # Social login — each provider is a no-op (button shows, click fails with a
 # provider-side error) until real credentials are filled in via .env. Get

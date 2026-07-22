@@ -2,7 +2,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import include, path
 
-from config.views import home, reading, writing, listening, speaking
+from config.views import home, reading, writing, listening, speaking, verify_email, reset_password
 from config.views_vocab import (
     vocab_browse, vocab_category, vocab_word_detail,
     vocab_quiz_setup, vocab_quiz_play,
@@ -38,7 +38,11 @@ urlpatterns = [
     path('listening/', listening, name='listening'),
     path('speaking/', speaking, name='speaking'),
 
+    path('verify-email/<str:key>/', verify_email, name='verify_email'),
+    path('reset-password/<str:key>/', reset_password, name='reset_password'),
+
     path('accounts/', include('allauth.urls')),
+    path('_allauth/', include('allauth.headless.urls')),
     path('auth/', include('accounts.urls')),
     path('api/', include('api.urls')),
     path('dashboard/', include('dashboard.urls')),

@@ -32,3 +32,11 @@ def listening(request):
 
 def speaking(request):
     return render(request, 'speaking.html')
+
+
+def verify_email(request, key):
+    return render(request, 'auth_deep_link.html')
+
+
+def reset_password(request, key):
+    return render(request, 'auth_deep_link.html')

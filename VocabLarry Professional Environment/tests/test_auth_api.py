@@ -249,3 +249,39 @@ def test_delete_account_without_usable_password_succeeds_without_password(regula
     r = c.post('/auth/delete-account/', payload, content_type='application/json')
     assert r.status_code == 200
     assert not get_user_model().objects.filter(pk=regular_user.pk).exists()
+
+
+def test_headless_app_installed():
+    from django.conf import settings
+    assert 'allauth.headless' in settings.INSTALLED_APPS
+
+
+def test_headless_frontend_urls_configured():
+    from django.conf import settings
+    assert settings.HEADLESS_FRONTEND_URLS == {
+        'account_confirm_email': '/verify-email/{key}',
+        'account_reset_password_from_key': '/reset-password/{key}',
+    }
+
+
+@pytest.mark.django_db
+def test_headless_route_mounted():
+    c = Client()
+    r = c.get('/_allauth/browser/v1/auth/session')
+    assert r.status_code != 404
+
+
+@pytest.mark.django_db
+def test_verify_email_deep_link_page_renders():
+    c = Client()
+    r = c.get('/verify-email/sometestkey123/')
+    assert r.status_code == 200
+    assert 'site-nav' in r.content.decode()
+
+
+@pytest.mark.django_db
+def test_reset_password_deep_link_page_renders():
+    c = Client()
+    r = c.get('/reset-password/sometestkey456/')
+    assert r.status_code == 200
+    assert 'site-nav' in r.content.decode()
