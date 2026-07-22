@@ -310,3 +310,11 @@ def test_eye_icon_symbols_present_for_password_toggle():
     html = r.content.decode()
     assert 'id="i-eye"' in html
     assert 'id="i-eye-off"' in html
+
+
+@pytest.mark.django_db
+def test_auth_modal_js_included_on_every_page():
+    from django.test import Client
+    c = Client()
+    r = c.get('/')
+    assert 'auth-modal.js' in r.content.decode()
