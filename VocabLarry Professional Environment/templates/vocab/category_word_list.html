@@ -4,8 +4,14 @@
 {% block extra_head %}<link rel="stylesheet" href="{% static 'css/vocab.css' %}">{% endblock %}
 {% block content %}
 <section class="vocab-category">
-  <p class="vocab-breadcrumb"><a href="{% url 'vocabulary_category_list' %}">Vocabulary</a> / {{ category.name }}</p>
-  <h1>{{ category.name }}</h1>
+  <a class="back-btn" href="{% url 'vocabulary_category_list' %}">← All Sections</a>
+  <div class="cat-view-title-row" style="--accent-c:{{ category.color.bg_hex|default:'#7c3aed' }};">
+    <span class="cat-view-icon"><svg class="ico" aria-hidden="true"><use href="#{{ category.icon|category_icon }}"/></svg></span>
+    <div>
+      <h1 class="cat-view-name">{{ category.name }}</h1>
+      <p class="cat-view-sub">{{ all_word_ids|length }} words{% if category.section %} · {{ category.section.name }}{% endif %}</p>
+    </div>
+  </div>
   <div class="card-grid">
     {% for word in page_obj %}
     <div class="word-card{% if word.learn_state == 'learned' %} learned{% elif word.learn_state == 'little' %} little{% endif %}" style="--accent-c:{{ word.cefr_level|cefr_accent_var }};">

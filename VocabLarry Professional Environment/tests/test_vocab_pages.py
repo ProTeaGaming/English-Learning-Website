@@ -1161,3 +1161,29 @@ def test_vocab_quiz_js_has_no_stale_setup_links():
     content = js_path.read_text(encoding='utf-8')
     assert '/vocab/quiz/' not in content
     assert content.count('/vocabulary/quiz/') >= 2
+
+
+@pytest.mark.django_db
+def test_vocabulary_category_detail_shows_section_header(cefr_a1):
+    from vocab.models import VocabSection
+    section = VocabSection.objects.create(slug='essential-verbs', name='Essential Verbs', tier='basic', order=0)
+    category = Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1, section=section)
+    Word.objects.create(word='Cat', definition='x', category=category, order=1)
+    c = Client()
+    r = c.get('/vocabulary/category/animals/')
+    html = r.content.decode()
+    assert 'class="back-btn" href="/vocabulary/category/"' in html
+    assert '← All Sections' in html
+    assert 'class="cat-view-name">Animals<' in html
+    assert '1 words · Essential Verbs' in html
+
+
+@pytest.mark.django_db
+def test_vocabulary_category_detail_header_without_section(cefr_a1):
+    category = Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1)
+    Word.objects.create(word='Cat', definition='x', category=category, order=1)
+    c = Client()
+    r = c.get('/vocabulary/category/animals/')
+    html = r.content.decode()
+    assert 'class="cat-view-name">Animals<' in html
+    assert '1 words' in html
