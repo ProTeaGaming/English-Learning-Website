@@ -483,3 +483,54 @@ body::after{
   transition: color .15s, border-color .15s, background .15s, transform .2s cubic-bezier(.25,.46,.45,.94);
 }
 .clear-btn:hover{ color: var(--text); border-color: rgb(var(--violet) / .5); background: rgb(var(--violet) / .1); transform: translateY(-1px); }
+
+/* Section accordion — ported from production's .section-block family.
+   Shared by Grammar Browse and Vocabulary Category Browse (originally
+   built for Grammar only; relocated here once Vocab needed the
+   identical component). */
+.section-block{
+  margin-bottom: 12px; border: 1px solid var(--border); border-radius: 22px; overflow: hidden;
+  background: var(--card-bg);
+  transition: border-color .35s var(--ease-luxe), box-shadow .35s var(--ease-luxe), transform .35s var(--ease-luxe);
+}
+.section-block:hover{ border-color: rgb(var(--violet) / .35); box-shadow: 0 18px 44px rgba(0,0,0,.14); transform: translateY(-1px); }
+.section-block.open{ border-color: rgb(var(--violet) / .4); box-shadow: 0 22px 56px rgba(0,0,0,.16); }
+.section-block-header{ display: flex; align-items: center; gap: 18px; padding: 20px 26px; cursor: pointer; user-select: none; }
+.section-block-num{
+  font-family: 'Plus Jakarta Sans','Sora',sans-serif; font-weight: 800; font-size: 2.1rem;
+  letter-spacing: -.05em; line-height: 1; color: var(--text); opacity: .14; min-width: 54px;
+  transition: opacity .35s var(--ease-luxe), color .35s var(--ease-luxe);
+}
+.section-block:hover .section-block-num, .section-block.open .section-block-num{ opacity: .85; color: rgb(var(--violet)); }
+.section-block-info{ flex: 1; min-width: 0; }
+.section-block-name{
+  font-family: 'Plus Jakarta Sans','Sora',sans-serif; font-size: 1.05rem; font-weight: 800;
+  color: var(--text); margin-bottom: 3px; line-height: 1.2; letter-spacing: -.01em;
+}
+.section-block-meta{ font-size: .85rem; color: var(--muted); font-family: var(--serif); font-style: italic; }
+.section-block-right{ display: flex; align-items: center; gap: 14px; flex-shrink: 0; }
+.section-block-prog{ display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
+.section-block-pbar{ width: 72px; height: 2px; border-radius: 99px; background: rgb(var(--violet) / .12); overflow: hidden; }
+.section-block-pfill{ height: 100%; border-radius: 99px; background: rgb(var(--violet)); transition: width .4s ease; }
+.section-block-pct{ font-size: .72rem; font-weight: 700; color: rgb(var(--violet)); font-family: 'JetBrains Mono',monospace; }
+.section-block-chevron{
+  font-size: 1.1rem; color: var(--muted); opacity: .6;
+  transition: transform .3s cubic-bezier(.25,.46,.45,.94), opacity .2s ease;
+}
+.section-block.open .section-block-chevron{ transform: rotate(90deg); opacity: 1; color: rgb(var(--violet)); }
+.section-block-divider{ height: 1px; background: rgb(var(--violet) / .12); margin: 0 20px; display: none; }
+.section-block.open .section-block-divider{ display: block; }
+.section-block-body{ max-height: 0; overflow: hidden; transition: max-height .4s cubic-bezier(.25,.46,.45,.94); }
+.section-block-body-inner{ padding: 18px 18px 20px; }
+
+/* Category/topic detail header — ported from production's .cat-view-*
+   family. Shared by Grammar Topic Detail and the Vocabulary category
+   word-list drill-in page. */
+.cat-view-title-row{ display: flex; align-items: center; gap: 14px; }
+.cat-view-icon{
+  width: 48px; height: 48px; border-radius: 14px; display: flex; align-items: center;
+  justify-content: center; font-size: 1.5rem; flex-shrink: 0; background: var(--card-bg);
+  border: 2px solid var(--accent-c, rgb(var(--violet))); color: var(--accent-c, rgb(var(--violet)));
+}
+.cat-view-name{ font-size: 1.65rem; font-weight: 800; font-family: 'Plus Jakarta Sans','Sora',sans-serif; margin: 0; color: var(--accent-c, rgb(var(--violet))); }
+.cat-view-sub{ font-size: .9rem; color: var(--muted); margin-top: 3px; }
