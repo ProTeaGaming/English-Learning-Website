@@ -69,17 +69,10 @@ route-rename tests (which check rendered HTML) nor a grep for old URL
   data arrays) — VLPE has no such copy today (the current `<option>` text
   IS the mode name, no description), so this genuinely adds new descriptive
   text, not just a new visual shape for existing text.
-- **Category and CEFR filters become single-select chip rows**, reusing
-  the exact `.chip`/`.filter-row`/`.filters` system already built in
-  `base.css` for the category browse page's filter bar — NOT production's
-  richer multi-row `.headline-bar` + `.filters` browse-bar (which exists
-  because production's version also has the word-picker's own filtering
-  needs baked in). A single chip row per field (one for category, one for
-  CEFR), each a plain-radio-like single-select (clicking a chip marks it
-  active and updates a hidden form field), replacing the two `<select>`
-  elements. This is a real interaction-shape change (chips instead of a
-  dropdown) but reuses existing CSS/markup patterns rather than porting a
-  new system.
+- **CEFR filter becomes a single-select chip row** (only 12 possible
+  values — All + 12 CEFR codes), reusing the `.chip`/`.filter-row`/
+  `.filters` system already built in `base.css` for the category browse
+  page's filter bar, replacing the `<select name="cefr">` dropdown.
   **CEFR chip color-coding needs one small CSS addition, not reuse of the
   browse page's existing rule as-is:** `base.css` currently only defines
   `.chip.active[data-browse-cefr="X"]` (12 rules, one per CEFR level),
@@ -92,6 +85,24 @@ route-rename tests (which check rendered HTML) nor a grep for old URL
   rules' selector list (comma-separated, matching production's own
   pattern) — not a reuse of `data-browse-cefr` on a non-browse page, and
   not a duplicated set of 12 new rules.
+- **Category filter STAYS a `<select>` dropdown — reversing the original
+  brainstormed design.** Caught during planning, before any code was
+  written: the real seed dataset has 250 categories. A flat single-row
+  chip list cannot reasonably present 250 options — even production
+  doesn't attempt this with plain chips; its own category/CEFR filter for
+  quiz setup is the SAME rich, searchable, sectioned `.headline-bar`/
+  `.filters` browse-bar the main category browse page uses (search input,
+  Basic/Intermediate/Advanced groupings, paginated), specifically because
+  a flat list can't scale to this many categories. That richer browse-bar
+  is exactly what "word hand-picking / By Words source" deferral above
+  already puts out of scope for this phase. Given the richer solution is
+  deferred and a flat 250-item chip row is unusable, the category field
+  keeps its current `<select>` dropdown (native browser scroll already
+  handles 250 options acceptably) — only its visual chrome (border/
+  background/font) gets restyled to sit correctly inside the new
+  glass-panel `.setup-card`, not its control type. CEFR's 12-value chip
+  row above is unaffected by this — small, fixed cardinality is exactly
+  what chips are good at.
 - **Count selector becomes pill chips** (`.count-row`) — 10/20/30/All as
   chips (matching the category browse page's already-established chip
   interaction) plus a "Custom" chip that reveals an inline number input,
