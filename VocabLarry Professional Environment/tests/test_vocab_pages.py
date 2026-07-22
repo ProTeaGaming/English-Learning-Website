@@ -493,6 +493,121 @@ def test_vocabulary_word_list_query_count_does_not_scale_with_word_count(cefr_a1
 
 
 @pytest.mark.django_db
+def test_vocabulary_word_list_progress_chip_hidden_for_guests(cefr_a1):
+    c = Client()
+    r = c.get('/vocabulary/word/')
+    html = r.content.decode()
+    assert 'data-word-status' not in html
+
+
+@pytest.mark.django_db
+def test_vocabulary_word_list_progress_chip_shown_for_authenticated_users(cefr_a1, regular_user):
+    c = Client()
+    c.force_login(regular_user)
+    r = c.get('/vocabulary/word/')
+    html = r.content.decode()
+    assert 'data-word-status="learned"' in html
+    assert 'data-word-status="little"' in html
+    assert 'data-word-status="none"' in html
+
+
+@pytest.mark.django_db
+def test_vocabulary_word_list_progress_filter_learned(cefr_a1, regular_user):
+    category = Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1)
+    w1 = Word.objects.create(word='Cat', definition='A feline.', category=category, cefr_level=cefr_a1, order=1)
+    w2 = Word.objects.create(word='Dog', definition='A canine.', category=category, cefr_level=cefr_a1, order=2)
+    regular_user.learn_map = {str(w1.pk): 'learned'}
+    regular_user.save(update_fields=['learn_map'])
+    c = Client()
+    c.force_login(regular_user)
+    r = c.get('/vocabulary/word/', {'progress': 'learned'})
+    html = r.content.decode()
+    assert '>Cat<' in html and '>Dog<' not in html
+
+
+@pytest.mark.django_db
+def test_vocabulary_word_list_progress_filter_little(cefr_a1, regular_user):
+    category = Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1)
+    w1 = Word.objects.create(word='Cat', definition='A feline.', category=category, cefr_level=cefr_a1, order=1)
+    w2 = Word.objects.create(word='Dog', definition='A canine.', category=category, cefr_level=cefr_a1, order=2)
+    regular_user.learn_map = {str(w1.pk): 'little'}
+    regular_user.save(update_fields=['learn_map'])
+    c = Client()
+    c.force_login(regular_user)
+    r = c.get('/vocabulary/word/', {'progress': 'little'})
+    html = r.content.decode()
+    assert '>Cat<' in html and '>Dog<' not in html
+
+
+@pytest.mark.django_db
+def test_vocabulary_word_list_progress_filter_none(cefr_a1, regular_user):
+    category = Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1)
+    w1 = Word.objects.create(word='Cat', definition='A feline.', category=category, cefr_level=cefr_a1, order=1)
+    w2 = Word.objects.create(word='Dog', definition='A canine.', category=category, cefr_level=cefr_a1, order=2)
+    regular_user.learn_map = {str(w1.pk): 'learned'}
+    regular_user.save(update_fields=['learn_map'])
+    c = Client()
+    c.force_login(regular_user)
+    r = c.get('/vocabulary/word/', {'progress': 'none'})
+    html = r.content.decode()
+    assert '>Dog<' in html and '>Cat<' not in html
+
+
+@pytest.mark.django_db
+def test_vocabulary_word_list_progress_filter_ignored_for_guests(cefr_a1):
+    category = Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1)
+    Word.objects.create(word='Cat', definition='A feline.', category=category, cefr_level=cefr_a1, order=1)
+    c = Client()
+    r = c.get('/vocabulary/word/', {'progress': 'learned'})
+    html = r.content.decode()
+    assert '>Cat<' in html
+
+
+@pytest.mark.django_db
+def test_vocabulary_word_list_toggle_button_present_for_authenticated_user(cefr_a1, regular_user):
+    category = Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1)
+    word = Word.objects.create(word='Cat', definition='A feline.', category=category, cefr_level=cefr_a1, order=1)
+    c = Client()
+    c.force_login(regular_user)
+    r = c.get('/vocabulary/word/')
+    html = r.content.decode()
+    assert f'data-word-id="{word.pk}"' in html
+    assert 'class="card-toggle"' in html
+    assert 'vocab-word.js' in html
+
+
+@pytest.mark.django_db
+def test_vocabulary_word_list_toggle_button_absent_for_guest(cefr_a1):
+    category = Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1)
+    Word.objects.create(word='Cat', definition='A feline.', category=category, cefr_level=cefr_a1, order=1)
+    c = Client()
+    r = c.get('/vocabulary/word/')
+    html = r.content.decode()
+    assert 'class="card-toggle"' not in html
+    assert 'vocab-word.js' not in html
+
+
+@pytest.mark.django_db
+def test_vocabulary_word_list_authenticated_query_count_does_not_scale_with_word_count(cefr_a1, regular_user):
+    category = Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1)
+    for i in range(5):
+        Word.objects.create(word=f'Word{i}', definition='def', category=category, cefr_level=cefr_a1, order=i)
+    c = Client()
+    c.force_login(regular_user)
+    with CaptureQueriesContext(connection) as ctx_small:
+        c.get('/vocabulary/word/')
+    small_count = len(ctx_small.captured_queries)
+
+    for i in range(5, 30):
+        Word.objects.create(word=f'Word{i}', definition='def', category=category, cefr_level=cefr_a1, order=i)
+    with CaptureQueriesContext(connection) as ctx_large:
+        c.get('/vocabulary/word/')
+    large_count = len(ctx_large.captured_queries)
+
+    assert large_count == small_count
+
+
+@pytest.mark.django_db
 def test_vocabulary_home_renders():
     c = Client()
     r = c.get('/vocabulary/')

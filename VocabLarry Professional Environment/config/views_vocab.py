@@ -172,6 +172,7 @@ def vocabulary_word_list(request):
     category_filter = request.GET.get('category', '').strip()
     stage_filter = request.GET.get('stage', '').strip()
     cefr_filter = request.GET.get('cefr', '').strip()
+    progress_filter = request.GET.get('progress', '').strip()
 
     words = Word.objects.select_related('category', 'cefr_level').order_by('word')
 
@@ -196,8 +197,26 @@ def vocabulary_word_list(request):
     else:
         words = list(words)
 
+    if request.user.is_authenticated and progress_filter in ('learned', 'little', 'none'):
+        learn_map = request.user.learn_map
+
+        def _matches_progress(w):
+            state = learn_map.get(str(w.pk))
+            if progress_filter == 'none':
+                return state not in ('learned', 'little')
+            return state == progress_filter
+
+        words = [w for w in words if _matches_progress(w)]
+
     paginator = Paginator(words, 25)
     page_obj = paginator.get_page(request.GET.get('page', 1))
+    if request.user.is_authenticated:
+        learn_map = request.user.learn_map
+        for word in page_obj:
+            word.learn_state = learn_map.get(str(word.pk))
+    else:
+        for word in page_obj:
+            word.learn_state = None
 
     return render(request, 'vocab/word_list.html', {
         'page_obj': page_obj,
@@ -209,4 +228,5 @@ def vocabulary_word_list(request):
         'category_filter': category_filter,
         'stage_filter': stage_filter,
         'cefr_filter': cefr_filter,
+        'progress_filter': progress_filter,
     })
