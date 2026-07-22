@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load static %}
+{% load static vocab_extras %}
 {% block title %}{{ word.word }} — VocabLarry{% endblock %}
 {% block extra_head %}<link rel="stylesheet" href="{% static 'css/vocab.css' %}">{% endblock %}
 {% block content %}
@@ -9,7 +9,7 @@
     <a href="{% url 'vocabulary_category_detail' word.category.slug %}">{{ word.category.name }}</a> /
     {{ word.word }}
   </p>
-  <div class="word-detail-card" style="--accent-c:{% if word.cefr_level %}var(--{{ word.cefr_level.code|lower|cut:"+" }}{% if '+' in word.cefr_level.code %}p{% endif %}){% else %}rgb(var(--violet)){% endif %};">
+  <div class="word-detail-card" style="--accent-c:{{ word.cefr_level|cefr_accent_var }};">
     <div class="word-detail-header">
       <div>
         <h1>{{ word.word }}</h1>

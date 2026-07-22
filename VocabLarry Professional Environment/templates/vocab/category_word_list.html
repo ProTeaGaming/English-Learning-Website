@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load static %}
+{% load static vocab_extras %}
 {% block title %}{{ category.name }} — VocabLarry{% endblock %}
 {% block extra_head %}<link rel="stylesheet" href="{% static 'css/vocab.css' %}">{% endblock %}
 {% block content %}
@@ -8,7 +8,7 @@
   <h1>{{ category.name }}</h1>
   <div class="card-grid">
     {% for word in page_obj %}
-    <div class="word-card{% if word.learn_state == 'learned' %} learned{% elif word.learn_state == 'little' %} little{% endif %}">
+    <div class="word-card{% if word.learn_state == 'learned' %} learned{% elif word.learn_state == 'little' %} little{% endif %}" style="--accent-c:{{ word.cefr_level|cefr_accent_var }};">
       <div class="face">
         <div>
           <div class="word"><a href="{% url 'vocabulary_word_detail' word.pk %}">{{ word.word }}</a></div>

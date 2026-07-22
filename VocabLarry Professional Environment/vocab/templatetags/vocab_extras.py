@@ -49,3 +49,17 @@ _ICON_LOOKUP = {key.replace('️', ''): value for key, value in EMOJI_ICON_MAP.i
 def category_icon(emoji):
     key = (emoji or '').replace('️', '')
     return _ICON_LOOKUP.get(key, 'i-book')
+
+
+@register.filter
+def cefr_accent_var(cefr_level):
+    """CSS var() expression for a word's own CEFR-level accent color
+    (e.g. A1+ -> var(--a1p)), falling back to the shared violet accent
+    when a word has no CEFR level. Shared by word_detail.html,
+    category_word_list.html, and word_list.html so a word's example-
+    sentence emphasis (and anything else keyed off --accent-c) always
+    matches its own level, mirroring production's per-word CEFR
+    color-coding rather than a single flat accent color everywhere."""
+    if not cefr_level:
+        return 'rgb(var(--violet))'
+    return 'var(--{})'.format(cefr_level.code.lower().replace('+', 'p'))

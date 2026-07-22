@@ -163,6 +163,58 @@ def test_vocabulary_word_list_renders_em_emphasis_in_example(cefr_a1):
     assert '&lt;em&gt;' not in body
 
 
+def test_cefr_accent_var_filter():
+    from vocab.templatetags.vocab_extras import cefr_accent_var
+
+    class FakeLevel:
+        def __init__(self, code):
+            self.code = code
+
+    assert cefr_accent_var(FakeLevel('A1')) == 'var(--a1)'
+    assert cefr_accent_var(FakeLevel('A1+')) == 'var(--a1p)'
+    assert cefr_accent_var(FakeLevel('C2+')) == 'var(--c2p)'
+    assert cefr_accent_var(None) == 'rgb(var(--violet))'
+
+
+@pytest.mark.django_db
+def test_vocabulary_word_detail_example_emphasis_uses_own_cefr_accent_color():
+    cefr_a1_plus = CEFRLevel.objects.create(code='A1+', name='Beginner+', order=2)
+    category = Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1_plus)
+    word = Word.objects.create(
+        word='Cat', definition='x', example='x', category=category,
+        cefr_level=cefr_a1_plus, order=1,
+    )
+    c = Client()
+    r = c.get(f'/vocabulary/word/{word.pk}/')
+    assert '--accent-c:var(--a1p)' in r.content.decode()
+
+
+@pytest.mark.django_db
+def test_vocabulary_category_detail_word_card_uses_own_cefr_accent_color():
+    cefr_a1_plus = CEFRLevel.objects.create(code='A1+', name='Beginner+', order=2)
+    category = Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1_plus)
+    Word.objects.create(
+        word='Cat', definition='x', example='x', category=category,
+        cefr_level=cefr_a1_plus, order=1,
+    )
+    c = Client()
+    r = c.get('/vocabulary/category/animals/')
+    assert '--accent-c:var(--a1p)' in r.content.decode()
+
+
+@pytest.mark.django_db
+def test_vocabulary_word_list_card_uses_own_cefr_accent_color():
+    cefr_a1_plus = CEFRLevel.objects.create(code='A1+', name='Beginner+', order=2)
+    category = Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1_plus)
+    Word.objects.create(
+        word='Cat', definition='x', example='x', category=category,
+        cefr_level=cefr_a1_plus, order=1,
+    )
+    c = Client()
+    r = c.get('/vocabulary/word/')
+    assert '--accent-c:var(--a1p)' in r.content.decode()
+
+
 @pytest.mark.django_db
 def test_vocabulary_word_detail_unknown_id_404():
     c = Client()

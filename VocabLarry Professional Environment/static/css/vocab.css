@@ -17,13 +17,17 @@
 
 /* Emphasized phrase within an example sentence — ported from production's
    .ex-sentence em (vocablarry.html), which marks the target word/phrase
-   with accent color + bold. Production's surrounding sentence text isn't
-   italic so it also sets font-style:normal there; VLPE's .vocab-example/
-   .rex already italicize the WHOLE sentence as its own established style,
-   so the <em> here keeps that inherited italic rather than cancelling it
-   — same "highlight the phrase" intent, adapted to the container it
-   actually sits in here. */
-.vocab-example em, .reveal .rex em{ color: rgb(var(--violet)); font-weight: 700; }
+   with the word's OWN CEFR-level accent color + bold (e.g. a C2 word's
+   emphasis is red, a B2 word's is blue) rather than one flat color.
+   --accent-c is set per word via the cefr_accent_var filter on each of
+   word_detail.html/category_word_list.html/word_list.html's containers.
+   Production's surrounding sentence text isn't italic so it also sets
+   font-style:normal there; VLPE's .vocab-example/.rex already italicize
+   the WHOLE sentence as its own established style, so the <em> here
+   keeps that inherited italic rather than cancelling it — same
+   "highlight the phrase" intent, adapted to the container it actually
+   sits in here. */
+.vocab-example em, .reveal .rex em{ color: var(--accent-c, rgb(var(--violet))); font-weight: 700; }
 
 .learn-state-row{
   display: flex;
