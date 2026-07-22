@@ -3,14 +3,82 @@
 {% block title %}Word — VocabLarry{% endblock %}
 {% block extra_head %}<link rel="stylesheet" href="{% static 'css/vocab.css' %}">{% endblock %}
 {% block content %}
-<section class="page-stub">
-  <span class="eyebrow">Section 01 / Vocabulary</span>
+<section class="vocab-word-list">
   <h1>Word</h1>
   <div class="mobile-page-switcher">
     <a class="chip" href="{% url 'vocabulary_category_list' %}" data-i18n="nav.category">Category</a>
     <a class="chip active" href="{% url 'vocabulary_word_list' %}" data-i18n="nav.word">Word</a>
     <a class="chip" href="{% url 'vocabulary_quiz_setup' %}" data-i18n="nav.quiz">Quiz</a>
   </div>
-  <p>Coming soon.</p>
+
+  <div class="filters">
+    <form method="get" class="search-row">
+      <input type="search" name="q" value="{{ query }}" placeholder="Search words, definitions, synonyms…">
+      <select name="category">
+        <option value="">All categories</option>
+        {% for category in categories %}
+        <option value="{{ category.slug }}"{% if category.slug == category_filter %} selected{% endif %}>{{ category.name }}</option>
+        {% endfor %}
+      </select>
+      {% if stage_filter %}<input type="hidden" name="stage" value="{{ stage_filter }}">{% endif %}
+      {% if cefr_filter %}<input type="hidden" name="cefr" value="{{ cefr_filter }}">{% endif %}
+      <button type="submit" class="btn">Filter</button>
+    </form>
+    <div class="filter-row">
+      <span class="filter-label">Stage</span>
+      <a class="chip{% if not stage_filter %} active{% endif %}" href="?q={{ query|urlencode }}{% if category_filter %}&category={{ category_filter }}{% endif %}{% if cefr_filter %}&cefr={{ cefr_filter }}{% endif %}">All</a>
+      {% for sid, label, codes in stages %}
+      <a class="chip{% if stage_filter == sid %} active{% endif %}" href="?q={{ query|urlencode }}{% if category_filter %}&category={{ category_filter }}{% endif %}{% if cefr_filter %}&cefr={{ cefr_filter }}{% endif %}&stage={{ sid }}">{{ label }}</a>
+      {% endfor %}
+    </div>
+    <div class="filter-row">
+      <span class="filter-label">CEFR</span>
+      <a class="chip{% if not cefr_filter %} active{% endif %}" href="?q={{ query|urlencode }}{% if category_filter %}&category={{ category_filter }}{% endif %}{% if stage_filter %}&stage={{ stage_filter }}{% endif %}">All</a>
+      {% for level in cefr_levels %}
+      <a class="chip{% if cefr_filter == level.code %} active{% endif %}" data-word-cefr="{{ level.code }}" href="?q={{ query|urlencode }}{% if category_filter %}&category={{ category_filter }}{% endif %}{% if stage_filter %}&stage={{ stage_filter }}{% endif %}&cefr={{ level.code }}">{{ level.code }}</a>
+      {% endfor %}
+    </div>
+    <div class="filter-row" style="justify-content:flex-end;">
+      <a class="clear-btn" href="{% url 'vocabulary_word_list' %}">Clear filters</a>
+    </div>
+  </div>
+
+  {% if page_obj %}
+  <div class="card-grid">
+    {% for word in page_obj %}
+    <div class="word-card">
+      <div class="face">
+        <div>
+          <div class="word"><a href="{% url 'vocabulary_word_detail' word.pk %}">{{ word.word }}</a></div>
+          {% if word.pos %}<div class="pos">{{ word.pos }}</div>{% endif %}
+          <a class="word-cat" href="{% url 'vocabulary_category_detail' word.category.slug %}">{{ word.category.name }}</a>
+        </div>
+        {% if word.cefr_level %}<span class="cefr-badge {{ word.cefr_level.code }}">{{ word.cefr_level.code }}</span>{% endif %}
+      </div>
+      <div class="reveal">
+        <div class="rdef">{{ word.definition }}</div>
+        {% if word.synonyms %}<div class="rrow"><b>Synonyms:</b> {{ word.synonyms|join:", " }}</div>{% endif %}
+        {% if word.antonyms %}<div class="rrow"><b>Antonyms:</b> {{ word.antonyms|join:", " }}</div>{% endif %}
+        {% if word.example %}<div class="rex">"{{ word.example }}"</div>{% endif %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% if page_obj.paginator.num_pages > 1 %}
+  <nav class="pagination">
+    <a class="page-btn{% if not page_obj.has_previous %} disabled{% endif %}"
+       href="{% if page_obj.has_previous %}?q={{ query|urlencode }}{% if category_filter %}&category={{ category_filter }}{% endif %}{% if stage_filter %}&stage={{ stage_filter }}{% endif %}{% if cefr_filter %}&cefr={{ cefr_filter }}{% endif %}&page={{ page_obj.previous_page_number }}{% else %}#{% endif %}">«</a>
+    {% for p in pagination_window %}
+      {% if p is None %}<span class="page-ellipsis">…</span>
+      {% else %}<a class="page-btn{% if p == page_obj.number %} active{% endif %}" href="?q={{ query|urlencode }}{% if category_filter %}&category={{ category_filter }}{% endif %}{% if stage_filter %}&stage={{ stage_filter }}{% endif %}{% if cefr_filter %}&cefr={{ cefr_filter }}{% endif %}&page={{ p }}">{{ p }}</a>
+      {% endif %}
+    {% endfor %}
+    <a class="page-btn{% if not page_obj.has_next %} disabled{% endif %}"
+       href="{% if page_obj.has_next %}?q={{ query|urlencode }}{% if category_filter %}&category={{ category_filter }}{% endif %}{% if stage_filter %}&stage={{ stage_filter }}{% endif %}{% if cefr_filter %}&cefr={{ cefr_filter }}{% endif %}&page={{ page_obj.next_page_number }}{% else %}#{% endif %}">»</a>
+  </nav>
+  {% endif %}
+  {% else %}
+  <p class="vocab-empty">No words match your search.</p>
+  {% endif %}
 </section>
 {% endblock %}

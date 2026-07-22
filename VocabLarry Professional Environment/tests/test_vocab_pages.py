@@ -1,7 +1,9 @@
 import json
 
 import pytest
+from django.db import connection
 from django.test import Client
+from django.test.utils import CaptureQueriesContext
 from vocab.models import CEFRLevel, Category, Word
 
 
@@ -343,14 +345,151 @@ def test_old_vocab_urls_are_gone():
 
 
 @pytest.mark.django_db
-def test_vocabulary_word_list_stub_renders():
+def test_vocabulary_word_list_renders(cefr_a1):
+    category = Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1)
+    Word.objects.create(word='Cat', definition='A small domesticated feline.', category=category, cefr_level=cefr_a1, order=1)
     c = Client()
     r = c.get('/vocabulary/word/')
     assert r.status_code == 200
     html = r.content.decode()
-    assert 'Section 01 / Vocabulary' in html
     assert '<h1>Word</h1>' in html
-    assert 'Coming soon.' in html
+    assert '>Cat<' in html
+    assert 'A small domesticated feline.' in html
+
+
+@pytest.mark.django_db
+def test_vocabulary_word_list_search_matches_word_definition_synonyms_antonyms(cefr_a1):
+    category = Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1)
+    Word.objects.create(word='Cat', definition='A small domesticated feline.', category=category, cefr_level=cefr_a1, order=1)
+    Word.objects.create(word='Dog', definition='A loyal companion.', synonyms=['Canine'], category=category, cefr_level=cefr_a1, order=2)
+    Word.objects.create(word='Fish', definition='Lives in water.', antonyms=['Bird'], category=category, cefr_level=cefr_a1, order=3)
+    c = Client()
+
+    r = c.get('/vocabulary/word/', {'q': 'feline'})
+    html = r.content.decode()
+    assert '>Cat<' in html and 'Dog' not in html and 'Fish' not in html
+
+    r = c.get('/vocabulary/word/', {'q': 'canine'})
+    html = r.content.decode()
+    assert 'Dog' in html and '>Cat<' not in html
+
+    r = c.get('/vocabulary/word/', {'q': 'bird'})
+    html = r.content.decode()
+    assert 'Fish' in html and '>Cat<' not in html
+
+
+@pytest.mark.django_db
+def test_vocabulary_word_list_category_filter(cefr_a1):
+    animals = Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1)
+    food = Category.objects.create(slug='food', name='Food', order=2, cefr_level=cefr_a1)
+    Word.objects.create(word='Cat', definition='A feline.', category=animals, cefr_level=cefr_a1, order=1)
+    Word.objects.create(word='Bread', definition='A baked food.', category=food, cefr_level=cefr_a1, order=1)
+    c = Client()
+    r = c.get('/vocabulary/word/', {'category': 'animals'})
+    html = r.content.decode()
+    assert '>Cat<' in html and 'Bread' not in html
+
+
+@pytest.mark.django_db
+def test_vocabulary_word_list_stage_filter(cefr_a1, cefr_b1):
+    category = Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1)
+    Word.objects.create(word='Cat', definition='A feline.', category=category, cefr_level=cefr_a1, order=1)
+    Word.objects.create(word='Contemplate', definition='To think deeply.', category=category, cefr_level=cefr_b1, order=2)
+    c = Client()
+    r = c.get('/vocabulary/word/', {'stage': 'basic'})
+    html = r.content.decode()
+    assert '>Cat<' in html and 'Contemplate' not in html
+
+    r = c.get('/vocabulary/word/', {'stage': 'intermediate'})
+    html = r.content.decode()
+    assert 'Contemplate' in html and '>Cat<' not in html
+
+
+@pytest.mark.django_db
+def test_vocabulary_word_list_cefr_filter(cefr_a1, cefr_b1):
+    category = Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1)
+    Word.objects.create(word='Cat', definition='A feline.', category=category, cefr_level=cefr_a1, order=1)
+    Word.objects.create(word='Contemplate', definition='To think deeply.', category=category, cefr_level=cefr_b1, order=2)
+    c = Client()
+    r = c.get('/vocabulary/word/', {'cefr': 'A1'})
+    html = r.content.decode()
+    assert '>Cat<' in html and 'Contemplate' not in html
+
+
+@pytest.mark.django_db
+def test_vocabulary_word_list_pagination(cefr_a1):
+    category = Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1)
+    for i in range(30):
+        Word.objects.create(word=f'Word{i:02d}', definition='def', category=category, cefr_level=cefr_a1, order=i)
+    c = Client()
+    r = c.get('/vocabulary/word/')
+    html = r.content.decode()
+    assert html.count('class="word-card') == 25
+    assert 'class="pagination"' in html
+
+    r2 = c.get('/vocabulary/word/', {'page': 2})
+    html2 = r2.content.decode()
+    assert html2.count('class="word-card') == 5
+
+
+@pytest.mark.django_db
+def test_vocabulary_word_list_out_of_range_page_falls_back_to_last_page(cefr_a1):
+    category = Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1)
+    for i in range(30):
+        Word.objects.create(word=f'Word{i:02d}', definition='def', category=category, cefr_level=cefr_a1, order=i)
+    c = Client()
+    r = c.get('/vocabulary/word/', {'page': 999})
+    assert r.status_code == 200
+    html = r.content.decode()
+    assert html.count('class="word-card') == 5
+
+
+@pytest.mark.django_db
+def test_vocabulary_word_list_category_dropdown_lists_all_categories(cefr_a1):
+    Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1)
+    Category.objects.create(slug='food', name='Food', order=2, cefr_level=cefr_a1)
+    c = Client()
+    r = c.get('/vocabulary/word/')
+    html = r.content.decode()
+    assert '<option value="animals">Animals</option>' in html
+    assert '<option value="food">Food</option>' in html
+
+
+@pytest.mark.django_db
+def test_vocabulary_word_list_word_links_to_detail_page(cefr_a1):
+    category = Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1)
+    word = Word.objects.create(word='Cat', definition='A feline.', category=category, cefr_level=cefr_a1, order=1)
+    c = Client()
+    r = c.get('/vocabulary/word/')
+    html = r.content.decode()
+    assert f'href="/vocabulary/word/{word.pk}/"' in html
+
+
+@pytest.mark.django_db
+def test_vocabulary_word_list_clear_filters_link_present(cefr_a1):
+    c = Client()
+    r = c.get('/vocabulary/word/', {'q': 'cat', 'cefr': 'A1'})
+    html = r.content.decode()
+    assert 'class="clear-btn" href="/vocabulary/word/"' in html
+
+
+@pytest.mark.django_db
+def test_vocabulary_word_list_query_count_does_not_scale_with_word_count(cefr_a1):
+    category = Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1)
+    for i in range(5):
+        Word.objects.create(word=f'Word{i}', definition='def', category=category, cefr_level=cefr_a1, order=i)
+    c = Client()
+    with CaptureQueriesContext(connection) as ctx_small:
+        c.get('/vocabulary/word/')
+    small_count = len(ctx_small.captured_queries)
+
+    for i in range(5, 30):
+        Word.objects.create(word=f'Word{i}', definition='def', category=category, cefr_level=cefr_a1, order=i)
+    with CaptureQueriesContext(connection) as ctx_large:
+        c.get('/vocabulary/word/')
+    large_count = len(ctx_large.captured_queries)
+
+    assert large_count == small_count
 
 
 @pytest.mark.django_db
