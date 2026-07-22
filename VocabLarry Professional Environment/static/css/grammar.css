@@ -275,3 +275,16 @@
 .grammar-quiz-pct{ color: var(--muted); margin-bottom: 8px; }
 .grammar-quiz-mastered-msg{ margin-bottom: 24px; }
 .grammar-quiz-result-actions{ display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+/* Verb Pattern badges (Grammar Word page) — same structural shape as
+   .cefr-badge (base.css) but with its own 4-color scheme, since Pattern
+   (AAA/ABA/ABB/ABC) is an unrelated classification, not a CEFR level. */
+.pattern-badge{
+  font-size: .68rem; font-weight: 800; padding: 3px 9px; border-radius: 6px;
+  color: #fff; letter-spacing: .06em; flex-shrink: 0; display: inline-block;
+  font-family: 'JetBrains Mono', monospace;
+}
+.pattern-badge.AAA{ background: #10b981; }
+.pattern-badge.ABA{ background: #6366f1; }
+.pattern-badge.ABB{ background: #f59e0b; }
+.pattern-badge.ABC{ background: #ef4444; }
