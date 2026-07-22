@@ -15,6 +15,16 @@
 .vocab-example{ color: var(--muted); font-style: italic; }
 .vocab-synonyms, .vocab-antonyms{ color: var(--muted); }
 
+/* Emphasized phrase within an example sentence — ported from production's
+   .ex-sentence em (vocablarry.html), which marks the target word/phrase
+   with accent color + bold. Production's surrounding sentence text isn't
+   italic so it also sets font-style:normal there; VLPE's .vocab-example/
+   .rex already italicize the WHOLE sentence as its own established style,
+   so the <em> here keeps that inherited italic rather than cancelling it
+   — same "highlight the phrase" intent, adapted to the container it
+   actually sits in here. */
+.vocab-example em, .reveal .rex em{ color: rgb(var(--violet)); font-weight: 700; }
+
 .learn-state-row{
   display: flex;
   align-items: center;

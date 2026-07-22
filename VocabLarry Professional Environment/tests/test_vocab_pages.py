@@ -119,6 +119,51 @@ def test_vocabulary_word_detail_renders(cefr_a1):
 
 
 @pytest.mark.django_db
+def test_vocabulary_word_detail_renders_em_emphasis_in_example(cefr_a1):
+    category = Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1)
+    word = Word.objects.create(
+        word='Cat', definition='x',
+        example='It felt like <em>a Faustian bargain</em> to sign.',
+        category=category, order=1,
+    )
+    c = Client()
+    r = c.get(f'/vocabulary/word/{word.pk}/')
+    body = r.content.decode()
+    assert '<em>a Faustian bargain</em>' in body
+    assert '&lt;em&gt;' not in body
+
+
+@pytest.mark.django_db
+def test_vocabulary_category_detail_renders_em_emphasis_in_example(cefr_a1):
+    category = Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1)
+    Word.objects.create(
+        word='Cat', definition='x',
+        example='It felt like <em>a Faustian bargain</em> to sign.',
+        category=category, order=1,
+    )
+    c = Client()
+    r = c.get('/vocabulary/category/animals/')
+    body = r.content.decode()
+    assert '<em>a Faustian bargain</em>' in body
+    assert '&lt;em&gt;' not in body
+
+
+@pytest.mark.django_db
+def test_vocabulary_word_list_renders_em_emphasis_in_example(cefr_a1):
+    category = Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1)
+    Word.objects.create(
+        word='Cat', definition='x',
+        example='It felt like <em>a Faustian bargain</em> to sign.',
+        category=category, order=1,
+    )
+    c = Client()
+    r = c.get('/vocabulary/word/')
+    body = r.content.decode()
+    assert '<em>a Faustian bargain</em>' in body
+    assert '&lt;em&gt;' not in body
+
+
+@pytest.mark.django_db
 def test_vocabulary_word_detail_unknown_id_404():
     c = Client()
     r = c.get('/vocabulary/word/999999/')

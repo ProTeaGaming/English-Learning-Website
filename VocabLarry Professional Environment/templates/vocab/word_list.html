@@ -69,7 +69,7 @@
         <div class="rdef">{{ word.definition }}</div>
         {% if word.synonyms %}<div class="rrow"><b>Synonyms:</b> {{ word.synonyms|join:", " }}</div>{% endif %}
         {% if word.antonyms %}<div class="rrow"><b>Antonyms:</b> {{ word.antonyms|join:", " }}</div>{% endif %}
-        {% if word.example %}<div class="rex">"{{ word.example }}"</div>{% endif %}
+        {% if word.example %}<div class="rex">"{{ word.example|safe }}"</div>{% endif %}
         {% if user.is_authenticated %}
         <div class="learn-state-row">
           <span class="learn-state-label">Progress:</span>

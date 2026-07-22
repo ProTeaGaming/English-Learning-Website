@@ -28,7 +28,7 @@
       {% for ref in antonym_refs %}{% if ref.word %}<a class="word-xref" href="{% url 'vocabulary_word_detail' ref.word.pk %}">{{ ref.text }}</a>{% else %}{{ ref.text }}{% endif %}{% if not forloop.last %}, {% endif %}{% endfor %}
     </p>
     {% endif %}
-    {% if word.example %}<p class="vocab-example">"{{ word.example }}"</p>{% endif %}
+    {% if word.example %}<p class="vocab-example">"{{ word.example|safe }}"</p>{% endif %}
     {% if user.is_authenticated %}
     <div class="learn-state-row">
       <span class="learn-state-label">Progress:</span>
