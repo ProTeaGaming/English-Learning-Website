@@ -188,5 +188,65 @@ the next one.
 
 ---
 
+## Found in the 2026-07-23 fresh comparison pass
+
+Items 1-4 below are one connected cluster — all reuse the same already-built
+`allauth.headless`/`accounts` backend from the items 1-5 auth-modal work, and
+should likely be built together.
+
+- [ ] **12. Authenticated-user topbar is a plain username + Sign Out link.**
+      Production has a `.user-chip` with avatar + a `.user-menu` dropdown:
+      name/username/email, "Edit profile", "Reset progress", "Sign out",
+      "Delete account" (search `vocablarry.html` for `userChip`/`userMenu`).
+      VLPE's `templates/partials/nav.html` has none of this — just
+      `{{ user.username }}` and a direct link to `account_logout`.
+
+- [ ] **13. Live "Learned: X / Y" stat + "N to review" button missing from the
+      topbar.** Production's `.stats` block (next to the lang/theme toggles)
+      shows a running `learnedCount`/`totalCount` and, when the user has any
+      "little bit" words, a `reviewLittleBtn` linking to a filtered review
+      view. VLPE has no equivalent anywhere in the nav.
+
+- [ ] **14. Edit Profile modal missing entirely.** Production's `#profileOverlay`
+      (avatar upload, name, username, US/UK vocabulary-dialect toggle,
+      connected-social-accounts list). The Django backend already exists and
+      is already called once, during signup —
+      `accounts/views.py:update_profile` (name/username/picture validation,
+      already handles the "username taken"/"image too big" cases) and
+      `accounts/urls.py:update-profile/` — it's just never exposed as an
+      editable UI afterward. The connected-accounts list needs no new
+      backend: production drives it off allauth.headless's own
+      `/account/providers` endpoint (search `vocablarry.html` for
+      `profileConnectionsList`), which the items-1-5 work already wired up
+      for the rest of the auth flow.
+
+- [ ] **15. Delete Account modal missing entirely.** Production's
+      `#deleteOverlay` (password-confirm, then delete). Backend already
+      built and correct — `accounts/views.py:delete_account` (already
+      handles Google-only accounts with no usable password) and
+      `accounts/urls.py:delete-account/` — just no frontend to call it.
+
+- [ ] **16. Reset Progress feature missing — no backend, no UI.** Production's
+      `resetProgressBtn` clears `learn_map`/`grammar_map`(/streak, N/A here)
+      and reloads. VLPE has neither an endpoint to clear a user's
+      `learn_map`/`grammar_map` server-side nor a button anywhere to trigger it.
+
+- [ ] **17. Sitewide footer missing entirely.** Production's `<footer
+      class="site-footer">` (search `vocablarry.html` for `siteFooter`)
+      renders on every page: logo/tagline plus a small live dashboard (total
+      words, learned %, categories started). It also has a day-streak widget
+      with a weekly activity calendar — per the established precedent from
+      the home page's 4th stat card (see items 8-9's history), that part
+      should stay deferred since VLPE has no activity-tracking data to back
+      it. Build the footer, skip the streak widget.
+
+- [ ] **18. Reading/Writing/Listening/Speaking stub pages are missing the
+      "Under construction" card.** Production's stub pages aren't just an
+      eyebrow+h1+p — they also have a `.setup-card` with a hard-hat icon and
+      "This section is being built — check back soon." copy. Cheap fix —
+      `.setup-card` CSS already exists in `vocab.css`, reusable as-is.
+
+---
+
 After each fix, open the running site and https://vocablarry.pythonanywhere.com
 side by side and confirm they match before checking off the item.
