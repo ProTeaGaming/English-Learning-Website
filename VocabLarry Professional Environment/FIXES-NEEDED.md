@@ -194,20 +194,33 @@ Items 1-4 below are one connected cluster — all reuse the same already-built
 `allauth.headless`/`accounts` backend from the items 1-5 auth-modal work, and
 should likely be built together.
 
-- [ ] **12. Authenticated-user topbar is a plain username + Sign Out link.**
+- [x] **12. Authenticated-user topbar is a plain username + Sign Out link.**
       Production has a `.user-chip` with avatar + a `.user-menu` dropdown:
       name/username/email, "Edit profile", "Reset progress", "Sign out",
       "Delete account" (search `vocablarry.html` for `userChip`/`userMenu`).
       VLPE's `templates/partials/nav.html` has none of this — just
       `{{ user.username }}` and a direct link to `account_logout`.
+      Built (2026-07-23): user-chip with avatar (picture-or-initials
+      fallback), name/username/email display, wired to new Django context
+      processor `config/context_processors.py:user_progress_stats` computing
+      authenticated-user stats. User-menu dropdown markup in
+      `templates/partials/nav.html` with buttons for Edit profile/Reset
+      progress/Sign out/Delete account. Verified in real browser: avatar
+      renders, menu opens/closes on click, all links route correctly.
 
-- [ ] **13. Live "Learned: X / Y" stat + "N to review" button missing from the
+- [x] **13. Live "Learned: X / Y" stat + "N to review" button missing from the
       topbar.** Production's `.stats` block (next to the lang/theme toggles)
       shows a running `learnedCount`/`totalCount` and, when the user has any
       "little bit" words, a `reviewLittleBtn` linking to a filtered review
       view. VLPE has no equivalent anywhere in the nav.
+      Built (2026-07-23): live stats section shows "Learned: X / Y" counter
+      via `user_progress_stats` context processor in `templates/partials/nav.html`.
+      "N to review" link (routing to `/vocabulary/word/?progress=little`)
+      appears only when user has "little bit" words marked. Verified: stats
+      update when marking words as learned, link appears/disappears
+      dynamically as expected.
 
-- [ ] **14. Edit Profile modal missing entirely.** Production's `#profileOverlay`
+- [x] **14. Edit Profile modal missing entirely.** Production's `#profileOverlay`
       (avatar upload, name, username, US/UK vocabulary-dialect toggle,
       connected-social-accounts list). The Django backend already exists and
       is already called once, during signup —
@@ -219,17 +232,43 @@ should likely be built together.
       `/account/providers` endpoint (search `vocablarry.html` for
       `profileConnectionsList`), which the items-1-5 work already wired up
       for the rest of the auth flow.
+      Built (2026-07-23): Edit Profile modal in
+      `templates/partials/account_modals.html` (avatar upload with live
+      preview, full name and username fields, connected-social-accounts list
+      with Connect/Disconnect for Google/Facebook/Microsoft/Apple). Wired in
+      `static/js/account-modals.js` to existing `POST /auth/update-profile/`
+      endpoint for profile updates and allauth's `/account/providers` endpoint
+      for social-accounts. Note: US/UK dialect toggle deliberately skipped
+      (no `dialect` field on User model, VLPE word data has no spelling variants).
+      Verified: avatar upload persists with live preview, name/username changes
+      save, social-accounts list loads with real data, Connect/Disconnect
+      endpoints function correctly.
 
-- [ ] **15. Delete Account modal missing entirely.** Production's
+- [x] **15. Delete Account modal missing entirely.** Production's
       `#deleteOverlay` (password-confirm, then delete). Backend already
       built and correct — `accounts/views.py:delete_account` (already
       handles Google-only accounts with no usable password) and
       `accounts/urls.py:delete-account/` — just no frontend to call it.
+      Built (2026-07-23): Delete Account modal in same
+      `templates/partials/account_modals.html` partial with password-confirm
+      flow. Password field only shown/required when account has a usable
+      password (hidden for Google-only accounts). Wired in
+      `static/js/account-modals.js` to existing `POST /auth/delete-account/`
+      endpoint. Verified: password-required branch fully tested with real
+      database deletion confirmed; no-password branch UI confirmed showing/hiding
+      password field correctly for social-login-only accounts.
 
-- [ ] **16. Reset Progress feature missing — no backend, no UI.** Production's
+- [x] **16. Reset Progress feature missing — no backend, no UI.** Production's
       `resetProgressBtn` clears `learn_map`/`grammar_map`(/streak, N/A here)
       and reloads. VLPE has neither an endpoint to clear a user's
       `learn_map`/`grammar_map` server-side nor a button anywhere to trigger it.
+      Built (2026-07-23): new `POST /auth/reset-progress/` endpoint added
+      (`accounts/views.py`/`accounts/urls.py`) clearing user's `learn_map` and
+      `grammar_map` (streak skipped as VLPE has no activity-tracking data).
+      Custom confirm overlay UI added to `static/js/account-modals.js` (not
+      native browser `confirm()`, consistent with VLPE's modal architecture).
+      Verified: Cancel button leaves data untouched, Confirm button clears
+      learned-word count and all "little bit" progress markers as expected.
 
 - [ ] **17. Sitewide footer missing entirely.** Production's `<footer
       class="site-footer">` (search `vocablarry.html` for `siteFooter`)
