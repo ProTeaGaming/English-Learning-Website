@@ -74,6 +74,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'config.context_processors.nav_active_section',
+                'config.context_processors.user_progress_stats',
             ],
         },
     },

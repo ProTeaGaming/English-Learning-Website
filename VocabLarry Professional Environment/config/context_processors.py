@@ -1,3 +1,5 @@
+from vocab.services import learned_word_stats
+
 _VOCABULARY_PREFIX = 'vocabulary_'
 _GRAMMAR_PREFIX = 'grammar_'
 _FLAT_SECTIONS = {'home', 'reading', 'writing', 'listening', 'speaking'}
@@ -23,3 +25,20 @@ def nav_active_section(request):
     else:
         section = None
     return {'nav_active_section': section}
+
+
+def user_progress_stats(request):
+    """Live 'Learned: X / Y' + 'N to review' stats shown in the nav —
+    mirrors production's client-side saveLearned()/updateHome() counters
+    (vocablarry.html), computed server-side instead since VLPE is
+    server-rendered.
+    """
+    if not request.user.is_authenticated:
+        return {}
+    _, total_words, words_learned = learned_word_stats(request.user)
+    little_count = sum(1 for v in request.user.learn_map.values() if v == 'little')
+    return {
+        'words_learned': words_learned,
+        'total_words': total_words,
+        'little_count': little_count,
+    }

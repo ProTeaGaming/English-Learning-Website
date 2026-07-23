@@ -122,6 +122,17 @@ def delete_account(request):
     return JsonResponse({'ok': True})
 
 
+@require_http_methods(['POST'])
+def reset_progress(request):
+    err = _require_auth(request)
+    if err:
+        return err
+    request.user.learn_map = {}
+    request.user.grammar_map = {}
+    request.user.save(update_fields=['learn_map', 'grammar_map'])
+    return JsonResponse({'ok': True})
+
+
 @csrf_exempt
 @require_http_methods(['POST'])
 def check_email(request):

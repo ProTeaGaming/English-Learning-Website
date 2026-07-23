@@ -1,6 +1,7 @@
 from django.shortcuts import render
 
 from vocab.models import Category, Word
+from vocab.services import learned_word_stats
 
 # Production's home-page CEFR Breakdown groups the full 12-value CEFR scale
 # (A1/A1+/A2/A2+/.../C2+) down into these 6 base levels — a "+" variant folds
@@ -11,10 +12,8 @@ CEFR_BASE_LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2']
 
 def home(request):
     learn_map = request.user.learn_map if request.user.is_authenticated else {}
-    learned_ids = [int(k) for k, v in learn_map.items() if v == 'learned']
     started_ids = [int(k) for k in learn_map.keys()]
-    total_words = Word.objects.count()
-    words_learned = len(learned_ids)
+    learned_ids, total_words, words_learned = learned_word_stats(request.user)
     pct_complete = round(words_learned / total_words * 100) if total_words else 0
     categories_started = Category.objects.filter(words__id__in=started_ids).distinct().count()
 

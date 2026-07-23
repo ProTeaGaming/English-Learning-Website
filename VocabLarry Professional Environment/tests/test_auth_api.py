@@ -372,3 +372,45 @@ def test_headless_password_reset_invalid_key_returns_errors_key():
     )
     data = json.loads(r.content)
     assert 'errors' in data
+
+
+@pytest.mark.django_db
+def test_reset_progress_requires_login():
+    c = Client()
+    r = c.post('/auth/reset-progress/')
+    assert r.status_code == 401
+
+
+@pytest.mark.django_db
+def test_reset_progress_clears_learn_map_and_grammar_map(regular_user):
+    regular_user.learn_map = {'7': 'learned'}
+    regular_user.grammar_map = {'articles': {'best': 90, 'done': True}}
+    regular_user.save()
+    c = Client()
+    c.force_login(regular_user)
+    r = c.post('/auth/reset-progress/')
+    assert r.status_code == 200
+    regular_user.refresh_from_db()
+    assert regular_user.learn_map == {}
+    assert regular_user.grammar_map == {}
+
+
+@pytest.mark.django_db
+def test_reset_progress_does_not_affect_other_users(regular_user, staff_user):
+    regular_user.learn_map = {'7': 'learned'}
+    regular_user.save()
+    staff_user.learn_map = {'8': 'learned'}
+    staff_user.save()
+    c = Client()
+    c.force_login(regular_user)
+    c.post('/auth/reset-progress/')
+    staff_user.refresh_from_db()
+    assert staff_user.learn_map == {'8': 'learned'}
+
+
+@pytest.mark.django_db
+def test_reset_progress_get_not_allowed(regular_user):
+    c = Client()
+    c.force_login(regular_user)
+    r = c.get('/auth/reset-progress/')
+    assert r.status_code == 405
