@@ -391,3 +391,81 @@ def test_home_cefr_breakdown_pct_reflects_learned_words(regular_user):
     html = r.content.decode()
     assert '<div class="home-cefr-badge">A1</div>' in html
     assert 'width:50%' in html
+
+
+@pytest.mark.django_db
+def test_user_chip_and_stats_render_for_authenticated_user(regular_user):
+    from django.test import Client
+    from vocab.models import Category, Word
+
+    cat = Category.objects.create(slug='animals', name='Animals', order=1)
+    w1 = Word.objects.create(word='Cat', definition='x', category=cat, order=1)
+    w2 = Word.objects.create(word='Dog', definition='x', category=cat, order=2)
+    regular_user.name = 'Regular Tester'
+    regular_user.learn_map = {str(w1.pk): 'learned', str(w2.pk): 'little'}
+    regular_user.save()
+
+    c = Client()
+    c.force_login(regular_user)
+    r = c.get('/')
+    html = r.content.decode()
+
+    assert 'data-user-chip' in html
+    assert '<span class="avatar-initials">R</span>' in html
+    assert '<span class="user-name">Regular Tester</span>' in html
+    assert '<span class="user-menu-username">@regularuser</span>' in html
+    assert '<span class="user-menu-email">user@example.com</span>' in html
+    assert '<b>1</b> / <b>2</b>' in html
+    assert '?progress=little' in html
+    assert '<b>1</b> <span data-i18n="header.toReview">to review</span>' in html
+    assert 'data-open-edit-profile' in html
+    assert 'data-open-reset-progress' in html
+    assert 'data-open-delete-account' in html
+
+
+@pytest.mark.django_db
+def test_review_link_absent_when_no_little_bit_words(regular_user):
+    from django.test import Client
+    c = Client()
+    c.force_login(regular_user)
+    r = c.get('/')
+    html = r.content.decode()
+    assert 'review-link' not in html
+
+
+@pytest.mark.django_db
+def test_user_chip_falls_back_to_email_when_name_blank(regular_user):
+    from django.test import Client
+    assert regular_user.name == ''
+    c = Client()
+    c.force_login(regular_user)
+    r = c.get('/')
+    html = r.content.decode()
+    assert '<span class="avatar-initials">U</span>' in html
+    assert '<span class="user-name">user@example.com</span>' in html
+
+
+@pytest.mark.django_db
+def test_user_chip_shows_uploaded_picture_instead_of_initials(regular_user, tmp_path, settings):
+    from django.core.files.uploadedfile import SimpleUploadedFile
+    from django.test import Client
+
+    settings.MEDIA_ROOT = tmp_path
+    regular_user.picture = SimpleUploadedFile('avatar.png', b'fake-image-bytes', content_type='image/png')
+    regular_user.save()
+    c = Client()
+    c.force_login(regular_user)
+    r = c.get('/')
+    html = r.content.decode()
+    assert f'<img src="{regular_user.picture.url}" alt="">' in html
+    assert 'avatar-initials' not in html
+
+
+@pytest.mark.django_db
+def test_anonymous_user_sees_no_stats_or_user_chip():
+    from django.test import Client
+    c = Client()
+    r = c.get('/')
+    html = r.content.decode()
+    assert 'data-user-chip' not in html
+    assert 'class="stats"' not in html

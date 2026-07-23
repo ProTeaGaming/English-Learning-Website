@@ -704,3 +704,53 @@ html[lang="vi"] .nav-group[data-section="vocabulary"] .nav-dropdown{ min-width: 
 .auth-forgot-link a:hover{text-decoration:underline;}
 .auth-remember-me{display:flex; align-items:center; gap:6px; font-size:.8rem; color:var(--muted); cursor:pointer; user-select:none;}
 .auth-remember-me input{width:14px; height:14px; accent-color:rgb(var(--violet)); cursor:pointer;}
+/* Authenticated-user topbar chrome — live stats + user-menu dropdown,
+   ported from production's .stats/.review-link/.user-chip/.user-avatar/
+   .avatar-initials/.user-name/.user-menu family (rgba(var(--vio),X)
+   converted to rgb(var(--violet) / X) per this codebase's established
+   custom-property syntax rule). */
+.stats{ font-size: .85rem; color: var(--muted); font-weight: 600; white-space: nowrap; font-family: 'JetBrains Mono', monospace; }
+.stats b{ color: var(--text); font-size: 1rem; }
+.review-link{
+  margin-left: 8px; padding: 2px 10px; border-radius: 999px; border: 1px solid var(--c1);
+  background: transparent; color: var(--c1); font-size: .78rem; font-weight: 700;
+  text-decoration: none; transition: background .15s ease, color .15s ease;
+}
+.review-link:hover{ background: var(--c1); color: #fff; }
+.user-chip{ display: flex; align-items: center; gap: 6px; cursor: pointer; position: relative; }
+.user-avatar{
+  width: 30px; height: 30px; border-radius: 50%; overflow: hidden; border: 2px solid rgb(var(--violet) / .4);
+  background: rgb(var(--violet) / .12); display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.user-avatar img{ width: 100%; height: 100%; object-fit: cover; }
+.avatar-initials{
+  width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;
+  background: linear-gradient(135deg,#7c3aed,#6d28d9); color: #fff; font-size: .85rem; font-weight: 700;
+}
+.user-name{ font-size: .85rem; font-weight: 600; color: var(--text); max-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.user-menu{
+  display: none; position: absolute; top: calc(100% + 8px); right: 0; min-width: 200px;
+  background: rgba(22,26,35,.94); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgb(var(--violet) / .22); border-radius: 16px;
+  box-shadow: 0 16px 48px rgba(0,0,0,.4); padding: 12px; z-index: 50; flex-direction: column; gap: 8px;
+}
+[data-theme="light"] .user-menu{ background: rgba(255,255,255,.94); }
+.user-chip.open .user-menu{ display: flex; }
+.user-menu-name{ font-size: .88rem; font-weight: 700; color: var(--text); }
+.user-menu-username{ font-size: .8rem; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
+.user-menu-username:empty{ display: none; }
+.user-menu-email{ font-size: .78rem; color: var(--muted); word-break: break-all; font-family: 'JetBrains Mono', monospace; }
+.user-menu button, .user-menu a.btn{
+  padding: 7px 12px; border-radius: 10px; border: 1px solid rgb(var(--violet) / .2); background: rgb(var(--violet) / .08);
+  color: var(--text); font-size: .82rem; font-weight: 600; cursor: pointer; font-family: 'Plus Jakarta Sans','Inter',sans-serif;
+  text-align: center; text-decoration: none; display: block; width: 100%; box-sizing: border-box;
+  transition: border-color .15s, background .15s, transform .2s cubic-bezier(.25,.46,.45,.94);
+}
+.user-menu button:hover, .user-menu a.btn:hover{ border-color: rgb(var(--violet) / .5); background: rgb(var(--violet) / .14); transform: translateY(-1px); }
+.delete-account-link{
+  display: block; width: 100%; margin-top: 4px; padding: 6px 10px; border-radius: 8px;
+  border: 1px solid rgba(220,38,38,.35); background: transparent; color: #dc2626;
+  font-size: .78rem; font-weight: 600; cursor: pointer; text-align: center; box-sizing: border-box;
+  font-family: 'Plus Jakarta Sans','Inter',sans-serif;
+}
+.delete-account-link:hover{ background: rgba(220,38,38,.1); }

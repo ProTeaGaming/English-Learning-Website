@@ -57,8 +57,27 @@
     </div>
     <button type="button" class="icon-toggle" data-theme-toggle aria-label="Toggle theme"><svg class="ico" data-theme-icon aria-hidden="true"><use href="#i-moon"/></svg></button>
     {% if user.is_authenticated %}
-      <span>{{ user.username }}</span>
-      <a class="btn" href="{% url 'account_logout' %}" data-i18n="nav.signOut">Sign Out</a>
+      <div class="stats">
+        <span data-i18n="common.learned">Learned</span>: <b>{{ words_learned }}</b> / <b>{{ total_words }}</b>
+        {% if little_count > 0 %}
+        <a class="review-link" href="{% url 'vocabulary_word_list' %}?progress=little" title="Review words marked &quot;little bit&quot;"><b>{{ little_count }}</b> <span data-i18n="header.toReview">to review</span></a>
+        {% endif %}
+      </div>
+      <div class="user-chip" data-user-chip>
+        <div class="user-avatar">
+          {% if user.picture %}<img src="{{ user.picture.url }}" alt="">{% else %}<span class="avatar-initials">{{ user.name|default:user.email|first|upper }}</span>{% endif %}
+        </div>
+        <span class="user-name">{{ user.name|default:user.email }}</span>
+        <div class="user-menu" data-user-menu>
+          <span class="user-menu-name">{{ user.name }}</span>
+          <span class="user-menu-username">{% if user.username %}@{{ user.username }}{% endif %}</span>
+          <span class="user-menu-email">{{ user.email }}</span>
+          <button type="button" data-open-edit-profile data-i18n="auth.editProfile">Edit profile</button>
+          <button type="button" data-open-reset-progress data-i18n="auth.resetProgress">Reset progress</button>
+          <a class="btn" href="{% url 'account_logout' %}" data-i18n="nav.signOut">Sign Out</a>
+          <button type="button" class="delete-account-link" data-open-delete-account data-i18n="auth.deleteAccount">Delete account</button>
+        </div>
+      </div>
     {% else %}
       <button type="button" class="btn btn-primary" id="signInBtn" data-i18n="nav.signIn">Sign In</button>
     {% endif %}
