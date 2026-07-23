@@ -251,6 +251,10 @@ def test_reading_writing_listening_speaking_stub_pages_render():
         assert eyebrow in html, url
         assert f'<h1>{title}</h1>' in html, url
         assert 'Coming soon.' in html, url
+        assert 'class="setup-card"' in html, url
+        assert 'id="i-hard-hat"' in html, url
+        assert 'Under construction' in html, url
+        assert 'This section is being built — check back soon.' in html, url
 
 
 @pytest.mark.django_db
@@ -310,6 +314,21 @@ def test_eye_icon_symbols_present_for_password_toggle():
     html = r.content.decode()
     assert 'id="i-eye"' in html
     assert 'id="i-eye-off"' in html
+
+
+@pytest.mark.django_db
+def test_waves_butterfly_heart_rose_icon_symbols_present_in_sprite():
+    # FIXES-NEEDED.md item 21: these 4 symbols existed in production's
+    # sprite but not VLPE's, so any category/word mapped to one of them
+    # silently fell back to the generic book icon instead.
+    from django.test import Client
+    c = Client()
+    r = c.get('/')
+    html = r.content.decode()
+    assert 'id="i-waves"' in html
+    assert 'id="i-butterfly"' in html
+    assert 'id="i-heart"' in html
+    assert 'id="i-rose"' in html
 
 
 @pytest.mark.django_db

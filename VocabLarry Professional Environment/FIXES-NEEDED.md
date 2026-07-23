@@ -279,11 +279,68 @@ should likely be built together.
       should stay deferred since VLPE has no activity-tracking data to back
       it. Build the footer, skip the streak widget.
 
-- [ ] **18. Reading/Writing/Listening/Speaking stub pages are missing the
+- [x] **18. Reading/Writing/Listening/Speaking stub pages are missing the
       "Under construction" card.** Production's stub pages aren't just an
       eyebrow+h1+p — they also have a `.setup-card` with a hard-hat icon and
       "This section is being built — check back soon." copy. Cheap fix —
       `.setup-card` CSS already exists in `vocab.css`, reusable as-is.
+      Built (2026-07-23): added the `.setup-card` block (hard-hat icon +
+      copy) to all 4 stub templates, each now loading `vocab.css` via
+      `extra_head` (they previously loaded no stylesheet at all). Also
+      ported the missing `.setup-card h2`/`.setup-card .sub` CSS rules
+      themselves — only the outer `.setup-card` panel style existed in
+      VLPE before this. Verified in a real browser on `/reading/` and
+      `/speaking/`.
+
+---
+
+## Found in the second fresh comparison pass (re-verified against the current
+`D:\IT RELATED\CLAUDE BOMBASTIC AI\VocabLarry\vocablarry.html`, not the stale
+zip copy items 1-11 were partly checked against — the two disputed corrections
+from items 3 and 6 were independently re-verified against this fresh copy and
+confirmed accurate: no GitHub provider anywhere in production, and the language
+dropdown really does have 12 rows, not 11)
+
+- [ ] **19. Staff/debug inline-edit mode missing entirely.** Production has a
+      staff-only "Debug mode" toggle (search `vocablarry.html` for
+      `debugToggle`) that, when on, lets staff/admin accounts edit or delete a
+      word directly from its detail view (`modalEditWordBtn`,
+      `modalDeleteWordBtn`, `dbgAddWordBtn`). Zero mentions of any of this
+      anywhere in VLPE — no toggle, no inline edit/delete UI, no staff-gating.
+
+- [ ] **20. Home page CTAs skip the intent-picker modal.** In production,
+      clicking "Start Learning" or "Quick Test" opens a modal
+      (`modePickerOverlay`/`openModePicker()`) asking which skill — Vocabulary
+      or Grammar — before proceeding. VLPE's "Start Learning" button just
+      hard-links straight to `{% url 'vocabulary_category_list' %}`, so a user
+      wanting Grammar or a quiz from the home page gets routed into Vocabulary
+      browsing regardless of intent.
+
+- [x] **21. Four icon symbols missing from the sprite** — `i-butterfly`,
+      `i-heart`, `i-rose`, `i-waves` exist in production's SVG sprite (93 total
+      symbols) but not VLPE's (89 total). Same class of bug as the
+      `i-headphones` one already caught and fixed in item 9 — whichever
+      category or word maps to one of these four will silently fall back to
+      the generic book icon instead of its real one. Diff the two `<symbol id="i-...">`
+      lists to find any others as new content gets added later.
+      Built (2026-07-23): added all 4 `<symbol>` defs to `base.html`'s
+      sprite. Also found and fixed a second, related gap while here:
+      `vocab_extras.py`'s `EMOJI_ICON_MAP` — despite its own comment
+      claiming to be "transcribed verbatim" from production — was missing
+      the 4 emoji keys (🌊/🦋/💙/🌹) that actually map to these icons, so
+      even with the symbols added, nothing could have reached them yet.
+      Added those 4 map entries too, so the fix is actually reachable, not
+      just latent. No current VLPE category/word data uses these emoji
+      yet (confirmed by grep) — this closes the gap for whenever one does.
+
+- [ ] **22. Word quick-view is a full page, not an in-place popup.** Production
+      opens word details in a lightweight modal (`#word-modal`) over the
+      current browse grid — stays in place, closes on backdrop click,
+      preserves scroll/filter state. VLPE built it as a full separate page
+      instead (`vocab/word_detail.html`). May be an intentional page-vs-modal
+      call, but it changes the actual interaction: browsing a list and peeking
+      at several words now requires navigating away and back each time instead
+      of a quick popup. Flag for a decision rather than assuming either way.
 
 ---
 

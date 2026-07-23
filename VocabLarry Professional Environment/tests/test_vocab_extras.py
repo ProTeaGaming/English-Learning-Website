@@ -22,3 +22,13 @@ def test_category_icon_resolves_variation_selector_only_keys():
     # with and without the input carrying VS16.
     assert category_icon('⚙️') == 'i-settings'
     assert category_icon('⚙') == 'i-settings'
+
+
+def test_category_icon_resolves_waves_butterfly_heart_rose():
+    # These 4 map entries (and their corresponding <symbol> sprite icons)
+    # were missing from VLPE despite the map's "transcribed verbatim"
+    # claim — FIXES-NEEDED.md item 21. Locks in both pieces together.
+    assert category_icon('🌊') == 'i-waves'
+    assert category_icon('🦋') == 'i-butterfly'
+    assert category_icon('💙') == 'i-heart'
+    assert category_icon('🌹') == 'i-rose'

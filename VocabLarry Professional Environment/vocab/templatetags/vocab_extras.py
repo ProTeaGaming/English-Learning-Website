@@ -33,6 +33,7 @@ EMOJI_ICON_MAP = {
     '📈': 'i-trend-up', '🏆': 'i-trophy', '🔤': 'i-type', '🧍': 'i-user', '🪞': 'i-user',
     '👨‍👩‍👧‍👦': 'i-users', '🤝': 'i-users', '🍜': 'i-utensils', '🍽️': 'i-utensils',
     '🔧': 'i-wrench', '🛠️': 'i-wrench', '🧰': 'i-wrench', '⚡': 'i-zap', '🌪': 'i-zap',
+    '🌊': 'i-waves', '🦋': 'i-butterfly', '💙': 'i-heart', '🌹': 'i-rose',
 }
 
 # Some EMOJI_ICON_MAP keys only exist in their U+FE0F (variation selector)
