@@ -25,6 +25,9 @@
       "nav.comingSoon": "Coming soon",
       "nav.signIn": "Sign In",
       "nav.signOut": "Sign Out",
+      "common.soon": "Soon",
+      "common.live": "Live",
+      "common.active": "Active",
       "hero.subtitle": "Build vocabulary and grammar skills for IELTS, one focused session at a time.",
       "hero.start": "Start Learning",
       "hero.grammar": "Practice Grammar",
@@ -35,6 +38,15 @@
       "home.wordsLearned": "Words learned",
       "home.categoriesStarted": "Categories started",
       "home.complete": "Complete",
+      "home.exploreSections": "Explore Sections",
+      "home.descVocab": "5,000 words across 85+ categories, organised by CEFR level and topic. Browse, filter, and mark words as learned.",
+      "home.descGrammar": "Essential IELTS grammar rules covering tense, articles, conditionals, and academic writing structures.",
+      "home.descReading": "Comprehension strategies for academic and general training passages, including skimming, scanning, and inference.",
+      "home.descWriting": "Task 1 and Task 2 guidance — vocabulary for graphs, linking words, and band-9 essay frameworks.",
+      "home.descListening": "Practise dictation, gap-fill, and note-taking with audio-linked vocabulary sets.",
+      "home.descSpeaking": "Part 1, 2, and 3 topic vocabulary banks with pronunciation guides and example answers.",
+      "home.comingSoon": "Coming soon",
+      "home.cefrBreakdown": "CEFR Breakdown",
       "vocabHome.badge": "5,000 words · 250 categories",
       "vocabHome.title1": "Build your word bank,",
       "vocabHome.title2": "one category at a time.",
@@ -128,6 +140,9 @@
       "nav.comingSoon": "Sắp ra mắt",
       "nav.signIn": "Đăng nhập",
       "nav.signOut": "Đăng xuất",
+      "common.soon": "Sắp có",
+      "common.live": "Đã có",
+      "common.active": "Hoạt động",
       "hero.subtitle": "Xây dựng vốn từ vựng và ngữ pháp cho IELTS, từng buổi học tập trung.",
       "hero.start": "Bắt đầu học",
       "hero.grammar": "Luyện ngữ pháp",
@@ -138,6 +153,15 @@
       "home.wordsLearned": "Từ đã học",
       "home.categoriesStarted": "Danh mục đã bắt đầu",
       "home.complete": "Hoàn thành",
+      "home.exploreSections": "Khám phá các phần",
+      "home.descVocab": "5.000 từ vựng trong hơn 85 danh mục, được sắp xếp theo cấp độ CEFR và chủ đề. Duyệt, lọc và đánh dấu từ đã học.",
+      "home.descGrammar": "Các quy tắc ngữ pháp IELTS thiết yếu bao gồm thì, mạo từ, câu điều kiện và cấu trúc văn viết học thuật.",
+      "home.descReading": "Chiến lược đọc hiểu cho các bài đọc học thuật và tổng quát, bao gồm đọc lướt, đọc quét và suy luận.",
+      "home.descWriting": "Hướng dẫn Task 1 và Task 2 — từ vựng cho biểu đồ, từ nối và khung bài luận band 9.",
+      "home.descListening": "Luyện nghe chép chính tả, điền từ và ghi chú với các bộ từ vựng có liên kết âm thanh.",
+      "home.descSpeaking": "Ngân hàng từ vựng theo chủ đề cho Part 1, 2 và 3 kèm hướng dẫn phát âm và câu trả lời mẫu.",
+      "home.comingSoon": "Sắp ra mắt",
+      "home.cefrBreakdown": "Phân tích CEFR",
       "vocabHome.badge": "5.000 từ · 250 danh mục",
       "vocabHome.title1": "Xây dựng vốn từ,",
       "vocabHome.title2": "từng danh mục một.",
@@ -233,17 +257,36 @@
   }
   window.t = t;
 
+  function updateLangActiveRow(){
+    var current = document.documentElement.getAttribute("lang") || "en";
+    document.querySelectorAll("[data-lang-menu] [data-lang]").forEach(function(row){
+      row.classList.toggle("active", row.getAttribute("data-lang") === current);
+    });
+  }
+
   var saved = "en";
   try { saved = localStorage.getItem(STORAGE_KEY) || "en"; } catch(e) {}
   applyLang(saved);
+  updateLangActiveRow();
 
+  var chip = document.querySelector("[data-lang-chip]");
   var toggle = document.querySelector("[data-lang-toggle]");
-  if (toggle){
-    toggle.addEventListener("click", function(){
-      var current = document.documentElement.getAttribute("lang") || "en";
-      var next = current === "en" ? "vi" : "en";
-      applyLang(next);
-      try { localStorage.setItem(STORAGE_KEY, next); } catch(e) {}
+  if (chip && toggle){
+    toggle.addEventListener("click", function(e){
+      e.stopPropagation();
+      chip.classList.toggle("open");
+    });
+    document.addEventListener("click", function(e){
+      if (!e.target.closest("[data-lang-chip]")) chip.classList.remove("open");
     });
   }
+  document.querySelectorAll("[data-lang-menu] [data-lang]").forEach(function(row){
+    row.addEventListener("click", function(){
+      var lang = row.getAttribute("data-lang");
+      applyLang(lang);
+      try { localStorage.setItem(STORAGE_KEY, lang); } catch(e) {}
+      updateLangActiveRow();
+      if (chip) chip.classList.remove("open");
+    });
+  });
 })();

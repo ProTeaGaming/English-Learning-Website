@@ -29,7 +29,7 @@
       <span class="filter-label">Stage</span>
       <a class="chip{% if not stage_filter %} active{% endif %}" href="?q={{ query|urlencode }}{% if category_filter %}&category={{ category_filter }}{% endif %}{% if cefr_filter %}&cefr={{ cefr_filter }}{% endif %}{% if progress_filter %}&progress={{ progress_filter }}{% endif %}">All</a>
       {% for sid, label, codes in stages %}
-      <a class="chip{% if stage_filter == sid %} active{% endif %}" href="?q={{ query|urlencode }}{% if category_filter %}&category={{ category_filter }}{% endif %}{% if cefr_filter %}&cefr={{ cefr_filter }}{% endif %}{% if progress_filter %}&progress={{ progress_filter }}{% endif %}&stage={{ sid }}">{{ label }}</a>
+      <a class="chip{% if stage_filter == sid %} active{% endif %}" data-word-tier="{{ sid }}" href="?q={{ query|urlencode }}{% if category_filter %}&category={{ category_filter }}{% endif %}{% if cefr_filter %}&cefr={{ cefr_filter }}{% endif %}{% if progress_filter %}&progress={{ progress_filter }}{% endif %}&stage={{ sid }}">{{ label }}</a>
       {% endfor %}
     </div>
     <div class="filter-row">

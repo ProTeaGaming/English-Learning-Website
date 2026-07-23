@@ -318,3 +318,76 @@ def test_auth_modal_js_included_on_every_page():
     c = Client()
     r = c.get('/')
     assert 'auth-modal.js' in r.content.decode()
+
+
+@pytest.mark.django_db
+def test_lang_dropdown_has_11_languages_two_active_nine_soon():
+    from django.test import Client
+    c = Client()
+    r = c.get('/')
+    html = r.content.decode()
+    assert 'data-lang-menu' in html
+    assert '<button class="mode-picker-row" data-lang="en" type="button">' in html
+    assert '<button class="mode-picker-row" data-lang="vi" type="button">' in html
+    # Production's own current lang-menu markup (vocablarry.html) has 10
+    # disabled rows, not the 9 FIXES-NEEDED.md's summary text describes —
+    # trust the direct source-of-truth comparison per this file's ground
+    # rule, not the checklist's own (here, slightly stale) prose.
+    assert html.count('mode-picker-row-disabled') == 10
+    for name in ('中文', '日本語', '한국어', 'العربية', 'Français', 'Nederlands', 'Deutsch', 'Español', 'Português', 'Русский'):
+        assert name in html, name
+
+
+@pytest.mark.django_db
+def test_home_explore_sections_cards_have_live_and_soon_badges():
+    from django.test import Client
+    c = Client()
+    r = c.get('/')
+    html = r.content.decode()
+    assert 'home.exploreSections">Explore Sections' in html
+    assert html.count('home-sec-status live') == 2
+    assert html.count('home-sec-status soon') == 4
+    assert '<a class="home-sec" href="/vocabulary/category/">' in html
+    assert '<a class="home-sec" href="/grammar/category/">' in html
+    assert '<a class="home-sec" href="/reading/">' in html
+    assert '<a class="home-sec" href="/writing/">' in html
+    assert '<a class="home-sec" href="/listening/">' in html
+    assert '<a class="home-sec" href="/speaking/">' in html
+
+
+@pytest.mark.django_db
+def test_home_cefr_breakdown_renders_all_6_levels():
+    from django.test import Client
+    from vocab.models import CEFRLevel
+
+    for i, code in enumerate(('A1', 'A2', 'B1', 'B2', 'C1', 'C2'), start=1):
+        CEFRLevel.objects.create(code=code, name=code, order=i)
+
+    c = Client()
+    r = c.get('/')
+    html = r.content.decode()
+    assert 'home.cefrBreakdown">CEFR Breakdown' in html
+    for code in ('A1', 'A2', 'B1', 'B2', 'C1', 'C2'):
+        assert f'<div class="home-cefr-badge">{code}</div>' in html, code
+    assert html.count('home-cefr-row') >= 6
+
+
+@pytest.mark.django_db
+def test_home_cefr_breakdown_pct_reflects_learned_words(regular_user):
+    from django.test import Client
+    from vocab.models import Category, CEFRLevel, Word
+
+    a1 = CEFRLevel.objects.create(code='A1', name='Beginner', order=1)
+    cat = Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=a1)
+    w1 = Word.objects.create(word='Cat', definition='x', category=cat, cefr_level=a1, order=1)
+    Word.objects.create(word='Dog', definition='x', category=cat, cefr_level=a1, order=2)
+
+    regular_user.learn_map = {str(w1.pk): 'learned'}
+    regular_user.save(update_fields=['learn_map'])
+
+    c = Client()
+    c.force_login(regular_user)
+    r = c.get('/')
+    html = r.content.decode()
+    assert '<div class="home-cefr-badge">A1</div>' in html
+    assert 'width:50%' in html

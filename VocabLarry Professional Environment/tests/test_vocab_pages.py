@@ -88,6 +88,26 @@ def test_vocabulary_category_list_tier_filter(cefr_a1, vocab_sections):
 
 
 @pytest.mark.django_db
+def test_vocabulary_category_list_tier_chips_have_data_tier_attr_for_color_coding():
+    c = Client()
+    r = c.get('/vocabulary/category/')
+    html = r.content.decode()
+    assert 'data-browse-tier="basic"' in html
+    assert 'data-browse-tier="intermediate"' in html
+    assert 'data-browse-tier="advanced"' in html
+
+
+@pytest.mark.django_db
+def test_vocabulary_word_list_stage_chips_have_data_tier_attr_for_color_coding():
+    c = Client()
+    r = c.get('/vocabulary/word/')
+    html = r.content.decode()
+    assert 'data-word-tier="basic"' in html
+    assert 'data-word-tier="intermediate"' in html
+    assert 'data-word-tier="advanced"' in html
+
+
+@pytest.mark.django_db
 def test_vocabulary_category_list_pagination(cefr_a1):
     from vocab.models import VocabSection
     for i in range(12):

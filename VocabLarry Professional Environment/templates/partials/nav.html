@@ -38,7 +38,23 @@
     </div>
   </div>
   <div class="nav-actions">
-    <button type="button" class="icon-toggle" data-lang-toggle aria-label="Switch language"><svg class="ico" aria-hidden="true"><use href="#i-globe"/></svg></button>
+    <div class="lang-chip" data-lang-chip>
+      <button type="button" class="icon-toggle" data-lang-toggle aria-label="Switch language"><svg class="ico" aria-hidden="true"><use href="#i-globe"/></svg></button>
+      <div class="lang-menu" data-lang-menu>
+        <button class="mode-picker-row" data-lang="en" type="button"><span class="mode-picker-name">English</span></button>
+        <button class="mode-picker-row" data-lang="vi" type="button"><span class="mode-picker-name">Tiếng Việt</span></button>
+        <div class="mode-picker-row mode-picker-row-disabled"><span class="mode-picker-name">中文</span><span class="home-sec-pill soon" data-i18n="common.soon">Soon</span></div>
+        <div class="mode-picker-row mode-picker-row-disabled"><span class="mode-picker-name">日本語</span><span class="home-sec-pill soon" data-i18n="common.soon">Soon</span></div>
+        <div class="mode-picker-row mode-picker-row-disabled"><span class="mode-picker-name">한국어</span><span class="home-sec-pill soon" data-i18n="common.soon">Soon</span></div>
+        <div class="mode-picker-row mode-picker-row-disabled"><span class="mode-picker-name">العربية</span><span class="home-sec-pill soon" data-i18n="common.soon">Soon</span></div>
+        <div class="mode-picker-row mode-picker-row-disabled"><span class="mode-picker-name">Français</span><span class="home-sec-pill soon" data-i18n="common.soon">Soon</span></div>
+        <div class="mode-picker-row mode-picker-row-disabled"><span class="mode-picker-name">Nederlands</span><span class="home-sec-pill soon" data-i18n="common.soon">Soon</span></div>
+        <div class="mode-picker-row mode-picker-row-disabled"><span class="mode-picker-name">Deutsch</span><span class="home-sec-pill soon" data-i18n="common.soon">Soon</span></div>
+        <div class="mode-picker-row mode-picker-row-disabled"><span class="mode-picker-name">Español</span><span class="home-sec-pill soon" data-i18n="common.soon">Soon</span></div>
+        <div class="mode-picker-row mode-picker-row-disabled"><span class="mode-picker-name">Português</span><span class="home-sec-pill soon" data-i18n="common.soon">Soon</span></div>
+        <div class="mode-picker-row mode-picker-row-disabled"><span class="mode-picker-name">Русский</span><span class="home-sec-pill soon" data-i18n="common.soon">Soon</span></div>
+      </div>
+    </div>
     <button type="button" class="icon-toggle" data-theme-toggle aria-label="Toggle theme"><svg class="ico" data-theme-icon aria-hidden="true"><use href="#i-moon"/></svg></button>
     {% if user.is_authenticated %}
       <span>{{ user.username }}</span>

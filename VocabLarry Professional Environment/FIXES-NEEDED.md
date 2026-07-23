@@ -56,11 +56,20 @@ the next one.
 - [x] **5. `/_allauth/` route missing** from `config/urls.py`. Add:
       `path('_allauth/', include('allauth.headless.urls'))`
 
-- [ ] **6. Language dropdown has no menu markup at all** — just a bare globe icon
+- [x] **6. Language dropdown has no menu markup at all** — just a bare globe icon
       button. The original has a full dropdown: 11 languages (English + Tiếng
       Việt active, 9 marked "Soon"), scrollable panel, hover states on each row.
       Rebuild from `vocablarry.html`'s `lang-menu`/`langMenu` markup and its
       `.lang-chip`/`.lang-menu`/`.mode-picker-row` CSS.
+      Built (2026-07-23): full dropdown ported into `nav.html` with the
+      `.lang-chip`/`.lang-menu`/`.mode-picker-row` CSS family, wired to the
+      existing en/vi `applyLang()` mechanism in `i18n.js` (open/close +
+      row-click-to-select + outside-click-to-close, active-row highlight).
+      Note: direct comparison against the current `vocablarry.html` found 12
+      languages (2 active + 10 "Soon"), not the 11/9 this item's own summary
+      text says — built to match the actual file, not the stale prose.
+      Verified live in a real browser: opens, switches language, persists
+      across reload, closes on selection.
 
 ## Specific CSS bug — exact fix known
 
@@ -99,16 +108,36 @@ the next one.
 
 ## Missing sections/styling
 
-- [ ] **8. Home page missing the CEFR Breakdown section** entirely (progress bar
+- [x] **8. Home page missing the CEFR Breakdown section** entirely (progress bar
       per level, A1→C2). Port the `.home-cefr-row`/`-track`/`-fill`/`-pct`/`-badge`
       CSS and the corresponding HTML block from `vocablarry.html`'s `page-home`
       section.
+      Built (2026-07-23): `config/views.py`'s `home()` now computes a
+      per-level (A1/A2/B1/B2/C1/C2) learned-word percentage server-side and
+      `templates/home.html` renders the 6-row bar section. Real bug caught by
+      live-browser verification (not by the automated tests, which don't
+      exercise the real ~5000-word dataset): the first implementation
+      iterated every real `CEFRLevel` row, which is actually the full
+      12-value scale (A1/A1+/A2/A2+/…/C2+) in this dataset, not 6 as the
+      model's `max_length=2` field misleadingly suggested (SQLite doesn't
+      enforce that length) — rendered 12 rows instead of production's 6.
+      Fixed by bucketing on `cefr_level__code__startswith` against a fixed
+      6-item base-level list, matching `vocablarry.html`'s own
+      `w.cefr.startsWith(lvl.replace("+",""))` grouping exactly (a "+"
+      variant folds into its base level, e.g. C1+ counts toward C1).
 
-- [ ] **9. Home page missing "Coming soon" badges** on the Reading/Writing/
+- [x] **9. Home page missing "Coming soon" badges** on the Reading/Writing/
       Listening/Speaking cards. Port `.home-sec-pill`/`.home-sec-status`/
       `.home-sec-footer` CSS and matching HTML.
+      Built (2026-07-23): the whole "Explore Sections" card grid didn't
+      exist on the home page at all yet (not just missing badges) — added
+      all 6 cards (Vocabulary/Grammar as Live, Reading/Writing/Listening/
+      Speaking as Coming soon) plus the `.home-sec-footer`/`-status`/`-pill`
+      CSS. Added the missing `i-headphones` icon symbol to `base.html`'s
+      sprite (only Listening needed it; it wasn't previously referenced
+      anywhere in VLPE).
 
-- [ ] **10. Vocabulary filter pills (Basic/Intermediate/Advanced/CEFR) have no
+- [x] **10. Vocabulary filter pills (Basic/Intermediate/Advanced/CEFR) have no
       color-coding when active** — the CSS only exists for Grammar's equivalent
       (`data-grammar-stage`), not Vocabulary's (`data-headline` / `data-word-headline`).
       Port these rules from `vocablarry.html`:
@@ -119,10 +148,23 @@ the next one.
       .headline-btn.active[data-headline="cefr"],.headline-btn.active[data-word-headline="cefr"]{background:var(--c2p); border-color:var(--c2p); color:#fff;}
       .headline-btn.active[data-headline="all"],.headline-btn.active[data-word-headline="all"]{background:var(--accent); border-color:var(--accent); color:#fff;}
       ```
+      Built (2026-07-23), adapted rather than copied literally per this
+      file's own "outcome not method" ground rule: VLPE never built a
+      `.headline-btn`/`data-headline` element — its Vocabulary Tier filter
+      (Category browse page) and Stage filter (Word page) are plain `.chip`
+      elements with their own `data-browse-tier`/`data-word-tier` attributes
+      (added here), matching the sibling `data-browse-cefr`/`data-word-cefr`
+      convention already established for the CEFR chip row. Colored
+      basic/intermediate/advanced identically to production
+      (`--a2`/`--b2`/`--c1`). Skipped porting production's "cefr"/"all"
+      pill-color variants — those belong to production's single combined
+      Stage bar, which VLPE deliberately split into two separate filter
+      rows (Tier + CEFR level) in an earlier sub-project, so there is no
+      VLPE element those two rules would apply to.
 
 ## Verify — don't assume styling means it works
 
-- [ ] **11. JS logic parity unconfirmed.** Total JS across all static/js files is
+- [x] **11. JS logic parity unconfirmed.** Total JS across all static/js files is
       a small fraction of the original's single script (which drives quiz
       generation, the learned/unsure toggle, live filter clicks, hybrid question
       randomization). CSS looking right doesn't mean this logic exists or works.
@@ -132,6 +174,17 @@ the next one.
       - Click every filter chip — does the list actually filter?
 
       Report anything that's styled but non-functional instead of assuming parity.
+      Verified (2026-07-23) with a real account (`verifytester`, allauth
+      email-verified) against a real dev server: marked "be" learned on
+      `core-action-verbs` (Little Bit → Learned cycle), reloaded — persisted;
+      home page's Words Learned/Categories Started stats updated to 1/1
+      correctly. Ran a full 10-question Definition Match quiz to completion
+      via `/vocabulary/quiz/` → results page tallied 5/10 correctly (verified
+      by cross-checking "Review Answers" against each question's actual
+      correct/incorrect option). Clicked Tier chips (Basic/Intermediate/
+      Advanced) on both the Category browse and Word pages — filtering,
+      URL params, and the new item-10 color-coding all worked. No console
+      errors observed. Nothing found styled-but-non-functional.
 
 ---
 

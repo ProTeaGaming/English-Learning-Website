@@ -33,5 +33,78 @@
       </div>
     </div>
   </div>
+
+  <div>
+    <div class="home-section-hd" data-i18n="home.exploreSections">Explore Sections</div>
+    <div class="home-secs">
+      <a class="home-sec" href="{% url 'vocabulary_category_list' %}">
+        <div class="home-sec-ico"><svg class="ico" aria-hidden="true"><use href="#i-book"/></svg></div>
+        <div class="home-sec-name" data-i18n="nav.vocabulary">Vocabulary</div>
+        <div class="home-sec-desc" data-i18n="home.descVocab">5,000 words across 85+ categories, organised by CEFR level and topic. Browse, filter, and mark words as learned.</div>
+        <div class="home-sec-footer">
+          <div class="home-sec-status live" data-i18n="common.active">Active</div>
+          <div class="home-sec-pill live" data-i18n="common.live">Live</div>
+        </div>
+      </a>
+      <a class="home-sec" href="{% url 'grammar_category_list' %}">
+        <div class="home-sec-ico"><svg class="ico" aria-hidden="true"><use href="#i-pen"/></svg></div>
+        <div class="home-sec-name" data-i18n="nav.grammar">Grammar</div>
+        <div class="home-sec-desc" data-i18n="home.descGrammar">Essential IELTS grammar rules covering tense, articles, conditionals, and academic writing structures.</div>
+        <div class="home-sec-footer">
+          <div class="home-sec-status live" data-i18n="common.active">Active</div>
+          <div class="home-sec-pill live" data-i18n="common.live">Live</div>
+        </div>
+      </a>
+      <a class="home-sec" href="{% url 'reading' %}">
+        <div class="home-sec-ico"><svg class="ico" aria-hidden="true"><use href="#i-book-open"/></svg></div>
+        <div class="home-sec-name" data-i18n="nav.reading">Reading</div>
+        <div class="home-sec-desc" data-i18n="home.descReading">Comprehension strategies for academic and general training passages, including skimming, scanning, and inference.</div>
+        <div class="home-sec-footer">
+          <div class="home-sec-status soon" data-i18n="home.comingSoon">Coming soon</div>
+          <div class="home-sec-pill soon" data-i18n="common.soon">Soon</div>
+        </div>
+      </a>
+      <a class="home-sec" href="{% url 'writing' %}">
+        <div class="home-sec-ico"><svg class="ico" aria-hidden="true"><use href="#i-file-text"/></svg></div>
+        <div class="home-sec-name" data-i18n="nav.writing">Writing</div>
+        <div class="home-sec-desc" data-i18n="home.descWriting">Task 1 and Task 2 guidance — vocabulary for graphs, linking words, and band-9 essay frameworks.</div>
+        <div class="home-sec-footer">
+          <div class="home-sec-status soon" data-i18n="home.comingSoon">Coming soon</div>
+          <div class="home-sec-pill soon" data-i18n="common.soon">Soon</div>
+        </div>
+      </a>
+      <a class="home-sec" href="{% url 'listening' %}">
+        <div class="home-sec-ico"><svg class="ico" aria-hidden="true"><use href="#i-headphones"/></svg></div>
+        <div class="home-sec-name" data-i18n="nav.listening">Listening</div>
+        <div class="home-sec-desc" data-i18n="home.descListening">Practise dictation, gap-fill, and note-taking with audio-linked vocabulary sets.</div>
+        <div class="home-sec-footer">
+          <div class="home-sec-status soon" data-i18n="home.comingSoon">Coming soon</div>
+          <div class="home-sec-pill soon" data-i18n="common.soon">Soon</div>
+        </div>
+      </a>
+      <a class="home-sec" href="{% url 'speaking' %}">
+        <div class="home-sec-ico"><svg class="ico" aria-hidden="true"><use href="#i-mic"/></svg></div>
+        <div class="home-sec-name" data-i18n="nav.speaking">Speaking</div>
+        <div class="home-sec-desc" data-i18n="home.descSpeaking">Part 1, 2, and 3 topic vocabulary banks with pronunciation guides and example answers.</div>
+        <div class="home-sec-footer">
+          <div class="home-sec-status soon" data-i18n="home.comingSoon">Coming soon</div>
+          <div class="home-sec-pill soon" data-i18n="common.soon">Soon</div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <div>
+    <div class="home-section-hd" data-i18n="home.cefrBreakdown">CEFR Breakdown</div>
+    <div class="home-cefr">
+      {% for row in cefr_breakdown %}
+      <div class="home-cefr-row" style="--lv:var(--{{ row.code|lower }})">
+        <div class="home-cefr-badge">{{ row.code }}</div>
+        <div class="home-cefr-track"><div class="home-cefr-fill" style="width:{{ row.pct }}%"></div></div>
+        <div class="home-cefr-pct">{{ row.pct }}%</div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
 </div>
 {% endblock %}
