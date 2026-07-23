@@ -103,11 +103,11 @@
       const name = document.getElementById('profileName').value.trim();
       const username = document.getElementById('profileUsername').value.trim();
 
-      if (!/^[\p{L}\s]{1,60}$/u.test(name)){
+      if (name && !/^[\p{L}\s]{1,60}$/u.test(name)){
         errorEl.textContent = t('auth.nameLettersOnly');
         return;
       }
-      if (!/^[A-Za-z0-9]{3,20}$/.test(username)){
+      if (username && !/^[A-Za-z0-9]{3,20}$/.test(username)){
         errorEl.textContent = t('auth.usernameFormat');
         return;
       }
