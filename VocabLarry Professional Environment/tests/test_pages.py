@@ -469,3 +469,32 @@ def test_anonymous_user_sees_no_stats_or_user_chip():
     html = r.content.decode()
     assert 'data-user-chip' not in html
     assert 'class="stats"' not in html
+
+
+@pytest.mark.django_db
+def test_account_modals_render_for_authenticated_user(regular_user):
+    from django.test import Client
+    c = Client()
+    c.force_login(regular_user)
+    r = c.get('/')
+    html = r.content.decode()
+    for element_id in (
+        'profileOverlay', 'profileClose', 'profileError', 'profileAvatarPreviewWrap',
+        'profileAvatarPreview', 'profilePicture', 'profileName', 'profileUsername',
+        'profileForm', 'profileSubmitBtn', 'profileConnectionsError', 'profileConnectionsList',
+        'deleteOverlay', 'deleteClose', 'deleteError', 'deleteWarning',
+        'deletePasswordGroup', 'deletePassword', 'deleteForm', 'deleteSubmitBtn',
+        'resetOverlay', 'resetClose', 'resetError', 'resetConfirmBtn', 'resetCancelBtn',
+    ):
+        assert f'id="{element_id}"' in html, element_id
+
+
+@pytest.mark.django_db
+def test_account_modals_absent_for_anonymous_user():
+    from django.test import Client
+    c = Client()
+    r = c.get('/')
+    html = r.content.decode()
+    assert 'id="profileOverlay"' not in html
+    assert 'id="deleteOverlay"' not in html
+    assert 'id="resetOverlay"' not in html

@@ -105,6 +105,7 @@
 </svg>
 {% include "partials/nav.html" %}
 {% include "partials/auth_modal.html" %}
+{% if user.is_authenticated %}{% include "partials/account_modals.html" %}{% endif %}
 <main class="page-content">
 {% if messages %}
   <ul class="site-messages">

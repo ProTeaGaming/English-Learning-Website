@@ -1,0 +1,57 @@
+<div class="auth-modal-overlay" id="profileOverlay">
+  <div class="auth-modal">
+    <button class="auth-modal-close" id="profileClose" aria-label="Close">&times;</button>
+    <h2 class="auth-modal-title" data-i18n="auth.editProfile">Edit profile</h2>
+    <p class="auth-modal-error" id="profileError"></p>
+    <form id="profileForm">
+      <div class="avatar-preview-wrap auth-hidden" id="profileAvatarPreviewWrap">
+        <img id="profileAvatarPreview" alt="Profile picture preview">
+      </div>
+      <label class="auth-field">
+        <span data-i18n="auth.profilePicture">Profile picture</span>
+        <input type="file" id="profilePicture" accept="image/png,image/jpeg,image/gif,image/webp">
+      </label>
+      <label class="auth-field">
+        <span data-i18n="auth.fullName">Full name</span>
+        <input type="text" id="profileName" autocomplete="name" value="{{ user.name }}">
+      </label>
+      <label class="auth-field">
+        <span data-i18n="auth.username">Username</span>
+        <input type="text" id="profileUsername" autocomplete="username" value="{{ user.username }}">
+      </label>
+      <button type="submit" class="auth-submit-btn" id="profileSubmitBtn" data-i18n="auth.saveChanges">Save changes</button>
+    </form>
+    <div class="profile-connections">
+      <p class="auth-divider-label" data-i18n="auth.connectedAccounts">Connected accounts</p>
+      <p class="auth-modal-error" id="profileConnectionsError"></p>
+      <div id="profileConnectionsList"></div>
+    </div>
+  </div>
+</div>
+
+<div class="auth-modal-overlay" id="deleteOverlay">
+  <div class="auth-modal">
+    <button class="auth-modal-close" id="deleteClose" aria-label="Close">&times;</button>
+    <h2 class="auth-modal-title" data-i18n="auth.deleteAccountTitle">Delete your account?</h2>
+    <p class="auth-modal-error" id="deleteError"></p>
+    <p class="auth-modal-info" id="deleteWarning" data-i18n="auth.deleteAccountWarning">This permanently deletes your account and all saved progress. Enter your password to confirm.</p>
+    <form id="deleteForm">
+      <label class="auth-field" id="deletePasswordGroup">
+        <span data-i18n="auth.password">Password</span>
+        <input type="password" id="deletePassword" autocomplete="current-password">
+      </label>
+      <button type="submit" class="auth-submit-btn" id="deleteSubmitBtn" style="background:#dc2626;" data-i18n="auth.deleteAccountBtn">Delete my account</button>
+    </form>
+  </div>
+</div>
+
+<div class="auth-modal-overlay" id="resetOverlay">
+  <div class="auth-modal">
+    <button class="auth-modal-close" id="resetClose" aria-label="Close">&times;</button>
+    <h2 class="auth-modal-title" data-i18n="auth.resetProgressTitle">Reset all learning progress?</h2>
+    <p class="auth-modal-error" id="resetError"></p>
+    <p class="auth-modal-info" data-i18n="auth.resetProgressWarning">This can't be undone.</p>
+    <button type="button" class="auth-submit-btn" id="resetConfirmBtn" style="background:#dc2626;" data-i18n="auth.resetProgress">Reset progress</button>
+    <button type="button" class="auth-switch" id="resetCancelBtn" style="width:100%;background:none;border:none;cursor:pointer;" data-i18n="common.cancel">Cancel</button>
+  </div>
+</div>
