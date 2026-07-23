@@ -91,3 +91,59 @@ def test_user_progress_stats_wired_into_templates(regular_user):
     c.force_login(regular_user)
     r = c.get('/')
     assert r.status_code == 200
+
+
+@pytest.mark.django_db
+def test_site_footer_stats_computed_for_anonymous_user():
+    from config.context_processors import site_footer_stats
+    from django.contrib.auth.models import AnonymousUser
+    from vocab.models import Category, Word
+
+    cat = Category.objects.create(slug='animals', name='Animals', order=1)
+    Word.objects.create(word='Cat', definition='x', category=cat, order=1)
+
+    class _Req:
+        user = AnonymousUser()
+
+    assert site_footer_stats(_Req()) == {
+        'footer_total_words': 1,
+        'footer_words_learned': 0,
+        'footer_pct_complete': 0,
+        'footer_categories_started': 0,
+        'footer_total_categories': 1,
+    }
+
+
+@pytest.mark.django_db
+def test_site_footer_stats_computed_for_authenticated_user(regular_user):
+    from config.context_processors import site_footer_stats
+    from vocab.models import Category, Word
+
+    cat1 = Category.objects.create(slug='animals', name='Animals', order=1)
+    cat2 = Category.objects.create(slug='colors', name='Colors', order=2)
+    w1 = Word.objects.create(word='Cat', definition='x', category=cat1, order=1)
+    w2 = Word.objects.create(word='Dog', definition='x', category=cat1, order=2)
+    Word.objects.create(word='Red', definition='x', category=cat2, order=1)
+    regular_user.learn_map = {str(w1.pk): 'learned', str(w2.pk): 'little'}
+    regular_user.save(update_fields=['learn_map'])
+
+    class _Req:
+        user = regular_user
+
+    assert site_footer_stats(_Req()) == {
+        'footer_total_words': 3,
+        'footer_words_learned': 1,
+        'footer_pct_complete': 33,
+        'footer_categories_started': 1,
+        'footer_total_categories': 2,
+    }
+
+
+@pytest.mark.django_db
+def test_site_footer_stats_wired_into_templates():
+    # Guards against an ImproperlyConfigured typo in TEMPLATES, same as
+    # the user_progress_stats guard above.
+    from django.test import Client
+    c = Client()
+    r = c.get('/')
+    assert r.status_code == 200

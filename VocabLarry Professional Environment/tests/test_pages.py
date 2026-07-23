@@ -517,3 +517,47 @@ def test_account_modals_absent_for_anonymous_user():
     assert 'id="profileOverlay"' not in html
     assert 'id="deleteOverlay"' not in html
     assert 'id="resetOverlay"' not in html
+
+
+@pytest.mark.django_db
+def test_footer_renders_on_home_page_for_guest():
+    from django.test import Client
+    c = Client()
+    r = c.get('/')
+    html = r.content.decode()
+    assert 'class="site-footer"' in html
+    assert 'footer.trackProgress">Track your progress' in html
+    assert '<div class="dash-card-val">0</div>' in html
+    assert '© 2025 VocabLarry' in html
+
+
+@pytest.mark.django_db
+def test_footer_renders_on_non_home_pages_too():
+    # The footer is sitewide, not home-only — check a totally different
+    # page (a real one, not requiring any fixture data) still has it.
+    from django.test import Client
+    c = Client()
+    r = c.get('/vocabulary/category/')
+    html = r.content.decode()
+    assert 'class="site-footer"' in html
+
+
+@pytest.mark.django_db
+def test_footer_stats_reflect_authenticated_user_progress(regular_user):
+    from django.test import Client
+    from vocab.models import Category, Word
+
+    cat = Category.objects.create(slug='animals', name='Animals', order=1)
+    w1 = Word.objects.create(word='Cat', definition='x', category=cat, order=1)
+    Word.objects.create(word='Dog', definition='x', category=cat, order=2)
+    regular_user.learn_map = {str(w1.pk): 'learned'}
+    regular_user.save(update_fields=['learn_map'])
+
+    c = Client()
+    c.force_login(regular_user)
+    r = c.get('/')
+    html = r.content.decode()
+    assert '<div class="dash-card-val">2</div>' in html
+    assert '<div class="dash-card-val" style="color:rgb(var(--violet))">1</div>' in html
+    assert '50% <span data-i18n="footer.complete">complete</span>' in html
+    assert '<div class="dash-card-val">1</div>' in html

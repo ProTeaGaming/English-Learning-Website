@@ -1,4 +1,4 @@
-from .models import Word
+from .models import Category, Word
 
 
 def learned_word_stats(user):
@@ -14,3 +14,12 @@ def learned_word_stats(user):
     total_words = Word.objects.count()
     words_learned = len(learned_ids)
     return learned_ids, total_words, words_learned
+
+
+def categories_started_count(started_ids):
+    """Count of distinct categories containing any word in started_ids.
+
+    Shared between config/views.py's home() and the sitewide footer's
+    site_footer_stats context processor.
+    """
+    return Category.objects.filter(words__id__in=started_ids).distinct().count()

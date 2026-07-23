@@ -1,0 +1,33 @@
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-logo"><svg class="ico ico-mark" aria-hidden="true"><use href="#i-mark"/></svg><span>Vocab<b>Larry</b></span></div>
+        <p class="footer-sub" data-i18n="footer.trackProgress">Track your progress across 5,000 IELTS words across every CEFR level.</p>
+      </div>
+      <div class="footer-dash">
+        <div class="dash-card">
+          <div class="dash-card-label" data-i18n="footer.totalWords">Total words</div>
+          <div class="dash-card-val">{{ footer_total_words }}</div>
+          <div class="dash-card-sub" data-i18n="footer.acrossAllLevels">across all levels</div>
+        </div>
+        <div class="dash-card">
+          <div class="dash-card-label" data-i18n="common.learned">Learned</div>
+          <div class="dash-card-val" style="color:rgb(var(--violet))">{{ footer_words_learned }}</div>
+          <div class="dash-card-sub">{{ footer_pct_complete }}% <span data-i18n="footer.complete">complete</span></div>
+        </div>
+        <div class="dash-card dash-card-streak">
+          <div class="dash-card-label" data-i18n="footer.categoriesLabel">Categories</div>
+          <div class="dash-card-val">{{ footer_categories_started }}</div>
+          <div class="dash-card-sub"><span data-i18n="footer.of">of</span> {{ footer_total_categories }} <span data-i18n="common.categories">categories</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copy" data-i18n="footer.copyright">© 2025 VocabLarry · All rights reserved</span>
+      <div class="footer-bottom-right">
+        <span class="footer-tag" data-i18n="footer.builtFor">Built for IELTS learners</span>
+      </div>
+    </div>
+  </div>
+</footer>

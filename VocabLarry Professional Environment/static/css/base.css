@@ -777,3 +777,51 @@ html[lang="vi"] .nav-group[data-section="vocabulary"] .nav-dropdown{ min-width: 
 .profile-conn-btn.profile-conn-disconnect{ border-color: rgba(220,38,38,.3); color: #dc2626; background: rgba(220,38,38,.06); }
 .profile-conn-btn.profile-conn-disconnect:hover{ border-color: rgba(220,38,38,.55); background: rgba(220,38,38,.12); }
 .profile-conn-btn:disabled{ opacity: .5; cursor: not-allowed; }
+
+/* Sitewide footer — ported from production's .site-footer/.footer-x/
+   .dash-card family (rgba(var(--vio),X) converted to rgb(var(--violet) / X)
+   per this codebase's established custom-property syntax rule). The
+   day-streak widget (.dash-streak/.dash-week) is deliberately not ported —
+   see FIXES-NEEDED.md item 17. */
+.site-footer{
+  border-top: 1px solid rgb(var(--violet) / .2);
+  background: rgba(10,8,18,.97);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  padding: 36px 32px 24px; position: relative; overflow: hidden; margin-top: 48px;
+}
+[data-theme="light"] .site-footer{ background: rgba(248,248,252,.97); }
+.site-footer::before{
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(ellipse 60% 80% at 50% 120%, rgb(var(--violet) / .12), transparent);
+}
+.footer-inner{ max-width: 1280px; margin: 0 auto; position: relative; }
+.footer-top{ display: grid; grid-template-columns: auto 1fr; gap: 40px; align-items: start; margin-bottom: 28px; }
+@media (max-width: 640px){ .footer-top{ grid-template-columns: 1fr; } }
+.footer-logo{
+  font-family: 'Plus Jakarta Sans','Sora',sans-serif; font-weight: 800; font-size: 1.1rem;
+  display: flex; align-items: center; gap: 8px; margin-bottom: 6px;
+}
+.footer-sub{ font-size: .78rem; color: var(--muted); max-width: 180px; line-height: 1.5; }
+.footer-dash{ display: grid; grid-template-columns: repeat(auto-fit, minmax(140px,1fr)); gap: 10px; }
+.dash-card{
+  background: rgb(var(--violet) / .07); border: 1px solid rgb(var(--violet) / .16); border-radius: 16px;
+  padding: 14px 16px; display: flex; flex-direction: column; gap: 8px;
+  transition: border-color .4s var(--ease-luxe), box-shadow .4s var(--ease-luxe), transform .4s var(--ease-luxe);
+}
+.dash-card:hover{ border-color: rgb(var(--violet) / .35); box-shadow: 0 14px 34px rgba(0,0,0,.16); transform: translateY(-2px); }
+.dash-card-label{
+  font-family: 'JetBrains Mono', monospace; font-size: .65rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .1em; color: var(--muted);
+}
+.dash-card-val{ font-family: 'Plus Jakarta Sans','Sora',sans-serif; font-size: 1.5rem; font-weight: 800; color: var(--text); line-height: 1; }
+.dash-card-sub{ font-family: 'JetBrains Mono', monospace; font-size: .7rem; color: var(--muted); }
+.dash-card-streak .dash-card-val{
+  background: linear-gradient(135deg,#f59e0b,#ef4444); -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.footer-bottom{
+  display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+  padding-top: 20px; border-top: 1px solid rgb(var(--violet) / .1);
+}
+.footer-copy{ font-family: 'JetBrains Mono', monospace; font-size: .7rem; color: var(--muted); }
+.footer-bottom-right{ display: flex; align-items: center; gap: 10px; }
+.footer-tag{ font-family: 'JetBrains Mono', monospace; font-size: .68rem; color: var(--muted); letter-spacing: .04em; }

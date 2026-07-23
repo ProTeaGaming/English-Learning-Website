@@ -270,7 +270,7 @@ should likely be built together.
       Verified: Cancel button leaves data untouched, Confirm button clears
       learned-word count and all "little bit" progress markers as expected.
 
-- [ ] **17. Sitewide footer missing entirely.** Production's `<footer
+- [x] **17. Sitewide footer missing entirely.** Production's `<footer
       class="site-footer">` (search `vocablarry.html` for `siteFooter`)
       renders on every page: logo/tagline plus a small live dashboard (total
       words, learned %, categories started). It also has a day-streak widget
@@ -278,6 +278,17 @@ should likely be built together.
       the home page's 4th stat card (see items 8-9's history), that part
       should stay deferred since VLPE has no activity-tracking data to back
       it. Build the footer, skip the streak widget.
+      Built (2026-07-23): new `templates/partials/footer.html`, included
+      from `base.html` on every page (unlike the account modals, not
+      gated behind authentication — matches production, which shows the
+      footer with zeroed stats for guests too). New
+      `site_footer_stats` context processor computes total words/learned/
+      %/categories-started server-side; extracted a shared
+      `categories_started_count()` helper into `vocab/services.py` (was
+      duplicated inline in `config/views.py:home` before this). Streak
+      widget correctly not built. Verified in a real browser on both the
+      home page and a non-home page (`/vocabulary/category/`) — footer
+      renders identically on both with live-computed values.
 
 - [x] **18. Reading/Writing/Listening/Speaking stub pages are missing the
       "Under construction" card.** Production's stub pages aren't just an

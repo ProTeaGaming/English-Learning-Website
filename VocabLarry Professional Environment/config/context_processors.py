@@ -1,4 +1,5 @@
-from vocab.services import learned_word_stats
+from vocab.models import Category
+from vocab.services import categories_started_count, learned_word_stats
 
 _VOCABULARY_PREFIX = 'vocabulary_'
 _GRAMMAR_PREFIX = 'grammar_'
@@ -41,4 +42,24 @@ def user_progress_stats(request):
         'words_learned': words_learned,
         'total_words': total_words,
         'little_count': little_count,
+    }
+
+
+def site_footer_stats(request):
+    """Stats for the sitewide footer (every page, authenticated or not) —
+    mirrors production's <footer class="site-footer"> dashboard (total
+    words, learned %, categories started), computed server-side. The
+    day-streak widget is deliberately not built (see FIXES-NEEDED.md item
+    17) since VLPE has no activity-tracking data to back it.
+    """
+    learn_map = request.user.learn_map if request.user.is_authenticated else {}
+    started_ids = [int(k) for k in learn_map.keys()]
+    _, total_words, words_learned = learned_word_stats(request.user)
+    pct_complete = round(words_learned / total_words * 100) if total_words else 0
+    return {
+        'footer_total_words': total_words,
+        'footer_words_learned': words_learned,
+        'footer_pct_complete': pct_complete,
+        'footer_categories_started': categories_started_count(started_ids),
+        'footer_total_categories': Category.objects.count(),
     }
