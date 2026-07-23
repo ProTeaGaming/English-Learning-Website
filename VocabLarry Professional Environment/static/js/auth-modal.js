@@ -487,4 +487,6 @@
 
   initAuth();
   handleAuthDeepLinks();
+
+  window.vlpeAuth = { getCsrf, authFetch, socialLogin, previewAvatarFile, AUTH_BASE, ALLAUTH_BASE };
 })();
