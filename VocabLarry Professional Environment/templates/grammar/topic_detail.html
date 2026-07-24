@@ -124,6 +124,27 @@
     {% endif %}
   </div>
 
+  {% if user.role == 'staff' or user.role == 'admin' %}
+  <div class="dbg-question-mgr">
+    <h4>Manage questions</h4>
+    <div class="dbg-q-list">
+      {% for question in topic.questions.all %}
+      <div class="dbg-q-row" data-dbg-question
+           data-id="{{ question.pk }}" data-qtype="{{ question.qtype }}" data-prompt="{{ question.prompt }}"
+           data-options="{{ question.options|json_attr }}" data-answers="{{ question.answers|json_attr }}"
+           data-why="{{ question.why }}" data-order="{{ question.order }}">
+        <span class="dbg-q-prompt">{{ question.prompt|truncatechars:60 }}</span>
+        <span class="dbg-ctl">
+          <button type="button" class="dbg-edit-q">&#9998;</button>
+          <button type="button" class="dbg-delete-q">&#10005;</button>
+        </span>
+      </div>
+      {% endfor %}
+    </div>
+    <button type="button" class="dbg-add-question">+ Add question</button>
+  </div>
+  {% endif %}
+
   <div class="cat-bulk-actions">
     {% if topic.questions.count %}
     <a class="btn" href="{% url 'grammar_category_quiz' topic.slug %}">Practice — {{ topic.questions.count }} question{{ topic.questions.count|pluralize }}</a>

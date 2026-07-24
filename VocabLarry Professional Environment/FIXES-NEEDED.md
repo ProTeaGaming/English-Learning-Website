@@ -312,12 +312,34 @@ from items 3 and 6 were independently re-verified against this fresh copy and
 confirmed accurate: no GitHub provider anywhere in production, and the language
 dropdown really does have 12 rows, not 11)
 
-- [ ] **19. Staff/debug inline-edit mode missing entirely.** Production has a
+- [x] **19. Staff/debug inline-edit mode missing entirely.** Production has a
       staff-only "Debug mode" toggle (search `vocablarry.html` for
       `debugToggle`) that, when on, lets staff/admin accounts edit or delete a
       word directly from its detail view (`modalEditWordBtn`,
       `modalDeleteWordBtn`, `dbgAddWordBtn`). Zero mentions of any of this
       anywhere in VLPE — no toggle, no inline edit/delete UI, no staff-gating.
+      Built (2026-07-24, 6-task plan): staff/admin-only nav toggle
+      (`#debugToggle`) persisted in a cookie, gating a `body.debug-on` class
+      that reveals `.dbg-*` edit/delete controls and "+ Add" buttons across
+      the site; a shared modal (`openDebugModal`) and `debugFetch`/
+      `debugConfirm` helpers in `static/js/debug-mode.js` back full CRUD for
+      words (Word page, category word grid, word detail), vocabulary
+      categories (browse, incl. a "has words" delete-guard surfaced in the
+      modal), grammar topics (browse), lesson blocks (topic detail, incl.
+      inside the scroll-scrub stack), and grammar questions — this last one
+      via a new `.dbg-question-mgr` panel on topic detail, the one piece of
+      UI with no non-debug equivalent anywhere in VLPE. All backed by new
+      staff/admin-only DRF endpoints under `/api/`. JSON-bearing data
+      attributes (block `data`, question `options`/`answers`) go through a
+      new `json_attr` template filter for correct HTML-attribute escaping.
+      Fully covered by an automated test suite (toggle visibility per role,
+      dbg-ctl presence/absence per page and role, CRUD endpoints, delete
+      guards, json_attr escaping); the panel's rendered markup was also
+      re-confirmed via the Django test client with real seeded MCQ data.
+      Interactive real-browser click-through (toggle live-tracking, modal
+      open/save/delete round-trips, scroll-scrub animation after a DOM
+      addition, zero console errors) is still outstanding and should happen
+      before this branch merges.
 
 - [ ] **20. Home page CTAs skip the intent-picker modal.** In production,
       clicking "Start Learning" or "Quick Test" opens a modal

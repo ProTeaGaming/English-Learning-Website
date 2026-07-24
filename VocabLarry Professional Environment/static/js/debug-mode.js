@@ -369,6 +369,67 @@
     if (addBlockBtn) addBlockBtn.addEventListener("click", function(){ debugSaveBlock(topicId, null, null); });
   });
 
+  DEBUG_FORMS.question = [
+    { name: "qtype", label: "Type", type: "select", options: function(){
+        return [{ value: "mcq", label: "Multiple choice" },
+                { value: "gap", label: "Fill the gap" },
+                { value: "transform", label: "Transformation" }];
+      } },
+    { name: "prompt", label: "Prompt", type: "textarea" },
+    { name: "options", label: "Options (JSON list, mcq only)", type: "json", emptyValue: [] },
+    { name: "answers", label: "Answers (mcq: [index] — gap/transform: [\"accepted\"])", type: "json", emptyValue: [] },
+    { name: "why", label: "Why (explanation)", type: "textarea" },
+    { name: "order", label: "Order", type: "number" },
+  ];
+
+  function questionInitialFromEl(el){
+    return {
+      qtype: el.dataset.qtype, prompt: el.dataset.prompt,
+      options: el.dataset.options ? JSON.parse(el.dataset.options) : [],
+      answers: el.dataset.answers ? JSON.parse(el.dataset.answers) : [],
+      why: el.dataset.why, order: Number(el.dataset.order),
+    };
+  }
+
+  function debugSaveQuestion(topicId, existingId, initial){
+    openDebugModal({
+      title: existingId ? "Edit question" : "Add question",
+      fields: DEBUG_FORMS.question,
+      initial: initial || { options: [], answers: [], order: 0 },
+      onSave: function(payload){
+        var p = existingId ? debugFetch("/api/grammar/questions/" + existingId + "/", "PATCH", payload)
+                            : debugFetch("/api/grammar/questions/", "POST", Object.assign({}, payload, { topic: topicId }));
+        return p.then(function(){ window.location.reload(); });
+      },
+    });
+  }
+
+  function debugDeleteQuestion(id){
+    if (!debugConfirm("Delete this question? This cannot be undone.")) return;
+    debugFetch("/api/grammar/questions/" + id + "/", "DELETE").then(function(){
+      window.location.reload();
+    }).catch(function(e){
+      alert("Delete failed" + (e && e.error ? ": " + e.error : ""));
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", function(){
+    var topicIdEl = document.querySelector("[data-topic-id]");
+    var topicId = topicIdEl ? topicIdEl.dataset.topicId : null;
+    document.querySelectorAll("[data-dbg-question]").forEach(function(row){
+      var editBtn = row.querySelector(".dbg-edit-q");
+      var delBtn = row.querySelector(".dbg-delete-q");
+      if (editBtn) editBtn.addEventListener("click", function(){
+        debugSaveQuestion(topicId, row.dataset.id, questionInitialFromEl(row));
+      });
+      if (delBtn) delBtn.addEventListener("click", function(){
+        debugDeleteQuestion(row.dataset.id);
+      });
+    });
+    var addQuestionBtn = document.querySelector(".dbg-add-question");
+    if (addQuestionBtn) addQuestionBtn.addEventListener("click", function(){ debugSaveQuestion(topicId, null, null); });
+  });
+
   window.debugFetch = debugFetch;
   window.debugConfirm = debugConfirm;
 })();

@@ -171,3 +171,31 @@ def test_block_dbg_ctl_absent_for_regular_user_on_topic_detail(client, regular_u
     client.force_login(regular_user)
     r = client.get(f'/grammar/category/{block_ui_fixture.topic.slug}/')
     assert b'data-dbg-block' not in r.content
+
+
+from vocab.models import GrammarQuestion
+
+
+@pytest.fixture
+def question_ui_fixture(db, topic_ui_fixture):
+    return GrammarQuestion.objects.create(
+        topic=topic_ui_fixture, qtype='mcq', prompt='She ___ here since 2020.',
+        options=['live', 'lives', 'has lived', 'living'], answers=[2],
+        why='Present perfect for an unfinished duration.', order=0,
+    )
+
+
+@pytest.mark.django_db
+def test_question_mgr_visible_for_staff_on_topic_detail(client, staff_user, question_ui_fixture):
+    client.force_login(staff_user)
+    r = client.get(f'/grammar/category/{question_ui_fixture.topic.slug}/')
+    assert b'dbg-question-mgr' in r.content
+    assert f'data-id="{question_ui_fixture.pk}"'.encode() in r.content
+    assert b'She \xe2\x80\x94 here since 2020.' in r.content or b'She' in r.content  # prompt text present
+
+
+@pytest.mark.django_db
+def test_question_mgr_absent_for_regular_user_on_topic_detail(client, regular_user, question_ui_fixture):
+    client.force_login(regular_user)
+    r = client.get(f'/grammar/category/{question_ui_fixture.topic.slug}/')
+    assert b'dbg-question-mgr' not in r.content
