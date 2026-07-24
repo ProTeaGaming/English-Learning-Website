@@ -1241,3 +1241,23 @@ def test_vocabulary_word_detail_non_ajax_still_returns_full_page(cefr_a1):
     body = r.content.decode()
     assert 'site-nav' in body
     assert 'word-detail-card' in body
+
+
+@pytest.mark.django_db
+def test_category_word_list_word_title_has_modal_trigger(cefr_a1):
+    category = Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1)
+    word = Word.objects.create(word='Cat', definition='x', category=category, order=1)
+    c = Client()
+    r = c.get('/vocabulary/category/animals/')
+    html = r.content.decode()
+    assert f'data-word-modal-trigger href="/vocabulary/word/{word.pk}/"' in html
+
+
+@pytest.mark.django_db
+def test_word_list_word_title_has_modal_trigger(cefr_a1):
+    category = Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1)
+    word = Word.objects.create(word='Cat', definition='x', category=category, order=1)
+    c = Client()
+    r = c.get('/vocabulary/word/')
+    html = r.content.decode()
+    assert f'data-word-modal-trigger href="/vocabulary/word/{word.pk}/"' in html

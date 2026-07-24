@@ -17,7 +17,7 @@
     <div class="word-card{% if word.learn_state == 'learned' %} learned{% elif word.learn_state == 'little' %} little{% endif %}" style="--accent-c:{{ word.cefr_level|cefr_accent_var }};">
       <div class="face">
         <div>
-          <div class="word"><a href="{% url 'vocabulary_word_detail' word.pk %}">{{ word.word }}</a></div>
+          <div class="word"><a data-word-modal-trigger href="{% url 'vocabulary_word_detail' word.pk %}">{{ word.word }}</a></div>
           {% if word.pos %}<div class="pos">{{ word.pos }}</div>{% endif %}
         </div>
         {% if word.cefr_level %}<span class="cefr-badge {{ word.cefr_level.code }}">{{ word.cefr_level.code }}</span>{% endif %}
