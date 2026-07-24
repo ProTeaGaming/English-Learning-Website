@@ -41,9 +41,26 @@
 
   document.addEventListener("click", function(e){
     var trigger = e.target.closest("[data-word-modal-trigger], .word-xref");
-    if (!trigger) return;
+    if (trigger){
+      e.preventDefault();
+      openWordModal(trigger.getAttribute("href"));
+      return;
+    }
+    // The hover-reveal panel on word-card list items (category_word_list.html,
+    // word_list.html) sits on top of the title link once :hover shows it
+    // (.reveal is position:absolute with pointer-events:auto while visible,
+    // same footprint as .face) — a real mouse click can never reach the
+    // underlying <a> once hovered. Delegate at the whole-card level instead,
+    // matching production's own card.addEventListener("click", ...) pattern:
+    // any click inside .word-card resolves to that card's own trigger link,
+    // except on the progress-toggle button itself.
+    if (e.target.closest(".learn-state-btn")) return;
+    var card = e.target.closest(".word-card");
+    if (!card) return;
+    var cardTrigger = card.querySelector("[data-word-modal-trigger]");
+    if (!cardTrigger) return;
     e.preventDefault();
-    openWordModal(trigger.getAttribute("href"));
+    openWordModal(cardTrigger.getAttribute("href"));
   });
 
   document.getElementById("wordModalClose").addEventListener("click", function(){
