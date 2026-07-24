@@ -312,6 +312,63 @@
     if (addTopicBtn) addTopicBtn.addEventListener("click", function(){ debugSaveTopic(null, null); });
   });
 
+  DEBUG_FORMS.block = [
+    { name: "type", label: "Type", type: "select", options: function(){
+        return ["intro", "rule", "table", "examples", "tip"].map(function(v){ return { value: v, label: v }; });
+      } },
+    { name: "title", label: "Title", type: "text" },
+    { name: "body", label: "Body", type: "textarea" },
+    { name: "data", label: 'Data (JSON — table: {"head":[],"rows":[]}; examples: {"items":[{"en":"","note":""}]})', type: "json", emptyValue: {} },
+    { name: "order", label: "Order", type: "number" },
+  ];
+
+  function blockInitialFromEl(el){
+    return {
+      type: el.dataset.type, title: el.dataset.title, body: el.dataset.body,
+      data: el.dataset.data ? JSON.parse(el.dataset.data) : {}, order: Number(el.dataset.order),
+    };
+  }
+
+  function debugSaveBlock(topicId, existingId, initial){
+    openDebugModal({
+      title: existingId ? "Edit lesson block" : "Add lesson block",
+      fields: DEBUG_FORMS.block,
+      initial: initial || { data: {}, order: 0 },
+      onSave: function(payload){
+        var p = existingId ? debugFetch("/api/grammar/blocks/" + existingId + "/", "PATCH", payload)
+                            : debugFetch("/api/grammar/blocks/", "POST", Object.assign({}, payload, { topic: topicId }));
+        return p.then(function(){ window.location.reload(); });
+      },
+    });
+  }
+
+  function debugDeleteBlock(id){
+    if (!debugConfirm("Delete this lesson block? This cannot be undone.")) return;
+    debugFetch("/api/grammar/blocks/" + id + "/", "DELETE").then(function(){
+      window.location.reload();
+    }).catch(function(e){
+      alert("Delete failed" + (e && e.error ? ": " + e.error : ""));
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", function(){
+    var topicIdEl = document.querySelector("[data-topic-id]");
+    var topicId = topicIdEl ? topicIdEl.dataset.topicId : null;
+    document.querySelectorAll("[data-dbg-block]").forEach(function(ctl){
+      ctl.addEventListener("click", function(e){ e.stopPropagation(); });
+      var editBtn = ctl.querySelector(".dbg-edit-block");
+      var delBtn = ctl.querySelector(".dbg-delete-block");
+      if (editBtn) editBtn.addEventListener("click", function(){
+        debugSaveBlock(topicId, ctl.dataset.id, blockInitialFromEl(ctl));
+      });
+      if (delBtn) delBtn.addEventListener("click", function(){
+        debugDeleteBlock(ctl.dataset.id);
+      });
+    });
+    var addBlockBtn = document.querySelector("[data-dbg-add-block]");
+    if (addBlockBtn) addBlockBtn.addEventListener("click", function(){ debugSaveBlock(topicId, null, null); });
+  });
+
   window.debugFetch = debugFetch;
   window.debugConfirm = debugConfirm;
 })();

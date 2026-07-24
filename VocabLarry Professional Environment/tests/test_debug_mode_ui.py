@@ -134,3 +134,40 @@ def test_topic_dbg_ctl_absent_for_regular_user_on_grammar_browse(client, regular
     client.force_login(regular_user)
     r = client.get('/grammar/category/')
     assert b'data-dbg-topic' not in r.content
+
+
+from django.template import Template, Context
+
+
+def test_json_attr_filter_escapes_for_html_attribute():
+    tmpl = Template('{% load vocab_extras %}<div data-x="{{ value|json_attr }}"></div>')
+    rendered = tmpl.render(Context({'value': {'head': ['A', 'B'], 'rows': [['1', '"2"']]}}))
+    assert '&quot;' in rendered
+    assert rendered.count('"') == 2  # only the attribute's own opening/closing quotes stay literal
+
+
+from vocab.models import GrammarLessonBlock
+
+
+@pytest.fixture
+def block_ui_fixture(db, topic_ui_fixture):
+    return GrammarLessonBlock.objects.create(
+        topic=topic_ui_fixture, type='intro', title='Intro',
+        body='<p>We use the present perfect for...</p>', data={}, order=0,
+    )
+
+
+@pytest.mark.django_db
+def test_block_dbg_ctl_visible_for_staff_on_topic_detail(client, staff_user, block_ui_fixture):
+    client.force_login(staff_user)
+    r = client.get(f'/grammar/category/{block_ui_fixture.topic.slug}/')
+    assert b'data-dbg-block' in r.content
+    assert f'data-id="{block_ui_fixture.pk}"'.encode() in r.content
+    assert b'data-dbg-add-block' in r.content
+
+
+@pytest.mark.django_db
+def test_block_dbg_ctl_absent_for_regular_user_on_topic_detail(client, regular_user, block_ui_fixture):
+    client.force_login(regular_user)
+    r = client.get(f'/grammar/category/{block_ui_fixture.topic.slug}/')
+    assert b'data-dbg-block' not in r.content

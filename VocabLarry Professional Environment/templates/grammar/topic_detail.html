@@ -1,12 +1,12 @@
 {% extends "base.html" %}
-{% load static %}
+{% load static vocab_extras %}
 {% block title %}{{ topic.title }} — VocabLarry{% endblock %}
 {% block extra_head %}
 <link rel="stylesheet" href="{% static 'css/vocab.css' %}">
 <link rel="stylesheet" href="{% static 'css/grammar.css' %}">
 {% endblock %}
 {% block content %}
-<section class="grammar-topic-detail">
+<section class="grammar-topic-detail" data-topic-id="{{ topic.pk }}">
   <a href="{% url 'grammar_category_list' %}" class="back-btn">← All grammar</a>
   <div class="cat-view-title-row" style="margin-bottom:26px;">
     <div class="cat-view-icon {{ theme }}"><svg class="ico" aria-hidden="true"><use href="#{{ topic.section.icon|default:'i-pen' }}"/></svg></div>
@@ -46,13 +46,40 @@
             <div class="gram-stage-shade"></div>
             <span class="gram-stage-chip"><svg class="ico"><use href="#{{ topic.section.icon|default:'i-pen' }}"/></svg></span>
           </div>
+          {% if user.role == 'staff' or user.role == 'admin' %}
+          <span class="dbg-ctl dbg-block-ctl" data-dbg-block
+                data-id="{{ card.block.pk }}" data-type="{{ card.block.type }}" data-title="{{ card.block.title }}"
+                data-body="{{ card.block.body }}" data-data="{{ card.block.data|json_attr }}"
+                data-order="{{ card.block.order }}">
+            <button type="button" class="dbg-edit-block">&#9998;</button>
+            <button type="button" class="dbg-delete-block">&#10005;</button>
+          </span>
+          {% endif %}
         </article>
         {% endfor %}
       </div>
       {% elif item.block.type == 'intro' %}
-      <div class="gram-block gram-reveal gram-intro">{{ item.block.body|safe }}</div>
+      <div class="gram-block gram-reveal gram-intro">
+        {% if user.role == 'staff' or user.role == 'admin' %}
+        <span class="dbg-ctl dbg-block-ctl" data-dbg-block
+              data-id="{{ item.block.pk }}" data-type="{{ item.block.type }}" data-title="{{ item.block.title }}"
+              data-body="{{ item.block.body }}" data-data="{{ item.block.data|json_attr }}" data-order="{{ item.block.order }}">
+          <button type="button" class="dbg-edit-block">&#9998;</button>
+          <button type="button" class="dbg-delete-block">&#10005;</button>
+        </span>
+        {% endif %}
+        {{ item.block.body|safe }}
+      </div>
       {% elif item.block.type == 'table' %}
       <div class="gram-block gram-reveal">
+        {% if user.role == 'staff' or user.role == 'admin' %}
+        <span class="dbg-ctl dbg-block-ctl" data-dbg-block
+              data-id="{{ item.block.pk }}" data-type="{{ item.block.type }}" data-title="{{ item.block.title }}"
+              data-body="{{ item.block.body }}" data-data="{{ item.block.data|json_attr }}" data-order="{{ item.block.order }}">
+          <button type="button" class="dbg-edit-block">&#9998;</button>
+          <button type="button" class="dbg-delete-block">&#10005;</button>
+        </span>
+        {% endif %}
         {% if item.block.title %}<h3 class="gram-table-title"><svg class="ico" aria-hidden="true"><use href="#i-clipboard"/></svg>{{ item.block.title }}</h3>{% endif %}
         <div class="gram-table-wrap"><div style="overflow-x:auto;"><table class="gram-table"><thead><tr>
           {% for h in item.block.data.head %}<th>{{ h }}</th>{% endfor %}
@@ -62,6 +89,14 @@
       </div>
       {% elif item.block.type == 'examples' %}
       <div class="gram-block gram-reveal gram-examples">
+        {% if user.role == 'staff' or user.role == 'admin' %}
+        <span class="dbg-ctl dbg-block-ctl" data-dbg-block
+              data-id="{{ item.block.pk }}" data-type="{{ item.block.type }}" data-title="{{ item.block.title }}"
+              data-body="{{ item.block.body }}" data-data="{{ item.block.data|json_attr }}" data-order="{{ item.block.order }}">
+          <button type="button" class="dbg-edit-block">&#9998;</button>
+          <button type="button" class="dbg-delete-block">&#10005;</button>
+        </span>
+        {% endif %}
         {% for ex in item.block.data.items %}
         <div class="gram-ex">
           <div class="gram-ex-en">{{ ex.en }}</div>
@@ -71,11 +106,22 @@
       </div>
       {% elif item.block.type == 'tip' %}
       <div class="gram-block gram-reveal gram-tip">
+        {% if user.role == 'staff' or user.role == 'admin' %}
+        <span class="dbg-ctl dbg-block-ctl" data-dbg-block
+              data-id="{{ item.block.pk }}" data-type="{{ item.block.type }}" data-title="{{ item.block.title }}"
+              data-body="{{ item.block.body }}" data-data="{{ item.block.data|json_attr }}" data-order="{{ item.block.order }}">
+          <button type="button" class="dbg-edit-block">&#9998;</button>
+          <button type="button" class="dbg-delete-block">&#10005;</button>
+        </span>
+        {% endif %}
         <span class="gram-tip-icon" aria-hidden="true"><svg class="ico"><use href="#i-lightbulb"/></svg></span>
         <span class="gram-tip-label">IELTS tip</span>{{ item.block.body|safe }}
       </div>
       {% endif %}
     {% endfor %}
+    {% if user.role == 'staff' or user.role == 'admin' %}
+    <div class="dbg-add-card" data-dbg-add-block>+ Add block</div>
+    {% endif %}
   </div>
 
   <div class="cat-bulk-actions">

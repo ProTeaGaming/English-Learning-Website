@@ -1,3 +1,5 @@
+import json
+
 from django import template
 
 register = template.Library()
@@ -64,3 +66,15 @@ def cefr_accent_var(cefr_level):
     if not cefr_level:
         return 'rgb(var(--violet))'
     return 'var(--{})'.format(cefr_level.code.lower().replace('+', 'p'))
+
+
+@register.filter
+def json_attr(value):
+    """json.dumps() a Python value for safe embedding in an HTML attribute.
+
+    Deliberately NOT marked `safe` — Django's default autoescape then
+    converts the resulting quotes to &quot; etc. when this filter's output
+    is interpolated into a {{ }} expression, same as every other {{ }} in
+    this codebase.
+    """
+    return json.dumps(value)
