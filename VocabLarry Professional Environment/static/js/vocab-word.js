@@ -49,6 +49,14 @@
       })
       .then(function(res){
         if (!res.ok) throw new Error("sync POST failed");
+        // The word modal can show a second toggle for the same word
+        // alongside a list card's own toggle; keep every instance of
+        // this word's button in sync, not just the one clicked.
+        document.querySelectorAll(
+          '.card-toggle[data-word-id="' + wordId + '"], .learn-state-btn[data-word-id="' + wordId + '"]'
+        ).forEach(function(el){
+          if (el !== btn) paint(el, nextState);
+        });
       })
       .catch(function(){
         paint(btn, prevState);
