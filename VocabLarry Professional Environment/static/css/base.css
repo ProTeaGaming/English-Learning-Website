@@ -825,3 +825,48 @@ html[lang="vi"] .nav-group[data-section="vocabulary"] .nav-dropdown{ min-width: 
 .footer-copy{ font-family: 'JetBrains Mono', monospace; font-size: .7rem; color: var(--muted); }
 .footer-bottom-right{ display: flex; align-items: center; gap: 10px; }
 .footer-tag{ font-family: 'JetBrains Mono', monospace; font-size: .68rem; color: var(--muted); letter-spacing: .04em; }
+
+/* ---------- Staff debug mode (FIXES-NEEDED item 19) — ported from
+   production's #debugRibbon/.dbg-* family, same class names/colors so any
+   future comparison against vocablarry.html stays a direct match. ---------- */
+#debugRibbon{position:fixed;top:10px;right:10px;z-index:9999;background:#f59e0b;color:#1c1400;
+  font:700 11px/1 var(--mono,monospace);letter-spacing:.12em;padding:6px 10px;border-radius:6px;
+  pointer-events:none;}
+.dbg-overlay{position:fixed;inset:0;z-index:9998;background:rgba(10,8,18,.55);backdrop-filter:blur(6px);
+  display:flex;align-items:center;justify-content:center;padding:20px;}
+.dbg-modal{background:rgba(22,26,35,.95);color:inherit;border:1px solid #f59e0b55;border-radius:14px;
+  padding:22px;width:min(560px,100%);max-height:85vh;overflow-y:auto;}
+[data-theme="light"] .dbg-modal{background:rgba(255,255,255,.96);}
+.dbg-modal h3{margin:0 0 14px;font-size:1.05rem;}
+.dbg-field{display:block;margin-bottom:10px;font-size:.85rem;}
+.dbg-field span{display:block;margin-bottom:4px;opacity:.75;}
+.dbg-field input,.dbg-field textarea,.dbg-field select{width:100%;box-sizing:border-box;
+  background:rgba(127,127,127,.08);color:inherit;border:1px solid rgba(127,127,127,.25);
+  border-radius:8px;padding:8px 10px;font:inherit;}
+.dbg-field select option{background:#161a24;color:#eceef4;}
+[data-theme="light"] .dbg-field select option{background:#ffffff;color:#16181d;}
+.dbg-err,.dbg-form-err{color:#f87171;font-style:normal;font-size:.78rem;display:block;margin-top:3px;}
+.dbg-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:16px;}
+.dbg-actions button{padding:8px 16px;border-radius:8px;border:1px solid rgba(127,127,127,.3);
+  background:transparent;color:inherit;cursor:pointer;font:inherit;}
+.dbg-actions .dbg-save{background:#f59e0b;border-color:#f59e0b;color:#1c1400;font-weight:700;}
+.dbg-ctl{display:none;}
+body.debug-on .dbg-ctl{display:inline-flex;align-items:center;gap:4px;}
+.dbg-ctl button{border:1px solid #f59e0b66;background:#f59e0b18;color:#f59e0b;border-radius:6px;
+  padding:2px 7px;font-size:.72rem;cursor:pointer;line-height:1.4;}
+.dbg-ctl button:hover{background:#f59e0b33;}
+.dbg-add-card{display:none;}
+body.debug-on .dbg-add-card{display:flex;align-items:center;justify-content:center;
+  border:2px dashed #f59e0b66;border-radius:14px;color:#f59e0b;cursor:pointer;
+  font-weight:700;min-height:120px;}
+.gram-block{position:relative;}
+.dbg-block-ctl{position:absolute;top:10px;right:10px;z-index:5;}
+.dbg-question-mgr{display:none;margin-top:26px;padding:18px 20px;border:1px dashed #f59e0b66;border-radius:14px;}
+body.debug-on .dbg-question-mgr{display:block;}
+.dbg-question-mgr h4{margin:0 0 10px;font-size:.78rem;text-transform:uppercase;letter-spacing:.1em;color:#f59e0b;}
+.dbg-q-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:7px 0;
+  border-bottom:1px solid rgba(127,127,127,.15);}
+.dbg-q-row:last-child{border-bottom:none;}
+.dbg-q-prompt{font-size:.85rem;opacity:.85;flex:1;}
+.dbg-add-question{margin-top:10px;border:1px dashed #f59e0b66;background:transparent;color:#f59e0b;
+  border-radius:8px;padding:6px 14px;font-size:.8rem;font-weight:700;cursor:pointer;font-family:inherit;}

@@ -124,6 +124,9 @@
 <script src="{% static 'js/nav.js' %}" defer></script>
 <script src="{% static 'js/auth-modal.js' %}" defer></script>
 <script src="{% static 'js/account-modals.js' %}" defer></script>
+{% if user.role == 'staff' or user.role == 'admin' %}
+<script src="{% static 'js/debug-mode.js' %}" defer></script>
+{% endif %}
 {% block extra_body %}{% endblock %}
 </body>
 </html>
