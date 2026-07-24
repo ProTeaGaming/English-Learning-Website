@@ -319,27 +319,33 @@ dropdown really does have 12 rows, not 11)
       `modalDeleteWordBtn`, `dbgAddWordBtn`). Zero mentions of any of this
       anywhere in VLPE — no toggle, no inline edit/delete UI, no staff-gating.
       Built (2026-07-24, 6-task plan): staff/admin-only nav toggle
-      (`#debugToggle`) persisted in a cookie, gating a `body.debug-on` class
-      that reveals `.dbg-*` edit/delete controls and "+ Add" buttons across
-      the site; a shared modal (`openDebugModal`) and `debugFetch`/
-      `debugConfirm` helpers in `static/js/debug-mode.js` back full CRUD for
-      words (Word page, category word grid, word detail), vocabulary
-      categories (browse, incl. a "has words" delete-guard surfaced in the
-      modal), grammar topics (browse), lesson blocks (topic detail, incl.
-      inside the scroll-scrub stack), and grammar questions — this last one
-      via a new `.dbg-question-mgr` panel on topic detail, the one piece of
-      UI with no non-debug equivalent anywhere in VLPE. All backed by new
-      staff/admin-only DRF endpoints under `/api/`. JSON-bearing data
-      attributes (block `data`, question `options`/`answers`) go through a
-      new `json_attr` template filter for correct HTML-attribute escaping.
-      Fully covered by an automated test suite (toggle visibility per role,
-      dbg-ctl presence/absence per page and role, CRUD endpoints, delete
-      guards, json_attr escaping); the panel's rendered markup was also
-      re-confirmed via the Django test client with real seeded MCQ data.
-      Interactive real-browser click-through (toggle live-tracking, modal
-      open/save/delete round-trips, scroll-scrub animation after a DOM
-      addition, zero console errors) is still outstanding and should happen
-      before this branch merges.
+      (`#debugToggle`) persisted in `sessionStorage`, gating a
+      `body.debug-on` class that reveals `.dbg-*` edit/delete controls and
+      "+ Add" buttons across the site; a shared modal (`openDebugModal`) and
+      `debugFetch`/`debugConfirm` helpers in `static/js/debug-mode.js` back
+      full CRUD for words (Word page, category word grid, word detail),
+      vocabulary categories (browse, incl. a "has words" delete-guard
+      surfaced via a confirm/alert — deletes never open the modal), grammar
+      topics (browse), lesson blocks (topic detail, incl. inside the
+      scroll-scrub stack), and grammar questions — this last one via a new
+      `.dbg-question-mgr` panel on topic detail, the one piece of UI with no
+      non-debug equivalent anywhere in VLPE. All backed by already-existing
+      staff/admin-only endpoints under `/api/` (`api/write_views.py`, not
+      touched by this work). JSON-bearing data attributes (block `data`,
+      question `options`/`answers`) go through a new `json_attr` template
+      filter for correct HTML-attribute escaping. Fully covered by an
+      automated test suite (toggle visibility per role, dbg-ctl
+      presence/absence per page and role, CRUD endpoints, delete guards,
+      json_attr escaping). Interactive real-browser verification (real dev
+      server, real ~5000-word/300-question dataset, real staff account) was
+      performed post-implementation: toggle live-tracking, category/word/
+      topic/block/question edit modals opening pre-filled without navigating
+      away, live show/hide of the word-list Add button, JSON round-tripping
+      for block `data` and question `options`/`answers`, zero console
+      errors, and zero debug markup reaching anonymous page source. Delete
+      (✕) flows were verified via code review rather than live clicks, since
+      their `window.confirm`/`alert()` calls would freeze browser automation
+      tooling.
 
 - [ ] **20. Home page CTAs skip the intent-picker modal.** In production,
       clicking "Start Learning" or "Quick Test" opens a modal
