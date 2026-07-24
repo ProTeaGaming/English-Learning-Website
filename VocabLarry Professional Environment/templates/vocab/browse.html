@@ -74,6 +74,15 @@
              style="--accent-c:{{ category.color.bg_hex|default:'#7c3aed' }};">
             <div class="cat-card-top">
               <span class="cat-tag"><svg class="ico" aria-hidden="true"><use href="#{{ category.icon|category_icon }}"/></svg> {{ category.word_count }} words</span>
+              {% if user.role == 'staff' or user.role == 'admin' %}
+              <span class="dbg-ctl" data-dbg-category
+                    data-id="{{ category.pk }}" data-slug="{{ category.slug }}" data-name="{{ category.name }}"
+                    data-icon="{{ category.icon }}" data-cefr-level="{{ category.cefr_level_id }}"
+                    data-color="{{ category.color_id }}" data-order="{{ category.order }}">
+                <button type="button" class="dbg-edit-category">&#9998;</button>
+                <button type="button" class="dbg-delete-category">&#10005;</button>
+              </span>
+              {% endif %}
               {% if category.cefr_level %}<span class="cefr-badge {{ category.cefr_level.code }}">{{ category.cefr_level.code }}</span>{% endif %}
               <svg class="ico cat-arrow" aria-hidden="true"><use href="#i-arrow-up-right"/></svg>
             </div>
@@ -93,6 +102,9 @@
             {% endif %}
           </a>
           {% endfor %}
+          {% if user.role == 'staff' or user.role == 'admin' %}
+          <div class="dbg-add-card" data-dbg-add-category>+ Add category</div>
+          {% endif %}
         </div>
       </div>
     </div>

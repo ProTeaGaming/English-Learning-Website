@@ -198,6 +198,60 @@
     if (addWordBtn) addWordBtn.addEventListener("click", function(){ debugSaveWord(null, null); });
   });
 
+  DEBUG_FORMS.category = [
+    { name: "slug", label: "Slug", type: "text" },
+    { name: "name", label: "Name", type: "text" },
+    { name: "icon", label: "Icon (emoji)", type: "text" },
+    { name: "cefr_level", label: "CEFR level ID", type: "number" },
+    { name: "color", label: "Color ID", type: "number" },
+    { name: "order", label: "Order", type: "number" },
+  ];
+
+  function categoryInitialFromEl(el){
+    return {
+      slug: el.dataset.slug, name: el.dataset.name, icon: el.dataset.icon,
+      cefr_level: el.dataset.cefrLevel, color: el.dataset.color, order: Number(el.dataset.order),
+    };
+  }
+
+  function debugSaveCategory(existingId, initial){
+    openDebugModal({
+      title: existingId ? "Edit category" : "Add category",
+      fields: DEBUG_FORMS.category,
+      initial: initial || { order: 0 },
+      onSave: function(payload){
+        var p = existingId ? debugFetch("/api/categories/" + existingId + "/", "PATCH", payload)
+                            : debugFetch("/api/categories/", "POST", payload);
+        return p.then(function(){ window.location.reload(); });
+      },
+    });
+  }
+
+  function debugDeleteCategory(id, label){
+    if (!debugConfirm('Delete category "' + label + '"? This cannot be undone.')) return;
+    debugFetch("/api/categories/" + id + "/", "DELETE").then(function(){
+      window.location.reload();
+    }).catch(function(e){
+      alert("Delete failed" + (e && e.error ? ": " + e.error : ""));
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", function(){
+    document.querySelectorAll("[data-dbg-category]").forEach(function(ctl){
+      ctl.addEventListener("click", function(e){ e.preventDefault(); e.stopPropagation(); });
+      var editBtn = ctl.querySelector(".dbg-edit-category");
+      var delBtn = ctl.querySelector(".dbg-delete-category");
+      if (editBtn) editBtn.addEventListener("click", function(){
+        debugSaveCategory(ctl.dataset.id, categoryInitialFromEl(ctl));
+      });
+      if (delBtn) delBtn.addEventListener("click", function(){
+        debugDeleteCategory(ctl.dataset.id, ctl.dataset.name);
+      });
+    });
+    var addCategoryBtn = document.querySelector("[data-dbg-add-category]");
+    if (addCategoryBtn) addCategoryBtn.addEventListener("click", function(){ debugSaveCategory(null, null); });
+  });
+
   window.debugFetch = debugFetch;
   window.debugConfirm = debugConfirm;
 })();
