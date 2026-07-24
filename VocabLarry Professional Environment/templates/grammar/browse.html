@@ -85,6 +85,15 @@
           <a class="cat-card {{ topic.theme }}" href="{% url 'grammar_category_detail' topic.slug %}">
             <div class="cat-card-top">
               <span class="cat-tag"><svg class="ico" aria-hidden="true"><use href="#{{ entry.section.icon }}"/></svg> {{ topic.questions.count }} question{{ topic.questions.count|pluralize }}</span>
+              {% if user.role == 'staff' or user.role == 'admin' %}
+              <span class="dbg-ctl" data-dbg-topic
+                    data-id="{{ topic.pk }}" data-slug="{{ topic.slug }}" data-title="{{ topic.title }}"
+                    data-tag="{{ topic.tag }}" data-cefr-label="{{ topic.cefr_label }}"
+                    data-blurb="{{ topic.blurb }}" data-stage="{{ topic.stage }}" data-order="{{ topic.order }}">
+                <button type="button" class="dbg-edit-topic">&#9998;</button>
+                <button type="button" class="dbg-delete-topic">&#10005;</button>
+              </span>
+              {% endif %}
               <span class="cefr-badge {{ topic.cefr_label }}">{{ topic.cefr_label }}</span>
               <svg class="ico cat-arrow" aria-hidden="true"><use href="#i-arrow-up-right"/></svg>
             </div>
@@ -99,6 +108,9 @@
             </div>
           </a>
           {% endfor %}
+          {% if user.role == 'staff' or user.role == 'admin' %}
+          <div class="dbg-add-card" data-dbg-add-topic>+ Add topic</div>
+          {% endif %}
         </div>
       </div>
     </div>

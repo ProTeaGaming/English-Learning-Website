@@ -252,6 +252,66 @@
     if (addCategoryBtn) addCategoryBtn.addEventListener("click", function(){ debugSaveCategory(null, null); });
   });
 
+  DEBUG_FORMS.topic = [
+    { name: "slug", label: "Slug", type: "text" },
+    { name: "title", label: "Title", type: "text" },
+    { name: "tag", label: "Tag (section)", type: "text" },
+    { name: "cefr_label", label: "CEFR label (e.g. B1+)", type: "text" },
+    { name: "blurb", label: "Blurb", type: "textarea" },
+    { name: "stage", label: "Stage", type: "select", options: function(){
+        return [{ value: "beginner", label: "Basic" },
+                { value: "independent", label: "Intermediate" },
+                { value: "expert", label: "Advanced" }];
+      } },
+    { name: "order", label: "Order", type: "number" },
+  ];
+
+  function topicInitialFromEl(el){
+    return {
+      slug: el.dataset.slug, title: el.dataset.title, tag: el.dataset.tag,
+      cefr_label: el.dataset.cefrLabel, blurb: el.dataset.blurb,
+      stage: el.dataset.stage, order: Number(el.dataset.order),
+    };
+  }
+
+  function debugSaveTopic(existingId, initial){
+    openDebugModal({
+      title: existingId ? "Edit topic" : "Add grammar topic",
+      fields: DEBUG_FORMS.topic,
+      initial: initial || { order: 0 },
+      onSave: function(payload){
+        var p = existingId ? debugFetch("/api/grammar/topics/" + existingId + "/", "PATCH", payload)
+                            : debugFetch("/api/grammar/topics/", "POST", payload);
+        return p.then(function(){ window.location.reload(); });
+      },
+    });
+  }
+
+  function debugDeleteTopic(id, label){
+    if (!debugConfirm('Delete topic "' + label + '"? Its lesson blocks and questions are deleted too. This cannot be undone.')) return;
+    debugFetch("/api/grammar/topics/" + id + "/", "DELETE").then(function(){
+      window.location.reload();
+    }).catch(function(e){
+      alert("Delete failed" + (e && e.error ? ": " + e.error : ""));
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", function(){
+    document.querySelectorAll("[data-dbg-topic]").forEach(function(ctl){
+      ctl.addEventListener("click", function(e){ e.preventDefault(); e.stopPropagation(); });
+      var editBtn = ctl.querySelector(".dbg-edit-topic");
+      var delBtn = ctl.querySelector(".dbg-delete-topic");
+      if (editBtn) editBtn.addEventListener("click", function(){
+        debugSaveTopic(ctl.dataset.id, topicInitialFromEl(ctl));
+      });
+      if (delBtn) delBtn.addEventListener("click", function(){
+        debugDeleteTopic(ctl.dataset.id, ctl.dataset.title);
+      });
+    });
+    var addTopicBtn = document.querySelector("[data-dbg-add-topic]");
+    if (addTopicBtn) addTopicBtn.addEventListener("click", function(){ debugSaveTopic(null, null); });
+  });
+
   window.debugFetch = debugFetch;
   window.debugConfirm = debugConfirm;
 })();

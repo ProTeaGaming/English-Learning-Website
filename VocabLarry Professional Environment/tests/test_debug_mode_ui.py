@@ -103,3 +103,34 @@ def test_category_dbg_ctl_absent_for_regular_user_on_browse(client, regular_user
     r = client.get('/vocabulary/category/')
     assert b'data-dbg-category' not in r.content
     assert b'data-dbg-add-category' not in r.content
+
+
+from vocab.models import GrammarTopic, GrammarSection
+
+
+@pytest.fixture
+def topic_ui_fixture(db):
+    section = GrammarSection.objects.create(
+        slug='tenses-section', name='Tenses', icon='i-tenses', order=0
+    )
+    return GrammarTopic.objects.create(
+        slug='present-perfect', title='Present Perfect', tag='Tenses',
+        cefr_label='B1', blurb='Using the present perfect.', stage='independent', order=0,
+        section=section,
+    )
+
+
+@pytest.mark.django_db
+def test_topic_dbg_ctl_visible_for_staff_on_grammar_browse(client, staff_user, topic_ui_fixture):
+    client.force_login(staff_user)
+    r = client.get('/grammar/category/')
+    assert b'data-dbg-topic' in r.content
+    assert f'data-id="{topic_ui_fixture.pk}"'.encode() in r.content
+    assert b'data-dbg-add-topic' in r.content
+
+
+@pytest.mark.django_db
+def test_topic_dbg_ctl_absent_for_regular_user_on_grammar_browse(client, regular_user, topic_ui_fixture):
+    client.force_login(regular_user)
+    r = client.get('/grammar/category/')
+    assert b'data-dbg-topic' not in r.content
