@@ -1,0 +1,42 @@
+{% load vocab_extras %}
+<div class="word-detail-card" style="--accent-c:{{ word.cefr_level|cefr_accent_var }};">
+  {% if user.role == 'staff' or user.role == 'admin' %}
+  <span class="dbg-ctl" data-dbg-word
+        data-id="{{ word.pk }}" data-word="{{ word.word }}" data-pos="{{ word.pos }}"
+        data-definition="{{ word.definition }}" data-example="{{ word.example }}"
+        data-gap="{{ word.gap }}" data-synonyms="{{ word.synonyms|join:',' }}"
+        data-antonyms="{{ word.antonyms|join:',' }}" data-category="{{ word.category_id }}"
+        data-cefr-level="{{ word.cefr_level_id }}" data-order="{{ word.order }}">
+    <button type="button" class="dbg-edit-word">&#9998; Edit</button>
+    <button type="button" class="dbg-delete-word">&#10005; Delete</button>
+  </span>
+  {% endif %}
+  <div class="word-detail-header">
+    <div>
+      <h1>{{ word.word }}</h1>
+      {% if word.pos %}<div class="vocab-pos">{{ word.pos }}</div>{% endif %}
+    </div>
+    {% if word.cefr_level %}<span class="cefr-badge {{ word.cefr_level.code }}">{{ word.cefr_level.code }}</span>{% endif %}
+  </div>
+  <p class="vocab-definition">{{ word.definition }}</p>
+  {% if synonym_refs %}
+  <p class="vocab-synonyms"><strong>Synonyms:</strong>
+    {% for ref in synonym_refs %}{% if ref.word %}<a class="word-xref" href="{% url 'vocabulary_word_detail' ref.word.pk %}">{{ ref.text }}</a>{% else %}{{ ref.text }}{% endif %}{% if not forloop.last %}, {% endif %}{% endfor %}
+  </p>
+  {% endif %}
+  {% if antonym_refs %}
+  <p class="vocab-antonyms"><strong>Antonyms:</strong>
+    {% for ref in antonym_refs %}{% if ref.word %}<a class="word-xref" href="{% url 'vocabulary_word_detail' ref.word.pk %}">{{ ref.text }}</a>{% else %}{{ ref.text }}{% endif %}{% if not forloop.last %}, {% endif %}{% endfor %}
+  </p>
+  {% endif %}
+  {% if word.example %}<p class="vocab-example">"{{ word.example|safe }}"</p>{% endif %}
+  {% if user.is_authenticated %}
+  <div class="learn-state-row">
+    <span class="learn-state-label">Progress:</span>
+    <button type="button" class="learn-state-btn" data-word-id="{{ word.pk }}"
+            data-state="{{ learn_state|default:'none' }}">
+      {% if learn_state == 'learned' %}Learned{% elif learn_state == 'little' %}Little Bit{% else %}Not Learned{% endif %}
+    </button>
+  </div>
+  {% endif %}
+</div>

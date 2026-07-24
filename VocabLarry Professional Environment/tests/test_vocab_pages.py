@@ -1207,3 +1207,37 @@ def test_vocabulary_category_detail_header_without_section(cefr_a1):
     html = r.content.decode()
     assert 'class="cat-view-name">Animals<' in html
     assert '1 words' in html
+
+
+@pytest.mark.django_db
+def test_vocabulary_word_detail_ajax_returns_bare_fragment(cefr_a1):
+    category = Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1)
+    word = Word.objects.create(
+        word='Cat', pos='noun', definition='A small domesticated pet.',
+        example='The cat slept all day.', synonyms=['feline'], antonyms=[],
+        category=category, order=1,
+    )
+    c = Client()
+    r = c.get(f'/vocabulary/word/{word.pk}/', HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+    assert r.status_code == 200
+    body = r.content.decode()
+    assert 'word-detail-card' in body
+    assert 'Cat' in body
+    assert 'A small domesticated pet.' in body
+    # bare fragment: no sitewide chrome
+    assert 'site-nav' not in body
+    assert '<!doctype html>' not in body.lower()
+
+
+@pytest.mark.django_db
+def test_vocabulary_word_detail_non_ajax_still_returns_full_page(cefr_a1):
+    category = Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1)
+    word = Word.objects.create(
+        word='Cat', pos='noun', definition='A small domesticated pet.',
+        example='The cat slept all day.', category=category, order=1,
+    )
+    c = Client()
+    r = c.get(f'/vocabulary/word/{word.pk}/')
+    body = r.content.decode()
+    assert 'site-nav' in body
+    assert 'word-detail-card' in body

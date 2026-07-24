@@ -159,12 +159,15 @@ def vocab_word_detail(request, pk):
     learn_state = None
     if request.user.is_authenticated:
         learn_state = request.user.learn_map.get(str(word.pk))
-    return render(request, 'vocab/word_detail.html', {
+    context = {
         'word': word,
         'learn_state': learn_state,
         'synonym_refs': _resolve_word_refs(word.synonyms),
         'antonym_refs': _resolve_word_refs(word.antonyms),
-    })
+    }
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        return render(request, 'vocab/partials/word_detail_card.html', context)
+    return render(request, 'vocab/word_detail.html', context)
 
 
 def vocab_quiz_setup(request):
