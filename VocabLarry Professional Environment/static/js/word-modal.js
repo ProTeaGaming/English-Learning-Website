@@ -53,11 +53,15 @@
     // underlying <a> once hovered. Delegate at the whole-card level instead,
     // matching production's own card.addEventListener("click", ...) pattern:
     // any click inside .word-card resolves to that card's own trigger link,
-    // except on the progress-toggle button itself — .card-toggle is the
-    // class these two card templates actually use (word_detail_card.html's
-    // own toggle, elsewhere, uses .learn-state-btn instead; excluding both
-    // covers every context this listener runs in).
+    // except on other real interactive elements the card already contains:
+    // the progress-toggle button (excluded by class below), and any other
+    // <a> such as word_list.html's .word-cat category link. The trigger
+    // check above already ran and didn't match, so any <a> found from here
+    // on is guaranteed to be a different, non-trigger link — excluding all
+    // of them generically means a future link added to these cards can't
+    // reintroduce this same class of bug.
     if (e.target.closest(".learn-state-btn, .card-toggle")) return;
+    if (e.target.closest("a")) return;
     var card = e.target.closest(".word-card");
     if (!card) return;
     var cardTrigger = card.querySelector("[data-word-modal-trigger]");
