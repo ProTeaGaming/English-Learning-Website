@@ -15,7 +15,9 @@
     <form method="get" class="search-row">
       <input type="search" name="q" value="{{ query }}" placeholder="Search words, definitions, synonyms…">
       {% if user.role == 'staff' or user.role == 'admin' %}
-      <button type="button" id="dbgAddWordBtn" class="btn">+ Add word</button>
+      <span class="dbg-ctl">
+        <button type="button" id="dbgAddWordBtn" class="btn">+ Add word</button>
+      </span>
       {% endif %}
       <select name="category">
         <option value="">All categories</option>
