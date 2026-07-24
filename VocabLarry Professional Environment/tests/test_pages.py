@@ -614,3 +614,23 @@ def test_mode_picker_grammar_row_routes_correctly():
     assert match is not None
     assert 'data-learn-href="/grammar/category/"' in match.group(0)
     assert 'data-test-href="/grammar/quiz/"' in match.group(0)
+
+
+@pytest.mark.django_db
+def test_word_modal_partial_present_on_every_page():
+    from django.test import Client
+    c = Client()
+    r = c.get('/')
+    html = r.content.decode()
+    assert 'id="wordModalOverlay"' in html
+    assert 'id="wordModalContent"' in html
+    assert 'id="wordModalClose"' in html
+
+
+@pytest.mark.django_db
+def test_word_modal_js_loaded():
+    from django.test import Client
+    c = Client()
+    r = c.get('/')
+    html = r.content.decode()
+    assert 'word-modal.js' in html
