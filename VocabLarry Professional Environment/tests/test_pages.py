@@ -180,8 +180,8 @@ def test_home_hero_ctas_open_mode_picker_not_direct_links():
     c = Client()
     r = c.get('/')
     html = r.content.decode()
-    assert '<button type="button" data-intent="learn" data-i18n="home.startLearning">Start Learning →</button>' in html
-    assert '<button type="button" data-intent="test" data-i18n="home.quickTest">Quick Test</button>' in html
+    assert '<button type="button" class="btn btn-primary" data-intent="learn" data-i18n="home.startLearning">Start Learning →</button>' in html
+    assert '<button type="button" class="home-btn-outline" data-intent="test" data-i18n="home.quickTest">Quick Test</button>' in html
     # Scoped to the hero-actions block itself (not "everything before the
     # modal include", which in base.html's actual layout is nav+hero and
     # would false-positive on nav's own unrelated Vocabulary > Category
