@@ -347,13 +347,30 @@ dropdown really does have 12 rows, not 11)
       their `window.confirm`/`alert()` calls would freeze browser automation
       tooling.
 
-- [ ] **20. Home page CTAs skip the intent-picker modal.** In production,
+- [x] **20. Home page CTAs skip the intent-picker modal.** In production,
       clicking "Start Learning" or "Quick Test" opens a modal
       (`modePickerOverlay`/`openModePicker()`) asking which skill — Vocabulary
       or Grammar — before proceeding. VLPE's "Start Learning" button just
       hard-links straight to `{% url 'vocabulary_category_list' %}`, so a user
       wanting Grammar or a quiz from the home page gets routed into Vocabulary
       browsing regardless of intent.
+      Built (2026-07-24): new `templates/partials/mode_picker_modal.html` +
+      `static/js/mode-picker.js`, reusing the existing `.auth-modal-overlay`/
+      `.mode-picker-row` component families verbatim (only one new CSS rule,
+      `.mode-picker-list`). VLPE's "Practice Grammar" shortcut was replaced
+      with production's real "Quick Test" button — both hero CTAs now open
+      the picker (Vocabulary/Grammar real, Reading/Writing/Listening/Speaking
+      disabled "Soon", matching the stub-page precedent). Routing table:
+      learn→category browse, test→quiz setup, for both Vocabulary and
+      Grammar. Deliberately does NOT reproduce a real production quirk where
+      "Quick Test → Grammar" incorrectly lands on the grammar browse page
+      instead of the quiz (only Vocabulary differentiates browse-vs-quiz by
+      intent in production's own code) — VLPE's Grammar choice correctly
+      routes to the quiz under "test," symmetric with Vocabulary. Verified in
+      a real browser: both buttons render styled correctly, all 4 routing
+      combinations correct, disabled rows inert, backdrop-click closes
+      without navigating, zero console errors, and the Vietnamese language
+      toggle correctly translates both button labels and both modal titles.
 
 - [x] **21. Four icon symbols missing from the sprite** — `i-butterfly`,
       `i-heart`, `i-rose`, `i-waves` exist in production's SVG sprite (93 total
