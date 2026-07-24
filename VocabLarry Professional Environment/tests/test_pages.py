@@ -341,6 +341,7 @@ def test_auth_modal_js_included_on_every_page():
 
 @pytest.mark.django_db
 def test_lang_dropdown_has_11_languages_two_active_nine_soon():
+    import re
     from django.test import Client
     c = Client()
     r = c.get('/')
@@ -348,13 +349,16 @@ def test_lang_dropdown_has_11_languages_two_active_nine_soon():
     assert 'data-lang-menu' in html
     assert '<button class="mode-picker-row" data-lang="en" type="button">' in html
     assert '<button class="mode-picker-row" data-lang="vi" type="button">' in html
-    # Production's own current lang-menu markup (vocablarry.html) has 10
-    # disabled rows, not the 9 FIXES-NEEDED.md's summary text describes —
-    # trust the direct source-of-truth comparison per this file's ground
-    # rule, not the checklist's own (here, slightly stale) prose.
-    # The mode-picker modal adds 4 more disabled rows (Reading, Writing,
-    # Listening, Speaking), so total is 10 + 4 = 14.
-    assert html.count('mode-picker-row-disabled') == 14
+    # Scope the count to ONLY the lang-menu container (data-lang-menu attribute).
+    # Production's lang-menu has exactly 10 disabled rows (9 "coming soon" languages).
+    # The mode-picker modal (in the home-page modal, task 1) adds 4 separate
+    # disabled rows elsewhere on the page (Reading, Writing, Listening, Speaking).
+    # By extracting just the lang-menu container, we isolate this test from that
+    # modal's changes and keep the test robust against unrelated future additions.
+    lang_menu_match = re.search(r'<div class="lang-menu" data-lang-menu>(.*?)</div>\s*<button', html, re.DOTALL)
+    assert lang_menu_match, "lang-menu container not found in HTML"
+    lang_menu_html = lang_menu_match.group(0)
+    assert lang_menu_html.count('mode-picker-row-disabled') == 10
     for name in ('中文', '日本語', '한국어', 'العربية', 'Français', 'Nederlands', 'Deutsch', 'Español', 'Português', 'Русский'):
         assert name in html, name
 
