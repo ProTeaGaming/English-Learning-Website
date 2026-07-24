@@ -256,11 +256,14 @@ def test_nav_grammar_link_enabled():
 
 
 @pytest.mark.django_db
-def test_home_hero_grammar_cta_enabled():
+def test_home_quick_test_cta_present():
+    # Practice Grammar (a direct shortcut) was replaced by Quick Test (opens
+    # the mode picker) per FIXES-NEEDED item 20 — this test replaces the
+    # older direct-link version.
     c = Client()
     r = c.get('/')
     html = r.content.decode()
-    assert 'hero.grammar">Practice Grammar</a>' in html
+    assert 'data-i18n="home.quickTest">Quick Test' in html
 
 
 from vocab.models import GrammarLessonBlock

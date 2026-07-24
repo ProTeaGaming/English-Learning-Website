@@ -8,8 +8,8 @@
   <h1 class="home-title"><span data-i18n="home.title1">Master every word,</span><br><span class="home-grad" data-i18n="home.title2">say it till it stays.</span></h1>
   <p class="home-sub" data-i18n="hero.subtitle">Build vocabulary and grammar skills for IELTS, one focused session at a time.</p>
   <div class="home-hero-actions">
-    <a class="btn btn-primary" href="{% url 'vocabulary_category_list' %}" data-i18n="hero.start">Start Learning</a>
-    <a class="home-btn-outline" href="{% url 'grammar_category_list' %}" data-i18n="hero.grammar">Practice Grammar</a>
+    <button type="button" data-intent="learn" data-i18n="home.startLearning">Start Learning →</button>
+    <button type="button" data-intent="test" data-i18n="home.quickTest">Quick Test</button>
   </div>
 </section>
 <div class="home-content">
@@ -107,4 +107,13 @@
     </div>
   </div>
 </div>
+{% endblock %}
+{% block extra_body %}
+<script>
+(function(){
+  document.querySelectorAll(".home-hero-actions button[data-intent]").forEach(function(btn){
+    btn.addEventListener("click", function(){ openModePicker(this.dataset.intent); });
+  });
+})();
+</script>
 {% endblock %}

@@ -169,17 +169,34 @@ def test_mobile_nav_menu_lists_all_7_sections():
 
 
 @pytest.mark.django_db
-def test_home_hero_ctas_bypass_intro_pages_and_link_to_category():
-    # Regression guard: the nav's Vocabulary/Grammar links now point at the
-    # intro pages (asserted above), but Home's own hero CTAs must keep
-    # pointing directly at Category — this is the one deliberate exception
-    # to "everything links to the intro page now".
+def test_home_hero_ctas_open_mode_picker_not_direct_links():
+    # Regression guard, updated for the intent-picker (FIXES-NEEDED item 20):
+    # Home's hero buttons no longer link anywhere directly — they open the
+    # mode picker, whose own Vocabulary/Grammar rows point at Category
+    # (asserted separately in test_mode_picker_modal_present_on_home). This
+    # replaces the pre-picker version of this test, which asserted the
+    # buttons' own href attributes.
     from django.test import Client
     c = Client()
     r = c.get('/')
     html = r.content.decode()
-    assert '<a class="btn btn-primary" href="/vocabulary/category/" data-i18n="hero.start">Start Learning</a>' in html
-    assert '<a class="home-btn-outline" href="/grammar/category/" data-i18n="hero.grammar">Practice Grammar</a>' in html
+    assert '<button type="button" data-intent="learn" data-i18n="home.startLearning">Start Learning →</button>' in html
+    assert '<button type="button" data-intent="test" data-i18n="home.quickTest">Quick Test</button>' in html
+    # Scoped to the hero-actions block itself (not "everything before the
+    # modal include", which in base.html's actual layout is nav+hero and
+    # would false-positive on nav's own unrelated Vocabulary > Category
+    # dropdown link) — the hero buttons must carry no href at all.
+    hero_actions = html.split('class="home-hero-actions"')[1].split('</div>')[0]
+    assert 'href="/vocabulary/category/"' not in hero_actions
+
+
+@pytest.mark.django_db
+def test_home_hero_buttons_wired_to_mode_picker():
+    from django.test import Client
+    c = Client()
+    r = c.get('/')
+    html = r.content.decode()
+    assert 'openModePicker(this.dataset.intent)' in html
 
 
 @pytest.mark.django_db
