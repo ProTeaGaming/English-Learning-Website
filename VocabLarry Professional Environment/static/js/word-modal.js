@@ -53,8 +53,11 @@
     // underlying <a> once hovered. Delegate at the whole-card level instead,
     // matching production's own card.addEventListener("click", ...) pattern:
     // any click inside .word-card resolves to that card's own trigger link,
-    // except on the progress-toggle button itself.
-    if (e.target.closest(".learn-state-btn")) return;
+    // except on the progress-toggle button itself — .card-toggle is the
+    // class these two card templates actually use (word_detail_card.html's
+    // own toggle, elsewhere, uses .learn-state-btn instead; excluding both
+    // covers every context this listener runs in).
+    if (e.target.closest(".learn-state-btn, .card-toggle")) return;
     var card = e.target.closest(".word-card");
     if (!card) return;
     var cardTrigger = card.querySelector("[data-word-modal-trigger]");
