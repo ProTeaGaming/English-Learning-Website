@@ -10,6 +10,17 @@
     {{ word.word }}
   </p>
   <div class="word-detail-card" style="--accent-c:{{ word.cefr_level|cefr_accent_var }};">
+    {% if user.role == 'staff' or user.role == 'admin' %}
+    <span class="dbg-ctl" data-dbg-word
+          data-id="{{ word.pk }}" data-word="{{ word.word }}" data-pos="{{ word.pos }}"
+          data-definition="{{ word.definition }}" data-example="{{ word.example }}"
+          data-gap="{{ word.gap }}" data-synonyms="{{ word.synonyms|join:',' }}"
+          data-antonyms="{{ word.antonyms|join:',' }}" data-category="{{ word.category_id }}"
+          data-cefr-level="{{ word.cefr_level_id }}" data-order="{{ word.order }}">
+      <button type="button" class="dbg-edit-word">&#9998; Edit</button>
+      <button type="button" class="dbg-delete-word">&#10005; Delete</button>
+    </span>
+    {% endif %}
     <div class="word-detail-header">
       <div>
         <h1>{{ word.word }}</h1>

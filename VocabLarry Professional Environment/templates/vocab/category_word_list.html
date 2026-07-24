@@ -23,6 +23,17 @@
         {% if word.cefr_level %}<span class="cefr-badge {{ word.cefr_level.code }}">{{ word.cefr_level.code }}</span>{% endif %}
       </div>
       <div class="reveal">
+        {% if user.role == 'staff' or user.role == 'admin' %}
+        <span class="dbg-ctl" data-dbg-word
+              data-id="{{ word.pk }}" data-word="{{ word.word }}" data-pos="{{ word.pos }}"
+              data-definition="{{ word.definition }}" data-example="{{ word.example }}"
+              data-gap="{{ word.gap }}" data-synonyms="{{ word.synonyms|join:',' }}"
+              data-antonyms="{{ word.antonyms|join:',' }}" data-category="{{ word.category_id }}"
+              data-cefr-level="{{ word.cefr_level_id }}" data-order="{{ word.order }}">
+          <button type="button" class="dbg-edit-word">&#9998;</button>
+          <button type="button" class="dbg-delete-word">&#10005;</button>
+        </span>
+        {% endif %}
         <div class="rdef">{{ word.definition }}</div>
         {% if word.synonyms %}<div class="rrow"><b>Synonyms:</b> {{ word.synonyms|join:", " }}</div>{% endif %}
         {% if word.antonyms %}<div class="rrow"><b>Antonyms:</b> {{ word.antonyms|join:", " }}</div>{% endif %}

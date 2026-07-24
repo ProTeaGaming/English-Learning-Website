@@ -14,6 +14,9 @@
   <div class="filters">
     <form method="get" class="search-row">
       <input type="search" name="q" value="{{ query }}" placeholder="Search words, definitions, synonyms…">
+      {% if user.role == 'staff' or user.role == 'admin' %}
+      <button type="button" id="dbgAddWordBtn" class="btn">+ Add word</button>
+      {% endif %}
       <select name="category">
         <option value="">All categories</option>
         {% for category in categories %}
