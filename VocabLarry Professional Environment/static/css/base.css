@@ -407,6 +407,7 @@ body::after{
 button.mode-picker-row:hover{ border-color: rgb(var(--violet) / .5); background: rgb(var(--violet) / .12); transform: translateY(-1px); }
 .mode-picker-row-disabled{ opacity: .5; cursor: default; }
 .mode-picker-row.active{ border-color: rgb(var(--violet)); background: rgb(var(--violet) / .16); }
+.mode-picker-list{display:flex;flex-direction:column;gap:8px;margin-top:4px;}
 
 /* Desktop dropdown nav (Vocabulary/Grammar) — ported from production's
    .nav-group/.nav-dropdown family. */

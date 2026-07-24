@@ -109,6 +109,7 @@
 </svg>
 {% include "partials/nav.html" %}
 {% include "partials/auth_modal.html" %}
+{% include "partials/mode_picker_modal.html" %}
 {% if user.is_authenticated %}{% include "partials/account_modals.html" %}{% endif %}
 <main class="page-content">
 {% if messages %}
@@ -120,6 +121,7 @@
 </main>
 {% include "partials/footer.html" %}
 <script src="{% static 'js/i18n.js' %}" defer></script>
+<script src="{% static 'js/mode-picker.js' %}" defer></script>
 <script src="{% static 'js/base.js' %}" defer></script>
 <script src="{% static 'js/nav.js' %}" defer></script>
 <script src="{% static 'js/auth-modal.js' %}" defer></script>

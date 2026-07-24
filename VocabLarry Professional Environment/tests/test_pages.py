@@ -352,7 +352,9 @@ def test_lang_dropdown_has_11_languages_two_active_nine_soon():
     # disabled rows, not the 9 FIXES-NEEDED.md's summary text describes —
     # trust the direct source-of-truth comparison per this file's ground
     # rule, not the checklist's own (here, slightly stale) prose.
-    assert html.count('mode-picker-row-disabled') == 10
+    # The mode-picker modal adds 4 more disabled rows (Reading, Writing,
+    # Listening, Speaking), so total is 10 + 4 = 14.
+    assert html.count('mode-picker-row-disabled') == 14
     for name in ('中文', '日本語', '한국어', 'العربية', 'Français', 'Nederlands', 'Deutsch', 'Español', 'Português', 'Русский'):
         assert name in html, name
 
@@ -561,3 +563,33 @@ def test_footer_stats_reflect_authenticated_user_progress(regular_user):
     assert '<div class="dash-card-val" style="color:rgb(var(--violet))">1</div>' in html
     assert '50% <span data-i18n="footer.complete">complete</span>' in html
     assert '<div class="dash-card-val">1</div>' in html
+
+
+@pytest.mark.django_db
+def test_mode_picker_modal_present_on_home():
+    from django.test import Client
+    c = Client()
+    r = c.get('/')
+    html = r.content.decode()
+    assert 'id="modePickerOverlay"' in html
+    assert 'id="modePickerVocab"' in html
+    assert 'id="modePickerGrammar"' in html
+    assert 'data-learn-href="/vocabulary/category/"' in html
+    assert 'data-test-href="/vocabulary/quiz/"' in html
+
+
+@pytest.mark.django_db
+def test_mode_picker_grammar_row_routes_correctly():
+    from django.test import Client
+    c = Client()
+    r = c.get('/')
+    html = r.content.decode()
+    assert 'id="modePickerGrammar"' in html
+    # both hrefs must be present on the same element — check the row's full
+    # opening tag rather than two separate substring checks, since either
+    # attribute alone could coincidentally appear elsewhere in the page
+    import re
+    match = re.search(r'<[^>]*id="modePickerGrammar"[^>]*>', html)
+    assert match is not None
+    assert 'data-learn-href="/grammar/category/"' in match.group(0)
+    assert 'data-test-href="/grammar/quiz/"' in match.group(0)

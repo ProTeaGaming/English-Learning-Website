@@ -1,0 +1,40 @@
+<div class="auth-modal-overlay" id="modePickerOverlay">
+  <div class="auth-modal" style="max-width:340px;">
+    <button class="auth-modal-close" id="modePickerClose" aria-label="Close">&times;</button>
+    <h2 class="auth-modal-title" id="modePickerTitle" data-i18n="home.chooseLearn">Choose what to learn</h2>
+    <div class="mode-picker-list">
+      <button class="mode-picker-row" id="modePickerVocab" type="button"
+              data-learn-href="{% url 'vocabulary_category_list' %}"
+              data-test-href="{% url 'vocabulary_quiz_setup' %}">
+        <svg class="ico" aria-hidden="true"><use href="#i-book"/></svg>
+        <span class="mode-picker-name" data-i18n="nav.vocabulary">Vocabulary</span>
+      </button>
+      <button class="mode-picker-row" id="modePickerGrammar" type="button"
+              data-learn-href="{% url 'grammar_category_list' %}"
+              data-test-href="{% url 'grammar_quiz_setup' %}">
+        <svg class="ico" aria-hidden="true"><use href="#i-pen"/></svg>
+        <span class="mode-picker-name" data-i18n="nav.grammar">Grammar</span>
+      </button>
+      <div class="mode-picker-row mode-picker-row-disabled">
+        <svg class="ico" aria-hidden="true"><use href="#i-book-open"/></svg>
+        <span class="mode-picker-name" data-i18n="nav.reading">Reading</span>
+        <span class="home-sec-pill soon" data-i18n="common.soon">Soon</span>
+      </div>
+      <div class="mode-picker-row mode-picker-row-disabled">
+        <svg class="ico" aria-hidden="true"><use href="#i-file-text"/></svg>
+        <span class="mode-picker-name" data-i18n="nav.writing">Writing</span>
+        <span class="home-sec-pill soon" data-i18n="common.soon">Soon</span>
+      </div>
+      <div class="mode-picker-row mode-picker-row-disabled">
+        <svg class="ico" aria-hidden="true"><use href="#i-headphones"/></svg>
+        <span class="mode-picker-name" data-i18n="nav.listening">Listening</span>
+        <span class="home-sec-pill soon" data-i18n="common.soon">Soon</span>
+      </div>
+      <div class="mode-picker-row mode-picker-row-disabled">
+        <svg class="ico" aria-hidden="true"><use href="#i-mic"/></svg>
+        <span class="mode-picker-name" data-i18n="nav.speaking">Speaking</span>
+        <span class="home-sec-pill soon" data-i18n="common.soon">Soon</span>
+      </div>
+    </div>
+  </div>
+</div>
