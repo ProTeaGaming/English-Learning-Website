@@ -29,7 +29,7 @@
 
       <label class="vocab-quiz-field">
         <span>Category</span>
-        <select name="category">
+        <select name="category" class="cat-select">
           <option value="">All categories</option>
           {% for category in categories %}
             <option value="{{ category.slug }}">{{ category.name }}</option>

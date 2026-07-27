@@ -72,16 +72,36 @@ span.learn-state-btn{ cursor: default; }
   text-align: left;
   margin-bottom: 16px;
 }
-.vocab-quiz-field select{
-  padding: 9px 12px;
-  border-radius: 8px;
-  border: 1px solid var(--border);
-  background: var(--card-bg);
+/* Category-select "selection tool" — used for the category filter on both
+   the Word list and Quiz setup pages. Matches .search-row input[type=search]'s
+   violet-tinted glass look (was flat/unstyled before, standing out against
+   the rest of the themed filter UI) plus a custom chevron since appearance:none
+   drops the native arrow. */
+.cat-select{
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  min-width: 180px;
+  background-color: rgb(var(--violet) / .06);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='rgb(124,58,237)' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  background-size: 16px;
+  border: 1px solid rgb(var(--violet) / .2);
   color: var(--text);
-  font-size: 0.95rem;
-  font-weight: 400;
-  width: 100%;
+  padding: 10px 40px 10px 16px;
+  border-radius: 12px;
+  font-size: .93rem;
+  font-weight: 600;
+  font-family: 'Plus Jakarta Sans','Sora',sans-serif;
+  cursor: pointer;
+  transition: border-color .15s ease, box-shadow .15s ease, background-color .15s ease;
 }
+.cat-select:hover{ background-color: rgb(var(--violet) / .1); border-color: rgb(var(--violet) / .4); }
+.cat-select:focus{ outline: none; border-color: rgb(var(--violet) / .6); box-shadow: 0 0 0 3px rgb(var(--violet) / .12); }
+.cat-select option{ background: #161a24; color: #eceef4; }
+[data-theme="light"] .cat-select option{ background: #ffffff; color: #16181d; }
+.vocab-quiz-field .cat-select{ width: 100%; }
 
 /* Setup card — glass panel, ported from production's .setup-card
    (rgba(var(--vio)) converted to rgb(var(--violet) / X) per this

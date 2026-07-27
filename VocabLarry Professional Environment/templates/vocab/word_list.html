@@ -19,7 +19,7 @@
         <button type="button" id="dbgAddWordBtn" class="btn">+ Add word</button>
       </span>
       {% endif %}
-      <select name="category">
+      <select name="category" class="cat-select">
         <option value="">All categories</option>
         {% for category in categories %}
         <option value="{{ category.slug }}"{% if category.slug == category_filter %} selected{% endif %}>{{ category.name }}</option>

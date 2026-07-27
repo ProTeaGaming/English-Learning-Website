@@ -462,7 +462,7 @@ def test_vocabulary_quiz_setup_still_has_category_select():
     c = Client()
     r = c.get('/vocabulary/quiz/')
     html = r.content.decode()
-    assert '<select name="category">' in html
+    assert '<select name="category" class="cat-select">' in html
 
 
 @pytest.mark.django_db
