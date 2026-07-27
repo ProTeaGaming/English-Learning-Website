@@ -257,7 +257,7 @@ span.learn-state-btn{ cursor: default; }
   position: relative; border: 1px solid rgb(var(--violet) / .15); border-radius: 18px;
   background: var(--card-bg); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
   padding: 16px; min-height: 120px; overflow: hidden;
-  border-top: 3px solid rgb(var(--violet));
+  border-top: 3px solid var(--accent-c, rgb(var(--violet)));
   transition: transform .24s cubic-bezier(.25,.46,.45,.94), box-shadow .24s cubic-bezier(.25,.46,.45,.94);
 }
 .word-card:hover{

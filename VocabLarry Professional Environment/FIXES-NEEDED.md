@@ -454,6 +454,61 @@ dropdown really does have 12 rows, not 11)
       and guest modal both show it; clicking produces zero console errors)
       and against production side by side — matches. Suite: 389/389 passing.
 
+- [x] **25. Word cards ignore each word's own CEFR-level accent color.**
+      `category_word_list.html`/`word_list.html` both set `--accent-c` per
+      word via the `cefr_accent_var` filter (same mechanism `word_detail.html`
+      and the quick-view modal use correctly), but `.word-card`'s CSS
+      (`vocab.css`) hardcoded `border-top: 3px solid rgb(var(--violet))`
+      instead of reading the variable — so every word card rendered the same
+      flat violet top border regardless of level, where production colors it
+      per-level (green for A1, red for C2, etc). Same class of bug as the
+      already-documented `rgba(var(--violet))` gotcha, just a different
+      selector that was never wired to the variable. Found 2026-07-27 via a
+      side-by-side comparison against https://vocablarry.pythonanywhere.com
+      while checking other pages after items 22-24.
+      Built (2026-07-27): changed the one declaration to
+      `border-top: 3px solid var(--accent-c, rgb(var(--violet)));`. Verified
+      with `getComputedStyle()` before/after (A1 word: computed
+      `border-top-color` was `rgb(124, 58, 237)` violet before, is now
+      `rgb(16, 185, 129)` green, matching `--accent-c: #10b981` exactly) and
+      visually confirmed a whole A1 category's cards turned green while a
+      C2+ category's stayed violet (its own correct accent color). No
+      Python-testable regression guard added — this class of bug is
+      invisible to HTML-assertion tests (the inline `--accent-c` was already
+      present and already covered by an existing test) and only surfaces via
+      real rendering, matching this project's established
+      manual-verification-for-CSS precedent.
+
+- [ ] **26. Progress filter row is guest-hidden on more pages than the word
+      card.** Beyond the word-detail Progress row (item 24), the Vocabulary
+      Category browse page (`vocab/browse.html`) and the Grammar Category
+      browse page both wrap their entire Progress filter chip row
+      (`Completed`/`In Progress`/`Not Started` or `Mastered`/`In Progress`/
+      `Not Started`) in `{% if user.is_authenticated %}`. Production shows
+      these chips to guests too (functionally inert, but visible — same
+      pattern already fixed for the word card in item 24). Unlike item 24
+      though, this is an actual functional filter, not just a display value,
+      so hiding it from guests (who have no learn_map for it to filter by)
+      may be intentionally better UX rather than a gap — flag for a decision
+      rather than assuming either way. Found 2026-07-27 via a side-by-side
+      comparison against https://vocablarry.pythonanywhere.com while
+      checking other pages after items 22-24.
+
+- [ ] **27. Minor copy/heading divergences from production on the Vocabulary
+      and Grammar Category browse pages.** Both pages use their own domain
+      name as the page's `<h1>` (`Vocabulary`/`Grammar`) with no eyebrow line
+      and no subtitle sentence. Production instead shows an eyebrow
+      (`SECTION 01 / VOCABULARY` / `SECTION 02 / GRAMMAR`), `<h1>Category</h1>`
+      for both, and an italic subtitle sentence neither VLPE page has. Home's
+      hero subtitle text also differs from production's actual copy
+      (`"Build vocabulary and grammar skills for IELTS, one focused session
+      at a time."` vs production's `"Vocabulary, grammar, and every core
+      IELTS skill — levelled, sectioned, and returned to you until they're
+      yours."`). Not a functional bug, just copy that was never ported
+      verbatim — flag for a decision on whether to match production's exact
+      wording or keep VLPE's own copy. Found 2026-07-27 via the same
+      side-by-side comparison as items 25-26.
+
 ---
 
 After each fix, open the running site and https://vocablarry.pythonanywhere.com
