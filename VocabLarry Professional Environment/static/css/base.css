@@ -2,6 +2,7 @@
   color-scheme: dark;
   --violet: 124 58 237;
   --bg: #0b0d12;
+  --bg-rgb: 11 13 18;
   --text: #eceef4;
   --muted: #98a0b3;
   --border: #232937;
@@ -21,6 +22,7 @@
 @media (prefers-color-scheme: dark){
   :root:not([data-theme]){
     --bg: #0b0d12;
+    --bg-rgb: 11 13 18;
     --text: #eceef4;
     --muted: #98a0b3;
     --border: #232937;
@@ -32,6 +34,7 @@
 :root[data-theme="dark"]{
   color-scheme: dark;
   --bg: #0b0d12;
+  --bg-rgb: 11 13 18;
   --text: #eceef4;
   --muted: #98a0b3;
   --border: #232937;
@@ -42,6 +45,7 @@
 :root[data-theme="light"]{
   color-scheme: light;
   --bg: #f6f5f2;
+  --bg-rgb: 246 245 242;
   --text: #16181d;
   --muted: #585d68;
   --border: #dcd7cc;
@@ -102,6 +106,12 @@ body::after{
   padding: 14px 24px;
   border-bottom: 1px solid var(--border);
   flex-wrap: wrap;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgb(var(--bg-rgb) / .88);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
 }
 .site-nav .brand{
   display: flex;
@@ -170,7 +180,7 @@ body::after{
   pointer-events: none;
 }
 
-.page-content{ max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+.page-content{ max-width: 1080px; margin: 0 auto; padding: 32px 24px 0; }
 
 .home-hero{
   position: relative; overflow: hidden;

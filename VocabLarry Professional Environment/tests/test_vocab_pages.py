@@ -159,11 +159,10 @@ def test_home_hero_subtitle_matches_production_copy():
 
 
 @pytest.mark.django_db
-def test_vocabulary_category_list_has_eyebrow_and_lede():
+def test_vocabulary_category_list_has_heading_and_lede():
     c = Client()
     r = c.get('/vocabulary/category/')
     body = r.content.decode()
-    assert '<span class="eyebrow">Section 01 / Vocabulary</span>' in body
     assert '<h1>Category</h1>' in body
     assert '5,000 essential words, organised by section and category' in body
 

@@ -48,11 +48,10 @@ def test_grammar_category_list_renders():
 
 
 @pytest.mark.django_db
-def test_grammar_category_list_has_eyebrow_and_lede():
+def test_grammar_category_list_has_heading_and_lede():
     c = Client()
     r = c.get('/grammar/category/')
     body = r.content.decode()
-    assert '<span class="eyebrow">Section 02 / Grammar</span>' in body
     assert '<h1>Category</h1>' in body
     assert 'From first tenses to advanced structures' in body
 

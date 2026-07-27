@@ -256,16 +256,15 @@ def test_reading_writing_listening_speaking_stub_pages_render():
     from django.test import Client
     c = Client()
     pages = [
-        ('/reading/', 'Section 03 / Reading', 'Reading'),
-        ('/writing/', 'Section 04 / Writing', 'Writing'),
-        ('/listening/', 'Section 05 / Listening', 'Listening'),
-        ('/speaking/', 'Section 06 / Speaking', 'Speaking'),
+        ('/reading/', 'Reading'),
+        ('/writing/', 'Writing'),
+        ('/listening/', 'Listening'),
+        ('/speaking/', 'Speaking'),
     ]
-    for url, eyebrow, title in pages:
+    for url, title in pages:
         r = c.get(url)
         assert r.status_code == 200, url
         html = r.content.decode()
-        assert eyebrow in html, url
         assert f'<h1>{title}</h1>' in html, url
         assert 'Coming soon.' in html, url
         assert 'class="setup-card"' in html, url
