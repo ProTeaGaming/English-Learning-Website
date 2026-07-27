@@ -389,7 +389,7 @@ dropdown really does have 12 rows, not 11)
       just latent. No current VLPE category/word data uses these emoji
       yet (confirmed by grep) — this closes the gap for whenever one does.
 
-- [ ] **22. Word quick-view is a full page, not an in-place popup.** Production
+- [x] **22. Word quick-view is a full page, not an in-place popup.** Production
       opens word details in a lightweight modal (`#word-modal`) over the
       current browse grid — stays in place, closes on backdrop click,
       preserves scroll/filter state. VLPE built it as a full separate page
@@ -397,6 +397,29 @@ dropdown really does have 12 rows, not 11)
       call, but it changes the actual interaction: browsing a list and peeking
       at several words now requires navigating away and back each time instead
       of a quick popup. Flag for a decision rather than assuming either way.
+      Built (2026-07-24): hybrid approach, not a straight port — the real
+      word page still exists at its own URL (kept for deep-linking, a
+      deliberate VLPE-specific choice from an earlier phase), but clicking a
+      word's title from `category_word_list.html`/`word_list.html` now opens
+      it in an in-place `#wordModalOverlay` modal instead of navigating away.
+      One Django view (`vocab_word_detail`) serves both shapes by branching
+      on `X-Requested-With: XMLHttpRequest`, rendering from one shared
+      `word_detail_card.html` partial so there's a single source of truth.
+      `word-modal.js` uses `history.pushState`/`popstate` so the address bar
+      and real browser back button both work correctly around the modal —
+      production's own modal has no such history integration, a VLPE-only
+      addition. Whole-card click (not just the title link) opens the modal,
+      matching production's own card-level click delegation; synonym/antonym
+      cross-links inside the modal swap its content in place rather than
+      closing it. The learn-state toggle button is synced live across every
+      visible instance of the same word (list card + modal both repaint on
+      toggle) since the modal introduces a second on-screen toggle for the
+      same word. Verified in a real browser: title-click and whole-card-click
+      both open the modal on both list pages, backdrop-click and the real
+      back button both close it correctly, hard-refresh with the modal open
+      loads the real full page, direct word URLs render the full page with
+      zero modal ever appearing, and the progress toggle stayed in sync
+      between modal and list card with zero console errors throughout.
 
 ---
 
