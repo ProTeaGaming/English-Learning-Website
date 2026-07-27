@@ -421,6 +421,25 @@ dropdown really does have 12 rows, not 11)
       zero modal ever appearing, and the progress toggle stayed in sync
       between modal and list card with zero console errors throughout.
 
+- [ ] **23. Word card is missing its `Category:` line.** Production's word
+      card (`#word-modal` and the sitewide Word page's own card) always
+      renders a `Category: <name>` line between the example sentence and the
+      progress row. VLPE's shared `word_detail_card.html` partial has no such
+      line at all — on the real full page (`word_detail.html`) the category
+      can still be inferred from the page's own breadcrumb, but the new
+      quick-view modal (item 22) has no breadcrumb, so a word opened from the
+      modal shows no indication of which category it belongs to whatsoever.
+      Found 2026-07-27 via a direct side-by-side comparison against
+      https://vocablarry.pythonanywhere.com while verifying item 22.
+
+- [ ] **24. Word card's Progress row is hidden entirely for guests.**
+      Production still renders `Progress: Not Learned` for a logged-out
+      visitor (inert, but visible — same layout as a signed-in user's row).
+      VLPE wraps the whole learn-state row in
+      `{% if user.is_authenticated %}`, so guests see no progress row at all
+      instead of a disabled/default one. Found 2026-07-27 via the same
+      side-by-side comparison as item 23.
+
 ---
 
 After each fix, open the running site and https://vocablarry.pythonanywhere.com
