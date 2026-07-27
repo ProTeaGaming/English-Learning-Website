@@ -79,7 +79,7 @@ def grammar(request):
             'tag':   t.tag,
             'cefr':  t.cefr_label,
             'blurb': t.blurb,
-            'section': {'slug': t.section.slug, 'name': t.section.name} if t.section else None,
+            'section': {'slug': t.section.slug, 'name': t.section.name, 'icon': t.section.icon} if t.section else None,
             'theme': t.theme,
             'lesson': [
                 {'id': b.id, 'order': b.order, 'type': b.type, 'title': b.title,

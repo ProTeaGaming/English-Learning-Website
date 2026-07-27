@@ -7,6 +7,7 @@
   ];
   var GRAMTEST_COUNTS = [10, 20, 30, 50, 100];
   var GRAMTEST_MAX = 100;
+  var GRAMTEST_TOPICS_PER_PAGE = 10;
 
   function initGramtestSetup(){
     var startBtn = document.getElementById("gramtestStart");
@@ -19,11 +20,12 @@
     var searchInput = document.getElementById("gramtestSearch");
     var sectionChipsRow = document.getElementById("gramtestSectionChips");
     var topicChipsRow = document.getElementById("gramtestTopicChips");
+    var topicPagerRow = document.getElementById("gramtestTopicPager");
     var emptyMsg = document.getElementById("gramtestEmpty");
 
     var gramtest = {
       mode: "mcq", count: 10, customCount: 10,
-      topics: {}, search: "", section: "all", cefr: "all",
+      topics: {}, search: "", section: "all", cefr: "all", topicPage: 0,
     };
     var allTopics = [];
     var sectionsSeen = [];
@@ -75,7 +77,7 @@
     function renderCounts(){
       var isCustom = gramtest.count === "custom";
       var html = GRAMTEST_COUNTS.map(function(c){
-        return '<button type="button" class="chip' + (gramtest.count === c ? ' active' : '') + '" data-count="' + c + '">' + c + '</button>';
+        return '<button type="button" class="chip' + (gramtest.count === c ? ' active' : '') + '" data-count="' + c + '">' + c + ' questions</button>';
       }).join("");
       html += '<span class="custom-chip' + (isCustom ? ' active' : '') + '" id="gramtestCustomChip">' +
         '<span>Custom</span>' +
@@ -124,17 +126,28 @@
         btn.addEventListener("click", function(){
           gramtest.section = btn.dataset.section;
           gramtest.topics = {};
+          gramtest.topicPage = 0;
           renderFilters();
         });
       });
 
       var visible = visibleTopics();
+      var totalTopicPages = Math.max(1, Math.ceil(visible.length / GRAMTEST_TOPICS_PER_PAGE));
+      if (gramtest.topicPage >= totalTopicPages) gramtest.topicPage = totalTopicPages - 1;
+      if (gramtest.topicPage < 0) gramtest.topicPage = 0;
+      var pageTopics = visible.slice(
+        gramtest.topicPage * GRAMTEST_TOPICS_PER_PAGE,
+        (gramtest.topicPage + 1) * GRAMTEST_TOPICS_PER_PAGE
+      );
       topicChipsRow.innerHTML =
         '<button type="button" class="chip' + (Object.keys(gramtest.topics).length === 0 ? ' active' : '') + '" data-all-topics>All Topics</button>' +
-        visible.map(function(tp){
+        pageTopics.map(function(tp){
+          var icon = tp.section && tp.section.icon
+            ? '<svg class="ico" aria-hidden="true"><use href="#' + tp.section.icon + '"/></svg> '
+            : '';
           return '<button type="button" class="chip ' + (tp.theme || 't-tv') + '"' +
             (gramtest.topics[tp.slug] ? ' data-active="1"' : '') +
-            ' data-topic="' + tp.slug + '">' + tp.title + '</button>';
+            ' data-topic="' + tp.slug + '">' + icon + tp.title + '</button>';
         }).join("");
       topicChipsRow.querySelectorAll(".chip[data-topic]").forEach(function(btn){
         if (btn.dataset.active) btn.classList.add("active");
@@ -151,8 +164,27 @@
         renderFilters();
       });
 
+      if (totalTopicPages > 1){
+        topicPagerRow.style.display = "";
+        topicPagerRow.innerHTML =
+          '<button type="button" class="page-btn' + (gramtest.topicPage === 0 ? ' disabled' : '') + '" id="gramtestTopicPrev">‹ Prev</button>' +
+          '<span class="filter-label" style="text-transform:none;">Page ' + (gramtest.topicPage + 1) + ' / ' + totalTopicPages + '</span>' +
+          '<button type="button" class="page-btn' + (gramtest.topicPage === totalTopicPages - 1 ? ' disabled' : '') + '" id="gramtestTopicNext">Next ›</button>';
+        document.getElementById("gramtestTopicPrev").addEventListener("click", function(){
+          gramtest.topicPage--;
+          renderFilters();
+        });
+        document.getElementById("gramtestTopicNext").addEventListener("click", function(){
+          gramtest.topicPage++;
+          renderFilters();
+        });
+      } else {
+        topicPagerRow.style.display = "none";
+        topicPagerRow.innerHTML = "";
+      }
+
       var currentPool = pool();
-      poolCountEl.textContent = currentPool.length + " question" + (currentPool.length === 1 ? "" : "s") + " match";
+      poolCountEl.textContent = currentPool.length + " question" + (currentPool.length === 1 ? "" : "s") + " in pool";
       startBtn.disabled = !currentPool.length;
       emptyMsg.style.display = currentPool.length ? "none" : "block";
     }
@@ -160,12 +192,14 @@
     document.querySelectorAll("[data-gramtest-cefr]").forEach(function(chip){
       chip.addEventListener("click", function(){
         gramtest.cefr = chip.dataset.gramtestCefr;
+        gramtest.topicPage = 0;
         renderFilters();
       });
     });
 
     searchInput.addEventListener("input", function(){
       gramtest.search = searchInput.value;
+      gramtest.topicPage = 0;
       renderFilters();
     });
 
@@ -174,6 +208,7 @@
       gramtest.section = "all";
       gramtest.cefr = "all";
       gramtest.topics = {};
+      gramtest.topicPage = 0;
       searchInput.value = "";
       renderFilters();
     });
@@ -313,11 +348,10 @@
     var total = state.questions.length;
     var pct = Math.round(((state.idx + 1) / total) * 100);
     var isTyped = q.qtype !== "mcq";
-    var promptLabel = q.qtype === "mcq" ? "Choose the correct option:"
-      : q.qtype === "gap" ? "Fill in the blank:" : "Rewrite the sentence:";
+    var promptLabel = q.qtype === "mcq" ? "Choose the correct option"
+      : q.qtype === "gap" ? "Fill in the blank" : "Rewrite the sentence";
     var gapPlaceholder = q.qtype === "gap" && offersBlankGap() ? "(leave blank if nothing goes here)" : "";
     root.innerHTML =
-      '<a href="' + backHref() + '" class="back-btn">Leave</a>' +
       '<div class="progress-bar"><div class="progress-fill" style="width:' + pct + '%"></div></div>' +
       '<div class="q-meta"><span>Question ' + (state.idx + 1) + ' of ' + total + '</span><span>Score: ' + state.score + '</span></div>' +
       '<div class="q-card">' +

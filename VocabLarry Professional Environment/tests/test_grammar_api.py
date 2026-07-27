@@ -54,7 +54,7 @@ def test_grammar_endpoint_includes_section_and_theme(grammar_data):
     r = Client().get('/api/grammar/')
     data = json.loads(r.content)
     topic = data[0]['topics'][0]
-    assert topic['section'] == {'slug': 'nouns-pronouns-determiners', 'name': 'Nouns, Pronouns & Determiners'}
+    assert topic['section'] == {'slug': 'nouns-pronouns-determiners', 'name': 'Nouns, Pronouns & Determiners', 'icon': 'i-type'}
     assert topic['theme'].startswith('t-t')
 
 
