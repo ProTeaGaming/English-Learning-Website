@@ -479,7 +479,7 @@ dropdown really does have 12 rows, not 11)
       real rendering, matching this project's established
       manual-verification-for-CSS precedent.
 
-- [ ] **26. Progress filter row is guest-hidden on more pages than the word
+- [x] **26. Progress filter row is guest-hidden on more pages than the word
       card.** Beyond the word-detail Progress row (item 24), the Vocabulary
       Category browse page (`vocab/browse.html`) and the Grammar Category
       browse page both wrap their entire Progress filter chip row
@@ -493,8 +493,22 @@ dropdown really does have 12 rows, not 11)
       rather than assuming either way. Found 2026-07-27 via a side-by-side
       comparison against https://vocablarry.pythonanywhere.com while
       checking other pages after items 22-24.
+      Built (2026-07-27): removed the `{% if user.is_authenticated %}` guard
+      from both chip rows. Grammar's view (`grammar_browse`) already computed
+      `grammar_map = {}` for guests and applied `status_filter` unconditionally
+      — the template guard was the ONLY thing hiding it, no view change
+      needed. Vocab's view (`vocab_browse`) genuinely only ran its
+      `progress_filter` narrowing inside the `if request.user.is_authenticated`
+      branch, so it was refactored to always build `progress_by_category`
+      from an empty `learn_map` for guests and apply the filter branches
+      unconditionally, while `category.progress` (the displayed
+      percentage/complete badge) stays authenticated-only exactly as before.
+      A guest now sees all categories under "Not Started" and zero under
+      "Completed"/"In Progress" — matching production's real guest behavior.
+      Verified in a real browser (guest clicks on both pages narrow
+      correctly) and against production side by side. Suite: 395/395 passing.
 
-- [ ] **27. Minor copy/heading divergences from production on the Vocabulary
+- [x] **27. Minor copy/heading divergences from production on the Vocabulary
       and Grammar Category browse pages.** Both pages use their own domain
       name as the page's `<h1>` (`Vocabulary`/`Grammar`) with no eyebrow line
       and no subtitle sentence. Production instead shows an eyebrow
@@ -508,6 +522,15 @@ dropdown really does have 12 rows, not 11)
       verbatim — flag for a decision on whether to match production's exact
       wording or keep VLPE's own copy. Found 2026-07-27 via the same
       side-by-side comparison as items 25-26.
+      Built (2026-07-27): added `<span class="eyebrow">Section 01 /
+      Vocabulary</span>`/`Section 02 / Grammar` + changed both `<h1>`s to
+      `Category` + added production's exact subtitle sentence (new shared
+      `.page-lede` CSS class, italic/muted, added to `base.css`) to both
+      `vocab/browse.html` and `grammar/browse.html`. Home's hero subtitle
+      (`templates/home.html` + both the English and Vietnamese
+      `hero.subtitle` entries in `i18n.js`) now matches production's exact
+      copy in both languages. Verified in a real browser and against
+      production side by side. Suite: 395/395 passing.
 
 ---
 

@@ -7,7 +7,9 @@
 {% endblock %}
 {% block content %}
 <section class="grammar-browse">
-  <h1>Grammar</h1>
+  <span class="eyebrow">Section 02 / Grammar</span>
+  <h1>Category</h1>
+  <p class="page-lede">From first tenses to advanced structures — a lesson and a practice set for every stage.</p>
   <div class="mobile-page-switcher">
     <a class="chip active" href="{% url 'grammar_category_list' %}" data-i18n="nav.category">Category</a>
     <a class="chip" href="{% url 'grammar_word' %}" data-i18n="nav.word">Word</a>
@@ -46,7 +48,6 @@
       <a class="chip{% if cefr_filter == level %} active{% endif %}" data-grammar-cefr="{{ level }}" href="?q={{ query|urlencode }}{% if stage_filter %}&stage={{ stage_filter }}{% endif %}&cefr={{ level }}{% if status_filter %}&status={{ status_filter }}{% endif %}{% if section_filter %}&section={{ section_filter }}{% endif %}">{{ level }}</a>
       {% endfor %}
     </div>
-    {% if user.is_authenticated %}
     <div class="filter-row">
       <span class="filter-label">Status</span>
       <a class="chip{% if not status_filter %} active{% endif %}" href="?q={{ query|urlencode }}{% if stage_filter %}&stage={{ stage_filter }}{% endif %}{% if cefr_filter %}&cefr={{ cefr_filter }}{% endif %}{% if section_filter %}&section={{ section_filter }}{% endif %}">All</a>
@@ -54,7 +55,6 @@
       <a class="chip{% if status_filter == 'inProgress' %} active{% endif %}" data-grammar-status="inProgress" href="?q={{ query|urlencode }}{% if stage_filter %}&stage={{ stage_filter }}{% endif %}{% if cefr_filter %}&cefr={{ cefr_filter }}{% endif %}{% if section_filter %}&section={{ section_filter }}{% endif %}&status=inProgress">In Progress</a>
       <a class="chip{% if status_filter == 'notStarted' %} active{% endif %}" data-grammar-status="notStarted" href="?q={{ query|urlencode }}{% if stage_filter %}&stage={{ stage_filter }}{% endif %}{% if cefr_filter %}&cefr={{ cefr_filter }}{% endif %}{% if section_filter %}&section={{ section_filter }}{% endif %}&status=notStarted">Not Started</a>
     </div>
-    {% endif %}
     <div class="filter-row" style="justify-content:flex-end;">
       <a class="clear-btn" href="{% url 'grammar_category_list' %}">Clear filters</a>
     </div>

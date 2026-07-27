@@ -150,6 +150,25 @@ def test_home_nav_links_to_vocabulary_home():
 
 
 @pytest.mark.django_db
+def test_home_hero_subtitle_matches_production_copy():
+    c = Client()
+    r = c.get('/')
+    body = r.content.decode()
+    assert "Vocabulary, grammar, and every core IELTS skill" in body
+    assert "returned to you until they're yours." in body
+
+
+@pytest.mark.django_db
+def test_vocabulary_category_list_has_eyebrow_and_lede():
+    c = Client()
+    r = c.get('/vocabulary/category/')
+    body = r.content.decode()
+    assert '<span class="eyebrow">Section 01 / Vocabulary</span>' in body
+    assert '<h1>Category</h1>' in body
+    assert '5,000 essential words, organised by section and category' in body
+
+
+@pytest.mark.django_db
 def test_vocabulary_category_detail_renders_words(cefr_a1):
     category = Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1)
     Word.objects.create(word='Cat', definition='A small pet.', category=category, order=1)
@@ -994,6 +1013,30 @@ def test_vocabulary_category_list_progress_filter_not_started(cefr_a1, regular_u
     body = r.content.decode()
     assert 'Food' in body
     assert 'Animals' not in body
+
+
+@pytest.mark.django_db
+def test_vocabulary_category_list_shows_progress_chips_for_guest_too(cefr_a1, vocab_sections):
+    Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1, section=vocab_sections['basic'])
+    c = Client()
+    r = c.get('/vocabulary/category/')
+    html = r.content.decode()
+    assert 'data-browse-status="completed"' in html
+    assert 'data-browse-status="inProgress"' in html
+    assert 'data-browse-status="notStarted"' in html
+
+
+@pytest.mark.django_db
+def test_vocabulary_category_list_progress_filter_narrows_for_guest(cefr_a1, vocab_sections):
+    cat1 = Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1, section=vocab_sections['basic'])
+    Word.objects.create(word='Cat', definition='x', category=cat1, order=1)
+    c = Client()
+
+    r = c.get('/vocabulary/category/?progress=not_started')
+    assert 'Animals' in r.content.decode()
+
+    r2 = c.get('/vocabulary/category/?progress=learned')
+    assert 'Animals' not in r2.content.decode()
 
 
 @pytest.mark.django_db

@@ -4,7 +4,9 @@
 {% block extra_head %}<link rel="stylesheet" href="{% static 'css/vocab.css' %}">{% endblock %}
 {% block content %}
 <section class="vocab-browse">
-  <h1>Vocabulary</h1>
+  <span class="eyebrow">Section 01 / Vocabulary</span>
+  <h1>Category</h1>
+  <p class="page-lede">5,000 essential words, organised by section and category — click one to begin.</p>
   <div class="mobile-page-switcher">
     <a class="chip active" href="{% url 'vocabulary_category_list' %}" data-i18n="nav.category">Category</a>
     <a class="chip" href="{% url 'vocabulary_word_list' %}" data-i18n="nav.word">Word</a>
@@ -32,7 +34,6 @@
       <a class="chip{% if cefr_filter == level.code %} active{% endif %}" data-browse-cefr="{{ level.code }}" href="?q={{ query|urlencode }}{% if tier_filter %}&tier={{ tier_filter }}{% endif %}{% if progress_filter %}&progress={{ progress_filter }}{% endif %}&cefr={{ level.code }}">{{ level.code }}</a>
       {% endfor %}
     </div>
-    {% if user.is_authenticated %}
     <div class="filter-row">
       <span class="filter-label" data-i18n="common.progress">Progress</span>
       <a class="chip{% if not progress_filter %} active{% endif %}" href="?q={{ query|urlencode }}{% if tier_filter %}&tier={{ tier_filter }}{% endif %}{% if cefr_filter %}&cefr={{ cefr_filter }}{% endif %}" data-i18n="common.all">All</a>
@@ -40,7 +41,6 @@
       <a class="chip{% if progress_filter == 'in_progress' %} active{% endif %}" data-browse-status="inProgress" href="?q={{ query|urlencode }}{% if tier_filter %}&tier={{ tier_filter }}{% endif %}{% if cefr_filter %}&cefr={{ cefr_filter }}{% endif %}&progress=in_progress" data-i18n="common.inProgress">In Progress</a>
       <a class="chip{% if progress_filter == 'not_started' %} active{% endif %}" data-browse-status="notStarted" href="?q={{ query|urlencode }}{% if tier_filter %}&tier={{ tier_filter }}{% endif %}{% if cefr_filter %}&cefr={{ cefr_filter }}{% endif %}&progress=not_started" data-i18n="common.notStarted">Not Started</a>
     </div>
-    {% endif %}
     <div class="filter-row" style="justify-content:flex-end;">
       <a class="clear-btn" href="{% url 'vocabulary_category_list' %}" data-i18n="common.clearFilters">Clear filters</a>
     </div>

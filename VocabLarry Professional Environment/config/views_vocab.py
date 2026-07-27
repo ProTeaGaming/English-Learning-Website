@@ -29,52 +29,59 @@ def vocab_browse(request):
     for category in categories:
         category.word_count = word_counts[category.id]
 
-    if request.user.is_authenticated:
-        learn_map = request.user.learn_map
-        progress_by_category = {}
-        for word_id_str, state in learn_map.items():
-            try:
-                word_id = int(word_id_str)
-            except (TypeError, ValueError):
-                continue
-            category_id = word_category.get(word_id)
-            if category_id is None:
-                continue
-            bucket = progress_by_category.setdefault(category_id, {'learned': 0, 'little': 0})
-            if state == 'learned':
-                bucket['learned'] += 1
-            elif state == 'little':
-                bucket['little'] += 1
+    # Built (even for a guest, whose learn_map is always empty) so the
+    # Progress filter narrows correctly for anyone — production shows these
+    # chips to guests too, where every category is simply "not started".
+    # Displaying the actual percentage/complete badge stays authenticated-only.
+    learn_map = request.user.learn_map if request.user.is_authenticated else {}
+    progress_by_category = {}
+    for word_id_str, state in learn_map.items():
+        try:
+            word_id = int(word_id_str)
+        except (TypeError, ValueError):
+            continue
+        category_id = word_category.get(word_id)
+        if category_id is None:
+            continue
+        bucket = progress_by_category.setdefault(category_id, {'learned': 0, 'little': 0})
+        if state == 'learned':
+            bucket['learned'] += 1
+        elif state == 'little':
+            bucket['little'] += 1
 
-        for category in categories:
-            total = category.word_count
-            bucket = progress_by_category.get(category.id, {'learned': 0, 'little': 0})
-            learned = bucket['learned']
-            little = bucket['little']
+    for category in categories:
+        total = category.word_count
+        bucket = progress_by_category.get(category.id, {'learned': 0, 'little': 0})
+        learned = bucket['learned']
+        little = bucket['little']
+        complete = total > 0 and learned == total
+        category._progress_learned = learned
+        category._progress_little = little
+        category._progress_complete = complete
+        if request.user.is_authenticated:
             category.progress = {
                 'learned': learned,
                 'little': little,
                 'total': total,
                 'learned_pct': round(learned / total * 100) if total else 0,
                 'little_pct': round(little / total * 100) if total else 0,
-                'complete': total > 0 and learned == total,
+                'complete': complete,
             }
-
-        if progress_filter == 'learned':
-            categories = [c for c in categories if c.progress['complete']]
-        elif progress_filter == 'in_progress':
-            categories = [
-                c for c in categories
-                if not c.progress['complete'] and (c.progress['learned'] or c.progress['little'])
-            ]
-        elif progress_filter == 'not_started':
-            categories = [
-                c for c in categories
-                if not c.progress['learned'] and not c.progress['little']
-            ]
-    else:
-        for category in categories:
+        else:
             category.progress = None
+
+    if progress_filter == 'learned':
+        categories = [c for c in categories if c._progress_complete]
+    elif progress_filter == 'in_progress':
+        categories = [
+            c for c in categories
+            if not c._progress_complete and (c._progress_learned or c._progress_little)
+        ]
+    elif progress_filter == 'not_started':
+        categories = [
+            c for c in categories
+            if not c._progress_learned and not c._progress_little
+        ]
 
     sections = []
     for section_id, group in itertools.groupby(categories, key=lambda c: c.section_id):

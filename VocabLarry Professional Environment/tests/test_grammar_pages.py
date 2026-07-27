@@ -48,6 +48,16 @@ def test_grammar_category_list_renders():
 
 
 @pytest.mark.django_db
+def test_grammar_category_list_has_eyebrow_and_lede():
+    c = Client()
+    r = c.get('/grammar/category/')
+    body = r.content.decode()
+    assert '<span class="eyebrow">Section 02 / Grammar</span>' in body
+    assert '<h1>Category</h1>' in body
+    assert 'From first tenses to advanced structures' in body
+
+
+@pytest.mark.django_db
 def test_grammar_category_list_lists_topics(topic_articles):
     c = Client()
     r = c.get('/grammar/category/')
@@ -96,10 +106,23 @@ def test_grammar_category_list_has_status_chips_for_authenticated_user(topic_art
 
 
 @pytest.mark.django_db
-def test_grammar_category_list_no_status_chips_for_guest(topic_articles):
+def test_grammar_category_list_shows_status_chips_for_guest_too(topic_articles):
     c = Client()
     r = c.get('/grammar/category/')
-    assert 'data-grammar-status' not in r.content.decode()
+    html = r.content.decode()
+    assert 'data-grammar-status="completed"' in html
+    assert 'data-grammar-status="inProgress"' in html
+    assert 'data-grammar-status="notStarted"' in html
+
+
+@pytest.mark.django_db
+def test_grammar_category_list_status_filter_narrows_for_guest(topic_articles):
+    c = Client()
+    r = c.get('/grammar/category/?status=notStarted')
+    assert 'Articles (a/an/the)' in r.content.decode()
+
+    r2 = c.get('/grammar/category/?status=completed')
+    assert 'Articles (a/an/the)' not in r2.content.decode()
 
 
 @pytest.mark.django_db
