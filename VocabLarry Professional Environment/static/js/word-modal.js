@@ -2,7 +2,9 @@
   var modalOpen = false;
 
   function bindLearnStateBtn(container){
-    var btn = container.querySelector(".learn-state-btn");
+    // Guests get a plain <span class="learn-state-btn"> (same look, no
+    // vocab-word.js loaded to handle a click) — only wire up a real button.
+    var btn = container.querySelector("button.learn-state-btn");
     if (btn) btn.addEventListener("click", function(){ window.vocabToggleWord(btn); });
   }
 

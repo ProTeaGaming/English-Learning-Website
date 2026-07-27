@@ -30,13 +30,16 @@
   </p>
   {% endif %}
   {% if word.example %}<p class="vocab-example">"{{ word.example|safe }}"</p>{% endif %}
-  {% if user.is_authenticated %}
+  {% if word.category %}<p class="vocab-category"><strong>Category:</strong> {{ word.category.name }}</p>{% endif %}
   <div class="learn-state-row">
     <span class="learn-state-label">Progress:</span>
+    {% if user.is_authenticated %}
     <button type="button" class="learn-state-btn" data-word-id="{{ word.pk }}"
             data-state="{{ learn_state|default:'none' }}">
       {% if learn_state == 'learned' %}Learned{% elif learn_state == 'little' %}Little Bit{% else %}Not Learned{% endif %}
     </button>
+    {% else %}
+    <span class="learn-state-btn" data-state="none">Not Learned</span>
+    {% endif %}
   </div>
-  {% endif %}
 </div>

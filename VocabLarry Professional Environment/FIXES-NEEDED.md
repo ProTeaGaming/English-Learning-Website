@@ -421,7 +421,7 @@ dropdown really does have 12 rows, not 11)
       zero modal ever appearing, and the progress toggle stayed in sync
       between modal and list card with zero console errors throughout.
 
-- [ ] **23. Word card is missing its `Category:` line.** Production's word
+- [x] **23. Word card is missing its `Category:` line.** Production's word
       card (`#word-modal` and the sitewide Word page's own card) always
       renders a `Category: <name>` line between the example sentence and the
       progress row. VLPE's shared `word_detail_card.html` partial has no such
@@ -431,14 +431,28 @@ dropdown really does have 12 rows, not 11)
       modal shows no indication of which category it belongs to whatsoever.
       Found 2026-07-27 via a direct side-by-side comparison against
       https://vocablarry.pythonanywhere.com while verifying item 22.
+      Built (2026-07-27): added `<p class="vocab-category">` to
+      `word_detail_card.html` (reuses the existing `.vocab-synonyms`/
+      `.vocab-antonyms` muted-text style), present on the full page, the
+      modal, and the AJAX partial alike since they all render one shared
+      template. Verified in a real browser side by side with production —
+      matches.
 
-- [ ] **24. Word card's Progress row is hidden entirely for guests.**
+- [x] **24. Word card's Progress row is hidden entirely for guests.**
       Production still renders `Progress: Not Learned` for a logged-out
       visitor (inert, but visible — same layout as a signed-in user's row).
       VLPE wraps the whole learn-state row in
       `{% if user.is_authenticated %}`, so guests see no progress row at all
       instead of a disabled/default one. Found 2026-07-27 via the same
       side-by-side comparison as item 23.
+      Built (2026-07-27): the row itself now always renders; a guest gets a
+      plain `<span class="learn-state-btn" data-state="none">Not Learned</span>`
+      (same look, `cursor:default`) instead of a `<button>`, so there's
+      nothing for `word-modal.js`/`vocab-word.js` to wire a click to — no
+      new JS branching needed beyond narrowing `word-modal.js`'s selector to
+      `button.learn-state-btn`. Verified in a real browser (guest full page
+      and guest modal both show it; clicking produces zero console errors)
+      and against production side by side — matches. Suite: 389/389 passing.
 
 ---
 

@@ -318,12 +318,25 @@ def test_vocabulary_word_detail_shows_progress_toggle_when_authenticated(cefr_a1
 
 
 @pytest.mark.django_db
-def test_vocabulary_word_detail_hides_progress_toggle_when_anonymous(cefr_a1):
+def test_vocabulary_word_detail_shows_disabled_progress_row_when_anonymous(cefr_a1):
     category = Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1)
     word = Word.objects.create(word='Cat', definition='x', category=category, order=1)
     c = Client()
     r = c.get(f'/vocabulary/word/{word.pk}/')
-    assert 'learn-state-btn' not in r.content.decode()
+    body = r.content.decode()
+    assert 'Progress:' in body
+    assert '<span class="learn-state-btn" data-state="none">Not Learned</span>' in body
+    assert '<button type="button" class="learn-state-btn"' not in body
+
+
+@pytest.mark.django_db
+def test_vocabulary_word_detail_shows_category_line(cefr_a1):
+    category = Category.objects.create(slug='animals', name='Animals', order=1, cefr_level=cefr_a1)
+    word = Word.objects.create(word='Cat', definition='x', category=category, order=1)
+    c = Client()
+    r = c.get(f'/vocabulary/word/{word.pk}/')
+    body = r.content.decode()
+    assert '<strong>Category:</strong> Animals' in body
 
 
 @pytest.mark.django_db
@@ -1224,6 +1237,9 @@ def test_vocabulary_word_detail_ajax_returns_bare_fragment(cefr_a1):
     assert 'word-detail-card' in body
     assert 'Cat' in body
     assert 'A small domesticated pet.' in body
+    # the modal fragment has no breadcrumb, so the Category line is the
+    # only place a word's category is visible from inside it
+    assert '<strong>Category:</strong> Animals' in body
     # bare fragment: no sitewide chrome
     assert 'site-nav' not in body
     assert '<!doctype html>' not in body.lower()

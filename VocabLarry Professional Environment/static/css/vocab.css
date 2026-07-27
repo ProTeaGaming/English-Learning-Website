@@ -13,7 +13,7 @@
 }
 .vocab-definition{ font-size: 1.15rem; margin: 16px 0; }
 .vocab-example{ color: var(--muted); font-style: italic; }
-.vocab-synonyms, .vocab-antonyms{ color: var(--muted); }
+.vocab-synonyms, .vocab-antonyms, .vocab-category{ color: var(--muted); }
 
 /* Emphasized phrase within an example sentence — ported from production's
    .ex-sentence em (vocablarry.html), which marks the target word/phrase
@@ -44,6 +44,9 @@
   font-weight: 700;
   cursor: pointer;
 }
+/* A guest sees the same pill (production shows Progress to guests too, just
+   inert) but rendered as a <span>, not a <button> — no click affordance. */
+span.learn-state-btn{ cursor: default; }
 .learn-state-btn[data-state="little"], .card-toggle[data-state="little"]{
   background: #f59e0b; border-color: #f59e0b; color: #1c1917;
 }
